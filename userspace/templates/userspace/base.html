@@ -12,14 +12,27 @@
   <link href="{% static 'userspace/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
   <link href="{% static 'userspace/css/style.css' %}" rel='stylesheet' type='text/css'>
 </head>
-<body class="container">
-  <h1 class="custom-main-title">{{ title }} <small>This is test!</small>
-    <span class="fa fa-cogs custom-logolike"> </span>
-  </h1>
-  <hr />
-  {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-  <hr />
-  <p class="custom-copyrights">Copyright&copy;2014</p>
+<body>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <ul class="nav navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'user:logout' %}">Logout</a></li>
+      {% else %}
+        <li><a href="{% url 'user:login' %}">Login</a></li>
+      {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="container main-page-content">
+      <h1 class="custom-main-title">{{ title }} <small>This is test!</small>
+        <span class="fa fa-cogs custom-logolike"> </span>
+      </h1>
+      <hr />
+      {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+      <hr />
+      <p class="custom-copyrights">Copyright&copy;2014</p>
+  </div>
   <script src="{% static 'userspace/includes/jquery/jquery-1.10.2.js' %}"></script>
   <script src="{% static 'userspace/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
   <script src="{% static 'userspace/includes/bootstrap/js/bootstrap.min.js' %}"></script>

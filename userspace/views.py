@@ -6,9 +6,9 @@ def index(request):
 
 def login(request):
     if request.user.is_authenticated():
-        return redirect('index')
-    return render(request, 'userspace/login.html')
+        return redirect('user:index')
+    return render(request, 'userspace/login.html', {'title': 'Login'})
 
 def logout(request):
     auth.logout(request)
-    return redirect('index')
+    return redirect('user:index')

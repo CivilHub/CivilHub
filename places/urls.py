@@ -5,7 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # user dashboard
-    url(r'^user/', include('userspace.urls')),
+    url(r'^user/', include('userspace.urls', namespace='user')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # admin panel
