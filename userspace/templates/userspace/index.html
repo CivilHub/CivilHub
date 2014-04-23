@@ -6,7 +6,8 @@
     <p><strong>Last name:</strong> {{ user.last_name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
     <p><strong>Password:</strong> {{ user.password }}</p>
+    <p><strong>Avatar:</strong> {{ user.avatar }}</p>
 {% else %}
-    <p class="custom-booklike">You are not logged in</p>
+    <p class="custom-booklike">You are not allowed to visit this page. Sorry.</p>
 {% endif %}
 {% endblock %}
