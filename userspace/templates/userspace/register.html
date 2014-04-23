@@ -1,9 +1,13 @@
 {% extends 'userspace/base.html' %}
 {% load staticfiles %}
 {% block content %}
-<form method="post" action="{% url 'user:create' %}" role="form">
+{% if errors %}
+    {{ errors }}
+{% endif %}
+<form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
     {% csrf_token %}
     {{ form }}
     <button class="btn btn-primary" type="submit">Register</button>
 </form>
+<script src="{% static 'userspace/js/password.js' %}"></script>
 {% endblock %}
