@@ -1,0 +1,8 @@
+{% extends 'userspace/base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <p class="custom-booklike">This is user panel page</p>
+    {% else %}
+        <p class="custom-booklike">You are not logged in</p>
+    {% endif %}
+{% endblock %}

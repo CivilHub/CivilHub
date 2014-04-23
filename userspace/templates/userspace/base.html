@@ -7,18 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="{% static 'userspace/includes/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'userspace/includes/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-  <link href="{% static 'userspace/includes/bootswatch/slate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'userspace/includes/bootswatch/cosmo.min.css' %}" rel="stylesheet">
   <link href="{% static 'userspace/includes/jquery-ui/themes/vader/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'userspace/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
   <link href="{% static 'userspace/css/style.css' %}" rel='stylesheet' type='text/css'>
 </head>
 <body class="container">
-  <h1 class="custom-main-title">{{ title }} 
-    <small>This is test!</small>
+  <h1 class="custom-main-title">{{ title }} <small>This is test!</small>
     <span class="fa fa-cogs custom-logolike"> </span>
   </h1>
   <hr />
-  <p class="custom-booklike">Lorem ipsum dolor sit amet.</p>
+  {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
   <hr />
   <p class="custom-copyrights">Copyright&copy;2014</p>
   <script src="{% static 'userspace/includes/jquery/jquery-1.10.2.js' %}"></script>

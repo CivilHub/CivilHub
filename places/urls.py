@@ -4,9 +4,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'places.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    # user dashboard
     url(r'^user/', include('userspace.urls')),
+    # social auth
+    url('', include('social.apps.django_app.urls', namespace='social')),
+    # admin panel
     url(r'^admin/', include(admin.site.urls)),
 )

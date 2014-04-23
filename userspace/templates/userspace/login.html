@@ -1,0 +1,14 @@
+{% extends 'userspace/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<p>
+    <a href="{% url 'social:begin' 'facebook' %}">
+        <img src="{% static 'userspace/img/facebook-logo.png' %}" alt="Login with Facebook" width="200" />
+    </a>
+</p>
+<p>
+    <a href="{% url 'social:begin' 'google' %}">
+        <img src="{% static 'userspace/img/google-logo.png' %}" alt="Login with Google" width="200" />
+    </a>
+</p>
+{% endblock %}
