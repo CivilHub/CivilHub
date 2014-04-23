@@ -15,23 +15,11 @@
         </p>
     </div>
     <div class="col-sm-6">
+        {{ form.errors }}
         <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="username" class="control-label col-sm-3">Username</label>
-                <div class="col-sm-9">
-                    <input id="username" name="username" placeholder="username" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password" class="control-label col-sm-3">Password</label>
-                <div class="col-sm-9">
-                    <input id="password" name="password" placeholder="password" type="password" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-login-submit" type="submit">Login</button>
-            </div>
+            {{ form }}
+            <button class="btn btn-primary btn-login-submit" type="submit">Login</button>
         </form>
     </div>
 </div>

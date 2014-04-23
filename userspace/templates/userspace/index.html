@@ -1,8 +1,12 @@
 {% extends 'userspace/base.html' %}
 {% block content %}
-    {% if user.is_authenticated %}
-        <p class="custom-booklike">This is user panel page</p>
-    {% else %}
-        <p class="custom-booklike">You are not logged in</p>
-    {% endif %}
+{% if user.is_authenticated %}
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>First name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last name:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Password:</strong> {{ user.password }}</p>
+{% else %}
+    <p class="custom-booklike">You are not logged in</p>
+{% endif %}
 {% endblock %}
