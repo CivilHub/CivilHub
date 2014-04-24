@@ -26,13 +26,5 @@
     <p class="custom-booklike">You are not allowed to visit this page. Sorry.</p>
 {% endif %}
 <script src="{% static 'userspace/includes/bootstrap/bootstrap.file-input.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#id_avatar').bootstrapFileInput();
-    $('#id_avatar').on('change', function () {
-        $('#upload-avatar-form').submit();
-    });
-})(jQuery);
-</script>
+<script src="{% static 'userspace/js/userarea.js' %}"></script>
 {% endblock %}

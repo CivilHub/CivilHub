@@ -14,7 +14,6 @@ def index(request):
     if not request.user.is_authenticated():
         return redirect('user:login')
     user = User.objects.get(pk=request.user.id)
-    #messages.add_message(request, messages.INFO, 'Page loaded')
     try:
         prof = UserProfile.objects.get(user=user.id)
     except:
@@ -25,7 +24,6 @@ def index(request):
         'user': user,
         'profile': prof,
         'form': UserProfileForm(initial={
-                  'username':   user.username,
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
                   'email':      user.email

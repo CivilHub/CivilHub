@@ -5,12 +5,13 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # user dashboard
+    # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
+    # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),

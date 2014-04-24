@@ -58,12 +58,6 @@ class UserProfileForm(forms.Form):
     """
     Edit user profile data (excluding picture upload)
     """ 
-    username = forms.CharField(
-        label = 'Username',
-        max_length = 32,
-        required = True,
-        widget=forms.TextInput(attrs={'class':'form-control','id':'username','placeholder':'Select username','readonly':'readonly'})
-    )
     first_name = forms.CharField(
         label = "First name",
         max_length = 64,
