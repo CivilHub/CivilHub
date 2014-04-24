@@ -15,7 +15,7 @@ body {
   font-style: italic;
 }
 .custom-logolike {
-  display: block;
+  display: none;
   float: right;
 }
 .custom-centered {
@@ -42,6 +42,15 @@ body {
   z-index: 99;
   display: block;
   width: 400px;
-  opacity: 0.8 !important;
+  opacity: 0.8;
   margin-left: -450px;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 520px) {
+  .custom-logolike {
+    display: block;
+  }
 }
