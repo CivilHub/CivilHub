@@ -63,19 +63,25 @@ class UserProfileForm(forms.Form):
         label = _("First name"),
         max_length = 64,
         required = False,
-        widget=forms.TextInput(attrs={'class':'form-control','id':'first-name','placeholder':_('First name')})                         
+        widget = forms.TextInput(attrs={'class':'form-control','id':'first-name','placeholder':_('First name')})                         
     )
     last_name = forms.CharField(
         label = _("Last name"),
         max_length = 64,
         required = False,
-        widget=forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':_('Last name')})                         
+        widget = forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':_('Last name')})                         
     )
     email = forms.EmailField(
         label = _("Email"),
         max_length = 64,
         required = False,
-        widget=forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
+        widget = forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
+    )
+    birth = forms.CharField(
+        label = _("Birth date"),
+        max_length = 10,
+        required = False,
+        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date',})
     )
     
 class PasswordResetForm(forms.Form):
