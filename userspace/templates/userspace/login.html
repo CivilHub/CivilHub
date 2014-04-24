@@ -19,7 +19,9 @@
         <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
             {% csrf_token %}
             {{ form }}
-            <button class="btn btn-primary btn-login-submit" type="submit">Login</button>
+            <div class="form-group">
+                <button class="btn btn-primary btn-login-submit" type="submit">Login</button>
+            </div>
         </form>
     </div>
 </div>

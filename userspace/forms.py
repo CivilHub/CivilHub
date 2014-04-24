@@ -53,4 +53,42 @@ class LoginForm(forms.Form):
         max_length = 64,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
     )
-        
+    
+class UserProfileForm(forms.Form):
+    """
+    Edit user profile data (excluding picture upload)
+    """
+    username = forms.CharField(
+        label = 'Username',
+        max_length = 32,
+        required = True,
+        widget=forms.TextInput(attrs={'class':'form-control','id':'username','placeholder':'Select username'})
+    )
+    first_name = forms.CharField(
+        label = "First name",
+        max_length = 64,
+        required = False,
+        widget=forms.TextInput(attrs={'class':'form-control','id':'first-name','placeholder':'First name'})                         
+    )
+    last_name = forms.CharField(
+        label = "Last name",
+        max_length = 64,
+        required = False,
+        widget=forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':'Last name'})                         
+    )
+    email = forms.EmailField(
+        label = "Email",
+        max_length = 64,
+        required = False,
+        widget=forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':'Email address'})                         
+    )
+    
+class AvatarUploadForm(forms.Form):
+    """
+    Upload user avatar
+    """
+    avatar = forms.FileField(
+        label="",
+        help_text="",
+        widget = forms.FileInput(attrs={'title':'Change'})
+    )

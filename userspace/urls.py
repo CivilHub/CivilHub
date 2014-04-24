@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'logout/', views.logout, name='logout'),
     url(r'register/', views.register, name='register'),
     url(r'passet/', views.passet, name='passet'),
+    url(r'upload_avatar/', views.upload_avatar, name='upload_avatar'),
 ]
