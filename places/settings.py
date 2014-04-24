@@ -36,8 +36,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # pythhon-social-auth
     'social.apps.django_app.default',
+    # Core program modules
+    'places_core', # for common templates and static files
     'userspace',
+    'locations',
 )
 
 # Authentication and python-social-auth settings
