@@ -1,0 +1,8 @@
+{% extends 'userspace/base.html' %}
+{% load staticfiles %}
+{% block content %}
+<form id="password-change" method="post" action="{% url 'user:chpass' %}">
+{% csrf_token %}
+{{ form }}
+<button type="submit" class="btn btn-primary">Save</button>
+{% endblock %}

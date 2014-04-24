@@ -10,10 +10,10 @@
             {% csrf_token %}
             {{ avatar_form }}
         </form>
-        <p><a href="{% url 'user:passet' %}">Change password</a></p>
+        <p><a href="{% url 'user:chpass' %}">Change password</a></p>
     </div>
     <div class="col-sm-9">
-        <form id="user-profile-form" method="post" action="">
+        <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
             {% csrf_token %}
             {{ form }}
             <div class="form-group">

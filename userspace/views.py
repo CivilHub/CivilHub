@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.contrib import auth
 from django.contrib.auth.models import User
 from models import UserProfile
-from forms import RegisterForm, LoginForm, AvatarUploadForm
+from forms import *
 
 def index(request):
     """
@@ -24,10 +25,10 @@ def index(request):
         'user': user,
         'profile': prof,
         'form': UserProfileForm(initial={
-                  'username': user.username,
+                  'username':   user.username,
                   'first_name': user.first_name,
-                  'last_name': user.last_name,
-                  'email': user.email
+                  'last_name':  user.last_name,
+                  'email':      user.email
               }),
         'avatar_form': AvatarUploadForm(),
         'title': 'User Area',
@@ -81,15 +82,17 @@ def passet(request):
             user.set_password(f.cleaned_data['password'])
             user.save()
             # Re-fetch user object from DB
-            user = User.objects.latest('id')
-            # Create user profile
-            prof = UserProfile()
-            prof.user = user
-            prof.save()
+            user = User.objects.get(pk=request.user.id)
+            # Create user profile if not exists
+            try:
+                prof = UserProfile.objects.get(user=request.user.id)
+            except:
+                prof = UserProfile()
+                prof.user = user
+                prof.save()
             return redirect('user:index')
-    else:
-        ctx['form'] = RegisterForm()
-        return render(request, 'userspace/pass.html', ctx)
+    ctx['form'] = RegisterForm()
+    return render(request, 'userspace/pass.html', ctx)
 
 def login(request):
     """
@@ -121,7 +124,55 @@ def logout(request):
     Logout currently logged in user
     """
     auth.logout(request)
-    return redirect('user:index')
+    return redirect('user:login')
+
+def save_settings(request):
+    """
+    Save changes made by user in his/her profile
+    """
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.user.id)
+        f = UserProfileForm(request.POST)
+        if f.is_valid():
+            user.first_name = f.cleaned_data['first_name']
+            user.last_name  = f.cleaned_data['last_name']
+            user.email      = f.cleaned_data['email']
+            error = None
+            if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
+                error = "This email is already used"
+            if error != None:
+                return HttpResponse('Form invalid')
+            user.save()
+            return redirect('user:index')
+    return HttpResponse('Form invalid')
+
+def chpass(request):
+    """
+    Change user's password
+    """
+    if request.method == 'POST':
+        f = PasswordResetForm(request.POST)
+        if f.is_valid():
+            current = f.cleaned_data['current']
+            password = f.cleaned_data['password']
+            user = User.objects.get(pk=request.user.id)
+            username = user.username
+            chk = auth.authenticate(username = username, password = current)
+            if chk is not None:
+                if chk.is_active:
+                    user.set_password(password)
+                    user.save()
+                    return redirect('user:index')
+            else:
+                return HttpResponse('Your password is invalid. Login again')
+        else:
+            return HttpResponse('Form invalid')
+    f = PasswordResetForm()
+    ctx = {
+        'title': 'Change password',
+        'form': f,
+    }
+    return render(request, 'userspace/chpass.html', ctx)
 
 def upload_avatar(request):
     """

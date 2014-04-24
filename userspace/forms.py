@@ -57,12 +57,12 @@ class LoginForm(forms.Form):
 class UserProfileForm(forms.Form):
     """
     Edit user profile data (excluding picture upload)
-    """
+    """ 
     username = forms.CharField(
         label = 'Username',
         max_length = 32,
         required = True,
-        widget=forms.TextInput(attrs={'class':'form-control','id':'username','placeholder':'Select username'})
+        widget=forms.TextInput(attrs={'class':'form-control','id':'username','placeholder':'Select username','readonly':'readonly'})
     )
     first_name = forms.CharField(
         label = "First name",
@@ -82,6 +82,37 @@ class UserProfileForm(forms.Form):
         required = False,
         widget=forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':'Email address'})                         
     )
+    
+class PasswordResetForm(forms.Form):
+    """
+    Allow users to change their passwords
+    """
+    current = forms.CharField(
+        label = "Current password",
+        max_length = 64,
+        required = True,
+        widget = forms.PasswordInput(attrs={'class':'form-control','id':'current'})
+    )
+    password = forms.CharField(
+        label = "New password",
+        max_length = 64,
+        required = True,
+        widget = forms.PasswordInput(attrs={'class':'form-control','id':'password'})
+    )
+    passchk = forms.CharField(
+        label = "Retype password",
+        max_length = 64,
+        required = True,
+        widget = forms.PasswordInput(attrs={'class':'form-control','id':'password'})
+    )
+    def clean(self):
+        cleaned_data = super(PasswordResetForm, self).clean()
+        password = cleaned_data.get('password')
+        passchk  = cleaned_data.get('passchk')
+        if (password != passchk):
+            self._errors['password'] = self.error_class(['Passwords not match!'])
+            
+        return cleaned_data
     
 class AvatarUploadForm(forms.Form):
     """
