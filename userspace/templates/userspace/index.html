@@ -1,8 +1,8 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
+
 {% block content %}
 {% if user.is_authenticated %}
-
 <div class="row">
     <div class="col-sm-3">
         <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
@@ -25,6 +25,9 @@
 {% else %}
     <p class="custom-booklike">You are not allowed to visit this page. Sorry.</p>
 {% endif %}
-<script src="{% static 'userspace/includes/bootstrap/bootstrap.file-input.js' %}"></script>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'places_core/includes/bootstrap/bootstrap.file-input.js' %}"></script>
 <script src="{% static 'userspace/js/userarea.js' %}"></script>
 {% endblock %}

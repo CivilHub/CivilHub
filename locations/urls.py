@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
-from userspace import views
+from django.conf.urls import patterns, url
+from locations.views import LocationListView
 
-urlpatterns = [
-    url(r'^$', views.index, name='index'),
-]
+urlpatterns = patterns('',
+    url(r'^$', LocationListView.as_view(), name='index'),
+)

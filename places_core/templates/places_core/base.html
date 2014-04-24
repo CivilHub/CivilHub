@@ -11,11 +11,13 @@
   <link href="{% static 'places_core/includes/jquery-ui/themes/vader/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
   <link href="{% static 'places_core/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
   <link href="{% static 'places_core/css/style.css' %}" rel='stylesheet' type='text/css'>
+  {% block extra_styles %}{% endblock %}
   <script src="{% static 'places_core/includes/jquery/jquery-1.10.2.js' %}"></script>
   <script src="{% static 'places_core/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
   <script src="{% static 'places_core/includes/bootstrap/js/bootstrap.min.js' %}"></script>
   <script src="{% static 'places_core/includes/bootbox/bootbox.js' %}"></script>
   <script src="{% static 'places_core/includes/bootstrap/bootstrap-flashmsg.js' %}"></script>
+  {% block extra_scripts %}{% endblock %}
 </head>
 <body>
   {% if messages %}
@@ -50,5 +52,6 @@
       <hr />
       <p class="custom-copyrights">Copyright&copy;2014</p>
   </div>
+  {% block footer_scripts %}{% endblock %}
 </body>
 </html>
