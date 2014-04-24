@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'userspace',
 )
 
+# Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (
     'social.backends.open_id.OpenIdAuth',
     'social.backends.google.GoogleOpenId',
@@ -59,6 +60,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',
     'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,6 +76,13 @@ ROOT_URLCONF = 'places.urls'
 
 WSGI_APPLICATION = 'places.wsgi.application'
 
+# Django messages framework
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    50: 'danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

@@ -4,5 +4,8 @@
 <form id="password-reset" method="post" action="{% url 'user:passet' %}">
 {% csrf_token %}
 {{ form }}
-<button type="submit" class="btn btn-primary">Save</button>
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Save</button>
+</div>
+<script src="{% static 'userspace/js/password.js' %}"></script>
 {% endblock %}

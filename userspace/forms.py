@@ -103,7 +103,7 @@ class PasswordResetForm(forms.Form):
         label = "Retype password",
         max_length = 64,
         required = True,
-        widget = forms.PasswordInput(attrs={'class':'form-control','id':'password'})
+        widget = forms.PasswordInput(attrs={'class':'form-control','id':'passchk'})
     )
     def clean(self):
         cleaned_data = super(PasswordResetForm, self).clean()

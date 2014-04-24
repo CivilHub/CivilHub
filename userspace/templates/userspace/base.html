@@ -14,8 +14,22 @@
   <script src="{% static 'userspace/includes/jquery/jquery-1.10.2.js' %}"></script>
   <script src="{% static 'userspace/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
   <script src="{% static 'userspace/includes/bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'userspace/includes/bootbox/bootbox.js' %}"></script>
+  <script src="{% static 'userspace/includes/bootstrap/bootstrap-flashmsg.js' %}"></script>
 </head>
 <body>
+  {% if messages %}
+  <div class="message-area">
+    {% for message in messages %}
+        <script>
+        (function ($) {
+            "use strict";
+            display_alert('{{ message }}', '{{ message.tags }}');
+        })(jQuery);
+        </script>
+    {% endfor %}
+  </div>
+  {% endif %}
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
       <ul class="nav navbar-nav navbar-right">

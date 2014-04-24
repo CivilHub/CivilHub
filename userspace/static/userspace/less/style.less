@@ -22,8 +22,7 @@ body {
   margin: 0px auto;
   text-align: center;
 }
-.btn-login-submit {
-  float: right;
+.btn[type="submit"] {
   margin: 15px 15px 0px 0px;
 }
 .user-thumb {
@@ -31,4 +30,15 @@ body {
   width: 90px;
   height: 90px;
   margin: 5px;
+}
+/*-------Alert messages-------*/
+#alert-area {
+  position: fixed;
+  left: 100%;
+  top: 80px;
+  z-index: 99;
+  display: block;
+  width: 400px;
+  opacity: 0.8 !important;
+  margin-left: -450px;
 }

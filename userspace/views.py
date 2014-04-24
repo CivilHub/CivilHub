@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from models import UserProfile
 from forms import *
@@ -11,10 +11,10 @@ def index(request):
     """
     User profile / settings
     """
-    from forms import UserProfileForm
     if not request.user.is_authenticated():
         return redirect('user:login')
     user = User.objects.get(pk=request.user.id)
+    #messages.add_message(request, messages.INFO, 'Page loaded')
     try:
         prof = UserProfile.objects.get(user=user.id)
     except:
@@ -110,8 +110,8 @@ def login(request):
                 if user.is_active:
                     auth.login(request, user)
                     return redirect('user:index')
-        else:
-            return redirect(reverse('user:login'))
+        messages.add_message(request, messages.ERROR, 'Login credentials invalid.')
+        return redirect(reverse('user:login'))
     f = LoginForm()
     ctx = {
         'title': 'Login',
@@ -143,6 +143,7 @@ def save_settings(request):
             if error != None:
                 return HttpResponse('Form invalid')
             user.save()
+            messages.add_message(request, messages.SUCCESS, 'Settings saved')
             return redirect('user:index')
     return HttpResponse('Form invalid')
 
@@ -162,9 +163,11 @@ def chpass(request):
                 if chk.is_active:
                     user.set_password(password)
                     user.save()
+                    messages.add_message(request, messages.SUCCESS, 'Settings saved')
                     return redirect('user:index')
             else:
-                return HttpResponse('Your password is invalid. Login again')
+                messages.add_message(request, messages.ERROR, 'Your current password is invalid.')
+                return redirect(reverse('user:chpass'))
         else:
             return HttpResponse('Form invalid')
     f = PasswordResetForm()
@@ -184,4 +187,5 @@ def upload_avatar(request):
             user = UserProfile.objects.get(user=request.user.id)
             user.avatar = request.FILES['avatar']
             user.save()
+            messages.add_message(request, messages.SUCCESS, 'Settings saved')
     return redirect('user:index')
