@@ -77,7 +77,7 @@ class UserProfileForm(forms.Form):
         required = False,
         widget = forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
     )
-    birth = forms.CharField(
+    birth_date = forms.CharField(
         label = _("Birth date"),
         max_length = 10,
         required = False,

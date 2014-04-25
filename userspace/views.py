@@ -27,7 +27,8 @@ def index(request):
         'form': UserProfileForm(initial={
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
-                  'email':      user.email
+                  'email':      user.email,
+                  'birth_date': prof.birth_date,
               }),
         'avatar_form': AvatarUploadForm(),
         'title': _('User Area'),
@@ -131,17 +132,20 @@ def save_settings(request):
     """
     if request.method == 'POST':
         user = User.objects.get(pk=request.user.id)
+        prof = UserProfile.objects.get(user = user.id)
         f = UserProfileForm(request.POST)
         if f.is_valid():
             user.first_name = f.cleaned_data['first_name']
             user.last_name  = f.cleaned_data['last_name']
             user.email      = f.cleaned_data['email']
+            prof.birth_date  = f.cleaned_data['birth_date']
             error = None
             if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
                 error = _("This email address is already in use")
             if error != None:
                 return HttpResponse(_('Form invalid'))
             user.save()
+            prof.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
             return redirect('user:index')
     return HttpResponse(_('Form invalid'))
