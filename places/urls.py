@@ -11,6 +11,8 @@ urlpatterns = patterns('',
     url(r'^places/', include('locations.urls', namespace='locations')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
+    # django-activity-stream
+    url(r'^activity/', include('actstream.urls')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # admin panel

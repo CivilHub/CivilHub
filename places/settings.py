@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # pythhon-social-auth
     'social.apps.django_app.default',
+    # django-activity-stream
+    'actstream',
     # Core program modules
     'places_core', # for common templates and static files
     'userspace',
