@@ -5,7 +5,9 @@
 {% if ideas %}
     <ul>
     {% for idea in ideas %}
-        <li><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> by {{ idea.creator }}</li>
+        <li><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
+        by <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator }}</a>
+        in <a href="{% url 'locations:details' idea.location.id %}">{{ idea.location }}</a></li>
     {% endfor %}
     </ul>
 {% endif %}

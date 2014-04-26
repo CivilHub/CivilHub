@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Application native models
 from models import Idea, Vote
 # Activity stream
-from actstream import action
+from places_core.actstreams import idea_action_handler
 
 def get_votes(idea):
     """
@@ -50,7 +50,6 @@ class CreateIdeaView(CreateView):
     fields = ['name', 'description', 'location']
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        action.send(self.request.user, action_object=form.instance, verb='created idea')
         return super(CreateIdeaView, self).form_valid(form)
     
 class UpdateIdeaView(UpdateView):
