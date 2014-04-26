@@ -63,6 +63,16 @@ LOGIN_REDIRECT_URL = '/user/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
 
+# django-activity-stream settings
+ACTSTREAM_SETTINGS = {
+    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea'),
+    'MANAGER': 'actstream.managers.ActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_PREFETCH': True,
+    'USE_JSONFIELD': True,
+    'GFK_FETCH_DEPTH': 1,
+}
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
     'social.apps.django_app.context_processors.login_redirect',

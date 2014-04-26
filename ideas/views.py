@@ -3,10 +3,14 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
+# Use generic django views
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+# Application native models
 from models import Idea, Vote
+# Activity stream
+from actstream import action
 
 def get_votes(idea):
     """
@@ -46,6 +50,7 @@ class CreateIdeaView(CreateView):
     fields = ['name', 'description', 'location']
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        action.send(self.request.user, action_object=form.instance, verb='created idea')
         return super(CreateIdeaView, self).form_valid(form)
     
 class UpdateIdeaView(UpdateView):
@@ -89,5 +94,6 @@ def vote(request):
                 'message': 'Vote saved',
                 'votes': get_votes(idea),
             }
+            action.send(request.user, action_object=idea, verb='voted on')
         return HttpResponse(json.dumps(response))
     

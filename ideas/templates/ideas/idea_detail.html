@@ -6,8 +6,10 @@
     <h2>{{ idea.name }} <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h2>
     <div class="idea-votes">
         <div id="votes">{{ idea.votes }}</div>
-        <button data-vote="up" class="vote-btn btn btn-default">+</button>
-        <button data-vote="down" class="vote-btn btn btn-default">-</button>
+        {% if idea.creator != user and user.is_authenticated %}
+            <button data-vote="up" class="vote-btn btn btn-default">+</button>
+            <button data-vote="down" class="vote-btn btn btn-default">-</button>
+        {% endif %}
     </div>
     <div>{{ idea.description }}</div>
 {% endblock %}
