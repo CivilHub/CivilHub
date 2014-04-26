@@ -3,9 +3,9 @@
 
 {% block content %}
     <input type="hidden" id="idea-metadata" value="{{ idea.pk }}" />
-    <h2>{{ idea.name }} <small>Created {{ idea.date_created }}</small></h2>
+    <h2>{{ idea.name }} <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h2>
     <div class="idea-votes">
-        {{ idea.votes }}
+        <div id="votes">{{ idea.votes }}</div>
         <button data-vote="up" class="vote-btn btn btn-default">+</button>
         <button data-vote="down" class="vote-btn btn btn-default">-</button>
     </div>

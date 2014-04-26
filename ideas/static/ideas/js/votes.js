@@ -7,7 +7,13 @@
                 vote: $(this).attr('data-vote')
             },
             callback = function (data) {
-                display_alert('Thanks for voting!', 'success');
+                data = JSON.parse(data);
+                if (data.success === true) {
+                    display_alert('Thanks for voting!', 'success');
+                    $('#votes').html(data.votes);
+                } else {
+                    display_alert('Operation failed', 'danger');
+                }
             };
         $.ajax({
             type: 'POST',

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
@@ -6,6 +7,16 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from models import Idea, Vote
+
+def get_votes(idea):
+    """
+    Get total votes calculated
+    """
+    i = idea
+    votes_total = Vote.objects.filter(idea=i)
+    votes_up = len(votes_total.filter(vote=True))
+    votes_down = len(votes_total.filter(vote=False))
+    return votes_up - votes_down
 
 class IdeasListView(ListView):
     """
@@ -22,7 +33,7 @@ class IdeasDetailView(DetailView):
     def get_object(self):
         object = super(IdeasDetailView, self).get_object()
         try:
-            object.votes = Vote.objects.get(idea=object.pk)
+            object.votes = get_votes(object)
         except:
             object.votes = 'Brak votes'
         return object
@@ -33,6 +44,9 @@ class CreateIdeaView(CreateView):
     """
     model = Idea
     fields = ['name', 'description', 'location']
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(CreateIdeaView, self).form_valid(form)
     
 class UpdateIdeaView(UpdateView):
     """
@@ -56,10 +70,24 @@ def vote(request):
         v    = request.POST['vote']
         idea = Idea.objects.get(pk=request.POST['idea'])
         user = request.user
-        user_vote = Vote(
-            user = user,
-            idea = idea,
-            vote = True if v == 'up' else False
-        )
-        user_vote.save()
-        return HttpResponse('Vote saved')
+        votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
+        if len(votes_check) > 0:
+            response = {
+                'success': False,
+                'message': 'You voted already on this idea',
+                'votes': get_votes(idea),
+            }
+        else:
+            user_vote = Vote(
+                user = user,
+                idea = idea,
+                vote = True if v == 'up' else False
+            )
+            user_vote.save()
+            response = {
+                'success': True,
+                'message': 'Vote saved',
+                'votes': get_votes(idea),
+            }
+        return HttpResponse(json.dumps(response))
+    
