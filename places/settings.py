@@ -59,7 +59,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '/user/login/'
-LOGIN_REDIRECT_URL = '/user/'
+LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
 

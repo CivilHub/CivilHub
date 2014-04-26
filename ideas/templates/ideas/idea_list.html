@@ -5,9 +5,13 @@
 {% if ideas %}
     <ul>
     {% for idea in ideas %}
-        <li><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a></li>
+        <li><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> by {{ idea.creator }}</li>
     {% endfor %}
     </ul>
+{% endif %}
+
+{% if user.is_authenticated %}
+<p><a href="{% url 'ideas:create' %}"><button class="btn btn-primary">Create</button></a></p>
 {% endif %}
     
 {% endblock %}

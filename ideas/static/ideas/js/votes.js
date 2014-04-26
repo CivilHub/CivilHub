@@ -9,10 +9,10 @@
             callback = function (data) {
                 data = JSON.parse(data);
                 if (data.success === true) {
-                    display_alert('Thanks for voting!', 'success');
+                    display_alert(data.message, 'success');
                     $('#votes').html(data.votes);
                 } else {
-                    display_alert('Operation failed', 'danger');
+                    display_alert(data.message, 'danger');
                 }
             };
         $.ajax({

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
@@ -34,6 +34,23 @@ def index(request):
         'title': _('User Area'),
     }
     return render(request, 'userspace/index.html', ctx)
+    
+def profile(request, username):
+    """
+    Show user info to other allowed users
+    """
+    if not request.user.is_authenticated():
+        return redirect('user:login')
+    user = get_object_or_404(User, username=username)
+    prof = get_object_or_404(UserProfile, user=user)
+    # TODO - to jest żywcem przeniesione z panelu edycji, trzeba
+    # utworzyć nowe templaty
+    ctx = {
+        'cuser': user,
+        'profile': prof,
+        'title': _('User Profile'),
+    }
+    return render(request, 'userspace/profile.html', ctx)
 
 def register(request):
     """
@@ -109,7 +126,7 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
-                    return redirect('user:index')
+                    return redirect('activities:actstream')
         messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
         return redirect(reverse('user:login'))
     f = LoginForm()

@@ -6,13 +6,15 @@
 {% endblock %}
 
 {% block content %}
-    {% for location in object_list %}
+    {% for location in locations %}
     <div class="location-entry">
         <p>{{ location.name }}</p>
         <p>{{ location.description }}</p>
         <p>{{ location.latitude }}</p>
         <p>{{ location.longitude }}</p>
+        <p><a href="{% url 'locations:update' location.id %}">Edit</a></p>
         <p><img src="{{ location.image.url }}" alt="{{ location.name }}" class="location-preview-img" /></p>
     </div>
     {% endfor %}
+    <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">Create new</button></a></div>
 {% endblock %}

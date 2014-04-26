@@ -11,7 +11,8 @@ class LocationListView(ListView):
     Location list
     """
     model = Location
-    
+    context_object_name = 'locations'
+    template_name = 'location_list.html'
     def get_context_data(self, **kwargs):
         context = super(LocationListView, self).get_context_data(**kwargs)
         context['title'] = 'Locations'
