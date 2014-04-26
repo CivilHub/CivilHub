@@ -19,7 +19,7 @@ class Location(models.Model):
     )
     
     def get_absolute_url(self):
-        return reverse('', kwargs={'pk':self.pk})
+        return reverse('locations:details', kwargs={'pk':self.pk})
     
     def __unicode__(self):
         return self.name

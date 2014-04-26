@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     url(r'^user/', include('userspace.urls', namespace='user')),
     # places
     url(r'^places/', include('locations.urls', namespace='locations')),
+    # ideas
+    url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # admin panel

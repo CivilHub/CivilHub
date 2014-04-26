@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'places_core', # for common templates and static files
     'userspace',
     'locations',
+    'ideas',
 )
 
 # Authentication and python-social-auth settings
