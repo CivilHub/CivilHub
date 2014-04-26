@@ -26,6 +26,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
 
 # Application definition
 
@@ -36,12 +38,20 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites', 
     # pythhon-social-auth
-    'social.apps.django_app.default',
+    #'social.apps.django_app.default',
+    # django-activity-stream
+    'actstream',
     # Core program modules
     'places_core', # for common templates and static files
     'userspace',
     'locations',
+    'ideas',
+    'taggit',
+    'threadedcomments', #https://github.com/HonzaKral/django-threadedcomments
+    'django.contrib.comments',
+    'blog',
 )
 
 # Authentication and python-social-auth settings
@@ -56,9 +66,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '/user/login/'
-LOGIN_REDIRECT_URL = '/user/'
+LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
+
+# django-activity-stream settings
+ACTSTREAM_SETTINGS = {
+    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea'),
+    'MANAGER': 'actstream.managers.ActionManager',
+    'FETCH_RELATIONS': True,
+    'USE_PREFETCH': True,
+    'USE_JSONFIELD': True,
+    'GFK_FETCH_DEPTH': 1,
+}
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.backends',
@@ -69,6 +89,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -94,7 +115,7 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite8'),
     }
 }
 
@@ -103,7 +124,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -119,3 +140,4 @@ STATIC_URL   = '/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
+COMMENTS_APP = 'threadedcomments'

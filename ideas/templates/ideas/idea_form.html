@@ -1,0 +1,11 @@
+{% extends 'places_core/base.html' %}
+
+{% block content %}
+    <form role="form" method="post" action="{% url 'ideas:create' %}">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+{% endblock %}

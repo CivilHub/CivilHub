@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 from models import UserProfile
 from forms import *
 
@@ -26,12 +27,30 @@ def index(request):
         'form': UserProfileForm(initial={
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
-                  'email':      user.email
+                  'email':      user.email,
+                  'birth_date': prof.birth_date,
               }),
         'avatar_form': AvatarUploadForm(),
-        'title': 'User Area',
+        'title': _('User Area'),
     }
     return render(request, 'userspace/index.html', ctx)
+    
+def profile(request, username):
+    """
+    Show user info to other allowed users
+    """
+    if not request.user.is_authenticated():
+        return redirect('user:login')
+    user = get_object_or_404(User, username=username)
+    prof = get_object_or_404(UserProfile, user=user)
+    # TODO - to jest żywcem przeniesione z panelu edycji, trzeba
+    # utworzyć nowe templaty
+    ctx = {
+        'cuser': user,
+        'profile': prof,
+        'title': _('User Profile'),
+    }
+    return render(request, 'userspace/profile.html', ctx)
 
 def register(request):
     """
@@ -61,7 +80,7 @@ def register(request):
             return redirect(reverse('user:register'))
     ctx = {
         'form': RegisterForm,
-        'title': 'Sign Up',
+        'title': _('Sign Up'),
     }
     return render(request, 'userspace/register.html', ctx)
 
@@ -70,7 +89,7 @@ def passet(request):
     Set credentials for new users registered with social auth
     """
     ctx = {
-        'title': "Set your password",
+        'title': _("Set your password"),
     }
     if request.method == 'POST':
         f = RegisterForm(request.POST)
@@ -107,12 +126,12 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
-                    return redirect('user:index')
-        messages.add_message(request, messages.ERROR, 'Login credentials invalid.')
+                    return redirect('activities:actstream')
+        messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
         return redirect(reverse('user:login'))
     f = LoginForm()
     ctx = {
-        'title': 'Login',
+        'title': _('Login'),
         'form': f,
     }
     return render(request, 'userspace/login.html', ctx)
@@ -130,20 +149,23 @@ def save_settings(request):
     """
     if request.method == 'POST':
         user = User.objects.get(pk=request.user.id)
+        prof = UserProfile.objects.get(user = user.id)
         f = UserProfileForm(request.POST)
         if f.is_valid():
             user.first_name = f.cleaned_data['first_name']
             user.last_name  = f.cleaned_data['last_name']
             user.email      = f.cleaned_data['email']
+            prof.birth_date  = f.cleaned_data['birth_date']
             error = None
             if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
-                error = "This email is already used"
+                error = _("This email address is already in use")
             if error != None:
-                return HttpResponse('Form invalid')
+                return HttpResponse(_('Form invalid'))
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Settings saved')
+            prof.save()
+            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
             return redirect('user:index')
-    return HttpResponse('Form invalid')
+    return HttpResponse(_('Form invalid'))
 
 def chpass(request):
     """
@@ -161,16 +183,16 @@ def chpass(request):
                 if chk.is_active:
                     user.set_password(password)
                     user.save()
-                    messages.add_message(request, messages.SUCCESS, 'Settings saved')
+                    messages.add_message(request, messages.SUCCESS, _('Settings saved'))
                     return redirect('user:index')
             else:
-                messages.add_message(request, messages.ERROR, 'Your current password is invalid.')
+                messages.add_message(request, messages.ERROR, _('Your current password is invalid.'))
                 return redirect(reverse('user:chpass'))
         else:
-            return HttpResponse('Form invalid')
+            return HttpResponse(_('Form invalid'))
     f = PasswordResetForm()
     ctx = {
-        'title': 'Change password',
+        'title': _('Change password'),
         'form': f,
     }
     return render(request, 'userspace/chpass.html', ctx)
@@ -185,5 +207,5 @@ def upload_avatar(request):
             user = UserProfile.objects.get(user=request.user.id)
             user.avatar = request.FILES['avatar']
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Settings saved')
+            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
     return redirect('user:index')
