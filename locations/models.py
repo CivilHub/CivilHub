@@ -12,8 +12,8 @@ class Location(models.Model):
     """
     name = models.CharField(max_length=64)
     description = models.TextField(max_length=1024, blank=True)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    latitude = models.FloatField(blank=True)
+    longitude = models.FloatField(blank=True)
     creator = models.ForeignKey(User, blank=True, related_name='created_locations')
     users = models.ManyToManyField(User, blank=True)
     parent = models.ForeignKey('Location', blank=True, null=True)
