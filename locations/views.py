@@ -10,6 +10,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
+# Activity stream
+from actstream.actions import follow, unfollow
 
 class LocationListView(ListView):
     """
@@ -28,6 +30,11 @@ class LocationDetailView(DetailView):
     Detailed location view
     """
     model = Location
+    def get_context_data(self, **kwargs):
+        location = super(LocationDetailView, self).get_object()
+        context = super(LocationDetailView, self).get_context_data(**kwargs)
+        context['title'] = location.name
+        return context
       
 class CreateLocationView(LoginRequiredMixin, CreateView):
     """
@@ -62,6 +69,7 @@ def add_follower(request, pk):
     location.users.add(user)
     try:
         location.save()
+        follow(user, location, actor_only = False)
         response = {
             'success': True,
             'message': _('You follow this location'),
@@ -82,6 +90,7 @@ def remove_follower(request, pk):
     location.users.remove(user)
     try:
         location.save()
+        unfollow(user, location)
         response = {
             'success': True,
             'message': _('You stop following this location'),
