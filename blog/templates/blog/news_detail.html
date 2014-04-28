@@ -1,0 +1,13 @@
+<article>
+    <h3>{{ news.title }}</h3>
+    <div>{{ news.content }}</div>
+    {% if user.is_authenticated and user == news.creator %}
+        <div class="news-controls">
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </div>
+    {% endif %}
+    <div class="news-meta">
+        <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
+    </div>
+</article>

@@ -29,42 +29,52 @@
 
 {% block content %}
   
-  <div class="content-pane">
-    <div id="summary" class="pane">
-        <h2>Summary of {{ location.name }}</h2>
-        <div>{{ location.description }}</div>
-    </div>
-    <div id="news" class="hidden-pane">
-        <h2>Newses in {{ location.name }}</h2>
-        <div>Tu będą newsy</div>
-    </div>
-    <div id="ideas" class="hidden-pane">
-        <h2>Ideas in {{ location.name }}</h2>
-        {% for idea in location.idea_set.all %}
-            {% include 'ideas/idea_basic.html' %}
-        {% endfor %}
-        <p><a href="{% url 'ideas:create' %}"><button class="btn btn-default">Create new</button></a></p>
-    </div>
-    <div id="followers" class="hidden-pane">
-        <h2>Followers of {{ location.name }}</h2>
-        <ul>
-        {% for usr in location.users.all %}
-            <li>
-                <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumbnail" />
-                <a href="{% url 'user:profile' usr.username %}">{{ usr.username }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
-    <div id="discussions" class="hidden-pane">
-        <h2>Discussions on {{ location.name }}</h2>
-        <p><a href="#"><button class="btn btn-default">Create new</button></a></p>
-    </div>
-  </div>
+<div class="content-pane">
+<div id="summary" class="pane">
+    <h2>Summary of {{ location.name }}</h2>
+    <div>{{ location.description }}</div>
+</div>
+<div id="news" class="hidden-pane">
+    <h2>Newses in {{ location.name }}</h2>
+    {% for news in location.news_set.all %}
+        {% include 'blog/news_detail.html' %}
+    {% endfor %}
+    {% if user.is_authenticated %}
+        <p><button class="btn-add-news btn btn-primary">Add new</button></p>
+    {% endif %}
+</div>
+<div id="ideas" class="hidden-pane">
+    <h2>Ideas in {{ location.name }}</h2>
+    {% for idea in location.idea_set.all %}
+        {% include 'ideas/idea_basic.html' %}
+    {% endfor %}
+    <p><a href="{% url 'ideas:create' %}"><button class="btn btn-default">Create new</button></a></p>
+</div>
+<div id="followers" class="hidden-pane">
+    <h2>Followers of {{ location.name }}</h2>
+    <ul>
+    {% for usr in location.users.all %}
+        <li>
+            <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumbnail" />
+            <a href="{% url 'user:profile' usr.username %}">{{ usr.username }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+<div id="discussions" class="hidden-pane">
+    <h2>Discussions on {{ location.name }}</h2>
+    <p><a href="#"><button class="btn btn-default">Create new</button></a></p>
+</div>
+</div>
+
+<script type="text/template">
+<div id="modal-window" class="modal fade"></div>
+</script>
   
 {% endblock %}
 
 {% block footer_scripts %}
 <script src="{% static 'locations/js/location.js' %}"></script>
 <script src="{% static 'ideas/js/votes.js' %}"></script>
+<script src="{% static 'blog/js/news.js' %}"></script>
 {% endblock %}
