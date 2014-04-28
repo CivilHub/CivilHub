@@ -39,8 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites', 
-    # pythhon-social-auth
-    #'social.apps.django_app.default',
+    #'python-social-auth',
+    'social.apps.django_app.default',
     # django-activity-stream
     'actstream',
     # Core program modules
@@ -115,7 +115,7 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite8'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

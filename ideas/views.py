@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Application native models
 from models import Idea, Vote
 # Activity stream
+from actstream import action
 from places_core.actstreams import idea_action_handler
 
 def get_votes(idea):
