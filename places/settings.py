@@ -26,6 +26,8 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
 
 # Application definition
 
@@ -36,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # pythhon-social-auth
+    'django.contrib.sites', 
+    #'python-social-auth',
     'social.apps.django_app.default',
     # django-activity-stream
     'actstream',
@@ -45,6 +48,10 @@ INSTALLED_APPS = (
     'userspace',
     'locations',
     'ideas',
+    'taggit',
+    'threadedcomments', #https://github.com/HonzaKral/django-threadedcomments
+    'django.contrib.comments',
+    'blog',
 )
 
 # Authentication and python-social-auth settings
@@ -132,3 +139,5 @@ USE_TZ = True
 STATIC_URL   = '/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
+
+COMMENTS_APP = 'threadedcomments'
