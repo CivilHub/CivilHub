@@ -2,19 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-    <input type="hidden" id="idea-metadata" value="{{ idea.pk }}" />
-    <h2>{{ idea.name }} <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h2>
-    {% if idea.creator == user %}
-        <p><a href="{% url 'ideas:update' idea.id %}">Edit</a></p>
-    {% endif %}
-    <div class="idea-votes">
-        <div id="votes">{{ idea.votes }}</div>
-        {% if idea.creator != user and user.is_authenticated %}
-            <button data-vote="up" class="vote-btn btn btn-default">+</button>
-            <button data-vote="down" class="vote-btn btn btn-default">-</button>
-        {% endif %}
-    </div>
-    <div>{{ idea.description }}</div>
+    {% include 'ideas/idea_basic.html' %}
 {% endblock %}
 
 {% block footer_scripts %}

@@ -33,7 +33,8 @@ def create_place_action_hook(sender, instance, created, **kwargs):
     Action hook for activity stream when new place is created
     TODO - move it to more appropriate place.
     """
-    instance.users.add(instance.creator)
-    action.send(instance.creator, action_object=instance, verb='created')
+    if created:
+        instance.users.add(instance.creator)
+        action.send(instance.creator, action_object=instance, verb='created')
 
 post_save.connect(create_place_action_hook, sender=Location)

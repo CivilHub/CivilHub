@@ -4,6 +4,12 @@ from actstream import action
 from ideas.models import Idea
 
 def idea_action_handler(sender, instance, created, **kwargs):
-    action.send(instance, verb='created')
+    if created:
+        action.send(
+            instance.creator,
+            action_object = instance,
+            verb = 'created',
+            target = instance.location
+        )
     
 post_save.connect(idea_action_handler, sender=Idea)

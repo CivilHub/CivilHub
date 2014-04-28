@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+import json
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
+# Activity stream
+from actstream.actions import follow, unfollow
 
 class LocationListView(ListView):
     """
@@ -25,6 +30,11 @@ class LocationDetailView(DetailView):
     Detailed location view
     """
     model = Location
+    def get_context_data(self, **kwargs):
+        location = super(LocationDetailView, self).get_object()
+        context = super(LocationDetailView, self).get_context_data(**kwargs)
+        context['title'] = location.name
+        return context
       
 class CreateLocationView(LoginRequiredMixin, CreateView):
     """
@@ -49,3 +59,45 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     """
     model = Location
     success_url = reverse_lazy('locations:index')
+    
+def add_follower(request, pk):
+    """
+    Add user to locations followers
+    """
+    location = get_object_or_404(Location, pk=pk)
+    user = request.user
+    location.users.add(user)
+    try:
+        location.save()
+        follow(user, location, actor_only = False)
+        response = {
+            'success': True,
+            'message': _('You follow this location'),
+        }
+    except:
+        response = {
+            'success': False,
+            'message': _('Something, somewhere went terribly wrong'),
+        }
+    return HttpResponse(json.dumps(response))
+    
+def remove_follower(request, pk):
+    """
+    Remove user from locations followers
+    """
+    location = get_object_or_404(Location, pk=pk)
+    user = request.user
+    location.users.remove(user)
+    try:
+        location.save()
+        unfollow(user, location)
+        response = {
+            'success': True,
+            'message': _('You stop following this location'),
+        }
+    except:
+        response = {
+            'success': False,
+            'message': _('Something, somewhere went terribly wrong'),
+        }
+    return HttpResponse(json.dumps(response))

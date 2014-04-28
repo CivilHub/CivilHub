@@ -28,6 +28,12 @@ class Idea(models.Model):
     # TODO implement Django tag system
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
     
+    def get_votes(self):
+        votes_total = self.vote_set
+        votes_up = len(votes_total.filter(vote=True))
+        votes_down = len(votes_total.filter(vote=False))
+        return votes_up - votes_down
+    
     def get_absolute_url(self):
         return reverse('ideas:details', kwargs={'pk':self.pk})
     

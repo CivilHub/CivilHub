@@ -38,7 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', 
+    'django.contrib.sites',
+    # https://github.com/skorokithakis/django-annoying
+    'annoying',
     #'python-social-auth',
     'social.apps.django_app.default',
     # django-activity-stream

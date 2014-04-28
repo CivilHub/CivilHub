@@ -8,4 +8,6 @@ urlpatterns = patterns('',
     url(r'create', CreateLocationView.as_view(), name='create'),
     url(r'delete/(?P<pk>\d+)', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<pk>\d+)', UpdateLocationView.as_view(), name='update'),
+    url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
+    url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
 )
