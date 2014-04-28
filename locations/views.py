@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+import json
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -49,3 +52,43 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     """
     model = Location
     success_url = reverse_lazy('locations:index')
+    
+def add_follower(request, pk):
+    """
+    Add user to locations followers
+    """
+    location = get_object_or_404(Location, pk=pk)
+    user = request.user
+    location.users.add(user)
+    try:
+        location.save()
+        response = {
+            'success': True,
+            'message': _('You follow this location'),
+        }
+    except:
+        response = {
+            'success': False,
+            'message': _('Something, somewhere went terribly wrong'),
+        }
+    return HttpResponse(json.dumps(response))
+    
+def remove_follower(request, pk):
+    """
+    Remove user from locations followers
+    """
+    location = get_object_or_404(Location, pk=pk)
+    user = request.user
+    location.users.remove(user)
+    try:
+        location.save()
+        response = {
+            'success': True,
+            'message': _('You stop following this location'),
+        }
+    except:
+        response = {
+            'success': False,
+            'message': _('Something, somewhere went terribly wrong'),
+        }
+    return HttpResponse(json.dumps(response))

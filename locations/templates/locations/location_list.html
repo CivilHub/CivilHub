@@ -16,10 +16,20 @@
             <p><a href="{% url 'locations:update' location.id %}">Edit</a></p>
             <p><a href="{% url 'locations:delete' location.id %}">Delete</a></p>
         {% endif %}
+        {% if user.is_authenticated and not user in location.users.all %}
+            <p><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">Follow</button></p>
+        {% endif %}
+        {% if user.is_authenticated and user in location.users.all %}
+            <p><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">Stop following</button></p>
+        {% endif %}
         <p><img src="{{ location.image.url }}" alt="{{ location.name }}" class="location-preview-img" /></p>
     </div>
     {% endfor %}
     {% if user.is_authenticated %}
         <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">Create new</button></a></div>
     {% endif %}
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'locations/js/location-follow.js' %}"></script>
 {% endblock %}
