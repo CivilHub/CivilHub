@@ -17,6 +17,7 @@
   {% if user.is_authenticated %}
   <ul class="nav navbar-nav">
     <li><a data-target="summary" href="#">Summary</a></li>
+    <li><a data-target="news" href="#">News</a></li>
     <li><a data-target="ideas" href="#">Ideas</a></li>
     <li><a data-target="followers" href="#">Followers</a></li>
     <li><a data-target="discussions" href="#">Discussions</a></li>
@@ -33,6 +34,10 @@
         <h2>Summary of {{ location.name }}</h2>
         <div>{{ location.description }}</div>
     </div>
+    <div id="news" class="hidden-pane">
+        <h2>Newses in {{ location.name }}</h2>
+        <div>Tu będą newsy</div>
+    </div>
     <div id="ideas" class="hidden-pane">
         <h2>Ideas in {{ location.name }}</h2>
         {% for idea in location.idea_set.all %}
@@ -45,7 +50,7 @@
         <ul>
         {% for usr in location.users.all %}
             <li>
-                <img src="{{ usr.UserProfile.avatar.url }}" alt="{{ usr.username }}" class="user-thumbnail" />
+                <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumbnail" />
                 <a href="{% url 'user:profile' usr.username %}">{{ usr.username }}</a>
             </li>
         {% endfor %}

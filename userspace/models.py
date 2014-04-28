@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = AutoOneToOneField(User, primary_key=True, related_name='profile')
     birth_date = models.CharField(max_length=10, blank=True)
     avatar = models.ImageField(
         upload_to = "img/avatars/",
