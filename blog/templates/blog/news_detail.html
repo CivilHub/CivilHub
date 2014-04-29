@@ -11,9 +11,10 @@
     <div class="news-meta">
         <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
     </div>
-    <div class="comments">
-        {% render_comment_list for news %}
-    </div>
+    <ul class="comments">
+    {% get_comment_list for news as comment_set %}
+    {% include 'places_core/comment.html' %}
+    </ul>
     <div class="comment-form">
         {% render_comment_form for news %}
     </div>
