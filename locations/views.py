@@ -13,6 +13,27 @@ from places_core.mixins import LoginRequiredMixin
 # Activity stream
 from actstream.actions import follow, unfollow
 
+class LocationNewsList(DetailView):
+    """
+    Location news page
+    """
+    model = Location
+    template_name = 'locations/location_news.html'
+        
+class LocationIdeasList(DetailView):
+    """
+    Location ideas list
+    """
+    model = Location
+    template_name = 'locations/location_ideas.html'
+    
+class LocationFollowersList(DetailView):
+    """
+    Location followers list
+    """
+    model = Location
+    template_name = 'locations/location_followers.html'
+
 class LocationListView(ListView):
     """
     Location list

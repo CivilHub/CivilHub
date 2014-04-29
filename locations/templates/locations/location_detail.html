@@ -1,70 +1,8 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles %}
-
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'locations/css/location-details.css' %}" />
-{% endblock %}
-
-{% block header %}
-
-<div class="location-logo" style="background-image:url({{ location.image.url }})">
-    <h1 class="location-name-title">{{ location.name }}</h1>
-    {% if user not in locations.users.all %}
-        <button class="btn btn-success btn-fallow-location">Fallow</button>
-    {% endif %}
-</div>
-<nav id="location-navbar" class="navbar navbar-default" role="navigation">
-  {% if user.is_authenticated %}
-  <ul class="nav navbar-nav">
-    <li><a data-target="summary" href="#">Summary</a></li>
-    <li><a data-target="news" href="#">News</a></li>
-    <li><a data-target="ideas" href="#">Ideas</a></li>
-    <li><a data-target="followers" href="#">Followers</a></li>
-    <li><a data-target="discussions" href="#">Discussions</a></li>
-  </ul>
-  {% endif %}
-</nav>
-
-{% endblock %}
+{% extends 'locations/index.html' %}
 
 {% block content %}
   
-  <div class="content-pane">
-    <div id="summary" class="pane">
-        <h2>Summary of {{ location.name }}</h2>
-        <div>{{ location.description }}</div>
-    </div>
-    <div id="news" class="hidden-pane">
-        <h2>Newses in {{ location.name }}</h2>
-        <div>Tu będą newsy</div>
-    </div>
-    <div id="ideas" class="hidden-pane">
-        <h2>Ideas in {{ location.name }}</h2>
-        {% for idea in location.idea_set.all %}
-            {% include 'ideas/idea_basic.html' %}
-        {% endfor %}
-        <p><a href="{% url 'ideas:create' %}"><button class="btn btn-default">Create new</button></a></p>
-    </div>
-    <div id="followers" class="hidden-pane">
-        <h2>Followers of {{ location.name }}</h2>
-        <ul>
-        {% for usr in location.users.all %}
-            <li>
-                <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumbnail" />
-                <a href="{% url 'user:profile' usr.username %}">{{ usr.username }}</a>
-            </li>
-        {% endfor %}
-        </ul>
-    </div>
-    <div id="discussions" class="hidden-pane">
-        <h2>Discussions on {{ location.name }}</h2>
-        <p><a href="#"><button class="btn btn-default">Create new</button></a></p>
-    </div>
-  </div>
+<h1>{{ location.name }} summary</h1>
+<div>{{ location.description }}</div>
   
-{% endblock %}
-
-{% block footer_scripts %}
-<script src="{% static 'locations/js/location.js' %}"></script>
-<script src="{% static 'ideas/js/votes.js' %}"></script>
 {% endblock %}

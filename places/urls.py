@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^users/', include('userspace.urls', namespace='user')),
     # places
     url(r'^places/', include('locations.urls', namespace='locations')),
+    # blog
+    url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream
@@ -22,4 +24,9 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),
+)
+
+# comments
+urlpatterns += patterns('',
+    url(r'^comments/', include('django.contrib.comments.urls')),
 )

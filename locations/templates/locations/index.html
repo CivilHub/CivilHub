@@ -1,0 +1,34 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'locations/css/location-details.css' %}" />
+{% endblock %}
+
+{% block header %}
+
+<div class="location-logo" style="background-image:url({{ location.image.url }})">
+    <h1 class="location-name-title">{{ location.name }}</h1>
+    {% if user not in locations.users.all %}
+        <button class="btn btn-success btn-fallow-location">Fallow</button>
+    {% endif %}
+</div>
+<nav id="location-navbar" class="navbar navbar-default" role="navigation">
+  {% if user.is_authenticated %}
+  <ul class="nav navbar-nav">
+    <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
+    <li><a href="{% url 'locations:news' location.pk %}">News</a></li>
+    <li><a href="{% url 'locations:ideas' location.pk %}">Ideas</a></li>
+    <li><a href="{% url 'locations:followers' location.pk %}">Followers</a></li>
+    <li><a data-target="discussions" href="#">Discussions</a></li>
+  </ul>
+  {% endif %}
+</nav>
+
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'locations/js/location.js' %}"></script>
+<script src="{% static 'ideas/js/votes.js' %}"></script>
+<script src="{% static 'blog/js/news.js' %}"></script>
+{% endblock %}
