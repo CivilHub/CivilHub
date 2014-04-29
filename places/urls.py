@@ -4,6 +4,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
 
+from rest_framework import routers
+from rest import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+
 urlpatterns = patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
@@ -28,6 +34,7 @@ urlpatterns = patterns('',
 
 # comments
 urlpatterns += patterns('',
+    url(r'^rest/', include(router.urls)),
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

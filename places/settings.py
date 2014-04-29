@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'threadedcomments', #https://github.com/HonzaKral/django-threadedcomments
     'django.contrib.comments',
     'blog',
+    'rest', # out for django rest framework
 )
 
 # Authentication and python-social-auth settings
