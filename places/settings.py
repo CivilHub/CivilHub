@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # https://github.com/thoas/django-discussions
+    'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
     # https://github.com/skorokithakis/django-annoying
@@ -57,6 +59,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'blog',
     'rest', # out for django rest framework
+    'topics', # custom discussions (based on django-discussions)
 )
 
 # Authentication and python-social-auth settings

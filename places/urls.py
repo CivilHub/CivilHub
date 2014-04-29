@@ -3,10 +3,9 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
-
+# djangorestframework
 from rest_framework import routers
 from rest import views
-
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 
@@ -24,6 +23,8 @@ urlpatterns = patterns('',
     url(r'^activity/', include('actstream.urls', namespace='activities')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
+    # django-discussions
+    url('^discussions/', include('discussions.urls')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
     # media
