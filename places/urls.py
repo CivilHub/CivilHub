@@ -9,7 +9,7 @@ from rest import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
-router.register(r'news', views.NewsViewSet)
+router.register(r'news', views.NewsViewSet, base_name=r'blog')
 
 urlpatterns = patterns('',
     # user account

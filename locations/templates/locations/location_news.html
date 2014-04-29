@@ -43,4 +43,25 @@
 </form>
 </script>
 
+<script type="text/template" id="news-form">
+<form role="form" method="post" action="">
+    <input type="hidden" name="location" id="location" value="{{ location.pk }}" />
+    <input type="hidden" name="creator" id="creator" value="{{ user }}" />
+    <div class="form-group">
+        <label for="title" class="control-label">Title</label>
+        <input type="text" name="title" id="title" placeholder="News title..." class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="content" class="control-label">Content</label>
+        <textarea name="content" id="content" rows="10" cols="10" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="category" class="control-label">Category</label>
+        <select name="category" id="category" class="form-control" multiple="multiple">
+            <option value="" selected="selected">None</option>
+        </select>
+    </div>
+</form>
+</script>
+
 {% endblock %}

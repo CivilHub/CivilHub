@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest.serializers import *
 from blog.models import News
 
@@ -18,9 +19,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     
-class NewsViewSet(viewsets.ModelViewSet):
+class NewsViewSet(viewsets.ViewSet):
     """
     API endpoint that allows news to be viewed or edited.
     """
     queryset = News.objects.all()
-    serializer_class = NewsSerializer
+    def list(self, request):
+        queryset = News.objects.all()
+        serializer = NewsSerializer
+        return Response(serializer.data)

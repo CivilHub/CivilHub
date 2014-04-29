@@ -17,7 +17,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = Category
-        fields = ('name', 'description')
+        fields = ('id', 'name', 'description')
         
 class NewsSerializer(serializers.HyperlinkedModelSerializer):
     """
@@ -25,4 +25,4 @@ class NewsSerializer(serializers.HyperlinkedModelSerializer):
     """
     class Meta:
         model = News
-        fields = ('title', 'content', 'location', 'creator', 'categories', 'date_created')
+        fields = ('id')
