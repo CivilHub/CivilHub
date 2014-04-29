@@ -1,3 +1,4 @@
+{% load threadedcomments_tags %}
 <article>
     <h3>{{ news.title }}</h3>
     <div>{{ news.content }}</div>
@@ -9,5 +10,11 @@
     {% endif %}
     <div class="news-meta">
         <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
+    </div>
+    <div class="comments">
+        {% render_comment_list for news %}
+    </div>
+    <div class="comment-form">
+        {% render_comment_form for news %}
     </div>
 </article>

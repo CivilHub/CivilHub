@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-
+<p><button class="btn-news-create btn btn-success">Add new</button></p>
 <ul>
 {% for news in location.news_set.all %}
     {% include 'blog/news_detail.html' %}

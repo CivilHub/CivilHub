@@ -25,3 +25,8 @@ urlpatterns = patterns('',
         'document_root': settings.MEDIA_ROOT,
     }),
 )
+
+# comments
+urlpatterns += patterns('',
+    url(r'^comments/', include('django.contrib.comments.urls')),
+)
