@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://www.django-rest-framework.org
+    'rest_framework',
     # https://github.com/skorokithakis/django-annoying
     'annoying',
     #'python-social-auth',
@@ -74,12 +76,26 @@ SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
 
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea'),
+    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea', 'blog.news'),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
     'USE_JSONFIELD': True,
     'GFK_FETCH_DEPTH': 1,
+}
+
+# django rest framework
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+        'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (

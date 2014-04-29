@@ -29,4 +29,5 @@ urlpatterns = patterns('',
 # comments
 urlpatterns += patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )
