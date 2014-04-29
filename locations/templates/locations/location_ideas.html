@@ -1,0 +1,7 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+    {% for idea in location.idea_set.all %}
+        {% include 'ideas/idea_basic.html' %}
+    {% endfor %}
+{% endblock %}

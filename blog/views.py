@@ -34,6 +34,12 @@ class NewsListView(ListView):
     model = News
     context_object_name = 'entries'
     
+class NewsDetailView(DetailView):
+    """
+    Detailed news page
+    """
+    model = News
+    
 class NewsCreateView(LoginRequiredMixin, CreateView):
     """
     Create new entry
