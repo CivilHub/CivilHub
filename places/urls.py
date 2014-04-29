@@ -8,6 +8,8 @@ from rest_framework import routers
 from rest import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
+router.register(r'categories', views.CategoryViewSet)
+router.register(r'news', views.NewsViewSet)
 
 urlpatterns = patterns('',
     # user account

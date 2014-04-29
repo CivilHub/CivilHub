@@ -2,10 +2,45 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-<p><a href="{% url 'blog:new' %}"><button class="btn-news-create btn btn-success">Add new</button></a></p>
+<p>
+    <a href="{% url 'blog:new' %}"><button class="btn-news-create btn btn-success">Add new</button></a> | 
+    <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
+</p>
 <ul>
 {% for news in location.news_set.all %}
     {% include 'blog/news_detail.html' %}
 {% endfor %}
 </ul>
+
+<div class="modal fade" id="pl-modal"></div>
+
+<script type="text/template" id="form-modal">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><%= title %></h4>
+        </div>
+        <div class="modal-body"><%= form %></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary btn-modal-submit">Save changes</button>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/template" id="category-form">
+<form role="form" method="post" action="">
+    <div class="form-group">
+        <label for="name" class="control-label">Name</label>
+        <input type="text" name="name" id="name" placeholder="Title" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Description</label>
+        <textarea name="description" id="description" cols="10" rows="10" class="form-control">Category description goes here...</textarea>
+    </div>
+</form>
+</script>
+
 {% endblock %}
