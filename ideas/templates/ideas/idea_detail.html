@@ -1,14 +1,7 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
-{% load threadedcomments_tags %}
 {% block content %}
     {% include 'ideas/idea_basic.html' %}
-    <div class="comments">
-        {% render_comment_list for idea %}
-    </div>
-    <div class="comment-form">
-        {% render_comment_form for idea %}
-    </div>
 {% endblock %}
 
 {% block footer_scripts %}

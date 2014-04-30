@@ -26,8 +26,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-SITE_ID = 1
-
 
 # Application definition
 
@@ -39,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://django-mptt.github.io/django-mptt/
+    'mptt',
     # https://github.com/thoas/django-discussions
     'discussions',
     # http://www.django-rest-framework.org
@@ -55,8 +55,6 @@ INSTALLED_APPS = (
     'locations',
     'ideas',
     'taggit',
-    'threadedcomments', #https://github.com/HonzaKral/django-threadedcomments
-    'django.contrib.comments',
     'blog',
     'rest', # out for django rest framework
     'topics', # custom discussions (based on django-discussions)
@@ -161,5 +159,3 @@ USE_TZ = True
 STATIC_URL   = '/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
-
-COMMENTS_APP = 'threadedcomments'
