@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest.serializers import *
 from blog.models import News
+from comments.models import CustomComment, CommentVote
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -27,4 +28,14 @@ class NewsViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = News.objects.all()
         serializer = NewsSerializer
+        return Response(serializer.data)
+        
+class CommentsViewSet(viewsets.ViewSet):
+    """
+    Intended to use with comment tree related to selected item
+    """
+    queryset = CustomComment.objects.all()
+    def list(self, request):
+        queryset = CustomComment.objects.all()
+        serializer = CommentSerializer
         return Response(serializer.data)

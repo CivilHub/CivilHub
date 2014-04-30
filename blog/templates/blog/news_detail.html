@@ -7,6 +7,8 @@
             <a href="">Delete</a>
         </div>
     {% endif %}
+    <div><a class="comment-toggle" data-target="{{ news.pk }}" href="#">Show comments</a></div>
+    <div class="comments-{{ news.pk }}"></div>
     <div class="news-meta">
         <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
     </div>

@@ -76,5 +76,20 @@
       <p class="custom-copyrights">Copyright&copy;2014</p>
   </div>
   {% block footer_scripts %}{% endblock %}
+  <script type="text/template" id="comment-template">
+    <div class="comment">
+        <p><%= comment.author %> - <%= comment.submit_date %></p>
+        <div><%= comment.comment %></div>
+        <p><a href="#" class="comment-reply">Reply</a></p>
+    </div>
+  </script>
+  {% comment %}
+  Comments application
+  {% endcomment %}
+  <script src="{% static 'places_core/js/comments/models/comment.js' %}"></script>
+  <script src="{% static 'places_core/js/comments/collections/comments.js' %}"></script>
+  <script src="{% static 'places_core/js/comments/views/comment.js' %}"></script>
+  <script src="{% static 'places_core/js/comments/views/comments.js' %}"></script>
+  <script src="{% static 'places_core/js/comments/app.js' %}"></script>
 </body>
 </html>

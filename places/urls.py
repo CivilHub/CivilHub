@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     url('', include('social.apps.django_app.urls', namespace='social')),
     # django-discussions
     url('^discussions/', include('discussions.urls')),
+    # comments
+    url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
     # media
@@ -38,6 +40,5 @@ urlpatterns = patterns('',
 # comments
 urlpatterns += patterns('',
     url(r'^rest/', include(router.urls)),
-    url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

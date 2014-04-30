@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -58,6 +59,7 @@ INSTALLED_APPS = (
     'blog',
     'rest', # out for django rest framework
     'topics', # custom discussions (based on django-discussions)
+    'comments', # custom comments app (using mptt)
 )
 
 # Authentication and python-social-auth settings
