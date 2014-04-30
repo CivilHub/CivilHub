@@ -4,7 +4,7 @@ $(document).ready(function ($) {
     $(document).on('click', '.comment-toggle', function (evt) {
         var $handle = $(this),
             targetId = $handle.attr('data-target'),
-            url = '/comments/tree/' + targetId + '/blog/News';
+            url = '/comments/tree/' + targetId + '/ideas/Idea';
            
         $.get(url, function (resp) {
             resp = JSON.parse(resp);

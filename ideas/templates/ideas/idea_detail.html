@@ -2,8 +2,13 @@
 {% load staticfiles %}
 {% block content %}
     {% include 'ideas/idea_basic.html' %}
+    <div class="post-meta">
+        <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
+    </div>
+    <div><a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Show comments</a></div>
     {% include 'ideas/idea_comments.html' %}
     {% include 'ideas/idea_commentform.html' %}
+    <div class="comments-{{ idea.pk }}"></div>
 {% endblock %}
 
 {% block footer_scripts %}
