@@ -14,7 +14,8 @@
     <input type="hidden" id="target-id" value="{{ idea.pk }}" />
     <input type="hidden" id="target-label" value="ideas" />
     <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
-    <input type="hidden" id="target-user" value="{{ idea.creator.username }}" />
+    <input type="hidden" id="target-user" value="{{ user.username }}" />
+    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
     {% include 'comments/commentlist.html' %}
 {% endblock %}
 

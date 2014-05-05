@@ -35,8 +35,9 @@ class CommentSerializer(serializers.ModelSerializer):
     avatar = serializers.Field(source='user.profile.avatar.url')
     content_type = serializers.PrimaryKeyRelatedField()
     object_pk = serializers.Field()
+    replies = serializers.Field(source='get_reply_comments')
 
     class Meta:
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
-                  'avatar', 'content_type', 'object_pk')
+                  'avatar', 'content_type', 'object_pk', 'replies')

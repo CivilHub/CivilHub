@@ -15,6 +15,8 @@ class CustomComment(MPTTModel, Comment):
     class MPTTMeta:
         order_insertion_by = ['submit_date']
 
+    def get_reply_comments(self):
+        return len(CustomComment.objects.filter(parent=self))
 
 class CommentVote(models.Model):
     """
