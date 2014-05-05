@@ -12,12 +12,13 @@
                cId].join(''),
         commentlist = commentlist || {},
         setCurrentDate = function (date) {
-        var years = date.getFullYear(),
-            months = (date.getMonth() + 1).pad(2),
-            days = date.getDate().pad(2),
-            hours = date.getHours(),
-            minutes = date.getMinutes();
-            return [years, '-', months, '-', days, 'T', hours, ':', minutes, 'Z'].join('');
+            var years   = date.getFullYear(),
+                months  = (date.getMonth() + 1).pad(2),
+                days    = date.getDate().pad(2),
+                hours   = date.getHours(),
+                minutes = date.getMinutes();
+                return [years, '-', months, '-', days, 'T',
+                        hours, ':', minutes, 'Z'].join('');
         };
     //
     // Comment model
@@ -40,9 +41,9 @@
         className: 'comment well',
         template: _.template($('#comment-template').html()),
         
-        sublist: {},
+        sublist: {}, // Placeholder for comment replies.
         
-        counter: {},
+        counter: {}, // Placeholder for reply counter.
         
         events: {
             'click .show-replies': 'showReplies',
@@ -80,14 +81,14 @@
                 return false;
             }
             $form.insertAfter(_that.$el.find('p:last')).find('textarea').focus();
-            //~ $('#comment-form-body').find('textarea').on('focusout', function () {
+            //~ $('.comment-form-body').find('textarea').on('focusout', function () {
                 //~ $form.empty().remove();
             //~ });
-            $('#comment-form-body').on('submit', function (evt) {
+            $form.on('submit', function (evt) {
                 evt.preventDefault();
                 if (_.isEmpty(_that.sublist)) {
                     _that.sublist = 
-                        new commentlist.SublistView({}, 
+                        new commentlist.SublistView([], 
                             _that.$el.find('.subcomments'));
                 }
                 comment = $form.find('#comment').val();
@@ -158,19 +159,14 @@
             var _that = this,
                 formData = {},
                 comment = {},
-                $fTpl = $('<form></form>'),
+                $fTpl = $(_.template($('#comment-form-template').html(), {})),
                 $comment = {};
                 
-            $fTpl.html($('#comment-form-template').html())
-                .attr({
-                    role: 'presentation',
-                    id: 'comment-form-body'
-                })
-                .prependTo(_that.$el);
+            $fTpl.prependTo(_that.$el);
                 
             $comment = $fTpl.find('textarea');
     
-            $fTpl.find('form').on('submit', function (evt) {
+            $fTpl.on('submit', function (evt) {
                 evt.preventDefault();
                 formData = {
                     comment: $comment.val(),
