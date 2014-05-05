@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.contenttypes.models import ContentType
 # Use generic django views
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
@@ -12,6 +13,7 @@ from models import Idea, Vote
 # Activity stream
 from actstream import action
 from places_core.actstreams import idea_action_handler
+
 
 def get_votes(idea):
     """
@@ -23,13 +25,15 @@ def get_votes(idea):
     votes_down = len(votes_total.filter(vote=False))
     return votes_up - votes_down
 
+
 class IdeasListView(ListView):
     """
     List all ideas
     """
     model = Idea
     context_object_name = 'ideas'
-    
+
+
 class IdeasDetailView(DetailView):
     """
     Detailed idea view
@@ -39,10 +43,13 @@ class IdeasDetailView(DetailView):
         object = super(IdeasDetailView, self).get_object()
         try:
             object.votes = get_votes(object)
+            content_type = ContentType.objects.get_for_model(Idea)
+            object.content_type = content_type.pk
         except:
             object.votes = 'Brak votes'
         return object
-    
+
+
 class CreateIdeaView(CreateView):
     """
     Allow users to create new ideas
@@ -52,21 +59,24 @@ class CreateIdeaView(CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CreateIdeaView, self).form_valid(form)
-    
+
+
 class UpdateIdeaView(UpdateView):
     """
     Update existing idea details
     """
     model = Idea
     fields = ['name', 'description', 'location']
-    
+
+
 class DeleteIdeaView(DeleteView):
     """
     Allow users to delete their ideas
     """
     model = Idea
     success_url = reverse_lazy('ideas:index')
-    
+
+
 def vote(request):
     """
     Make vote (up/down) on idea
@@ -96,4 +106,3 @@ def vote(request):
             }
             action.send(request.user, action_object=idea, verb='voted on')
         return HttpResponse(json.dumps(response))
-    

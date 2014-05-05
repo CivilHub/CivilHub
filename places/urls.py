@@ -3,6 +3,13 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
+# djangorestframework
+from rest_framework import routers
+from rest import views
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'categories', views.CategoryViewSet)
+router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 
 urlpatterns = patterns('',
     # user account
@@ -18,6 +25,10 @@ urlpatterns = patterns('',
     url(r'^activity/', include('actstream.urls', namespace='activities')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
+    # django-discussions
+    url('^discussions/', include('discussions.urls')),
+    # comments
+    url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
     # media
@@ -28,5 +39,6 @@ urlpatterns = patterns('',
 
 # comments
 urlpatterns += patterns('',
-    url(r'^comments/', include('django.contrib.comments.urls')),
+    url(r'^rest/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

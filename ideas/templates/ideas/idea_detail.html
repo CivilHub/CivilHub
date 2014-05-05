@@ -1,14 +1,22 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
-{% load threadedcomments_tags %}
 {% block content %}
     {% include 'ideas/idea_basic.html' %}
-    <div class="comments">
-        {% render_comment_list for idea %}
+    <div class="post-meta">
+        <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
     </div>
-    <div class="comment-form">
-        {% render_comment_form for idea %}
+    <div>
+        <p>
+            Comments: <span class="badge comment-count"></span>
+            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Show comments</a>
+        </p>
     </div>
+    <input type="hidden" id="target-id" value="{{ idea.pk }}" />
+    <input type="hidden" id="target-label" value="ideas" />
+    <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
+    <input type="hidden" id="target-user" value="{{ user.username }}" />
+    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+    {% include 'comments/commentlist.html' %}
 {% endblock %}
 
 {% block footer_scripts %}

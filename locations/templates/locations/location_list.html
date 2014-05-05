@@ -7,14 +7,13 @@
 
 {% block content %}
     {% for location in locations %}
-    <div class="location-entry">
+    <div class="location-entry col-sm-6">
         <h2><a href="{% url 'locations:details' location.id %}">{{ location.name }}</a></h2>
-        <p>{{ location.description }}</p>
-        <p>{{ location.latitude }}</p>
-        <p>{{ location.longitude }}</p>
         {% if user.is_authenticated and user == location.creator %}
-            <p><a href="{% url 'locations:update' location.id %}">Edit</a></p>
-            <p><a href="{% url 'locations:delete' location.id %}">Delete</a></p>
+            <p>
+                <a href="{% url 'locations:update' location.id %}">Edit</a> | 
+                <a href="{% url 'locations:delete' location.id %}">Delete</a>
+            </p>
         {% endif %}
         {% if user.is_authenticated and not user in location.users.all %}
             <p><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">Follow</button></p>
@@ -25,6 +24,7 @@
         <p><img src="{{ location.image.url }}" alt="{{ location.name }}" class="location-preview-img" /></p>
     </div>
     {% endfor %}
+    <div style="clear:both;">&nbsp;</div>
     {% if user.is_authenticated %}
         <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">Create new</button></a></div>
     {% endif %}
