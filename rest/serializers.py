@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from blog.models import Category, News
 from comments.models import CustomComment, CommentVote
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     User serializer to show short info during mouse hover
@@ -11,7 +12,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email')
-        
+
+
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     """
     Category serializer - quickly add and manage categories
@@ -19,33 +21,22 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name', 'description')
-        
-class NewsSerializer(serializers.HyperlinkedModelSerializer):
-    """
-    Add news to location news list
-    """
-    class Meta:
-        model = News
-        fields = ('id')
-        
-class CommentSerializer(serializers.Serializer):
+
+
+class CommentSerializer(serializers.ModelSerializer):
     """
     Custom comments
     """
+    id = serializers.Field()
     comment = serializers.CharField(max_length=1024)
-        
-    def restore_object(self, attrs, instance=None):
-        """
-        Create or update a new snippet instance, given a dictionary
-        of deserialized field values.
+    submit_date = serializers.DateTimeField(required=False)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    username = serializers.Field(source='user.username')
+    avatar = serializers.Field(source='user.profile.avatar.url')
+    content_type = serializers.PrimaryKeyRelatedField()
+    object_pk = serializers.Field()
 
-        Note that if we don't define this method, then deserializing
-        data will simply return a dictionary of items.
-        """
-        if instance:
-            # Update existing instance
-            instance.comment = attrs.get('comment', instance.comment)
-            return instance
-
-        # Create new instance
-        return CustomComment(**attrs)
+    class Meta:
+        model = CustomComment
+        fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
+                  'avatar', 'content_type', 'object_pk')

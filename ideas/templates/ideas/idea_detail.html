@@ -5,10 +5,17 @@
     <div class="post-meta">
         <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
     </div>
-    <div><a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Show comments</a></div>
-    {% include 'ideas/idea_comments.html' %}
-    {% include 'ideas/idea_commentform.html' %}
-    <div class="comments-{{ idea.pk }}"></div>
+    <div>
+        <p>
+            Comments: <span class="badge comment-count"></span>
+            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Show comments</a>
+        </p>
+    </div>
+    <input type="hidden" id="target-id" value="{{ idea.pk }}" />
+    <input type="hidden" id="target-label" value="ideas" />
+    <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
+    <input type="hidden" id="target-user" value="{{ idea.creator.username }}" />
+    {% include 'comments/commentlist.html' %}
 {% endblock %}
 
 {% block footer_scripts %}
