@@ -1,5 +1,7 @@
 {% load staticfiles %}
 
+<link rel="stylesheet" href="{% static 'comments/css/comments.css' %}" />
+
 <div id="comments">
     {% if user.is_authenticated %}
         <p><button class="btn btn-default add-comment">Add Comment</button></p>
@@ -7,15 +9,35 @@
 </div>
 
 <script type="text/template" id="comment-template">
-    <p><img src="<%= avatar %>" alt="<%= username %>" width="30" height="30" /></p>
-    <p>Added by <a href="/users/<%= username %>/"><%= username %></a> on <%= submit_date %></p>
-    <div><%= comment %></div>
-    <p>Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">(show)</a> | <a class="comment-reply" href="#">Reply</a></p>
+    <div class="row comment-row comment-entry-heading">
+        <p><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar" /></p>
+        <p>Added by <a href="/users/<%= username %>/"><%= username %></a> <%= moment(submit_date).fromNow() %></p>
+    </div>
+    <div class="row comment-row comment-content"><%= comment %></div>
+    <div class="row comment-row comment-meta-options">
+        <% if (username !== $('#target-user').val()) { %>
+            <p>
+                Votes: <span class="badge comment-total-votes"><%= total_votes %></span>
+                <a class="vote-link vote-up-link" href="#"><span class="fa fa-chevron-up"> </span></a>
+                <a class="vote-link vote-down-link" href="#"><span class="fa fa-chevron-down"> </span></a>
+        <% } else { %>
+            <p>Votes: <span class="badge comment-total-votes"><%= total_votes %></span>
+        <% } %>
+        Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">(hide)</a> 
+        <% if (username !== $('#target-user').val()) { %>
+        | <a class="comment-reply" href="#">Reply</a></p>
+        <% } %>
+        <div class="comment-votes-detail">
+            <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
+            <label class="alert-danger"><span class="fa fa-long-arrow-down"> </span><%= downvotes %></label>
+            <label class="alert-info"><span class="fa fa-bar-chart-o"> </span><%= upvotes + downvotes %></label>
+        </div>
+    </div>
     <div class="subcomments"></div>
 </script>
 
 <script type="text/template" id="comment-form-template">
-    <form role="presentation" id="comment-form-body">
+    <form role="presentation" class="comment-form-body">
         <div class="form-group">
             <label for="comment" class="control-label">Comment</label>
             <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>

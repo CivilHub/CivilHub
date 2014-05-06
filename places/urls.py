@@ -10,6 +10,7 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
+router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 
 urlpatterns = patterns('',
     # user account

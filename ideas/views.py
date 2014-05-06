@@ -13,6 +13,8 @@ from models import Idea, Vote
 # Activity stream
 from actstream import action
 from places_core.actstreams import idea_action_handler
+# Custom comments
+from comments.models import CustomComment
 
 
 def get_votes(idea):
@@ -39,15 +41,24 @@ class IdeasDetailView(DetailView):
     Detailed idea view
     """
     model = Idea
+
     def get_object(self):
         object = super(IdeasDetailView, self).get_object()
         try:
             object.votes = get_votes(object)
             content_type = ContentType.objects.get_for_model(Idea)
             object.content_type = content_type.pk
+            comment_set = CustomComment.objects.filter(content_type=content_type.pk)
+            comment_set = comment_set.filter(object_pk=object.pk)
+            object.comments = len(comment_set)
         except:
             object.votes = 'Brak votes'
         return object
+
+    def get_context_data(self, **kwargs):
+        context = super(IdeasDetailView, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+        return context
 
 
 class CreateIdeaView(CreateView):

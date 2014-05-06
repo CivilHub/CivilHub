@@ -18,18 +18,27 @@ class CustomComment(MPTTModel, Comment):
     def get_reply_comments(self):
         return len(CustomComment.objects.filter(parent=self))
 
+    def get_upvotes(self):
+        return len(self.votes.filter(vote=True))
+
+    def get_downvotes(self):
+        return len(self.votes.filter(vote=False))
+
+    def calculate_votes(self):
+        votes_total = self.votes
+        votes_up = len(votes_total.filter(vote=True))
+        votes_down = len(votes_total.filter(vote=False))
+        return votes_up - votes_down
+
+
 class CommentVote(models.Model):
     """
     Users can vote up or down on comments, but only once
     """
     user = models.ForeignKey(User)
     vote = models.BooleanField(default=False)
-    comment = models.ForeignKey(CustomComment, related_name='comments')
-    date_voted = models.DateTimeField(auto_now=True)
+    comment = models.ForeignKey(CustomComment, related_name='votes')
+    date_voted = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.vote
-
-    def is_valid_vote(username):
-        user = User.objects.get(username=username)
-        return len(self.objects.filter(user=user)) <= 0

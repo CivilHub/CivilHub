@@ -7,8 +7,8 @@
     </div>
     <div>
         <p>
-            Comments: <span class="badge comment-count"></span>
-            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Show comments</a>
+            Comments: <span class="badge comment-count">{{ idea.comments }}</span>
+            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
         </p>
     </div>
     <input type="hidden" id="target-id" value="{{ idea.pk }}" />

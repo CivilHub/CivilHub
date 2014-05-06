@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext as _
 from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
@@ -61,3 +62,36 @@ class CommentsViewSet(viewsets.ModelViewSet):
         replies = CustomComment.objects.filter(parent=pk)
         serializer = CommentSerializer(replies, many=True)
         return Response(serializer.data)
+
+
+class CommentVoteViewSet(viewsets.ModelViewSet):
+    """
+    Vote for other user's comments.
+    """
+    queryset = CommentVote.objects.all()
+    serializer_class = CommentVoteSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def check_valid_vote(self, user, comment):
+        chk = CommentVote.objects.filter(user=user, comment=comment)
+        return len(chk) <= 0
+
+    def create(self, request):
+        if self.check_valid_vote(self.request.user, self.request.POST['comment']):
+            vote = CommentVote(vote=True if self.request.POST.get('vote') == 'up' else False,
+                               user=self.request.user,
+                               date_voted = timezone.now(),
+                               comment=CustomComment.objects.get(pk=self.request.POST['comment']))
+            vote.save()
+            return Response({
+                'success': True,
+                'message': _('Vote saved')
+            })
+        else:
+            return Response({
+                'success': False,
+                'message': _('Already voted on this comment')
+            })
+
+    def pre_save(self, obj):
+        obj.user = self.request.user

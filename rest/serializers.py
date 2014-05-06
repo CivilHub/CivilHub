@@ -36,8 +36,26 @@ class CommentSerializer(serializers.ModelSerializer):
     content_type = serializers.PrimaryKeyRelatedField()
     object_pk = serializers.Field()
     replies = serializers.Field(source='get_reply_comments')
+    total_votes = serializers.Field(source='calculate_votes')
+    upvotes = serializers.Field(source='get_upvotes')
+    downvotes = serializers.Field(source='get_downvotes')
 
     class Meta:
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
-                  'avatar', 'content_type', 'object_pk', 'replies')
+                  'avatar', 'content_type', 'object_pk', 'replies',
+                  'total_votes', 'upvotes', 'downvotes')
+
+
+class CommentVoteSerializer(serializers.ModelSerializer):
+    """
+    Votes for comments send via AJAX.
+    Fields marked as required=False are validated elsewhere.
+    """
+    pk = serializers.Field()
+    vote = serializers.CharField(default="up")
+    comment = serializers.PrimaryKeyRelatedField()
+
+    class Meta:
+        model = CommentVote
+        fields = ('pk', 'vote', 'comment')
