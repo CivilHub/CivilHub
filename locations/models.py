@@ -10,7 +10,8 @@ class Location(models.Model):
     """
     Basic location model
     """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=32)
+    slug = models.SlugField(max_length=32)
     description = models.TextField(max_length=1024, blank=True)
     latitude = models.FloatField(blank=True)
     longitude = models.FloatField(blank=True)
@@ -21,7 +22,10 @@ class Location(models.Model):
         upload_to = 'img/locations/',
         default = 'img/locations/nowhere.jpg'
     )
-    
+
+    def pre_save(self, obj):
+        obj.slug = slugify(obj.name)
+
     def get_absolute_url(self):
         return reverse('locations:details', kwargs={'pk':self.pk})
     
