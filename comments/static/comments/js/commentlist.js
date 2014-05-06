@@ -10,16 +10,7 @@
                cType,
                '&content-id=',
                cId].join(''),
-        commentlist = commentlist || {},
-        setCurrentDate = function (date) {
-            var years   = date.getFullYear(),
-                months  = (date.getMonth() + 1).pad(2),
-                days    = date.getDate().pad(2),
-                hours   = date.getHours(),
-                minutes = date.getMinutes();
-                return [years, '-', months, '-', days, 'T',
-                        hours, ':', minutes, 'Z'].join('');
-        };
+        commentlist = commentlist || {};
     //
     // Comment model
     // -------------------------------------------------------------------------
@@ -30,7 +21,10 @@
             content_type: $('#target-type').val(),
             username: $('#target-user').val(),
             avatar: $('#target-avatar').val(),
-            replies: 0
+            replies: 0,
+            total_votes: 0,
+            upvotes: 0,
+            downvotes: 0
         }
     });
     //
@@ -45,15 +39,22 @@
         
         counter: {}, // Placeholder for reply counter.
         
+        sublistState: 'shown', // Track if replies are visible or not.
+        
+        voteCounter: {}, // Placeholder for displaying calculated votes
+        
         events: {
             'click .show-replies': 'showReplies',
-            'click .comment-reply': 'replyComment'
+            'click .comment-reply': 'replyComment',
+            'click .vote-up-link': 'voteUp',
+            'click .vote-down-link': 'voteDown'
         },
         
         render: function () {
             var _that = this;
             _that.$el.html(_that.template($.extend(_that.model.toJSON())));
-            _that.counter = _that.$el.find('.reply-counter');
+            _that.counter = _that.$el.find('.reply-counter:first');
+            _that.voteCounter = _that.$el.find('.comment-total-votes:first');
             if (_that.model.get('replies') > 0) {
                 $.get('/rest/comments/' + _that.model.id + '/replies/', function (replies) {
                     _that.sublist = 
@@ -61,15 +62,28 @@
                             _that.$el.find('.subcomments'));
                 });
             }
+            _that.voteCounter.bind('mouseenter', function (evt) {
+                var $elem = _that.$el.find('.comment-votes-detail:first');
+                $elem.css('top', evt.clientY).fadeIn('slow');
+                $elem.on('mouseout', function () {
+                    $elem.fadeOut('slow');
+                });
+            });
             return _that;
         },
         
         showReplies: function () {
-            var $a = this.$el.find('.subcomments');
-            if ($a.is(':visible')) {
-                $a.css('display', 'none');
+            var _that = this,
+                $a = this.$el.find('.subcomments:first'),
+                $b = this.$el.find('.show-replies:first');
+            if (_that.sublistState === 'shown') {
+                $a.slideUp('fast');
+                $b.text('(show)');
+                _that.sublistState = 'hidden';
             } else {
-                this.$el.find('.subcomments').css('display', 'block');
+                $a.slideDown('fast');
+                $b.text('(hide)');
+                _that.sublistState = 'shown';
             }
             return false;
         },
@@ -80,10 +94,7 @@
             if (_that.$el.find('form').length > 0) {
                 return false;
             }
-            $form.insertAfter(_that.$el.find('p:last')).find('textarea').focus();
-            //~ $('.comment-form-body').find('textarea').on('focusout', function () {
-                //~ $form.empty().remove();
-            //~ });
+            $form.insertBefore(_that.$el.find('.subcomments:first')).find('textarea').focus();
             $form.on('submit', function (evt) {
                 evt.preventDefault();
                 if (_.isEmpty(_that.sublist)) {
@@ -95,7 +106,62 @@
                 _that.sublist.addComment(comment, _that.model.get('id'));
                 _that.counter.text(parseInt(_that.counter.text(), 10) +1);
                 $form.empty().remove();
+                if (_that.sublistState === 'hidden') {
+                    _that.showReplies();
+                }
                 return false;
+            });
+            return false;
+        },
+        
+        voteUp: function () {
+            var _that = this,
+                vStart = _that.model.get('upvotes'),
+                vTotal = _that.model.get('total_votes');
+            sendAjaxRequest('POST', '/rest/votes/', {
+                data: {
+                    vote: 'up',
+                    comment: _that.model.id
+                },
+                success: function (resp) {
+                    if (resp.success === true) {
+                        _that.model.set('upvotes', ++vStart);
+                        _that.model.set('total_votes', ++vTotal);
+                        _that.render();
+                        display_alert(resp.message, 'success');
+                    } else {
+                        display_alert(resp.message, 'danger');
+                    }
+                },
+                error: function (err) {
+                    display_alert('Something somewhere went terribly wrong!', 'danger');
+                }
+            });
+            return false;
+        },
+        
+        voteDown: function () {
+            var _that = this,
+                vStart = _that.model.get('downvotes'),
+                vTotal = _that.model.get('total_votes');
+            sendAjaxRequest('POST', '/rest/votes/', {
+                data: {
+                    vote: 'down',
+                    comment: _that.model.id
+                },
+                success: function (resp) {
+                    if (resp.success === true) {
+                        _that.model.set('downvotes', ++vStart);
+                        _that.model.set('total_votes', --vTotal);
+                        _that.render();
+                        display_alert(resp.message, 'success');
+                    } else {
+                        display_alert(resp.message, 'danger');
+                    }
+                },
+                error: function (err) {
+                    display_alert('Something somewhere went terribly wrong!', 'danger');
+                }
             });
             return false;
         }
@@ -124,7 +190,7 @@
             var _that = this,
                 formData = {
                     comment: comment,
-                    submit_date: setCurrentDate(new Date()),
+                    submit_date: moment().format(),
                     parent: parentId
                 }
                 comment = new commentlist.Comment(formData);
@@ -170,7 +236,7 @@
                 evt.preventDefault();
                 formData = {
                     comment: $comment.val(),
-                    submit_date: setCurrentDate(new Date())
+                    submit_date: moment().format()
                 }
                 comment = new commentlist.Comment(formData);
                 comment.url = '/rest/comments/';
