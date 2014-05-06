@@ -10,7 +10,25 @@
                cType,
                '&content-id=',
                cId].join(''),
-        commentlist = commentlist || {};
+        commentlist = commentlist || {},
+        incrementCommentCounter = function () {
+            var $counter = $('.comment-counter'),
+                value = parseInt($counter.text(), 10),
+                nVal = 0;
+            if (!_.isNaN(value)) {
+                nVal = ++value;
+            }
+            $counter.text(nVal);
+        };
+    $('.comment-toggle').on('click', function () {
+        if ($('#comments').is(':visible')) {
+            $('#comments').slideUp('fast');
+            $(this).text('Show comments');
+        } else {
+            $('#comments').slideDown('fast');
+            $(this).text('Hide comments');
+        }
+    });
     //
     // Comment model
     // -------------------------------------------------------------------------
@@ -51,8 +69,10 @@
         },
         
         render: function () {
-            var _that = this;
+            var _that = this,
+                $elem = {};
             _that.$el.html(_that.template($.extend(_that.model.toJSON())));
+            $elem = _that.$el.find('.comment-votes-detail:first');
             _that.counter = _that.$el.find('.reply-counter:first');
             _that.voteCounter = _that.$el.find('.comment-total-votes:first');
             if (_that.model.get('replies') > 0) {
@@ -63,11 +83,10 @@
                 });
             }
             _that.voteCounter.bind('mouseenter', function (evt) {
-                var $elem = _that.$el.find('.comment-votes-detail:first');
-                $elem.css('top', evt.clientY).fadeIn('slow');
-                $elem.on('mouseout', function () {
-                    $elem.fadeOut('slow');
-                });
+                $elem.stop(true).fadeIn('slow');
+            });
+            _that.voteCounter.bind('mouseout', function (evt) {
+                $elem.stop(true).fadeOut('slow');
             });
             return _that;
         },
@@ -200,6 +219,7 @@
                 headers: {'X-CSRFToken': getCookie('csrftoken')}
             });   
             comment.save();
+            incrementCommentCounter();
             return false;
         },
         
@@ -265,8 +285,9 @@
             var CommentView = new commentlist.CommentView({
                 model: item
             });
-            $(CommentView.render().el).insertAfter(this.$el);
-            $('.comment-count').text(this.collection.length);
+            $(CommentView.render().el)
+                .insertAfter(this.$el.find('.add-comment'));
+            incrementCommentCounter();
         }
     });
     //

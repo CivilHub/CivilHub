@@ -1,6 +1,9 @@
+.add-comment {
+  margin-bottom: 20px;
+}
 .comment {
-  position: relative;
   .comment-row {
+    position: relative;
     margin: 0px;
     &.comment-content {
       margin: 10px 0px 10px 0px;
@@ -17,10 +20,31 @@
   }
   .comment-votes-detail {
     display: none;
+    padding: 10px;
+    margin: -10px 0px 0px 0px;
+    min-width: 120px;
     position: absolute;
     left: 0px;
     z-index: 150;
     background-color: #ffffff;
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    label {
+      display: block;
+      width: 100%;
+      padding: 5px;
+      text-align: right;
+      span {
+        display: block;
+        float: left;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 20px;
+        text-align: center;
+      }
+    }
   }
   .subcomments {
     
