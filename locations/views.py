@@ -7,7 +7,6 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.template.defaultfilters import slugify
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin

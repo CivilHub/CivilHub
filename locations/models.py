@@ -2,6 +2,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 # Activity stream
 from django.db.models.signals import post_save
 from actstream import action
@@ -23,11 +24,12 @@ class Location(models.Model):
         default = 'img/locations/nowhere.jpg'
     )
 
-    def pre_save(self, obj):
-        obj.slug = slugify(obj.name)
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Location, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('locations:details', kwargs={'pk':self.pk})
+        return reverse('locations:details', kwargs={'slug':self.slug})
     
     def __unicode__(self):
         return self.name

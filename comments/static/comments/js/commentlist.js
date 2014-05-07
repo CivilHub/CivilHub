@@ -12,7 +12,7 @@
                cId].join(''),
         commentlist = commentlist || {},
         incrementCommentCounter = function () {
-            var $counter = $('.comment-counter'),
+            var $counter = $('.comment-count'),
                 value = parseInt($counter.text(), 10),
                 nVal = 0;
             if (!_.isNaN(value)) {
@@ -228,7 +228,6 @@
                 model: item
             });
             $(CommentView.render().el).prependTo(this.$el);
-            $('.subcomment-count').text(this.collection.length);
         }
     });
     //
@@ -266,6 +265,7 @@
                 });   
                 comment.save();
                 $fTpl.empty().remove();
+                incrementCommentCounter();
             });
         },
         
@@ -287,7 +287,6 @@
             });
             $(CommentView.render().el)
                 .insertAfter(this.$el.find('.add-comment'));
-            incrementCommentCounter();
         }
     });
     //
