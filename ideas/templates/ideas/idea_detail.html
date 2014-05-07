@@ -1,7 +1,18 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
 {% block content %}
-    {% include 'ideas/idea_basic.html' %}
+    <h3><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h3>
+    {% if idea.creator == user %}
+        <p><a href="{% url 'ideas:update' idea.id %}">Edit</a></p>
+    {% endif %}
+    <div class="idea-votes">
+        <div class="votes">{{ idea.get_votes }}</div>
+        {% if user != idea.creator and user.is_authenticated %}
+            <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn btn btn-default">+</button>
+            <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn btn btn-default">-</button>
+        {% endif %}
+    </div>
+    <div>{{ idea.description | safe }}</div>
     <div class="post-meta">
         <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
         {% if idea.edited %}<p>Last time edited: {{ idea.date_edited }}</p>{% endif %}

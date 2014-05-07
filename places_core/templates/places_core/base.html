@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{{ title }}</title>
+  <title>{{ title | capfirst }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
   <link href="{% static 'places_core/includes/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -70,7 +70,7 @@
   </nav>
   <div class="container main-page-content">
       {% block header %}
-      <h1 class="custom-main-title">{{ title }} <small>This is test!</small>
+      <h1 class="custom-main-title">{{ title | capfirst }} <small>This is test!</small>
         <span class="fa fa-cogs custom-logolike"> </span>
       </h1>
       <hr />
