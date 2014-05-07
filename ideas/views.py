@@ -8,8 +8,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils.translation import ugettext as _
 # Application native models
 from models import Idea, Vote
+from forms import IdeaForm
 # Activity stream
 from actstream import action
 from places_core.actstreams import idea_action_handler
@@ -66,9 +68,20 @@ class CreateIdeaView(CreateView):
     Allow users to create new ideas
     """
     model = Idea
-    fields = ['name', 'description', 'location']
+    form_class = IdeaForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateIdeaView, self).get_context_data(**kwargs)
+        context['title'] = _('create new idea')
+        context['action'] = 'create'
+        return context
+
     def form_valid(self, form):
-        form.instance.creator = self.request.user
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        obj.save()
+        # Without this next line the tags won't be saved.
+        form.save_m2m()
         return super(CreateIdeaView, self).form_valid(form)
 
 
@@ -77,8 +90,13 @@ class UpdateIdeaView(UpdateView):
     Update existing idea details
     """
     model = Idea
-    fields = ['name', 'description', 'location']
+    form_class = IdeaForm
 
+    def get_context_data(self, **kwargs):
+        context = super(UpdateIdeaView, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+        context['action'] = 'update'
+        return context
 
 class DeleteIdeaView(DeleteView):
     """

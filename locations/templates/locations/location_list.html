@@ -8,11 +8,11 @@
 {% block content %}
     {% for location in locations %}
     <div class="location-entry col-sm-6">
-        <h2><a href="{% url 'locations:details' location.id %}">{{ location.name }}</a></h2>
+        <h2><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></h2>
         {% if user.is_authenticated and user == location.creator %}
             <p>
-                <a href="{% url 'locations:update' location.id %}">Edit</a> | 
-                <a href="{% url 'locations:delete' location.id %}">Delete</a>
+                <a href="{% url 'locations:update' location.slug %}">Edit</a> | 
+                <a href="{% url 'locations:delete' location.slug %}">Delete</a>
             </p>
         {% endif %}
         {% if user.is_authenticated and not user in location.users.all %}

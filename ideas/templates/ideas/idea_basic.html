@@ -9,4 +9,4 @@
         <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn btn btn-default">-</button>
     {% endif %}
 </div>
-<div>{{ idea.description }}</div>
+<div>{{ idea.description | safe }}</div>

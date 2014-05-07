@@ -11,13 +11,12 @@ router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
+router.register(r'tags', views.TagViewSet, base_name=r'tag')
 
-urlpatterns = patterns('',
+urlpatterns = patterns('',# places
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
-    # places
-    url(r'^places/', include('locations.urls', namespace='locations')),
     # blog
     url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas
@@ -36,10 +35,8 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),
-)
-
-# comments
-urlpatterns += patterns('',
+    # REST server
     url(r'^rest/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^', include('locations.urls', namespace='locations')),
 )

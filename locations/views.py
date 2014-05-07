@@ -13,26 +13,30 @@ from places_core.mixins import LoginRequiredMixin
 # Activity stream
 from actstream.actions import follow, unfollow
 
+
 class LocationNewsList(DetailView):
     """
     Location news page
     """
     model = Location
     template_name = 'locations/location_news.html'
-        
+
+
 class LocationIdeasList(DetailView):
     """
     Location ideas list
     """
     model = Location
     template_name = 'locations/location_ideas.html'
-    
+
+
 class LocationFollowersList(DetailView):
     """
     Location followers list
     """
     model = Location
     template_name = 'locations/location_followers.html'
+
 
 class LocationListView(ListView):
     """
@@ -45,7 +49,8 @@ class LocationListView(ListView):
         context = super(LocationListView, self).get_context_data(**kwargs)
         context['title'] = 'Locations'
         return context
-        
+
+
 class LocationDetailView(DetailView):
     """
     Detailed location view
@@ -56,7 +61,8 @@ class LocationDetailView(DetailView):
         context = super(LocationDetailView, self).get_context_data(**kwargs)
         context['title'] = location.name
         return context
-      
+
+
 class CreateLocationView(LoginRequiredMixin, CreateView):
     """
     Add new location
@@ -66,21 +72,24 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CreateLocationView, self).form_valid(form)
-    
+
+
 class UpdateLocationView(LoginRequiredMixin, UpdateView):
     """
     Update existing location
     """
     model = Location
     fields = ['name', 'description', 'latitude', 'longitude', 'image']
-    
+
+
 class DeleteLocationView(LoginRequiredMixin, DeleteView):
     """
     Delete location
     """
     model = Location
     success_url = reverse_lazy('locations:index')
-    
+
+
 def add_follower(request, pk):
     """
     Add user to locations followers
@@ -101,7 +110,8 @@ def add_follower(request, pk):
             'message': _('Something, somewhere went terribly wrong'),
         }
     return HttpResponse(json.dumps(response))
-    
+
+
 def remove_follower(request, pk):
     """
     Remove user from locations followers

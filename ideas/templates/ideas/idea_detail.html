@@ -4,7 +4,15 @@
     {% include 'ideas/idea_basic.html' %}
     <div class="post-meta">
         <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
+        {% if idea.edited %}<p>Last time edited: {{ idea.date_edited }}</p>{% endif %}
+        <p>Status: {{ idea.status }}</p>
     </div>
+    <p>Tags:</p>
+    <ul>
+        {% for tag in idea.tags.all %}
+        <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
     <div>
         <p>
             Comments: <span class="badge comment-count">{{ idea.comments }}</span>

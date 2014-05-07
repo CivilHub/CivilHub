@@ -55,7 +55,7 @@ INSTALLED_APPS = (
     'userspace',
     'locations',
     'ideas',
-    'taggit',
+    'taggit', #http://django-taggit.readthedocs.org/en/latest/
     'blog',
     'rest', # out for django rest framework
     'topics', # custom discussions (based on django-discussions)
