@@ -10,7 +10,8 @@ class CustomComment(MPTTModel, Comment):
     """
     Basic comment model extending mptt model so it could be nested
     """
-    parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
+    parent = TreeForeignKey('self', null=True, blank=True,
+                            related_name='children')
     
     class MPTTMeta:
         order_insertion_by = ['submit_date']

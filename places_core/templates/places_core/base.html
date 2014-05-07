@@ -80,5 +80,11 @@
       <p class="custom-copyrights">Copyright&copy;2014</p>
   </div>
   {% block footer_scripts %}{% endblock %}
+  <script>
+    (function ($) {
+        "use strict";
+        $('.errorlist > li').addClass('alert alert-danger');
+    })(jQuery);
+  </script>
 </body>
 </html>
