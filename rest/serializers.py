@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from taggit.models import Tag
 from blog.models import Category, News
 from comments.models import CustomComment, CommentVote
 
@@ -59,3 +60,14 @@ class CommentVoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentVote
         fields = ('pk', 'vote', 'comment')
+
+
+class TagSerializer(serializers.ModelSerializer):
+    """
+    Allow fetching existing tags for jQuery Autocomplete.
+    """
+    label = serializers.CharField(source='name')
+
+    class Meta:
+        model = Tag
+        fields = ('label',)

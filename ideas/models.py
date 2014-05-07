@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
 from locations.models import Location
 from taggit.managers import TaggableManager
 
@@ -20,19 +22,28 @@ class Idea(models.Model):
     User Idea basic model
     """
     creator = models.ForeignKey(User)
-    date_created = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_edited = models.DateTimeField(blank=True, null=True)
     name = models.CharField(max_length=64)
     description = models.TextField(max_length=1024, null=True, blank=True,)
     categories = models.ManyToManyField(Category, verbose_name='Kategorie', null=True, blank=True,)
     location = models.ForeignKey(Location)
-    # TODO implement Django tag system
-    tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
+    status = models.BooleanField(default=True)
+    # Track changes to mark item as edited when user changes it.
+    edited = models.BooleanField(default=False)
+    tags = TaggableManager()
     
     def get_votes(self):
         votes_total = self.vote_set
         votes_up = len(votes_total.filter(vote=True))
         votes_down = len(votes_total.filter(vote=False))
         return votes_up - votes_down
+
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
+            self.edited = True
+            self.date_edited = timezone.now()
+        super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
         return reverse('ideas:details', kwargs={'pk':self.pk})

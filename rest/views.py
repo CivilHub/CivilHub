@@ -8,10 +8,29 @@ from django.utils.translation import ugettext as _
 from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
-from rest_framework.decorators import link
+from rest_framework.decorators import link, api_view, renderer_classes
+from taggit.models import Tag
 from blog.models import News
 from comments.models import CustomComment, CommentVote
 from rest.permissions import IsOwnerOrReadOnly
+
+
+#~ @api_view(['GET'])
+#~ @renderer_classes((renderers.JSONRenderer, renderers.JSONPRenderer))
+#~ def get_tag_list(request):
+    #~ """
+    #~ Allow to fetch tags from server and pass to jQuery Autocomplete.
+    #~ """
+    #~ serializer = serializers.TagSerializer
+    #~ return Response(serializer.data)
+
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    A simple ViewSet for viewing accounts.
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
