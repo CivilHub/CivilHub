@@ -18,7 +18,7 @@
   <ul class="nav navbar-nav">
     <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
     <li><a href="{% url 'locations:news' location.slug %}">News</a></li>
-    <li><a href="/places/{{ location.slug }}/ideas/">Ideas</a></li>
+    <li><a href="/{{ location.slug }}/ideas/">Ideas</a></li>
     <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
     <li><a href="/discussions">Discussions</a></li>
   </ul>

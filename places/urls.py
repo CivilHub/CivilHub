@@ -12,12 +12,10 @@ router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 
-urlpatterns = patterns('',
+urlpatterns = patterns('',# places
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
-    # places
-    url(r'^places/', include('locations.urls', namespace='locations')),
     # blog
     url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas
@@ -36,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),
+    url(r'^', include('locations.urls', namespace='locations')),
 )
 
 # comments
