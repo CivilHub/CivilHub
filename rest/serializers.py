@@ -24,6 +24,24 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'description')
 
 
+class NewsSerializer(serializers.ModelSerializer):
+    """
+    News serializer - API endpoint for news Backbone application.
+    """
+    id = serializers.Field(source='pk')
+    title = serializers.CharField(max_length=64)
+    content = serializers.CharField(max_length=10248)
+    date_created = serializers.DateTimeField()
+    date_edited = serializers.DateTimeField()
+    username = serializers.Field(source='creator.username')
+    avatar = serializers.Field(source='creator.profile.avatar.url')
+
+    class Meta:
+        model = News
+        fields = ('id', 'title', 'content', 'date_created', 'date_edited',
+                  'username', 'avatar', )
+
+
 class CommentSerializer(serializers.ModelSerializer):
     """
     Custom comments

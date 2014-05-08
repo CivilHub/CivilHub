@@ -12,6 +12,7 @@ router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 router.register(r'tags', views.TagViewSet, base_name=r'tag')
+router.register(r'news', views.NewsViewSet, base_name=r'news')
 
 urlpatterns = patterns('',# places
     # user account

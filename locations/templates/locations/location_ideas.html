@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
 
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
@@ -7,4 +8,8 @@
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'ideas/js/votes.js' %}"></script>
 {% endblock %}

@@ -1,16 +1,16 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
 
 {% block content %}
 <h1>{{ title }}</h1>
+{% if user.is_authenticated %}
 <p>
     <a href="{% url 'blog:new' %}"><button class="btn-news-create btn btn-success">Add new</button></a> | 
-    <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
+    {% if user.is_superuser %}
+        <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
+    {% endif %}
 </p>
-<ul>
-{% for news in location.news_set.all %}
-    {% include 'blog/news_detail.html' %}
-{% endfor %}
-</ul>
+{% endif %}
 
 <div class="modal fade" id="pl-modal"></div>
 
@@ -45,23 +45,13 @@
 
 <script type="text/template" id="news-form">
 <form role="form" method="post" action="">
-    <input type="hidden" name="location" id="location" value="{{ location.pk }}" />
-    <input type="hidden" name="creator" id="creator" value="{{ user }}" />
-    <div class="form-group">
-        <label for="title" class="control-label">Title</label>
-        <input type="text" name="title" id="title" placeholder="News title..." class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="content" class="control-label">Content</label>
-        <textarea name="content" id="content" rows="10" cols="10" class="form-control"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="category" class="control-label">Category</label>
-        <select name="category" id="category" class="form-control" multiple="multiple">
-            <option value="" selected="selected">None</option>
-        </select>
-    </div>
+    {{ form }}
 </form>
 </script>
 
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'blog/js/news.js' %}"></script>
+<script src="{% static 'blog/js/newsapp.js' %}"></script>
 {% endblock %}

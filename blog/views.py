@@ -4,6 +4,7 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from .models import Category, News
+from .forms import NewsForm
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
 
@@ -45,7 +46,8 @@ class NewsCreateView(LoginRequiredMixin, CreateView):
     Create new entry
     """
     model = News
-    fields = ['title','content','categories','location','tags']
+    form_class = NewsForm
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(NewsCreateView, self).form_valid(form)

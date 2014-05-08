@@ -15,16 +15,6 @@ from comments.models import CustomComment, CommentVote
 from rest.permissions import IsOwnerOrReadOnly
 
 
-#~ @api_view(['GET'])
-#~ @renderer_classes((renderers.JSONRenderer, renderers.JSONPRenderer))
-#~ def get_tag_list(request):
-    #~ """
-    #~ Allow to fetch tags from server and pass to jQuery Autocomplete.
-    #~ """
-    #~ serializer = serializers.TagSerializer
-    #~ return Response(serializer.data)
-
-
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for viewing accounts.
@@ -47,6 +37,19 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class NewsViewSet(viewsets.ModelViewSet):
+    """
+    News viewset - API endpoint for news Backbone application.
+    """
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
