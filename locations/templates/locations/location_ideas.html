@@ -1,7 +1,9 @@
 {% extends 'locations/index.html' %}
 
+{% block title%}{{ location.name }}:Ideas{% endblock %}
+
 {% block content %}
-    <p><a href="{% url 'ideas:create' %}"><button class="btn btn-success">New idea</button></a></p>
+    <p><a href="{% url 'locations:new_idea' location.slug %}"><button class="btn btn-success">New idea</button></a></p>
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}

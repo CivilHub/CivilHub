@@ -50,11 +50,13 @@ class IdeasDetailView(DetailView):
             object.votes = get_votes(object)
             content_type = ContentType.objects.get_for_model(Idea)
             object.content_type = content_type.pk
-            comment_set = CustomComment.objects.filter(content_type=content_type.pk)
+            comment_set = CustomComment.objects.filter(
+                content_type=content_type.pk
+            )
             comment_set = comment_set.filter(object_pk=object.pk)
             object.comments = len(comment_set)
         except:
-            object.votes = 'Brak votes'
+            object.votes = _('no votes yet')
         return object
 
     def get_context_data(self, **kwargs):
@@ -98,9 +100,10 @@ class UpdateIdeaView(UpdateView):
         context['action'] = 'update'
         return context
 
+
 class DeleteIdeaView(DeleteView):
     """
-    Allow users to delete their ideas
+    Allow users to delete their ideas (or not? Still not working).
     """
     model = Idea
     success_url = reverse_lazy('ideas:index')

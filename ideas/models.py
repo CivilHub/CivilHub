@@ -4,6 +4,10 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
+from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
 
@@ -25,11 +29,14 @@ class Idea(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(blank=True, null=True)
     name = models.CharField(max_length=64)
-    description = models.TextField(max_length=1024, null=True, blank=True,)
-    categories = models.ManyToManyField(Category, verbose_name='Kategorie', null=True, blank=True,)
+    slug = models.SlugField(max_length=64, unique=True)
+    description = models.TextField(max_length=2048, null=True, blank=True,)
+    categories = models.ManyToManyField(Category, verbose_name=_('Categories'),
+                                        null=True, blank=True,)
     location = models.ForeignKey(Location)
     status = models.BooleanField(default=True)
     # Track changes to mark item as edited when user changes it.
+    # Fixme - after saving tags this field is True which is not desired effect.
     edited = models.BooleanField(default=False)
     tags = TaggableManager()
     
@@ -39,14 +46,21 @@ class Idea(models.Model):
         votes_down = len(votes_total.filter(vote=False))
         return votes_up - votes_down
 
+    def get_comment_count(self):
+        content_type = ContentType.objects.get_for_model(self)
+        comments = CustomComment.objects.filter(object_pk=self.pk).filter(
+                                                content_type=content_type)
+        return len(comments)
+
     def save(self, *args, **kwargs):
         if self.pk is not None:
             self.edited = True
             self.date_edited = timezone.now()
+        self.slug = slugify(self.name)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return reverse('ideas:details', kwargs={'pk':self.pk})
+        return reverse('ideas:details', kwargs={'slug':self.slug})
     
     def __unicode__(self):
         return self.name
