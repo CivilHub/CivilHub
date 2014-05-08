@@ -11,8 +11,8 @@ class Location(models.Model):
     """
     Basic location model
     """
-    name = models.CharField(max_length=32)
-    slug = models.SlugField(max_length=32)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64)
     description = models.TextField(max_length=1024, blank=True)
     latitude = models.FloatField(blank=True)
     longitude = models.FloatField(blank=True)

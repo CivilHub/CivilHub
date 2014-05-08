@@ -1,11 +1,30 @@
 {% extends 'places_core/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Create location{% endblock %}
 
 {% block content %}
-    <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post">
+    {% if action and action == 'edit' %}
+        <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post">
+    {% else %}
+        <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post">
+    {% endif %}
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootstrap.file-input.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    CKEDITOR.replace('id_description');
+    $('[type="file"]').bootstrapFileInput();
+})(jQuery);
+</script>
 {% endblock %}

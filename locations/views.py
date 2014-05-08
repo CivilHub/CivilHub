@@ -8,7 +8,7 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from ideas.models import Idea
-from forms import IdeaLocationForm
+from forms import LocationForm, IdeaLocationForm
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -101,6 +101,13 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     """
     model = Location
     fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    form_class = LocationForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateLocationView, self).get_context_data(**kwargs)
+        context['title'] = _('create new location')
+        return context
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CreateLocationView, self).form_valid(form)
@@ -111,7 +118,15 @@ class UpdateLocationView(LoginRequiredMixin, UpdateView):
     Update existing location
     """
     model = Location
-    fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    form_class = LocationForm
+
+    def get_context_data(self, **kwargs):
+        location = super(UpdateLocationView, self).get_object()
+        context = super(UpdateLocationView, self).get_context_data(**kwargs)
+        context['title'] = location.name
+        context['subtitle'] = _('Edit this location')
+        context['action'] = 'edit'
+        return context
 
 
 class DeleteLocationView(LoginRequiredMixin, DeleteView):
