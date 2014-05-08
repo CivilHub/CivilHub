@@ -6,11 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if action == 'update' %}
-    <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}">
-    {% else %}
-    <form role="form" method="post" action="{% url 'ideas:create' %}">
-    {% endif %}
+    <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
         {% csrf_token %}
         {{ form }}
         <div class="form-group">

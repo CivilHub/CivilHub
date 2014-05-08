@@ -3,7 +3,7 @@
 {% block content %}
     <h3><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h3>
     {% if idea.creator == user %}
-        <p><a href="{% url 'ideas:update' idea.id %}">Edit</a></p>
+        <p><a href="{% url 'ideas:update' idea.slug %}">Edit</a></p>
     {% endif %}
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>

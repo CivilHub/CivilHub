@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.template.defaultfilters import slugify
 from locations.models import Location
 from taggit.managers import TaggableManager
 
@@ -26,6 +27,7 @@ class Idea(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(blank=True, null=True)
     name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64, unique=True)
     description = models.TextField(max_length=2048, null=True, blank=True,)
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'),
                                         null=True, blank=True,)
@@ -46,10 +48,11 @@ class Idea(models.Model):
         if self.pk is not None:
             self.edited = True
             self.date_edited = timezone.now()
+        self.slug = slugify(self.name)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return reverse('ideas:details', kwargs={'pk':self.pk})
+        return reverse('ideas:details', kwargs={'slug':self.slug})
     
     def __unicode__(self):
         return self.name

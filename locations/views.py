@@ -7,6 +7,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from ideas.models import Idea
+from forms import IdeaLocationForm
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -28,6 +30,36 @@ class LocationIdeasList(DetailView):
     """
     model = Location
     template_name = 'locations/location_ideas.html'
+
+
+class LocationIdeaCreate(CreateView):
+    """
+    Create new idea in scope of currently selected location.
+    """
+    model = Idea
+    form_class = IdeaLocationForm
+    template_name = 'locations/location_idea_form.html'
+    fields = ['name', 'description', 'tags']
+
+    def get(self, request, *args, **kwargs):
+        #super(LocationIdeaCreate, self).get(request, *args, **kwargs)
+        slug = kwargs['slug']
+        ctx = {
+            'location': Location.objects.get(slug=slug),
+            'form': IdeaLocationForm(initial={
+                'location': Location.objects.get(slug=slug)
+            })
+        }
+        return render(request, self.template_name, ctx)
+        
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        obj.save()
+        # Without this next line the tags won't be saved.
+        form.save_m2m()
+        return super(LocationIdeaCreate, self).form_valid(form)
 
 
 class LocationFollowersList(DetailView):
