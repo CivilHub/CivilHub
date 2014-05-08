@@ -17,7 +17,7 @@ class LocationForm(forms.ModelForm):
     )
     description = forms.CharField(
         required = False,
-        max_length = 1024,
+        max_length = 10000,
         label = _('Description'),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
