@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
+from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
 
@@ -43,6 +45,12 @@ class Idea(models.Model):
         votes_up = len(votes_total.filter(vote=True))
         votes_down = len(votes_total.filter(vote=False))
         return votes_up - votes_down
+
+    def get_comment_count(self):
+        content_type = ContentType.objects.get_for_model(self)
+        comments = CustomComment.objects.filter(object_pk=self.pk).filter(
+                                                content_type=content_type)
+        return len(comments)
 
     def save(self, *args, **kwargs):
         if self.pk is not None:
