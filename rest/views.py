@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
@@ -13,16 +14,6 @@ from taggit.models import Tag
 from blog.models import News
 from comments.models import CustomComment, CommentVote
 from rest.permissions import IsOwnerOrReadOnly
-
-
-#~ @api_view(['GET'])
-#~ @renderer_classes((renderers.JSONRenderer, renderers.JSONPRenderer))
-#~ def get_tag_list(request):
-    #~ """
-    #~ Allow to fetch tags from server and pass to jQuery Autocomplete.
-    #~ """
-    #~ serializer = serializers.TagSerializer
-    #~ return Response(serializer.data)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -47,6 +38,27 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class NewsViewSet(viewsets.ModelViewSet):
+    """
+    News viewset - API endpoint for news Backbone application.
+    """
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        if self.request.GET.get('pk'):
+            pk = self.request.GET.get('pk')
+            location = get_object_or_404(Location, pk=pk)
+            return News.objects.filter(location=location).order_by('-date_created')
+        else:
+            return super(NewsViewSet, self).get_queryset().order_by('-date_created')
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
 
 
 class CommentsViewSet(viewsets.ModelViewSet):

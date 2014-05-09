@@ -11,9 +11,9 @@ class Location(models.Model):
     """
     Basic location model
     """
-    name = models.CharField(max_length=32)
-    slug = models.SlugField(max_length=32)
-    description = models.TextField(max_length=1024, blank=True)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64)
+    description = models.TextField(max_length=10000, blank=True)
     latitude = models.FloatField(blank=True)
     longitude = models.FloatField(blank=True)
     creator = models.ForeignKey(User, blank=True, related_name='created_locations')

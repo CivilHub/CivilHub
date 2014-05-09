@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
 from comments.models import CustomComment, CommentVote
@@ -22,6 +23,36 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'name', 'description')
+
+
+class NewsSerializer(serializers.ModelSerializer):
+    """
+    News serializer - API endpoint for news Backbone application.
+    """
+    id = serializers.Field(source='pk')
+    title = serializers.CharField(max_length=64)
+    slug = serializers.SlugField()
+    content = serializers.Field(source='get_entry_introtext')
+    date_created = serializers.DateTimeField()
+    date_edited = serializers.DateTimeField()
+    username = serializers.Field(source='creator.username')
+    avatar = serializers.Field(source='creator.profile.avatar.url')
+    location = serializers.PrimaryKeyRelatedField(read_only=True)
+    categories = serializers.RelatedField(many=True)
+    tags = serializers.RelatedField(many=True)
+    comment_count = serializers.SerializerMethodField('get_comment_count')
+
+    class Meta:
+        model = News
+        fields = ('id', 'title', 'slug', 'content', 'date_created', 
+                  'date_edited', 'username', 'avatar', 'location', 'categories',
+                  'tags', 'comment_count',)
+
+    def get_comment_count(self, obj):
+        pk = obj.pk
+        content_type = ContentType.objects.get_for_model(obj)
+        comments = CustomComment.objects.filter(content_type=content_type)
+        return len(comments.filter(object_pk=pk))
 
 
 class CommentSerializer(serializers.ModelSerializer):

@@ -3,6 +3,6 @@
 {% block content %}
   
 <h1>{{ location.name }} summary</h1>
-<div>{{ location.description }}</div>
+<div>{{ location.description | safe }}</div>
   
 {% endblock %}

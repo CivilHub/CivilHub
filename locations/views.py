@@ -8,7 +8,8 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from ideas.models import Idea
-from forms import IdeaLocationForm
+from blog.models import News
+from forms import LocationForm, IdeaLocationForm, NewsLocationForm
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -24,6 +25,35 @@ class LocationNewsList(DetailView):
     template_name = 'locations/location_news.html'
 
 
+class LocationNewsCreate(LoginRequiredMixin, CreateView):
+    """
+    Auto-fill some options in this view to create news in currently selected
+    location etc.
+    """
+    model = News
+    form_class = NewsLocationForm
+    template_name = 'locations/location_news_form.html'
+
+    def get(self, request, *args, **kwargs):
+        slug = kwargs['slug']
+        ctx = {
+                'title': _('Create new entry'),
+                'location': Location.objects.get(slug=slug),
+                'form': NewsLocationForm(initial={
+                    'location': Location.objects.get(slug=slug)
+                })
+            }
+        return render(request, self.template_name, ctx)
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        obj.save()
+        # Without this next line the tags won't be saved.
+        form.save_m2m()
+        return super(LocationNewsCreate, self).form_valid(form)
+
+
 class LocationIdeasList(DetailView):
     """
     Location ideas list
@@ -32,26 +62,23 @@ class LocationIdeasList(DetailView):
     template_name = 'locations/location_ideas.html'
 
 
-class LocationIdeaCreate(CreateView):
+class LocationIdeaCreate(LoginRequiredMixin, CreateView):
     """
     Create new idea in scope of currently selected location.
     """
     model = Idea
     form_class = IdeaLocationForm
     template_name = 'locations/location_idea_form.html'
-    fields = ['name', 'description', 'tags']
 
     def get(self, request, *args, **kwargs):
-        #super(LocationIdeaCreate, self).get(request, *args, **kwargs)
         slug = kwargs['slug']
         ctx = {
-            'location': Location.objects.get(slug=slug),
-            'form': IdeaLocationForm(initial={
-                'location': Location.objects.get(slug=slug)
-            })
-        }
+                'location': Location.objects.get(slug=slug),
+                'form': IdeaLocationForm(initial={
+                    'location': Location.objects.get(slug=slug)
+                })
+            }
         return render(request, self.template_name, ctx)
-        
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -101,6 +128,13 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     """
     model = Location
     fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    form_class = LocationForm
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateLocationView, self).get_context_data(**kwargs)
+        context['title'] = _('create new location')
+        return context
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(CreateLocationView, self).form_valid(form)
@@ -111,7 +145,15 @@ class UpdateLocationView(LoginRequiredMixin, UpdateView):
     Update existing location
     """
     model = Location
-    fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    form_class = LocationForm
+
+    def get_context_data(self, **kwargs):
+        location = super(UpdateLocationView, self).get_object()
+        context = super(UpdateLocationView, self).get_context_data(**kwargs)
+        context['title'] = location.name
+        context['subtitle'] = _('Edit this location')
+        context['action'] = 'edit'
+        return context
 
 
 class DeleteLocationView(LoginRequiredMixin, DeleteView):

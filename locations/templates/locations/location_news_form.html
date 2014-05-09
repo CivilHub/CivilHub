@@ -1,22 +1,17 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
 
-{% block title %}{{ title | capfirst }}{% endblock %}
-
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
 {% endblock %}
 
 {% block content %}
-    {% if action == 'update' %}
-    <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}">
-    {% else %}
-    <form role="form" method="post" action="{% url 'ideas:create' %}">
-    {% endif %}
+    <form role="form" method="post" action="">
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary submit-btn">Save</button>
         </div>
     </form>
 {% endblock %}
@@ -27,7 +22,7 @@
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_description');
+    CKEDITOR.replace('id_content');
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',
     });

@@ -1,15 +1,27 @@
+{% extends 'places_core/base.html' %}
+
+{% block content %}
 <article>
-    <h3>{{ news.title }}</h3>
-    <div>{{ news.content }}</div>
+    <div>{{ news.content | safe }}</div>
     {% if user.is_authenticated and user == news.creator %}
         <div class="news-controls">
             <a href="">Edit</a>
             <a href="">Delete</a>
         </div>
     {% endif %}
-    <div><a class="comment-toggle" data-target="{{ news.pk }}" href="#">Show comments</a></div>
     <div class="comments-{{ news.pk }}"></div>
     <div class="news-meta">
         <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
     </div>
 </article>
+<input type="hidden" id="target-id" value="{{ news.pk }}" />
+<input type="hidden" id="target-label" value="blog" />
+<input type="hidden" id="target-type" value="{{ content_type }}" />
+<input type="hidden" id="target-user" value="{{ user.username }}" />
+<input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+<p>
+    Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
+    <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
+</p>
+{% include 'comments/commentlist.html' %}
+{% endblock %}

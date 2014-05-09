@@ -22,7 +22,6 @@
           <span class="icon-bar"></span>
         </button>
       </div>
-    {% if user.is_authenticated %}
     <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
         <ul class="nav navbar-nav">
             <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
@@ -31,14 +30,7 @@
             <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
             <li><a href="/discussions">Discussions</a></li>
         </ul>
-    {% endif %}
-  </div>
+    </div>
 </nav>
 
-{% endblock %}
-
-{% block footer_scripts %}
-<script src="{% static 'locations/js/location.js' %}"></script>
-<script src="{% static 'ideas/js/votes.js' %}"></script>
-<script src="{% static 'blog/js/news.js' %}"></script>
 {% endblock %}
