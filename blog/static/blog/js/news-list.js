@@ -1,6 +1,7 @@
 (function ($) {
     "use strict";
-    var newsList = {};
+    var newsList = {},
+        appUrl = '/rest/news/?pk=' + $('#location-id').val();
     
     newsList.News = Backbone.Model.extend({});
     
@@ -41,7 +42,7 @@
         model: newsList.News
     });
     
-    $.get('/rest/news/', function (newses) {
+    $.get(appUrl, function (newses) {
         new newsList.ListView(newses);
     });
 })(jQuery);

@@ -4,5 +4,17 @@
   
 <h1>{{ location.name }} summary</h1>
 <div>{{ location.description | safe }}</div>
+
+<h2>Latest related actions</h2>
+<ul class="last-related-actions">
+{% for action in actions %}
+    <li>
+        <a href="{% url 'user:profile' action.actor %}">{{ action.actor }}</a> {{ action.verb }}
+        {% if action.action_object.get_absolute_url and action.action_object %}
+            <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
   
 {% endblock %}

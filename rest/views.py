@@ -10,6 +10,7 @@ from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
 from rest_framework.decorators import link, api_view, renderer_classes
+from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
 from comments.models import CustomComment, CommentVote
@@ -53,7 +54,8 @@ class NewsViewSet(viewsets.ModelViewSet):
         if self.request.GET.get('pk'):
             pk = self.request.GET.get('pk')
             location = get_object_or_404(Location, pk=pk)
-            return News.objects.filter(location=location).order_by('-date_created')
+            newset = News.objects.filter(location=location)
+            return newset.order_by('-date_created')
         else:
             return super(NewsViewSet, self).get_queryset().order_by('-date_created')
 
