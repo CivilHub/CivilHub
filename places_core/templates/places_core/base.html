@@ -84,6 +84,9 @@
     (function ($) {
         "use strict";
         $('.errorlist > li').addClass('alert alert-danger');
+        $('.cancel-btn').on('click', function () {
+            history.go(-1);
+        });
     })(jQuery);
   </script>
 </body>

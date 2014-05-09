@@ -14,7 +14,7 @@
         incrementCommentCounter = function () {
             var $counter = $('.comment-count'),
                 value = parseInt($counter.text(), 10),
-                nVal = 0;
+                nVal = 1;
             if (!_.isNaN(value)) {
                 nVal = ++value;
             }
@@ -285,8 +285,12 @@
             var CommentView = new commentlist.CommentView({
                 model: item
             });
-            $(CommentView.render().el)
-                .insertAfter(this.$el.find('.add-comment'));
+            if (this.$el.find('add-comment').length > 0) {
+                $(CommentView.render().el)
+                    .insertAfter(this.$el.find('.add-comment'));
+            } else {
+                $(CommentView.render().el).prependTo(this.$el);
+            }
         }
     });
     //

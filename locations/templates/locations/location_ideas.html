@@ -4,7 +4,9 @@
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <p><a href="{% url 'locations:new_idea' location.slug %}"><button class="btn btn-success">New idea</button></a></p>
+    {% endif %}
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}

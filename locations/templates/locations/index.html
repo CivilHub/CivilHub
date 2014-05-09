@@ -22,7 +22,6 @@
           <span class="icon-bar"></span>
         </button>
       </div>
-    {% if user.is_authenticated %}
     <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
         <ul class="nav navbar-nav">
             <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
@@ -31,8 +30,7 @@
             <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
             <li><a href="/discussions">Discussions</a></li>
         </ul>
-    {% endif %}
-  </div>
+    </div>
 </nav>
 
 {% endblock %}

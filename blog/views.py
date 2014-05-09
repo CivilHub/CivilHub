@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
+from django.contrib.contenttypes.models import ContentType
 from .models import Category, News
 from .forms import NewsForm
 # Use our mixin to allow only some users make actions
@@ -40,6 +41,14 @@ class NewsDetailView(DetailView):
     Detailed news page
     """
     model = News
+
+    def get_context_data(self, **kwargs):
+        news = super(NewsDetailView, self).get_object()
+        content_type = ContentType.objects.get_for_model(news)
+        context = super(NewsDetailView, self).get_context_data(**kwargs)
+        context['content_type'] = content_type.pk
+        context['title'] = news.title
+        return context
     
 class NewsCreateView(LoginRequiredMixin, CreateView):
     """

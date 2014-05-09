@@ -3,6 +3,9 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.contrib.contenttypes.models import ContentType
+from django.utils.html import strip_tags
+from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
 # Activity stream
@@ -43,6 +46,16 @@ class News(models.Model):
     
     def get_absolute_url(self):
         return reverse('blog:details', kwargs={'slug':self.slug})
+
+    def get_comment_count(self):
+        content_type = ContentType.objects.get_for_model(self)
+        comments = CustomComment.objects.filter(object_pk=self.pk).filter(
+                                                content_type=content_type)
+        return len(comments)
+
+    def get_entry_introtext(self):
+        clean_content = strip_tags(self.content)
+        return clean_content[:200] + '...'
     
     def __unicode__(self):
         return self.title

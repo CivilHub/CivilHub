@@ -3,9 +3,7 @@
 <link rel="stylesheet" href="{% static 'comments/css/comments.css' %}" />
 
 <div id="comments">
-    {% if user.is_authenticated %}
-        <p><button class="btn btn-default add-comment">Add Comment</button></p>
-    {% endif %}
+    {% if user.is_authenticated %}<p><button class="btn btn-default add-comment">Add Comment</button></p>{% endif %}
 </div>
 
 <script type="text/template" id="comment-template">
@@ -15,6 +13,7 @@
     </div>
     <div class="row comment-row comment-content"><%= comment %></div>
     <div class="row comment-row comment-meta-options">
+        {% if user.is_authenticated %}
         <% if (username !== $('#target-user').val()) { %>
             <p>
                 Votes: <span class="badge comment-total-votes"><%= total_votes %></span>
@@ -23,9 +22,10 @@
         <% } else { %>
             <p>Votes: <span class="badge comment-total-votes"><%= total_votes %></span>
         <% } %>
+        {% endif %}
         Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">(hide)</a> 
         <% if (username !== $('#target-user').val()) { %>
-        | <a class="comment-reply" href="#">Reply</a></p>
+        {% if user.is_authenticated %}| <a class="comment-reply" href="#">Reply</a>{% endif %}</p>
         <% } %>
         <div class="comment-votes-detail">
             <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>

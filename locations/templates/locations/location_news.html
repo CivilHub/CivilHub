@@ -5,12 +5,16 @@
 <h1>{{ title }}</h1>
 {% if user.is_authenticated %}
 <p>
-    <a href="{% url 'blog:new' %}"><button class="btn-news-create btn btn-success">Add new</button></a> | 
+    <a href="{% url 'locations:news_create' location.slug %}"><button class="btn-news-create btn btn-success">Add new</button></a> | 
     {% if user.is_superuser %}
         <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
     {% endif %}
 </p>
 {% endif %}
+
+<div id="entries"></div>
+
+<input type="hidden" name="location-id" id="location-id" value="{{ location.pk }}" />
 
 <div class="modal fade" id="pl-modal"></div>
 
@@ -43,15 +47,40 @@
 </form>
 </script>
 
-<script type="text/template" id="news-form">
-<form role="form" method="post" action="">
-    {{ form }}
-</form>
+<script type="text/template" id="news-entry-tpl">
+<div class="row">
+    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="news-user-avatar" /></div>
+    <div class="col-xs-11">
+        <h3><a href="<%= slug %>"><%= title %></a></h3>
+        <p>
+            Created by <a href="/user/profile/<%= username %>"><%= username %></a> <%= moment(date_created).fromNow() %>
+            - Last edited <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %>
+        </p>
+        <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">Read more &raquo;</a></p>
+        <div class="row">
+            <p class="col-sm-6"><span class="fa fa-star"> </span> Categories: 
+            <% $(categories).each(function (idx, category) { %>
+                <a href="#"><%= category %></a>,&nbsp;
+            <% }); %>    
+            </p>
+            <p class="col-sm-6"><span class="fa fa-tags"> </span> Tags: 
+            <% $(tags).each(function (idx, tag) { %>
+                <a href="#"><%= tag %></a>,&nbsp;
+            <% }); %>    
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">Comments: <%= comment_count %></a></p>
+            </div>
+        </div>
+    </div>
+</div>
 </script>
 
 {% endblock %}
 
 {% block footer_scripts %}
 <script src="{% static 'blog/js/news.js' %}"></script>
-<script src="{% static 'blog/js/newsapp.js' %}"></script>
+<script src="{% static 'blog/js/news-list.js' %}"></script>
 {% endblock %}
