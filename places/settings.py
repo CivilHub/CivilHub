@@ -50,15 +50,16 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     # django-activity-stream
     'actstream',
+    #http://django-taggit.readthedocs.org/en/latest/
+    'taggit',
     # Core program modules
     'places_core', # for common templates and static files
     'userspace',
     'locations',
     'ideas',
-    'taggit', #http://django-taggit.readthedocs.org/en/latest/
     'blog',
-    'rest', # out for django rest framework
-    'topics', # custom discussions (based on django-discussions)
+    'rest',     # out for django rest framework
+    'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
 )
 
