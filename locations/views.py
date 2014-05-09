@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from blog.models import News
 from forms import LocationForm, IdeaLocationForm, NewsLocationForm
@@ -15,6 +16,7 @@ from models import Location
 from places_core.mixins import LoginRequiredMixin
 # Activity stream
 from actstream.actions import follow, unfollow
+from actstream.models import Action
 
 
 class LocationNewsList(DetailView):
@@ -118,7 +120,11 @@ class LocationDetailView(DetailView):
     def get_context_data(self, **kwargs):
         location = super(LocationDetailView, self).get_object()
         context = super(LocationDetailView, self).get_context_data(**kwargs)
+        content_type = ContentType.objects.get_for_model(location)
+        actions = Action.objects.filter(target_content_type=content_type)
+        actions = actions.filter(target_object_id=location.pk)
         context['title'] = location.name
+        context['actions'] = actions
         return context
 
 
