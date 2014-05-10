@@ -12,7 +12,7 @@
     {% if discussions %}
         <ul>
         {% for topic in discussions %}
-            <li>{{ topic }}</li>
+            <li><a href="{{ topic.slug }}">{{ topic }}</a></li>
         {% endfor %}
         </ul>
     {% else %}

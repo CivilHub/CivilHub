@@ -1,5 +1,16 @@
 {% extends 'places_core/base.html' %}
 
 {% block content %}
-{{ discussion.question | capfirst }}
+{{ discussion.intro | safe }}
+<ul>
+{% for entry in discussion.entry_set.all %}
+    <li>
+        {{ entry.creator }}
+        <div>{{ entry.content }}</div>
+    </li>
+{% endfor %}
+</ul>
+<div>
+    <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
+</div>
 {% endblock %}

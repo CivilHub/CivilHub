@@ -6,7 +6,7 @@ from ideas.models import Idea
 from blog.models import News
 from blog.models import Category as BlogCategory
 from locations.models import Location
-from topics.models import Discussion
+from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 
 class LocationForm(forms.ModelForm):
@@ -84,7 +84,7 @@ class NewsLocationForm(forms.ModelForm):
     )
     content = forms.CharField(
         required = False,
-        max_length = 2048,
+        max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     categories = forms.ModelMultipleChoiceField(
@@ -126,4 +126,28 @@ class DiscussionLocationForm(forms.ModelForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'location',)
+        fields = ('question', 'intro', 'categories', 'location',)
+
+
+class ReplyForm(forms.ModelForm):
+    """
+    Reply to discussion topic.
+    """
+    content = forms.CharField(
+        max_length = 2048,
+        widget = forms.Textarea(attrs={'class': 'form-control'}),
+    )
+    location = forms.ModelChoiceField(
+        required = True,
+        queryset = Location.objects.all(),
+        widget = forms.HiddenInput()
+    )
+    discussion = forms.ModelChoiceField(
+        required = True,
+        queryset = Location.objects.all(),
+        widget = forms.HiddenInput()
+    )
+
+    class Meta:
+        model = Entry
+        fields = ('content', 'location', 'discussion',)

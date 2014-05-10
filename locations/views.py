@@ -10,8 +10,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from blog.models import News
-from topics.models import Discussion
-from forms import LocationForm, IdeaLocationForm, NewsLocationForm, DiscussionLocationForm
+from topics.models import Discussion, Entry
+from forms import *
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -136,6 +136,31 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(LocationDiscussionCreate, self).form_valid(form)
+
+
+class CreateReplyView(LoginRequiredMixin, CreateView):
+    """
+    Create reply in selected discussion.
+    """
+    model = Entry
+    form_class = ReplyForm
+    template_name = 'locations/reply_template.html'
+
+    def get(self):
+        place_slug = kwargs['place_slug']
+        slug = kwargs['slug']
+        location = Location.objects.get(slug=place_slug)
+        discussion = Discussion.objets.get(slug=slug)
+        ctx = {
+                'title': _('Create reply'),
+                'location': location,
+                'discussion': discussion,
+                'form': ReplyForm(initial={
+                    'location': location,
+                    'duscussion': duscussion,
+                })
+            }
+        return render(request, self.template_name, ctx)
 
 
 class LocationFollowersList(DetailView):
