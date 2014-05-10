@@ -36,7 +36,7 @@ class News(models.Model):
     date_edited = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64)
-    content = models.TextField(max_length=10240, null=True, blank=True,)
+    content = models.TextField(max_length=10248, null=True, blank=True,)
     categories = models.ManyToManyField(
         Category,
         verbose_name=_('Categories'),

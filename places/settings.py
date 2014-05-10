@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
-    'discussions',
+    # disabled because of problems with south migrations.
+    #'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
     # https://github.com/skorokithakis/django-annoying

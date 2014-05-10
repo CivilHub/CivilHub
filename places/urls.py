@@ -27,7 +27,8 @@ urlpatterns = patterns('',# places
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # django-discussions (e.g. user messages)
-    url('^messages/', include('discussions.urls', namespace='messages')),
+    # disabled because of lack South integrity
+    #url('^messages/', include('discussions.urls', namespace='messages')),
     # Discussions (e.g. forum)
     url('^forum/', include('topics.urls', namespace='discussion')),
     # comments
