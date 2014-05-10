@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 from django.utils.html import strip_tags
+from django.utils.translation import ugettext_lazy as _
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
@@ -36,7 +37,12 @@ class News(models.Model):
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64)
     content = models.TextField(max_length=10240, null=True, blank=True,)
-    categories = models.ManyToManyField(Category, verbose_name='Kategorie', null=True, blank=True,)
+    categories = models.ManyToManyField(
+        Category,
+        verbose_name=_('Categories'),
+        null=True,
+        blank=True,
+    )
     location = models.ForeignKey(Location)
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 

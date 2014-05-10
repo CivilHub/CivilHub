@@ -61,6 +61,8 @@ INSTALLED_APPS = (
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
+    # Database migrations
+    'south',
 )
 
 # Authentication and python-social-auth settings
@@ -162,3 +164,10 @@ USE_TZ = True
 STATIC_URL   = '/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
+
+
+# South database migrations schemes
+# http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations',
+}
