@@ -6,6 +6,8 @@ from ideas.models import Idea
 from blog.models import News
 from blog.models import Category as BlogCategory
 from locations.models import Location
+from topics.models import Discussion
+from topics.models import Category as ForumCategory
 
 class LocationForm(forms.ModelForm):
     """
@@ -99,3 +101,29 @@ class NewsLocationForm(forms.ModelForm):
     class Meta:
         model = News
         fields = ('title', 'content', 'categories', 'location', 'tags')
+
+
+class DiscussionLocationForm(forms.ModelForm):
+    """
+    Custom form for Discussion - autocomplete value of location field.
+    """
+    question = forms.CharField(
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+    intro = forms.CharField(
+        max_length = 10248,
+        widget = forms.Textarea(attrs={'class': 'form-control'})
+    )
+    categories = forms.ModelMultipleChoiceField(
+        queryset = ForumCategory.objects.all(),
+        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+    )
+    location = forms.ModelChoiceField(
+        required = True,
+        queryset = Location.objects.all(),
+        widget = forms.HiddenInput()
+    )
+
+    class Meta:
+        model = Discussion
+        fields = ('question', 'location',)
