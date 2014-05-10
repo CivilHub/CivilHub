@@ -1,0 +1,21 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'locations:new_topic' location.slug %}">
+            <button type="button" class="btn btn-primary btn-topic-create">New topic</button>
+        </a>
+        {% if user.is_superuser %}
+            <button type="button" class="btn btn-primary btn-category-create">New category</button>
+        {% endif %}
+    {% endif %}
+    {% if discussions %}
+        <ul>
+        {% for topic in discussions %}
+            <li><a href="{{ topic.slug }}">{{ topic }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no discussions opened yet.</p>
+    {% endif %}
+{% endblock %}

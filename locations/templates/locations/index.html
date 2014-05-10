@@ -28,7 +28,7 @@
             <li><a href="{% url 'locations:news' location.slug %}">News</a></li>
             <li><a href="/{{ location.slug }}/ideas/">Ideas</a></li>
             <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
-            <li><a href="/discussions">Discussions</a></li>
+            <li><a href="{% url 'locations:discussions' location.slug %}">Discussions</a></li>
         </ul>
     </div>
 </nav>

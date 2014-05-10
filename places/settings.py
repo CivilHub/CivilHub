@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
-    'discussions',
+    # disabled because of problems with south migrations.
+    #'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
     # https://github.com/skorokithakis/django-annoying
@@ -50,16 +51,19 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     # django-activity-stream
     'actstream',
+    #http://django-taggit.readthedocs.org/en/latest/
+    'taggit',
     # Core program modules
     'places_core', # for common templates and static files
     'userspace',
     'locations',
     'ideas',
-    'taggit', #http://django-taggit.readthedocs.org/en/latest/
     'blog',
-    'rest', # out for django rest framework
-    'topics', # custom discussions (based on django-discussions)
+    'rest',     # out for django rest framework
+    'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
+    # Database migrations
+    'south',
 )
 
 # Authentication and python-social-auth settings
@@ -161,3 +165,10 @@ USE_TZ = True
 STATIC_URL   = '/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
+
+
+# South database migrations schemes
+# http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
+SOUTH_MIGRATION_MODULES = {
+    'taggit': 'taggit.south_migrations',
+}

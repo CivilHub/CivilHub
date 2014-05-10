@@ -26,8 +26,11 @@ urlpatterns = patterns('',# places
     url(r'^activity/', include('actstream.urls', namespace='activities')),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
-    # django-discussions
-    url('^discussions/', include('discussions.urls')),
+    # django-discussions (e.g. user messages)
+    # disabled because of lack South integrity
+    #url('^messages/', include('discussions.urls', namespace='messages')),
+    # Discussions (e.g. forum)
+    url('^forum/', include('topics.urls', namespace='discussion')),
     # comments
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel

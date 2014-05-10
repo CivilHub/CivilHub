@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
@@ -10,7 +10,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from blog.models import News
-from forms import LocationForm, IdeaLocationForm, NewsLocationForm
+from topics.models import Discussion, Entry
+from forms import *
 from models import Location
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -89,6 +90,77 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         # Without this next line the tags won't be saved.
         form.save_m2m()
         return super(LocationIdeaCreate, self).form_valid(form)
+
+
+class LocationDiscussionsList(DetailView):
+    """
+    Get list of all discussion topics related to this location.
+    """
+    model = Location
+    template_name = 'locations/location_forum.html'
+
+    def get_context_data(self, **kwargs):
+        location = super(LocationDiscussionsList, self).get_object()
+        context = super(LocationDiscussionsList, self).get_context_data(**kwargs)
+        context['title'] = location.name + ':' + _('Discussions')
+        context['discussions'] = Discussion.objects.filter(location=location)
+        return context
+
+
+class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
+    """
+    Custom form to auto-fill fields related with location.
+    """
+    model = Discussion
+    form_class = DiscussionLocationForm
+    template_name = 'locations/location_forum_create.html'
+    parent_object = None
+
+    def get(self, request, *args, **kwargs):
+        slug = kwargs['slug']
+        self.parent_object = Location.objects.get(slug=slug) 
+        ctx = {
+                'title': _('Create new discussion'),
+                'location': self.parent_object,
+                'form': DiscussionLocationForm(initial={
+                    'location': Location.objects.get(slug=slug)
+                })
+            }
+        return render(request, self.template_name, ctx)
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationDiscussionCreate, self).get_context_data(**kwargs)
+        context['title'] = _('Create new topic')
+        return context
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(LocationDiscussionCreate, self).form_valid(form)
+
+
+class CreateReplyView(LoginRequiredMixin, CreateView):
+    """
+    Create reply in selected discussion.
+    """
+    model = Entry
+    form_class = ReplyForm
+    template_name = 'locations/reply_template.html'
+
+    def get(self):
+        place_slug = kwargs['place_slug']
+        slug = kwargs['slug']
+        location = Location.objects.get(slug=place_slug)
+        discussion = Discussion.objets.get(slug=slug)
+        ctx = {
+                'title': _('Create reply'),
+                'location': location,
+                'discussion': discussion,
+                'form': ReplyForm(initial={
+                    'location': location,
+                    'duscussion': duscussion,
+                })
+            }
+        return render(request, self.template_name, ctx)
 
 
 class LocationFollowersList(DetailView):

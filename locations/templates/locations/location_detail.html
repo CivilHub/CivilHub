@@ -10,8 +10,14 @@
 {% for action in actions %}
     <li>
         <a href="{% url 'user:profile' action.actor %}">{{ action.actor }}</a> {{ action.verb }}
+        {% if action.action_object_content_type %}
+            &nbsp;{{ action.action_object_content_type }}&nbsp;
+        {% endif %}
         {% if action.action_object.get_absolute_url and action.action_object %}
             <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+        {% endif %}
+        {% if not action.action_object_content_type %}
+            <a href="{% url 'locations:details' location.slug %}">{{ location.name | capfirst }}</a>
         {% endif %}
     </li>
 {% endfor %}
