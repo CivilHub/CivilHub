@@ -1,16 +1,38 @@
 {% extends 'places_core/base.html' %}
+{% load staticfiles %}
 
 {% block content %}
 {{ discussion.intro | safe }}
 <ul>
 {% for entry in discussion.entry_set.all %}
     <li>
-        {{ entry.creator }}
-        <div>{{ entry.content }}</div>
+        By {{ entry.creator }} on {{ entry.date_created }}
+        <div>{{ entry.content | safe }}</div>
     </li>
 {% endfor %}
 </ul>
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
 </div>
+<form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post" class="hidden-form">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    CKEDITOR.replace('id_content');
+    $('.reply-entry-btn').on('click', function (evt) {
+        evt.preventDefault();
+        $('#reply-form').slideToggle('fast');
+    });
+})(jQuery);
+</script>
 {% endblock %}
