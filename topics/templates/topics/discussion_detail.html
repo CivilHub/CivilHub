@@ -1,16 +1,27 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
 
+{% block extra_styles %}
+<link rel="stylesheet" href="{% static 'topics/css/forum.css' %}" />
+{% endblock %}
+
 {% block content %}
 {{ discussion.intro | safe }}
-<ul>
 {% for entry in discussion.entry_set.all %}
-    <li>
-        By {{ entry.creator }} on {{ entry.date_created }}
-        <div>{{ entry.content | safe }}</div>
-    </li>
+    <div class="reply-entry well">
+        <div class="row">
+            <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+                <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar" style="margin-top:0px!important" />
+            </div>
+            <div class="col-xs-11">
+                <p class="entry-meta"><a href="{% url 'user:profile' entry.creator %}">{{ entry.creator }}</a> 
+                <span class="topic-date-col">{{ entry.date_created }}</span></p>
+                <div>{{ entry.content | safe }}</div>
+            </div>
+        </div>
+    </div>
 {% endfor %}
-</ul>
+{% if user.is_authenticated %}
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
 </div>
@@ -21,9 +32,11 @@
         <button type="submit" class="btn btn-primary submit-btn">Submit</button>
     </div>
 </form>
+{% endif %}
 {% endblock %}
 
 {% block footer_scripts %}
+{% if user.is_authenticated %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script>
 (function ($) {
@@ -33,6 +46,10 @@
         evt.preventDefault();
         $('#reply-form').slideToggle('fast');
     });
+    $('.topic-date-col').each(function () {
+        $(this).html(moment($(this).text()).fromNow());
+    });
 })(jQuery);
 </script>
+{% endif %}
 {% endblock %}
