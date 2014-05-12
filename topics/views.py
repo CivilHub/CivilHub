@@ -61,7 +61,7 @@ def delete_topic(request, slug):
     Delete topic from list via AJAX request.
     """
     topic = get_object_or_404(Discussion, slug=slug)
-    if request.user != topic.creator:
+    if request.user != topic.creator or not request.user.is_superuser:
         resp = {
             'success': False,
             'message': _('Permission required'),
@@ -84,6 +84,8 @@ def reply(request, slug):
     if request.method == 'POST' and request.POST:
         post = request.POST
         topic = Discussion.objects.get(slug=post['discussion'])
+        if not topic.status:
+            return HttpResponse(_('This discussion is closed.'))
         entry = Entry(
             content = post['content'],
             creator = request.user,
@@ -92,5 +94,6 @@ def reply(request, slug):
         try:
             entry.save()
         except:
-            return HttpResponse('There was some errors')
-    return HttpResponseRedirect(reverse('discussion:details', kwargs={'slug': topic.slug,}))
+            return HttpResponse(_('An error occured'))
+    return HttpResponseRedirect(reverse('discussion:details',
+                                kwargs={'slug': topic.slug,}))

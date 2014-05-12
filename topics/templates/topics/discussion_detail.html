@@ -39,7 +39,7 @@
         {% endif %}
     </span>
 </div>
-{% if user.is_authenticated %}
+{% if user.is_authenticated and discussion.status %}
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
 </div>
@@ -50,6 +50,8 @@
         <button type="submit" class="btn btn-primary submit-btn">Submit</button>
     </div>
 </form>
+{% else %}
+    <p class="alert alert-info">This topic is closed. You can't post answers.</p>
 {% endif %}
 {% endblock %}
 

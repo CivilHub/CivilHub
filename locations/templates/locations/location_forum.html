@@ -22,7 +22,7 @@
             </div>
             {% for topic in discussions %}
                 <div class="row topic-list-entry">
-                    {% if user == topic.creator %}
+                    {% if user == topic.creator or user.is_superuser %}
                         <div class="btn-group list-entry-controls">
                             <a href="{% url 'discussion:update' topic.slug %}">
                                 <button type="button" class="btn btn-default btn-sm" title="Edit"><span class="fa fa-edit"> </span></button>
@@ -45,7 +45,7 @@
                         {% if topic.status %}
                             <label class="label label-success">Active</label>
                         {% else %}
-                            <label class="label label-danger">Inactive</label>
+                            <label class="label label-danger">Closed</label>
                         {% endif %}
                     </div>
                 </div>

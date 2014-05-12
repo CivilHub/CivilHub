@@ -25,10 +25,14 @@ class DiscussionForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
+    status = forms.BooleanField(
+        required = False,
+        label = _('Status'),
+    )
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'categories', 'location',)
+        fields = ('question', 'intro', 'categories', 'location', 'status')
 
 
 class ReplyForm(forms.ModelForm):
