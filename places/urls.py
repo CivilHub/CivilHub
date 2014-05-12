@@ -3,6 +3,8 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
+# Abuse reports (static)
+from places_core.views import CreateAbuseReport
 # djangorestframework
 from rest_framework import routers
 from rest import views
@@ -14,6 +16,7 @@ router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 router.register(r'tags', views.TagViewSet, base_name=r'tag')
 router.register(r'news', views.NewsViewSet, base_name=r'news')
 router.register(r'forum', views.ForumCategoryViewSet, base_name=r'forum')
+router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
 
 urlpatterns = patterns('',# places
     # user account
@@ -36,6 +39,8 @@ urlpatterns = patterns('',# places
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
+    # Abuse reports (static)
+    url(r'^report/', CreateAbuseReport.as_view()),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
