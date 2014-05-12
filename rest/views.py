@@ -14,6 +14,7 @@ from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
 from rest.permissions import IsOwnerOrReadOnly
 
 
@@ -128,3 +129,12 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.user = self.request.user
+
+
+class ForumCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    queryset = ForumCategory.objects.all()
+    serializer_class = ForumCategorySerializer
+    permission_classes = (permissions.IsAdminUser,)

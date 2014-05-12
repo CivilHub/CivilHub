@@ -8,17 +8,49 @@
             <button type="button" class="btn btn-primary btn-topic-create">New topic</button>
         </a>
         {% if user.is_superuser %}
+{% comment %}
+    Create new category - allow superusers to create dynamically forum
+    categories via handy ajaxy form. This page element is hidden for
+    all other users and anonymous users.
+{% endcomment %}
             <button type="button" class="btn btn-primary btn-category-create">New category</button>
+            <div id="new-category-form" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Create forum category</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="presentation" method="post" action="" >
+                                <div class="form-group">
+                                    <label for="category-name" class="control-label">Name</label>
+                                    <input type="text" id="category-name" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-description">Description</label>
+                                    <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary submit-btn">Save</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
         {% endif %}
     {% endif %}
     <div class="discussion-list">
         {% if discussions %}
             <div class="row topic-list-heading">
+                <div class="col-xs-1">Answers</div>
                 <div class="col-xs-3">Question</div>
                 <div class="col-xs-3">Categories</div>
                 <div class="col-xs-2">Created by</div>
                 <div class="col-xs-2">Date created</div>
-                <div class="col-xs-2">Status</div>
+                <div class="col-xs-1">Status</div>
             </div>
             {% for topic in discussions %}
                 <div class="row topic-list-entry">
@@ -30,18 +62,19 @@
                             <button data-target="{{ topic.slug }}" type="button" class="btn btn-danger btn-sm delete-btn" title="Delete"><span class="fa fa-times-circle-o"> </span></button>
                         </div>
                     {% endif %}
+                    <div class="col-xs-1"><span class="badge">{{ topic.entry_set.count }}</span></div>
                     <div class="col-xs-3"><a href="{{ topic.slug }}">{{ topic }}</a></div>
                     <div class="col-xs-3">
                         {% for category in topic.categories.all %}
-                            {{ category }},&nbsp;
+                            <a href="#">{{ category }}</a>,&nbsp;
                         {% endfor %}
                     </div>
                     <div class="col-xs-2">
                         <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
                         <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator }}</a>
                     </div>
-                    <div class="col-xs-2 topic-date-col">{{ topic.date_created }}</div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-2 topic-date-col">{{ topic.date_created | timesince }}</div>
+                    <div class="col-xs-1">
                         {% if topic.status %}
                             <label class="label label-success">Active</label>
                         {% else %}
@@ -72,9 +105,15 @@
 <script>
 (function ($) {
     "use strict";
+    //
+    // Replace dates with moment library fromNow function value.
+    // -------------------------------------------------------------------------
     $('.topic-date-col').each(function () {
-        $(this).html(moment($(this).text()).fromNow());
+        //$(this).html(moment($(this).text()).fromNow());
     });
+    //
+    // Delete existing discussion - only owners and superadmins
+    // -------------------------------------------------------------------------
     $('.delete-btn').on('click', function () {
         var question = 'Are you sure you want to delete this entry?',
             target = $(this).attr('data-target'),
@@ -99,6 +138,43 @@
             } 
         });
     });
+    {% if user.is_superuser %}
+    //
+    // Create new forum category - only superadmins!
+    // -------------------------------------------------------------------------
+    $(document).ready(function () {
+        var $modal = $('#new-category-form'),
+            $form = $modal.find('form:first'),
+            $sBtn = $modal.find('.submit-btn:first');
+        $modal.modal({show:false});
+        function submitCategoryForm(evt) {
+            evt.preventDefault();
+            $modal.modal('hide');
+            sendAjaxRequest('POST', '/rest/forum/', {
+                data: {
+                    name: $('#category-name').val(),
+                    description: $('#category-description').val()
+                },
+                success: function (resp) {
+                    console.log(resp);
+                    display_alert('New category created', 'success');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        $sBtn.on('click', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $form.on('submit', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $('.btn-category-create').on('click', function (evt) {
+            $modal.modal('show');
+        });
+    });
+    {% endif %}
 })(jQuery);
 </script>
 {% endblock %}

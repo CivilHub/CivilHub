@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -102,3 +103,15 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('label',)
+
+
+class ForumCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = ForumCategory
+        fields = ('name', 'description',)

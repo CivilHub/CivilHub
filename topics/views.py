@@ -61,7 +61,7 @@ def delete_topic(request, slug):
     Delete topic from list via AJAX request.
     """
     topic = get_object_or_404(Discussion, slug=slug)
-    if request.user != topic.creator or not request.user.is_superuser:
+    if request.user != topic.creator and not request.user.is_superuser:
         resp = {
             'success': False,
             'message': _('Permission required'),
