@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods
@@ -52,6 +52,29 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = obj.question
         context['subtitle'] = _('Edit this topic')
         return context
+
+
+class EntryUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Update entry in static form.
+    """
+    model = Entry
+    form_class = ReplyForm
+    template_name = 'topics/reply_update.html'
+
+    def get_context_data(self, **kwargs):
+        obj = super(EntryUpdateView, self).get_object()
+        context = super(EntryUpdateView, self).get_context_data(**kwargs)
+        self.success_url = reverse('discussion:details',
+                    kwargs={'slug': obj.discussion.slug})
+        context['title'] = _('Edit entry')
+        return context
+
+    def form_valid(self, form):
+        obj = form.instance
+        obj.save()
+        return redirect(reverse('discussion:details',
+                kwargs={'slug': obj.discussion.slug}))
 
 
 @login_required

@@ -7,9 +7,6 @@
 
 {% block content %}
 {{ discussion.intro | safe }}
-{% comment %}
-{% for entry in discussion.entry_set.all %}
-{% endcomment %}
 {% for entry in replies %}
     <div class="reply-entry well">
         <div class="row">
@@ -17,8 +14,29 @@
                 <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar" style="margin-top:0px!important" />
             </div>
             <div class="col-xs-11">
-                <p class="entry-meta"><a href="{% url 'user:profile' entry.creator %}">{{ entry.creator }}</a> 
-                <span class="topic-date-col">{{ entry.date_created }}</span></p>
+                <p class="entry-meta">
+                    <a href="{% url 'user:profile' entry.creator %}">{{ entry.creator }}</a> 
+                    <span class="topic-date-col">
+                        {{ entry.date_created | timesince }}
+                        {% if entry.is_edited %}
+                        <label class="label label-default entry-edited-label">Edited</label> {{ entry.date_edited | timesince }}
+                        {% endif %}
+                    </span>
+                    <span class="entry-controls">
+                        {% if user == entry.creator %}
+                            <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="Edit entry">
+                                <span class="fa fa-edit"> </span>
+                            </a>
+                        {% else %}
+                            <a href="#" title="Report abuse">
+                                <span class="fa fa-exclamation-triangle"> </span>
+                            </a>
+                            <a href="#" title="Quote">
+                                <span class="fa fa-reply-all"> </span>
+                            </a>
+                        {% endif %}
+                    </span>
+                </p>
                 <div>{{ entry.content | safe }}</div>
             </div>
         </div>
@@ -62,12 +80,10 @@
 (function ($) {
     "use strict";
     CKEDITOR.replace('id_content');
+    $('.entry-controls').find('a').tooltip();
     $('.reply-entry-btn').on('click', function (evt) {
         evt.preventDefault();
         $('#reply-form').slideToggle('fast');
-    });
-    $('.topic-date-col').each(function () {
-        $(this).html(moment($(this).text()).fromNow());
     });
 })(jQuery);
 </script>

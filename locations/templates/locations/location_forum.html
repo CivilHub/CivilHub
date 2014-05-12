@@ -106,12 +106,6 @@
 (function ($) {
     "use strict";
     //
-    // Replace dates with moment library fromNow function value.
-    // -------------------------------------------------------------------------
-    $('.topic-date-col').each(function () {
-        //$(this).html(moment($(this).text()).fromNow());
-    });
-    //
     // Delete existing discussion - only owners and superadmins
     // -------------------------------------------------------------------------
     $('.delete-btn').on('click', function () {
@@ -156,7 +150,6 @@
                     description: $('#category-description').val()
                 },
                 success: function (resp) {
-                    console.log(resp);
                     display_alert('New category created', 'success');
                 },
                 error: function (err) {
