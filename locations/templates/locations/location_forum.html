@@ -1,6 +1,8 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'topics/css/forum.css' %}" />
     {% if user.is_authenticated %}
         <a href="{% url 'locations:new_topic' location.slug %}">
             <button type="button" class="btn btn-primary btn-topic-create">New topic</button>
@@ -9,13 +11,47 @@
             <button type="button" class="btn btn-primary btn-category-create">New category</button>
         {% endif %}
     {% endif %}
-    {% if discussions %}
-        <ul>
-        {% for topic in discussions %}
-            <li><a href="{{ topic.slug }}">{{ topic }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>There are no discussions opened yet.</p>
-    {% endif %}
+    <div class="discussion-list">
+        {% if discussions %}
+            <div class="row topic-list-heading">
+                <div class="col-xs-3">Question</div>
+                <div class="col-xs-3">Categories</div>
+                <div class="col-xs-2">Created by</div>
+                <div class="col-xs-2">Date created</div>
+                <div class="col-xs-2">Status</div>
+            </div>
+            {% for topic in discussions %}
+                <div class="row topic-list-entry">
+                    <div class="col-xs-3"><a href="{{ topic.slug }}">{{ topic }}</a></div>
+                    <div class="col-xs-3">
+                        {% for category in topic.categories.all %}
+                            {{ category }},&nbsp;
+                        {% endfor %}
+                    </div>
+                    <div class="col-xs-2">
+                        <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
+                        <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator }}</a>
+                    </div>
+                    <div class="col-xs-2 topic-date-col">{{ topic.date_created }}</div>
+                    <div class="col-xs-2">
+                        {% if topic.status %}
+                            <label class="label label-success">Active</label>
+                        {% else %}
+                            <label class="label label-danger">Inactive</label>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>There are no discussions opened yet.</p>
+        {% endif %}
+    </div>
+<script>
+(function ($) {
+    "use strict";
+    $('.topic-date-col').each(function () {
+        $(this).html(moment($(this).text()).fromNow());
+    });
+})(jQuery);
+</script>
 {% endblock %}

@@ -56,4 +56,4 @@ class Entry(MPTTModel):
                             related_name='children')
 
     class MPTTMeta:
-        order_insertion_by = ['submit_date']
+        order_insertion_by = ['date_created']

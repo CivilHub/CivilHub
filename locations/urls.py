@@ -18,7 +18,6 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/news/', LocationNewsList.as_view(), name='news'),
     # Location forum (discussions)
     url(r'^(?P<slug>[\w-]+)/forum/create', LocationDiscussionCreate.as_view(), name='new_topic'),
-    url(r'^(?P<place_slug>[\w-]+)/forum/(?P<slug>[\w-]+)/reply/', CreateReplyView.as_view(), name='reply'),
     url(r'^(?P<place_slug>[\w-]+)/forum/(?P<slug>[\w-]+)', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<slug>[\w-]+)/forum/', LocationDiscussionsList.as_view(), name='discussions'),
     # Location followers list

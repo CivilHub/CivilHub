@@ -127,27 +127,3 @@ class DiscussionLocationForm(forms.ModelForm):
     class Meta:
         model = Discussion
         fields = ('question', 'intro', 'categories', 'location',)
-
-
-class ReplyForm(forms.ModelForm):
-    """
-    Reply to discussion topic.
-    """
-    content = forms.CharField(
-        max_length = 2048,
-        widget = forms.Textarea(attrs={'class': 'form-control'}),
-    )
-    location = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.HiddenInput()
-    )
-    discussion = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.HiddenInput()
-    )
-
-    class Meta:
-        model = Entry
-        fields = ('content', 'location', 'discussion',)
