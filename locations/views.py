@@ -109,13 +109,10 @@ class LocationDiscussionsList(DetailView):
         try:
             context['discussions'] = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             context['discussions'] = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
-        #context['discussions'] = Discussion.objects.filter(location=location)
         return context
 
 

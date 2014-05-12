@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.views.generic import DetailView, CreateView
 from places_core.mixins import LoginRequiredMixin
@@ -16,6 +17,15 @@ class DiscussionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
+        replies = Entry.objects.filter(discussion=topic)
+        paginator = Paginator(replies, 25)
+        page = self.request.GET.get('page')
+        try:
+            context['replies'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['replies'] = paginator.page(1)
+        except EmptyPage:
+            context['replies'] = paginator.page(paginator.num_pages)
         context['form'] = ReplyForm(initial={
             'discussion': topic.slug
         })

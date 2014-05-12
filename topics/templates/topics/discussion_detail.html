@@ -7,7 +7,10 @@
 
 {% block content %}
 {{ discussion.intro | safe }}
+{% comment %}
 {% for entry in discussion.entry_set.all %}
+{% endcomment %}
+{% for entry in replies %}
     <div class="reply-entry well">
         <div class="row">
             <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
@@ -21,6 +24,21 @@
         </div>
     </div>
 {% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if replies.has_previous %}
+            <a href="?page={{ replies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ replies.number }} of {{ replies.paginator.num_pages }}.
+        </span>
+
+        {% if replies.has_next %}
+            <a href="?page={{ replies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% if user.is_authenticated %}
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
