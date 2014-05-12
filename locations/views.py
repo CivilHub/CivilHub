@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
@@ -102,8 +103,16 @@ class LocationDiscussionsList(DetailView):
     def get_context_data(self, **kwargs):
         location = super(LocationDiscussionsList, self).get_object()
         context = super(LocationDiscussionsList, self).get_context_data(**kwargs)
+        discussions = Discussion.objects.filter(location=location)
+        paginator = Paginator(discussions, 50)
+        page = self.request.GET.get('page')
+        try:
+            context['discussions'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['discussions'] = paginator.page(1)
+        except EmptyPage:
+            context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
-        context['discussions'] = Discussion.objects.filter(location=location)
         return context
 
 
