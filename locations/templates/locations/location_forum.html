@@ -42,6 +42,21 @@
                     </div>
                 </div>
             {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if discussions.has_previous %}
+                    <a href="?page={{ discussions.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ discussions.number }} of {{ discussions.paginator.num_pages }}.
+                </span>
+        
+                {% if discussions.has_next %}
+                    <a href="?page={{ discussions.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
         {% else %}
             <p>There are no discussions opened yet.</p>
         {% endif %}
