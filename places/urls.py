@@ -3,8 +3,6 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 admin.autodiscover()
-# Abuse reports (static)
-from places_core.views import CreateAbuseReport
 # djangorestframework
 from rest_framework import routers
 from rest import views
@@ -40,7 +38,7 @@ urlpatterns = patterns('',# places
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
     # Abuse reports (static)
-    url(r'^report/', CreateAbuseReport.as_view()),
+    url(r'^report/', include('places_core.urls', namespace='reports')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
