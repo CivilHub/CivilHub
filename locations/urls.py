@@ -20,6 +20,10 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/forum/create', LocationDiscussionCreate.as_view(), name='new_topic'),
     url(r'^(?P<place_slug>[\w-]+)/forum/(?P<slug>[\w-]+)', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<slug>[\w-]+)/forum/', LocationDiscussionsList.as_view(), name='discussions'),
+    # Location polls (create, edit, delete etc. just for this location)
+    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)', LocationPollsList.as_view(), name='poll'),
+    url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
+    url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
     # Generic location views

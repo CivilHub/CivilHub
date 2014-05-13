@@ -1,0 +1,35 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div>
+        <a href="{% url 'locations:new_poll' location.slug %}"><button class="btn btn-primary">Create poll</button></a>
+        <a href=""><button class="btn btn-primary">Create category</button></a>
+    </div>
+{% endif %}
+{% if polls %}
+<div class="polls-list custom-tablelike">
+    <div class="row polls-list-heading custom-list-heading">
+        <div class="col-xs-1">#</div>
+        <div class="col-xs-3">Title</div>
+        <div class="col-xs-2">Created by</div>
+        <div class="col-xs-2">Date created</div>
+        <div class="col-xs-4">&nbsp;</div>
+    </div>
+    {% for poll in polls %}
+    <div class="polls-list-entry custom-list-entry row">
+        <div class="col-xs-1"><span class="badge">{{ poll.question_set.count }}</span></div>
+        <div class="col-xs-3"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
+        <div class="col-xs-2">
+            <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
+            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator }}</a>
+        </div>
+        <div class="col-xs-2">{{ poll.date_created | timesince }}</div>
+        <div class="col-xs-4 custom-list-entry-la">{{ poll.description | striptags | truncatewords_html:4 }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <h2>There are no polls yet</h2>
+{% endif %}
+{% endblock %}

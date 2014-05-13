@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 
+
 class LoginRequiredMixin(object):
     """
     Mixin to allow only logged in users do certain actions

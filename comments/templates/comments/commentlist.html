@@ -9,7 +9,20 @@
 <script type="text/template" id="comment-template">
     <div class="row comment-row comment-entry-heading">
         <p><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar" /></p>
-        <p>Added by <a href="/users/<%= username %>/"><%= username %></a> <%= moment(submit_date).fromNow() %></p>
+        <p>
+            Added by <a href="/users/<%= username %>/"><%= username %></a> <%= moment(submit_date).fromNow() %>
+            <span class="comment-controls">
+                <% if (username === $('#target-user').val()) { %>
+                    <a href="#" title="Edit entry">
+                        <span class="fa fa-edit"> </span>
+                    </a>
+                <% } else { %>
+                    <a class="report-abuse-link" href="/report/comments/customcomment/<%= id %>/" title="Report abuse" class="report-abuse-link">
+                        <span class="fa fa-exclamation-triangle"> </span>
+                    </a>
+                <% } %>
+            </span>
+        </p>
     </div>
     <div class="row comment-row comment-content"><%= comment %></div>
     <div class="row comment-row comment-meta-options">
