@@ -87,20 +87,21 @@ class NewsLocationForm(forms.ModelForm):
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
+        required = False,
         queryset = BlogCategory.objects.all(),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField()
+    tags = TagField(required=False)
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'categories', 'location', 'tags')
+        fields = ('title', 'content', 'category', 'location', 'tags')
 
 
 class DiscussionLocationForm(forms.ModelForm):

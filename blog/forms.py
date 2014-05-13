@@ -22,14 +22,14 @@ class NewsForm(forms.ModelForm):
         label = _('Content'),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         required = False,
         queryset = Category.objects.all(),
-        label = _('Categories'),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        label = _('Category'),
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
-    tags = TagField()
+    tags = TagField(required=False)
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'categories', 'tags',)
+        fields = ('title', 'content', 'category', 'tags',)

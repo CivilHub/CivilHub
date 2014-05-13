@@ -53,6 +53,7 @@ class NewsDetailView(DetailView):
         news = super(NewsDetailView, self).get_object()
         content_type = ContentType.objects.get_for_model(news)
         context = super(NewsDetailView, self).get_context_data(**kwargs)
+        context['location'] = news.location
         context['content_type'] = content_type.pk
         context['title'] = news.title
         return context

@@ -37,9 +37,9 @@ class News(models.Model):
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64)
     content = models.TextField(max_length=10248, null=True, blank=True,)
-    categories = models.ManyToManyField(
+    category = models.ForeignKey(
         Category,
-        verbose_name=_('Categories'),
+        verbose_name=_('Category'),
         null=True,
         blank=True,
     )

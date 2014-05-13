@@ -40,14 +40,14 @@ class NewsSerializer(serializers.ModelSerializer):
     username = serializers.Field(source='creator.username')
     avatar = serializers.Field(source='creator.profile.avatar.url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
-    categories = serializers.RelatedField(many=True)
+    category = serializers.RelatedField()
     tags = serializers.RelatedField(many=True)
     comment_count = serializers.SerializerMethodField('get_comment_count')
 
     class Meta:
         model = News
         fields = ('id', 'title', 'slug', 'content', 'date_created', 
-                  'date_edited', 'username', 'avatar', 'location', 'categories',
+                  'date_edited', 'username', 'avatar', 'location', 'category',
                   'tags', 'comment_count',)
 
     def get_comment_count(self, obj):

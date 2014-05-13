@@ -13,7 +13,7 @@ router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 router.register(r'tags', views.TagViewSet, base_name=r'tag')
 router.register(r'news', views.NewsViewSet, base_name=r'news')
-router.register(r'forum', views.ForumCategoryViewSet, base_name=r'forum')
+router.register(r'discussion', views.ForumCategoryViewSet, base_name=r'discussion')
 router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
 
 urlpatterns = patterns('',# places
@@ -32,7 +32,7 @@ urlpatterns = patterns('',# places
     # disabled because of lack South integrity
     #url('^messages/', include('discussions.urls', namespace='messages')),
     # Discussions (e.g. forum)
-    url('^forum/', include('topics.urls', namespace='discussion')),
+    url('^discussion/', include('topics.urls', namespace='discussion')),
     # comments
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel

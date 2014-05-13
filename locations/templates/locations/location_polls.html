@@ -18,6 +18,15 @@
     </div>
     {% for poll in polls %}
     <div class="polls-list-entry custom-list-entry row">
+        {% if user == poll.creator or user.is_superuser %}
+            <div class="btn-group list-entry-controls">
+                <a href="">
+                    <button type="button" class="btn btn-default btn-sm" title="Edit"><span class="fa fa-edit"> </span></button>
+                </a>
+                <button data-target="{{ poll.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="Delete">
+                    <span class="fa fa-times-circle-o"> </span></button>
+            </div>
+        {% endif %}
         <div class="col-xs-1"><span class="badge">{{ poll.question_set.count }}</span></div>
         <div class="col-xs-3"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
         <div class="col-xs-2">

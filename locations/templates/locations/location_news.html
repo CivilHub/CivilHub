@@ -58,10 +58,8 @@
         </p>
         <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">Read more &raquo;</a></p>
         <div class="row">
-            <p class="col-sm-6"><span class="fa fa-star"> </span> Categories: 
-            <% $(categories).each(function (idx, category) { %>
-                <a href="#"><%= category %></a>,&nbsp;
-            <% }); %>    
+            <p class="col-sm-6"><span class="fa fa-star"> </span>
+                <a href="#"><%= category %></a>
             </p>
             <p class="col-sm-6"><span class="fa fa-tags"> </span> Tags: 
             <% $(tags).each(function (idx, tag) { %>

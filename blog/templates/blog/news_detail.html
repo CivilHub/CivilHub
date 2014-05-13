@@ -1,6 +1,7 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 
 {% block content %}
+<h1>{{ title }}</h1><hr />
 <article>
     {% if user.is_authenticated and user != news.creator %}
         <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">Report abuse</a>

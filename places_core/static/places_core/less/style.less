@@ -72,6 +72,22 @@ body {
   .custom-list-entry-la {
     text-align: left;
   }
+  .list-entry-controls {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 50;
+    button {
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    .entry-controls {
+      display: block;
+    }
+  }
 }
 /*--------User avatar---------*/
 .user-profile-link {
