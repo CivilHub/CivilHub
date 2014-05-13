@@ -13,6 +13,8 @@ router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 router.register(r'tags', views.TagViewSet, base_name=r'tag')
 router.register(r'news', views.NewsViewSet, base_name=r'news')
+router.register(r'forum', views.ForumCategoryViewSet, base_name=r'forum')
+router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
 
 urlpatterns = patterns('',# places
     # user account
@@ -35,6 +37,8 @@ urlpatterns = patterns('',# places
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
+    # Abuse reports (static)
+    url(r'^report/', include('places_core.urls', namespace='reports')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,

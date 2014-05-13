@@ -1,3 +1,4 @@
+/* Discussion list view */
 .discussion-list {
   margin-top: 25px;
   .row {
@@ -39,6 +40,22 @@
     z-index: 50;
     button {
       cursor: pointer;
+    }
+  }
+}
+
+/* Discussion active detail view */
+.reply-entry {
+  .entry-controls {
+    float: right;
+    display: none;
+  }
+  .entry-edited-label {
+    margin-left: 35px;
+  }
+  &:hover {
+    .entry-controls {
+      display: block;
     }
   }
 }

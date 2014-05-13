@@ -52,8 +52,14 @@ class Entry(MPTTModel):
     discussion   = models.ForeignKey(Discussion)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited  = models.DateTimeField(auto_now=True)
+    is_edited    = models.BooleanField(default=False)
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='children')
 
     class MPTTMeta:
         order_insertion_by = ['date_created']
+
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
+            self.is_edited = True
+        super(Entry, self).save(*args, **kwargs)

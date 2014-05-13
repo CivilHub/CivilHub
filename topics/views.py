@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods
@@ -54,6 +54,29 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
+class EntryUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Update entry in static form.
+    """
+    model = Entry
+    form_class = ReplyForm
+    template_name = 'topics/reply_update.html'
+
+    def get_context_data(self, **kwargs):
+        obj = super(EntryUpdateView, self).get_object()
+        context = super(EntryUpdateView, self).get_context_data(**kwargs)
+        self.success_url = reverse('discussion:details',
+                    kwargs={'slug': obj.discussion.slug})
+        context['title'] = _('Edit entry')
+        return context
+
+    def form_valid(self, form):
+        obj = form.instance
+        obj.save()
+        return redirect(reverse('discussion:details',
+                kwargs={'slug': obj.discussion.slug}))
+
+
 @login_required
 @require_http_methods(["POST"])
 def delete_topic(request, slug):
@@ -61,7 +84,7 @@ def delete_topic(request, slug):
     Delete topic from list via AJAX request.
     """
     topic = get_object_or_404(Discussion, slug=slug)
-    if request.user != topic.creator:
+    if request.user != topic.creator and not request.user.is_superuser:
         resp = {
             'success': False,
             'message': _('Permission required'),
@@ -84,6 +107,8 @@ def reply(request, slug):
     if request.method == 'POST' and request.POST:
         post = request.POST
         topic = Discussion.objects.get(slug=post['discussion'])
+        if not topic.status:
+            return HttpResponse(_('This discussion is closed.'))
         entry = Entry(
             content = post['content'],
             creator = request.user,
@@ -92,5 +117,6 @@ def reply(request, slug):
         try:
             entry.save()
         except:
-            return HttpResponse('There was some errors')
-    return HttpResponseRedirect(reverse('discussion:details', kwargs={'slug': topic.slug,}))
+            return HttpResponse(_('An error occured'))
+    return HttpResponseRedirect(reverse('discussion:details',
+                                kwargs={'slug': topic.slug,}))

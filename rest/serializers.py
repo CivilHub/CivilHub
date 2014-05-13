@@ -5,6 +5,8 @@ from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
+from places_core.models import AbuseReport
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -102,3 +104,33 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('label',)
+
+
+class ForumCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = ForumCategory
+        fields = ('name', 'description',)
+
+
+class AbuseReportSerializer(serializers.ModelSerializer):
+    """
+    Abuse reports to send in context of some content.
+    """
+    id = serializers.Field()
+    comment = serializers.CharField(max_length=2048)
+    sender  = serializers.PrimaryKeyRelatedField(read_only=True)
+    status  = serializers.Field()
+    content_type  = serializers.PrimaryKeyRelatedField()
+    object_pk     = serializers.Field()
+    date_reported = serializers.DateTimeField(required=False)
+
+    class Meta:
+        model = AbuseReport
+        fields = ('id', 'comment', 'sender', 'status', 'content_type',
+               'object_pk', 'date_reported',)

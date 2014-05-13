@@ -14,7 +14,9 @@ from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
 from rest.permissions import IsOwnerOrReadOnly
+from places_core.models import AbuseReport
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -128,3 +130,26 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.user = self.request.user
+
+
+class ForumCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    queryset = ForumCategory.objects.all()
+    serializer_class = ForumCategorySerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
+class AbuseReportViewSet(viewsets.ModelViewSet):
+    """
+    Abuse reports to show to admins and moderators. All registered users
+    can send reports, but no one except superadmins is allowed to delete
+    and edit them.
+    """
+    queryset = AbuseReport.objects.all()
+    serializer_class = AbuseReportSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.sender = self.request.user

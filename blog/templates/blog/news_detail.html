@@ -2,6 +2,9 @@
 
 {% block content %}
 <article>
+    {% if user.is_authenticated and user != news.creator %}
+        <a href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">Report abuse</a>
+    {% endif %}
     <div>{{ news.content | safe }}</div>
     {% if user.is_authenticated and user == news.creator %}
         <div class="news-controls">
