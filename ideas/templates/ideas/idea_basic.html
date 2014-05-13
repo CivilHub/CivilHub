@@ -2,7 +2,7 @@
     <div class="idea-votes col-sm-2">
         <div class="votes">{{ idea.get_votes }}</div>
         <div class="vote-controls">
-            {% if user != idea.creator and user.is_authenticated %}
+            {% if user.is_authenticated %}
                 <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn">+</button>
                 <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn">-</button>
             {% else %}
