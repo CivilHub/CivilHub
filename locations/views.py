@@ -12,6 +12,8 @@ from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from blog.models import News
 from topics.models import Discussion, Entry
+from polls.models import Poll
+from polls.forms import PollForm
 from forms import *
 from models import Location
 # Use our mixin to allow only some users make actions
@@ -153,6 +155,46 @@ class LocationFollowersList(DetailView):
     """
     model = Location
     template_name = 'locations/location_followers.html'
+
+
+class LocationPollsList(DetailView):
+    """
+    Show list of polls made in this location.
+    """
+    model = Location
+    template_name = 'locations/location_polls.html'
+
+    def get_context_data(self, **kwargs):
+        location = super(LocationPollsList, self).get_object()
+        context = super(LocationPollsList, self).get_context_data(**kwargs)
+        context['title'] = location.name + ':' + _('Polls')
+        context['polls'] = Poll.objects.filter(location=location)
+        return context
+
+
+class LocationPollCreate(LoginRequiredMixin, CreateView):
+    """
+    Create poll in currently selected location.
+    """
+    model = Poll
+    form_class = PollForm
+    template_name = 'polls/create-poll.html'
+
+    def get(self, request, *args, **kwargs):
+        slug = kwargs['slug']
+        location = Location.objects.get(slug=slug)
+        ctx = {
+                'title': _('Create new poll'),
+                'location': location,
+                'form': PollForm(initial={
+                    'location': location
+                })
+            }
+        return render(request, self.template_name, ctx)
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(LocationPollCreate, self).form_valid(form)
 
 
 class LocationListView(ListView):

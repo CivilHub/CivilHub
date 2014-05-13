@@ -1,0 +1,15 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+    <div>
+        <a href="{% url 'locations:new_poll' location.slug %}"><button class="btn btn-primary">Create poll</button></a> |
+        <a href=""><button class="btn btn-primary">Create category</button></a>
+    </div>
+{% endif %}
+{% if polls %}
+
+{% else %}
+    <h2>There are no polls yet</h2>
+{% endif %}
+{% endblock %}

@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'locations',
     'ideas',
     'blog',
+    'polls',
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)

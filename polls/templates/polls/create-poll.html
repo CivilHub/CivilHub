@@ -1,0 +1,17 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
+<form action="" method="post" role="form">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+    </div>
+</form>    
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
+<script src="{% static 'polls/js/create-poll.js' %}"></script>
+    
+{% endblock %}

@@ -39,6 +39,8 @@ urlpatterns = patterns('',# places
     url(r'^admin/', include(admin.site.urls)),
     # Abuse reports (static)
     url(r'^report/', include('places_core.urls', namespace='reports')),
+    # Polls app
+    url(r'^polls/', include('polls.urls', namespace='polls')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
