@@ -13,7 +13,7 @@
         {% endif %}
     </div>
     <div>
-        <a href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">Report abuse</a>
+        <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">Report abuse</a>
     </div>
     <div>{{ idea.description | safe }}</div>
     <div class="post-meta">
