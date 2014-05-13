@@ -6,5 +6,6 @@ from places_core.views import CreateAbuseReport, report_sent
 
 urlpatterns = patterns('',
     url(r'^sent/', report_sent),
-    url(r'^(?P<app_label>.+)/(?P<model_label>.+)/(?P<object_pk>\d+)/', CreateAbuseReport.as_view()),
+    url(r'^(?P<app_label>.+)/(?P<model_label>.+)/(?P<object_pk>\d+)/',
+        CreateAbuseReport.as_view(), name='report'),
 )

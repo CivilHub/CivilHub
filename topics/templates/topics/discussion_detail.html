@@ -28,7 +28,7 @@
                                 <span class="fa fa-edit"> </span>
                             </a>
                         {% else %}
-                            <a href="/report/topics/entry/{{ entry.pk }}/" title="Report abuse" class="report-abuse-link">
+                            <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="Report abuse" class="report-abuse-link">
                                 <span class="fa fa-exclamation-triangle"> </span>
                             </a>
                             <a href="#" title="Quote" class="quote-reply-link">
