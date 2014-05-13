@@ -68,16 +68,20 @@
       </div>
     </div>
   </nav>
-  <div class="container main-page-content">
+  <div class="main-page-content">
       {% block header %}
-      <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small>
-        <span class="fa fa-cogs custom-logolike"> </span>
-      </h1>
-      <hr />
+      <div class="container">
+          <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small>
+            <span class="fa fa-cogs custom-logolike"> </span>
+          </h1>
+          <hr />
+      </div>
       {% endblock %}
-      {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-      <hr />
-      <p class="custom-copyrights">Copyright&copy;2014</p>
+      <div class="container">
+          {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+          <hr />
+          <p class="custom-copyrights">Copyright&copy;2014</p>
+      </div>
   </div>
   {% if user.is_authenticated %}
     <script type="text/template" id="abuse-form-tpl">
