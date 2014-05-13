@@ -14,9 +14,11 @@ class PollForm(forms.ModelForm):
         widget = forms.TextInput(attrs={'class':'form-control'})
     )
     description = forms.CharField(
+        required = False,
         widget = forms.Textarea(attrs={'class':'form-control'})
     )
     categories = forms.ModelMultipleChoiceField(
+        required = False,
         queryset = Category.objects.all(),
         widget = forms.SelectMultiple(attrs={'class':'form-control'})
     )
@@ -24,7 +26,9 @@ class PollForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField()
+    tags = TagField(
+        required = False
+    )
     
     class Meta:
         model = Poll

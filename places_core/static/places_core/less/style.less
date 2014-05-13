@@ -39,6 +39,40 @@ body {
   max-height: 1px;
   overflow: hidden;
 }
+/*---Semi-tables on BS grid---*/
+.custom-tablelike {
+  margin-top: 25px;
+  .custom-list-heading {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 2em;
+  }
+  .custom-list-entry {
+    padding: 5px 0px 5px 0px;
+    &:hover {
+      .list-entry-controls {
+        opacity: 1;
+      }
+    }
+  }
+  .user-avatar-minithumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+  }
+  .row {
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid #F2F2F2;
+    margin: 0px;
+    z-index: 0;
+  }
+  .custom-list-entry-la {
+    text-align: left;
+  }
+}
 /*--------User avatar---------*/
 .user-profile-link {
   display: none !important;

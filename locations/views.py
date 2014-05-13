@@ -192,6 +192,16 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
             }
         return render(request, self.template_name, ctx)
 
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super(LocationPollCreate, self).post(request, *args, **kwargs)
+
+    def get_success_url(self):
+        """
+        Returns the supplied URL.
+        """
+        return reverse('locations:polls', kwargs={'slug':self.object.location.slug})
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(LocationPollCreate, self).form_valid(form)
