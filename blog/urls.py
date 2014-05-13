@@ -4,6 +4,7 @@ from views import *
 
 urlpatterns = patterns('',
     url(r'^$', NewsListView.as_view(), name='index'),
+    url(r'^(?P<slug>[\w-]+)/update/', NewsUpdateView.as_view(), name='update'),
     url(r'^(?P<slug>[\w-]+)', NewsDetailView.as_view(), name='details'),
     url(r'^create', NewsCreateView.as_view(), name='new'),
     url(r'^category/(?P<slug>[\w-]+)', CategoryDetailView.as_view(), name='category'),

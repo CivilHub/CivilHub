@@ -57,14 +57,23 @@
         <li><a href="{% url 'activities:actstream' %}">Actions</a></li>
         <li><a href="{% url 'locations:index' %}">Places</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'user:index' %}">logged in as {{ user.username }}</a></li>
-        <li><a href="{% url 'user:logout' %}">Logout</a></li>
-      {% else %}
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'user:login' %}">Login</a></li>
       {% endif %}
-      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      {% if user.is_authenticated %}
+        <li class="user-hidden-link">
+          <a href="{% url 'user:profile' user %}"><span class="fa fa-user"> </span> Profile</a>
+          <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> Logout</a>
+        </li>
+        <li class="user-profile-link">
+            <a href="{% url 'user:profile' user %}">
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user }}" class="navbar-avatar" title="Logged in as {{ user }}" />
+            </a>
+            <a href="{% url 'user:logout' %}">Logout</a>
+        </li>
+      {% else %}
+        <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> Login</a></li>
+      {% endif %}
+        </ul>
       </div>
     </div>
   </nav>

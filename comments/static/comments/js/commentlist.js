@@ -82,6 +82,7 @@
                             _that.$el.find('.subcomments'));
                 });
             }
+            _that.$el.find('.report-abuse-link').tooltip();
             _that.voteCounter.bind('mouseenter', function (evt) {
                 $elem.stop(true).fadeIn('slow');
             });

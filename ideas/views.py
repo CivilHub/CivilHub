@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 # Use generic django views
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
@@ -96,6 +97,8 @@ class UpdateIdeaView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateIdeaView, self).get_context_data(**kwargs)
+        if self.object.crator != self.request.user:
+            raise PermissionDenied
         context['title'] = self.object.name
         context['action'] = 'update'
         return context

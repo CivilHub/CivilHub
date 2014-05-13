@@ -7,7 +7,7 @@
     {% endif %}
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>
-        {% if user != idea.creator and user.is_authenticated %}
+        {% if user.is_authenticated %}
             <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn btn btn-default">+</button>
             <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn btn btn-default">-</button>
         {% endif %}

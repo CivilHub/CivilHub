@@ -40,6 +40,18 @@ body {
   overflow: hidden;
 }
 /*--------User avatar---------*/
+.user-profile-link {
+  display: none !important;
+}
+.navbar-avatar {
+  display: none !important;
+  width: 30px;
+  height: 30px;
+  margin: -5px 10px 0px 0px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
 .entry-avatar-col {
   text-align: center;
   min-width: 65px;
@@ -84,5 +96,20 @@ body {
 @media (min-width: 768px) {
   .custom-logolike {
     display: block;
+  }
+  .user-profile-link {
+    display: block !important;
+    padding-right: 15px !important;
+    & > a {
+      float: left;
+      padding: 15px 0px 0px 0px !important;
+      margin: 0px !important;
+    }
+  }
+  .navbar-avatar {
+    display: inline-block !important;
+  }
+  .user-hidden-link {
+    display: none !important;
   }
 }
