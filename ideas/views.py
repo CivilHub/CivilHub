@@ -63,6 +63,7 @@ class IdeasDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(IdeasDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
+        context['location'] = self.object.location
         return context
 
 

@@ -1,19 +1,15 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
-{% endblock %}
-
 {% block content %}
-    <form role="form" method="post" action="">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
-            <button type="submit" class="btn btn-primary submit-btn">Save</button>
-        </div>
-    </form>
+<form role="form" method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="button" class="btn btn-default cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+    </div>
+</form>
 {% endblock %}
 
 {% block footer_scripts %}
