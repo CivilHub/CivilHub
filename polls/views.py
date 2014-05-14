@@ -12,7 +12,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from places_core.mixins import LoginRequiredMixin
 from locations.models import Location
 from .models import Category, Poll, Question, Answer
-from .forms import CategoryForm
+from .forms import CategoryForm, PollEntryAnswerForm
 
 
 class CreateCategoryView(LoginRequiredMixin, CreateView):
@@ -61,6 +61,7 @@ class PollDetails(DetailView):
         context = super(PollDetails, self).get_context_data(**kwargs)
         context['title'] = self.object.title
         context['location'] = self.object.location
+        context['form'] = PollEntryAnswerForm(self.object.question_set.all())
         return context
 
 

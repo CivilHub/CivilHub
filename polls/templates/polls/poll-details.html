@@ -3,17 +3,5 @@
 {% block content %}
 <h1>{{ poll.title }}</h1><hr />
 <p>Questions: {{ poll.question_set.count }}</p>
-<div>
-<h3>Questions:</h3>
-<ul>
-{% for question in poll.question_set.all %}
-    <h4>{{ question }}</h4>
-    <ul>
-        {% for answer in question.answer_set.all %}
-        <li>{{ answer }}</li>
-        {% endfor %}
-    </ul>
-{% endfor %}
-</ul>
-</div>
+{{ form }}
 {% endblock %}

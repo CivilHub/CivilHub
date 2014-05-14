@@ -53,4 +53,27 @@ class PollForm(forms.ModelForm):
     class Meta:
         model = Poll
         fields = ('title', 'description', 'category', 'location', 'tags')
-    
+
+
+class PollEntryAnswerForm(forms.Form):
+    """
+    Print form for single poll's question and let user participate!
+    """
+    def __init__(self, qset):
+        super(PollEntryAnswerForm, self).__init__()
+        for q in qset:
+            if q.multiple:
+                field_type = forms.MultipleChoiceField
+                widget_type = forms.CheckboxSelectMultiple
+            else:
+                field_type = forms.ChoiceField
+                widget_type = forms.RadioSelect
+            a_keys = []
+            a_labels = []
+            for a in q.answer_set.all():
+                a_labels.append((a.pk, a.answer))
+            self.fields['question_' + str(q.pk)] = field_type(
+                label = q.question,
+                choices = a_labels,
+                widget = widget_type()
+            )
