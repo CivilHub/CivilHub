@@ -6,6 +6,26 @@ from locations.models import Location
 from .models import Category, Poll
 
 
+class CategoryForm(forms.ModelForm):
+    """
+    Custom form to add Bootstrap classes etc.
+    """
+    name = forms.CharField(
+        required = True,
+        max_length = 128,
+        widget = forms.TextInput(attrs={'class':'form-control'})
+    )
+    description = forms.CharField(
+        required = True,
+        max_length = 2048,
+        widget = forms.Textarea(attrs={'class':'form-control'})
+    )
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
 class PollForm(forms.ModelForm):
     """
     Custom poll form - we will bind it with scripts on client-side.
@@ -17,10 +37,10 @@ class PollForm(forms.ModelForm):
         required = False,
         widget = forms.Textarea(attrs={'class':'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         required = False,
         queryset = Category.objects.all(),
-        widget = forms.SelectMultiple(attrs={'class':'form-control'})
+        widget = forms.Select(attrs={'class':'form-control'})
     )
     location = forms.ModelChoiceField(
         queryset = Location.objects.all(),
@@ -32,5 +52,5 @@ class PollForm(forms.ModelForm):
     
     class Meta:
         model = Poll
-        fields = ('title', 'description', 'categories', 'location', 'tags')
+        fields = ('title', 'description', 'category', 'location', 'tags')
     

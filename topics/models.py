@@ -37,11 +37,10 @@ class Discussion(models.Model):
         super(Discussion, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        #return reverse('discussion:details', kwargs={'slug':self.slug})
         return reverse('locations:topic',
             kwargs={
-                'place_slug':self.location.slug,
-                'slug': self.slug
+                'slug':self.location.slug,
+                'pk': self.pk
             }
         )
 

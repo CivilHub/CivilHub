@@ -25,11 +25,18 @@ class Poll(models.Model):
     tags  = TaggableManager()
     creator  = models.ForeignKey(User)
     location = models.ForeignKey(Location)
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'),
-                                        null=True, blank=True,)
+    category = models.ForeignKey(Category, null=True, blank=True)
     date_created  = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     description   = models.TextField(blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('locations:topic',
+            kwargs={
+                'place_slug':self.location.slug,
+                'slug': self.slug
+            }
+        )
 
     def __unicode__(self):
         return self.title
