@@ -1,0 +1,6 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+<p>Correct answers: {{ valid | length }}</p>
+<p>Incorrect answers: {{ invalid | length }}</p>
+{% endblock %}

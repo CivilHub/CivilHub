@@ -3,5 +3,10 @@
 {% block content %}
 <h1>{{ poll.title }}</h1><hr />
 <p>Questions: {{ poll.question_set.count }}</p>
-{{ form }}
+<form role="form" method="post" action="{% url 'polls:answer' poll.pk %}" class="poll-form">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">Send</button>
+    </div>
 {% endblock %}

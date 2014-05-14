@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic.list import ListView
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, ProcessFormView
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -63,6 +63,34 @@ class PollDetails(DetailView):
         context['location'] = self.object.location
         context['form'] = PollEntryAnswerForm(self.object.question_set.all())
         return context
+
+
+class PollAnswerSet(ProcessFormView):
+    """
+    Get answers from user and check if their are correct.
+    """
+    def post(self, request, *args, **kwargs):
+        valid_answers = []
+        invalid_answers = []
+        current_poll = None
+        for key, val in request.POST.iteritems():
+            if 'question' in key:
+                qid = key[9:]
+                if current_poll == None:
+                    question     = Question.objects.get(pk=qid)
+                    current_poll = question.poll
+                answer = Answer.objects.get(pk=val)
+                if answer.correct:
+                    valid_answers.append(answer)
+                else:
+                    invalid_answers.append(answer)
+        title = _('Poll results')
+        return render(request, 'polls/poll-results.html', {
+            'valid'   : valid_answers,
+            'invalid' : invalid_answers,
+            'title'   : title,
+            'location': current_poll.location,
+        })
 
 
 @login_required
