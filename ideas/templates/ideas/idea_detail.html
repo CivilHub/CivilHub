@@ -1,5 +1,6 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}
+
 {% block content %}
     <h3><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h3>
     {% if idea.creator == user %}

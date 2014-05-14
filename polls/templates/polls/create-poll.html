@@ -1,15 +1,17 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}
-
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
-{% endblock %}
 
 {% block content %}
 
-<form action="" method="post" role="form">
+<form action="{% url 'polls:verify' %}" method="post" role="form">
     {% csrf_token %}
     {{ form }}
+    <div id="poll-question-form"></div>
+    <p>
+        <button type="button" class="btn btn-success btn-sm add-question-btn" title="Add question">
+            <span class="fa fa-plus-circle"> </span>
+        </button>
+    </p>
     <div class="form-group">
         <button type="submit" class="btn btn-primary submit-btn">Save</button>
     </div>
@@ -18,6 +20,34 @@
 {% endblock %}
 
 {% block footer_scripts %}
+<script type="text/template" id="question-entry-tpl">
+    <div><button type="button" class="btn btn-danger btn-sm remove-btn"><span class="fa fa-minus-circle"> </span></button></div>
+    <div class="form-group">
+        <label for="question-detail-<%= id %>" class="control-label">Question</label>
+        <input type="text" name="question_<%= id %>" id="question-<%= id %>" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="question-multiple-<%= id %>" class="control-label">Multiple correct answers</label>
+        <input type="checkbox" id="multiple-<%= id %>" name="multiple_<%= id %>" />
+    </div>
+    <div class="answer-set"></div>
+    <p>
+        <button type="button" class="btn btn-success btn-sm add-answer-btn" title="Add answer">
+            <span class="fa fa-plus-circle"> </span>
+        </button>
+    </p>
+</script>
+<script type="text/template" id="answer-entry-tpl">
+    <input type="hidden" name="answer_parent_<%= id %>" value="<%= qid %>" />
+    <div class="form-group">
+        <label for="answer-txt-<%= id %>" class="control-label">Answer text</label>
+        <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="is-correct-<%= id %>" class="control-label">Is correct?</label>
+        <input type="checkbox" id="is-correct-<%= id %>" name="is_correct_<%= id %>" />
+    </div>
+</script>
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
 <script src="{% static 'polls/js/create-poll.js' %}"></script>

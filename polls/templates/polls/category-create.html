@@ -1,12 +1,11 @@
-{% extends 'locations/index.html' %}
+{% extends 'places_core/base.html' %}
 {% load staticfiles %}
 
 {% block content %}
-<form role="form" method="post" action="">
+<form role="form" action="" method="post">
     {% csrf_token %}
     {{ form }}
     <div class="form-group">
-        <button type="button" class="btn btn-default cancel-btn">Cancel</button>
         <button type="submit" class="btn btn-primary submit-btn">Save</button>
     </div>
 </form>
@@ -14,14 +13,10 @@
 
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_content');
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
-    });
+    var editor = CKEDITOR.replace('id_description');
 })(jQuery);
 </script>
 {% endblock %}

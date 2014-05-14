@@ -1,0 +1,10 @@
+{% extends 'places_core/base.html' %}
+
+{% block content %}
+<div><a href="{% url 'polls:new_category' %}">Add new</a></div>
+<ul>
+{% for category in categories %}
+    <li>{{ category }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

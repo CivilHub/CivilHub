@@ -36,6 +36,7 @@ class DiscussionDetailView(DetailView):
             'discussion': topic.slug
         })
         context['title'] = topic.question
+        context['location'] = topic.location
         return context
 
 
@@ -51,6 +52,7 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
         context = super(DiscussionUpdateView, self).get_context_data(**kwargs)
         context['title'] = obj.question
         context['subtitle'] = _('Edit this topic')
+        context['location'] = obj.location
         return context
 
 

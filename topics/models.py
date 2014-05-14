@@ -28,7 +28,7 @@ class Discussion(models.Model):
     creator  = models.ForeignKey(User)
     status   = models.BooleanField(default=True)
     location = models.ForeignKey(Location)
-    categories   = models.ManyToManyField(Category, blank=True, null=True)
+    category = models.ForeignKey(Category, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited  = models.DateTimeField(auto_now=True)
 
@@ -37,7 +37,12 @@ class Discussion(models.Model):
         super(Discussion, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('discussion:details', kwargs={'slug':self.slug})
+        return reverse('locations:topic',
+            kwargs={
+                'slug':self.location.slug,
+                'pk': self.pk
+            }
+        )
 
     def __unicode__(self):
         return self.question
