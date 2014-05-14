@@ -8,9 +8,10 @@ from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from places_core.mixins import LoginRequiredMixin
-from .models import Category, Poll
+from locations.models import Location
+from .models import Category, Poll, Question, Answer
 from .forms import CategoryForm
 
 
@@ -61,6 +62,53 @@ class PollDetails(DetailView):
         context['title'] = self.object.title
         context['location'] = self.object.location
         return context
+
+
+@login_required
+@require_http_methods(["POST"])
+def verify_poll(request):
+    """
+    Custom method to create poll via POST data - allow us to add as many
+    question fields as we want (at least I hope so).
+    """
+    questions = {}
+    title = request.POST.get('title')
+    tags  = request.POST.get('tags')
+    category = Category.objects.get(pk=request.POST.get('category'))
+    location = Location.objects.get(pk=request.POST.get('location'))
+    description = request.POST.get('description')
+    # Create new poll without questions (for now)
+    poll = Poll(
+        title = title,
+        description = description,
+        category    = category,
+        creator     = request.user,
+        location    = location
+    )
+    poll.save()
+    # Add questions and answers in proper order
+    for key, val in request.POST.iteritems():
+        if 'question' in key:
+            qid = key[9:]
+            multi = request.POST.get('multiple_' + str(qid))
+            q = Question(
+                poll = poll,
+                question = request.POST.get('question_' + str(qid)),
+                multiple = True if multi else False
+            )
+            q.save()
+            # Fixme: znaleźć bardziej wydajną metodę
+            for key, val in request.POST.iteritems():
+                if 'answer_parent' in key and val == qid:
+                    aid = key[14:]
+                    chk = request.POST.get('is_correct_' + str(aid))
+                    a = Answer(
+                        question = q,
+                        answer   = request.POST.get('answer_txt_' + str(aid)),
+                        correct  = True if chk else False
+                    )
+                    a.save()
+    return redirect(reverse('locations:polls', kwargs={'slug': location.slug}))
 
 
 @login_required

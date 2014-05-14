@@ -48,7 +48,7 @@ class Question(models.Model):
     """
     question  = models.CharField(max_length=256)
     poll      = models.ForeignKey(Poll)
-    help_text = models.CharField(max_length=256)
+    help_text = models.CharField(max_length=256, null=True, blank=True)
     multiple  = models.BooleanField(default=False)
 
     def get_correct_answer(self):
