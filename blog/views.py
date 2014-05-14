@@ -86,4 +86,5 @@ class NewsUpdateView(LoginRequiredMixin, UpdateView):
         context = super(NewsUpdateView, self).get_context_data(**kwargs)
         context['title'] = obj.title
         context['subtitle'] = _('Edit entry')
+        context['location'] = obj.location
         return context

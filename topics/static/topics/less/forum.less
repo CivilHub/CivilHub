@@ -10,8 +10,14 @@
   .entry-controls {
     float: right;
     display: none;
+    transition: all 0.3s;
   }
   .entry-edited-label {
     margin-left: 35px;
+  }
+  &:hover {
+    .entry-controls {
+      display: block;
+    }
   }
 }

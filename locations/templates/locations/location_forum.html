@@ -47,7 +47,7 @@
             <div class="row topic-list-heading custom-list-heading">
                 <div class="col-xs-1">Answers</div>
                 <div class="col-xs-3">Question</div>
-                <div class="col-xs-3">Categories</div>
+                <div class="col-xs-3">Category</div>
                 <div class="col-xs-2">Created by</div>
                 <div class="col-xs-2">Date created</div>
                 <div class="col-xs-1">Status</div>
@@ -64,11 +64,7 @@
                     {% endif %}
                     <div class="col-xs-1"><span class="badge">{{ topic.entry_set.count }}</span></div>
                     <div class="col-xs-3"><a href="{{ topic.slug }}">{{ topic }}</a></div>
-                    <div class="col-xs-3">
-                        {% for category in topic.categories.all %}
-                            <a href="#">{{ category }}</a>,&nbsp;
-                        {% endfor %}
-                    </div>
+                    <div class="col-xs-3"><a href="#">{{ topic.category }}</a></div>
                     <div class="col-xs-2">
                         <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
                         <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator }}</a>

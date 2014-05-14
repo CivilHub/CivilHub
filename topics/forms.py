@@ -16,9 +16,9 @@ class DiscussionForm(forms.ModelForm):
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         queryset = Category.objects.all(),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
@@ -32,7 +32,7 @@ class DiscussionForm(forms.ModelForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'categories', 'location', 'status')
+        fields = ('question', 'intro', 'category', 'location', 'status')
 
 
 class ReplyForm(forms.ModelForm):
