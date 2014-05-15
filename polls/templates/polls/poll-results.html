@@ -4,8 +4,12 @@
 <h1>{{ poll.title }} - results</h1><hr />
 {% for aset in answers %}
 <div>
-    <p>{{ aset.user }}</p>
-    <p>Answers: {{ aset.answers }}</p>
+    <p>{{ aset.user }} - {{ aset.date | timesince }}</p>
+    <ul>
+    {% for answer in aset.answers.all %}
+        <li>{{ answer }}</li>
+    {% endfor %}
+    </ul>
 </div>
 {% endfor %}
 {% endblock %}

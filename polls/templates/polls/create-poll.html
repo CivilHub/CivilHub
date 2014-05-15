@@ -21,6 +21,7 @@
 
 {% block footer_scripts %}
 <script type="text/template" id="answer-entry-tpl">
+    <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>
     <div class="form-group">
         <label for="answer-txt-<%= id %>" class="control-label">Answer text</label>
         <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />

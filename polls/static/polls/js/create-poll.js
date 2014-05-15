@@ -13,6 +13,12 @@
             render: function () {
                 var _that = this;
                 _that.$el.html(_that.tpl({id: id}));
+                _that.$el.find('.delete-entry-btn').on('click', function (evt) {
+                    evt.preventDefault();
+                    _that.$el.fadeOut('slow', function () {
+                        _that.$el.empty().remove();
+                    });
+                });
                 return _that.$el;
             }
         }

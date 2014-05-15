@@ -49,4 +49,5 @@ class AnswerSet(models.Model):
     poll = models.ForeignKey(Poll)
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
-    answers = models.CommaSeparatedIntegerField(max_length=256)
+    #answers = models.CommaSeparatedIntegerField(max_length=256)
+    answers = models.ManyToManyField(Answer, related_name='answers', blank=True)

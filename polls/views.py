@@ -7,7 +7,7 @@ from django.views.generic.edit import ProcessFormView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
-from .models import Poll, AnswerSet
+from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
 
 
@@ -50,17 +50,20 @@ def save_answers(request, pk):
     answers = []
     poll = get_object_or_404(Poll, pk=request.POST.get('poll'))
     user = request.user
-    for key, val in request.POST.iteritems():
-        if 'answer_' in key:
-            answers.append(key[7:])
-        elif 'answers' in key:
-            answers.append(val)
     aset = AnswerSet(
         poll = poll,
-        user = user,
-        answers = ",".join(answers)
+        user = user
     )
     aset.save()
+    for key, val in request.POST.iteritems():
+        if 'answer_' in key:
+            #answers.append(Answer.objects.get(pk=int(key[7:])))
+            aset.answers.add(Answer.objects.get(pk=int(key[7:])))
+        elif 'answers' in key:
+            #answers.append(Answer.objects.get(pk=int(val)))
+            aset.answers.add(Answer.objects.get(pk=int(val)))
+    aset.save()
+
     return redirect('locations:results', slug=poll.location.slug, pk=poll.pk)
 
 
