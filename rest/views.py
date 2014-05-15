@@ -74,15 +74,21 @@ class CommentsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
+    def set_element_order(self):
+        if self.request.GET.get('order'):
+            return self.request.GET.get('order')
+        return 'submit_date'
+
     def get_queryset(self):
         if self.request.GET:
+            order = self.set_element_order()
             content_label = self.request.GET['content-label']
             content_type = ContentType.objects.get(pk=self.request.GET['content-type'])
             content_id = int(self.request.GET['content-id'])
             total_comments = CustomComment.objects.filter(content_type=content_type)
             total_comments = total_comments.filter(object_pk=content_id)
             total_comments = total_comments.filter(parent__isnull=True)
-            return total_comments.order_by('submit_date')
+            return total_comments.order_by(order)
         else:
             queryset = super(CommentsViewSet, self).get_queryset()
 

@@ -50,7 +50,7 @@
     // -------------------------------------------------------------------------
     commentlist.CommentView = Backbone.View.extend({
         tagName: 'div',
-        className: 'comment well',
+        className: 'comment',
         template: _.template($('#comment-template').html()),
         
         sublist: {}, // Placeholder for comment replies.
@@ -237,43 +237,49 @@
     commentlist.CommentlistView = Backbone.View.extend({
         el: '#comments',
         
-        events: {
-            'click .add-comment': 'addComment'
-        },
-        
         addComment: function () {
             var _that = this,
                 formData = {},
                 comment = {},
-                $fTpl = $(_.template($('#comment-form-template').html(), {})),
+                $fTpl = $('#user-comment-form'),
                 $comment = {};
                 
-            $fTpl.prependTo(_that.$el);
-                
             $comment = $fTpl.find('textarea');
-    
-            $fTpl.on('submit', function (evt) {
-                evt.preventDefault();
-                formData = {
-                    comment: $comment.val(),
-                    submit_date: moment().format()
-                }
-                comment = new commentlist.Comment(formData);
-                comment.url = '/rest/comments/';
-                _that.collection.add(comment);
-                $.ajaxSetup({
-                    headers: {'X-CSRFToken': getCookie('csrftoken')}
-                });   
-                comment.save();
-                $fTpl.empty().remove();
-                incrementCommentCounter();
-            });
+            
+            formData = {
+                comment: $comment.val(),
+                submit_date: moment().format()
+            }
+            comment = new commentlist.Comment(formData);
+            comment.url = '/rest/comments/';
+            _that.collection.add(comment);
+            $.ajaxSetup({
+                headers: {'X-CSRFToken': getCookie('csrftoken')}
+            });   
+            comment.save();
+            incrementCommentCounter();
         },
         
         initialize: function (initialComments) {
-            this.collection = new commentlist.Commentlist(initialComments);
-            this.render();
-            this.listenTo(this.collection, 'add', this.renderComment);
+            var _that = this;
+            console.log(initialComments);
+            _that.collection = new commentlist.Commentlist(initialComments);
+            _that.render();
+            _that.listenTo(_that.collection, 'add', _that.renderComment);
+            _that.listenTo(_that.collection, 'reset', _that.render);
+            $('.btn-submit-comment-main').on('click', function (evt) {
+                evt.preventDefault();
+                _that.addComment(); 
+            });
+            // Reorder comments by submit date or by vote number
+            $('.change-order-link').on('click', function (evt) {
+                evt.preventDefault();
+                $('.comment').empty().remove();
+                _that.collection.fetch({
+                    url: url + '&order=' + $(this).attr('data-order'),
+                    reset:true
+                });
+            });
         },
         
         render: function () {
@@ -286,12 +292,8 @@
             var CommentView = new commentlist.CommentView({
                 model: item
             });
-            if (this.$el.find('add-comment').length > 0) {
-                $(CommentView.render().el)
-                    .insertAfter(this.$el.find('.add-comment'));
-            } else {
-                $(CommentView.render().el).prependTo(this.$el);
-            }
+            $(CommentView.render().el)
+                .insertAfter(this.$el.find('.commentformarea'));
         }
     });
     //
