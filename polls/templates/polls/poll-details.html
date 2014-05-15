@@ -3,7 +3,7 @@
 {% block content %}
 <h1>{{ poll.title }}</h1><hr />
 <div>{{ poll.question | safe }}</div>
-<form role="form" method="post" action="" class="poll-form">
+<form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
     {% csrf_token %}
     {{ form }}
     <div class="form-group">

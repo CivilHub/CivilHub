@@ -41,16 +41,25 @@ class PollEntryAnswerForm(forms.Form):
     def __init__(self, poll):
         super(PollEntryAnswerForm, self).__init__()
         if poll.multiple:
-            field_type = forms.MultipleChoiceField
-            widget_type = forms.CheckboxSelectMultiple
+            widget_type = forms.CheckboxInput
+            for a in poll.answer_set.all():
+            #answers.append((a.pk, a.answer))
+                self.fields['answer_' + str(a.pk)] = forms.ChoiceField(
+                    label = a.answer,
+                    widget = widget_type()
+                )
         else:
-            field_type = forms.ChoiceField
             widget_type = forms.RadioSelect
-        answers = []
-        for a in poll.answer_set.all():
-            answers.append((a.pk, a.answer))
-        self.fields[poll.question] = field_type(
-            label = _('Select answer'),
-            choices = answers,
-            widget = widget_type()
+            answers = []
+            for a in poll.answer_set.all():
+                answers.append((a.pk, a.answer))
+                self.fields['answers'] = forms.ChoiceField(
+                    label = _('Select answer'),
+                    choices = answers,
+                    widget = widget_type()
+                )
+        self.fields['poll'] = forms.ModelChoiceField(
+            queryset = Poll.objects.all(),
+            initial = poll,
+            widget = forms.HiddenInput()
         )

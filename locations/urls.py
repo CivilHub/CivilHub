@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from ideas.views import IdeasDetailView
 from blog.views import NewsDetailView
 from topics.views import DiscussionDetailView
-from polls.views import PollDetails
+from polls.views import PollDetails, PollResults
 from locations.views import *
 
 urlpatterns = patterns('',
@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<slug>[\w-]+)/discussion/', LocationDiscussionsList.as_view(), name='discussions'),
     # Location polls (create, edit, delete etc. just for this location)
+    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)/results/', PollResults.as_view(), name='results'),
     url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)', PollDetails.as_view(), name='poll'),
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
     url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),

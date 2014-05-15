@@ -1,6 +1,11 @@
 {% extends 'locations/index.html' %}
 
 {% block content %}
-<p>Correct answers: {{ valid | length }}</p>
-<p>Incorrect answers: {{ invalid | length }}</p>
+<h1>{{ poll.title }} - results</h1><hr />
+{% for aset in answers %}
+<div>
+    <p>{{ aset.user }}</p>
+    <p>Answers: {{ aset.answers }}</p>
+</div>
+{% endfor %}
 {% endblock %}

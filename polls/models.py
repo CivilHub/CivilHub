@@ -40,3 +40,13 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return self.answer
+
+
+class AnswerSet(models.Model):
+    """
+    Remember user answers to generate some statistics.
+    """
+    poll = models.ForeignKey(Poll)
+    user = models.ForeignKey(User)
+    date = models.DateTimeField(auto_now_add=True)
+    answers = models.CommaSeparatedIntegerField(max_length=256)

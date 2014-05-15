@@ -4,6 +4,7 @@ from .views import *
 
 
 urlpatterns = patterns('',
-    url(r'^details/(?P<pk>\d+)', delete_poll, name='details'),
+    url(r'^details/(?P<pk>\d+)', PollDetails.as_view(), name='details'),
+    url(r'^verify/(?P<pk>\d+)', save_answers, name='verify'),
     url(r'^delete/(?P<pk>\d+)', delete_poll, name='delete'),
 )
