@@ -38,6 +38,7 @@
             content_id: $('#target-id').val(),
             content_type: $('#target-type').val(),
             username: $('#target-user').val(),
+            user_full_name: $('#target-user-fullname').val(),
             avatar: $('#target-avatar').val(),
             replies: 0,
             total_votes: 0,
@@ -262,11 +263,10 @@
         
         initialize: function (initialComments) {
             var _that = this;
-            console.log(initialComments);
             _that.collection = new commentlist.Commentlist(initialComments);
             _that.render();
             _that.listenTo(_that.collection, 'add', _that.renderComment);
-            _that.listenTo(_that.collection, 'reset', _that.render);
+            _that.listenTo(_that.collection, 'reset', _that.reRender);
             $('.btn-submit-comment-main').on('click', function (evt) {
                 evt.preventDefault();
                 _that.addComment(); 
@@ -279,6 +279,7 @@
                     url: url + '&order=' + $(this).attr('data-order'),
                     reset:true
                 });
+                return false;
             });
         },
         
@@ -286,6 +287,12 @@
             this.collection.each(function (item) {
                 this.renderComment(item);
             }, this);
+        },
+        
+        reRender: function () {
+            var startPosition = $('.change-order-link:first').position().top;
+            this.render();
+            $(window).scrollTop(startPosition - 85);
         },
         
         renderComment: function (item) {
