@@ -1,20 +1,9 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from locations.models import Location
 from taggit.managers import TaggableManager
-
-
-class Category(models.Model):
-    """
-    Categories for polls - their not mandatory, but we allow users to choose
-    or add some to create some hierarchy.
-    """
-    name = models.CharField(max_length=128)
-    description = models.TextField()
-
-    def __unicode__(self):
-        return self.name
 
 
 class Poll(models.Model):
@@ -23,18 +12,18 @@ class Poll(models.Model):
     """
     title = models.CharField(max_length=128)
     tags  = TaggableManager()
+    question = models.TextField()
     creator  = models.ForeignKey(User)
     location = models.ForeignKey(Location)
-    category = models.ForeignKey(Category, null=True, blank=True)
+    multiple = models.BooleanField(default=False)
     date_created  = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    description   = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('locations:topic',
+        return reverse('locations:poll',
             kwargs={
-                'place_slug':self.location.slug,
-                'slug': self.slug
+                'slug':self.location.slug,
+                'pk': self.pk
             }
         )
 
@@ -42,29 +31,12 @@ class Poll(models.Model):
         return self.title
 
 
-class Question(models.Model):
-    """
-    Single question model.
-    """
-    question  = models.CharField(max_length=256)
-    poll      = models.ForeignKey(Poll)
-    help_text = models.CharField(max_length=256, null=True, blank=True)
-    multiple  = models.BooleanField(default=False)
-
-    def get_correct_answer(self):
-        return self.answer_set.filter(correct=True)
-
-    def __unicode__(self):
-        return self.question
-
-
 class Answer(models.Model):
     """
     Single answer model.
     """
     answer = models.CharField(max_length=256)
-    question = models.ForeignKey(Question)
-    correct  = models.BooleanField(default=False)
+    poll   = models.ForeignKey(Poll)
 
     def __unicode__(self):
         return self.answer

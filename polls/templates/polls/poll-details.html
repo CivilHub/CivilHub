@@ -2,8 +2,8 @@
 
 {% block content %}
 <h1>{{ poll.title }}</h1><hr />
-<p>Questions: {{ poll.question_set.count }}</p>
-<form role="form" method="post" action="{% url 'polls:answer' poll.pk %}" class="poll-form">
+<div>{{ poll.question | safe }}</div>
+<form role="form" method="post" action="" class="poll-form">
     {% csrf_token %}
     {{ form }}
     <div class="form-group">

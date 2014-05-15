@@ -3,27 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from locations.models import Location
-from .models import Category, Poll
-
-
-class CategoryForm(forms.ModelForm):
-    """
-    Custom form to add Bootstrap classes etc.
-    """
-    name = forms.CharField(
-        required = True,
-        max_length = 128,
-        widget = forms.TextInput(attrs={'class':'form-control'})
-    )
-    description = forms.CharField(
-        required = True,
-        max_length = 2048,
-        widget = forms.Textarea(attrs={'class':'form-control'})
-    )
-
-    class Meta:
-        model = Category
-        fields = '__all__'
+from .models import Poll
 
 
 class PollForm(forms.ModelForm):
@@ -33,18 +13,15 @@ class PollForm(forms.ModelForm):
     title = forms.CharField(
         widget = forms.TextInput(attrs={'class':'form-control'})
     )
-    description = forms.CharField(
-        required = False,
+    question = forms.CharField(
         widget = forms.Textarea(attrs={'class':'form-control'})
-    )
-    category = forms.ModelChoiceField(
-        required = False,
-        queryset = Category.objects.all(),
-        widget = forms.Select(attrs={'class':'form-control'})
     )
     location = forms.ModelChoiceField(
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
+    )
+    multiple = forms.BooleanField(
+        required = False
     )
     tags = TagField(
         required = False
@@ -52,28 +29,28 @@ class PollForm(forms.ModelForm):
     
     class Meta:
         model = Poll
-        fields = ('title', 'description', 'category', 'location', 'tags')
+        fields = ('title', 'question', 'location', 'multiple', 'tags',)
 
 
 class PollEntryAnswerForm(forms.Form):
     """
     Print form for single poll's question and let user participate!
+    aset param means answer set for given poll, this class will create
+    appropriate view based on answer set and poll type (multiple or not).
     """
-    def __init__(self, qset):
+    def __init__(self, poll):
         super(PollEntryAnswerForm, self).__init__()
-        for q in qset:
-            if q.multiple:
-                field_type = forms.MultipleChoiceField
-                widget_type = forms.CheckboxSelectMultiple
-            else:
-                field_type = forms.ChoiceField
-                widget_type = forms.RadioSelect
-            a_keys = []
-            a_labels = []
-            for a in q.answer_set.all():
-                a_labels.append((a.pk, a.answer))
-            self.fields['question_' + str(q.pk)] = field_type(
-                label = q.question,
-                choices = a_labels,
-                widget = widget_type()
-            )
+        if poll.multiple:
+            field_type = forms.MultipleChoiceField
+            widget_type = forms.CheckboxSelectMultiple
+        else:
+            field_type = forms.ChoiceField
+            widget_type = forms.RadioSelect
+        answers = []
+        for a in poll.answer_set.all():
+            answers.append((a.pk, a.answer))
+        self.fields[poll.question] = field_type(
+            label = _('Select answer'),
+            choices = answers,
+            widget = widget_type()
+        )
