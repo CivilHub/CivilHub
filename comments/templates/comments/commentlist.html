@@ -1,11 +1,9 @@
 {% load staticfiles %}
 
-<link rel="stylesheet" href="{% static 'comments/css/comments.css' %}" />
-
 <div id="comments">
     <div class="commentformarea">
         {% if user.is_authenticated %}
-        <p><img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" /></p>
+        <p><img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="current-user-comment-avatar" /></p>
         <form id="user-comment-form" role="presentation" class="comment-form-body">
             <div class="form-group">
                 <label for="comment" class="control-label">Comment</label>

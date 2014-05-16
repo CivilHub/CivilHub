@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from ideas.models import Idea
+from ideas.models import Category as IdeaCategory
 from blog.models import News
 from blog.models import Category as BlogCategory
 from locations.models import Location
@@ -62,6 +63,11 @@ class IdeaLocationForm(forms.ModelForm):
         required = False,
         max_length = 2048,
         widget = forms.Textarea(attrs={'class': 'form-control'})
+    )
+    category = forms.ModelChoiceField(
+        required = False,
+        queryset = IdeaCategory.objects.all(),
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
