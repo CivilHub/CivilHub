@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.contenttypes.models import ContentType
@@ -11,11 +11,12 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import ugettext as _
 # Application native models
-from models import Idea, Vote
-from forms import IdeaForm
+from models import Idea, Vote, Category
+from forms import IdeaForm, CategoryForm
 # Activity stream
 from actstream import action
 from places_core.actstreams import idea_action_handler
+from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment
 
@@ -29,6 +30,54 @@ def get_votes(idea):
     votes_up = len(votes_total.filter(vote=True))
     votes_down = len(votes_total.filter(vote=False))
     return votes_up - votes_down
+
+
+def vote(request):
+    """
+    Make vote (up/down) on idea
+    """
+    if request.method == 'POST':
+        v    = request.POST['vote']
+        idea = Idea.objects.get(pk=request.POST['idea'])
+        user = request.user
+        votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
+        if len(votes_check) > 0:
+            response = {
+                'success': False,
+                'message': 'You voted already on this idea',
+                'votes': get_votes(idea),
+            }
+        else:
+            user_vote = Vote(
+                user = user,
+                idea = idea,
+                vote = True if v == 'up' else False
+            )
+            user_vote.save()
+            response = {
+                'success': True,
+                'message': 'Vote saved',
+                'votes': get_votes(idea),
+            }
+            action.send(request.user, action_object=idea, verb='voted on')
+        return HttpResponse(json.dumps(response))
+
+
+class CreateCategory(LoginRequiredMixin, CreateView):
+    """
+    Create new category for ideas.
+    """
+    model = Category
+    template_name = 'ideas/category-create.html'
+    form_class = CategoryForm
+    success_url = '/'
+
+    def get_context_data(self, **kwargs):
+        if not self.request.user.is_superuser:
+            return HttpResponseNotAllowed
+        context = super(CreateCategory, self).get_context_data(**kwargs)
+        context['title'] = _('Create new category')
+        return context
 
 
 class IdeasListView(ListView):
@@ -98,7 +147,7 @@ class UpdateIdeaView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateIdeaView, self).get_context_data(**kwargs)
-        if self.object.crator != self.request.user:
+        if self.object.creator != self.request.user:
             raise PermissionDenied
         context['title'] = self.object.name
         context['action'] = 'update'
@@ -111,34 +160,3 @@ class DeleteIdeaView(DeleteView):
     """
     model = Idea
     success_url = reverse_lazy('ideas:index')
-
-
-def vote(request):
-    """
-    Make vote (up/down) on idea
-    """
-    if request.method == 'POST':
-        v    = request.POST['vote']
-        idea = Idea.objects.get(pk=request.POST['idea'])
-        user = request.user
-        votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
-        if len(votes_check) > 0:
-            response = {
-                'success': False,
-                'message': 'You voted already on this idea',
-                'votes': get_votes(idea),
-            }
-        else:
-            user_vote = Vote(
-                user = user,
-                idea = idea,
-                vote = True if v == 'up' else False
-            )
-            user_vote.save()
-            response = {
-                'success': True,
-                'message': 'Vote saved',
-                'votes': get_votes(idea),
-            }
-            action.send(request.user, action_object=idea, verb='voted on')
-        return HttpResponse(json.dumps(response))

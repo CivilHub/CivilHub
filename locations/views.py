@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -93,6 +93,15 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         # Without this next line the tags won't be saved.
         form.save_m2m()
         return super(LocationIdeaCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        ctx = {
+                'title': _('Create new idea'),
+                'location': form.cleaned_data.get('location'),
+                'form': form,
+                'errors': form.errors,
+            }
+        return render_to_response(self.template_name, ctx)
 
 
 class LocationDiscussionsList(DetailView):

@@ -1,0 +1,22 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<form role="form" method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    var editor = CKEDITOR.replace('id_description');
+})(jQuery);
+</script>
+{% endblock %}
