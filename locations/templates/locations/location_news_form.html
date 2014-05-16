@@ -2,14 +2,16 @@
 {% load staticfiles %}
 
 {% block content %}
-<form role="form" method="post" action="">
-    {% csrf_token %}
-    {{ form }}
-    <div class="form-group">
-        <button type="button" class="btn btn-default cancel-btn">Cancel</button>
-        <button type="submit" class="btn btn-primary submit-btn">Save</button>
-    </div>
-</form>
+<div class="col-sm-9">
+    <form role="form" method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

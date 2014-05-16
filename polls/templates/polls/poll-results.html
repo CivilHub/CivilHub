@@ -1,15 +1,17 @@
 {% extends 'locations/index.html' %}
 
 {% block content %}
-<h1>{{ poll.title }} - results</h1><hr />
-{% for aset in answers %}
-<div>
-    <p>{{ aset.user }} - {{ aset.date | timesince }}</p>
-    <ul>
-    {% for answer in aset.answers.all %}
-        <li>{{ answer }}</li>
-    {% endfor %}
-    </ul>
+<div class="col-sm-9">
+    <h1>{{ poll.title }} - results</h1><hr />
+    {% for aset in answers %}
+    <div>
+        <p>{{ aset.user }} - {{ aset.date | timesince }}</p>
+        <ul>
+        {% for answer in aset.answers.all %}
+            <li>{{ answer }}</li>
+        {% endfor %}
+        </ul>
+    </div>
 </div>
 {% endfor %}
 {% endblock %}

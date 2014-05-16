@@ -1,11 +1,7 @@
 {% extends 'locations/index.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <div>
-        <a href="{% url 'locations:new_poll' location.slug %}"><button class="btn btn-primary">Create poll</button></a>
-    </div>
-{% endif %}
+<div class="col-sm-9">
 {% if polls %}
 <div class="polls-list custom-tablelike">
     <div class="row polls-list-heading custom-list-heading">
@@ -38,6 +34,7 @@
 {% else %}
     <h2>There are no polls yet</h2>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

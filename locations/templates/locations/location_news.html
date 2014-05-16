@@ -3,14 +3,7 @@
 
 {% block content %}
 <h1>{{ title }}</h1>
-{% if user.is_authenticated %}
-<p>
-    <a href="{% url 'locations:news_create' location.slug %}"><button class="btn-news-create btn btn-success">Add new</button></a> | 
-    {% if user.is_superuser %}
-        <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
-    {% endif %}
-</p>
-{% endif %}
+<div class="col-sm-9">
 
 <div id="entries"></div>
 
@@ -75,7 +68,14 @@
     </div>
 </div>
 </script>
-
+{% if user.is_authenticated %}
+<p>
+    {% if user.is_superuser %}
+        <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
+    {% endif %}
+</p>
+{% endif %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

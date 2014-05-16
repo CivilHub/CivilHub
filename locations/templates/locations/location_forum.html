@@ -2,46 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'topics/css/forum.css' %}" />
-    {% if user.is_authenticated %}
-        <a href="{% url 'locations:new_topic' location.slug %}">
-            <button type="button" class="btn btn-primary btn-topic-create">New topic</button>
-        </a>
-        {% if user.is_superuser %}
-{% comment %}
-    Create new category - allow superusers to create dynamically forum
-    categories via handy ajaxy form. This page element is hidden for
-    all other users and anonymous users.
-{% endcomment %}
-            <button type="button" class="btn btn-primary btn-category-create">New category</button>
-            <div id="new-category-form" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Create forum category</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="presentation" method="post" action="" >
-                                <div class="form-group">
-                                    <label for="category-name" class="control-label">Name</label>
-                                    <input type="text" id="category-name" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="category-description">Description</label>
-                                    <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary submit-btn">Save</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        {% endif %}
-    {% endif %}
+<div class="col-sm-9">
     <div class="discussion-list custom-tablelike">
         {% if discussions %}
             <div class="row topic-list-heading custom-list-heading">
@@ -98,6 +59,41 @@
             <p>There are no discussions opened yet.</p>
         {% endif %}
     </div>
+{% if user.is_superuser %}
+{% comment %}
+    Create new category - allow superusers to create dynamically forum
+    categories via handy ajaxy form. This page element is hidden for
+    all other users and anonymous users.
+{% endcomment %}
+    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> New category</button>
+    <div id="new-category-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create forum category</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="presentation" method="post" action="" >
+                        <div class="form-group">
+                            <label for="category-name" class="control-label">Name</label>
+                            <input type="text" id="category-name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="category-description">Description</label>
+                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary submit-btn">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endif %}
+</div>
 <script>
 (function ($) {
     "use strict";

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+<div class="col-sm-9">
     <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
         {% csrf_token %}
         {{ form }}
@@ -9,6 +10,7 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

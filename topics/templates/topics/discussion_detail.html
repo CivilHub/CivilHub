@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+<div class="col-sm-9">
 <h1>{{ title }}</h1><hr />
 {{ discussion.intro | safe }}
 {% for entry in replies %}
@@ -68,6 +69,7 @@
 {% else %}
     <p class="alert alert-info">This topic is closed. You can't post answers.</p>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

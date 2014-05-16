@@ -4,15 +4,7 @@
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
 {% block content %}
-
-    {% if user.is_authenticated %}
-    <p>
-        <a href="{% url 'locations:new_idea' location.slug %}"><button class="btn btn-success">New idea</button></a>
-        {% if user.is_superuser %}
-        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">New category</button></a>
-        {% endif %}
-    </p>
-    {% endif %}
+<div class="col-sm-9">
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}
@@ -42,8 +34,15 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->    
-
+    </div><!-- /.modal -->
+    {% if user.is_authenticated %}
+    <p>
+        {% if user.is_superuser %}
+        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">New category</button></a>
+        {% endif %}
+    </p>
+    {% endif %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

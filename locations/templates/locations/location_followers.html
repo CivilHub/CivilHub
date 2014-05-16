@@ -1,6 +1,7 @@
 {% extends 'locations/index.html' %}
 
 {% block content %}
+<div class="col-sm-9">
 <ul>
 {% for usr in location.users.all %}
     <li>
@@ -11,4 +12,5 @@
     </li>
 {% endfor %}
 </ul>
+</div>
 {% endblock %}
