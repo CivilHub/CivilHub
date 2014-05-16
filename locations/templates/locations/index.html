@@ -11,12 +11,14 @@
 
 {% block header %}
 <nav id="location-chain-menu" class="navbar navbar-inverse custom-navbar">
-    <ul class="nav navbar-nav">
-    {% for parent in location.get_parent_chain %}
-        <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
-    {% endfor %}
-        <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-    </ul>
+    <div class="container">
+        <ul class="nav navbar-nav">
+        {% for parent in location.get_parent_chain %}
+            <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
+        {% endfor %}
+            <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+        </ul>
+    </div>
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <h1 class="location-name-title">{{ location.name }}</h1>

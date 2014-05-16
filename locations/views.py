@@ -10,6 +10,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
+from ideas.models import Category as IdeaCategory
+from ideas.forms import CategoryForm as IdeaCategoryForm
 from blog.models import News
 from topics.models import Discussion, Entry
 from polls.models import Poll, Answer
@@ -66,6 +68,11 @@ class LocationIdeasList(DetailView):
     """
     model = Location
     template_name = 'locations/location_ideas.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationIdeasList, self).get_context_data(**kwargs)
+        context['form'] = IdeaCategoryForm()
+        return context
 
 
 class LocationIdeaCreate(LoginRequiredMixin, CreateView):

@@ -4,19 +4,86 @@
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
 {% block content %}
+
     {% if user.is_authenticated %}
     <p>
         <a href="{% url 'locations:new_idea' location.slug %}"><button class="btn btn-success">New idea</button></a>
         {% if user.is_superuser %}
-        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success">New category</button></a>
+        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">New category</button></a>
         {% endif %}
     </p>
     {% endif %}
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}
+
+    <div id="new-category-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create ideas category</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="presentation" method="post" action="" >
+                        <div class="form-group">
+                            <label for="category-name" class="control-label">Name</label>
+                            <input type="text" id="category-name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="category-description">Description</label>
+                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary submit-btn">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
+
 {% endblock %}
 
 {% block footer_scripts %}
 <script src="{% static 'ideas/js/votes.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    $(document).ready(function () {
+        var $modal = $('#new-category-form'),
+            $form = $modal.find('form:first'),
+            $sBtn = $modal.find('.submit-btn:first');
+    
+        $form.bind('submit', function (evt) {
+            var data = {
+                    name: $('#category-name').val(),
+                    description: $('#category-description').val()
+                };
+            evt.preventDefault();
+            console.log(data);
+            sendAjaxRequest('POST', '/rest/ideas/', {
+                data: data,
+                success: function (resp) {
+                    display_alert('Category added', 'success');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+        
+        $sBtn.bind('click', function (evt) {
+            $form.submit();
+            $modal.modal('hide');
+        });
+    
+        $('.new-category-btn').bind('click', function (evt) {
+            evt.preventDefault();
+            $modal.modal('show');
+        });
+    });
+})(jQuery);
+</script>
 {% endblock %}

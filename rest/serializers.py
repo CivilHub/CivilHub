@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
+from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from places_core.models import AbuseReport
@@ -116,6 +117,18 @@ class ForumCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ForumCategory
+        fields = ('name', 'description',)
+
+
+class IdeaCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new idea categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = IdeaCategory
         fields = ('name', 'description',)
 
 

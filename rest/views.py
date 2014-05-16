@@ -13,6 +13,7 @@ from rest_framework.decorators import link, api_view, renderer_classes
 from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
+from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from rest.permissions import IsOwnerOrReadOnly
@@ -144,6 +145,15 @@ class ForumCategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = ForumCategory.objects.all()
     serializer_class = ForumCategorySerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
+class IdeaCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    queryset = IdeaCategory.objects.all()
+    serializer_class = IdeaCategorySerializer
     permission_classes = (permissions.IsAdminUser,)
 
 
