@@ -28,6 +28,18 @@ class Location(models.Model):
         self.slug = slugify(self.name)
         super(Location, self).save(*args, **kwargs)
 
+    def get_parent_chain(self, parents=None):
+        if parents == None:
+            parents = []
+        if self.parent:
+            parents.append({
+                'name': self.parent.name,
+                'url' : self.parent.get_absolute_url(),
+            })
+            if self.parent.parent:
+                self.parent.get_parent_chain(parents)
+        return reversed(parents)
+
     def get_absolute_url(self):
         return reverse('locations:details', kwargs={'slug':self.slug})
     

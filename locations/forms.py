@@ -20,6 +20,12 @@ class LocationForm(forms.ModelForm):
         label = _('Name'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
+    parent = forms.ModelChoiceField(
+        required = False,
+        queryset = Location.objects.all(),
+        label = _('Parent'),
+        widget = forms.Select(attrs={'class': 'form-control'})
+    )
     description = forms.CharField(
         required = False,
         max_length = 10000,
@@ -47,7 +53,8 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ('name', 'description', 'latitude', 'longitude', 'image',)
+        fields = ('name', 'description', 'parent',
+                  'latitude', 'longitude', 'image',)
 
 
 class IdeaLocationForm(forms.ModelForm):
