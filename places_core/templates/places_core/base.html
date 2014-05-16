@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/includes/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/includes/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/includes/bootswatch/cosmo.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/includes/bootswatch/spacelab.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/includes/jquery-ui/themes/dot-luv/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 <link href="{% static 'places_core/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
 <link href="{% static 'places_core/css/style.css' %}" rel='stylesheet' type='text/css'>
@@ -61,11 +61,11 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li class="user-hidden-link">
-                    <a href="{% url 'user:profile' user %}"><span class="fa fa-user"> </span> Profile</a>
+                    <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> Profile</a>
                     <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> Logout</a>
                 </li>
                 <li class="user-profile-link">
-                    <a href="{% url 'user:profile' user %}">
+                    <a href="{% url 'user:index' %}">
                         <img src="{{ user.profile.avatar.url }}" alt="{{ user }}" class="navbar-avatar" title="Logged in as {{ user }}" />
                     </a>
                     <a href="{% url 'user:logout' %}">Logout</a>

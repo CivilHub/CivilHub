@@ -66,6 +66,7 @@ class CommentSerializer(serializers.ModelSerializer):
     submit_date = serializers.DateTimeField(required=False)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     username = serializers.Field(source='user.username')
+    user_full_name = serializers.Field(source='user.get_full_name')
     avatar = serializers.Field(source='user.profile.avatar.url')
     content_type = serializers.PrimaryKeyRelatedField()
     object_pk = serializers.Field()
@@ -78,7 +79,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
                   'avatar', 'content_type', 'object_pk', 'replies',
-                  'total_votes', 'upvotes', 'downvotes')
+                  'total_votes', 'upvotes', 'downvotes', 'user_full_name',)
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):

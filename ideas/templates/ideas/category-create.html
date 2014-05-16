@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<form role="form" action="" method="post">
+<form role="form" method="post" action="">
     {% csrf_token %}
     {{ form }}
     <div class="form-group">

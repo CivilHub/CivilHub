@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -12,7 +12,7 @@ from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from blog.models import News
 from topics.models import Discussion, Entry
-from polls.models import Poll
+from polls.models import Poll, Answer
 from polls.forms import PollForm
 from forms import *
 from models import Location
@@ -93,6 +93,15 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         # Without this next line the tags won't be saved.
         form.save_m2m()
         return super(LocationIdeaCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        ctx = {
+                'title': _('Create new idea'),
+                'location': form.cleaned_data.get('location'),
+                'form': form,
+                'errors': form.errors,
+            }
+        return render_to_response(self.template_name, ctx)
 
 
 class LocationDiscussionsList(DetailView):
@@ -193,8 +202,22 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
-        self.object = None
-        return super(LocationPollCreate, self).post(request, *args, **kwargs)
+        poll = Poll(
+            title = request.POST.get('title'),
+            question = request.POST.get('question'),
+            location = get_object_or_404(Location,
+                       pk=request.POST.get('location')),
+            creator = request.user,
+            multiple = True if request.POST.get('multiple') else False
+        )
+        poll.save()
+        poll.tags.add(request.POST.get('tags'))
+        poll.save()
+        for key, val in request.POST.iteritems():
+            if 'answer_txt_' in key:
+                a = Answer(poll=poll, answer=val)
+                a.save()
+        return redirect(poll.get_absolute_url())
 
     def get_success_url(self):
         """
