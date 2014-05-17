@@ -57,14 +57,6 @@
     </div>
     <div class="discussion-list custom-tablelike">
         {% if discussions %}
-            <div class="row topic-list-heading custom-list-heading">
-                <div class="col-xs-1">Answers</div>
-                <div class="col-xs-3">Question</div>
-                <div class="col-xs-3">Category</div>
-                <div class="col-xs-2">Created by</div>
-                <div class="col-xs-2">Date created</div>
-                <div class="col-xs-1">Status</div>
-            </div>
             {% for topic in discussions %}
                 <div class="row topic-list-entry custom-list-entry">
                     {% if user == topic.creator or user.is_superuser %}
@@ -75,20 +67,13 @@
                             <button data-target="{{ topic.slug }}" type="button" class="btn btn-danger btn-sm delete-btn" title="Delete"><span class="fa fa-times-circle-o"> </span></button>
                         </div>
                     {% endif %}
-                    <div class="col-xs-1"><span class="badge">{{ topic.entry_set.count }}</span></div>
-                    <div class="col-xs-3"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic }}</a></div>
-                    <div class="col-xs-3"><a href="#">{{ topic.category }}</a></div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-4"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
+                    <div class="col-xs-3"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
+                    <div class="col-xs-1">{{ topic.entry_set.count }}</div>
+                    <div class="col-xs-4">
                         <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
                         <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
-                    </div>
-                    <div class="col-xs-2 topic-date-col">{{ topic.date_created | timesince }}</div>
-                    <div class="col-xs-1">
-                        {% if topic.status %}
-                            <label class="label label-success">Active</label>
-                        {% else %}
-                            <label class="label label-danger">Closed</label>
-                        {% endif %}
+                        {{ topic.date_created | timesince }}
                     </div>
                 </div>
             {% endfor %}
