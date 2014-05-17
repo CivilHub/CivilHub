@@ -46,7 +46,7 @@
     <div class="col-xs-11">
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
-            Created by <a href="/user/profile/<%= username %>"><%= username %></a> <%= moment(date_created).fromNow() %>
+            Created by <a href="/user/profile/<%= username %>"><%= user_full_name %></a> <%= moment(date_created).fromNow() %>
             - Last edited <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %>
         </p>
         <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">Read more &raquo;</a></p>

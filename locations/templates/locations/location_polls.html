@@ -24,7 +24,7 @@
         <div class="col-xs-4"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
         <div class="col-xs-2">
             <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
-            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator }}</a>
+            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator.get_full_name }}</a>
         </div>
         <div class="col-xs-2">{{ poll.date_created | timesince }}</div>
         <div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>

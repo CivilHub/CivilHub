@@ -16,7 +16,7 @@
         {% endif %}
         <div class="comments-{{ news.pk }}"></div>
         <div class="news-meta">
-            <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
+            <p>Created by {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
         </div>
     </article>
     <input type="hidden" id="target-id" value="{{ news.pk }}" />

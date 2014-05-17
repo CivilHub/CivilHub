@@ -45,7 +45,8 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
-        
+
+
 def create_place_action_hook(sender, instance, created, **kwargs):
     """
     Action hook for activity stream when new place is created

@@ -7,7 +7,7 @@
     <li>
         <a href="{% url 'user:profile' usr.username %}">
             <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumb" />
-            {{ usr.username }}
+            {{ usr.get_full_name }}
         </a>
     </li>
 {% endfor %}

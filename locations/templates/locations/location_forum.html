@@ -28,7 +28,7 @@
                     <div class="col-xs-3"><a href="#">{{ topic.category }}</a></div>
                     <div class="col-xs-2">
                         <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                        <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator }}</a>
+                        <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
                     </div>
                     <div class="col-xs-2 topic-date-col">{{ topic.date_created | timesince }}</div>
                     <div class="col-xs-1">

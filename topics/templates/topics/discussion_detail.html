@@ -13,7 +13,7 @@
             </div>
             <div class="col-xs-11">
                 <p class="entry-meta">
-                    <a href="{% url 'user:profile' entry.creator %}">{{ entry.creator }}</a> 
+                    <a href="{% url 'user:profile' entry.creator %}">{{ entry.creator.get_full_name }}</a> 
                     <span class="topic-date-col">
                         {{ entry.date_created | timesince }}
                         {% if entry.is_edited %}
