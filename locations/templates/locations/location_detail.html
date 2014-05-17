@@ -9,7 +9,7 @@
     <ul class="last-related-actions">
     {% for action in actions %}
         <li>
-            <a href="{% url 'user:profile' action.actor %}">{{ action.actor }}</a> {{ action.verb }}
+            <a href="{% url 'user:profile' action.actor %}">{{ action.actor.get_full_name }}</a> {{ action.verb }}
             {% if action.action_object_content_type %}
                 &nbsp;{{ action.action_object_content_type }}&nbsp;
             {% endif %}
