@@ -1,9 +1,7 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}
 {% block content %}
-{% if errors %}
-    {{ errors }}
-{% endif %}
+{{ errors }}
 <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
     {% csrf_token %}
     {{ form }}

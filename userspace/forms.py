@@ -12,6 +12,11 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
     )
+    email = forms.CharField(
+        label = _("Email"),
+        max_length = 128,
+        widget = forms.EmailInput(attrs={'class': 'form-control'})
+    )
     password = forms.CharField(
         label = _('Password'),
         max_length = 64,
@@ -31,10 +36,14 @@ class RegisterForm(forms.Form):
         cleaned_data = super(RegisterForm, self).clean()
         username = cleaned_data.get('username')
         password = cleaned_data.get('password')
+        email    = cleaned_data.get('email')
         passchk  = cleaned_data.get('passchk')
         if User.objects.filter(username=username).exists():
             self._errors['username'] = self.error_class([_('Username already taken. Pick another one!')])
             del cleaned_data['username']
+        if User.objects.filter(email=email).exists():
+            self._errors['email'] = self.error_class([_('Email already taken. Pick another one!')])
+            del cleaned_data['email']
         if (password != passchk):
             self._errors['password'] = self.error_class([_('Passwords not match!')])
                 
