@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -132,6 +133,41 @@ class LocationDiscussionsList(DetailView):
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
         return context
+
+
+def location_discussion_list(request, slug, limit=None, status=None):
+    """
+    Get subset of discussion list for current location, based on search
+    conditions provided by user.
+    """
+    context = {}
+    location = get_object_or_404(Location, slug=slug)
+    discussions = Discussion.objects.filter(location=location)
+    time_delta = False
+
+    if limit == 'day':
+        time_delta = datetime.date.today() - datetime.timedelta(days=1)
+    if limit == 'week':
+        time_delta = datetime.date.today() - datetime.timedelta(days=7)
+    if limit == 'month':
+        time_delta = datetime.date.today() - relativedelta(months=1)
+    if limit == 'year':
+        time_delta = datetime.date.today() - relativedelta(years=1)
+
+    if time_delta:
+        discussions = discussions.filter(date_created__gte=time_delta)
+
+    paginator = Paginator(discussions, 50)
+    page = request.GET.get('page')
+    try:
+        context['discussions'] = paginator.page(page)
+    except PageNotAnInteger:
+        context['discussions'] = paginator.page(1)
+    except EmptyPage:
+        context['discussions'] = paginator.page(paginator.num_pages)
+    context['title'] = location.name + ':' + _('Discussions')
+    context['location'] = location
+    return render(request, 'locations/location_forum.html', context)
 
 
 class LocationDiscussionCreate(LoginRequiredMixin, CreateView):

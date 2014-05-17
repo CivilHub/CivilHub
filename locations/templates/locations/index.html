@@ -50,7 +50,19 @@
         </div>
     </div>
 </nav>
+{% endblock %}
 
+{% block topbar %}
+<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <a class="btn btn-default">Search</a>
+        </form>
+    </div>
+</nav>
 {% endblock %}
 
 {% block sidebar %}

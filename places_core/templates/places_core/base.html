@@ -1,4 +1,9 @@
 {% load staticfiles %}
+
+{% comment %}
+    This is base template for entire application - every module extends it.
+{% endcomment %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +17,10 @@
 <link href="{% static 'places_core/includes/jquery-ui/themes/dot-luv/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 <link href="{% static 'places_core/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
 <link href="{% static 'places_core/css/style.css' %}" rel='stylesheet' type='text/css'>
+
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
+
 <script src="{% static 'places_core/includes/jquery/jquery-1.10.2.js' %}"></script>
 <script src="{% static 'places_core/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
 <script src="{% static 'places_core/includes/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -25,9 +33,14 @@
 <!-- git@bitbucket.org:krastley/javascript-helpers.git -->
 <script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
 <script src="{% static 'places_core/js/djangojs.js' %}"></script>
+
+{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
+
 </head>
 <body>
+
+{% comment %}Place for success/warning messages from django.contrib.messages.{% endcomment %}
 {% if messages %}
 <div class="message-area">
 {% for message in messages %}
@@ -40,6 +53,8 @@
 {% endfor %}
 </div>
 {% endif %}
+
+{% comment %}Main page navigation - top navbar{% endcomment %}
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -77,7 +92,15 @@
         </div>
     </div>
 </nav>
+
+{% comment %}Page content begins here.{% endcomment %}
 <div class="main-page-content">
+    
+    {% comment %}
+        W bloku header zostawiłem miejsce dla nagłówka lokalizacji - banner
+        ze zdjęciem, ścieżka lokalizacji oraz drugie menu poniżej banneru mają
+        swoje miejsce tutaj.
+    {% endcomment %}
     {% block header %}
     <div class="container">
         <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small>
@@ -86,14 +109,32 @@
         <hr />
     </div>
     {% endblock %}
+    
     <div class="container">
+        
+        {% comment %}
+            W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
+            wyszukiwarki. Nadpisywany w szablonie każdego modułu.
+        {% endcomment %}
+        {% block topbar %}{% endblock %}
+        
+        {% comment %}Główna zawartość strony.{% endcomment %}
         {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+        
+        {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
         {% block sidebar %}{% endblock %}
+        
         <div class="clear"></div>
         <hr />
         <p class="custom-copyrights">Copyright&copy;2014</p>
+        
     </div>
 </div>
+
+{% comment %}
+    Modal dla formularza 'abuse report'. Dostępny na każdej stronie.
+{% comment %}
+
 {% if user.is_authenticated %}
 <script type="text/template" id="abuse-form-tpl">
 <div class="modal fade" id="abuse-form-modal">
@@ -120,7 +161,11 @@
 </div><!-- /.modal -->
 </script>
 {% endif %}
+
+{% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}
+
 <script src="{% static 'places_core/js/common-scripts.js' %}"></script>
+
 </body>
 </html>
