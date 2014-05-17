@@ -15,6 +15,7 @@ from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from blog.models import News
 from topics.models import Discussion, Entry
+from topics.models import Category as ForumCategory
 from polls.models import Poll, Answer
 from polls.forms import PollForm
 from forms import *
@@ -132,6 +133,7 @@ class LocationDiscussionsList(DetailView):
         except EmptyPage:
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
+        context['categories'] = ForumCategory.objects.all()
         return context
 
 
@@ -143,6 +145,7 @@ def location_discussion_list(request, slug, limit=None, status=None):
     context = {}
     location = get_object_or_404(Location, slug=slug)
     discussions = Discussion.objects.filter(location=location)
+    categories = ForumCategory.objects.all()
     time_delta = False
 
     if limit == 'day':
@@ -167,6 +170,7 @@ def location_discussion_list(request, slug, limit=None, status=None):
         context['discussions'] = paginator.page(paginator.num_pages)
     context['title'] = location.name + ':' + _('Discussions')
     context['location'] = location
+    context['categories'] = categories
     return render(request, 'locations/location_forum.html', context)
 
 

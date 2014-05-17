@@ -5,7 +5,28 @@
 <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
         <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Title</a></li>
+                    <li><a href="">Date</a></li>
+                    <li><a href="">Category</a></li>
+                    <li><a href="">Username</a></li>
+                    <li><a href="">Answers</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Status: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="list-state-switch" data-target="active">Active</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="closed">Closed</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="all">All</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
             <li><a href="{% url 'locations:discussions' slug=location.slug %}">Anytime</a></li>
+            <li class="navbar-text"> | Past:</li>
             <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}">Day</a></li>
             <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}">Week</a></li>
             <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}">Month</a></li>
@@ -23,6 +44,17 @@
 
 {% block content %}
 <div class="col-sm-9">
+    <div class="row custom-label-list">
+        <span class="fa fa-list custom-fa"> </span>
+        <span class="custom-label-entry custom-main-label-entry">
+            <a href="#">All channels</a>
+        </span>
+        {% for category in categories %}
+            <span class="custom-label-entry">
+                <a href="#">{{ category }}</a>
+            </span>
+        {% endfor %}
+    </div>
     <div class="discussion-list custom-tablelike">
         {% if discussions %}
             <div class="row topic-list-heading custom-list-heading">
@@ -44,7 +76,7 @@
                         </div>
                     {% endif %}
                     <div class="col-xs-1"><span class="badge">{{ topic.entry_set.count }}</span></div>
-                    <div class="col-xs-3"><a href="{{ topic.slug }}">{{ topic }}</a></div>
+                    <div class="col-xs-3"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic }}</a></div>
                     <div class="col-xs-3"><a href="#">{{ topic.category }}</a></div>
                     <div class="col-xs-2">
                         <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
@@ -180,6 +212,31 @@
         });
     });
     {% endif %}
+})(jQuery);
+</script>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+(function ($) {
+    "use strict";
+    $('.list-state-switch').on('click', function (evt) {
+        var targetState = $(this).attr('data-target');
+        evt.preventDefault();
+        if (targetState !== 'all') {
+            $('.custom-list-entry').each(function () {
+                var $entry = $(this),
+                    toHide = targetState === 'active' ? 'danger' : 'success';
+                if ($entry.find('.label-' + toHide).length > 0) {
+                    $entry.css('display', 'none');
+                } else {
+                    $entry.css('display', 'block');
+                }
+            });
+        } else {
+            $('.custom-list-entry').css('display', 'block');
+        }
+    });
 })(jQuery);
 </script>
 {% endblock %}

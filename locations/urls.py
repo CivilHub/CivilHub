@@ -18,10 +18,10 @@ urlpatterns = patterns('',
     url(r'^(?P<place_slug>[\w-]+)/news/(?P<slug>[\w-]+)', NewsDetailView.as_view(), name='news_detail'),
     url(r'^(?P<slug>[\w-]+)/news/', LocationNewsList.as_view(), name='news'),
     # Location forum (discussions)
-    url(r'^(?P<slug>[\w-]+)/discussion/create', LocationDiscussionCreate.as_view(), name='new_topic'),
-    url(r'^(?P<slug>[\w-]+)/discussion/(?P<limit>[\w-]+)', location_discussion_list, name='dsublist'),
-    url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)', DiscussionDetailView.as_view(), name='topic'),
+    url(r'^(?P<slug>[\w-]+)/discussion/create/', LocationDiscussionCreate.as_view(), name='new_topic'),
+    url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)/', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<slug>[\w-]+)/discussion/', LocationDiscussionsList.as_view(), name='discussions'),
+    url(r'^(?P<slug>[\w-]+)/discussions/(?P<limit>[\w-]+)/', location_discussion_list, name='dsublist'),
     # Location polls (create, edit, delete etc. just for this location)
     url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)/results/', PollResults.as_view(), name='results'),
     url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)', PollDetails.as_view(), name='poll'),
