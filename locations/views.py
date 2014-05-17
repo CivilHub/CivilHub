@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
@@ -10,8 +11,11 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
+from ideas.models import Category as IdeaCategory
+from ideas.forms import CategoryForm as IdeaCategoryForm
 from blog.models import News
 from topics.models import Discussion, Entry
+from topics.models import Category as ForumCategory
 from polls.models import Poll, Answer
 from polls.forms import PollForm
 from forms import *
@@ -66,6 +70,11 @@ class LocationIdeasList(DetailView):
     """
     model = Location
     template_name = 'locations/location_ideas.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationIdeasList, self).get_context_data(**kwargs)
+        context['form'] = IdeaCategoryForm()
+        return context
 
 
 class LocationIdeaCreate(LoginRequiredMixin, CreateView):
@@ -124,7 +133,45 @@ class LocationDiscussionsList(DetailView):
         except EmptyPage:
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
+        context['categories'] = ForumCategory.objects.all()
         return context
+
+
+def location_discussion_list(request, slug, limit=None, status=None):
+    """
+    Get subset of discussion list for current location, based on search
+    conditions provided by user.
+    """
+    context = {}
+    location = get_object_or_404(Location, slug=slug)
+    discussions = Discussion.objects.filter(location=location)
+    categories = ForumCategory.objects.all()
+    time_delta = False
+
+    if limit == 'day':
+        time_delta = datetime.date.today() - datetime.timedelta(days=1)
+    if limit == 'week':
+        time_delta = datetime.date.today() - datetime.timedelta(days=7)
+    if limit == 'month':
+        time_delta = datetime.date.today() - relativedelta(months=1)
+    if limit == 'year':
+        time_delta = datetime.date.today() - relativedelta(years=1)
+
+    if time_delta:
+        discussions = discussions.filter(date_created__gte=time_delta)
+
+    paginator = Paginator(discussions, 50)
+    page = request.GET.get('page')
+    try:
+        context['discussions'] = paginator.page(page)
+    except PageNotAnInteger:
+        context['discussions'] = paginator.page(1)
+    except EmptyPage:
+        context['discussions'] = paginator.page(paginator.num_pages)
+    context['title'] = location.name + ':' + _('Discussions')
+    context['location'] = location
+    context['categories'] = categories
+    return render(request, 'locations/location_forum.html', context)
 
 
 class LocationDiscussionCreate(LoginRequiredMixin, CreateView):

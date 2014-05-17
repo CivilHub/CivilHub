@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
+from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from places_core.models import AbuseReport
@@ -38,6 +39,7 @@ class NewsSerializer(serializers.ModelSerializer):
     date_created = serializers.DateTimeField()
     date_edited = serializers.DateTimeField()
     username = serializers.Field(source='creator.username')
+    user_full_name = serializers.Field(source='creator.get_full_name')
     avatar = serializers.Field(source='creator.profile.avatar.url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
     category = serializers.RelatedField()
@@ -48,7 +50,7 @@ class NewsSerializer(serializers.ModelSerializer):
         model = News
         fields = ('id', 'title', 'slug', 'content', 'date_created', 
                   'date_edited', 'username', 'avatar', 'location', 'category',
-                  'tags', 'comment_count',)
+                  'tags', 'comment_count', 'user_full_name',)
 
     def get_comment_count(self, obj):
         pk = obj.pk
@@ -116,6 +118,18 @@ class ForumCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ForumCategory
+        fields = ('name', 'description',)
+
+
+class IdeaCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new idea categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = IdeaCategory
         fields = ('name', 'description',)
 
 

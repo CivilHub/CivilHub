@@ -11,18 +11,22 @@
 
 {% block header %}
 <nav id="location-chain-menu" class="navbar navbar-inverse custom-navbar">
-    <ul class="nav navbar-nav">
-    {% for parent in location.get_parent_chain %}
-        <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
-    {% endfor %}
-        <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-    </ul>
+    <div class="container">
+        <ul class="nav navbar-nav">
+        {% for parent in location.get_parent_chain %}
+            <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
+        {% endfor %}
+            <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+        </ul>
+    </div>
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
-    <h1 class="location-name-title">{{ location.name }}</h1>
-    {% if user not in locations.users.all %}
-        <button class="btn btn-success btn-fallow-location">Fallow</button>
-    {% endif %}
+    <div class="container">
+        <h1 class="location-name-title">{{ location.name }}</h1>
+        {% if user not in locations.users.all %}
+            <button class="btn btn-success btn-fallow-location">Fallow</button>
+        {% endif %}
+    </div>
 </div>
 <nav id="location-navbar" class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -38,7 +42,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
                 <li><a href="{% url 'locations:news' location.slug %}">News</a></li>
-                <li><a href="/{{ location.slug }}/ideas/">Ideas</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}">Ideas</a></li>
                 <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
                 <li><a href="{% url 'locations:discussions' location.slug %}">Discussions</a></li>
                 <li><a href="{% url 'locations:polls' location.slug %}">Polls</a></li>
@@ -46,5 +50,33 @@
         </div>
     </div>
 </nav>
+{% endblock %}
 
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="custom-sidebar-nav">
+    {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
+                <span class="fa fa-plus-circle"> </span> New discussion
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_poll' location.slug %}">
+                <span class="fa fa-file-o"> </span> Create poll
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:news_create' location.slug %}">
+                <span class="fa fa-file-o"> </span> Add news
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_idea' location.slug %}">
+                <span class="fa fa-file-o"> </span> New idea</button>
+            </a>
+        </li>
+    {% endif %}
+    </ul>
+</div>
 {% endblock %}

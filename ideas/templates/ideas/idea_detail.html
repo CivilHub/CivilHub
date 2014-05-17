@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+<div class="col-sm-9">
     <h3>
         <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
         <small>
@@ -46,6 +47,7 @@
     <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
     <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
     {% include 'comments/commentlist.html' %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

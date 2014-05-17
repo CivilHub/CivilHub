@@ -2,21 +2,21 @@
 {% load staticfiles %}
 
 {% block content %}
-
-<form action="" method="post" role="form">
-    {% csrf_token %}
-    {{ form }}
-    <div id="poll-answer-form"></div>
-    <p>
-        <button type="button" class="btn btn-success btn-sm add-answer-btn" title="Add answer">
-            <span class="fa fa-plus-circle"> </span>
-        </button>
-    </p>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary submit-btn">Save</button>
-    </div>
-</form>
-    
+<div class="col-sm-9">
+    <form action="" method="post" role="form">
+        {% csrf_token %}
+        {{ form }}
+        <div id="poll-answer-form"></div>
+        <p>
+            <button type="button" class="btn btn-success btn-sm add-answer-btn" title="Add answer">
+                <span class="fa fa-plus-circle"> </span>
+            </button>
+        </p>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

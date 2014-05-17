@@ -1,11 +1,7 @@
 {% extends 'locations/index.html' %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <div>
-        <a href="{% url 'locations:new_poll' location.slug %}"><button class="btn btn-primary">Create poll</button></a>
-    </div>
-{% endif %}
+<div class="col-sm-9">
 {% if polls %}
 <div class="polls-list custom-tablelike">
     <div class="row polls-list-heading custom-list-heading">
@@ -28,7 +24,7 @@
         <div class="col-xs-4"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
         <div class="col-xs-2">
             <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
-            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator }}</a>
+            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator.get_full_name }}</a>
         </div>
         <div class="col-xs-2">{{ poll.date_created | timesince }}</div>
         <div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>
@@ -38,6 +34,7 @@
 {% else %}
     <h2>There are no polls yet</h2>
 {% endif %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}
