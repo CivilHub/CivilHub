@@ -33,14 +33,14 @@ class LocationForm(forms.ModelForm):
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     latitude = forms.FloatField(
-        required = True,
+        required = False,
         label = _('Latitude'),
         min_value = 0,
         max_value = 360,
         widget = forms.NumberInput(attrs={'class': 'form-control'})
     )
     longitude = forms.FloatField(
-        required = True,
+        required = False,
         label = _('Longitude'),
         min_value = 0,
         max_value = 360,

@@ -2,6 +2,8 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+from .models import UserProfile
+
 
 class RegisterForm(forms.Form):
     """
@@ -48,7 +50,8 @@ class RegisterForm(forms.Form):
             self._errors['password'] = self.error_class([_('Passwords not match!')])
                 
         return cleaned_data
-    
+
+
 class LoginForm(forms.Form):
     """
     Login registered user
@@ -63,7 +66,8 @@ class LoginForm(forms.Form):
         max_length = 64,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
     )
-    
+
+
 class UserProfileForm(forms.Form):
     """
     Edit user profile data (excluding picture upload)
@@ -86,13 +90,24 @@ class UserProfileForm(forms.Form):
         required = False,
         widget = forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
     )
+    description = forms.CharField(
+        label = _("About me"),
+        max_length = 10248,
+        required = False,
+        widget = forms.Textarea(attrs={'class': 'form-control'})
+    )
     birth_date = forms.CharField(
         label = _("Birth date"),
         max_length = 10,
         required = False,
         widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date',})
     )
-    
+
+    class Meta:
+        model = UserProfile
+        fields = ('first_name', 'last_name', 'email', 'description', 'birth_date')
+
+
 class PasswordResetForm(forms.Form):
     """
     Allow users to change their passwords
@@ -115,6 +130,7 @@ class PasswordResetForm(forms.Form):
         required = True,
         widget = forms.PasswordInput(attrs={'class':'form-control','id':'passchk'})
     )
+
     def clean(self):
         cleaned_data = super(PasswordResetForm, self).clean()
         password = cleaned_data.get('password')
@@ -123,13 +139,24 @@ class PasswordResetForm(forms.Form):
             self._errors['password'] = self.error_class([_('Passwords not match!')])
             
         return cleaned_data
-    
+
+
+class PasswordRemindForm(forms.Form):
+    """
+    Formularz dla użytkowników, którzy zapomnieli hasła.
+    """
+    email = forms.EmailField(
+        label = _("Email address"),
+        widget = forms.EmailInput(attrs={'class': 'form-control'})
+    )
+
+
 class AvatarUploadForm(forms.Form):
     """
     Upload user avatar
     """
     avatar = forms.FileField(
-        label="",
-        help_text="",
+        label = "",
+        help_text = "",
         widget = forms.FileInput(attrs={'title':_('Change')})
     )
