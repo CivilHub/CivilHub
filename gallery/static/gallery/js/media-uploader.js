@@ -1,6 +1,9 @@
 (function ($) {
     "use strict";
-
+    //
+    // Media uploader core
+    // -------------------------------------------------------------------------
+    //
     function mediaUploader () {
         var uploader = object('MediaUploader');
         $.extend(uploader, {
@@ -122,8 +125,9 @@
                 init: function () {
                     $('#dropzone-input').addClass('dropzone');
                     this.on("complete", function (file) {
-                        if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                            alert("All uploaded!");
+                        if (this.getUploadingFiles().length === 0 &&
+                            this.getQueuedFiles().length === 0) {
+                            // re-fetch gallery after media upload
                             uploader.fetchUserGallery();
                         }
                     });
@@ -142,11 +146,11 @@
         return $(this).each(function () {
             var $el = $(this),
                 editor = CKEDITOR.replace($el.attr('id'));
-            editor.ui.addButton('WpMediaUploader', {
+            editor.ui.addButton('MediaUploader', {
                 label: 'Add Media',
-                command: 'WpUploader'
+                command: 'Uploader'
             });
-            editor.addCommand('WpUploader', {exec: function () {
+            editor.addCommand('Uploader', {exec: function () {
                 var uploader = mediaUploader();
                 uploader.open();
                 uploader.$el.find('.submit-btn:first').one('click', function (evt) {
@@ -157,16 +161,6 @@
                     uploader.close();
                 });
             }});
-            //~ editor.config.toolbar = [
-                //~ [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
-                //~ { name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
-                //~ '/',
-                //~ { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv', '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },
-                //~ { name: 'custom', items: ['WpMediaUploader'] },
-                //~ '/',
-                //~ { name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
-                //~ { name: 'styles', items: [ 'Styles', 'Format', 'FontSize' ] }
-            //~ ];
         });
     }
 })(jQuery);
