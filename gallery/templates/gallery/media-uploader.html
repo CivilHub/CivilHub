@@ -1,0 +1,53 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/basic.css' %}" />
+<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/dropzone.css' %}" />
+<link rel="stylesheet" href="{% static 'gallery/css/uploader.css' %}" />
+
+<!-- Modal -->
+<div class="modal fade" id="media-upload-modal" tabindex="-1" role="dialog" aria-labelledby="media-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="media-modal-label">Media uploader</h4>
+            </div>
+            <div class="modal-body">
+                <div id="tabs">
+                    <ul>
+                        <li><a href="#tabs-1">Upload files</a></li>
+                        <li><a href="#tabs-2">My files</a></li>
+                        {% if location.slug %}
+                        <li><a href="#tabs-3">Gallery</a></li>
+                        {% endif %}
+                    </ul>
+                    <div id="tabs-1">
+                        <input type="hidden" id="current-upload-path" value="{{ media_folder }}" />
+                        <form action="{% url 'gallery:index' %}" id="dropzone-input" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tabs-2">
+                        <div id="user-media-list"></div>
+                    </div>
+                    {% if location.slug %}
+                    <div id="tabs-3">
+                        <div id="place-media-list" data-target="{{ location.slug }}"></div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary submit-btn" data-dismiss="modal">Select</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'gallery/js/media-uploader.js' %}"></script>

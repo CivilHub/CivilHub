@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
@@ -169,3 +170,4 @@ class AbuseReportViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.sender = self.request.user
+    

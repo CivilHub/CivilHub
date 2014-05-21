@@ -61,7 +61,7 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        return super(LocationNewsCreate, self).form_valid(form)
+        return redirect(reverse('locations:news', kwargs={'slug': obj.location.slug}))
 
 
 class LocationIdeasList(DetailView):

@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # https://github.com/SmileyChris/easy-thumbnails
+    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
@@ -63,6 +65,7 @@ INSTALLED_APPS = (
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
+    'gallery',  # user media app
     # Database migrations
     'south',
 )

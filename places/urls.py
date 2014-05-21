@@ -40,6 +40,8 @@ urlpatterns = patterns('',# places
     url(r'^admin/', include(admin.site.urls)),
     # Abuse reports (static)
     url(r'^report/', include('places_core.urls', namespace='reports')),
+    # User media
+    url(r'^gallery/', include('gallery.urls', namespace='gallery')),
     # Polls app
     url(r'^polls/', include('polls.urls', namespace='polls')),
     # media
