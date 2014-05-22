@@ -4,19 +4,18 @@
 {% block title %}Create location{% endblock %}
 
 {% block content %}
-<div class="col-sm-9">
-    {% if action and action == 'edit' %}
-        <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post">
-    {% else %}
-        <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post">
-    {% endif %}
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </form>
-</div>
+{% if action and action == 'edit' %}
+    <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post">
+{% else %}
+    <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post">
+{% endif %}
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -25,7 +24,7 @@
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_description');
+    $('#id_description').customCKEditor();
     $('[type="file"]').bootstrapFileInput();
 })(jQuery);
 </script>

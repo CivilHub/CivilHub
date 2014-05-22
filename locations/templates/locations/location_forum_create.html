@@ -11,6 +11,7 @@
         </div>
     </form>
 </div>
+{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -18,7 +19,7 @@
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_intro')
+    $('#id_intro').customCKEditor();
 })(jQuery);
 </script>
 {% endblock %}

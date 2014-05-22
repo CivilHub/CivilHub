@@ -1,0 +1,37 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/basic.css' %}" />
+<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/dropzone.css' %}" />
+<link rel="stylesheet" href="{% static 'gallery/css/uploader.css' %}" />
+<link rel="stylesheet" href="{% static 'gallery/css/gallery.css' %}" />
+
+<div class="col-sm-9">
+    <div id="gallery">
+    {% for file in files %}
+        <a href="{{ href }}/{{ file }}"><img src="{{ href }}thumbs/{{ file }}" class="gallery-item" /></a>
+    {% endfor %}
+    </div>
+    <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="fallback">
+            <input name="file" type="file" class="form-input" multiple />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary submit-btn">Upload</button>
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'places_core/includes/colorbox/jquery.colorbox.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    $('#gallery a').colorbox({rel:'gal'});
+})(jQuery);
+</script>
+
+{% endblock %}

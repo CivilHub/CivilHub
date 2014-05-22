@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    var editor = CKEDITOR.replace('id_question');
+    $('#id_question').customCKEditor();
     $('#id_title').focus();
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',

@@ -17,6 +17,7 @@
         </div>
     </form>
 </div>
+{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
 {% endblock %}
 
 {% block footer_scripts %}

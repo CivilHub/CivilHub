@@ -11,6 +11,7 @@
         </div>
     </form>
 </div>
+{% include 'gallery/media-uploader.html' %}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -19,7 +20,8 @@
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_description');
+    //CKEDITOR.replace('id_description');
+    $('#id_description').customCKEditor();
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',
     });
