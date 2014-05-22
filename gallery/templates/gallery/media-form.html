@@ -11,7 +11,7 @@
 <div class="col-sm-9">
     <div id="gallery">
     {% for file in files %}
-        <a href="{{ file }}"><img src="{{ file }}" class="gallery-item" /></a>
+        <a href="{{ href }}/{{ file }}"><img src="{{ href }}thumbs/{{ file }}" class="gallery-item" /></a>
     {% endfor %}
     </div>
     <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">

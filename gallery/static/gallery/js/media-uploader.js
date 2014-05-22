@@ -18,9 +18,7 @@
             dz: {},
             
             fetchUserGallery: function () {
-                $('#user-media-list').empty();
                 $.get('/gallery', function (resp) {
-                    console.log(resp);
                     resp = JSON.parse(resp);
 
                     $(resp.files).each(function (idx) {
@@ -76,7 +74,6 @@
                 if (!_.isEmpty(this.$galList)) {
                     var slug = this.$galList.attr('data-target');
                     $.get('/' + slug + '/gallery/', function (resp) {
-                        console.log(resp);
                         resp = JSON.parse(resp);
                         $(resp.files).each(function () {
                             var _this = this,
@@ -115,27 +112,29 @@
             }
         });
         
-        uploader.$el.on('shown.bs.modal', function () {
+        uploader.$el.one('shown.bs.modal', function () {
             //
             // Get items from user's gallery directory.
             // -----------------------------------------------------------------
             //
             uploader.fetchUserGallery();
-            uploader.dz = new Dropzone('#dropzone-input', {
-                init: function () {
-                    $('#dropzone-input').addClass('dropzone');
-                    this.on("complete", function (file) {
-                        if (this.getUploadingFiles().length === 0 &&
-                            this.getQueuedFiles().length === 0) {
-                            // re-fetch gallery after media upload
-                            uploader.fetchUserGallery();
-                        }
-                    });
-                }
-            });
+            if (!$('#dropzone-input').hasClass('dropzone')) {
+                uploader.dz = new Dropzone('#dropzone-input', {
+                    init: function () {
+                        $('#dropzone-input').addClass('dropzone');
+                        this.on("complete", function (file) {
+                            if (this.getUploadingFiles().length === 0 &&
+                                this.getQueuedFiles().length === 0) {
+                                // re-fetch gallery after media upload
+                                uploader.fetchUserGallery();
+                            }
+                        });
+                    }
+                });
+            }
         });
 
-        uploader.$el.on('hidden.bs.modal', function () {
+        uploader.$el.one('hidden.bs.modal', function () {
             uploader.close();
         });
 
