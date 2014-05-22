@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 
@@ -38,8 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # https://github.com/SmileyChris/easy-thumbnails
-    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
@@ -65,7 +63,7 @@ INSTALLED_APPS = (
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
-    'gallery',  # user media app
+    'gallery',
     # Database migrations
     'south',
 )
@@ -143,9 +141,21 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql', 
+#        'NAME': 'places',
+#        'USER': 'places',
+#        'PASSWORD': '987xyz',
+#        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#        'PORT': '3306',
+#    }
+#
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'places',                      
+        'USER': 'places',
+        'PASSWORD': '987xyz',
+        'HOST': ''
     }
 }
 
@@ -166,7 +176,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL   = '/static/'
+STATIC_URL   = 'http://civilhub.org:8080/static/'
+STATIC_ROOT  = '/html/static/'
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
