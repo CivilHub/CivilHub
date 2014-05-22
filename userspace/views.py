@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
+import hashlib, datetime, random, string
+from ipware.ip import get_ip
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from models import UserProfile
+from django.views.decorators.csrf import csrf_exempt
+from models import UserProfile, RegisterDemand, LoginData
 from forms import *
+
 
 def index(request):
     """
@@ -21,6 +26,7 @@ def index(request):
         prof = UserProfile()
         prof.user = user
         prof.save()
+        prof = UserProfile.objects.latest()
     ctx = {
         'user': user,
         'profile': prof,
@@ -28,12 +34,14 @@ def index(request):
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
                   'email':      user.email,
+                  'description':prof.description,
                   'birth_date': prof.birth_date,
               }),
         'avatar_form': AvatarUploadForm(),
         'title': _('User Area'),
     }
     return render(request, 'userspace/index.html', ctx)
+
     
 def profile(request, username):
     """
@@ -52,9 +60,10 @@ def profile(request, username):
     }
     return render(request, 'userspace/profile.html', ctx)
 
+
 def register(request):
     """
-    Register new user via django system
+    Register new user via django system.
     """
     if request.method == 'POST':
         f = RegisterForm(request.POST)
@@ -64,25 +73,64 @@ def register(request):
             password = f.cleaned_data['password']
             user.username = username
             user.set_password(password)
+            user.email = f.cleaned_data['email']
+            user.is_active = False
             user.save()
             # Re-fetch user object from DB
             user = User.objects.latest('id')
             # Create user profile
-            prof = UserProfile()
-            prof.user = user
-            prof.save()
-            user = auth.authenticate(username = username, password = password)
-            if user is not None:
-                if user.is_active:
-                    auth.login(request, user)
-                    return redirect('user:index')
+            #prof = UserProfile()
+            #prof.user = user
+            salt = hashlib.md5()
+            salt.update(str(datetime.datetime.now().time))
+            register_demand = RegisterDemand(
+                activation_link = salt.hexdigest(),
+                ip_address = get_ip(request),
+                user = user
+            )
+            register_demand.save()
+            site_url = request.build_absolute_uri('/user/activate/')
+            # TODO: wysłać adres_strony/user/activate/ + activation_link
+            # mailem.
+            return render(request, 'userspace/test.html', {
+                'link': site_url + str(register_demand.activation_link)
+            })
         else:
-            return redirect(reverse('user:register'))
+            ctx = {
+                'form': RegisterForm(initial={
+                    'username': request.POST.get('username'),
+                    'email':    request.POST.get('email')
+                }),
+                'title': _('Sign Up'),
+                'errors': f.errors,
+            }
+            return render(request, 'userspace/register.html', ctx)
     ctx = {
         'form': RegisterForm,
         'title': _('Sign Up'),
     }
     return render(request, 'userspace/register.html', ctx)
+
+
+def activate(request, activation_link=None):
+    if activation_link == None:
+        ctx = {
+            'form': RegisterForm,
+            'title': _('Sign Up'),
+        }
+        return render(request, 'userspace/register.html', ctx)
+    demand = RegisterDemand.objects.get(activation_link=activation_link)
+    user = demand.user
+    if user is not None:
+        user_id = user.pk
+        user.is_active = True
+        user.save()
+        demand.delete()
+        user = User.objects.get(pk=user_id)
+        auth_user = auth.authenticate(username=user.username,
+                                      password=user.password)
+        return redirect('user:index')
+
 
 def passet(request):
     """
@@ -111,6 +159,36 @@ def passet(request):
     ctx['form'] = RegisterForm()
     return render(request, 'userspace/pass.html', ctx)
 
+
+@csrf_exempt
+def pass_reset(request):
+    """
+    Pozwól zarejestrowanym użytkownikom zresetować zapomniane
+    hasło na podstawie adresu email.
+    """
+    errors = []
+    ctx = {}
+    if request.method == 'POST':
+        f = PasswordRemindForm(request.POST)
+        if f.is_valid():
+            try:
+                user = User.objects.get(email=f.cleaned_data['email'])
+            except DoesNotExist as ex:
+                errors.append(_("User with requested email does not exist!"))
+            new_pass = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+            user.set_password(new_pass)
+            user.save()
+        ctx = {
+            'username': user.username,
+            'password': new_pass
+        }
+        return render(request, 'userspace/passremind-confirm.html', ctx)
+    ctx['title'] = _("Reset password")
+    ctx['form'] = PasswordRemindForm()
+    return render(request, 'userspace/passremind-form.html', ctx)
+
+
+@csrf_exempt
 def login(request):
     """
     Login form
@@ -126,6 +204,11 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     auth.login(request, user)
+                    login_data = LoginData(
+                        user = user,
+                        address = get_ip(request)
+                    )
+                    login_data.save()
                     return redirect('activities:actstream')
         messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
         return redirect(reverse('user:login'))
@@ -136,12 +219,14 @@ def login(request):
     }
     return render(request, 'userspace/login.html', ctx)
 
+
 def logout(request):
     """
     Logout currently logged in user
     """
     auth.logout(request)
     return redirect('user:login')
+
 
 def save_settings(request):
     """
@@ -155,17 +240,29 @@ def save_settings(request):
             user.first_name = f.cleaned_data['first_name']
             user.last_name  = f.cleaned_data['last_name']
             user.email      = f.cleaned_data['email']
-            prof.birth_date  = f.cleaned_data['birth_date']
+            prof.birth_date = f.cleaned_data['birth_date']
+            prof.description= f.cleaned_data['description']
             error = None
             if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
                 error = _("This email address is already in use")
             if error != None:
-                return HttpResponse(_('Form invalid'))
+                #return HttpResponse(_('Form invalid'))
+                # FIXME: show form errors to user.
+                ctx = {
+                    'user': user,
+                    'profile': prof,
+                    'form': f,
+                    'avatar_form': AvatarUploadForm(),
+                    'errors': f.errors,
+                    'title': _('User Area'),
+                }
+                return render(request, 'userspace/index.html', ctx)
             user.save()
             prof.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
             return redirect('user:index')
     return HttpResponse(_('Form invalid'))
+
 
 def chpass(request):
     """
@@ -196,6 +293,7 @@ def chpass(request):
         'form': f,
     }
     return render(request, 'userspace/chpass.html', ctx)
+
 
 def upload_avatar(request):
     """

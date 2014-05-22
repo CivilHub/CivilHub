@@ -1,0 +1,34 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="col-sm-9">
+    <form action="" method="post" role="form">
+        {% csrf_token %}
+        {{ form }}
+        <div id="poll-answer-form"></div>
+        <p>
+            <button type="button" class="btn btn-success btn-sm add-answer-btn" title="Add answer">
+                <span class="fa fa-plus-circle"> </span>
+            </button>
+        </p>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+        </div>
+    </form>
+</div>
+{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
+{% endblock %}
+
+{% block footer_scripts %}
+<script type="text/template" id="answer-entry-tpl">
+    <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>
+    <div class="form-group">
+        <label for="answer-txt-<%= id %>" class="control-label">Answer text</label>
+        <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
+    </div>
+</script>
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
+<script src="{% static 'polls/js/create-poll.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'locations/index.html' %}
+
+{% block content %}
+<div class="col-sm-9">
+    <h1>{{ poll.title }} - results</h1><hr />
+    {% for aset in answers %}
+    <div>
+        <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
+        <ul>
+        {% for answer in aset.answers.all %}
+            <li>{{ answer }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,11 +1,8 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
-{% endblock %}
-
 {% block content %}
+<div class="col-sm-9">
     <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
         {% csrf_token %}
         {{ form }}
@@ -13,6 +10,8 @@
             <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </form>
+</div>
+{% include 'gallery/media-uploader.html' %}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -21,7 +20,8 @@
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_description');
+    //CKEDITOR.replace('id_description');
+    $('#id_description').customCKEditor();
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',
     });

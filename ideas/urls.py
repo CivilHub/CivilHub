@@ -3,6 +3,7 @@ from django.conf.urls import patterns, url
 from ideas.views import *
 
 urlpatterns = patterns('',
+    url(r'categories/create/', CreateCategory.as_view(), name='new_category'),
     url(r'^$', IdeasListView.as_view(), name='index'),
     url(r'vote/', vote, name='vote'),
     url(r'create/', CreateIdeaView.as_view(), name='create'),

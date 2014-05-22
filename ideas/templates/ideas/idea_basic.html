@@ -2,7 +2,7 @@
     <div class="idea-votes col-sm-2">
         <div class="votes">{{ idea.get_votes }}</div>
         <div class="vote-controls">
-            {% if user != idea.creator and user.is_authenticated %}
+            {% if user.is_authenticated %}
                 <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn">+</button>
                 <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn">-</button>
             {% else %}
@@ -22,9 +22,9 @@
         </div>
     </div>
     <div class="col-sm-10">
-        <h3><a href="{{ idea.slug }}">{{ idea.name }}</a></h3>
+        <h3><a href="{% url 'locations:idea_detail' place_slug=idea.location.slug slug=idea.slug %}">{{ idea.name }}</a></h3>
         <p>
-            Created {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}">{{ idea.creator }}</a>
+            Created {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}">{{ idea.creator.get_full_name }}</a>
             - Last edited {{ idea.date_edited }}
         </p>
         {% if idea.creator == user %}

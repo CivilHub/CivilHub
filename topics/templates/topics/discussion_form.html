@@ -1,0 +1,38 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.css' %}" />
+<style>
+.bootstrap-switch {
+  margin-top: 15px;
+}
+</style>
+<div class="col-sm-9">
+    <form role="form" action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    CKEDITOR.replace('id_intro');
+    $('[type="checkbox"]').bootstrapSwitch({
+        onText: 'Opened',
+        offText: 'Closed',
+        wrapperClass: 'form-group',
+        onColor: 'success',
+        offColor: 'danger'
+    });
+})(jQuery);
+</script>
+{% endblock %}

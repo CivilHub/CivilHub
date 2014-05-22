@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # https://github.com/SmileyChris/easy-thumbnails
+    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
@@ -59,9 +61,11 @@ INSTALLED_APPS = (
     'locations',
     'ideas',
     'blog',
+    'polls',
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
+    'gallery',  # user media app
     # Database migrations
     'south',
 )

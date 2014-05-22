@@ -3,6 +3,8 @@ from django.conf.urls import patterns, url
 from ideas.views import IdeasDetailView
 from blog.views import NewsDetailView
 from topics.views import DiscussionDetailView
+from polls.views import PollDetails, PollResults
+from gallery.views import PlaceGalleryView
 from locations.views import *
 
 urlpatterns = patterns('',
@@ -17,12 +19,19 @@ urlpatterns = patterns('',
     url(r'^(?P<place_slug>[\w-]+)/news/(?P<slug>[\w-]+)', NewsDetailView.as_view(), name='news_detail'),
     url(r'^(?P<slug>[\w-]+)/news/', LocationNewsList.as_view(), name='news'),
     # Location forum (discussions)
-    url(r'^(?P<slug>[\w-]+)/forum/create', LocationDiscussionCreate.as_view(), name='new_topic'),
-    url(r'^(?P<place_slug>[\w-]+)/forum/(?P<slug>[\w-]+)/reply/', CreateReplyView.as_view(), name='reply'),
-    url(r'^(?P<place_slug>[\w-]+)/forum/(?P<slug>[\w-]+)', DiscussionDetailView.as_view(), name='topic'),
-    url(r'^(?P<slug>[\w-]+)/forum/', LocationDiscussionsList.as_view(), name='discussions'),
+    url(r'^(?P<slug>[\w-]+)/discussion/create/', LocationDiscussionCreate.as_view(), name='new_topic'),
+    url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)/', DiscussionDetailView.as_view(), name='topic'),
+    url(r'^(?P<slug>[\w-]+)/discussion/', LocationDiscussionsList.as_view(), name='discussions'),
+    url(r'^(?P<slug>[\w-]+)/discussions/(?P<limit>[\w-]+)/', location_discussion_list, name='dsublist'),
+    # Location polls (create, edit, delete etc. just for this location)
+    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)/results/', PollResults.as_view(), name='results'),
+    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)', PollDetails.as_view(), name='poll'),
+    url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
+    url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
+    # Location media gallery
+    url(r'^(?P<slug>[\w-]+)/gallery/', PlaceGalleryView.as_view(), name='gallery'),
     # Generic location views
     url(r'create', CreateLocationView.as_view(), name='create'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),

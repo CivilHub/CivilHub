@@ -1,16 +1,80 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
+{% load staticfiles %}
 
 {% block content %}
+<div class="col-sm-9">
+<h1>{{ title }}</h1><hr />
 {{ discussion.intro | safe }}
-<ul>
-{% for entry in discussion.entry_set.all %}
-    <li>
-        {{ entry.creator }}
-        <div>{{ entry.content }}</div>
-    </li>
+{% for entry in replies %}
+    <div class="reply-entry well">
+        <div class="row">
+            <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+                <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar" style="margin-top:0px!important" />
+            </div>
+            <div class="col-xs-11">
+                <p class="entry-meta">
+                    <a href="{% url 'user:profile' entry.creator %}">{{ entry.creator.get_full_name }}</a> 
+                    <span class="topic-date-col">
+                        {{ entry.date_created | timesince }}
+                        {% if entry.is_edited %}
+                        <label class="label label-default entry-edited-label">Edited</label> {{ entry.date_edited | timesince }}
+                        {% endif %}
+                    </span>
+                    <span class="entry-controls">
+                        {% if user == entry.creator %}
+                            <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="Edit entry">
+                                <span class="fa fa-edit"> </span>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="Report abuse" class="report-abuse-link">
+                                <span class="fa fa-exclamation-triangle"> </span>
+                            </a>
+                            <a href="#" title="Quote" class="quote-reply-link">
+                                <span class="fa fa-reply-all"> </span>
+                            </a>
+                        {% endif %}
+                    </span>
+                </p>
+                <div class="entry-content">{{ entry.content | safe }}</div>
+            </div>
+        </div>
+    </div>
 {% endfor %}
-</ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if replies.has_previous %}
+            <a href="?page={{ replies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ replies.number }} of {{ replies.paginator.num_pages }}.
+        </span>
+
+        {% if replies.has_next %}
+            <a href="?page={{ replies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% if user.is_authenticated and discussion.status %}
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">Reply</button>
 </div>
+<form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post" class="hidden-form">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+    </div>
+</form>
+{% else %}
+    <p class="alert alert-info">This topic is closed. You can't post answers.</p>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+{% if user.is_authenticated and discussion.status %}
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'topics/js/reply-form.js' %}"></script>
+{% endif %}
 {% endblock %}

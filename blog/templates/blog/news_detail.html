@@ -1,27 +1,34 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 
 {% block content %}
-<article>
-    <div>{{ news.content | safe }}</div>
-    {% if user.is_authenticated and user == news.creator %}
-        <div class="news-controls">
-            <a href="">Edit</a>
-            <a href="">Delete</a>
+<div class="col-sm-9">
+    <h1>{{ title }}</h1><hr />
+    <article>
+        {% if user.is_authenticated and user != news.creator %}
+            <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">Report abuse</a>
+        {% endif %}
+        <div>{{ news.content | safe }}</div>
+        {% if user.is_authenticated and user == news.creator %}
+            <div class="news-controls">
+                <a href="{% url 'blog:update' news.slug %}">Edit</a>
+                <a href="">Delete</a>
+            </div>
+        {% endif %}
+        <div class="comments-{{ news.pk }}"></div>
+        <div class="news-meta">
+            <p>Created by {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
         </div>
-    {% endif %}
-    <div class="comments-{{ news.pk }}"></div>
-    <div class="news-meta">
-        <p>Created by {{ news.creator }} | {{ news.date_created }}</p>
-    </div>
-</article>
-<input type="hidden" id="target-id" value="{{ news.pk }}" />
-<input type="hidden" id="target-label" value="blog" />
-<input type="hidden" id="target-type" value="{{ content_type }}" />
-<input type="hidden" id="target-user" value="{{ user.username }}" />
-<input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-<p>
-    Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
-    <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
-</p>
-{% include 'comments/commentlist.html' %}
+    </article>
+    <input type="hidden" id="target-id" value="{{ news.pk }}" />
+    <input type="hidden" id="target-label" value="blog" />
+    <input type="hidden" id="target-type" value="{{ content_type }}" />
+    <input type="hidden" id="target-user" value="{{ user.username }}" />
+    <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+    <p>
+        Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
+        <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
+    </p>
+    {% include 'comments/commentlist.html' %}
+</div>
 {% endblock %}

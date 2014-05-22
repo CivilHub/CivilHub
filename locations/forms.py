@@ -3,6 +3,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from ideas.models import Idea
+from ideas.models import Category as IdeaCategory
 from blog.models import News
 from blog.models import Category as BlogCategory
 from locations.models import Location
@@ -19,6 +20,12 @@ class LocationForm(forms.ModelForm):
         label = _('Name'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
+    parent = forms.ModelChoiceField(
+        required = False,
+        queryset = Location.objects.all(),
+        label = _('Parent'),
+        widget = forms.Select(attrs={'class': 'form-control'})
+    )
     description = forms.CharField(
         required = False,
         max_length = 10000,
@@ -26,14 +33,14 @@ class LocationForm(forms.ModelForm):
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     latitude = forms.FloatField(
-        required = True,
+        required = False,
         label = _('Latitude'),
         min_value = 0,
         max_value = 360,
         widget = forms.NumberInput(attrs={'class': 'form-control'})
     )
     longitude = forms.FloatField(
-        required = True,
+        required = False,
         label = _('Longitude'),
         min_value = 0,
         max_value = 360,
@@ -46,7 +53,8 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ('name', 'description', 'latitude', 'longitude', 'image',)
+        fields = ('name', 'description', 'parent',
+                  'latitude', 'longitude', 'image',)
 
 
 class IdeaLocationForm(forms.ModelForm):
@@ -62,6 +70,11 @@ class IdeaLocationForm(forms.ModelForm):
         required = False,
         max_length = 2048,
         widget = forms.Textarea(attrs={'class': 'form-control'})
+    )
+    category = forms.ModelChoiceField(
+        required = False,
+        queryset = IdeaCategory.objects.all(),
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
@@ -87,20 +100,21 @@ class NewsLocationForm(forms.ModelForm):
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
+        required = False,
         queryset = BlogCategory.objects.all(),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField()
+    tags = TagField(required=False)
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'categories', 'location', 'tags')
+        fields = ('title', 'content', 'category', 'location', 'tags')
 
 
 class DiscussionLocationForm(forms.ModelForm):
@@ -114,9 +128,9 @@ class DiscussionLocationForm(forms.ModelForm):
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         queryset = ForumCategory.objects.all(),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
     location = forms.ModelChoiceField(
         required = True,
@@ -126,28 +140,4 @@ class DiscussionLocationForm(forms.ModelForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'categories', 'location',)
-
-
-class ReplyForm(forms.ModelForm):
-    """
-    Reply to discussion topic.
-    """
-    content = forms.CharField(
-        max_length = 2048,
-        widget = forms.Textarea(attrs={'class': 'form-control'}),
-    )
-    location = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.HiddenInput()
-    )
-    discussion = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.HiddenInput()
-    )
-
-    class Meta:
-        model = Entry
-        fields = ('content', 'location', 'discussion',)
+        fields = ('question', 'intro', 'category', 'location',)

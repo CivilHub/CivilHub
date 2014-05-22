@@ -2,7 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
-from blog.models import News
+from blog.models import Category, News
 from locations.models import Location
 
 
@@ -22,14 +22,14 @@ class NewsForm(forms.ModelForm):
         label = _('Content'),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    categories = forms.ModelMultipleChoiceField(
+    category = forms.ModelChoiceField(
         required = False,
-        queryset = Location.objects.all(),
-        label = _('Categories'),
-        widget = forms.SelectMultiple(attrs={'class': 'form-control'})
+        queryset = Category.objects.all(),
+        label = _('Category'),
+        widget = forms.Select(attrs={'class': 'form-control'})
     )
-    tags = TagField()
+    tags = TagField(required=False)
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'categories', 'tags')
+        fields = ('title', 'content', 'category', 'tags',)

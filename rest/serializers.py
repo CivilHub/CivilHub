@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from blog.models import Category, News
+from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
+from places_core.models import AbuseReport
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -36,17 +39,18 @@ class NewsSerializer(serializers.ModelSerializer):
     date_created = serializers.DateTimeField()
     date_edited = serializers.DateTimeField()
     username = serializers.Field(source='creator.username')
+    user_full_name = serializers.Field(source='creator.get_full_name')
     avatar = serializers.Field(source='creator.profile.avatar.url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
-    categories = serializers.RelatedField(many=True)
+    category = serializers.RelatedField()
     tags = serializers.RelatedField(many=True)
     comment_count = serializers.SerializerMethodField('get_comment_count')
 
     class Meta:
         model = News
         fields = ('id', 'title', 'slug', 'content', 'date_created', 
-                  'date_edited', 'username', 'avatar', 'location', 'categories',
-                  'tags', 'comment_count',)
+                  'date_edited', 'username', 'avatar', 'location', 'category',
+                  'tags', 'comment_count', 'user_full_name',)
 
     def get_comment_count(self, obj):
         pk = obj.pk
@@ -64,6 +68,7 @@ class CommentSerializer(serializers.ModelSerializer):
     submit_date = serializers.DateTimeField(required=False)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
     username = serializers.Field(source='user.username')
+    user_full_name = serializers.Field(source='user.get_full_name')
     avatar = serializers.Field(source='user.profile.avatar.url')
     content_type = serializers.PrimaryKeyRelatedField()
     object_pk = serializers.Field()
@@ -76,7 +81,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
                   'avatar', 'content_type', 'object_pk', 'replies',
-                  'total_votes', 'upvotes', 'downvotes')
+                  'total_votes', 'upvotes', 'downvotes', 'user_full_name',)
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):
@@ -102,3 +107,45 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('label',)
+
+
+class ForumCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = ForumCategory
+        fields = ('name', 'description',)
+
+
+class IdeaCategorySerializer(serializers.ModelSerializer):
+    """
+    Allow superusers to create new idea categories dynamically.
+    """
+    name = serializers.CharField()
+    description = serializers.CharField()
+
+    class Meta:
+        model = IdeaCategory
+        fields = ('name', 'description',)
+
+
+class AbuseReportSerializer(serializers.ModelSerializer):
+    """
+    Abuse reports to send in context of some content.
+    """
+    id = serializers.Field()
+    comment = serializers.CharField(max_length=2048)
+    sender  = serializers.PrimaryKeyRelatedField(read_only=True)
+    status  = serializers.Field()
+    content_type  = serializers.PrimaryKeyRelatedField()
+    object_pk     = serializers.RelatedField()
+    date_reported = serializers.DateTimeField(required=False)
+
+    class Meta:
+        model = AbuseReport
+        fields = ('id', 'comment', 'sender', 'status', 'content_type',
+               'object_pk', 'date_reported',)

@@ -13,6 +13,9 @@ router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
 router.register(r'votes', views.CommentVoteViewSet, base_name=r'vote')
 router.register(r'tags', views.TagViewSet, base_name=r'tag')
 router.register(r'news', views.NewsViewSet, base_name=r'news')
+router.register(r'discussion', views.ForumCategoryViewSet, base_name=r'discussion')
+router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
+router.register(r'ideas', views.IdeaCategoryViewSet, base_name=r'ideas')
 
 urlpatterns = patterns('',# places
     # user account
@@ -30,11 +33,17 @@ urlpatterns = patterns('',# places
     # disabled because of lack South integrity
     #url('^messages/', include('discussions.urls', namespace='messages')),
     # Discussions (e.g. forum)
-    url('^forum/', include('topics.urls', namespace='discussion')),
+    url('^discussion/', include('topics.urls', namespace='discussion')),
     # comments
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
     url(r'^admin/', include(admin.site.urls)),
+    # Abuse reports (static)
+    url(r'^report/', include('places_core.urls', namespace='reports')),
+    # User media
+    url(r'^gallery/', include('gallery.urls', namespace='gallery')),
+    # Polls app
+    url(r'^polls/', include('polls.urls', namespace='polls')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,

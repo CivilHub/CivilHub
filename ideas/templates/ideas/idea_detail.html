@@ -1,16 +1,26 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}
+
 {% block content %}
-    <h3><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> <small>Created {{ idea.date_created }} by {{ idea.creator }}</small></h3>
+<div class="col-sm-9">
+    <h3>
+        <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
+        <small>
+            Created {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a>
+        </small>
+    </h3>
     {% if idea.creator == user %}
         <p><a href="{% url 'ideas:update' idea.slug %}">Edit</a></p>
     {% endif %}
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>
-        {% if user != idea.creator and user.is_authenticated %}
+        {% if user.is_authenticated %}
             <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn btn btn-default">+</button>
             <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn btn btn-default">-</button>
         {% endif %}
+    </div>
+    <div>
+        <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">Report abuse</a>
     </div>
     <div>{{ idea.description | safe }}</div>
     <div class="post-meta">
@@ -35,7 +45,9 @@
     <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
     <input type="hidden" id="target-user" value="{{ user.username }}" />
     <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+    <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
     {% include 'comments/commentlist.html' %}
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

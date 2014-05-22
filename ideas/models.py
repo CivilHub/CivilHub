@@ -31,8 +31,7 @@ class Idea(models.Model):
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
     description = models.TextField(max_length=2048, null=True, blank=True,)
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'),
-                                        null=True, blank=True,)
+    category = models.ForeignKey(Category, null=True, blank=True)
     location = models.ForeignKey(Location)
     status = models.BooleanField(default=True)
     # Track changes to mark item as edited when user changes it.

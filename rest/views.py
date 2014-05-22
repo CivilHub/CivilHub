@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 from rest_framework import viewsets, permissions, renderers
 from rest_framework.response import Response
 from rest.serializers import *
@@ -13,8 +14,11 @@ from rest_framework.decorators import link, api_view, renderer_classes
 from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
+from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
+from topics.models import Category as ForumCategory
 from rest.permissions import IsOwnerOrReadOnly
+from places_core.models import AbuseReport
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -72,15 +76,21 @@ class CommentsViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
+    def set_element_order(self):
+        if self.request.GET.get('order'):
+            return self.request.GET.get('order')
+        return 'submit_date'
+
     def get_queryset(self):
         if self.request.GET:
+            order = self.set_element_order()
             content_label = self.request.GET['content-label']
             content_type = ContentType.objects.get(pk=self.request.GET['content-type'])
             content_id = int(self.request.GET['content-id'])
             total_comments = CustomComment.objects.filter(content_type=content_type)
             total_comments = total_comments.filter(object_pk=content_id)
             total_comments = total_comments.filter(parent__isnull=True)
-            return total_comments.order_by('submit_date')
+            return total_comments.order_by(order)
         else:
             queryset = super(CommentsViewSet, self).get_queryset()
 
@@ -128,3 +138,36 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.user = self.request.user
+
+
+class ForumCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    queryset = ForumCategory.objects.all()
+    serializer_class = ForumCategorySerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
+class IdeaCategoryViewSet(viewsets.ModelViewSet):
+    """
+    Allow superusers to create new forum categories dynamically.
+    """
+    queryset = IdeaCategory.objects.all()
+    serializer_class = IdeaCategorySerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+
+class AbuseReportViewSet(viewsets.ModelViewSet):
+    """
+    Abuse reports to show to admins and moderators. All registered users
+    can send reports, but no one except superadmins is allowed to delete
+    and edit them.
+    """
+    queryset = AbuseReport.objects.all()
+    serializer_class = AbuseReportSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.sender = self.request.user
+    

@@ -1,0 +1,41 @@
+/* Discussion list view */
+.discussion-list {
+  .news-user-avatar {
+    margin: 0px !important;
+  }
+}
+
+/* Category list */
+.custom-label-list {
+  .custom-fa {
+    font-size: 24px;
+  }
+  .custom-label-entry {
+    margin-right: 10px;
+    &.custom-main-label-entry {
+      border: 1px solid #adadad;
+      padding: 5px;
+      font-weight: bold;
+    }
+    &.custom-active-label-entry {
+      
+    }
+  }
+}
+
+/* Discussion active detail view */
+.reply-entry {
+  .entry-controls {
+    float: right;
+    display: none;
+    transition: all 0.3s;
+  }
+  .entry-edited-label {
+    margin-left: 35px;
+  }
+  &:hover {
+    .entry-controls {
+      display: block;
+    }
+  }
+}

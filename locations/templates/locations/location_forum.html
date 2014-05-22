@@ -1,21 +1,227 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
+
+{% block topbar %}
+<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+    <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="">Title</a></li>
+                    <li><a href="">Date</a></li>
+                    <li><a href="">Category</a></li>
+                    <li><a href="">Username</a></li>
+                    <li><a href="">Answers</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Status: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="list-state-switch" data-target="active">Active</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="closed">Closed</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="all">All</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'locations:discussions' slug=location.slug %}">Anytime</a></li>
+            <li class="navbar-text"> | Past:</li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}">Day</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}">Week</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}">Month</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}">Year</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <a class="btn btn-default">Search</a>
+        </form>
+    </div>
+</nav>
+{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <a href="{% url 'locations:new_topic' location.slug %}">
-            <button type="button" class="btn btn-primary btn-topic-create">New topic</button>
-        </a>
-        {% if user.is_superuser %}
-            <button type="button" class="btn btn-primary btn-category-create">New category</button>
-        {% endif %}
-    {% endif %}
-    {% if discussions %}
-        <ul>
-        {% for topic in discussions %}
-            <li><a href="{{ topic.slug }}">{{ topic }}</a></li>
+<div class="col-sm-9">
+    <div class="row custom-label-list">
+        <span class="fa fa-list custom-fa"> </span>
+        <span class="custom-label-entry custom-main-label-entry">
+            <a href="#">All channels</a>
+        </span>
+        {% for category in categories %}
+            <span class="custom-label-entry">
+                <a href="#">{{ category }}</a>
+            </span>
         {% endfor %}
-        </ul>
-    {% else %}
-        <p>There are no discussions opened yet.</p>
+    </div>
+    <div class="discussion-list custom-tablelike">
+        {% if discussions %}
+            {% for topic in discussions %}
+                <div class="row topic-list-entry custom-list-entry">
+                    {% if user == topic.creator or user.is_superuser %}
+                        <div class="btn-group list-entry-controls">
+                            <a href="{% url 'discussion:update' topic.slug %}">
+                                <button type="button" class="btn btn-default btn-sm" title="Edit"><span class="fa fa-edit"> </span></button>
+                            </a>
+                            <button data-target="{{ topic.slug }}" type="button" class="btn btn-danger btn-sm delete-btn" title="Delete"><span class="fa fa-times-circle-o"> </span></button>
+                        </div>
+                    {% endif %}
+                    <div class="col-xs-4"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
+                    <div class="col-xs-3"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
+                    <div class="col-xs-1">{{ topic.entry_set.count }}</div>
+                    <div class="col-xs-4">
+                        <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
+                        <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
+                        {{ topic.date_created | timesince }}
+                    </div>
+                </div>
+            {% endfor %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if discussions.has_previous %}
+                    <a href="?page={{ discussions.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ discussions.number }} of {{ discussions.paginator.num_pages }}.
+                </span>
+        
+                {% if discussions.has_next %}
+                    <a href="?page={{ discussions.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+        {% else %}
+            <p>There are no discussions opened yet.</p>
+        {% endif %}
+    </div>
+{% if user.is_superuser %}
+{% comment %}
+    Create new category - allow superusers to create dynamically forum
+    categories via handy ajaxy form. This page element is hidden for
+    all other users and anonymous users.
+{% endcomment %}
+    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> New category</button>
+    <div id="new-category-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Create forum category</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="presentation" method="post" action="" >
+                        <div class="form-group">
+                            <label for="category-name" class="control-label">Name</label>
+                            <input type="text" id="category-name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="category-description">Description</label>
+                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary submit-btn">Save</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endif %}
+</div>
+<script>
+(function ($) {
+    "use strict";
+    //
+    // Delete existing discussion - only owners and superadmins
+    // -------------------------------------------------------------------------
+    $('.delete-btn').on('click', function () {
+        var question = 'Are you sure you want to delete this entry?',
+            target = $(this).attr('data-target'),
+            url = '/discussion/' + target + '/delete/',
+            $entry = $(this).parents('.topic-list-entry:first');
+        bootbox.confirm(question, function (resp) {
+            if (resp) {
+                sendAjaxRequest('POST', url, {
+                    data: {confirm: true},
+                    success: function (resp) {
+                        display_alert(resp.message, resp.level);
+                        if (resp.success) {
+                            $entry.fadeOut('slow', function () {
+                                $entry.empty().remove();
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            } 
+        });
+    });
+    {% if user.is_superuser %}
+    //
+    // Create new forum category - only superadmins!
+    // -------------------------------------------------------------------------
+    $(document).ready(function () {
+        var $modal = $('#new-category-form'),
+            $form = $modal.find('form:first'),
+            $sBtn = $modal.find('.submit-btn:first');
+        $modal.modal({show:false});
+        function submitCategoryForm(evt) {
+            evt.preventDefault();
+            $modal.modal('hide');
+            sendAjaxRequest('POST', '/rest/discussion/', {
+                data: {
+                    name: $('#category-name').val(),
+                    description: $('#category-description').val()
+                },
+                success: function (resp) {
+                    display_alert('New category created', 'success');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+        $sBtn.on('click', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $form.on('submit', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $('.btn-category-create').on('click', function (evt) {
+            $modal.modal('show');
+        });
+    });
     {% endif %}
+})(jQuery);
+</script>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+(function ($) {
+    "use strict";
+    $('.list-state-switch').on('click', function (evt) {
+        var targetState = $(this).attr('data-target');
+        evt.preventDefault();
+        if (targetState !== 'all') {
+            $('.custom-list-entry').each(function () {
+                var $entry = $(this),
+                    toHide = targetState === 'active' ? 'danger' : 'success';
+                if ($entry.find('.label-' + toHide).length > 0) {
+                    $entry.css('display', 'none');
+                } else {
+                    $entry.css('display', 'block');
+                }
+            });
+        } else {
+            $('.custom-list-entry').css('display', 'block');
+        }
+    });
+})(jQuery);
+</script>
 {% endblock %}
