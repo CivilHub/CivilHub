@@ -115,6 +115,21 @@ class GalleryView(View):
                 ctx['location'] = Location.objects.get(slug=slug)
             return render(request, template, ctx)
 
+    def post(self, request, slug=None):
+        username = slug if slug else request.user.username
+        filepath = os.path.join(settings.MEDIA_ROOT, username)
+        if not create_gallery(username):
+            raise IOError
+        for filename, f in request.FILES.iteritems():
+            filename = request.FILES[filename].name
+            file, ex = os.path.splitext(filename)
+            filename = slugify(file) + ex
+            destination = open(filepath + '/' + filename, 'wb+')
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
+            create_gallery_thumbnail(username, filename)
+
     def delete(self, request, filename, slug=None):
         username = slug if slug else request.user.username
         filepath = os.path.join(settings.MEDIA_ROOT, username)
@@ -137,19 +152,7 @@ class UserGalleryView(GalleryView):
     """
 
     def post(self, request):
-        username = request.user.username
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        if not create_gallery(username):
-            raise IOError
-        for filename, f in request.FILES.iteritems():
-            filename = request.FILES[filename].name
-            file, ex = os.path.splitext(filename)
-            filename = slugify(file) + ex
-            destination = open(filepath + '/' + filename, 'wb+')
-            for chunk in f.chunks():
-                destination.write(chunk)
-            destination.close()
-            create_gallery_thumbnail(username, filename)
+        super(UserGalleryView, self).post(request)
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,
@@ -165,19 +168,7 @@ class PlaceGalleryView(GalleryView):
     """
 
     def post(self, request, slug):
-        username = slug
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        if not create_gallery(username):
-            raise IOError
-        for filename, f in request.FILES.iteritems():
-            filename = request.FILES[filename].name
-            file, ex = os.path.splitext(filename)
-            filename = slugify(file) + ex
-            destination = open(filepath + '/' + filename, 'wb+')
-            for chunk in f.chunks():
-                destination.write(chunk)
-            destination.close()
-            create_gallery_thumbnail(username, filename)
+        super(PlaceGalleryView, self).post(request, slug)
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,
