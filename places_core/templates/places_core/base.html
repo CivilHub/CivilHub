@@ -11,25 +11,24 @@
 <title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
-<link href="{% static 'places_core/includes/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/includes/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/includes/bootswatch/spacelab.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/includes/jquery-ui/themes/smoothness/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'places_core/includes/google-fonts/google-fonts.css' %}" rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
+<link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="{% static 'places_core/css/style.css' %}" rel='stylesheet' type='text/css'>
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
-<script src="{% static 'places_core/includes/jquery/jquery-1.10.2.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'places_core/includes/bootbox/bootbox.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.2.0/bootbox.min.js"></script>
 <script src="{% static 'places_core/includes/bootstrap/bootstrap-flashmsg.js' %}"></script>
-<script src="{% static 'places_core/includes/underscore/underscore.js' %}"></script>
-<script src="{% static 'places_core/includes/backbone/backbone.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
 <!-- http://momentjs.com/ -->
-<script src="{% static 'places_core/includes/momentjs/moment.js' %}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.6.0/moment.min.js"></script>
 <!-- git@bitbucket.org:krastley/javascript-helpers.git -->
 <script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
 <script src="{% static 'places_core/js/djangojs.js' %}"></script>
