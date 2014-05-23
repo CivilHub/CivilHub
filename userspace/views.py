@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string
+import hashlib, datetime, random, string, os
+from PIL import Image
 from ipware.ip import get_ip
 from django.http import HttpResponse
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
@@ -304,6 +306,15 @@ def upload_avatar(request):
         if f.is_valid():
             user = UserProfile.objects.get(user=request.user.id)
             user.avatar = request.FILES['avatar']
+            size = 30, 30
+            path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+            file, ext = os.path.splitext(request.FILES['avatar'].name)
+            thumbname = '30x30_' + file + ext
+            img = Image.open(user.avatar)
+            tmp = img.copy()
+            tmp.thumbnail(size, Image.ANTIALIAS)
+            tmp.save(os.path.join(path, thumbname))
+            user.thumbnail = 'img/avatars/' + thumbname
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
     return redirect('user:index')

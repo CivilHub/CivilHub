@@ -82,7 +82,7 @@
                 </li>
                 <li class="user-profile-link">
                     <a href="{% url 'user:index' %}">
-                        <img src="{{ user.profile.avatar.url }}" alt="{{ user }}" class="navbar-avatar" title="Logged in as {{ user }}" />
+                        <img src="{{ user.profile.thumbnail.url }}" alt="{{ user }}" class="navbar-avatar" title="Logged in as {{ user }}" />
                     </a>
                     <a href="{% url 'user:logout' %}">Logout</a>
                 </li>
