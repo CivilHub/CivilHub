@@ -1,10 +1,12 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
+{% load bookmarks_tags %}
 
 {% block content %}
 <div class="col-sm-9">
 <h1>{{ title }}</h1><hr />
 {{ discussion.intro | safe }}
+{% bookmark_form for discussion %}
 {% for entry in replies %}
     <div class="reply-entry well">
         <div class="row">

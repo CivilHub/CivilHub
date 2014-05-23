@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://django-generic-bookmarks.readthedocs.org/en/latest
+    'bookmarks',
     # https://github.com/SmileyChris/easy-thumbnails
     'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
@@ -115,7 +117,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.login_redirect',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

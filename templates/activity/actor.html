@@ -29,7 +29,7 @@ $(function () {
 
 {% block content %}
 {% if request.user.is_authenticated %}
-<p><b><a href="{% actor_url request.user %}">{% trans "View my actions" %}</a></b></p>
+{% comment %}<p><b><a href="{% actor_url request.user %}">{% trans "View my actions" %}</a></b></p>{% endcomment %}
 {% endif %}
 <ul>
 {% for action in action_list %}

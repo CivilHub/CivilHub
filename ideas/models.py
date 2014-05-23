@@ -10,6 +10,8 @@ from django.contrib.contenttypes.models import ContentType
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
+from bookmarks.handlers import library
+
 
 class Category(models.Model):
     """
@@ -20,6 +22,7 @@ class Category(models.Model):
     
     def __unicode__(self):
         return self.name
+
 
 class Idea(models.Model):
     """
@@ -63,7 +66,7 @@ class Idea(models.Model):
     
     def __unicode__(self):
         return self.name
-        
+
     
 class Vote(models.Model):
     """
@@ -76,3 +79,7 @@ class Vote(models.Model):
     
     def __unicode__(self):
         return self.vote
+
+
+# Allow users to bookmark idea
+library.register(Idea)

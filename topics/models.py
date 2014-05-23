@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
+from bookmarks.handlers import library
 
 
 class Category(models.Model):
@@ -68,3 +69,7 @@ class Entry(MPTTModel):
         if self.pk is not None:
             self.is_edited = True
         super(Entry, self).save(*args, **kwargs)
+
+
+# Allow users to bookmark content
+library.register(Discussion)

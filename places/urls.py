@@ -44,6 +44,8 @@ urlpatterns = patterns('',# places
     url(r'^gallery/', include('gallery.urls', namespace='gallery')),
     # Polls app
     url(r'^polls/', include('polls.urls', namespace='polls')),
+    # http://django-generic-bookmarks.readthedocs.org/en/latest
+    (r'^bookmarks/', include('bookmarks.urls', namespace='bookmarks')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
