@@ -202,7 +202,15 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        return super(LocationDiscussionCreate, self).form_valid(form)
+        form.instance.save()
+        topic = Discussion.objects.latest('pk')
+        return redirect(reverse('locations:topic', 
+            kwargs = {
+                'place_slug': topic.location.slug,
+                'slug': topic.slug,
+            }
+        ))
+        #return super(LocationDiscussionCreate, self).form_valid(form)
 
 
 class LocationFollowersList(DetailView):
