@@ -38,6 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://django-generic-bookmarks.readthedocs.org/en/latest
+    'bookmarks',
+    # https://github.com/SmileyChris/easy-thumbnails
+    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # https://github.com/thoas/django-discussions
@@ -63,7 +67,7 @@ INSTALLED_APPS = (
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
-    'gallery',
+    'gallery',  # user media app
     # Database migrations
     'south',
 )
@@ -113,7 +117,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social.apps.django_app.context_processors.login_redirect',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
 )
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -171,6 +177,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
