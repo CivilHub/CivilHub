@@ -184,11 +184,19 @@ def pass_reset(request):
             new_pass = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
             user.set_password(new_pass)
             user.save()
-        ctx = {
-            'username': user.username,
-            'password': new_pass
-        }
-        return render(request, 'userspace/passremind-confirm.html', ctx)
+            ctx = {
+                'username': user.username,
+                'password': new_pass
+            }
+            return render(request, 'userspace/passremind-confirm.html', ctx)
+        else:
+            ctx['messages'] = []
+            for error in f.errors:
+                ctx['messages'].append({
+                    'message': error,
+                    'tags': 'danger',
+                })
+            ctx['messages'] = f.errors
     ctx['title'] = _("Reset password")
     ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
