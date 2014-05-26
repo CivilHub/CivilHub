@@ -2,6 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
+from captcha.fields import ReCaptchaField
 from .models import UserProfile
 
 
@@ -29,27 +30,11 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
+    captcha = ReCaptchaField()
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(RegisterForm, self).__init__(*args, **kwargs)
-        
-    def clean(self):
-        cleaned_data = super(RegisterForm, self).clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
-        email    = cleaned_data.get('email')
-        passchk  = cleaned_data.get('passchk')
-        if User.objects.filter(username=username).exists():
-            self._errors['username'] = self.error_class([_('Username already taken. Pick another one!')])
-            del cleaned_data['username']
-        if User.objects.filter(email=email).exists():
-            self._errors['email'] = self.error_class([_('Email already taken. Pick another one!')])
-            del cleaned_data['email']
-        if (password != passchk):
-            self._errors['password'] = self.error_class([_('Passwords not match!')])
-                
-        return cleaned_data
 
 
 class LoginForm(forms.Form):
@@ -149,6 +134,7 @@ class PasswordRemindForm(forms.Form):
         label = _("Email address"),
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
+    captcha = ReCaptchaField()
 
 
 class AvatarUploadForm(forms.Form):
