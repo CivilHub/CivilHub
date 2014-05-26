@@ -88,7 +88,7 @@ LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
 # Google API keys
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'AIzaSyD-XS_nJIqv9WdL6ZBxbyrD165GLOHDfBY'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
 
 
 # django-activity-stream settings
