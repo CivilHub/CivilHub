@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from locations.models import Location
 from taggit.managers import TaggableManager
+# Generic bookmarks
+from bookmarks.handlers import library
 
 
 class Poll(models.Model):
@@ -51,3 +53,7 @@ class AnswerSet(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     #answers = models.CommaSeparatedIntegerField(max_length=256)
     answers = models.ManyToManyField(Answer, related_name='answers', blank=True)
+
+
+# Allow users to bookmark content
+library.register(Poll)

@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 import hashlib, datetime, random, string, os
+from json import dumps
 from PIL import Image
+from bookmarks.models import Bookmark
 from ipware.ip import get_ip
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_safe
 from models import UserProfile, RegisterDemand, LoginData
 from forms import *
 
@@ -318,3 +322,28 @@ def upload_avatar(request):
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
     return redirect('user:index')
+
+
+@require_safe
+def my_bookmarks(request):
+    """
+    Return list of bookmarked elements belonging to
+    currently logged in user in form of JSON objects.
+    """
+    if not request.is_ajax(): return HttpResponseBadRequest()
+
+    bookmarks = []
+    queryset = Bookmark.objects.filter(user=request.user)
+    for b in queryset:
+        target = b.content_object
+        target_content_type = ContentType.objects.get_for_model(target)
+        bookmarks.append({
+            'id': b.pk,
+            'content_type': target_content_type.pk,
+            'target': target.get_absolute_url(),
+            'label': target.__unicode__(),
+        })
+    return HttpResponse(dumps({
+        'success': True,
+        'bookmarks': bookmarks,
+    }))

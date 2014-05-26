@@ -1,8 +1,10 @@
 {% extends 'locations/index.html' %}
+{% load bookmarks_tags %}
 
 {% block content %}
 <div class="col-sm-9">
     <h1>{{ poll.title }}</h1><hr />
+    {% bookmark_form for poll %}
     <div>{{ poll.question | safe }}</div>
     <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
         {% csrf_token %}

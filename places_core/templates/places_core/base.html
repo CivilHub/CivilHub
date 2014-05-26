@@ -72,6 +72,10 @@
                 <li><a href="{% url 'activities:actstream' %}">Actions</a></li>
                 <li><a href="{% url 'locations:index' %}">Places</a></li>
                 <li><a href="{% url 'gallery:index' %}">My Media</a></li>
+                <li class="dropdown">
+                    <a href="#" class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown">My Bookmarks</a>
+                    <ul class="dropdown-menu bookmarks-list"></ul>
+                </li>
             </ul>
             {% endif %}
             <ul class="nav navbar-nav navbar-right">

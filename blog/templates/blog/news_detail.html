@@ -1,9 +1,11 @@
 {% extends 'locations/index.html' %}
+{% load bookmarks_tags %}
 
 {% block content %}
 <div class="col-sm-9">
     <h1>{{ title }}</h1><hr />
     <article>
+        {% bookmark_form for news %}
         {% if user.is_authenticated and user != news.creator %}
             <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">Report abuse</a>
         {% endif %}
