@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block title %}{{ title | capfirst }}{% endblock %}
 
@@ -16,7 +16,7 @@
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         </div>
     </form>
 {% endblock %}

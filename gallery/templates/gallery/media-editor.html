@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 
@@ -15,8 +15,8 @@
     <input type="hidden" name="x2" id="x2" value="" />
     <input type="hidden" name="y2" id="y2" value="" />
     <div class="form-group">
-        <button type="button" class="btn btn-default cancel-btn">Cancel</button>
-        <button type="submit" class="btn btn-primary submit-btn">Save</button>
+        <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
+        <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
     </div>
 </form>
 

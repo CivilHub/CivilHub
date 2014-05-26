@@ -1,3 +1,4 @@
+{% load i18n %}
 {% if form %}
     {% if user.is_authenticated %}
         <form action="{% url 'bookmarks:bookmarks_bookmark' %}" method="post" accept-charset="UTF-8" class="bookmarks_form">
@@ -8,7 +9,7 @@
                 <input class="bookmarks_toggle" type="submit" value="add"{% if exists %} style="display: none;"{% endif %}/>
                 <input class="bookmarks_toggle" type="submit" value="remove"{% if not exists %} style="display: none;"{% endif %}/>
             {% endwith %}                
-            <span class="error" style="display: none;">Error during process</span>
+            <span class="error" style="display: none;">{% trans "Error during process" %}</span>
         </form>
     {% else %}
         <a href="{{ login_url }}?{{ next }}={{ next_url|default:request.get_full_path }}">add</a>

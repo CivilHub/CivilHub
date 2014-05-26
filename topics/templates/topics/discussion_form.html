@@ -1,19 +1,14 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.css' %}" />
-<style>
-.bootstrap-switch {
-  margin-top: 15px;
-}
-</style>
 <div class="col-sm-9">
     <form role="form" action="" method="post">
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+            <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
         </div>
     </form>
 </div>
@@ -27,8 +22,8 @@
     "use strict";
     CKEDITOR.replace('id_intro');
     $('[type="checkbox"]').bootstrapSwitch({
-        onText: 'Opened',
-        offText: 'Closed',
+        onText: '{% trans "Opened" %}',
+        offText: '{% trans "Closed" %}',
         wrapperClass: 'form-group',
         onColor: 'success',
         offColor: 'danger'

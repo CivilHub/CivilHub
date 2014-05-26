@@ -1,20 +1,20 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
 {% load bookmarks_tags %}
+{% load i18n %}
 
 {% block content %}
 <div class="col-sm-9">
     <h3>
         <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
         <small>
-            Created {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a>
+            {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }} {{ idea.date_created }}</a>
         </small>
     </h3>
     {% if idea.creator == user %}
-        <p><a href="{% url 'ideas:update' idea.slug %}">Edit</a></p>
+        <p><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></p>
     {% endif %}
     {% bookmark_form for idea %}
-    <script src="{{ STATIC_URL }}bookmarks/bookmarks.js" type="text/javascript"></script>
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>
         {% if user.is_authenticated %}
@@ -23,15 +23,15 @@
         {% endif %}
     </div>
     <div>
-        <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">Report abuse</a>
+        <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a>
     </div>
     <div>{{ idea.description | safe }}</div>
     <div class="post-meta">
-        <p>Created by {{ idea.creator }} | {{ idea.date_created }}</p>
-        {% if idea.edited %}<p>Last time edited: {{ idea.date_edited }}</p>{% endif %}
-        <p>Status: {{ idea.status }}</p>
+        <p>{% trans "Created by" %} {{ idea.creator }} | {{ idea.date_created }}</p>
+        {% if idea.edited %}<p>{% trans "Last time edited" %}: {{ idea.date_edited }}</p>{% endif %}
+        <p>{% trans "Status" %}: {{ idea.status }}</p>
     </div>
-    <p>Tags:</p>
+    <p>{% trans "Tags" %}:</p>
     <ul>
         {% for tag in idea.tags.all %}
         <li>{{ tag }}</li>
@@ -39,8 +39,8 @@
     </ul>
     <div>
         <p>
-            Comments: <span class="badge comment-count">{{ idea.comments }}</span>
-            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
+            {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
+            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
         </p>
     </div>
     <input type="hidden" id="target-id" value="{{ idea.pk }}" />

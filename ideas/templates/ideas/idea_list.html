@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-
+{% load i18n %}
 {% block content %}
     
 {% if ideas %}
@@ -13,7 +13,7 @@
 {% endif %}
 
 {% if user.is_authenticated %}
-<p><a href="{% url 'ideas:create' %}"><button class="btn btn-primary">Create</button></a></p>
+<p><a href="{% url 'ideas:create' %}"><button class="btn btn-primary">{% trans "Create" %}</button></a></p>
 {% endif %}
     
 {% endblock %}

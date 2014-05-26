@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'locations/css/location-list.css' %}" />
@@ -11,22 +11,22 @@
         <h2><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></h2>
         {% if user.is_authenticated and user == location.creator %}
             <p>
-                <a href="{% url 'locations:update' location.slug %}">Edit</a> | 
-                <a href="{% url 'locations:delete' location.slug %}">Delete</a>
+                <a href="{% url 'locations:update' location.slug %}">{% trans "Edit" %}</a> | 
+                <a href="{% url 'locations:delete' location.slug %}">{% trans "Delete" %}</a>
             </p>
         {% endif %}
         {% if user.is_authenticated and not user in location.users.all %}
-            <p><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">Follow</button></p>
+            <p><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">{% trans "Follow" %}</button></p>
         {% endif %}
         {% if user.is_authenticated and user in location.users.all %}
-            <p><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">Stop following</button></p>
+            <p><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button></p>
         {% endif %}
         <p><img src="{{ location.image.url }}" alt="{{ location.name }}" class="location-preview-img" /></p>
     </div>
     {% endfor %}
     <div style="clear:both;">&nbsp;</div>
     {% if user.is_authenticated %}
-        <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">Create new</button></a></div>
+        <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">{% trans "Create new" %}</button></a></div>
     {% endif %}
 {% endblock %}
 

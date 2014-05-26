@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load bookmarks_tags %}
+{% load bookmarks_tags %}{% load i18n %}
 
 {% block content %}
 <div class="col-sm-9">
@@ -7,18 +7,19 @@
     <article>
         {% bookmark_form for news %}
         {% if user.is_authenticated and user != news.creator %}
-            <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">Report abuse</a>
+            <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
+                {% trans "Report abuse" %}</a>
         {% endif %}
         <div>{{ news.content | safe }}</div>
         {% if user.is_authenticated and user == news.creator %}
             <div class="news-controls">
-                <a href="{% url 'blog:update' news.slug %}">Edit</a>
-                <a href="">Delete</a>
+                <a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a>
+                <a href="">{% trans "Delete" %}</a>
             </div>
         {% endif %}
         <div class="comments-{{ news.pk }}"></div>
         <div class="news-meta">
-            <p>Created by {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
+            <p>{% trans "Created by" %} {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
         </div>
     </article>
     <input type="hidden" id="target-id" value="{{ news.pk }}" />
@@ -29,7 +30,7 @@
     <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
     <p>
         Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
-        <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">Hide comments</a>
+        <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
     </p>
     {% include 'comments/commentlist.html' %}
 </div>

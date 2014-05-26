@@ -1,8 +1,8 @@
 {% extends 'locations/index.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="col-sm-9">
-    <h1>{{ poll.title }} - results</h1><hr />
+    <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
     {% for aset in answers %}
     <div>
         <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>

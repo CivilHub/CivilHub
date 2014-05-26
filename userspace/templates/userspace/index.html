@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 {% for error in errors %}
@@ -13,21 +13,21 @@
             {% csrf_token %}
             {{ avatar_form }}
         </form>
-        <p><a href="{% url 'user:chpass' %}">Change password</a></p>
+        <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
     </div>
     <div class="col-sm-9">
         <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
             {% csrf_token %}
             {{ form }}
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
             </div>
         </form>
     </div>
 </div>
 {% include 'gallery/media-uploader.html' %}
 {% else %}
-    <p class="custom-booklike">You are not allowed to visit this page. Sorry.</p>
+    <p class="custom-booklike">{% trans "You are not allowed to visit this page. Sorry." %}</p>
 {% endif %}
 {% endblock %}
 

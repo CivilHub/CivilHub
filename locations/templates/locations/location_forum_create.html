@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 <div class="col-sm-9">
@@ -7,7 +7,7 @@
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary save-btn">Save</button>
+            <button type="submit" class="btn btn-primary save-btn">{% trans "Save" %}</button>
         </div>
     </form>
 </div>
