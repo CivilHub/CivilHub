@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os
+import hashlib, datetime, random, string, os, captcha
 from json import dumps
 from PIL import Image
 from bookmarks.models import Bookmark
@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -172,16 +173,21 @@ def pass_reset(request):
     Pozwól zarejestrowanym użytkownikom zresetować zapomniane
     hasło na podstawie adresu email.
     """
-    errors = []
     ctx = {}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
-        if f.is_valid():
+        # talk to the reCAPTCHA service
+        response = captcha.client.submit(
+            request.POST.get('recaptcha_challenge_field'),
+            request.POST.get('recaptcha_response_field'),
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],)
+        if response:
             try:
-                user = User.objects.get(email=f.cleaned_data['email'])
-            except DoesNotExist as ex:
-                errors.append(_("User with requested email does not exist!"))
-            new_pass = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+                user = User.objects.get(email=request.POST.get('email'))
+            except ObjectDoesNotExist as ex:
+                pass
+            new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
             user.set_password(new_pass)
             user.save()
             ctx = {
@@ -190,13 +196,7 @@ def pass_reset(request):
             }
             return render(request, 'userspace/passremind-confirm.html', ctx)
         else:
-            ctx['messages'] = []
-            for error in f.errors:
-                ctx['messages'].append({
-                    'message': error,
-                    'tags': 'danger',
-                })
-            ctx['messages'] = f.errors
+            ctx['errors'] = f.errors
     ctx['title'] = _("Reset password")
     ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
