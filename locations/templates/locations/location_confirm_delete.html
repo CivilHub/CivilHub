@@ -1,11 +1,12 @@
 {% extends 'places_core/base.html' %}
+{% load i18n %}
 
 {% block content %}
-    <p>Are you sure that you would like to delete this place?</p>
+    <p>{% trans "Are you sure that you would like to delete this place?" %}</p>
     <ul>
     <form method="POST" action=".">
-        <li><input type="submit" value="Yes" /></li>
+        <li><input type="submit" value="{% trans "Yes" %}" /></li>
     </form>
-    <li><a href="{{ next }}">No</a></li>
+    <li><a href="{{ next }}">{% trans "No" %}</a></li>
     </ul>
 {% endblock %}

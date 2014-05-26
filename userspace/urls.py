@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'passreset/', views.pass_reset, name='passreset'),
     url(r'upload_avatar/', views.upload_avatar, name='upload_avatar'),
     url(r'save_settings/', views.save_settings, name='save_settings'),
+    url(r'my_bookmarks/', views.my_bookmarks, name='my_bookmarks'),
     url(r'(?P<username>\w+)/$', views.profile, name='profile'),
 )

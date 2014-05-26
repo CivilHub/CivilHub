@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %} {% load i18n %} 
 
 {% block content %}
 <div class="col-sm-9">
@@ -7,8 +7,8 @@
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="button" class="btn btn-default cancel-btn">Cancel</button>
-            <button type="submit" class="btn btn-primary submit-btn">Save</button>
+            <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
         </div>
     </form>
 </div>
@@ -21,7 +21,6 @@
 <script>
 (function ($) {
     "use strict";
-    //CKEDITOR.replace('id_content');
     $('#id_content').customCKEditor();
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',

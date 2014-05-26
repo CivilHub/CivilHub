@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
@@ -8,29 +8,29 @@
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by: <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">Title</a></li>
-                    <li><a href="">Date</a></li>
-                    <li><a href="">Category</a></li>
-                    <li><a href="">Username</a></li>
-                    <li><a href="">Answers</a></li>
+                    <li><a href="">{% trans "Title" %}</a></li>
+                    <li><a href="">{% trans "Date" %}</a></li>
+                    <li><a href="">{% trans "Category" %}</a></li>
+                    <li><a href="">{% trans "Username" %}</a></li>
+                    <li><a href="">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Status: <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch" data-target="active">Active</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="closed">Closed</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="all">All</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="active">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="closed">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="all">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
-            <a class="btn btn-default">Search</a>
+            <a class="btn btn-default">{% trans "Search" %}</a>
         </form>
     </div>
 </nav>
@@ -47,23 +47,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Create ideas category</h4>
+                    <h4 class="modal-title">{% trans "Create ideas category" %}</h4>
                 </div>
                 <div class="modal-body">
                     <form role="presentation" method="post" action="" >
                         <div class="form-group">
-                            <label for="category-name" class="control-label">Name</label>
+                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
                             <input type="text" id="category-name" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label for="category-description">Description</label>
+                            <label for="category-description">{% trans "Description" %}</label>
                             <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary submit-btn">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -71,7 +71,7 @@
     {% if user.is_authenticated %}
     <p>
         {% if user.is_superuser %}
-        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">New category</button></a>
+        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">{% trans "New category" %}</button></a>
         {% endif %}
     </p>
     {% endif %}
@@ -98,7 +98,7 @@
             sendAjaxRequest('POST', '/rest/ideas/', {
                 data: data,
                 success: function (resp) {
-                    display_alert('Category added', 'success');
+                    display_alert('{% trans "Category added" %}', 'success');
                 },
                 error: function (err) {
                     console.log(err);

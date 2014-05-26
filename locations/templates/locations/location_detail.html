@@ -1,11 +1,11 @@
 {% extends 'locations/index.html' %}
-
+{% load i18n %}
 {% block content %}
 <div class="col-sm-9">
-    <h1>{{ location.name }} summary</h1>
+    <h1>{{ location.name }} {% trans "summary" %}</h1>
     <div>{{ location.description | safe }}</div>
     
-    <h2>Latest related actions</h2>
+    <h2>{% trans "Latest related actions" %}</h2>
     <ul class="last-related-actions">
     {% for action in actions %}
         <li>

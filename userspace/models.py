@@ -18,6 +18,11 @@ class UserProfile(models.Model):
         default = 'img/avatars/anonymous.png',
         storage = OverwriteStorage()
     )
+    thumbnail = models.ImageField(
+        upload_to = "img/avatars/",
+        default = 'img/avatars/30x30_anonymous.png',
+        storage = OverwriteStorage()
+    )
 
 
 class RegisterDemand(models.Model):

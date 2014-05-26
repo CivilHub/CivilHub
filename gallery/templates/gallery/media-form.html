@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 
@@ -20,7 +20,7 @@
             <input name="file" type="file" class="form-input" multiple />
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">Upload</button>
+            <button type="submit" class="btn btn-primary submit-btn">{% trans "Upload" %}</button>
         </div>
     </form>
 </div>

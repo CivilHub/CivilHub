@@ -12,6 +12,8 @@ from taggit.managers import TaggableManager
 # Activity stream
 from django.db.models.signals import post_save
 from actstream import action
+# Generic bookmarks
+from bookmarks.handlers import library
 
 class Category(models.Model):
     """
@@ -79,4 +81,7 @@ def create_entry_action_hook(sender, instance, created, **kwargs):
         )
 
 post_save.connect(create_entry_action_hook, sender=News)
+
+# Allow users to bookmark content
+library.register(News)
     

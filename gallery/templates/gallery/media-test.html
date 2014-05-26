@@ -1,10 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
-
-{% comment %}
-    Extend jest tylko na chwilę. Po dołączeniu uploadera w strukturę programu
-    template będzie załączany w odpowiednim miejscu przez 'include'.
-{% endcomment %}
+{% load staticfiles %}{% load i18n %}
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/basic.css' %}" />

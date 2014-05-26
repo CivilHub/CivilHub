@@ -1,14 +1,16 @@
 {% extends 'locations/index.html' %}
+{% load bookmarks_tags %} {% load i18n %}
 
 {% block content %}
 <div class="col-sm-9">
     <h1>{{ poll.title }}</h1><hr />
+    {% bookmark_form for poll %}
     <div>{{ poll.question | safe }}</div>
     <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
         {% csrf_token %}
         {{ form }}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">Send</button>
+            <button type="submit" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
         </div>
     </form>
 </div>

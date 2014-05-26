@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{% static 'locations/css/location-details.css' %}" />
@@ -24,7 +24,7 @@
     <div class="container">
         <h1 class="location-name-title">{{ location.name }}</h1>
         {% if user not in locations.users.all %}
-            <button class="btn btn-success btn-fallow-location">Fallow</button>
+            <button class="btn btn-success btn-fallow-location">{% trans "Follow" %}</button>
         {% endif %}
     </div>
 </div>
@@ -32,7 +32,7 @@
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
-              <span class="sr-only">Toggle navigation</span>
+              <span class="sr-only">{% trans "Toggle navigation" %}</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -40,13 +40,13 @@
           </div>
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}">Summary</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}">News</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}">Ideas</a></li>
-                <li><a href="{% url 'locations:followers' location.slug %}">Followers</a></li>
-                <li><a href="{% url 'locations:discussions' location.slug %}">Discussions</a></li>
-                <li><a href="{% url 'locations:polls' location.slug %}">Polls</a></li>
-                <li><a href="{% url 'locations:gallery' location.slug %}">Gallery</a></li>
+                <li><a href="{{ location.get_absolute_url }}">{% trans "Summary" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}">{% trans "News" %}</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
+                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
+                <li><a href="{% url 'locations:discussions' location.slug %}">{% trans "Discussions" %}</a></li>
+                <li><a href="{% url 'locations:polls' location.slug %}">{% trans "Polls" %}</a></li>
+                <li><a href="{% url 'locations:gallery' location.slug %}">{% trans "Gallery" %}</a></li>
             </ul>
         </div>
     </div>
@@ -59,22 +59,22 @@
     {% if user.is_authenticated %}
         <li>
             <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
-                <span class="fa fa-plus-circle"> </span> New discussion
+                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
             </a>
         </li>
         <li>
             <a href="{% url 'locations:new_poll' location.slug %}">
-                <span class="fa fa-file-o"> </span> Create poll
+                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
             </a>
         </li>
         <li>
             <a href="{% url 'locations:news_create' location.slug %}">
-                <span class="fa fa-file-o"> </span> Add news
+                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
             </a>
         </li>
         <li>
             <a href="{% url 'locations:new_idea' location.slug %}">
-                <span class="fa fa-file-o"> </span> New idea</button>
+                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
             </a>
         </li>
     {% endif %}

@@ -1,6 +1,6 @@
-{% extends 'places_core/base.html' %}
+{% extends 'places_core/base.html' %} {% load i18n %} 
 
 {% block content %}
     <h2>{{ cuser.username }}</h2>
-    <p>This profile is public</p>
+    <p>{% trans "This profile is public" %}</p>
 {% endblock %}

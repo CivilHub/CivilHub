@@ -1,34 +1,34 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 {% block topbar %}
 <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
         <ul class="nav navbar-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by: <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">Title</a></li>
-                    <li><a href="">Date</a></li>
-                    <li><a href="">Category</a></li>
-                    <li><a href="">Username</a></li>
-                    <li><a href="">Answers</a></li>
+                    <li><a href="">{% trans "Title" %}</a></li>
+                    <li><a href="">{% trans "Date" %}</a></li>
+                    <li><a href="">{% trans "Category" %}</a></li>
+                    <li><a href="">{% trans "Username" %}</a></li>
+                    <li><a href="">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Status: <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch" data-target="active">Active</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="closed">Closed</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="all">All</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="active">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="closed">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch" data-target="all">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
-            <a class="btn btn-default">Search</a>
+            <a class="btn btn-default">{% trans "Search" %}</a>
         </form>
     </div>
 </nav>
@@ -53,8 +53,8 @@
         </div>
         <div class="modal-body"><%= form %></div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary btn-modal-submit">Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+            <button type="button" class="btn btn-primary btn-modal-submit">{% trans "Save changes" %}</button>
         </div>
     </div>
 </div>
@@ -63,12 +63,12 @@
 <script type="text/template" id="category-form">
 <form role="form" method="post" action="">
     <div class="form-group">
-        <label for="name" class="control-label">Name</label>
-        <input type="text" name="name" id="name" placeholder="Title" class="form-control" />
+        <label for="name" class="control-label">{% trans "Name" %}</label>
+        <input type="text" name="name" id="name" placeholder="{% trans "Title" %}" class="form-control" />
     </div>
     <div class="form-group">
-        <label class="control-label">Description</label>
-        <textarea name="description" id="description" cols="10" rows="10" class="form-control">Category description goes here...</textarea>
+        <label class="control-label">{% trans "Description" %}</label>
+        <textarea name="description" id="description" cols="10" rows="10" class="form-control">{% trans "Category description goes here..." %}</textarea>
     </div>
 </form>
 </script>
@@ -79,15 +79,15 @@
     <div class="col-xs-11">
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
-            Created by <a href="/user/profile/<%= username %>"><%= user_full_name %></a> <%= moment(date_created).fromNow() %>
-            - Last edited <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %>
+            {% trans "Created by" %} <a href="/user/profile/<%= username %>"><%= user_full_name %></a> <%= moment(date_created).fromNow() %>
+            - {% trans "Last edited" %} <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %>
         </p>
-        <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">Read more &raquo;</a></p>
+        <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">{% trans "Read more" %} &raquo;</a></p>
         <div class="row">
             <p class="col-sm-6"><span class="fa fa-star"> </span>
                 <a href="#"><%= category %></a>
             </p>
-            <p class="col-sm-6"><span class="fa fa-tags"> </span> Tags: 
+            <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
             <% $(tags).each(function (idx, tag) { %>
                 <a href="#"><%= tag %></a>,&nbsp;
             <% }); %>    
@@ -95,7 +95,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">Comments: <%= comment_count %></a></p>
+                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">{% trans "Comments" %}: <%= comment_count %></a></p>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
 {% if user.is_authenticated %}
 <p>
     {% if user.is_superuser %}
-        <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">Add category</button></a>
+        <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">{% trans "Add category" %}</button></a>
     {% endif %}
 </p>
 {% endif %}

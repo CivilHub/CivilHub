@@ -1,11 +1,11 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}
+{% load staticfiles %} {% load i18n %} 
 {% block content %}
 {{ errors }}
 <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
     {% csrf_token %}
     {{ form }}
-    <button class="btn btn-primary" type="submit">Register</button>
+    <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
 </form>
 {% endblock %}
 {% block footer_scripts %}

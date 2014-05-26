@@ -1,6 +1,6 @@
-{% extends 'places_core/base.html' %}
+{% extends 'places_core/base.html' %} {% load i18n %}
 
 {% block content %}
-    <p>Username: {{ username }}</p>
-    <p>Password: {{ password }}</p>
+    <p>{% trans "Username" %}: {{ username }}</p>
+    <p>{% trans "Password" %}: {{ password }}</p>
 {% endblock %}

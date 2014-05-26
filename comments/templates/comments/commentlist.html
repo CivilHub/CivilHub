@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles %}{% load i18n %}
 
 <div id="comments">
     <div class="commentformarea">
@@ -10,14 +10,14 @@
                 <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-default btn-submit-comment-main">Submit comment</button>
+                <button type="submit" class="btn btn-default btn-submit-comment-main">{% trans "Submit comment" %}</button>
             </div>
         </form>
         {% endif %}
         <p>Order by: 
-            <a class="change-order-link" href="#" data-order="votes">Most voted</a> | 
-            <a class="change-order-link" href="#" data-order="submit_date">Newest</a> |
-            <a class="change-order-link" href="#" data-order="-submit_date">Oldest</a>
+            <a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a> | 
+            <a class="change-order-link" href="#" data-order="submit_date">{% trans "Newest" %}</a> |
+            <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Oldest" %}</a>
         </p>
     </div>
 </div>
@@ -30,11 +30,11 @@
             <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
             <span class="comment-controls">
                 <% if (username === $('#target-user').val()) { %>
-                    <a href="#" title="Edit entry">
+                    <a href="#" title="{% trans "Edit entry" %}">
                         <span class="fa fa-edit"> </span>
                     </a>
                 <% } else { %>
-                    <a class="report-abuse-link" href="/report/comments/customcomment/<%= id %>/" title="Report abuse" class="report-abuse-link">
+                    <a class="report-abuse-link" href="/report/comments/customcomment/<%= id %>/" title="{% trans "Report abuse" %}" class="report-abuse-link">
                         <span class="fa fa-exclamation-triangle"> </span>
                     </a>
                 <% } %>
@@ -53,11 +53,11 @@
                 {% endif %}
                 
                 {% comment %}
-                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">(hide)</a>
+                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %})</a>
                 {% endcomment %}
                 
-                {% if user.is_authenticated %}| <a class="comment-reply" href="#">Reply</a> |{% endif %}
-                <a class="show-replies" href="#">(hide)</a>
+                {% if user.is_authenticated %}| <a class="comment-reply" href="#">{% trans "Reply" %}</a> |{% endif %}
+                <a class="show-replies" href="#">({% trans "hide" %})</a>
                 </p>
                 <div class="comment-votes-detail">
                     <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
@@ -78,7 +78,7 @@
             <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default btn-submit-comment">Submit comment</button>
+            <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
         </div>
     </form>
 </script>
