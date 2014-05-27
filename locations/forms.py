@@ -32,19 +32,15 @@ class LocationForm(forms.ModelForm):
         label = _('Description'),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    latitude = forms.FloatField(
+    latitude = forms.CharField(
         required = False,
         label = _('Latitude'),
-        min_value = 0,
-        max_value = 360,
-        widget = forms.NumberInput(attrs={'class': 'form-control'})
+        widget = forms.TextInput(attrs={'class': 'form-control'})
     )
-    longitude = forms.FloatField(
+    longitude = forms.CharField(
         required = False,
         label = _('Longitude'),
-        min_value = 0,
-        max_value = 360,
-        widget = forms.NumberInput(attrs={'class': 'form-control'})
+        widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     image = forms.ImageField(
         required = False,

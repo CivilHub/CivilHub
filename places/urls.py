@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
+    # Google Maps
+    url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
     url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas

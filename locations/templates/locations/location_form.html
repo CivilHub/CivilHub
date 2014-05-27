@@ -4,6 +4,8 @@
 {% block title %}Create location{% endblock %}
 
 {% block content %}
+<!-- Add Google Maps support -->
+<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 {% if action and action == 'edit' %}
     <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post">
 {% else %}
@@ -21,11 +23,20 @@
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'places_core/includes/bootstrap/bootstrap.file-input.js' %}"></script>
+<script src="{% static 'maps/js/jquery.mapinput.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
     $('#id_description').customCKEditor();
     $('[type="file"]').bootstrapFileInput();
+    $('#id_latitude').before('<div id="map"></div>');
+    $('#id_latitude, #id_longitude').css('display', 'none');
+    $('#map').mapinput({
+        latField: '#id_latitude',
+        lngField: '#id_longitude',
+        width: 640,
+        height: 480
+    });
 })(jQuery);
 </script>
 {% endblock %}

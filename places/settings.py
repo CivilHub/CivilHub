@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for places project.
 
@@ -41,8 +42,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # https://bitbucket.org/dbinit/django-gmapi
-    'gmapi',
     # https://github.com/praekelt/django-recaptcha
     'captcha',
     # http://django-generic-bookmarks.readthedocs.org/en/latest
@@ -77,6 +76,8 @@ INSTALLED_APPS = (
     'gallery',  # user media app
     # Database migrations
     'south',
+    # TEST - jeżeli będzie działać, zostanie zaimplementowane na stałe
+    'maps',
 )
 
 # Authentication and python-social-auth settings

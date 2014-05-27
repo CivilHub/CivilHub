@@ -21,4 +21,4 @@
             }
         });
     });
-})(jQuery);
+})(jQuery.noConflict());
