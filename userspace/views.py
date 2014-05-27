@@ -74,20 +74,26 @@ def register(request):
     """
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid():
+
+        # talk to the reCAPTCHA service
+        response = captcha.client.submit(
+            request.POST.get('recaptcha_challenge_field'),
+            request.POST.get('recaptcha_response_field'),
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],)
+
+        if response.is_valid:
             user = User()
-            username = f.cleaned_data['username']
-            password = f.cleaned_data['password']
+            username = request.POST.get('username')
+            password = request.POST.get('password')
             user.username = username
             user.set_password(password)
-            user.email = f.cleaned_data['email']
+            user.email = request.POST.get('email')
             user.is_active = False
             user.save()
             # Re-fetch user object from DB
             user = User.objects.latest('id')
             # Create user profile
-            #prof = UserProfile()
-            #prof.user = user
             salt = hashlib.md5()
             salt.update(str(datetime.datetime.now().time))
             register_demand = RegisterDemand(
@@ -108,13 +114,13 @@ def register(request):
                     'username': request.POST.get('username'),
                     'email':    request.POST.get('email')
                 }),
-                'title': _('Sign Up'),
+                'title': _("Registration"),
                 'errors': f.errors,
             }
             return render(request, 'userspace/register.html', ctx)
     ctx = {
         'form': RegisterForm,
-        'title': _('Sign Up'),
+        'title': _("Registration"),
     }
     return render(request, 'userspace/register.html', ctx)
 
@@ -176,27 +182,31 @@ def pass_reset(request):
     ctx = {}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
+        
         # talk to the reCAPTCHA service
         response = captcha.client.submit(
             request.POST.get('recaptcha_challenge_field'),
             request.POST.get('recaptcha_response_field'),
             settings.RECAPTCHA_PRIVATE_KEY,
             request.META['REMOTE_ADDR'],)
-        if response:
+
+        if response.is_valid:
             try:
                 user = User.objects.get(email=request.POST.get('email'))
+                new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
+                user.set_password(new_pass)
+                user.save()
+                ctx = {
+                    'username': user.username,
+                    'password': new_pass
+                }
+                return render(request, 'userspace/passremind-confirm.html', ctx)
             except ObjectDoesNotExist as ex:
                 pass
-            new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
-            user.set_password(new_pass)
-            user.save()
-            ctx = {
-                'username': user.username,
-                'password': new_pass
-            }
-            return render(request, 'userspace/passremind-confirm.html', ctx)
+
         else:
             ctx['errors'] = f.errors
+
     ctx['title'] = _("Reset password")
     ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
