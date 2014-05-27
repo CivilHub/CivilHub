@@ -210,7 +210,6 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 'slug': topic.slug,
             }
         ))
-        #return super(LocationDiscussionCreate, self).form_valid(form)
 
 
 class LocationFollowersList(DetailView):

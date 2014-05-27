@@ -1,0 +1,31 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+<!-- Add Google Maps support -->
+<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
+<form role="form" method="post" action="">
+    {% csrf_token %}
+    {{ form }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'maps/js/jquery.mapinput.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    $('#id_latitude').before('<div id="map"></div>');
+    $('#id_latitude, #id_longitude').css('display', 'none');
+    $('#map').mapinput({
+        latField: '#id_latitude',
+        lngField: '#id_longitude',
+        width: 640,
+        height: 480
+    });
+})(jQuery);
+</script>
+{% endblock %}
