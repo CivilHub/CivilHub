@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
-from django.views.decorators.http import require_GET
+from json import dumps
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
 from django.shortcuts import render_to_response, redirect
 from django.core.urlresolvers import reverse
@@ -24,9 +26,8 @@ def get_pointers(request):
     """
     This view actually returns map markers to place on Google Map.
     """
-    from json import dumps
     locations = []
-    pointers = []
+    pointers  = []
     ls = Location.objects.all()
     ps = MapPointer.objects.all()
     for l in ls:
@@ -49,6 +50,34 @@ def get_pointers(request):
         'locations': locations,
         'pointers' : pointers,
     }
+    return HttpResponse(dumps(context))
+
+
+@login_required
+@require_POST
+def save_pointer(request):
+    """
+    This view handle ajaxy form in modal to create new map marker.
+    """
+    ct = ContentType.objects.get(pk=request.POST.get('content_type'))
+    pointer = MapPointer()
+    pointer.object_pk = request.POST.get('object_pk')
+    pointer.content_type = ct
+    pointer.latitude = request.POST.get('latitude')
+    pointer.longitude = request.POST.get('longitude')
+    try:
+        pointer.save()
+        context = {
+            'success': True,
+            'message': "Pointer added",
+            'level'  : 'success',
+        }
+    except Exception as ex:
+        context = {
+            'success': False,
+            'message': ex,
+            'level'  : 'danger',
+        }
     return HttpResponse(dumps(context))
 
 

@@ -25,3 +25,22 @@ class MapPointerForm(forms.ModelForm):
     class Meta:
         model = models.MapPointer
         fields = ('content_type', 'object_pk', 'latitude', 'longitude',)
+
+
+class AjaxPointerForm(forms.ModelForm):
+    """
+    This form is displayed in modal window when user add map pointer
+    for selected content element. It contains only hidden elements
+    to get JavaScript handle everything else.
+    """
+    content_type = forms.ModelChoiceField(
+        queryset = ContentType.objects.all(),
+        widget   = forms.HiddenInput()
+    )
+    object_pk = forms.IntegerField(widget = forms.HiddenInput())
+    latitude = forms.FloatField(widget=forms.HiddenInput())
+    longitude = forms.FloatField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = models.MapPointer
+        fields = ('content_type', 'object_pk', 'latitude', 'longitude',)

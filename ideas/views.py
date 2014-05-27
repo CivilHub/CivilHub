@@ -110,9 +110,15 @@ class IdeasDetailView(DetailView):
         return object
 
     def get_context_data(self, **kwargs):
+        from maps.forms import AjaxPointerForm
         context = super(IdeasDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
         context['location'] = self.object.location
+        if self.request.user == self.object.creator:
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(Idea),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 
