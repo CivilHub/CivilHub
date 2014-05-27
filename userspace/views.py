@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os
+import hashlib, datetime, random, string, os, captcha
 from json import dumps
 from PIL import Image
 from bookmarks.models import Bookmark
@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
@@ -73,20 +74,26 @@ def register(request):
     """
     if request.method == 'POST':
         f = RegisterForm(request.POST)
-        if f.is_valid():
+
+        # talk to the reCAPTCHA service
+        response = captcha.client.submit(
+            request.POST.get('recaptcha_challenge_field'),
+            request.POST.get('recaptcha_response_field'),
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],)
+
+        if response.is_valid:
             user = User()
-            username = f.cleaned_data['username']
-            password = f.cleaned_data['password']
+            username = request.POST.get('username')
+            password = request.POST.get('password')
             user.username = username
             user.set_password(password)
-            user.email = f.cleaned_data['email']
+            user.email = request.POST.get('email')
             user.is_active = False
             user.save()
             # Re-fetch user object from DB
             user = User.objects.latest('id')
             # Create user profile
-            #prof = UserProfile()
-            #prof.user = user
             salt = hashlib.md5()
             salt.update(str(datetime.datetime.now().time))
             register_demand = RegisterDemand(
@@ -107,13 +114,13 @@ def register(request):
                     'username': request.POST.get('username'),
                     'email':    request.POST.get('email')
                 }),
-                'title': _('Sign Up'),
+                'title': _("Registration"),
                 'errors': f.errors,
             }
             return render(request, 'userspace/register.html', ctx)
     ctx = {
         'form': RegisterForm,
-        'title': _('Sign Up'),
+        'title': _("Registration"),
     }
     return render(request, 'userspace/register.html', ctx)
 
@@ -172,23 +179,34 @@ def pass_reset(request):
     Pozwól zarejestrowanym użytkownikom zresetować zapomniane
     hasło na podstawie adresu email.
     """
-    errors = []
     ctx = {}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
-        if f.is_valid():
+        
+        # talk to the reCAPTCHA service
+        response = captcha.client.submit(
+            request.POST.get('recaptcha_challenge_field'),
+            request.POST.get('recaptcha_response_field'),
+            settings.RECAPTCHA_PRIVATE_KEY,
+            request.META['REMOTE_ADDR'],)
+
+        if response.is_valid:
             try:
-                user = User.objects.get(email=f.cleaned_data['email'])
-            except DoesNotExist as ex:
-                errors.append(_("User with requested email does not exist!"))
-            new_pass = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
-            user.set_password(new_pass)
-            user.save()
-        ctx = {
-            'username': user.username,
-            'password': new_pass
-        }
-        return render(request, 'userspace/passremind-confirm.html', ctx)
+                user = User.objects.get(email=request.POST.get('email'))
+                new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
+                user.set_password(new_pass)
+                user.save()
+                ctx = {
+                    'username': user.username,
+                    'password': new_pass
+                }
+                return render(request, 'userspace/passremind-confirm.html', ctx)
+            except ObjectDoesNotExist as ex:
+                pass
+
+        else:
+            ctx['errors'] = f.errors
+
     ctx['title'] = _("Reset password")
     ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
