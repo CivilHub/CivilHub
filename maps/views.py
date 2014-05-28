@@ -18,7 +18,10 @@ def index(request):
     This view only displays template. Places and other markers
     are loaded via AJAX and THEN map is created.
     """
-    return render_to_response('maps/index.html', {'title': _("Map")})
+    return render_to_response('maps/index.html', {
+        'title': _("Map"),
+        'user': request.user,
+    })
 
 
 @require_GET

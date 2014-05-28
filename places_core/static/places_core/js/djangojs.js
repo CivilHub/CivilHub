@@ -1,3 +1,4 @@
+var jQ = jQuery.noConflict();
 //
 // https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
 // -----------------------------------------------------------------------------
@@ -32,9 +33,9 @@ function sendAjaxRequest(type, url, opts) {
                 display_alert(err.responseJSON.detail, 'danger');
             }
         },
-        options = $.extend(defaults, opts);
+        options = jQ.extend(defaults, opts);
     return (function () {
-        $.ajaxSetup({
+        jQ.ajaxSetup({
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
                     // Send the token to same-origin, relative URLs only.
@@ -44,7 +45,7 @@ function sendAjaxRequest(type, url, opts) {
                 }
             }
         });
-        $.ajax({
+        jQ.ajax({
             type: type,
             url: url,
             data: options.data,

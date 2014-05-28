@@ -2,8 +2,6 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<!-- Add Google Maps support -->
-<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 <div id="map"></div>
 {% endblock %}
 
@@ -15,9 +13,6 @@
     // Prepare Google Map
     // ------------------
     function createMap(locations, pointers) {
-        // DEBUGI
-        console.log(locations);
-        console.log(pointers);
         
         var mapOptions = {
             center: new google.maps.LatLng(0, 0),

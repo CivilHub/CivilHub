@@ -2,8 +2,6 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<!-- Add Google Maps support -->
-<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 <form role="form" method="post" action="">
     {% csrf_token %}
     {{ form }}

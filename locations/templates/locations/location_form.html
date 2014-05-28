@@ -4,8 +4,6 @@
 {% block title %}Create location{% endblock %}
 
 {% block content %}
-<!-- Add Google Maps support -->
-<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 {% if action and action == 'edit' %}
     <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post">
 {% else %}
