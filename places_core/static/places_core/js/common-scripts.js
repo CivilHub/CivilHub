@@ -1,12 +1,12 @@
 (function ($) {
+    "use strict";
+    $('.errorlist > li').addClass('alert alert-danger');
+    $('.cancel-btn').on('click', function () {
+        history.go(-1);
+    });
+    $('.navbar-avatar').tooltip({placement: 'bottom'});
     $(document).ready(function () {
-        "use strict";
-        $('.errorlist > li').addClass('alert alert-danger');
-        $('.cancel-btn').on('click', function () {
-            history.go(-1);
-        });
-        $('.navbar-avatar').tooltip({placement: 'bottom'});
-        $('.bookmarks-list-toggle').one('click', function (evt) {
+        $('.bookmarks-list-toggle').bind('click', function (evt) {
             $.get('/user/my_bookmarks', function (resp) {
                 var $list = $('.bookmarks-list');
                 resp = JSON.parse(resp);
@@ -23,4 +23,4 @@
             });
         });
     });
-})(jQuery.noConflict());
+})(jQuery);
