@@ -63,6 +63,16 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         form.save_m2m()
         return redirect(reverse('locations:news', kwargs={'slug': obj.location.slug}))
 
+    def form_invalid(self, form):
+        ctx = {
+                'title': _('Create new entry'),
+                'location': form.cleaned_data.get('location'),
+                'form': form,
+                'errors': form.errors,
+                'user': self.request.user,
+            }
+        return render_to_response(self.template_name, ctx)
+
 
 class LocationIdeasList(DetailView):
     """
@@ -109,6 +119,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
                 'location': form.cleaned_data.get('location'),
                 'form': form,
                 'errors': form.errors,
+                'user': self.request.user,
             }
         return render_to_response(self.template_name, ctx)
 
@@ -211,6 +222,12 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
             }
         ))
 
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        context['location'] = form.instance.location
+        context['user'] = self.request.user
+        return render_to_response(self.template_name, context)
+
 
 class LocationFollowersList(DetailView):
     """
@@ -264,14 +281,20 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
             creator = request.user,
             multiple = True if request.POST.get('multiple') else False
         )
-        poll.save()
-        poll.tags.add(request.POST.get('tags'))
-        poll.save()
-        for key, val in request.POST.iteritems():
-            if 'answer_txt_' in key:
-                a = Answer(poll=poll, answer=val)
-                a.save()
-        return redirect(poll.get_absolute_url())
+        self.object = poll
+        if len(poll.title) > 0 and poll.title != '':
+            try:
+                poll.save()
+                poll.tags.add(request.POST.get('tags'))
+                poll.save()
+                for key, val in request.POST.iteritems():
+                    if 'answer_txt_' in key:
+                        a = Answer(poll=poll, answer=val)
+                        a.save()
+                return redirect(poll.get_absolute_url())
+            except Exeption as ex:
+                pass
+        return self.form_invalid(form=self.form_class(request.POST))
 
     def get_success_url(self):
         """
@@ -282,6 +305,12 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(LocationPollCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        context = super(LocationPollCreate, self).get_context_data(form=form)
+        context['location'] = Location.objects.get(pk=self.request.POST.get('location'))
+        context['user'] = self.request.user
+        return render_to_response(self.template_name, context)
 
 
 class LocationListView(ListView):

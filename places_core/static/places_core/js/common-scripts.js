@@ -1,5 +1,6 @@
 (function ($) {
     "use strict";
+    alert('Sparta!');
     $('.errorlist > li').addClass('alert alert-danger');
     $('.cancel-btn').on('click', function () {
         history.go(-1);

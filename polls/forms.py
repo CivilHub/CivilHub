@@ -11,6 +11,7 @@ class PollForm(forms.ModelForm):
     Custom poll form - we will bind it with scripts on client-side.
     """
     title = forms.CharField(
+        required = True,
         widget = forms.TextInput(attrs={'class':'form-control'})
     )
     question = forms.CharField(

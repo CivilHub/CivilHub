@@ -172,7 +172,6 @@
         $modal.modal({show:false});
         function submitCategoryForm(evt) {
             evt.preventDefault();
-            $modal.modal('hide');
             sendAjaxRequest('POST', '/rest/discussion/', {
                 data: {
                     name: $('#category-name').val(),
@@ -180,9 +179,25 @@
                 },
                 success: function (resp) {
                     display_alert('{% trans "New category created" %}', 'success');
+                    $modal.modal('hide');
                 },
                 error: function (err) {
-                    console.log(err);
+                    var $alert = {},
+                        errors = {},
+                        error = null;
+                    try {
+                        errors = err.responseJSON;
+                        for (error in errors) {
+                            if (errors.hasOwnProperty(error)) {
+                                $alert = $('<div class="alert alert-danger"></div>');
+                                $alert.prependTo($form.find('.form-group:first'))
+                                    .text(error + ": " + errors[error]);
+                                console.log(error + ": " + errors[error]);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             });
         }

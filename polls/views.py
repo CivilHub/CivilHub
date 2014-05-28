@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from django.db import transaction
 from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
@@ -57,10 +58,8 @@ def save_answers(request, pk):
     aset.save()
     for key, val in request.POST.iteritems():
         if 'answer_' in key:
-            #answers.append(Answer.objects.get(pk=int(key[7:])))
             aset.answers.add(Answer.objects.get(pk=int(key[7:])))
         elif 'answers' in key:
-            #answers.append(Answer.objects.get(pk=int(val)))
             aset.answers.add(Answer.objects.get(pk=int(val)))
     aset.save()
 
@@ -69,6 +68,7 @@ def save_answers(request, pk):
 
 @login_required
 @require_http_methods(["POST"])
+@transaction.non_atomic_requests
 def delete_poll(request, pk):
     """
     Delete poll from list via AJAX request - only owner or superadmin.

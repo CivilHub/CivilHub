@@ -94,21 +94,35 @@
                     description: $('#category-description').val()
                 };
             evt.preventDefault();
-            console.log(data);
             sendAjaxRequest('POST', '/rest/ideas/', {
                 data: data,
                 success: function (resp) {
                     display_alert('{% trans "Category added" %}', 'success');
+                    $modal.modal('hide');
                 },
                 error: function (err) {
-                    console.log(err);
+                    var $alert = {},
+                        errors = {},
+                        error = null;
+                    try {
+                        errors = err.responseJSON;
+                        for (error in errors) {
+                            if (errors.hasOwnProperty(error)) {
+                                $alert = $('<div class="alert alert-danger"></div>');
+                                $alert.prependTo($modal.find('.form-group:first'))
+                                    .text(error + ": " + errors[error]);
+                                console.log(error + ": " + errors[error]);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             });
         });
         
         $sBtn.bind('click', function (evt) {
             $form.submit();
-            $modal.modal('hide');
         });
     
         $('.new-category-btn').bind('click', function (evt) {

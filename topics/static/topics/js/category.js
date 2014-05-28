@@ -37,6 +37,13 @@
                     success: function (data) {
                         display_alert('New category added', 'success');
                         $modal.modal('hide');
+                    },
+                    error: function (err) {
+                        alert('Test');
+                        var $alert = $('<div class="alert alert-danger"></div>'),
+                            desc = err.responseJSON.description;
+                        $alert.appendTo($form.find('.form-group:first'))
+                            .text(err.desc);
                     }
                 });
             });

@@ -23,6 +23,10 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     """
     Category serializer - quickly add and manage categories
     """
+    pk = serializers.Field(source='pk')
+    name = serializers.CharField()
+    description = serializers.CharField(required=False)
+
     class Meta:
         model = Category
         fields = ('id', 'name', 'description')
@@ -114,7 +118,7 @@ class ForumCategorySerializer(serializers.ModelSerializer):
     Allow superusers to create new forum categories dynamically.
     """
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.CharField(required=False)
 
     class Meta:
         model = ForumCategory
@@ -126,7 +130,7 @@ class IdeaCategorySerializer(serializers.ModelSerializer):
     Allow superusers to create new idea categories dynamically.
     """
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.CharField(required=False)
 
     class Meta:
         model = IdeaCategory
