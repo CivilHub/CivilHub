@@ -144,7 +144,7 @@
             $entry = $(this).parents('.topic-list-entry:first');
         bootbox.confirm(question, function (resp) {
             if (resp) {
-                sendAjaxRequest('POST', url, {
+                sendAjaxRequest('DELETE', url, {
                     data: {confirm: true},
                     success: function (resp) {
                         display_alert(resp.message, resp.level);

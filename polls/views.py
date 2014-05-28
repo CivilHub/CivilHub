@@ -68,14 +68,21 @@ def save_answers(request, pk):
 
 @login_required
 @require_http_methods(["POST"])
-@transaction.non_atomic_requests
 def delete_poll(request, pk):
     """
     Delete poll from list via AJAX request - only owner or superadmin.
-    TODO: get_object_or_404 tutaj nie pasuje, bo wtedy json nie ma jak
-    wyrzucić odpowiedzi zgłaszającej błąd. Lepszy będzie try/except.
+    Fixme: "This is forbidden when an 'atomic' block is active" error.
     """
-    poll = get_object_or_404(Poll, pk=pk)
+    try:
+        poll = Poll.objects.get(pk=pk)
+    except Poll.DoesNotExist as ex:
+        resp = {
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }
+        return HttpResponse(json.dumps(resp))
+
     if request.user != poll.creator and not request.user.is_superuser:
         resp = {
             'success': False,
@@ -83,10 +90,17 @@ def delete_poll(request, pk):
             'level': 'danger',
         }
     else:
-        resp = {
-            'success': True,
-            'message': _('Entry deleted'),
-            'level': 'success',
-        }
-        poll.delete()
+        try:
+            poll.delete()
+            resp = {
+                'success': True,
+                'message': _('Entry deleted'),
+                'level': 'success',
+            }
+        except Exception as ex:
+            resp = {
+                'success': False,
+                'message': str(ex),
+                'level': 'danger',
+            }
     return HttpResponse(json.dumps(resp))

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import View, DetailView
 from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -79,27 +79,52 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
                 kwargs={'slug': obj.discussion.slug}))
 
 
-@login_required
-@require_http_methods(["POST"])
-def delete_topic(request, slug):
+class TopicAjaxView(LoginRequiredMixin, View):
     """
-    Delete topic from list via AJAX request.
+    Use this view as REST out for discussion models.
+    For now it works only for DELETE requests made
+    in global 'place forum topic list'.
+    FIXME: "This is forbidden when an 'atomic' block is active" error.
     """
-    topic = get_object_or_404(Discussion, slug=slug)
-    if request.user != topic.creator and not request.user.is_superuser:
-        resp = {
-            'success': False,
-            'message': _('Permission required'),
-            'level': 'danger',
-        }
-    else:
-        resp = {
-            'success': True,
-            'message': _('Entry deleted'),
-            'level': 'success',
-        }
-        topic.delete()
-    return HttpResponse(json.dumps(resp))
+    http_method_names = [u'delete']
+
+    def delete(self, request, slug=None):
+        if slug == None:
+            return HttpResponse(json.dumps({
+                'success': False,
+                'message': _("No entry ID provided"),
+                'level': 'danger',
+            }))
+
+        try:
+            topic = Discussion.objects.get(slug=slug)
+        except Discussion.DoesNotExist as ex:
+            return HttpResponse(json.dumps({
+                'success': False,
+                'message': str(ex),
+                'level': 'danger',
+            }))
+
+        if request.user != topic.creator and not request.user.is_superadmin():
+            return HttpResponse(json.dumps({
+                'success': False,
+                'message': _("Permission required!"),
+                'level': 'danger',
+            }))
+
+        try:
+            topic.delete()
+            return HttpResponse(json.dumps({
+                'success': True,
+                'message': _("Entry deleted"),
+                'level': 'success',
+            }))
+        except Exception as ex:
+            return HttpResponse(json.dumps({
+                'success': False,
+                'message': str(ex),
+                'level': 'danger',
+            }))
 
 
 def reply(request, slug):

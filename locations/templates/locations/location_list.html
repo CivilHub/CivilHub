@@ -1,10 +1,6 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'locations/css/location-list.css' %}" />
-{% endblock %}
-
 {% block content %}
     {% for location in locations %}
     <div class="location-entry col-sm-6">
