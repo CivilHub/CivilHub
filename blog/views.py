@@ -6,6 +6,7 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.contenttypes.models import ContentType
+from maps.forms import AjaxPointerForm
 from .models import Category, News
 from .forms import NewsForm
 # Use our mixin to allow only some users make actions
@@ -56,6 +57,11 @@ class NewsDetailView(DetailView):
         context['location'] = news.location
         context['content_type'] = content_type.pk
         context['title'] = news.title
+        if self.request.user == self.object.creator:
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(News),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
     

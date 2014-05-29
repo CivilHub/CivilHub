@@ -9,7 +9,14 @@
 <script>
 (function ($) {
     "use strict";
-    var markerIconImage = '{% static 'maps/icons/marker-idea.png' %}'
+    var markerIconImage = function (ct) {
+        var markers = {
+            16: '{% static 'maps/icons/marker-idea.png' %}', // Idea
+            34: '{% static 'maps/icons/marker-poll.png' %}', // Poll
+            19: '{% static 'maps/icons/marker-news.png' %}'  // News
+        };
+        return markers[ct];
+    }
     //
     // Prepare Google Map
     // ------------------
@@ -41,7 +48,7 @@
         $(pointers).each(function () {
             var position = new google.maps.LatLng(this.latitude, this.longitude)
             m = placeMarker(position);
-            m.setIcon(markerIconImage);
+            m.setIcon(markerIconImage(this.content_type));
         });
     }
     //

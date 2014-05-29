@@ -15,6 +15,7 @@
             <div class="news-controls">
                 <a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a>
                 <a href="">{% trans "Delete" %}</a>
+                <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             </div>
         {% endif %}
         <div class="comments-{{ news.pk }}"></div>
@@ -34,4 +35,5 @@
     </p>
     {% include 'comments/commentlist.html' %}
 </div>
+{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 {% endblock %}

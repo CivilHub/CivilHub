@@ -2,6 +2,7 @@
 import json
 from django.db import transaction
 from django.http import HttpResponse
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.edit import ProcessFormView
@@ -20,10 +21,16 @@ class PollDetails(DetailView):
     template_name = 'polls/poll-details.html'
 
     def get_context_data(self, **kwargs):
+        from maps.forms import AjaxPointerForm
         context = super(PollDetails, self).get_context_data(**kwargs)
         context['location'] = self.object.location
         context['title'] = self.object.title
         context['form'] = PollEntryAnswerForm(self.object)
+        if self.request.user == self.object.creator:
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(Poll),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 
