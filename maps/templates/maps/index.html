@@ -9,10 +9,13 @@
 <script>
 (function ($) {
     "use strict";
+    var markerIconImage = '{% static 'maps/icons/marker-idea.png' %}'
     //
     // Prepare Google Map
     // ------------------
     function createMap(locations, pointers) {
+        
+        var m = null;
         
         var mapOptions = {
             center: new google.maps.LatLng(0, 0),
@@ -23,20 +26,22 @@
             mapOptions);
             
         function placeMarker(location) {
-          var marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
                 position: location,
                 map: map
             });
+            return marker;
         }
         
         $(locations).each(function () {
             var position = new google.maps.LatLng(this.latitude, this.longitude)
-            placeMarker(position);
+            m = placeMarker(position);
         });
         
         $(pointers).each(function () {
             var position = new google.maps.LatLng(this.latitude, this.longitude)
-            placeMarker(position);
+            m = placeMarker(position);
+            m.setIcon(markerIconImage);
         });
     }
     //
