@@ -6,7 +6,7 @@
     });
     $('.navbar-avatar').tooltip({placement: 'bottom'});
     $(document).ready(function () {
-        $('.bookmarks-list-toggle').bind('click', function (evt) {
+        $('.bookmarks-list-toggle').one('click', function (evt) {
             $.get('/user/my_bookmarks', function (resp) {
                 var $list = $('.bookmarks-list');
                 resp = JSON.parse(resp);

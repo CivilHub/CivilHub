@@ -60,7 +60,7 @@
     Templatka dla formularza dodawania punktów na mapie. Formularz wypełniany
     jest automatycznie na podstawie wybranej treści.
 {% endcomment %}
-{% if marker_form %}{% comment %}
+{% if marker_form %}
 <script type="text/template" id="map-marker-form-template">
 <div id="map-marker-form" class="modal fade">
     <div class="modal-dialog">
@@ -140,6 +140,6 @@
     });
 })(jQuery);
 </script>
-{% endcomment %}{% endif %}
+{% endif %}
 <script src="{% static 'ideas/js/votes.js' %}"></script>
 {% endblock %}
