@@ -7,9 +7,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, DetailView
 from django.views.generic.edit import UpdateView
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
-from places_core.mixins import LoginRequiredMixin
+from django.db import transaction
+from places_core.mixins import LoginRequiredMixin, AtomicFreeTransactionMixin
 from .models import Discussion, Entry
 from .forms import DiscussionForm, ReplyForm
 
@@ -79,52 +80,52 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
                 kwargs={'slug': obj.discussion.slug}))
 
 
-class TopicAjaxView(LoginRequiredMixin, View):
+@login_required
+@require_POST
+@transaction.non_atomic_requests
+@transaction.autocommit
+def delete_topic(request):
     """
-    Use this view as REST out for discussion models.
-    For now it works only for DELETE requests made
-    in global 'place forum topic list'.
-    FIXME: "This is forbidden when an 'atomic' block is active" error.
+    Delete topic from discussion list via AJAX request.
     """
-    http_method_names = [u'delete']
+    pk = request.POST.get('object_pk')
 
-    def delete(self, request, slug=None):
-        if slug == None:
-            return HttpResponse(json.dumps({
-                'success': False,
-                'message': _("No entry ID provided"),
-                'level': 'danger',
-            }))
+    if not pk:
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': _("No entry ID provided"),
+            'level': 'danger',
+        }))
 
-        try:
-            topic = Discussion.objects.get(slug=slug)
-        except Discussion.DoesNotExist as ex:
-            return HttpResponse(json.dumps({
-                'success': False,
-                'message': str(ex),
-                'level': 'danger',
-            }))
+    try:
+        topic = Discussion.objects.get(pk=pk)
+    except Discussion.DoesNotExist as ex:
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }))
 
-        if request.user != topic.creator and not request.user.is_superadmin():
-            return HttpResponse(json.dumps({
-                'success': False,
-                'message': _("Permission required!"),
-                'level': 'danger',
-            }))
+    if request.user != topic.creator and not request.user.is_superadmin():
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': _("Permission required!"),
+            'level': 'danger',
+        }))
 
-        try:
-            topic.delete()
-            return HttpResponse(json.dumps({
-                'success': True,
-                'message': _("Entry deleted"),
-                'level': 'success',
-            }))
-        except Exception as ex:
-            return HttpResponse(json.dumps({
-                'success': False,
-                'message': str(ex),
-                'level': 'danger',
-            }))
+    try:
+        with transaction.commit_on_success(): topic.delete()
+        return HttpResponse(json.dumps({
+            'success': True,
+            'message': _("Entry deleted"),
+            'level': 'success',
+        }))
+    except Exception as ex:
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }))
 
 
 def reply(request, slug):

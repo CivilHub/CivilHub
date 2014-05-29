@@ -7,6 +7,7 @@ from blog.models import Category, News
 from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
+from topics.models import Discussion
 from places_core.models import AbuseReport
 
 

@@ -68,6 +68,8 @@ def save_answers(request, pk):
 
 @login_required
 @require_http_methods(["POST"])
+@transaction.non_atomic_requests
+@transaction.autocommit
 def delete_poll(request, pk):
     """
     Delete poll from list via AJAX request - only owner or superadmin.
@@ -91,7 +93,7 @@ def delete_poll(request, pk):
         }
     else:
         try:
-            poll.delete()
+            with transaction.commit_on_success(): poll.delete()
             resp = {
                 'success': True,
                 'message': _('Entry deleted'),
