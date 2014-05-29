@@ -14,14 +14,14 @@
     // Prepare Google Map
     // ------------------
     function createMap(locations, pointers) {
-        
+
         var m = null;
-        
+
         var mapOptions = {
             center: new google.maps.LatLng(0, 0),
             zoom: 2
         };
-        
+
         var map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
             
@@ -32,12 +32,12 @@
             });
             return marker;
         }
-        
+
         $(locations).each(function () {
             var position = new google.maps.LatLng(this.latitude, this.longitude)
             m = placeMarker(position);
         });
-        
+
         $(pointers).each(function () {
             var position = new google.maps.LatLng(this.latitude, this.longitude)
             m = placeMarker(position);

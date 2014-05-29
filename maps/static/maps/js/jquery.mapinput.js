@@ -18,9 +18,9 @@
             mapClass: 'mapinput-area',      // Classname for map element
             width:  300,                    // Map width in pixels
             height: 300,                    // Map height in pixels
-            zoom:   8,                      // Initial zoom
-            X:      -34.397,                // Initial position (lat)
-            Y:      150.644,                // Initial position (lng)
+            zoom:   2,                      // Initial zoom
+            X:      0.0,                    // Initial position (lat)
+            Y:      0.0,                    // Initial position (lng)
             markerIcon: false               // Map marker icon (if provided)
         };
         options = $.fn.extend($.fn.mapinput.defaults, options);
@@ -31,8 +31,8 @@
         return $(this).each(function () {
             var $this = $(this),
                 $map  = $('<div></div>'),
-                $lat  = $this.find(options.latField),
-                $lng  = $this.find(options.lngField),
+                $lat  = $(options.latField),
+                $lng  = $(options.lngField),
                 map   = null,
                 marker= new google.maps.Marker(),
                 mapOptions = {};

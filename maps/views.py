@@ -99,4 +99,4 @@ class CreateMapPoint(CreateView):
         return context
 
     def get_success_url(self):
-        return redirect(reverse('maps:pointers'))
+        return redirect(reverse('maps:index'))
