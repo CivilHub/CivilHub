@@ -23,7 +23,8 @@
     // ------------------
     function createMap(locations, pointers) {
 
-        var m = null;
+        var m = null, win = null,
+            markers = [];
 
         var mapOptions = {
             center: new google.maps.LatLng(0, 0),
@@ -40,16 +41,34 @@
             });
             return marker;
         }
+        
+        function infoWindow(content) {
+            var win = new google.maps.InfoWindow({
+                content: content
+            });
+            return win;
+        }
 
         $(locations).each(function () {
-            var position = new google.maps.LatLng(this.latitude, this.longitude)
-            m = placeMarker(position);
+            var position = new google.maps.LatLng(this.latitude, this.longitude),
+                m = placeMarker(position);
+                
+            google.maps.event.addListener(m, 'click', function(event) {
+                var w = infoWindow("This is Sparta!!!");
+                w.open(map, m);
+            });
         });
 
         $(pointers).each(function () {
-            var position = new google.maps.LatLng(this.latitude, this.longitude)
-            m = placeMarker(position);
+            var position = new google.maps.LatLng(this.latitude, this.longitude),
+                m = placeMarker(position);
+            // Set custom icon for each content type    
             m.setIcon(markerIconImage(this.content_type));
+            // Set listener for info window i
+            google.maps.event.addListener(m, 'click', function(event) {
+                var w = infoWindow("This is not Sparta!!!");
+                w.open(map, m);
+            });
         });
     }
     //
