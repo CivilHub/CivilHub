@@ -5,7 +5,7 @@
 <div class="col-sm-9">
     <h1>{{ poll.title }}</h1><hr />
     {% bookmark_form for poll %}
-    {% if user == poll.creator or user.is_superadmin %}
+    {% if marker_form %}
         <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
     {% endif %}
     <div>{{ poll.question | safe }}</div>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -22,6 +23,7 @@ class DiscussionDetailView(DetailView):
     model = Discussion
 
     def get_context_data(self, **kwargs):
+        from maps.forms import AjaxPointerForm
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
         replies = Entry.objects.filter(discussion=topic)
@@ -38,6 +40,11 @@ class DiscussionDetailView(DetailView):
         })
         context['title'] = topic.question
         context['location'] = topic.location
+        if self.request.user == self.object.creator or self.request.user.is_superuser():
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(Discussion),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 

@@ -5,6 +5,7 @@
 {% block content %}
 <div class="col-sm-9">
 <h1>{{ title }}</h1><hr />
+{% if marker_form %}<p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>{% endif %}
 {{ discussion.intro | safe }}
 {% bookmark_form for discussion %}
 {% for entry in replies %}
@@ -75,6 +76,7 @@
 {% endblock %}
 
 {% block footer_scripts %}
+{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 {% if user.is_authenticated and discussion.status %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'topics/js/reply-form.js' %}"></script>
