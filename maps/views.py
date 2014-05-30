@@ -40,6 +40,7 @@ def get_pointers(request):
                 'latitude' : l.latitude,
                 'longitude': l.longitude,
                 'name'     : l.name,
+                'url'      : l.get_absolute_url(),
             })
     for p in ps:
         pointers.append({
@@ -47,6 +48,7 @@ def get_pointers(request):
             'longitude'   : p.longitude,
             'content_type': p.content_type.pk,
             'object_pk'   : p.object_pk,
+            'url'         : p.content_object.get_absolute_url(),
         })
     context = {
         'success'  : True,

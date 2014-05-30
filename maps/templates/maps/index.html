@@ -45,6 +45,19 @@
         };
         return markers[ct];
     }
+    // Shortcut to get list of active filters
+    var getFilters = function () {
+        var filterToggles = $('.map-filter-toggle'),
+            filters = [];
+            
+        filterToggles.each(function () {
+            if ($(this).is(':checked')) {
+                filters.push($(this).attr('data-target'));
+            }
+        });
+        
+        return filters;
+    }
     //
     // Prepare Google Map
     // -------------------------------------------------------------------------
@@ -84,7 +97,6 @@
             },
             
             filter: function (filters) {
-                console.log(filters);
                 var _this = this,
                     allowLocations = false;
                 
@@ -129,7 +141,7 @@
                     }
                         
                     google.maps.event.addListener(m, 'click', function(event) {
-                        var w = _this.infoWindow("This is Sparta!!!");
+                        var w = _this.infoWindow('<a href="' + marker.url + '">Go to</a>');
                         w.open(_this.map, m);
                     });
                 })
@@ -140,7 +152,8 @@
     }
     //
     // Fetch objects from server and create map
-    // ----------------------------------------
+    // -------------------------------------------------------------------------
+    //
     $.get('/maps/pointers/', function (resp) {
         var markers = [], map = null;
         resp = JSON.parse(resp);
@@ -153,15 +166,10 @@
             });
             map = civilGoogleMap(markers);
             map.render();
+            map.filter(getFilters());
             $('.map-filter-toggle').bind('change', function (evt) {
-                var filters = [];
                 evt.preventDefault;
-                $('.map-filter-toggle').each(function () {
-                    if ($(this).is(':checked')) {
-                        filters.push($(this).attr('data-target'));
-                    }
-                });
-                map.filter(filters);
+                map.filter(getFilters());
             });
         } else {
             console.log("Failed to load map data");
