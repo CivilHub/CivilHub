@@ -2,6 +2,32 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#map-navbar-collapse">
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">{% trans "Start" %}</a>
+    </div>
+    <div class="collapse navbar-collapse" id="map-navbar-collapse">
+        <form class="navbar-form navbar-nav">
+            Places <input type="checkbox" data-target="locations" class="map-filter-toggle" checked="checked" />
+            Ideas <input type="checkbox" data-target="16" class="map-filter-toggle" checked="checked" />
+            Polls <input type="checkbox" data-target="34" class="map-filter-toggle" checked="checked" />
+            Discussions <input type="checkbox" data-target="38" class="map-filter-toggle" checked="checked" />
+            News <input type="checkbox" data-target="19" class="map-filter-toggle" checked="checked" />
+        </form>
+        <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
+            </div>
+            <a class="btn btn-default">{% trans "Search" %}</a>
+        </form>
+    </div>
+</nav>
 <div id="map"></div>
 {% endblock %}
 
@@ -9,6 +35,7 @@
 <script>
 (function ($) {
     "use strict";
+    // Globals - let markerIconImage be here to easier get image paths.
     var markerIconImage = function (ct) {
         var markers = {
             16: '{% static 'maps/icons/marker-idea.png' %}', // Idea
@@ -20,69 +47,126 @@
     }
     //
     // Prepare Google Map
-    // ------------------
-    function createMap(locations, pointers) {
+    // -------------------------------------------------------------------------
+    //
+    function civilGoogleMap(markers, options) {
 
-        var m = null, win = null,
-            markers = [];
-
-        var mapOptions = {
-            center: new google.maps.LatLng(0, 0),
-            zoom: 2
-        };
-
-        var map = new google.maps.Map(document.getElementById("map"),
-            mapOptions);
+        var defaults = {
+                center: new google.maps.LatLng(0, 0),
+                zoom: 2
+            },
+            mapOptions = $.extend(defaults, options);
+        
+        map = {
+            map: new google.maps.Map(document.getElementById("map"), mapOptions),
+            markerList: markers,
+            markers: [],
             
-        function placeMarker(location) {
-            var marker = new google.maps.Marker({
-                position: location,
-                map: map
-            });
-            return marker;
+            placeMarker: function (location, data) {
+                var _this = this,
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: _this.map
+                    });
+                if (data) {
+                    $.extend(marker, data);
+                }
+                _this.markers.push(marker);
+                
+                return marker;
+            },
+            
+            infoWindow: function (content) {
+                var win = new google.maps.InfoWindow({
+                    content: content
+                });
+                return win;
+            },
+            
+            filter: function (filters) {
+                console.log(filters);
+                var _this = this,
+                    allowLocations = false;
+                
+                if (!filters) {
+                    return _this.markers;
+                }
+                
+                if (_.indexOf(filters, 'locations') >= 0) {
+                    allowLocations = true;
+                }
+                
+                $(_this.markers).each(function (idx, marker) {
+                    if (_.isUndefined(marker.content_type)) {
+                        if (allowLocations) {
+                            marker.setVisible(true);
+                        } else {
+                            marker.setVisible(false);
+                        }
+                    } else {
+                        if (filters.indexOf('' + marker.content_type) >= 0) {
+                            marker.setVisible(true);
+                        } else {
+                            marker.setVisible(false);
+                        }
+                    }
+                });
+            },
+            
+            render: function () {
+                var _this = this;
+                
+                $(_this.markerList).each(function () {
+                    var marker = this,
+                        position = new google.maps.LatLng(
+                            marker.latitude,
+                            marker.longitude
+                        ),
+                        m = _this.placeMarker(position, marker);
+                    
+                    if (!_.isUndefined(marker.content_type)) {
+                        m.setIcon(markerIconImage(marker.content_type));
+                    }
+                        
+                    google.maps.event.addListener(m, 'click', function(event) {
+                        var w = _this.infoWindow("This is Sparta!!!");
+                        w.open(_this.map, m);
+                    });
+                })
+            }
         }
         
-        function infoWindow(content) {
-            var win = new google.maps.InfoWindow({
-                content: content
-            });
-            return win;
-        }
-
-        $(locations).each(function () {
-            var position = new google.maps.LatLng(this.latitude, this.longitude),
-                m = placeMarker(position);
-                
-            google.maps.event.addListener(m, 'click', function(event) {
-                var w = infoWindow("This is Sparta!!!");
-                w.open(map, m);
-            });
-        });
-
-        $(pointers).each(function () {
-            var position = new google.maps.LatLng(this.latitude, this.longitude),
-                m = placeMarker(position);
-            // Set custom icon for each content type    
-            m.setIcon(markerIconImage(this.content_type));
-            // Set listener for info window i
-            google.maps.event.addListener(m, 'click', function(event) {
-                var w = infoWindow("This is not Sparta!!!");
-                w.open(map, m);
-            });
-        });
+        return map;
     }
     //
     // Fetch objects from server and create map
     // ----------------------------------------
     $.get('/maps/pointers/', function (resp) {
+        var markers = [], map = null;
         resp = JSON.parse(resp);
         if (resp.success) {
-            createMap(resp.locations, resp.pointers);
+            $(resp.locations).each(function () {
+                markers.push(this);
+            });
+            $(resp.pointers).each(function () {
+                markers.push(this);
+            });
+            map = civilGoogleMap(markers);
+            map.render();
+            $('.map-filter-toggle').bind('change', function (evt) {
+                var filters = [];
+                evt.preventDefault;
+                $('.map-filter-toggle').each(function () {
+                    if ($(this).is(':checked')) {
+                        filters.push($(this).attr('data-target'));
+                    }
+                });
+                map.filter(filters);
+            });
         } else {
             console.log("Failed to load map data");
         }
     });
-    
 })(jQuery);
 </script>
 {% endblock %}
