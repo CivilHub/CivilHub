@@ -9,6 +9,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.decorators.http import require_GET
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -181,6 +182,53 @@ def location_discussion_list(request, slug, limit=None, status=None):
         context['discussions'] = paginator.page(paginator.num_pages)
     context['title'] = location.name + ':' + _('Discussions')
     context['location'] = location
+    context['categories'] = categories
+    return render(request, 'locations/location_forum.html', context)
+
+
+def ajax_discussion_list(request, slug):
+    """
+    "Ulepszenie" filtrowania wyników dla klientów korzystających
+    z Javascript.
+    """
+    location = Location.objects.get(slug=slug)
+    queryset = Discussion.objects.filter(location=location)
+    category = request.GET.get('category')
+    meta     = request.GET.get('meta')
+    state    = request.GET.get('state')
+    time     = request.GET.get('time')
+    
+    if category:
+        queryset = queryset.filter(category=category)
+
+    if state != 'all':
+        queryset = queryset.filter(status=state)
+
+    if time == 'day':
+        time_delta = datetime.date.today() - datetime.timedelta(days=1)
+    if time == 'week':
+        time_delta = datetime.date.today() - datetime.timedelta(days=7)
+    if time == 'month':
+        time_delta = datetime.date.today() - relativedelta(months=1)
+    if time == 'year':
+        time_delta = datetime.date.today() - relativedelta(years=1)
+
+    if time_delta:
+        queryset = queryset.filter(date_created__gte=time_delta)
+
+    if meta:
+        queryset = queryset.order_by(meta)
+
+    paginator = Paginator(discussions, 50)
+    page = request.GET.get('page')
+    try:
+        context['discussions'] = paginator.page(page)
+    except PageNotAnInteger:
+        context['discussions'] = paginator.page(1)
+    except EmptyPage:
+        context['discussions'] = paginator.page(paginator.num_pages)
+    context['title']      = location.name + ':' + _('Discussions')
+    context['location']   = location
     context['categories'] = categories
     return render(request, 'locations/location_forum.html', context)
 

@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="col-sm-9">
+<div class="main-content">
 <h1>{{ title }}</h1><hr />
 
 {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
@@ -75,6 +76,7 @@
 {% else %}
     <p class="alert alert-info">{% trans "This topic is closed. You can't post answers." %}</p>
 {% endif %}
+</div>
 </div>
 {% endblock %}
 

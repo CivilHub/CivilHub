@@ -26,5 +26,8 @@
             .removeClass('active');
         $(this).addClass('active');
         console.log(getListOptions());
+        $.get($('#discussion-target-url').val(), function (resp) {
+            console.log(resp);
+        });
     });
 })(jQuery);

@@ -37,12 +37,16 @@
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
                 <li><a href="{{ location.get_absolute_url }}">{% trans "Summary" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}">{% trans "News" %}</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
-                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}">{% trans "Blog" %}</a></li>
                 <li><a href="{% url 'locations:discussions' location.slug %}">{% trans "Discussions" %}</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
                 <li><a href="{% url 'locations:polls' location.slug %}">{% trans "Polls" %}</a></li>
                 <li><a href="{% url 'locations:gallery' location.slug %}">{% trans "Gallery" %}</a></li>
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
+                <li><a href="#">{% trans "Subspaces" %}</a></li>
             </ul>
         </div>
     </div>
@@ -51,8 +55,10 @@
 
 {% block sidebar %}
 <div class="col-sm-3">
-    <ul class="custom-sidebar-nav">
+    <ul class="sidebar-right">
+    <h3 class="actions-label">{% trans "Actions" %}:</h3>
     {% if user.is_authenticated %}
+    <ul class="custom-sidebar-nav">                   
         <li>
             <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
                 <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
@@ -73,6 +79,7 @@
                 <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
             </a>
         </li>
+        </ul>
     {% endif %}
     </ul>
 </div>

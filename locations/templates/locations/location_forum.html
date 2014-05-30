@@ -8,6 +8,7 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
+                    <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
                     <li><a href="" class="forum-list-control active" data-target="title" data-control="meta">{% trans "Title" %}</a></li>
                     <li><a href="" class="forum-list-control" data-target="date" data-control="meta">{% trans "Date" %}</a></li>
                     <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
@@ -20,7 +21,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="#" class="list-state-switch forum-list-control" data-target="active" data-control="state">{% trans "Active" %}</a></li>
                     <li><a href="#" class="list-state-switch forum-list-control" data-target="closed" data-control="state">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all"    data-control="state">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all" data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
@@ -36,14 +37,17 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
-            <a class="btn btn-default">{% trans "Search" %}</a>
+            <a class="search-button"><span class="fa fa-search"></span></a>
         </form>
     </div>
 </nav>
 {% endblock %}
 
 {% block content %}
+</div>
+<div class="container">
 <div class="col-sm-9">
+<div class="main-content">
     <div class="row custom-label-list">
         <span class="fa fa-list custom-fa"> </span>
         <span class="custom-label-entry custom-main-label-entry">
@@ -131,6 +135,8 @@
     </div><!-- /.modal -->
 {% endif %}
 </div>
+</div>
+
 <script>
 (function ($) {
     "use strict";
