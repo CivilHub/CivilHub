@@ -8,29 +8,29 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">{% trans "Title" %}</a></li>
-                    <li><a href="">{% trans "Date" %}</a></li>
-                    <li><a href="">{% trans "Category" %}</a></li>
-                    <li><a href="">{% trans "Username" %}</a></li>
-                    <li><a href="">{% trans "Answers" %}</a></li>
+                    <li><a href="" class="forum-list-control active" data-target="title" data-control="meta">{% trans "Title" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="date" data-control="meta">{% trans "Date" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="username" data-control="meta">{% trans "Username" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="answers" data-control="meta">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch" data-target="active">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="closed">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="all">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="active" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="closed" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all"    data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a href="{% url 'locations:discussions' slug=location.slug %}">{% trans "Anytime" %}</a></li>
+            <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="forum-list-control active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
             <li class="navbar-text"> | {% trans "Past" %}:</li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}">{% trans "Day" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}">{% trans "Week" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}">{% trans "Month" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}">{% trans "Year" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
@@ -47,11 +47,11 @@
     <div class="row custom-label-list">
         <span class="fa fa-list custom-fa"> </span>
         <span class="custom-label-entry custom-main-label-entry">
-            <a href="#">{% trans "All channels" %}</a>
+            <a href="#" class="forum-list-control active" data-target="all" data-control="category">{% trans "All channels" %}</a>
         </span>
         {% for category in categories %}
             <span class="custom-label-entry">
-                <a href="#">{{ category }}</a>
+                <a href="#" class="forum-list-control" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
             </span>
         {% endfor %}
     </div>
@@ -227,26 +227,5 @@
 {% endblock %}
 
 {% block footer_scripts %}
-<script>
-(function ($) {
-    "use strict";
-    $('.list-state-switch').on('click', function (evt) {
-        var targetState = $(this).attr('data-target');
-        evt.preventDefault();
-        if (targetState !== 'all') {
-            $('.custom-list-entry').each(function () {
-                var $entry = $(this),
-                    toHide = targetState === 'active' ? 'danger' : 'success';
-                if ($entry.find('.label-' + toHide).length > 0) {
-                    $entry.css('display', 'none');
-                } else {
-                    $entry.css('display', 'block');
-                }
-            });
-        } else {
-            $('.custom-list-entry').css('display', 'block');
-        }
-    });
-})(jQuery);
-</script>
+<script src="{% static 'topics/js/list-filters.js' %}"></script>
 {% endblock %}
