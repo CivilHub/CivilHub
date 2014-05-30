@@ -11,7 +11,8 @@ from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from places_core.mixins import LoginRequiredMixin, AtomicFreeTransactionMixin
+from places_core.mixins import LoginRequiredMixin
+from maps.models import MapPointer
 from .models import Discussion, Entry
 from .forms import DiscussionForm, ReplyForm
 
@@ -40,6 +41,9 @@ class DiscussionDetailView(DetailView):
         })
         context['title'] = topic.question
         context['location'] = topic.location
+        context['map_markers'] = MapPointer.objects.filter(
+                content_type = ContentType.objects.get_for_model(self.object)
+            ).filter(object_pk=self.object.pk)
         if self.request.user == self.object.creator or self.request.user.is_superuser():
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(Discussion),

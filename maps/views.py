@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
+from django.db import transaction
 from locations.models import Location
 from models import MapPointer
 import forms
@@ -84,6 +85,47 @@ def save_pointer(request):
             'level'  : 'danger',
         }
     return HttpResponse(dumps(context))
+
+
+@login_required
+@require_POST
+@transaction.non_atomic_requests
+@transaction.autocommit
+def delete_pointer(request):
+    """
+    Delete map pointer.
+    """
+    pk = request.POST.get('pk')
+    try:
+        pointer = MapPointer.objects.get(pk=pk)
+    except MapPointer.DoesNotExist as ex:
+        return HttpResponse(dumps({
+            'success': False,
+            'message': ex,
+            'level'  : 'danger',
+        }))
+    
+    if not request.user.is_superuser:
+        resp = {
+            'success': False,
+            'message': _('Permission required'),
+            'level': 'danger',
+        }
+    else:
+        try:
+            with transaction.commit_on_success(): pointer.delete()
+            resp = {
+                'success': True,
+                'message': _('Pointer deleted'),
+                'level': 'success',
+            }
+        except Exception as ex:
+            resp = {
+                'success': False,
+                'message': str(ex),
+                'level': 'danger',
+            }
+    return HttpResponse(dumps(resp))
 
 
 class CreateMapPoint(CreateView):

@@ -60,7 +60,6 @@
                     latitude    : $('#id_latitude').val(),
                     longitude   : $('#id_longitude').val()
                 }
-                console.log(formData);
                 
                 sendAjaxRequest('POST', $form.attr('action'), {
                     data: formData,

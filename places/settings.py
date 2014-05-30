@@ -65,19 +65,17 @@ INSTALLED_APPS = (
     'taggit',
     # Core program modules
     'places_core', # for common templates and static files
-    'userspace',
+    'userspace',# panel użytkownika
     'locations',
-    'ideas',
+    'ideas',     
     'blog',
     'polls',
     'rest',     # out for django rest framework
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
     'gallery',  # user media app
-    # Database migrations
-    'south',
-    # TEST - jeżeli będzie działać, zostanie zaimplementowane na stałe
-    'maps',
+    'south',    # Database migrations
+    'maps',     # Custom app for Google Maps
 )
 
 # Authentication and python-social-auth settings

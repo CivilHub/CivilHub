@@ -15,6 +15,9 @@
         <p><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></p>
         <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
     {% endif %}
+    
+    {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+    
     {% bookmark_form for idea %}
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>

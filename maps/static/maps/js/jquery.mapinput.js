@@ -26,6 +26,8 @@
         options = $.fn.extend($.fn.mapinput.defaults, options);
         //
         // Core plugin function (jQuery plugin-like)
+        // 
+        // Usage: $('#my-form-element').mapinput([options])
         // ---------------------------------------------------------------------
         //
         return $(this).each(function () {

@@ -9,6 +9,7 @@ from django.views.generic.edit import ProcessFormView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
+from maps.models import MapPointer
 from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
 
@@ -26,6 +27,9 @@ class PollDetails(DetailView):
         context['location'] = self.object.location
         context['title'] = self.object.title
         context['form'] = PollEntryAnswerForm(self.object)
+        context['map_markers'] = MapPointer.objects.filter(
+                content_type = ContentType.objects.get_for_model(Poll)
+            ).filter(object_pk=self.object.pk)
         if self.request.user == self.object.creator:
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(Poll),

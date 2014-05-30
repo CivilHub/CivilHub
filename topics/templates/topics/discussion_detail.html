@@ -5,6 +5,9 @@
 {% block content %}
 <div class="col-sm-9">
 <h1>{{ title }}</h1><hr />
+
+{% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+
 {% if marker_form %}<p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>{% endif %}
 {{ discussion.intro | safe }}
 {% bookmark_form for discussion %}
