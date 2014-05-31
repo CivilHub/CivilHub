@@ -16,11 +16,21 @@
 
         {% if query %}
             <h3>Results</h3>
-
+            
             {% for result in page.object_list %}
+                <!-- search results for locations -->
+                {% if result.content_type == "locations.location" %}
                 <p>
                     <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
                 </p>
+                {% endif %}
+                <!-- search results for discussions -->
+                {% if result.content_type == "topics.discussion" %}
+                <p><a href="{{ result.object.get_absolute_url }}">{{ result.object.question }}</a></p>
+                <p>{{ result.object.intro | striptags | truncatewords:20 }}</p>
+                <p><a href="{{ result.object.get_absolute_url }}">More...</a></p>
+                {% endif %}
+                
             {% empty %}
                 <p>No results found.</p>
             {% endfor %}

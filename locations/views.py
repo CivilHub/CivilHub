@@ -146,44 +146,8 @@ class LocationDiscussionsList(DetailView):
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
         context['categories'] = ForumCategory.objects.all()
+        context['search_form'] = SearchDiscussionForm()
         return context
-
-
-def location_discussion_list(request, slug, limit=None, status=None):
-    """
-    Get subset of discussion list for current location, based on search
-    conditions provided by user.
-    """
-    context = {}
-    location = get_object_or_404(Location, slug=slug)
-    discussions = Discussion.objects.filter(location=location)
-    categories = ForumCategory.objects.all()
-    time_delta = False
-
-    if limit == 'day':
-        time_delta = datetime.date.today() - datetime.timedelta(days=1)
-    if limit == 'week':
-        time_delta = datetime.date.today() - datetime.timedelta(days=7)
-    if limit == 'month':
-        time_delta = datetime.date.today() - relativedelta(months=1)
-    if limit == 'year':
-        time_delta = datetime.date.today() - relativedelta(years=1)
-
-    if time_delta:
-        discussions = discussions.filter(date_created__gte=time_delta)
-
-    paginator = Paginator(discussions, 50)
-    page = request.GET.get('page')
-    try:
-        context['discussions'] = paginator.page(page)
-    except PageNotAnInteger:
-        context['discussions'] = paginator.page(1)
-    except EmptyPage:
-        context['discussions'] = paginator.page(paginator.num_pages)
-    context['title'] = location.name + ':' + _('Discussions')
-    context['location'] = location
-    context['categories'] = categories
-    return render(request, 'locations/location_forum.html', context)
 
 
 def ajax_discussion_list(request, slug):
@@ -199,12 +163,16 @@ def ajax_discussion_list(request, slug):
     state    = request.GET.get('state')
     time     = request.GET.get('time')
     page     = request.GET.get('page')
+    text     = request.GET.get('text')
     
     if category != 'all':
         queryset = queryset.filter(category=category)
 
     if state != 'all':
         queryset = queryset.filter(status=state)
+
+    if text and text != 'false':
+        queryset = queryset.filter(question__contains=text)
 
     time_delta = None
 
@@ -233,9 +201,12 @@ def ajax_discussion_list(request, slug):
         context['discussions'] = paginator.page(1)
     except EmptyPage:
         context['discussions'] = paginator.page(paginator.num_pages)
-    context['title']      = location.name + ':' + _('Discussions')
-    context['location']   = location
-    context['categories'] = categories
+
+    context['title']       = location.name + ':' + _('Discussions')
+    context['location']    = location
+    context['categories']  = categories
+    context['search_form'] = SearchDiscussionForm()
+
     return render(request, 'locations/location_forum.html', context)
 
 

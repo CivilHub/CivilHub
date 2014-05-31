@@ -44,6 +44,19 @@
         return '?' + urlitems.join('&');
     }
     //
+    // Funkcja pobierająca dodatkowe dane z formularza 'search'.
+    // ---------------------------------------------------------
+    function getSearchText() {
+        var $field = $('#id_q'),
+            txt = $field.val();
+        
+        if (_.isUndefined(txt) || txt.length <= 1) {
+            return false;
+        }
+        
+        return txt;
+    }
+    //
     // Wczytanie wybranych opcji.
     // ---------------------------
     // Sprawdzenie aktywnych elementów (klikniętych linków)
@@ -64,6 +77,8 @@
                 opts[optType] = optValue;
             }
         });
+        
+        opts['text'] = getSearchText();
         
         return opts;
     }
@@ -113,6 +128,12 @@
         url = $('#discussion-target-url').val() + JSONtoUrl(options);
         
         document.location.href = url;
+    });
+    $('#search-form').bind('submit', function (evt) {
+        var options = getListOptions();
+        evt.preventDefault();
+        document.location.href =
+            $('#discussion-target-url').val() + JSONtoUrl(getListOptions());
     });
     // Wczytanie początkowych ustawień.
     loadListOptions();
