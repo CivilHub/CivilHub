@@ -193,16 +193,20 @@ def ajax_discussion_list(request, slug):
     """
     location = Location.objects.get(slug=slug)
     queryset = Discussion.objects.filter(location=location)
+    categories = ForumCategory.objects.all()
     category = request.GET.get('category')
     meta     = request.GET.get('meta')
     state    = request.GET.get('state')
     time     = request.GET.get('time')
+    page     = request.GET.get('page')
     
-    if category:
+    if category != 'all':
         queryset = queryset.filter(category=category)
 
     if state != 'all':
         queryset = queryset.filter(status=state)
+
+    time_delta = None
 
     if time == 'day':
         time_delta = datetime.date.today() - datetime.timedelta(days=1)
@@ -219,8 +223,10 @@ def ajax_discussion_list(request, slug):
     if meta:
         queryset = queryset.order_by(meta)
 
-    paginator = Paginator(discussions, 50)
-    page = request.GET.get('page')
+    paginator = Paginator(queryset, 50)
+
+    context = {}
+
     try:
         context['discussions'] = paginator.page(page)
     except PageNotAnInteger:

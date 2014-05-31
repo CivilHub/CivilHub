@@ -9,18 +9,17 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
-                    <li><a href="" class="forum-list-control active" data-target="title" data-control="meta">{% trans "Title" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="date" data-control="meta">{% trans "Date" %}</a></li>
+                    <li><a href="" class="forum-list-control active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
                     <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="username" data-control="meta">{% trans "Username" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="answers" data-control="meta">{% trans "Answers" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="active" data-control="state">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="closed" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="1" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
                     <li><a href="#" class="list-state-switch forum-list-control active" data-target="all" data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
@@ -28,10 +27,10 @@
         <ul class="nav navbar-nav">
             <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="forum-list-control active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
             <li class="navbar-text"> | {% trans "Past" %}:</li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
