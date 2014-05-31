@@ -100,42 +100,10 @@
             <p>{% trans "There are no discussions opened yet." %}</p>
         {% endif %}
     </div>
-{% if user.is_superuser %}
-{% comment %}
-    Create new category - allow superusers to create dynamically forum
-    categories via handy ajaxy form. This page element is hidden for
-    all other users and anonymous users.
-{% endcomment %}
-    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
-    <div id="new-category-form" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans "Create forum category" %}</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="presentation" method="post" action="" >
-                        <div class="form-group">
-                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                            <input type="text" id="category-name" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="category-description">{% trans "Description" %}</label>
-                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-{% endif %}
+
 </div>
 </div>
+
 
 <script>
 (function ($) {
@@ -234,4 +202,70 @@
 
 {% block footer_scripts %}
 <script src="{% static 'topics/js/list-filters.js' %}"></script>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+    <h3 class="actions-label">{% trans "Actions" %}:</h3>
+    {% if user.is_authenticated %}
+    <ul class="custom-sidebar-nav">                   
+        <li>
+            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
+                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_poll' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:news_create' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_idea' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
+            </a>
+        </li>
+        </ul>
+    {% endif %}
+    </ul>
+    {% if user.is_superuser %}
+{% comment %}
+    Create new category - allow superusers to create dynamically forum
+    categories via handy ajaxy form. This page element is hidden for
+    all other users and anonymous users.
+{% endcomment %}
+    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
+    <div id="new-category-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Create forum category" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="presentation" method="post" action="" >
+                        <div class="form-group">
+                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                            <input type="text" id="category-name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="category-description">{% trans "Description" %}</label>
+                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endif %}
+</div>
 {% endblock %}
