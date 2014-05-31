@@ -55,6 +55,6 @@ urlpatterns = patterns('',
     # REST server
     url(r'^rest/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^search/', include('haystack.urls')),
+    url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^', include('locations.urls', namespace='locations')),
 )
