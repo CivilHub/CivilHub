@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://django-haystack.readthedocs.org/en/latest/
+    'haystack',
     # https://github.com/praekelt/django-recaptcha
     'captcha',
     # http://django-generic-bookmarks.readthedocs.org/en/latest
@@ -77,6 +79,14 @@ INSTALLED_APPS = (
     'south',    # Database migrations
     'maps',     # Custom app for Google Maps
 )
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
 
 # Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (
