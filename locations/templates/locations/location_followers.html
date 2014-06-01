@@ -1,16 +1,47 @@
 {% extends 'locations/index.html' %}
 {% load i18n %}
 {% block content %}
+
 <div class="col-sm-9">
-<ul>
+<div class="main-content">
+<div class="followers-entry">
 {% for usr in location.users.all %}
-    <li>
+<!--     <li>
         <a href="{% url 'user:profile' usr.username %}">
             <img src="{{ usr.profile.avatar.url }}" alt="{{ usr.username }}" class="user-thumb" />
             {{ usr.get_full_name }}
         </a>
-    </li>
+    </li> -->
+    <div class="row">
+		<div class="col-sm-3 ">
+			<div class="follower">
+				<a href="{% url 'user:profile' usr.username %}">
+				<div class="follower-photo"><img alt="{{ usr.username }}" src="img/follower.jpg">
+				</div></a>
+				<div class="follower-header">
+					<p class="follower-name">
+						{{ usr.username }}
+					</p>
+					<div class="points">
+						<span class="points-count">55</span> pkt
+					</div>
+				</div>
+
+				<p class="follows-count">
+					Obserwuje: <span>25</span>
+				</p>
+				<p class="follows-places">
+					<a href="#">Warszawa</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
 {% endfor %}
-</ul>
+
 </div>
+</div>
+</div>
+
 {% endblock %}

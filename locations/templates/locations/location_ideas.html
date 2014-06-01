@@ -30,7 +30,7 @@
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
-            <a class="btn btn-default">{% trans "Search" %}</a>
+            <a class="search-button"><span class="fa fa-search"></span></a>
         </form>
     </div>
 </nav>
@@ -68,6 +68,39 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+    <h3 class="actions-label">{% trans "Actions" %}:</h3>
+    {% if user.is_authenticated %}
+    <ul class="custom-sidebar-nav">                   
+        <li>
+            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
+                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_poll' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:news_create' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_idea' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
+            </a>
+        </li>
+        </ul>
+    {% endif %}
+    </ul>
     {% if user.is_authenticated %}
     <p>
         {% if user.is_superuser %}
@@ -94,21 +127,35 @@
                     description: $('#category-description').val()
                 };
             evt.preventDefault();
-            console.log(data);
             sendAjaxRequest('POST', '/rest/ideas/', {
                 data: data,
                 success: function (resp) {
                     display_alert('{% trans "Category added" %}', 'success');
+                    $modal.modal('hide');
                 },
                 error: function (err) {
-                    console.log(err);
+                    var $alert = {},
+                        errors = {},
+                        error = null;
+                    try {
+                        errors = err.responseJSON;
+                        for (error in errors) {
+                            if (errors.hasOwnProperty(error)) {
+                                $alert = $('<div class="alert alert-danger"></div>');
+                                $alert.prependTo($modal.find('.form-group:first'))
+                                    .text(error + ": " + errors[error]);
+                                console.log(error + ": " + errors[error]);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                 }
             });
         });
         
         $sBtn.bind('click', function (evt) {
             $form.submit();
-            $modal.modal('hide');
         });
     
         $('.new-category-btn').bind('click', function (evt) {

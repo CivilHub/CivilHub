@@ -5,15 +5,20 @@
 
 {% block content %}
 <div class="col-sm-9">
+<div class="main-content">
     <h3>
         <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
         <small>
-            {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }} {{ idea.date_created }}</a>
+            {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
         </small>
     </h3>
     {% if idea.creator == user %}
         <p><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></p>
+        <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
     {% endif %}
+    
+    {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+    
     {% bookmark_form for idea %}
     <div class="idea-votes">
         <div class="votes">{{ idea.get_votes }}</div>
@@ -51,8 +56,10 @@
     <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
     {% include 'comments/commentlist.html' %}
 </div>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}
+{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 <script src="{% static 'ideas/js/votes.js' %}"></script>
 {% endblock %}

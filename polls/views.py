@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 import json
+from django.db import transaction
 from django.http import HttpResponse
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.edit import ProcessFormView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
+from maps.models import MapPointer
 from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
 
@@ -19,10 +22,19 @@ class PollDetails(DetailView):
     template_name = 'polls/poll-details.html'
 
     def get_context_data(self, **kwargs):
+        from maps.forms import AjaxPointerForm
         context = super(PollDetails, self).get_context_data(**kwargs)
         context['location'] = self.object.location
         context['title'] = self.object.title
         context['form'] = PollEntryAnswerForm(self.object)
+        context['map_markers'] = MapPointer.objects.filter(
+                content_type = ContentType.objects.get_for_model(Poll)
+            ).filter(object_pk=self.object.pk)
+        if self.request.user == self.object.creator:
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(Poll),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 
@@ -57,10 +69,8 @@ def save_answers(request, pk):
     aset.save()
     for key, val in request.POST.iteritems():
         if 'answer_' in key:
-            #answers.append(Answer.objects.get(pk=int(key[7:])))
             aset.answers.add(Answer.objects.get(pk=int(key[7:])))
         elif 'answers' in key:
-            #answers.append(Answer.objects.get(pk=int(val)))
             aset.answers.add(Answer.objects.get(pk=int(val)))
     aset.save()
 
@@ -69,13 +79,23 @@ def save_answers(request, pk):
 
 @login_required
 @require_http_methods(["POST"])
+@transaction.non_atomic_requests
+@transaction.autocommit
 def delete_poll(request, pk):
     """
     Delete poll from list via AJAX request - only owner or superadmin.
-    TODO: get_object_or_404 tutaj nie pasuje, bo wtedy json nie ma jak
-    wyrzucić odpowiedzi zgłaszającej błąd. Lepszy będzie try/except.
+    Fixme: "This is forbidden when an 'atomic' block is active" error.
     """
-    poll = get_object_or_404(Poll, pk=pk)
+    try:
+        poll = Poll.objects.get(pk=pk)
+    except Poll.DoesNotExist as ex:
+        resp = {
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }
+        return HttpResponse(json.dumps(resp))
+
     if request.user != poll.creator and not request.user.is_superuser:
         resp = {
             'success': False,
@@ -83,10 +103,17 @@ def delete_poll(request, pk):
             'level': 'danger',
         }
     else:
-        resp = {
-            'success': True,
-            'message': _('Entry deleted'),
-            'level': 'success',
-        }
-        poll.delete()
+        try:
+            with transaction.commit_on_success(): poll.delete()
+            resp = {
+                'success': True,
+                'message': _('Entry deleted'),
+                'level': 'success',
+            }
+        except Exception as ex:
+            resp = {
+                'success': False,
+                'message': str(ex),
+                'level': 'danger',
+            }
     return HttpResponse(json.dumps(resp))

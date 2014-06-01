@@ -9,6 +9,7 @@ from blog.models import Category as BlogCategory
 from locations.models import Location
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
+from haystack.forms import SearchForm
 
 class LocationForm(forms.ModelForm):
     """
@@ -35,16 +36,12 @@ class LocationForm(forms.ModelForm):
     latitude = forms.FloatField(
         required = False,
         label = _('Latitude'),
-        min_value = 0,
-        max_value = 360,
-        widget = forms.NumberInput(attrs={'class': 'form-control'})
+        widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     longitude = forms.FloatField(
         required = False,
         label = _('Longitude'),
-        min_value = 0,
-        max_value = 360,
-        widget = forms.NumberInput(attrs={'class': 'form-control'})
+        widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     image = forms.ImageField(
         required = False,
@@ -141,3 +138,27 @@ class DiscussionLocationForm(forms.ModelForm):
     class Meta:
         model = Discussion
         fields = ('question', 'intro', 'category', 'location',)
+
+
+class SearchDiscussionForm(SearchForm):
+    """
+    Formularz wyszukiwania dyskusji w bieżącej lokalizacji.
+    """
+    q = forms.CharField(
+        label = "",
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        fields = ('q',)
+
+    def search(self):
+        sqs = super(SearchDiscussionForm, self).search()
+
+        if not self.is_valid():
+            return self.no_query_found()
+
+        if self.cleaned_data['location']:
+            sqs = sqs.filter(location=location)
+
+        return sqs

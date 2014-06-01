@@ -10,11 +10,15 @@
             <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
                 {% trans "Report abuse" %}</a>
         {% endif %}
+        
+        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        
         <div>{{ news.content | safe }}</div>
         {% if user.is_authenticated and user == news.creator %}
             <div class="news-controls">
                 <a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a>
                 <a href="">{% trans "Delete" %}</a>
+                <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             </div>
         {% endif %}
         <div class="comments-{{ news.pk }}"></div>
@@ -34,4 +38,5 @@
     </p>
     {% include 'comments/commentlist.html' %}
 </div>
+{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 {% endblock %}

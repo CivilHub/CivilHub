@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
+    # Google Maps
+    url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
     url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas
@@ -53,5 +55,6 @@ urlpatterns = patterns('',
     # REST server
     url(r'^rest/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^', include('locations.urls', namespace='locations')),
 )

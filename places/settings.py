@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for places project.
 
@@ -41,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    # http://django-haystack.readthedocs.org/en/latest/
+    'haystack',
     # https://github.com/praekelt/django-recaptcha
     'captcha',
     # http://django-generic-bookmarks.readthedocs.org/en/latest
@@ -64,7 +67,7 @@ INSTALLED_APPS = (
     'taggit',
     # Core program modules
     'places_core', # for common templates and static files
-    'userspace',
+    'userspace',# panel użytkownika
     'locations',
     'ideas',
     'blog',
@@ -73,9 +76,17 @@ INSTALLED_APPS = (
     'topics',   # custom forum app
     'comments', # custom comments app (using mptt)
     'gallery',  # user media app
-    # Database migrations
-    'south',
+    'south',    # Database migrations
+    'maps',     # Custom app for Google Maps
 )
+
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
+
 
 # Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (

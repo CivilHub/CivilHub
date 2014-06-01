@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 import json
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import View, DetailView
 from django.views.generic.edit import UpdateView
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from places_core.mixins import LoginRequiredMixin
+from maps.models import MapPointer
 from .models import Discussion, Entry
 from .forms import DiscussionForm, ReplyForm
 
@@ -21,6 +24,7 @@ class DiscussionDetailView(DetailView):
     model = Discussion
 
     def get_context_data(self, **kwargs):
+        from maps.forms import AjaxPointerForm
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
         replies = Entry.objects.filter(discussion=topic)
@@ -37,6 +41,14 @@ class DiscussionDetailView(DetailView):
         })
         context['title'] = topic.question
         context['location'] = topic.location
+        context['map_markers'] = MapPointer.objects.filter(
+                content_type = ContentType.objects.get_for_model(self.object)
+            ).filter(object_pk=self.object.pk)
+        if self.request.user == self.object.creator or self.request.user.is_superuser():
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(Discussion),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 
@@ -80,26 +92,51 @@ class EntryUpdateView(LoginRequiredMixin, UpdateView):
 
 
 @login_required
-@require_http_methods(["POST"])
-def delete_topic(request, slug):
+@require_POST
+@transaction.non_atomic_requests
+@transaction.autocommit
+def delete_topic(request):
     """
-    Delete topic from list via AJAX request.
+    Delete topic from discussion list via AJAX request.
     """
-    topic = get_object_or_404(Discussion, slug=slug)
-    if request.user != topic.creator and not request.user.is_superuser:
-        resp = {
+    pk = request.POST.get('object_pk')
+
+    if not pk:
+        return HttpResponse(json.dumps({
             'success': False,
-            'message': _('Permission required'),
+            'message': _("No entry ID provided"),
             'level': 'danger',
-        }
-    else:
-        resp = {
+        }))
+
+    try:
+        topic = Discussion.objects.get(pk=pk)
+    except Discussion.DoesNotExist as ex:
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }))
+
+    if request.user != topic.creator and not request.user.is_superadmin():
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': _("Permission required!"),
+            'level': 'danger',
+        }))
+
+    try:
+        with transaction.commit_on_success(): topic.delete()
+        return HttpResponse(json.dumps({
             'success': True,
-            'message': _('Entry deleted'),
+            'message': _("Entry deleted"),
             'level': 'success',
-        }
-        topic.delete()
-    return HttpResponse(json.dumps(resp))
+        }))
+    except Exception as ex:
+        return HttpResponse(json.dumps({
+            'success': False,
+            'message': str(ex),
+            'level': 'danger',
+        }))
 
 
 def reply(request, slug):

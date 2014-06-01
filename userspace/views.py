@@ -76,13 +76,14 @@ def register(request):
         f = RegisterForm(request.POST)
 
         # talk to the reCAPTCHA service
-        response = captcha.client.submit(
-            request.POST.get('recaptcha_challenge_field'),
-            request.POST.get('recaptcha_response_field'),
-            settings.RECAPTCHA_PRIVATE_KEY,
-            request.META['REMOTE_ADDR'],)
+        #~ response = captcha.client.submit(
+            #~ request.POST.get('recaptcha_challenge_field'),
+            #~ request.POST.get('recaptcha_response_field'),
+            #~ settings.RECAPTCHA_PRIVATE_KEY,
+            #~ request.META['REMOTE_ADDR'],)
 
-        if response.is_valid:
+        #if response.is_valid:
+        if f.is_valid():
             user = User()
             username = request.POST.get('username')
             password = request.POST.get('password')

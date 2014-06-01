@@ -19,9 +19,9 @@ class Category(models.Model):
     """
     User Blog Categories basic model
     """
-    name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64)
-    description = models.TextField(max_length=1024)
+    name = models.CharField(max_length=64, unique=True)
+    slug = models.SlugField(max_length=64, unique=True)
+    description = models.TextField(max_length=1024, blank=True, null=True, default="")
     
     def get_absolute_url(self):
         return reverse('blog:category', kwargs={'slug':self.slug})
@@ -36,8 +36,8 @@ class News(models.Model):
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64)
+    title = models.CharField(max_length=64, unique=True)
+    slug = models.SlugField(max_length=64, unique=True)
     content = models.TextField(max_length=10248, null=True, blank=True,)
     category = models.ForeignKey(
         Category,

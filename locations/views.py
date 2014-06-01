@@ -9,6 +9,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.decorators.http import require_GET
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -63,6 +64,16 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         form.save_m2m()
         return redirect(reverse('locations:news', kwargs={'slug': obj.location.slug}))
 
+    def form_invalid(self, form):
+        ctx = {
+                'title': _('Create new entry'),
+                'location': form.cleaned_data.get('location'),
+                'form': form,
+                'errors': form.errors,
+                'user': self.request.user,
+            }
+        return render_to_response(self.template_name, ctx)
+
 
 class LocationIdeasList(DetailView):
     """
@@ -109,6 +120,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
                 'location': form.cleaned_data.get('location'),
                 'form': form,
                 'errors': form.errors,
+                'user': self.request.user,
             }
         return render_to_response(self.template_name, ctx)
 
@@ -134,43 +146,67 @@ class LocationDiscussionsList(DetailView):
             context['discussions'] = paginator.page(paginator.num_pages)
         context['title'] = location.name + ':' + _('Discussions')
         context['categories'] = ForumCategory.objects.all()
+        context['search_form'] = SearchDiscussionForm()
         return context
 
 
-def location_discussion_list(request, slug, limit=None, status=None):
+def ajax_discussion_list(request, slug):
     """
-    Get subset of discussion list for current location, based on search
-    conditions provided by user.
+    "Ulepszenie" filtrowania wyników dla klientów korzystających
+    z Javascript.
     """
-    context = {}
-    location = get_object_or_404(Location, slug=slug)
-    discussions = Discussion.objects.filter(location=location)
+    location = Location.objects.get(slug=slug)
+    queryset = Discussion.objects.filter(location=location)
     categories = ForumCategory.objects.all()
-    time_delta = False
+    category = request.GET.get('category')
+    meta     = request.GET.get('meta')
+    state    = request.GET.get('state')
+    time     = request.GET.get('time')
+    page     = request.GET.get('page')
+    text     = request.GET.get('text')
+    
+    if category != 'all':
+        queryset = queryset.filter(category=category)
 
-    if limit == 'day':
+    if state != 'all':
+        queryset = queryset.filter(status=state)
+
+    if text and text != 'false':
+        queryset = queryset.filter(question__contains=text)
+
+    time_delta = None
+
+    if time == 'day':
         time_delta = datetime.date.today() - datetime.timedelta(days=1)
-    if limit == 'week':
+    if time == 'week':
         time_delta = datetime.date.today() - datetime.timedelta(days=7)
-    if limit == 'month':
+    if time == 'month':
         time_delta = datetime.date.today() - relativedelta(months=1)
-    if limit == 'year':
+    if time == 'year':
         time_delta = datetime.date.today() - relativedelta(years=1)
 
     if time_delta:
-        discussions = discussions.filter(date_created__gte=time_delta)
+        queryset = queryset.filter(date_created__gte=time_delta)
 
-    paginator = Paginator(discussions, 50)
-    page = request.GET.get('page')
+    if meta:
+        queryset = queryset.order_by(meta)
+
+    paginator = Paginator(queryset, 50)
+
+    context = {}
+
     try:
         context['discussions'] = paginator.page(page)
     except PageNotAnInteger:
         context['discussions'] = paginator.page(1)
     except EmptyPage:
         context['discussions'] = paginator.page(paginator.num_pages)
-    context['title'] = location.name + ':' + _('Discussions')
-    context['location'] = location
-    context['categories'] = categories
+
+    context['title']       = location.name + ':' + _('Discussions')
+    context['location']    = location
+    context['categories']  = categories
+    context['search_form'] = SearchDiscussionForm()
+
     return render(request, 'locations/location_forum.html', context)
 
 
@@ -210,7 +246,12 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 'slug': topic.slug,
             }
         ))
-        #return super(LocationDiscussionCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        context['location'] = form.instance.location
+        context['user'] = self.request.user
+        return render_to_response(self.template_name, context)
 
 
 class LocationFollowersList(DetailView):
@@ -265,14 +306,20 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
             creator = request.user,
             multiple = True if request.POST.get('multiple') else False
         )
-        poll.save()
-        poll.tags.add(request.POST.get('tags'))
-        poll.save()
-        for key, val in request.POST.iteritems():
-            if 'answer_txt_' in key:
-                a = Answer(poll=poll, answer=val)
-                a.save()
-        return redirect(poll.get_absolute_url())
+        self.object = poll
+        if len(poll.title) > 0 and poll.title != '':
+            try:
+                poll.save()
+                poll.tags.add(request.POST.get('tags'))
+                poll.save()
+                for key, val in request.POST.iteritems():
+                    if 'answer_txt_' in key:
+                        a = Answer(poll=poll, answer=val)
+                        a.save()
+                return redirect(poll.get_absolute_url())
+            except Exeption as ex:
+                pass
+        return self.form_invalid(form=self.form_class(request.POST))
 
     def get_success_url(self):
         """
@@ -283,6 +330,12 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super(LocationPollCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        context = super(LocationPollCreate, self).get_context_data(form=form)
+        context['location'] = Location.objects.get(pk=self.request.POST.get('location'))
+        context['user'] = self.request.user
+        return render_to_response(self.template_name, context)
 
 
 class LocationListView(ListView):

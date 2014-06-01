@@ -13,13 +13,14 @@ from django.utils.translation import ugettext as _
 # Application native models
 from models import Idea, Vote, Category
 from forms import IdeaForm, CategoryForm
+from maps.forms import AjaxPointerForm
+from maps.models import MapPointer
 # Activity stream
 from actstream import action
 from places_core.actstreams import idea_action_handler
 from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment
-
 
 def get_votes(idea):
     """
@@ -113,6 +114,14 @@ class IdeasDetailView(DetailView):
         context = super(IdeasDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
         context['location'] = self.object.location
+        context['map_markers'] = MapPointer.objects.filter(
+                content_type = ContentType.objects.get_for_model(self.object)
+            ).filter(object_pk=self.object.pk)
+        if self.request.user == self.object.creator:
+            context['marker_form'] = AjaxPointerForm(initial={
+                'content_type': ContentType.objects.get_for_model(self.object),
+                'object_pk'   : self.object.pk,
+            })
         return context
 
 

@@ -30,7 +30,7 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
-    captcha = ReCaptchaField()
+    #captcha = ReCaptchaField()
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)

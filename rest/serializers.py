@@ -7,6 +7,7 @@ from blog.models import Category, News
 from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
+from topics.models import Discussion
 from places_core.models import AbuseReport
 
 
@@ -23,6 +24,10 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
     """
     Category serializer - quickly add and manage categories
     """
+    pk = serializers.Field(source='pk')
+    name = serializers.CharField()
+    description = serializers.CharField(required=False)
+
     class Meta:
         model = Category
         fields = ('id', 'name', 'description')
@@ -114,7 +119,7 @@ class ForumCategorySerializer(serializers.ModelSerializer):
     Allow superusers to create new forum categories dynamically.
     """
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.CharField(required=False)
 
     class Meta:
         model = ForumCategory
@@ -126,7 +131,7 @@ class IdeaCategorySerializer(serializers.ModelSerializer):
     Allow superusers to create new idea categories dynamically.
     """
     name = serializers.CharField()
-    description = serializers.CharField()
+    description = serializers.CharField(required=False)
 
     class Meta:
         model = IdeaCategory

@@ -12,7 +12,7 @@ class Poll(models.Model):
     """
     Base poll class - means entire poll.
     """
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
     tags  = TaggableManager()
     question = models.TextField()
     creator  = models.ForeignKey(User)

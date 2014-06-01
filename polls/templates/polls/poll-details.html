@@ -1,11 +1,21 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
 {% load bookmarks_tags %} {% load i18n %}
 
 {% block content %}
 <div class="col-sm-9">
     <h1>{{ poll.title }}</h1><hr />
+    
     {% bookmark_form for poll %}
+    
+    {% if marker_form %}
+        <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
+    {% endif %}
+    
+    {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+    
     <div>{{ poll.question | safe }}</div>
+    
     <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
         {% csrf_token %}
         {{ form }}
@@ -14,4 +24,7 @@
         </div>
     </form>
 </div>
+
+{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
+
 {% endblock %}

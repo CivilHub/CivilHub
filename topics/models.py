@@ -12,8 +12,8 @@ class Category(models.Model):
     """
     Basic categories for forum discussions
     """
-    name = models.CharField(max_length=64)
-    description = models.TextField()
+    name = models.CharField(max_length=64, unique=True)
+    description = models.TextField(blank=True, null=True, default="")
 
     def __unicode__(self):
         return self.name

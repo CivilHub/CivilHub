@@ -8,50 +8,61 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">{% trans "Title" %}</a></li>
-                    <li><a href="">{% trans "Date" %}</a></li>
-                    <li><a href="">{% trans "Category" %}</a></li>
-                    <li><a href="">{% trans "Username" %}</a></li>
-                    <li><a href="">{% trans "Answers" %}</a></li>
+                    <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
+                    <li><a href="" class="forum-list-control active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch" data-target="active">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="closed">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="all">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="1" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all" data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a href="{% url 'locations:discussions' slug=location.slug %}">{% trans "Anytime" %}</a></li>
+            <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="forum-list-control active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
             <li class="navbar-text"> | {% trans "Past" %}:</li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}">{% trans "Day" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}">{% trans "Week" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}">{% trans "Month" %}</a></li>
-            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}">{% trans "Year" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
+<!--
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
-            <a class="btn btn-default">{% trans "Search" %}</a>
+            <a class="search-button"><span class="fa fa-search"></span></a>
+        </form>
+-->
+        <form id="search-form" class="navbar-form navbar-right" role="search" method="get" action="">
+            <div class="form-group">
+                {{ search_form }}
+            </div>
+            <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
         </form>
     </div>
 </nav>
 {% endblock %}
 
 {% block content %}
+</div>
+<div class="container">
 <div class="col-sm-9">
+<div class="main-content">
     <div class="row custom-label-list">
         <span class="fa fa-list custom-fa"> </span>
         <span class="custom-label-entry custom-main-label-entry">
-            <a href="#">{% trans "All channels" %}</a>
+            <a href="#" class="forum-list-control active" data-target="all" data-control="category">{% trans "All channels" %}</a>
         </span>
         {% for category in categories %}
             <span class="custom-label-entry">
-                <a href="#">{{ category }}</a>
+                <a href="#" class="forum-list-control" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
             </span>
         {% endfor %}
     </div>
@@ -64,7 +75,7 @@
                             <a href="{% url 'discussion:update' topic.slug %}">
                                 <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
                             </a>
-                            <button data-target="{{ topic.slug }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
+                            <button data-target="{{ topic.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
                         </div>
                     {% endif %}
                     <div class="col-xs-4"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
@@ -96,7 +107,140 @@
             <p>{% trans "There are no discussions opened yet." %}</p>
         {% endif %}
     </div>
-{% if user.is_superuser %}
+
+</div>
+</div>
+
+
+<script>
+(function ($) {
+    "use strict";
+    //
+    // Delete existing discussion - only owners and superadmins
+    // -------------------------------------------------------------------------
+    $('.delete-btn').on('click', function () {
+        var question = '{% trans "Are you sure you want to delete this entry?" %}',
+            target = $(this).attr('data-target'),
+            url = '{% url 'discussion:delete' %}',
+            $entry = $(this).parents('.topic-list-entry:first');
+        bootbox.confirm(question, function (resp) {
+            if (resp) {
+                sendAjaxRequest('POST', url, {
+                    data: {
+                        confirm: true,
+                        object_pk: target
+                    },
+                    success: function (resp) {
+                        console.log(resp);
+                        display_alert(resp.message, resp.level);
+                        if (resp.success) {
+                            $entry.fadeOut('slow', function () {
+                                $entry.empty().remove();
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        if (err.statusText) {
+                            display_alert(err.statusText, 'danger');
+                        }
+                        else if (err.responseText) {
+                            display_alert(err.statusText, 'danger');
+                        }
+                    }
+                });
+            } 
+        });
+    });
+    {% if user.is_superuser %}
+    //
+    // Create new forum category - only superadmins!
+    // -------------------------------------------------------------------------
+    $(document).ready(function () {
+        var $modal = $('#new-category-form'),
+            $form = $modal.find('form:first'),
+            $sBtn = $modal.find('.submit-btn:first');
+        $modal.modal({show:false});
+        function submitCategoryForm(evt) {
+            evt.preventDefault();
+            sendAjaxRequest('POST', '/rest/discussion/', {
+                data: {
+                    name: $('#category-name').val(),
+                    description: $('#category-description').val()
+                },
+                success: function (resp) {
+                    display_alert('{% trans "New category created" %}', 'success');
+                    $modal.modal('hide');
+                },
+                error: function (err) {
+                    var $alert = {},
+                        errors = {},
+                        error = null;
+                    try {
+                        errors = err.responseJSON;
+                        for (error in errors) {
+                            if (errors.hasOwnProperty(error)) {
+                                $alert = $('<div class="alert alert-danger"></div>');
+                                $alert.prependTo($form.find('.form-group:first'))
+                                    .text(error + ": " + errors[error]);
+                                console.log(error + ": " + errors[error]);
+                            }
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+            });
+        }
+        $sBtn.on('click', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $form.on('submit', function (evt) {
+            submitCategoryForm(evt)
+        });
+        $('.btn-category-create').on('click', function (evt) {
+            $modal.modal('show');
+        });
+    });
+    {% endif %}
+})(jQuery);
+</script>
+{% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'topics/js/list-filters.js' %}"></script>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+    <h3 class="actions-label">{% trans "Actions" %}:</h3>
+    {% if user.is_authenticated %}
+    <ul class="custom-sidebar-nav">                   
+        <li>
+            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
+                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_poll' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:news_create' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'locations:new_idea' location.slug %}">
+                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
+            </a>
+        </li>
+        </ul>
+    {% endif %}
+    </ul>
+    {% if user.is_superuser %}
 {% comment %}
     Create new category - allow superusers to create dynamically forum
     categories via handy ajaxy form. This page element is hidden for
@@ -131,97 +275,4 @@
     </div><!-- /.modal -->
 {% endif %}
 </div>
-<script>
-(function ($) {
-    "use strict";
-    //
-    // Delete existing discussion - only owners and superadmins
-    // -------------------------------------------------------------------------
-    $('.delete-btn').on('click', function () {
-        var question = '{% trans "Are you sure you want to delete this entry?" %}',
-            target = $(this).attr('data-target'),
-            url = '/discussion/' + target + '/delete/',
-            $entry = $(this).parents('.topic-list-entry:first');
-        bootbox.confirm(question, function (resp) {
-            if (resp) {
-                sendAjaxRequest('POST', url, {
-                    data: {confirm: true},
-                    success: function (resp) {
-                        display_alert(resp.message, resp.level);
-                        if (resp.success) {
-                            $entry.fadeOut('slow', function () {
-                                $entry.empty().remove();
-                            });
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            } 
-        });
-    });
-    {% if user.is_superuser %}
-    //
-    // Create new forum category - only superadmins!
-    // -------------------------------------------------------------------------
-    $(document).ready(function () {
-        var $modal = $('#new-category-form'),
-            $form = $modal.find('form:first'),
-            $sBtn = $modal.find('.submit-btn:first');
-        $modal.modal({show:false});
-        function submitCategoryForm(evt) {
-            evt.preventDefault();
-            $modal.modal('hide');
-            sendAjaxRequest('POST', '/rest/discussion/', {
-                data: {
-                    name: $('#category-name').val(),
-                    description: $('#category-description').val()
-                },
-                success: function (resp) {
-                    display_alert('{% trans "New category created" %}', 'success');
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-        }
-        $sBtn.on('click', function (evt) {
-            submitCategoryForm(evt)
-        });
-        $form.on('submit', function (evt) {
-            submitCategoryForm(evt)
-        });
-        $('.btn-category-create').on('click', function (evt) {
-            $modal.modal('show');
-        });
-    });
-    {% endif %}
-})(jQuery);
-</script>
-{% endblock %}
-
-{% block footer_scripts %}
-<script>
-(function ($) {
-    "use strict";
-    $('.list-state-switch').on('click', function (evt) {
-        var targetState = $(this).attr('data-target');
-        evt.preventDefault();
-        if (targetState !== 'all') {
-            $('.custom-list-entry').each(function () {
-                var $entry = $(this),
-                    toHide = targetState === 'active' ? 'danger' : 'success';
-                if ($entry.find('.label-' + toHide).length > 0) {
-                    $entry.css('display', 'none');
-                } else {
-                    $entry.css('display', 'block');
-                }
-            });
-        } else {
-            $('.custom-list-entry').css('display', 'block');
-        }
-    });
-})(jQuery);
-</script>
 {% endblock %}

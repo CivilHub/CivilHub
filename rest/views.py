@@ -17,8 +17,10 @@ from blog.models import News
 from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
+from topics.models import Discussion
 from rest.permissions import IsOwnerOrReadOnly
 from places_core.models import AbuseReport
+from places_core.mixins import AtomicFreeTransactionMixin
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
