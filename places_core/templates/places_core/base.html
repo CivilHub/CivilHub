@@ -67,7 +67,15 @@
         <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"> Civil Hub</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
+            
+            <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                <div class="form-group">
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                </div>
+                <button type="submit" class="btn btn-default">{% trans "Search" %}</button>
+            </form>
+            
+            <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li class="user-hidden-link">
                     <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>

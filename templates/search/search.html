@@ -24,11 +24,37 @@
                     <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
                 </p>
                 {% endif %}
+                <!-- search results for blog entries -->
+                {% if result.content_type == "blog.news" %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                </p>
+                {% endif %}
+                <!-- search results for ideas -->
+                {% if result.content_type == "ideas.idea" %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
+                    <p>{{ result.object.description | striptags | truncatewords:20 }}</p>
+                </p>
+                {% endif %}
+                <!-- search results for polls -->
+                {% if result.content_type == "polls.poll" %}
+                <p>
+                    <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                    <p>{{ result.object.question | striptags | truncatewords:20 }}</p>
+                </p>
+                {% endif %}
                 <!-- search results for discussions -->
                 {% if result.content_type == "topics.discussion" %}
                 <p><a href="{{ result.object.get_absolute_url }}">{{ result.object.question }}</a></p>
                 <p>{{ result.object.intro | striptags | truncatewords:20 }}</p>
                 <p><a href="{{ result.object.get_absolute_url }}">More...</a></p>
+                {% endif %}
+                <!-- search results for users -->
+                {% if result.content_type == "auth.user" %}
+                <p>
+                    <a href="{% url 'user:profile' result.object.username %}">{{ result.object.get_full_name }}</a>
+                </p>
                 {% endif %}
                 
             {% empty %}
