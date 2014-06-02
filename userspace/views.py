@@ -223,7 +223,12 @@ def login(request):
     if request.method == 'POST':
         f = LoginForm(request.POST)
         if f.is_valid():
-            username = f.cleaned_data['username']
+            try:
+                user = User.objects.get(email=f.cleaned_data['email'])
+            except User.DoesNotExist as ex:
+                messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
+                return redirect(reverse('user:login'))
+            username = user.username
             password = request.POST['password']
             user = auth.authenticate(username = username, password = password)
             if user is not None:
@@ -264,15 +269,10 @@ def save_settings(request):
         if f.is_valid():
             user.first_name = f.cleaned_data['first_name']
             user.last_name  = f.cleaned_data['last_name']
-            user.email      = f.cleaned_data['email']
             prof.birth_date = f.cleaned_data['birth_date']
             prof.description= f.cleaned_data['description']
             error = None
-            if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
-                error = _("This email address is already in use")
             if error != None:
-                #return HttpResponse(_('Form invalid'))
-                # FIXME: show form errors to user.
                 ctx = {
                     'user': user,
                     'profile': prof,

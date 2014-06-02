@@ -44,7 +44,7 @@ class DiscussionDetailView(DetailView):
         context['map_markers'] = MapPointer.objects.filter(
                 content_type = ContentType.objects.get_for_model(self.object)
             ).filter(object_pk=self.object.pk)
-        if self.request.user == self.object.creator or self.request.user.is_superuser():
+        if self.request.user == self.object.creator or self.request.user.is_superuser:
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(Discussion),
                 'object_pk'   : self.object.pk,

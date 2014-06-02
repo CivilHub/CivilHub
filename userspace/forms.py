@@ -41,10 +41,10 @@ class LoginForm(forms.Form):
     """
     Login registered user
     """
-    username = forms.CharField(
-        label = _('Username'),
+    email = forms.CharField(
+        label = _('Email'),
         max_length = 32,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
     )
     password = forms.CharField(
         label = _('Password'),
@@ -69,12 +69,6 @@ class UserProfileForm(forms.Form):
         required = False,
         widget = forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':_('Last name')})                         
     )
-    email = forms.EmailField(
-        label = _("Email"),
-        max_length = 64,
-        required = False,
-        widget = forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
-    )
     description = forms.CharField(
         label = _("About me"),
         max_length = 10248,
@@ -90,7 +84,7 @@ class UserProfileForm(forms.Form):
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'email', 'description', 'birth_date')
+        fields = ('first_name', 'last_name', 'description', 'birth_date')
 
 
 class PasswordResetForm(forms.Form):
