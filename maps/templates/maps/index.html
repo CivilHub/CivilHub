@@ -16,11 +16,11 @@
     </div>
     <div class="collapse navbar-collapse" id="map-navbar-collapse">
         <form class="navbar-form navbar-nav">
-            Places <input type="checkbox" data-target="locations" class="map-filter-toggle" checked="checked" />
-            Ideas <input type="checkbox" data-target="16" class="map-filter-toggle" checked="checked" />
-            Polls <input type="checkbox" data-target="34" class="map-filter-toggle" checked="checked" />
-            Discussions <input type="checkbox" data-target="38" class="map-filter-toggle" checked="checked" />
-            News <input type="checkbox" data-target="19" class="map-filter-toggle" checked="checked" />
+            Places <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" />
+            Ideas <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" />
+            Polls <input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" />
+            Discussions <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" />
+            News <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" />
         </form>
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
@@ -37,16 +37,8 @@
 <script>
 (function ($) {
     "use strict";
-    // Globals - let markerIconImage be here to easier get image paths.
-    var markerIconImage = function (ct) {
-        var markers = {
-            16: '{% static 'maps/icons/marker-idea.png' %}', // Idea
-            34: '{% static 'maps/icons/marker-poll.png' %}', // Poll
-            38: '{% static 'maps/icons/marker-discussion.png' %}', // Discussion
-            19: '{% static 'maps/icons/marker-news.png' %}'  // News
-        };
-        return markers[ct];
-    }
+    // Globals
+    var MEDIA_URL = '{% static 'maps/icons' %}';
     // Shortcut to get list of active filters
     var getFilters = function () {
         var filterToggles = $('.map-filter-toggle'),
@@ -99,30 +91,13 @@
             },
             
             filter: function (filters) {
-                var _this = this,
-                    allowLocations = false;
-                
-                if (!filters) {
-                    return _this.markers;
-                }
-                
-                if (_.indexOf(filters, 'locations') >= 0) {
-                    allowLocations = true;
-                }
+                var _this = this;
                 
                 $(_this.markers).each(function (idx, marker) {
-                    if (_.isUndefined(marker.content_type)) {
-                        if (allowLocations) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
-                        }
+                    if (filters.indexOf(marker.type) >= 0) {
+                        marker.setVisible(true);
                     } else {
-                        if (filters.indexOf('' + marker.content_type) >= 0) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
-                        }
+                        marker.setVisible(false);
                     }
                 });
             },
@@ -139,7 +114,7 @@
                         m = _this.placeMarker(position, marker);
                     
                     if (!_.isUndefined(marker.content_type)) {
-                        m.setIcon(markerIconImage(marker.content_type));
+                        m.setIcon(MEDIA_URL + '/marker-' + marker.type + '.png');
                     }
                         
                     google.maps.event.addListener(m, 'click', function(event) {

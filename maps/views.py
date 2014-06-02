@@ -42,6 +42,7 @@ def get_pointers(request):
                 'longitude': l.longitude,
                 'name'     : l.name,
                 'url'      : l.get_absolute_url(),
+                'type'     : str(ContentType.objects.get_for_model(l)),
             })
     for p in ps:
         pointers.append({
@@ -50,6 +51,7 @@ def get_pointers(request):
             'content_type': p.content_type.pk,
             'object_pk'   : p.object_pk,
             'url'         : p.content_object.get_absolute_url(),
+            'type'        : str(p.content_type),
         })
     context = {
         'success'  : True,
