@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.utils import timezone
+from django.utils.html import escape
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
@@ -101,6 +102,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
         obj.site_id = 1
         obj.object_pk = int(self.request.DATA['content_id'])
         obj.submit_date = timezone.now()
+        obj.comment = escape(self.request.DATA['comment'])
 
     @link(renderer_classes=[renderers.JSONRenderer, renderers.JSONPRenderer])
     def replies(self, request, pk):
