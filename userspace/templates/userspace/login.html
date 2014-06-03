@@ -1,12 +1,64 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 {% block content %}
+<div class="login-page">
 
-{% if welcome_msg %}
-    <p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
-{% endif %}
+	{% if welcome_msg %}
+		<p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
+	{% endif %}
 
-<div class="row">
+    <div class="login-form">
+        <h1 class="login-form-header">{% trans "Sign In" %}</h1>
+        <div class="login-form-body">
+            <div class="login-social row">
+                <div class="login-facebook col-sm-4">
+                    <a href="{% url 'social:begin' 'facebook' %}"><img src="facebook.jpg"></a>
+                </div>
+                <div class="login-twitter col-sm-4">
+                    <a href="#"><img src="twitter.jpg"></a>
+                </div>
+                <div class="login-google col-sm-4">
+                    <a href="{% url 'social:begin' 'google' %"><img src="google.jpg"></a>
+                </div>
+            </div>
+            <form action="" method="post">
+                <div class="input-section row">
+                    <div class="col-sm-12">
+                        
+                                  <!--   <div><label for="login">Username or Email</label></div>
+                                    <div><input type="text" name="password" id="login"></div>
+                                    <div><label for="password">Password</label> <a href="#">(forgot password)</a></div>
+                                    <div><input type="password" name="password" id="password"></div> -->
+                                    
+                                    {{ form.errors }}
+                                    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                       <!--  <div class="form-group">
+                                            <button class="btn btn-primary btn-login-submit" type="submit">{% trans "Login" %}</button>
+                                        </div> -->
+                                        <div class="submit-section row">
+                                            <div>
+                                                
+                                                <a href="{% url 'user:passreset' %}"> {% trans "Forgot password" %}</a>
+                                            </div>
+                                            <div>
+                                                <input type="submit" value="{% trans "Login" %}">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <a href="{% url 'user:register' %}">Don't have account?</a>
+                                </div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+<!-- <div class="row">
     <div class="col-sm-6">
         <p>
             <a href="{% url 'social:begin' 'facebook' %}">
@@ -31,5 +83,5 @@
     </div>
 </div>
 <p class="custom-centered"><a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a></p>
-<p class="custom-centered">Don't have account yet? <a href="{% url 'user:register' %}">{% trans "Register now" %}</a></p>
+<p class="custom-centered">Don't have account yet? <a href="{% url 'user:register' %}">{% trans "Register now" %}</a></p> -->
 {% endblock %}

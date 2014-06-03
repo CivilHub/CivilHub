@@ -6,15 +6,19 @@
 {% endblock %}
 
 {% block header %}
-<nav id="location-chain-menu" class="navbar navbar-inverse custom-navbar">
-    <div class="container">
+<nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
+<div class="container">
+<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+    
         <ul class="nav navbar-nav">
         {% for parent in location.get_parent_chain %}
             <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
         {% endfor %}
             <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
         </ul>
-    </div>
+    
+</div>
+</div>
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container">
@@ -36,17 +40,20 @@
           </div>
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}">{% trans "Summary" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}">{% trans "Blog" %}</a></li>
-                <li><a href="{% url 'locations:discussions' location.slug %}">{% trans "Discussions" %}</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
-                <li><a href="{% url 'locations:polls' location.slug %}">{% trans "Polls" %}</a></li>
-                <li><a href="{% url 'locations:gallery' location.slug %}">{% trans "Gallery" %}</a></li>
+                <li><a href="{{ location.get_absolute_url }}"><span class="ch-icon ch-content"></span>{% trans "Summary" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}"><span class="ch-icon ch-blog"></span>{% trans "Blog" %}</a></li>
+                <li><a href="{% url 'locations:discussions' location.slug %}"><span class="ch-icon ch-discussions"></span>{% trans "Discussions" %}</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}"><span class="ch-icon ch-ideas"></span>{% trans "Ideas" %}</a></li>
+                <li><a href="{% url 'locations:polls' location.slug %}"><span class="ch-icon ch-polls"></span>{% trans "Polls" %}</a></li>
+                <!--<li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-projects"></span>{% trans "Projects" %}</a></li>
+                <li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-events"></span>{% trans "Events" %}</a></li>
+                <li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-videos"></span>{% trans "Videos" %}</a></li>-->
+                <li><a href="{% url 'locations:gallery' location.slug %}"><span class="ch-icon ch-photos"></span>{% trans "Gallery" %}</a></li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
-                <li><a href="#">{% trans "Subspaces" %}</a></li>
+                <li><a href="{% url 'locations:followers' location.slug %}"><span class="ch-icon ch-followers"></span>{% trans "Followers" %}</a></li>
+                <li><a href="#"><span class="ch-icon ch-subspaces"></span>{% trans "Subspaces" %}</a></li>
             </ul>
         </div>
     </div>

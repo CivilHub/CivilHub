@@ -2,18 +2,6 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-
-    <!-- Location search form -->
-    <form role="form" name="search_location" id="search-location" method="get" action="{% url 'search:haystack_search' %}">
-        <div class="form-group">
-            <input type="text" name="q" id="id_q" class="form-control" />
-            <input type="hidden" name="models" id="models" value="locations.location" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">Search</button>
-        </div>
-    </form>
-
     {% for location in locations %}
     <div class="location-entry col-sm-6">
         <h2><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></h2>

@@ -37,11 +37,14 @@
 {% endblock %}
 
 {% block content %}
+<div>
+<div class="row">
 <div class="col-sm-9">
+<div class="main-content">
     {% for idea in location.idea_set.all %}
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}
-
+</div>
     <div id="new-category-form" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -70,9 +73,7 @@
     </div><!-- /.modal -->
     
 </div>
-{% endblock %}
 
-{% block sidebar %}
 <div class="col-sm-3">
     <ul class="sidebar-right">
     <h3 class="actions-label">{% trans "Actions" %}:</h3>
@@ -108,6 +109,8 @@
         {% endif %}
     </p>
     {% endif %}
+</div>
+</div>
 </div>
 {% endblock %}
 

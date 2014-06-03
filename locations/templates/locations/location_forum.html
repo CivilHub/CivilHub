@@ -8,43 +8,35 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
-                    <li><a href="" class="forum-list-control active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
+                    <li><a href="" class="forum-list-control active" data-target="title" data-control="meta">{% trans "Title" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="date" data-control="meta">{% trans "Date" %}</a></li>
                     <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="username" data-control="meta">{% trans "Username" %}</a></li>
+                    <li><a href="" class="forum-list-control" data-target="answers" data-control="meta">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="1" data-control="state">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all" data-control="state">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="active" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control" data-target="closed" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all"    data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav">
             <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="forum-list-control active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
             <li class="navbar-text"> | {% trans "Past" %}:</li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='day' %}" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='week' %}" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='month' %}" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="{% url 'locations:dsublist' slug=location.slug limit='year' %}" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
-<!--
         <form class="navbar-form navbar-right" role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="{% trans "Search" %}">
             </div>
             <a class="search-button"><span class="fa fa-search"></span></a>
-        </form>
--->
-        <form id="search-form" class="navbar-form navbar-right" role="search" method="get" action="">
-            <div class="form-group">
-                {{ search_form }}
-            </div>
-            <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
         </form>
     </div>
 </nav>
@@ -53,68 +45,145 @@
 {% block content %}
 </div>
 <div class="container">
-<div class="col-sm-9">
-<div class="main-content">
-    <div class="row custom-label-list">
-        <span class="fa fa-list custom-fa"> </span>
-        <span class="custom-label-entry custom-main-label-entry">
-            <a href="#" class="forum-list-control active" data-target="all" data-control="category">{% trans "All channels" %}</a>
-        </span>
-        {% for category in categories %}
-            <span class="custom-label-entry">
-                <a href="#" class="forum-list-control" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
-            </span>
-        {% endfor %}
-    </div>
-    <div class="discussion-list custom-tablelike">
-        {% if discussions %}
-            {% for topic in discussions %}
-                <div class="row topic-list-entry custom-list-entry">
-                    {% if user == topic.creator or user.is_superuser %}
-                        <div class="btn-group list-entry-controls">
-                            <a href="{% url 'discussion:update' topic.slug %}">
-                                <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
-                            </a>
-                            <button data-target="{{ topic.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="main-content">
+                <div class="discussion-list-entry">
+                    <div class="custom-label-list">
+
+                        <span class="fa fa-list custom-fa"> </span>
+                        <span class="custom-label-entry custom-main-label-entry">
+                            <a href="#" data-target="all" data-control="category">{% trans "All channels" %}</a>
+                        </span>
+
+                        {% for category in categories %}
+                        <span class="custom-label-entry">
+                            <a href="#"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category" rel='tooltip'>{{ category }}</a>
+                        </span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="discussion-list custom-tablelike">
+                        {% if discussions %}
+                        {% for topic in discussions %}
+                        <div class="topic-list-entry custom-list-entry">
+                            <div class="row">
+                                {% if user == topic.creator or user.is_superuser %}
+                                <div class="btn-group list-entry-controls">
+                                    <a href="{% url 'discussion:update' topic.slug %}">
+                                        <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
+                                    </a>
+                                    <button data-target="{{ topic.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
+                                </div>
+                                {% endif %}
+                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
+                                <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
+                                <div class="col-sm-5">
+                                    <span class="count">{{ topic.entry_set.count }}</span>
+                                    <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
+                                    <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
+                                    {{ topic.date_created | timesince }}
+                                </div>
+                            </div>
                         </div>
-                    {% endif %}
-                    <div class="col-xs-4"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
-                    <div class="col-xs-3"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
-                    <div class="col-xs-1">{{ topic.entry_set.count }}</div>
-                    <div class="col-xs-4">
-                        <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                        <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
-                        {{ topic.date_created | timesince }}
+                        {% endfor %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if discussions.has_previous %}
+                                <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
+                                </span>
+
+                                {% if discussions.has_next %}
+                                <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% else %}
+                        <p>{% trans "There are no discussions opened yet." %}</p>
+                        {% endif %}
                     </div>
                 </div>
-            {% endfor %}
-        <div class="pagination">
-            <span class="step-links">
-                {% if discussions.has_previous %}
-                    <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
-                {% endif %}
-        
-                <span class="current">
-                    {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
-                </span>
-        
-                {% if discussions.has_next %}
-                    <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
-                {% endif %}
-            </span>
+            </div>
         </div>
-        {% else %}
-            <p>{% trans "There are no discussions opened yet." %}</p>
-        {% endif %}
+
+        <div class="col-sm-3">
+            <ul class="sidebar-right">
+                <h3 class="actions-label">{% trans "Actions" %}:</h3>
+                {% if user.is_authenticated %}
+                <ul class="custom-sidebar-nav">                   
+                    <li>
+                        <a href="{% url 'locations:new_topic' location.slug %}">
+                            <span class="ch-icon ch-discussions"> </span> {% trans "New discussion" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'locations:new_poll' location.slug %}">
+                            <span class="ch-icon ch-polls"> </span> {% trans "Create poll" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'locations:news_create' location.slug %}">
+                            <span class="ch-icon ch-blog"> </span> {% trans "Add news" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'locations:new_idea' location.slug %}">
+                            <span class="ch-icon ch-ideas"> </span> {% trans "New idea" %}</button>
+                        </a>
+                        </li>
+                    <li>
+                        <a href="#"> <span class="ch-icon ch-photos"> </span> Upload Images </a>
+                    </li>
+                                        <li>
+                        <a href="#"> <span class="ch-icon ch-followers"> </span> Invite Friends to join </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </ul>
+            {% if user.is_superuser %}
+            {% comment %}
+            Create new category - allow superusers to create dynamically forum
+            categories via handy ajaxy form. This page element is hidden for
+            all other users and anonymous users.
+            {% endcomment %}
+            <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
+            <div id="new-category-form" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">{% trans "Create forum category" %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="presentation" method="post" action="" >
+                                <div class="form-group">
+                                    <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                                    <input type="text" id="category-name" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-description">{% trans "Description" %}</label>
+                                    <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                            <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            {% endif %}
+        </div>
     </div>
-
-</div>
-</div>
-
-
-<script>
-(function ($) {
-    "use strict";
+    
+    <script>
+        (function ($) {
+            "use strict";
     //
     // Delete existing discussion - only owners and superadmins
     // -------------------------------------------------------------------------
@@ -209,70 +278,4 @@
 
 {% block footer_scripts %}
 <script src="{% static 'topics/js/list-filters.js' %}"></script>
-{% endblock %}
-
-{% block sidebar %}
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-    <h3 class="actions-label">{% trans "Actions" %}:</h3>
-    {% if user.is_authenticated %}
-    <ul class="custom-sidebar-nav">                   
-        <li>
-            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
-                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_poll' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:news_create' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_idea' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
-            </a>
-        </li>
-        </ul>
-    {% endif %}
-    </ul>
-    {% if user.is_superuser %}
-{% comment %}
-    Create new category - allow superusers to create dynamically forum
-    categories via handy ajaxy form. This page element is hidden for
-    all other users and anonymous users.
-{% endcomment %}
-    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
-    <div id="new-category-form" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans "Create forum category" %}</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="presentation" method="post" action="" >
-                        <div class="form-group">
-                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                            <input type="text" id="category-name" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="category-description">{% trans "Description" %}</label>
-                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-{% endif %}
-</div>
 {% endblock %}

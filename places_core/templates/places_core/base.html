@@ -68,13 +68,6 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
             
-            <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'search:haystack_search' %}">
-                <div class="form-group">
-                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
-                </div>
-                <button type="submit" class="btn btn-default">{% trans "Search" %}</button>
-            </form>
-            
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li class="user-hidden-link">
@@ -101,20 +94,59 @@
                 {% else %}
                 <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> {% trans "Login" %}</a></li>
                 {% endif %}
-            </ul>
+        </ul>
             {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
-                <li><a href="{% url 'locations:index' %}">{% trans "Places" %}</a></li>
+                <li class="dropdown">
+                    <a href="{% url 'locations:index' %}"><span class="ch-icon ch-home">{% trans "Places" %}</a></li>
+                <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-earth"></span>Browse <span class="fa fa-angle-down"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="">Tytuł</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Categoria</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Nazwa użytkownika</a>
+                                    </li>
+                                    <li>
+                                        <a href="">Answers</a>
+                                    </li>
+                                </ul>
+                            </li>
+
                 <li><a href="{% url 'maps:index' %}">{% trans "Map" %}</a></li>
                 
-                <li class="dropdown">
-                    <a href="#" class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown">{% trans "My Bookmarks" %}</a>
+             <!--    <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ch-icon ch-bookmark">{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu bookmarks-list"></ul>
-                </li>
+                    </li> -->
+
+                <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-bookmark"></span>{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu bookmarks-list">
+                        </ul>
+                 </li>
+                 <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-envelope"></span></a>
+
+                            </li>
+
             </ul>
             {% endif %}
-            
+                        
+            <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                <div class="form-group">
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                </div>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+            </form>
         </div>
     </div>
 </nav>
