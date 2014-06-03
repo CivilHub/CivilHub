@@ -16,6 +16,14 @@ router.register(r'news', views.NewsViewSet, base_name=r'news')
 router.register(r'discussion', views.ForumCategoryViewSet, base_name=r'discussion')
 router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
 router.register(r'ideas', views.IdeaCategoryViewSet, base_name=r'ideas')
+# django sitemaps framework
+import places_core.sitemaps as sitemaps
+sitemaps = {
+    'locations': sitemaps.LocationSitemap,
+    'ideas'    : sitemaps.IdeaSitemap,
+    'news'     : sitemaps.NewsSitemap,
+    'discussions': sitemaps.DiscussionSitemap,
+}
 
 urlpatterns = patterns('',
     # user account
@@ -56,5 +64,6 @@ urlpatterns = patterns('',
     url(r'^rest/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^search/', include('haystack.urls', namespace='search')),
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^', include('locations.urls', namespace='locations')),
 )

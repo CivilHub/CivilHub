@@ -62,7 +62,10 @@ class Idea(models.Model):
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return reverse('ideas:details', kwargs={'slug':self.slug})
+        return reverse('locations:idea_detail', kwargs={
+            'slug':self.slug,
+            'place_slug': self.location.slug,
+        })
     
     def __unicode__(self):
         return self.name

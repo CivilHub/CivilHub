@@ -53,7 +53,10 @@ class News(models.Model):
         super(News, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return reverse('blog:details', kwargs={'slug':self.slug})
+        return reverse('locations:news_detail', kwargs={
+            'place_slug': self.location.slug,
+            'slug':self.slug,
+        })
 
     def get_comment_count(self):
         content_type = ContentType.objects.get_for_model(self)

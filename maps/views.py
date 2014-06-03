@@ -45,6 +45,10 @@ def get_pointers(request):
                 'type'     : str(ContentType.objects.get_for_model(l)),
             })
     for p in ps:
+        try:
+            url = p.content_object.get_absolute_url()
+        except Exception:
+            break
         pointers.append({
             'latitude'    : p.latitude,
             'longitude'   : p.longitude,
