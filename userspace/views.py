@@ -91,7 +91,18 @@ def register(request):
             user.set_password(password)
             user.email = request.POST.get('email')
             user.is_active = False
-            user.save()
+            try:
+                user.save()
+            except Exception:
+                ctx = {
+                    'form': RegisterForm(initial={
+                        'username': request.POST.get('username'),
+                        'email':    request.POST.get('email')
+                    }),
+                    'title' : _("Registration"),
+                    'errors': _("Selected username already exists. Please provide another one."),
+                }
+                return render(request, 'userspace/register.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
             # Create user profile
@@ -106,7 +117,7 @@ def register(request):
             site_url = request.build_absolute_uri('/user/activate/')
             # TODO: wysłać adres_strony/user/activate/ + activation_link
             # mailem.
-            return render(request, 'userspace/test.html', {
+            return render(request, 'userspace/register-success.html', {
                 'link': site_url + str(register_demand.activation_link)
             })
         else:
@@ -141,9 +152,15 @@ def activate(request, activation_link=None):
         user.save()
         demand.delete()
         user = User.objects.get(pk=user_id)
-        auth_user = auth.authenticate(username=user.username,
+        user = auth.authenticate(username=user.username,
                                       password=user.password)
-        return redirect('user:index')
+        #return redirect('user:login')
+        ctx = {
+            'title': _('Login'),
+            'form': LoginForm(),
+            'welcome_msg': True,
+        }
+        return render(request, 'userspace/login.html', ctx)
 
 
 def passet(request):
