@@ -34,11 +34,78 @@
 {% endblock %}
 
 {% block footer_scripts %}
+
+<!-- TEST -->
+<script src="{% static 'places_core/includes/google/markerclusterer.js' %}"></script>
+<script src="{% static 'maps/js/styles.js' %}"></script>
+
 <script>
 (function ($) {
     "use strict";
     // Globals
-    var MEDIA_URL = '{% static 'maps/icons' %}';
+    var MEDIA_URL = '{% static 'maps' %}';
+    var STYLES = [[{
+        url: MEDIA_URL + '/images/people35.png',
+        height: 35,
+        width: 35,
+        anchor: [16, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+    }, {
+        url: MEDIA_URL + '/images/people45.png',
+        height: 45,
+        width: 45,
+        anchor: [24, 0],
+        textColor: '#ff0000',
+        textSize: 11
+    }, {
+        url: MEDIA_URL + '/images/people55.png',
+        height: 55,
+        width: 55,
+        anchor: [32, 0],
+        textColor: '#ffffff',
+        textSize: 12
+    }], [{
+        url: MEDIA_URL + '/images/conv30.png',
+        height: 27,
+        width: 30,
+        anchor: [3, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+    }, {
+        url: MEDIA_URL + '/images/conv40.png',
+        height: 36,
+        width: 40,
+        anchor: [6, 0],
+        textColor: '#ff0000',
+        textSize: 11
+    }, {
+        url: MEDIA_URL + '/images/conv50.png',
+        width: 50,
+        height: 45,
+        anchor: [8, 0],
+        textSize: 12
+    }], [{
+        url: MEDIA_URL + '/images/heart30.png',
+        height: 26,
+        width: 30,
+        anchor: [4, 0],
+        textColor: '#ff00ff',
+        textSize: 10
+    }, {
+        url: MEDIA_URL + '/images/heart40.png',
+        height: 35,
+        width: 40,
+        anchor: [8, 0],
+        textColor: '#ff0000',
+        textSize: 11
+    }, {
+        url: MEDIA_URL + '/images/heart50.png',
+        width: 50,
+        height: 44,
+        anchor: [12, 0],
+        textSize: 12
+    }]];
     // Shortcut to get list of active filters
     var getFilters = function () {
         var filterToggles = $('.map-filter-toggle'),
@@ -56,74 +123,68 @@
     // Prepare Google Map
     // -------------------------------------------------------------------------
     //
-    function civilGoogleMap(markers, options) {
-
-        var defaults = {
-                center: new google.maps.LatLng(0, 0),
-                zoom: 2
-            },
-            mapOptions = $.extend(defaults, options);
+    function civilGoogleMap(mapData) {
         
-        map = {
-            map: new google.maps.Map(document.getElementById("map"), mapOptions),
-            markerList: markers,
-            markers: [],
-            
-            placeMarker: function (location, data) {
+        var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+            'chco=FFFFFF,008CFF,000000&ext=.png';
+        
+        var map = {
+            map: null,
+            markerClusterer: null,
+                
+            refreshMap: function (filters) {
                 var _this = this,
-                    marker = new google.maps.Marker({
-                        position: location,
-                        map: _this.map
-                    });
-                if (data) {
-                    $.extend(marker, data);
-                }
-                _this.markers.push(marker);
-                
-                return marker;
-            },
-            
-            infoWindow: function (content) {
-                var win = new google.maps.InfoWindow({
-                    content: content
-                });
-                return win;
-            },
-            
-            filter: function (filters) {
-                var _this = this;
-                
-                $(_this.markers).each(function (idx, marker) {
-                    if (filters.indexOf(marker.type) >= 0) {
-                        marker.setVisible(true);
-                    } else {
-                        marker.setVisible(false);
-                    }
-                });
-            },
-            
-            render: function () {
-                var _this = this;
-                
-                $(_this.markerList).each(function () {
-                    var marker = this,
-                        position = new google.maps.LatLng(
-                            marker.latitude,
-                            marker.longitude
-                        ),
-                        m = _this.placeMarker(position, marker);
-                    
-                    if (!_.isUndefined(marker.content_type)) {
-                        m.setIcon(MEDIA_URL + '/marker-' + marker.type + '.png');
-                    }
+                    markers = [],
+                    i, latLng, marker,
+                    markerImage = new google.maps.MarkerImage(imageUrl,
+                        new google.maps.Size(24, 32));
                         
-                    google.maps.event.addListener(m, 'click', function(event) {
-                        var w = _this.infoWindow('<a href="' + marker.url + '">Go to</a>');
-                        w.open(_this.map, m);
+                if (_this.markerClusterer) {
+                    _this.markerClusterer.clearMarkers();
+                }
+                
+                for (i = 0; i < mapData.length; ++i) {
+                    latLng = new google.maps.LatLng(mapData[i].latitude,
+                        mapData[i].longitude)
+                    marker = new google.maps.Marker({
+                        position: latLng,
+                        draggable: true,
+                        icon: MEDIA_URL + '/icons/marker-' + mapData[i].type + '.png'
                     });
-                })
+                    $.extend(marker, mapData[i]);
+                    if (filters && filters.indexOf(marker.type) >= 0 || !filters) {
+                        markers.push(marker);
+                    }
+                }
+                
+                _this.markerClusterer = new MarkerClusterer(_this.map, markers, {
+                    maxZoom: 10,
+                    gridSize: 30,
+                    styles: STYLES[1]
+                });
+            },
+            
+            initialize: function () {
+                var _this = this,
+                    refresh = document.getElementById('refresh'),
+                    clear = document.getElementById('clear');
+                    
+                _this.map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 5,
+                    center: new google.maps.LatLng(52.0, 23.0)
+                });
+                
+                _this.refreshMap();
+            },
+            
+            clearClusters: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.markerClusterer.clearMarkers();
             }
-        }
+        };
+        
+        map.initialize();
         
         return map;
     }
@@ -142,11 +203,9 @@
                 markers.push(this);
             });
             map = civilGoogleMap(markers);
-            map.render();
-            map.filter(getFilters());
             $('.map-filter-toggle').bind('change', function (evt) {
                 evt.preventDefault;
-                map.filter(getFilters());
+                map.refreshMap(getFilters());
             });
         } else {
             console.log("Failed to load map data");
@@ -154,4 +213,5 @@
     });
 })(jQuery);
 </script>
+
 {% endblock %}
