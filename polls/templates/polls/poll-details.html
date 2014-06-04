@@ -24,6 +24,11 @@
             <button type="submit" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
         </div>
     </form>
+    {% else %}
+    <p class="alert alert-info">
+        {% blocktrans %}You have already voted for this poll. You can't vote again.{% endblocktrans %}
+        <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
+    </p>
     {% endif %}
 </div>
 

@@ -50,11 +50,31 @@ class PollResults(DetailView):
     model = Poll
     template_name = 'polls/poll-results.html'
 
+    def calculate_answsers(self, **kwargs):
+        """
+        Policz głosy za poszczególnymi odpowiedziami.
+        """
+        result = []
+        obj = self.object
+        asets = AnswerSet.objects.filter(poll=obj)
+        for a in obj.answer_set.all():
+            counter = 0
+            answer = a.answer
+            for aset in asets:
+                if a in aset.answers.all():
+                    counter += 1
+            result.append({
+                'answer': answer,
+                'counter': counter,
+            })
+        return result
+
     def get_context_data(self, **kwargs):
         context = super(PollResults, self).get_context_data(**kwargs)
         context['title'] = self.object.title
         context['location'] = self.object.location
-        context['answers'] = AnswerSet.objects.filter(poll=self.object)
+        context['answers'] = AnswerSet.objects.filter(poll=self.object)[:10]
+        context['answer_set'] = self.calculate_answsers()
         return context
 
 
