@@ -8,6 +8,7 @@ from django.views.generic import DetailView
 from django.views.generic.edit import ProcessFormView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from maps.models import MapPointer
 from .models import Poll, Answer, AnswerSet
@@ -35,6 +36,10 @@ class PollDetails(DetailView):
                 'content_type': ContentType.objects.get_for_model(Poll),
                 'object_pk'   : self.object.pk,
             })
+        context['can_vote'] = True
+        chk = AnswerSet.objects.filter(user=self.request.user).filter(poll=self.object)
+        if len(chk) > 0:
+            context['can_vote'] = False
         return context
 
 
@@ -62,17 +67,21 @@ def save_answers(request, pk):
     answers = []
     poll = get_object_or_404(Poll, pk=request.POST.get('poll'))
     user = request.user
-    aset = AnswerSet(
-        poll = poll,
-        user = user
-    )
-    aset.save()
-    for key, val in request.POST.iteritems():
-        if 'answer_' in key:
-            aset.answers.add(Answer.objects.get(pk=int(key[7:])))
-        elif 'answers' in key:
-            aset.answers.add(Answer.objects.get(pk=int(val)))
-    aset.save()
+    chk = AnswerSet.objects.filter(user=user).filter(poll=poll)
+    if len(chk) > 0:
+        messages.add_message(request, messages.ERROR, _('You already voted on this poll.'))
+    else:
+        aset = AnswerSet(
+            poll = poll,
+            user = user
+        )
+        aset.save()
+        for key, val in request.POST.iteritems():
+            if 'answer_' in key:
+                aset.answers.add(Answer.objects.get(pk=int(key[7:])))
+            elif 'answers' in key:
+                aset.answers.add(Answer.objects.get(pk=int(val)))
+        aset.save()
 
     return redirect('locations:results', slug=poll.location.slug, pk=poll.pk)
 
