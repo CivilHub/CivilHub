@@ -3,9 +3,9 @@
 {% block content %}
 <div class="login-page">
 
-	{% if welcome_msg %}
-		<p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
-	{% endif %}
+    {% if welcome_msg %}
+        <p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
+    {% endif %}
 
     <div class="login-form">
         <h1 class="login-form-header">{% trans "Sign In" %}</h1>
@@ -18,7 +18,7 @@
                     <a href="#"><img src="twitter.jpg"></a>
                 </div>
                 <div class="login-google col-sm-4">
-                    <a href="{% url 'social:begin' 'google' %"><img src="google.jpg"></a>
+                    <a href="{% url 'social:begin' 'google' %}"><img src="google.jpg"></a>
                 </div>
             </div>
             <form action="" method="post">

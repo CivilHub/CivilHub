@@ -2,6 +2,7 @@
 {% load staticfiles %} {% load i18n %}
 {% block content %}
 {{ errors }}
+<p><small>{% trans "All fields are required" %}</small></p>
 <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
     {% csrf_token %}
     {{ form }}

@@ -90,6 +90,8 @@ def register(request):
             user.username = username
             user.set_password(password)
             user.email = request.POST.get('email')
+            user.first_name = request.POST.get('first_name')
+            user.last_name  = request.POST.get('last_name')
             user.is_active = False
             try:
                 user.save()
@@ -176,12 +178,11 @@ def passet(request):
         'title': _("Set your password"),
     }
     if request.method == 'POST':
-        f = RegisterForm(request.POST)
+        f = SocialAuthPassetForm(request.POST)
         if f.is_valid():
             user = User(request.user.id)
             user.username = f.cleaned_data['username']
             user.set_password(f.cleaned_data['password'])
-            user.save()
             # Re-fetch user object from DB
             user = User.objects.get(pk=request.user.id)
             # Create user profile if not exists
@@ -192,7 +193,9 @@ def passet(request):
                 prof.user = user
                 prof.save()
             return redirect('user:index')
-    ctx['form'] = RegisterForm()
+        ctx['form'] = SocialAuthPassetForm(request.POST)
+        return render(request, 'userspace/pass.html', ctx)
+    ctx['form'] = SocialAuthPassetForm()
     return render(request, 'userspace/pass.html', ctx)
 
 
