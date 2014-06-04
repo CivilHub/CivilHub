@@ -1,0 +1,19 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %} {% load i18n %}
+
+{% comment %}
+    Podziękowanie użytkownikowi za rejestrację w serwisie.
+{% endcomment %}
+
+{% block content %}
+<div>
+    <p>{% blocktrans %}
+        Dziękujemy za rejestrację w serwisie.
+    {% endblocktrans %}</p>
+    <p>{% blocktrans %}
+        Możesz się teraz zalogować korzystając z hasła oraz adresu
+        email, które podałeś podczas rejestracji.
+    {% endblocktrans %}</p>
+    <p><a href="{% url 'user:login' %}">{% trans "Login" %}</a></p>
+</div>
+{% endblock %}

@@ -154,13 +154,18 @@ def activate(request, activation_link=None):
         user = User.objects.get(pk=user_id)
         user = auth.authenticate(username=user.username,
                                       password=user.password)
-        #return redirect('user:login')
-        ctx = {
-            'title': _('Login'),
-            'form': LoginForm(),
-            'welcome_msg': True,
-        }
-        return render(request, 'userspace/login.html', ctx)
+        return redirect('user:active')
+
+
+def active(request):
+    """
+    Statyczny widok podziękowania za zarejestrowanie w serwisie
+    i zaproszenie do pierwszego logowania.
+    """
+    ctx = {
+        'title': _("Thank you for registeration")
+    }
+    return render(request, 'userspace/active.html', ctx)
 
 
 def passet(request):
