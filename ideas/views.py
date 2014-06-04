@@ -17,7 +17,7 @@ from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 # Activity stream
 from actstream import action
-from places_core.actstreams import idea_action_handler
+from places_core.actstreams import create_object_action_handler
 from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment

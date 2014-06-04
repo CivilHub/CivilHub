@@ -24,7 +24,8 @@ class Poll(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        if not self.slug:
+            self.slug = slugify(self.title)
         super(Poll, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

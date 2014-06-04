@@ -12,6 +12,10 @@ from django.contrib.auth.models import User
 from easy_thumbnails.files import get_thumbnailer
 from locations.models import Location
 
+THUMB_SIZES = [
+    (30, 30),
+    (128, 128),
+]
 
 def create_gallery(gallery_name):
     """
@@ -34,18 +38,21 @@ def create_gallery_thumbnail(gallery, filename):
     @param gallery  (string) Username or place slug
     @param filename (string) Image filename
     """
-    size = 128, 128
     filepath = os.path.join(settings.MEDIA_ROOT, gallery)
     thumb_path = filepath + '/thumbs/'
-    thumbname = os.path.join(thumb_path, filename)
 
-    try:
-        thumb = Image.open(filepath + '/' + filename)
-        thumb.thumbnail(size, Image.ANTIALIAS)
-        thumb.save(thumbname, 'JPEG')
-        return True
-    except IOError:
-        return False
+    for w, h in THUMB_SIZES:
+        size = w, h
+        print size
+        thumbfile = str(w) + 'x' + str(h) + '_' + filename
+        thumbname = os.path.join(thumb_path + thumbfile)
+        try:
+            thumb = Image.open(filepath + '/' + filename)
+            thumb.thumbnail(size, Image.ANTIALIAS)
+            thumb.save(thumbname, 'JPEG')
+        except IOError:
+            return False
+    return True
 
 
 class ImageView(View):

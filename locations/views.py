@@ -298,7 +298,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
-        poll = Poll(
+        poll = Poll.objects.create(
             title = request.POST.get('title'),
             question = request.POST.get('question'),
             location = get_object_or_404(Location,
@@ -309,7 +309,6 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         self.object = poll
         if len(poll.title) > 0 and poll.title != '':
             try:
-                poll.save()
                 poll.tags.add(request.POST.get('tags'))
                 poll.save()
                 for key, val in request.POST.iteritems():
@@ -317,7 +316,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
                         a = Answer(poll=poll, answer=val)
                         a.save()
                 return redirect(poll.get_absolute_url())
-            except Exeption as ex:
+            except Exception as ex:
                 pass
         return self.form_invalid(form=self.form_class(request.POST))
 

@@ -71,6 +71,7 @@ class News(models.Model):
     def __unicode__(self):
         return self.title
 
+
 def create_entry_action_hook(sender, instance, created, **kwargs):
     """
     Action hook for activity stream when new blog entry is created
