@@ -6,9 +6,10 @@ from topics.views import DiscussionDetailView
 from polls.views import PollDetails, PollResults
 from gallery.views import PlaceGalleryView
 from locations.views import *
+from staticpages.views import PageView
 
 urlpatterns = patterns('',
-    url(r'^$', LocationListView.as_view(), name='index'),
+    url(r'^location_list/', LocationListView.as_view(), name='index'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # Location ideas sub-views
     url(r'^(?P<slug>[\w-]+)/ideas/create', LocationIdeaCreate.as_view(), name='new_idea'),

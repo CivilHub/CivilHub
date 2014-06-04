@@ -12,6 +12,8 @@ class PageView(View):
     """
     Podstawowy widok ładujący pojedynczą stronę.
     """
+    page = None
+
     def get_all_pages(self):
         """
         Przeszukuje folder w poszukiwaniu stron statycznych.
@@ -25,6 +27,7 @@ class PageView(View):
         return pages
 
     def get(self, request, page=None):
+        if self.page: page = self.page
         if page == None:
             pages = self.get_all_pages()
             return render(request, 'staticpages/pages/home.html', {'pages':pages})

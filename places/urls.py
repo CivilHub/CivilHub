@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from staticpages.views import PageView
 admin.autodiscover()
 # djangorestframework
 from rest_framework import routers
@@ -69,5 +70,14 @@ urlpatterns = patterns('',
     url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    
+    # Static Pages
+    # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można
+    # dodawać kolejne.
+    url(r'^home/', PageView.as_view(page='home')),
+    url(r'^about/', PageView.as_view(page='about')),
+    
+    # Default URL - Nie wstawiać nic poniżej!!!
+    url(r'^$', PageView.as_view(page='home')),
     url(r'^', include('locations.urls', namespace='locations')),
 )
