@@ -55,6 +55,8 @@ urlpatterns = patterns('',
     url(r'^gallery/', include('gallery.urls', namespace='gallery')),
     # Polls app
     url(r'^polls/', include('polls.urls', namespace='polls')),
+    # Static pages
+    url(r'^pages/', include('staticpages.urls', namespace='pages')),
     # http://django-generic-bookmarks.readthedocs.org/en/latest
     (r'^bookmarks/', include('bookmarks.urls', namespace='bookmarks')),
     # media
@@ -66,5 +68,6 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^', include('locations.urls', namespace='locations')),
 )

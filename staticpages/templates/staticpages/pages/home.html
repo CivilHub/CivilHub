@@ -1,0 +1,11 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+    <p>This is homepage.</p>
+    <ul>
+    {% for page in pages %}
+        <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

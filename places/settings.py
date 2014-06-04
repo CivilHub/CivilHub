@@ -79,6 +79,7 @@ INSTALLED_APPS = (
     'gallery',  # user media app
     'south',    # Database migrations
     'maps',     # Custom app for Google Maps
+    'staticpages', # Statyczne strony
 )
 
 
@@ -139,6 +140,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
 )
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
