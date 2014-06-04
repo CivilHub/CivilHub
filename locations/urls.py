@@ -25,9 +25,9 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/discussions/', ajax_discussion_list, name='ajaxlist'),
     #url(r'^(?P<slug>[\w-]+)/discussions/(?P<limit>[\w-]+)/', location_discussion_list, name='dsublist'),
     # Location polls (create, edit, delete etc. just for this location)
-    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)/results/', PollResults.as_view(), name='results'),
-    url(r'^(?P<slug>[\w-]+)/polls/(?P<pk>\d+)', PollDetails.as_view(), name='poll'),
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
+    url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)/results/', PollResults.as_view(), name='results'),
+    url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)', PollDetails.as_view(), name='poll'),
     url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),

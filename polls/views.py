@@ -103,7 +103,7 @@ def save_answers(request, pk):
                 aset.answers.add(Answer.objects.get(pk=int(val)))
         aset.save()
 
-    return redirect('locations:results', slug=poll.location.slug, pk=poll.pk)
+    return redirect(poll.get_absolute_url())
 
 
 @login_required

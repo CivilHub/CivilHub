@@ -22,6 +22,7 @@ sitemaps = {
     'locations': sitemaps.LocationSitemap,
     'ideas'    : sitemaps.IdeaSitemap,
     'news'     : sitemaps.NewsSitemap,
+    'polls'    : sitemaps.PollsSitemap,
     'discussions': sitemaps.DiscussionSitemap,
 }
 

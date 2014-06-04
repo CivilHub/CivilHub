@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 from locations.models import Location
 from taggit.managers import TaggableManager
 # Generic bookmarks
@@ -13,6 +14,7 @@ class Poll(models.Model):
     Base poll class - means entire poll.
     """
     title = models.CharField(max_length=128, unique=True)
+    slug  = models.SlugField(max_length=128, unique=True)
     tags  = TaggableManager()
     question = models.TextField()
     creator  = models.ForeignKey(User)
@@ -21,11 +23,15 @@ class Poll(models.Model):
     date_created  = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Poll, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('locations:poll',
             kwargs={
-                'slug':self.location.slug,
-                'pk': self.pk
+                'place_slug':self.location.slug,
+                'slug': self.slug
             }
         )
 

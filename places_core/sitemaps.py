@@ -6,6 +6,7 @@ from locations.models import Location
 from ideas.models import Idea
 from topics.models import Discussion
 from blog.models import News
+from polls.models import Poll
 
 
 class LocationSitemap(Sitemap):
@@ -21,15 +22,18 @@ class LocationSitemap(Sitemap):
 
 class IdeaSitemap(Sitemap):
     changefreq = "daily"
-    pririty = 0.5
+    priority = 0.5
 
     def items(self):
         return Idea.objects.all()
 
+    def lastmod(self, obj):
+        return obj.date_edited
+
 
 class DiscussionSitemap(Sitemap):
     changefreq = "hourly"
-    pririty = 0.5
+    priority = 0.5
 
     def items(self):
         return Discussion.objects.all()
@@ -37,7 +41,15 @@ class DiscussionSitemap(Sitemap):
 
 class NewsSitemap(Sitemap):
     changefreq = "always"
-    pririty = 0.5
+    priority = 0.5
 
     def items(self):
         return News.objects.all()
+
+
+class PollsSitemap(Sitemap):
+    changefreq = "hourly"
+    priority = 0.5
+
+    def items(self):
+        return Poll.objects.all()

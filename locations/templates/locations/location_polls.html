@@ -21,7 +21,7 @@
                     <span class="fa fa-times-circle-o"> </span></button>
             </div>
         {% endif %}
-        <div class="col-xs-4"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
+        <div class="col-xs-4"><a href="{{ poll.get_absolute_url }}">{{ poll.title }}</a></div>
         <div class="col-xs-2">
             <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
             <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator.get_full_name }}</a>
