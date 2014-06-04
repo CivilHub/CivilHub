@@ -33,7 +33,6 @@
 <!-- git@bitbucket.org:krastley/javascript-helpers.git -->
 <script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
 <script src="{% static 'places_core/js/djangojs.js' %}"></script>
-<script src="{% static 'places_core/js/common-scripts.js' %}"></script>
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
@@ -81,7 +80,7 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown">{{ user }}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user }}</a>
                     <ul class="dropdown-menu">
                         <li><a href="#">{% trans "Profile" %}</a></li>
                         <li><a href="#">{% trans "My Places" %}</a></li>
@@ -122,17 +121,12 @@
                             </li>
 
                 <li><a href="{% url 'maps:index' %}">{% trans "Map" %}</a></li>
-                
-             <!--    <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ch-icon ch-bookmark">{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>
-                    <ul class="dropdown-menu bookmarks-list"></ul>
-                    </li> -->
 
                 <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-bookmark"></span>{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>
-                        <ul class="dropdown-menu bookmarks-list">
-                        </ul>
-                 </li>
+                    <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-bookmark"></span>{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu bookmarks-list"></ul>
+                </li>
+                 
                  <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-envelope"></span></a>
 
