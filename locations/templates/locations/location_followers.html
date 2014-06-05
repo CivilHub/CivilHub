@@ -27,6 +27,11 @@
                 <p class="follows-places">
                     <a href="#">Warszawa</a>
                 </p>
+                {% if is_moderator %}
+                <p class="admin-extra-options">
+                    <a href="#" class="moderator-badge-add">{% trans "Give badge" %}</a>
+                </p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -37,5 +42,69 @@
 </div>
 </div>
 </div>
+
+<div id="select-badge-form" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Select badge for user" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="presentation" method="post" action="" >
+                    <div class="form-group">
+                        <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                        <input type="text" id="category-name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">{% trans "Description" %}</label>
+                        <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+(function ($) {
+    "use strict";
+    function badgeSelector () {
+        var selector = {},
+            $modal = $('#select-badge-form');
+            
+        $modal.modal({show: false});
+            
+        $.extend(selector, {
+            win: $modal,
+            
+            open: function () {
+                var _this = this;
+                $modal.one('shown.bs.modal', function () {
+                    $modal.find('.modal-footer > button').bind('click', function () {
+                        _this.close();
+                    });
+                });
+                $modal.modal('show');
+            },
+            
+            close: function () {
+                $modal.modal('hide');
+            }
+        });
+        
+        return selector;
+    }
+    $('.moderator-badge-add').bind('click', function (evt) {
+        var sel = badgeSelector();
+        sel.open();
+        console.log(sel);
+    });
+})(jQuery);
+</script>
 
 {% endblock %}

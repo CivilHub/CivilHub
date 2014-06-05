@@ -266,6 +266,12 @@ class LocationFollowersList(DetailView):
     model = Location
     template_name = 'locations/location_followers.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(LocationFollowersList, self).get_context_data(**kwargs)
+        context['title'] = self.object.name + '::Followers'
+        context['is_moderator'] = is_moderator(self.request.user, self.object)
+        return context
+
 
 class LocationPollsList(DetailView):
     """
