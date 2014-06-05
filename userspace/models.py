@@ -3,6 +3,7 @@ from django.db import models
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from places_core.storage import OverwriteStorage
+from locations.models import Location
 
 
 class UserProfile(models.Model):
@@ -12,7 +13,8 @@ class UserProfile(models.Model):
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
     description = models.TextField(blank=True, null=True)
     birth_date  = models.CharField(max_length=10, blank=True)
-    rank_pts = models.IntegerField(blank=True, default=0)
+    rank_pts  = models.IntegerField(blank=True, default=0)
+    mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
     avatar = models.ImageField(
         upload_to = "img/avatars/",
         default = 'img/avatars/anonymous.png',
@@ -23,6 +25,9 @@ class UserProfile(models.Model):
         default = 'img/avatars/30x30_anonymous.png',
         storage = OverwriteStorage()
     )
+
+    def __unicode__(self):
+        return self.user.get_full_name()
 
 
 class RegisterDemand(models.Model):

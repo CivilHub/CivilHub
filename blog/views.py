@@ -12,6 +12,7 @@ from .models import Category, News
 from .forms import NewsForm
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
+from places_core.permissions import is_moderator
 
 
 class CategoryListView(ListView):
@@ -55,6 +56,7 @@ class NewsDetailView(DetailView):
         news = super(NewsDetailView, self).get_object()
         content_type = ContentType.objects.get_for_model(news)
         context = super(NewsDetailView, self).get_context_data(**kwargs)
+        context['is_moderator'] = is_moderator(self.request.user, news.location)
         context['location'] = news.location
         context['content_type'] = content_type.pk
         context['title'] = news.title
@@ -91,9 +93,11 @@ class NewsUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         obj = super(NewsUpdateView, self).get_object()
-        if obj.creator != self.request.user:
+        moderator = is_moderator(self.request.user, obj.location)
+        if obj.creator != self.request.user and not moderator:
             raise PermissionDenied
         context = super(NewsUpdateView, self).get_context_data(**kwargs)
+        context['is_moderator'] = moderator
         context['title'] = obj.title
         context['subtitle'] = _('Edit entry')
         context['location'] = obj.location

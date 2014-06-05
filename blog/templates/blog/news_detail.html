@@ -14,7 +14,7 @@
         {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
         
         <div>{{ news.content | safe }}</div>
-        {% if user.is_authenticated and user == news.creator %}
+        {% if user.is_authenticated and user == news.creator or is_moderator %}
             <div class="news-controls">
                 <a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a>
                 <a href="">{% trans "Delete" %}</a>
