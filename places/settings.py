@@ -43,6 +43,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    # https://django-modeltranslation.readthedocs.org/en/latest/
+    'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
     # https://github.com/praekelt/django-recaptcha
