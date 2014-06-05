@@ -9,7 +9,8 @@ from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
+from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -408,6 +409,8 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('locations:index')
 
 
+@login_required
+@require_POST
 def add_follower(request, pk):
     """
     Add user to locations followers
@@ -430,6 +433,8 @@ def add_follower(request, pk):
     return HttpResponse(json.dumps(response))
 
 
+@login_required
+@require_POST
 def remove_follower(request, pk):
     """
     Remove user from locations followers

@@ -3,9 +3,6 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-# Activity stream
-from django.db.models.signals import post_save
-from actstream import action
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage
@@ -53,15 +50,3 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
-
-
-def create_place_action_hook(sender, instance, created, **kwargs):
-    """
-    Action hook for activity stream when new place is created
-    TODO - move it to more appropriate place.
-    """
-    if created:
-        instance.users.add(instance.creator)
-        action.send(instance.creator, action_object=instance, verb='created')
-
-post_save.connect(create_place_action_hook, sender=Location)

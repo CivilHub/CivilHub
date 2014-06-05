@@ -9,9 +9,6 @@ from django.utils.translation import ugettext_lazy as _
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
-# Activity stream
-from django.db.models.signals import post_save
-from actstream import action
 # Generic bookmarks
 from bookmarks.handlers import library
 
@@ -71,20 +68,6 @@ class News(models.Model):
     def __unicode__(self):
         return self.title
 
-
-def create_entry_action_hook(sender, instance, created, **kwargs):
-    """
-    Action hook for activity stream when new blog entry is created
-    """
-    if created:
-        action.send(
-            instance.creator,
-            action_object = instance,
-            verb = 'posted',
-            target = instance.location
-        )
-
-post_save.connect(create_entry_action_hook, sender=News)
 
 # Allow users to bookmark content
 library.register(News)
