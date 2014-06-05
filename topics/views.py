@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, DetailView
 from django.views.generic.edit import UpdateView
@@ -15,6 +16,7 @@ from places_core.mixins import LoginRequiredMixin
 from maps.models import MapPointer
 from .models import Discussion, Entry
 from .forms import DiscussionForm, ReplyForm
+from places_core.permissions import is_moderator
 
 
 class DiscussionDetailView(DetailView):
@@ -30,6 +32,7 @@ class DiscussionDetailView(DetailView):
         replies = Entry.objects.filter(discussion=topic)
         paginator = Paginator(replies, 25)
         page = self.request.GET.get('page')
+        moderator = is_moderator(self.request.user, topic.location)
         try:
             context['replies'] = paginator.page(page)
         except PageNotAnInteger:
@@ -44,11 +47,12 @@ class DiscussionDetailView(DetailView):
         context['map_markers'] = MapPointer.objects.filter(
                 content_type = ContentType.objects.get_for_model(self.object)
             ).filter(object_pk=self.object.pk)
-        if self.request.user == self.object.creator or self.request.user.is_superuser:
+        if self.request.user == self.object.creator or moderator:
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(Discussion),
                 'object_pk'   : self.object.pk,
             })
+        context['is_moderator'] = moderator
         return context
 
 
@@ -62,9 +66,13 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         obj = super(DiscussionUpdateView, self).get_object()
         context = super(DiscussionUpdateView, self).get_context_data(**kwargs)
+        moderator = is_moderator(self.request.user, obj.location)
+        if self.request.user != obj.creator and not moderator:
+            raise PermissionDenied
         context['title'] = obj.question
         context['subtitle'] = _('Edit this topic')
         context['location'] = obj.location
+        context['is_moderator'] = moderator
         return context
 
 
@@ -117,7 +125,8 @@ def delete_topic(request):
             'level': 'danger',
         }))
 
-    if request.user != topic.creator and not request.user.is_superadmin():
+    moderator = is_moderator(request.user, topic.location)
+    if request.user != topic.creator and not moderator:
         return HttpResponse(json.dumps({
             'success': False,
             'message': _("Permission required!"),

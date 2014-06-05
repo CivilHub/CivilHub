@@ -31,7 +31,7 @@
                 <div class="idea-vote-count">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
             </div>
             {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
-            {% if idea.creator == user %}
+            {% if idea.creator == user or is_moderator %}
 
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             {% endif %}

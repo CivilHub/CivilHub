@@ -113,7 +113,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
-               'blog.news', 'polls.poll', 'comments.customcomment',),
+               'blog.news', 'polls.poll', 'comments.customcomment',
+               'topics.discussion'),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,

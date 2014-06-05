@@ -20,6 +20,7 @@ from maps.models import MapPointer
 from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment
+from places_core.permissions import is_moderator
 
 def get_votes(idea):
     """
@@ -114,6 +115,7 @@ class IdeasDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(IdeasDetailView, self).get_context_data(**kwargs)
+        context['is_moderator'] = is_moderator(self.request.user, self.object.location)
         context['title'] = self.object.name
         context['location'] = self.object.location
         context['map_markers'] = MapPointer.objects.filter(
@@ -158,7 +160,8 @@ class UpdateIdeaView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateIdeaView, self).get_context_data(**kwargs)
-        if self.object.creator != self.request.user:
+        context['is_moderator'] = is_moderator(self.request.user, self.object.location)
+        if self.object.creator != self.request.user and not context['is_moderator']:
             raise PermissionDenied
         context['title'] = self.object.name
         context['action'] = 'update'

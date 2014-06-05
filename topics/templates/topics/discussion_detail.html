@@ -28,7 +28,7 @@
                         {% endif %}
                     </span>
                     <span class="entry-controls">
-                        {% if user == entry.creator %}
+                        {% if user == entry.creator or is_moderator %}
                             <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
                                 <span class="fa fa-edit"> </span>
                             </a>

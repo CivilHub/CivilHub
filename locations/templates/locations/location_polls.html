@@ -12,7 +12,7 @@
     </div>
     {% for poll in polls %}
     <div class="polls-list-entry custom-list-entry row">
-        {% if user == poll.creator or user.is_superuser %}
+        {% if user == poll.creator or is_moderator %}
             <div class="btn-group list-entry-controls">
                 <a href="">
                     <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>

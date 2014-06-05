@@ -27,6 +27,8 @@ from places_core.mixins import LoginRequiredMixin
 # Activity stream
 from actstream.actions import follow, unfollow
 from actstream.models import Action
+# custom permissions
+from places_core.permissions import is_moderator
 
 
 class LocationNewsList(DetailView):
@@ -148,6 +150,7 @@ class LocationDiscussionsList(DetailView):
         context['title'] = location.name + ':' + _('Discussions')
         context['categories'] = ForumCategory.objects.all()
         context['search_form'] = SearchDiscussionForm()
+        context['is_moderator'] = is_moderator(self.request.user, location)
         return context
 
 
@@ -203,10 +206,11 @@ def ajax_discussion_list(request, slug):
     except EmptyPage:
         context['discussions'] = paginator.page(paginator.num_pages)
 
-    context['title']       = location.name + ':' + _('Discussions')
-    context['location']    = location
-    context['categories']  = categories
-    context['search_form'] = SearchDiscussionForm()
+    context['title']        = location.name + ':' + _('Discussions')
+    context['location']     = location
+    context['categories']   = categories
+    context['search_form']  = SearchDiscussionForm()
+    context['is_moderator'] = is_moderator(self.request.user, location)
 
     return render(request, 'locations/location_forum.html', context)
 
@@ -275,6 +279,7 @@ class LocationPollsList(DetailView):
         context = super(LocationPollsList, self).get_context_data(**kwargs)
         context['title'] = location.name + ':' + _('Polls')
         context['polls'] = Poll.objects.filter(location=location)
+        context['is_moderator'] = is_moderator(self.request.user, location)
         return context
 
 

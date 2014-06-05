@@ -81,7 +81,7 @@
                         {% for topic in discussions %}
                         <div class="topic-list-entry custom-list-entry">
                             <div class="row">
-                                {% if user == topic.creator or user.is_superuser %}
+                                {% if user == topic.creator or is_moderator %}
                                 <div class="btn-group list-entry-controls">
                                     <a href="{% url 'discussion:update' topic.slug %}">
                                         <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
