@@ -13,7 +13,7 @@ class Location(models.Model):
     Basic location model
     """
     name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64)
+    slug = models.SlugField(max_length=64, unique=True)
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
@@ -28,6 +28,13 @@ class Location(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        to_slug_entry = self.name
+        try:
+            chk = Location.objects.filter(name=self.name)
+            to_slug_entry = self.name + '-' + str(len(chk))
+        except Location.DoesNotExist:
+            pass
+        self.slug = slugify(to_slug_entry)
         super(Location, self).save(*args, **kwargs)
 
     def get_parent_chain(self, parents=None):

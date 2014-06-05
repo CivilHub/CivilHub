@@ -23,8 +23,8 @@ class Discussion(models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
-    question = models.CharField(max_length=256)
-    slug     = models.SlugField(max_length=256)
+    question = models.CharField(max_length=256, unique=True)
+    slug     = models.SlugField(max_length=256, unique=True)
     intro    = models.TextField()
     creator  = models.ForeignKey(User)
     status   = models.BooleanField(default=True)
@@ -34,7 +34,14 @@ class Discussion(models.Model):
     date_edited  = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.question)
+        if not self.slug:
+            to_slug_entry = self.question
+            try:
+                chk = Discussion.objects.filter(question=self.question)
+                to_slug_entry = self.question + '-' + str(len(chk))
+            except Discussion.DoesNotExist:
+                pass
+            self.slug = slugify(to_slug_entry)
         super(Discussion, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

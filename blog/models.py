@@ -12,6 +12,7 @@ from taggit.managers import TaggableManager
 # Generic bookmarks
 from bookmarks.handlers import library
 
+
 class Category(models.Model):
     """
     User Blog Categories basic model
@@ -26,6 +27,7 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class News(models.Model):
     """
     Blog for Places
@@ -33,7 +35,7 @@ class News(models.Model):
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=64, unique=True)
+    title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
     content = models.TextField(max_length=10248, null=True, blank=True,)
     category = models.ForeignKey(
@@ -46,7 +48,13 @@ class News(models.Model):
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        to_slug_entry = self.title
+        try:
+            chk = News.objects.filter(title=self.title)
+            to_slug_entry = self.title + '-' + str(len(chk))
+        except News.DoesNotExist:
+            pass
+        self.slug = slugify(to_slug_entry)
         super(News, self).save(*args, **kwargs)
     
     def get_absolute_url(self):

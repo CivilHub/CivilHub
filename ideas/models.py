@@ -58,7 +58,13 @@ class Idea(models.Model):
         if self.pk is not None:
             self.edited = True
             self.date_edited = timezone.now()
-        self.slug = slugify(self.name)
+        to_slug_entry = self.name
+        try:
+            chk = Idea.objects.filter(name=self.name)
+            to_slug_entry = self.name + '-' + str(len(chk))
+        except Idea.DoesNotExist:
+            pass
+        self.slug = slugify(to_slug_entry)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):

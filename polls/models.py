@@ -13,7 +13,7 @@ class Poll(models.Model):
     """
     Base poll class - means entire poll.
     """
-    title = models.CharField(max_length=128, unique=True)
+    title = models.CharField(max_length=128)
     slug  = models.SlugField(max_length=128, unique=True)
     tags  = TaggableManager()
     question = models.TextField()
@@ -25,7 +25,13 @@ class Poll(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            to_slug_entry = self.title
+            try:
+                chk = Poll.objects.filter(title=self.title)
+                to_slug_entry = self.title + '-' + str(len(chk))
+            except Poll.DoesNotExist:
+                pass
+            self.slug = slugify(to_slug_entry)
         super(Poll, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
