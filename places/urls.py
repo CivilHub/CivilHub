@@ -4,6 +4,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView
 admin.autodiscover()
+# include action hooks globally
+from places_core import actstreams
 # djangorestframework
 from rest_framework import routers
 from rest import views
