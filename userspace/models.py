@@ -12,7 +12,7 @@ class UserProfile(models.Model):
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
     description = models.TextField(blank=True, null=True)
     birth_date  = models.CharField(max_length=10, blank=True)
-    rank_pts = models.IntegerField(blank=True, null=True)
+    rank_pts = models.IntegerField(blank=True, default=0)
     avatar = models.ImageField(
         upload_to = "img/avatars/",
         default = 'img/avatars/anonymous.png',

@@ -76,11 +76,11 @@
                  
                 <li class="user-profile-link">
                     <a class="avatar" href="{% url 'user:index' %}">
-                        <img src="{{ user.profile.thumbnail.url }}" alt="{{ user }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user }}" />
+                        <img src="{{ user.profile.thumbnail.url }}" alt="{{ user }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user }}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}</a>
                     <ul class="dropdown-menu">
                         <li><a href="#">{% trans "Profile" %}</a></li>
                         <li><a href="#">{% trans "My Places" %}</a></li>

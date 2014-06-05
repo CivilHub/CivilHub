@@ -10,6 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from easy_thumbnails.files import get_thumbnailer
+from userspace.models import UserProfile
 from locations.models import Location
 
 THUMB_SIZES = [
@@ -176,6 +177,9 @@ class PlaceGalleryView(GalleryView):
 
     def post(self, request, slug):
         super(PlaceGalleryView, self).post(request, slug)
+        prof = UserProfile.objects.get(user=request.user)
+        prof.rank_pts += 1
+        prof.save()
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,

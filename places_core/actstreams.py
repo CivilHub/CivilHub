@@ -6,8 +6,11 @@
 # działania.
 #
 from django.db.models.signals import post_save
+from django.utils.translation import ugettext_lazy as _
 from actstream import action
+from userspace.models import UserProfile
 from locations.models import Location
+from comments.models import CustomComment as Comment
 from ideas.models import Idea
 from polls.models import Poll
 from blog.models import News
@@ -21,7 +24,7 @@ def create_place_action_hook(sender, instance, created, **kwargs):
     """
     if created:
         instance.users.add(instance.creator)
-        action.send(instance.creator, action_object=instance, verb='created')
+        action.send(instance.creator, action_object=instance, verb=_('created'))
 
 
 post_save.connect(create_place_action_hook, sender=Location)
@@ -34,18 +37,38 @@ def create_object_action_hook(sender, instance, created, **kwargs):
     oraz 'location' - tzn. do modułów dziedziczących z lokacji.
     """
     if created:
+        prof = UserProfile.objects.get(user=instance.creator)
+        prof.rank_pts += 5
+        prof.save()
         action.send(
             instance.creator,
             action_object = instance,
-            verb = 'created',
+            verb = _('created'),
             target = instance.location
         )
 
 
 post_save.connect(create_object_action_hook, sender=Idea)
-post_save.connect(create_object_action_hook, sender=Poll)
 post_save.connect(create_object_action_hook, sender=News)
+
+
+def create_raw_object_action_hook(sender, instance, created, **kwargs):
+    """
+    Ten zaczep jest wykorzystywany przez modele, które użytkownik
+    może tworzyć, ale nie są punktowane (np. dyskusje). Mogą z niego
+    korzystać wszystkie obiekty, które mają pola 'creator' oraz 'location'.
+    """
+    if created:
+        action.send(
+            instance.creator,
+            action_object = instance,
+            verb = _('created'),
+            target = instance.location
+        )
+
+
 post_save.connect(create_object_action_hook, sender=Discussion)
+post_save.connect(create_object_action_hook, sender=Poll)
 
 
 def answer_discussion_action_hook(sender, instance, created, **kwargs):
@@ -57,3 +80,23 @@ def answer_discussion_action_hook(sender, instance, created, **kwargs):
 
 
 post_save.connect(answer_discussion_action_hook, sender=Entry)
+
+
+def comment_action_hook(sender, instance, created, **kwargs):
+    """
+    Action hook dla komentarzy - poinformuj innych o tym, że komentarz
+    został utworzony ora z zwiększ odpowiednio liczbę punktów użytkownika.
+    """
+    if created:
+        prof = UserProfile.objects.get(user=instance.user)
+        prof.rank_pts += 3
+        prof.save()
+        action.send(
+            instance.user,
+            action_object = instance,
+            verb = _('commented'),
+            target = instance.content_object
+        )
+
+
+post_save.connect(comment_action_hook, sender=Comment)

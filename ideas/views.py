@@ -10,7 +10,9 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import ugettext as _
+from actstream import action
 # Application native models
+from userspace.models import UserProfile
 from models import Idea, Vote, Category
 from forms import IdeaForm, CategoryForm
 from maps.forms import AjaxPointerForm
@@ -38,6 +40,7 @@ def vote(request):
         v    = request.POST['vote']
         idea = Idea.objects.get(pk=request.POST['idea'])
         user = request.user
+        prof = UserProfile.objects.get(user=user)
         votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
         if len(votes_check) > 0:
             response = {
@@ -58,6 +61,8 @@ def vote(request):
                 'votes': get_votes(idea),
             }
             action.send(request.user, action_object=idea, verb='voted on')
+            prof.rank_pts += 1
+            prof.save()
         return HttpResponse(json.dumps(response))
 
 

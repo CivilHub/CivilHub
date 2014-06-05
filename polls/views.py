@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from maps.models import MapPointer
+from userspace.models import UserProfile
 from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
 
@@ -87,6 +88,7 @@ def save_answers(request, pk):
     answers = []
     poll = get_object_or_404(Poll, pk=request.POST.get('poll'))
     user = request.user
+    prof = UserProfile.objects.get(user=user)
     chk = AnswerSet.objects.filter(user=user).filter(poll=poll)
     if len(chk) > 0:
         messages.add_message(request, messages.ERROR, _('You already voted on this poll.'))
@@ -102,8 +104,10 @@ def save_answers(request, pk):
             elif 'answers' in key:
                 aset.answers.add(Answer.objects.get(pk=int(val)))
         aset.save()
+        prof.rank_pts += 1
+        prof.save()
 
-    return redirect(poll.get_absolute_url())
+    return redirect('locations:results', kwargs={'place_slug': poll.location.slug, 'slug': poll.slug})
 
 
 @login_required

@@ -15,6 +15,7 @@
             {{ avatar_form }}
         </form>
         <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
+        <p>Points: {{ profile.rank_pts }}</p>
     </div>
     <div class="col-sm-9">
         <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
