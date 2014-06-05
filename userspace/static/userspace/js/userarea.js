@@ -11,4 +11,5 @@
     $('#id_avatar').on('change', function () {
         $('#upload-avatar-form').submit();
     });
+    $('.user-badge-thumb').tooltip();
 })(jQuery);

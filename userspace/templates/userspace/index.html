@@ -16,6 +16,11 @@
         </form>
         <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
         <p>Points: {{ profile.rank_pts }}</p>
+        <ul>
+        {% for badge in profile.badges.all %}
+            <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+        {% endfor %}
+        </ul>
     </div>
     <div class="col-sm-9">
         <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">

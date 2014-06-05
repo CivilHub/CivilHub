@@ -30,6 +30,28 @@ class UserProfile(models.Model):
         return self.user.get_full_name()
 
 
+class Badge(models.Model):
+    """
+    Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
+    została zaakceptowana i zrealizowana itp. itd.
+    """
+    name = models.CharField(max_length=128, unique=True)
+    description = models.TextField()
+    user = models.ManyToManyField(
+        UserProfile,
+        related_name='badges',
+        blank=True
+    )
+    thumbnail = models.ImageField(
+        upload_to = "img/badges",
+        default = "img/badges/badge.png",
+        storage = OverwriteStorage()
+    )
+
+    def __unicode__(self):
+        return self.name
+
+
 class RegisterDemand(models.Model):
     """
     Model przechowujący dane użytkowników zgłaszających chęć rejestracji
