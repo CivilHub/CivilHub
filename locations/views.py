@@ -210,7 +210,7 @@ def ajax_discussion_list(request, slug):
     context['location']     = location
     context['categories']   = categories
     context['search_form']  = SearchDiscussionForm()
-    context['is_moderator'] = is_moderator(self.request.user, location)
+    context['is_moderator'] = is_moderator(request.user, location)
 
     return render(request, 'locations/location_forum.html', context)
 

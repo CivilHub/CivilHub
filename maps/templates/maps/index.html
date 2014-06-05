@@ -135,7 +135,7 @@
             refreshMap: function (filters) {
                 var _this = this,
                     markers = [],
-                    i, latLng, marker,
+                    i,
                     markerImage = new google.maps.MarkerImage(imageUrl,
                         new google.maps.Size(24, 32));
                         
@@ -144,16 +144,22 @@
                 }
                 
                 for (i = 0; i < mapData.length; ++i) {
-                    latLng = new google.maps.LatLng(mapData[i].latitude,
-                        mapData[i].longitude)
-                    marker = new google.maps.Marker({
-                        position: latLng,
-                        draggable: true,
-                        icon: MEDIA_URL + '/icons/marker-' + mapData[i].type + '.png'
-                    });
+                    var latLng = new google.maps.LatLng(mapData[i].latitude,
+                            mapData[i].longitude),
+                        marker = new google.maps.Marker({
+                            position: latLng,
+                            icon: MEDIA_URL + '/icons/marker-' + mapData[i].type + '.png'
+                        });
                     $.extend(marker, mapData[i]);
                     if (filters && filters.indexOf(marker.type) >= 0 || !filters) {
                         markers.push(marker);
+                        google.maps.event.addListener(marker, 'click', function () {
+                            var contentString = '<a href="' + marker.url + '">GO TO</a>',
+                                infoWindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+                            infoWindow.open(_this.map, marker);
+                        });
                     }
                 }
                 
