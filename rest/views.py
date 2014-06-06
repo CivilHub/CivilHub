@@ -22,7 +22,7 @@ from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from userspace.models import Badge, UserProfile
-from rest.permissions import IsOwnerOrReadOnly
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
 
@@ -185,7 +185,7 @@ class BadgeViewSet(viewsets.ModelViewSet):
     """
     queryset = Badge.objects.all()
     serializer_class   = BadgeSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (IsModeratorOrReadOnly,)
 
     def put(self, request, *args, **kwargs):
         badge_pk = request.DATA.get('id')
@@ -203,7 +203,7 @@ class BadgeViewSet(viewsets.ModelViewSet):
         try:
             badge.user.add(user)
         except Exception as ex:
-            errors.append(ex)
+            errors.append(str(ex))
 
         if len(errors) > 0:
             ctx = {
@@ -216,4 +216,5 @@ class BadgeViewSet(viewsets.ModelViewSet):
                 'success': True,
                 'message': _("Badge saved"),
             }
+
         return Response(ctx)

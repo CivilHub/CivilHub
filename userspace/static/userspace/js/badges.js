@@ -35,10 +35,12 @@ var BadgeView = Backbone.View.extend({
     // Highlight clicked badge and mark it as selected
     activate: function () {
         this.$el.addClass('badge-selected');
+        this.selected = true;
     },
     // Unselect given badge
     deactivate: function () {
         this.$el.removeClass('badge-selected');
+        this.selected = false;
     }
 });
 
@@ -70,22 +72,35 @@ var BadgeSelector = function ($el) {
     that.selection  = {};
     // Connect models to views
     that.badgeViews = {};
-    // Check if user selected any badge and send POST request if so.
-    that.submit.bind('click', function () {
+    
+    // User selection functions
+    // ------------------------
+    
+    // Check if user selected any badge and send PUT request if so.
+    that.submit.bind('click', function (evt) {
+        evt.preventDefault();
         if (!_.isNull(that.target) && !_.isEmpty(that.selection)) {
             var formData = {
                 id: that.selection.get('id'),
                 user: that.target
             }
-            that.save(formData, that.close);
+            // save
+            that.save(formData);
+            return true;
         }
+        return false;
     });
-    that.save = function (data, callback) {
+    // Save selection - core function
+    // @param data {
+    //          id  : badge object ID
+    //          user: target user pk
+    //        }
+    that.save = function (data) {
         sendAjaxRequest('PUT', URL, {
             data: data,
             success: function (resp) {
                 console.log(resp);
-                callback();
+                that.close();
                 if (resp.success) {
                     display_alert(resp.message, 'success');
                 } else {
@@ -97,6 +112,10 @@ var BadgeSelector = function ($el) {
             }
         });
     };
+    
+    // Manipulate modal window
+    // -----------------------
+    
     // Open modal window and set target user ID.
     that.open = function (userId) {
         that.window.modal('show');
@@ -106,6 +125,10 @@ var BadgeSelector = function ($el) {
     that.close = function () {
         that.window.modal('hide');
     };
+    
+    // Render DOM elements
+    // -------------------
+    
     // Render single badge entry.
     that.renderBadge = function (item) {
         var ItemView = new BadgeView({
@@ -113,6 +136,7 @@ var BadgeSelector = function ($el) {
         });
         var $element = $(ItemView.render().el);
         $element.prependTo(that.elem);
+        // Link views with models by their ID
         that.badgeViews[item.get('id')] = ItemView;
         $element.on('click', function () {
             that.selectBadge(item.get('id'));
@@ -123,7 +147,7 @@ var BadgeSelector = function ($el) {
         var key, v;
         for (key in that.badgeViews) {
             v = that.badgeViews[key];
-            if (key == itemId) {
+            if (key == itemId) { // "==" is important
                 v.activate();
                 that.selection = v.model;
             } else {
@@ -137,6 +161,10 @@ var BadgeSelector = function ($el) {
             that.renderBadge(item);
         });
     };
+    
+    // Initialize selector
+    // -------------------
+    
     // Create backbone badges collection.
     $.get(URL, function (badges) {
         that.badges = new BadgeCollection(badges);
@@ -153,7 +181,8 @@ sel = new BadgeSelector($modal);
 // Run scripts.
 // ------------
 
-$('.moderator-badge-add').bind('click', function () {
+$('.moderator-badge-add').bind('click', function (evt) {
+    evt.preventDefault();
     sel.open($(this).attr('data-target'));
 });
     

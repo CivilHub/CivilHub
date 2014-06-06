@@ -45,7 +45,7 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
     location etc.
     """
     model = News
-    form_class = NewsLocationForm
+    form_class    = NewsLocationForm
     template_name = 'locations/location_news_form.html'
 
     def get(self, request, *args, **kwargs):
@@ -65,7 +65,8 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        return redirect(reverse('locations:news', kwargs={'slug': obj.location.slug}))
+        return redirect(reverse('locations:news',
+                        kwargs={'slug': obj.location.slug}))
 
     def form_invalid(self, form):
         ctx = {
@@ -137,19 +138,21 @@ class LocationDiscussionsList(DetailView):
 
     def get_context_data(self, **kwargs):
         location = super(LocationDiscussionsList, self).get_object()
-        context = super(LocationDiscussionsList, self).get_context_data(**kwargs)
+        context  = super(LocationDiscussionsList, self).get_context_data(**kwargs)
         discussions = Discussion.objects.filter(location=location)
-        paginator = Paginator(discussions, 50)
+        paginator   = Paginator(discussions, 50)
         page = self.request.GET.get('page')
+
         try:
             context['discussions'] = paginator.page(page)
         except PageNotAnInteger:
             context['discussions'] = paginator.page(1)
         except EmptyPage:
             context['discussions'] = paginator.page(paginator.num_pages)
-        context['title'] = location.name + ':' + _('Discussions')
-        context['categories'] = ForumCategory.objects.all()
-        context['search_form'] = SearchDiscussionForm()
+
+        context['title']        = location.name + '::' + _("Discussions")
+        context['categories']   = ForumCategory.objects.all()
+        context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
         return context
 
@@ -268,7 +271,7 @@ class LocationFollowersList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
-        context['title'] = self.object.name + '::Followers'
+        context['title'] = self.object.name + '::' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         return context
 
