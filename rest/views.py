@@ -8,9 +8,11 @@ from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from rest_framework import viewsets, permissions, renderers
+from rest_framework import authentication, viewsets, permissions, renderers
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest.serializers import *
+from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import link, api_view, renderer_classes
 from locations.models import Location
 from taggit.models import Tag
@@ -19,6 +21,7 @@ from ideas.models import Category as IdeaCategory
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
+from userspace.models import Badge, UserProfile
 from rest.permissions import IsOwnerOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
@@ -174,4 +177,43 @@ class AbuseReportViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.sender = self.request.user
-    
+
+
+class BadgeViewSet(viewsets.ModelViewSet):
+    """
+    Viewset for user badges.
+    """
+    queryset = Badge.objects.all()
+    serializer_class   = BadgeSerializer
+    permission_classes = (permissions.IsAdminUser,)
+
+    def put(self, request, *args, **kwargs):
+        badge_pk = request.DATA.get('id')
+        user_pk  = request.DATA.get('user')
+        errors   = []
+
+        try:
+            badge = Badge.objects.get(pk=badge_pk)
+        except Badge.DoesNotExist:
+            errors.append(_("Requested badge does not exist"))
+        try:
+            user = UserProfile.objects.get(user__pk=user_pk)
+        except UserProfile.DoesNotExist:
+            errors.append(_("Requested user does not exist"))
+        try:
+            badge.user.add(user)
+        except Exception as ex:
+            errors.append(ex)
+
+        if len(errors) > 0:
+            ctx = {
+                'success': False,
+                'errors' : errors,
+                'message': _("Operation failed"),
+            }
+        else:
+            ctx = {
+                'success': True,
+                'message': _("Badge saved"),
+            }
+        return Response(ctx)

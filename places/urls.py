@@ -19,6 +19,7 @@ router.register(r'news', views.NewsViewSet, base_name=r'news')
 router.register(r'discussion', views.ForumCategoryViewSet, base_name=r'discussion')
 router.register(r'reports', views.AbuseReportViewSet, base_name=r'reports')
 router.register(r'ideas', views.IdeaCategoryViewSet, base_name=r'ideas')
+router.register(r'badges', views.BadgeViewSet, base_name=r'badges')
 # django sitemaps framework
 import places_core.sitemaps as sitemaps
 sitemaps = {

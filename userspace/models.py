@@ -35,7 +35,7 @@ class Badge(models.Model):
     Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
     została zaakceptowana i zrealizowana itp. itd.
     """
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128)
     description = models.TextField()
     user = models.ManyToManyField(
         UserProfile,

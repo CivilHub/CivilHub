@@ -9,6 +9,7 @@ from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from places_core.models import AbuseReport
+from userspace.models import Badge
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -154,3 +155,17 @@ class AbuseReportSerializer(serializers.ModelSerializer):
         model = AbuseReport
         fields = ('id', 'comment', 'sender', 'status', 'content_type',
                'object_pk', 'date_reported',)
+
+
+class BadgeSerializer(serializers.ModelSerializer):
+    """
+    Serializer class for user badges.
+    """
+    id   = serializers.Field(source='pk')
+    name = serializers.CharField()
+    description = serializers.CharField()
+    thumbnail   = serializers.Field(source='thumbnail.url')
+
+    class Meta:
+        model = Badge
+        fields = ('id', 'name', 'description', 'thumbnail',)

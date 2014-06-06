@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load i18n %}
+{% load staticfiles %}{% load i18n %}
 {% block content %}
 
 <div class="col-sm-9">
@@ -27,9 +27,9 @@
                 <p class="follows-places">
                     <a href="#">Warszawa</a>
                 </p>
-                {% if is_moderator %}
+                {% if is_moderator and user != usr %}
                 <p class="admin-extra-options">
-                    <a href="#" class="moderator-badge-add">{% trans "Give badge" %}</a>
+                    <a href="#" class="moderator-badge-add" data-target="{{ usr.pk }}">{% trans "Give badge" %}</a>
                 </p>
                 {% endif %}
             </div>
@@ -43,6 +43,16 @@
 </div>
 </div>
 
+{% if is_moderator %}
+{% comment %}
+    Wszystkie style są oczywiście do przeniesienia w odpowienie miejsca. Czekam
+    na dołączenie deweloperskich plików less do repozytorium.
+{% endcomment %}
+<style>
+.badge-entry { border: 1px solid transparent; }
+.badge-selected { border: 1px solid red; }
+</style>
+<!-- Modal form to choose badge for user. -->
 <div id="select-badge-form" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -50,61 +60,23 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">{% trans "Select badge for user" %}</h4>
             </div>
-            <div class="modal-body">
-                <form role="presentation" method="post" action="" >
-                    <div class="form-group">
-                        <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                        <input type="text" id="category-name" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="category-description">{% trans "Description" %}</label>
-                        <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                <button type="button" class="btn btn-primary submit-btn">{% trans "Select" %}</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script>
-(function ($) {
-    "use strict";
-    function badgeSelector () {
-        var selector = {},
-            $modal = $('#select-badge-form');
-            
-        $modal.modal({show: false});
-            
-        $.extend(selector, {
-            win: $modal,
-            
-            open: function () {
-                var _this = this;
-                $modal.one('shown.bs.modal', function () {
-                    $modal.find('.modal-footer > button').bind('click', function () {
-                        _this.close();
-                    });
-                });
-                $modal.modal('show');
-            },
-            
-            close: function () {
-                $modal.modal('hide');
-            }
-        });
-        
-        return selector;
-    }
-    $('.moderator-badge-add').bind('click', function (evt) {
-        var sel = badgeSelector();
-        sel.open();
-        console.log(sel);
-    });
-})(jQuery);
+<script type="text/tamplate" id="badge-tpl">
+<div class="col-sm-2">
+    <img src="<%= thumbnail %>" alt="<%= name %>" />
+</div>
+<p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
 </script>
+
+<script src="{% static 'userspace/js/badges.js' %}"></script>
+{% endif %}
 
 {% endblock %}
