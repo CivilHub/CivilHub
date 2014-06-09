@@ -6,12 +6,13 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.translation import ugettext as _
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
+from taggit.models import Tag
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
@@ -423,6 +424,33 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('locations:index')
 
 
+class LocationContentSearch(View):
+    """
+    Strona z wynikami sortowania treści dla jednego taga.
+    Zbieramy treści tylko z lokalizacji, którą aktualnie
+    przegląda użytkownik.
+    """
+    http_method_names = [u'get']
+    template_name = 'locations/tag-search.html'
+
+    def get(self, request, slug, tag=None):
+        location = get_object_or_404(Location, slug=slug)
+        items    = []
+
+        if tag:
+            tag       = Tag.objects.get(name=tag)
+            all_items = tag.taggit_taggeditem_items.all()
+            for itm in all_items:
+                if itm.content_object.location == location:
+                    items.append(itm.content_object)
+
+        return render(request, self.template_name, {
+                'title'   : _("Search by tag"),
+                'location': location,
+                'items'   : items,
+            })
+
+
 @login_required
 @require_POST
 def add_follower(request, pk):
@@ -432,6 +460,7 @@ def add_follower(request, pk):
     location = get_object_or_404(Location, pk=pk)
     user = request.user
     location.users.add(user)
+
     try:
         location.save()
         follow(user, location, actor_only = False)

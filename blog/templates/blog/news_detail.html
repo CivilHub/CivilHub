@@ -25,6 +25,12 @@
         <div class="news-meta">
             <p>{% trans "Created by" %} {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
         </div>
+        <div>
+            {% trans "Tags" %}:
+            {% for tag in news.tags.all %}
+                <a href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a>,&nbsp;
+            {% endfor %}
+        </div>
     </article>
     <input type="hidden" id="target-id" value="{{ news.pk }}" />
     <input type="hidden" id="target-label" value="blog" />
@@ -34,7 +40,7 @@
     <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
     <p>
         Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
-        <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
+        <a class="comment-toggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a>
     </p>
     {% include 'comments/commentlist.html' %}
 </div>

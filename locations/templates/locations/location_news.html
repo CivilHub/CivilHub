@@ -89,7 +89,7 @@
             </p>
             <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
             <% $(tags).each(function (idx, tag) { %>
-                <a href="#"><%= tag %></a>,&nbsp;
+                <a href="{% url 'locations:tag_search_index' location.slug %}<%= tag %>"><%= tag %></a>,&nbsp;
             <% }); %>    
             </p>
         </div>

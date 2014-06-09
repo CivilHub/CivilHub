@@ -11,6 +11,9 @@ from staticpages.views import PageView
 urlpatterns = patterns('',
     url(r'^location_list/', LocationListView.as_view(), name='index'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
+    # wyszukiwanie treści w/g tagów
+    url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
+    url(r'^(?P<slug>[\w-]+)/search/(?P<tag>[\w-]+)$', LocationContentSearch.as_view(), name='tag_search'),
     # Location ideas sub-views
     url(r'^(?P<slug>[\w-]+)/ideas/create', LocationIdeaCreate.as_view(), name='new_idea'),
     url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)', IdeasDetailView.as_view(), name='idea_detail'),

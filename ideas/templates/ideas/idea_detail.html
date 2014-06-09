@@ -60,7 +60,7 @@
     </div> -->
     <p>{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
-        <a href="" />{{ tag }}</a>, 
+        <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}" />{{ tag }}</a>, 
         {% endfor %}</p>
         <div>
             <p>
