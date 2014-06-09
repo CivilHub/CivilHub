@@ -7,4 +7,10 @@
         <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
     {% endfor %}
     </ul>
+    
+    <ul>
+    {% for tag, counter in tags %}
+        <li>{{ tag }} - {{ counter }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

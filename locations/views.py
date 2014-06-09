@@ -30,6 +30,7 @@ from actstream.actions import follow, unfollow
 from actstream.models import Action
 # custom permissions
 from places_core.permissions import is_moderator
+from places_core.helpers import TagFilter
 
 
 class LocationNewsList(DetailView):
@@ -431,10 +432,12 @@ class LocationContentSearch(View):
     przegląda użytkownik.
     """
     http_method_names = [u'get']
-    template_name = 'locations/tag-search.html'
+    template_name     = 'locations/tag-search.html'
 
     def get(self, request, slug, tag=None):
         location = get_object_or_404(Location, slug=slug)
+        t_filter = TagFilter(location)
+        tags     = t_filter.get_tags()
         items    = []
 
         if tag:
@@ -448,6 +451,7 @@ class LocationContentSearch(View):
                 'title'   : _("Search by tag"),
                 'location': location,
                 'items'   : items,
+                'tags'    : tags,
             })
 
 
