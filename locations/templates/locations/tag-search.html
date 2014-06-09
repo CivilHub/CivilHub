@@ -1,16 +1,97 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block extra_styles %}
+<style>
+/* Tag cloud */
+
+.tags ul{
+    margin:1em 0;
+    padding:.5em 10px;
+    text-align:center;
+    background:#71b5e9 url({% static 'places_core/includes/tagclouds/bg_tags.gif' %}) repeat-x;       
+    }
+.tags li{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:inline;
+    }
+.tags li a{
+    text-decoration:none;
+    color:#fff;
+    padding:0 2px;  
+    }
+.tags li a:hover{   
+    color:#cff400;
+    }       
+
+.tag1{font-size:100%;}
+.tag2{font-size:120%;}
+.tag3{font-size:140%;}
+.tag4{font-size:160%;}
+.tag5{font-size:180%;}
+
+/* alternative layout */
+
+.tags .alt{
+    text-align:left;
+    padding:0;
+    background:none;
+    }
+.tags .alt li{
+    padding:2px 10px;
+    background:#efefef;
+    display:block;
+    }
+.tags .alt .tag1, 
+.tags .alt .tag2, 
+.tags .alt .tag3, 
+.tags .alt .tag4, 
+.tags .alt .tag5{font-size:100%;}
+.tags .alt .tag1{background:#7cc0f4;}
+.tags .alt .tag2{background:#67abe0;}
+.tags .alt .tag3{background:#4d92c7;}
+.tags .alt .tag4{background:#3277ad;}
+.tags .alt .tag5{background:#266ca2;}
+    
+/* // Tag cloud */
+</style>
+{% endblock %}
+
 {% block content %}
+<div class="col-sm-9">
     <ul>
     {% for item in items %}
         <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
     {% endfor %}
     </ul>
-    
-    <ul>
-    {% for tag, counter in tags %}
-        <li>{{ tag }} - {{ counter }}</li>
-    {% endfor %}
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+        
     </ul>
+    <div class="tags">
+        <ul>
+        {% for tag, counter in tags %}
+            <li class="tag-entry"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+(function ($) {
+    "use strict";
+    $('.tags > ul > li').each(function () {
+        var rand = Math.floor(Math.random() * 5) + 1;
+        $(this).addClass('tag' + rand);
+    });
+})(jQuery);
+</script>
 {% endblock %}
