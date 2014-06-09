@@ -25,7 +25,7 @@
                     Obserwuje: <span>{{ usr.location_set.count }}</span>
                 </p>
                 <ul class="follows-places">
-                    {% for l in usr.profile.get_biggest_locations %}
+                    {% for l in usr.location_set.all %}
                         <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
                     {% endfor %}
                 </ul>
@@ -80,6 +80,60 @@
 </script>
 
 <script src="{% static 'userspace/js/badges.js' %}"></script>
+<script>
+(function ($) {
+    "use strict";
+    //
+    // Show only five first locations in follower entry and give users link
+    // to hide/show rest of them.
+    // -------------------------------------------------------------------------
+    //
+    $('.follows-places').each(function () {
+        // If list is too short, simply return.
+        if ($(this).find('li').length <= 5) {
+            return true;
+        }
+        // Prepare DOM elements.
+        var $entry  = $(this),
+            $links  = $entry.children('li'),
+            $toggle = $(document.createElement('a')),
+            $hide   = $(document.createElement('a')),
+            hidden  = [];
+        // For each item, hide it if necessary.
+        $links.each(function (idx, el) {
+            if (idx > 4) {
+                $(el).hide();
+                hidden.push($(el));
+            }
+        });
+        // Show hidden links.
+        $toggle.appendTo($entry)
+            .text('{% trans "Show more" %}')
+            .attr('href', '#')
+            .on('click', function (evt) {
+                evt.preventDefault();
+                $(hidden).each(function () {
+                    $(this).show('fast');
+                });
+                $toggle.fadeOut('fast');
+                $hide.fadeIn('fast');
+            });
+        // Hide hidden links.
+        $hide.appendTo($entry)
+            .hide()
+            .text('{% trans "Hide" %}')
+            .attr('href', '#')
+            .on('click', function (evt) {
+                evt.preventDefault();
+                $(hidden).each(function () {
+                    $(this).hide('fast');
+                });
+                $hide.fadeOut('fast');
+                $toggle.fadeIn('fast');
+            });
+    });
+})(jQuery);
+</script>
 {% endif %}
 
 {% endblock %}
