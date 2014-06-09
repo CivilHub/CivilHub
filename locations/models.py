@@ -26,6 +26,7 @@ class Location(models.Model):
         storage = OverwriteStorage()
     )
 
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         to_slug_entry = self.name
@@ -36,6 +37,7 @@ class Location(models.Model):
             pass
         self.slug = slugify(to_slug_entry)
         super(Location, self).save(*args, **kwargs)
+
 
     def get_parent_chain(self, parents=None):
         """
@@ -52,8 +54,23 @@ class Location(models.Model):
                 self.parent.get_parent_chain(parents)
         return reversed(parents)
 
+
+    def get_ancestor_chain(self):
+        """
+        Get all sublocations and return dictionary of name - url pairs.
+        """
+        ancestors = []
+        for a in self.location_set.all():
+            ancestors.append({
+                'name': a.name,
+                'url' : a.get_absolute_url(),
+            })
+        return reversed(ancestors)
+
+
     def get_absolute_url(self):
         return reverse('locations:details', kwargs={'slug':self.slug})
-    
+
+
     def __unicode__(self):
         return self.name
