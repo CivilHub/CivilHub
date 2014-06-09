@@ -27,6 +27,14 @@ class UserProfile(models.Model):
         storage = OverwriteStorage()
     )
 
+    def get_biggest_locations(self, limit=5):
+        """
+        Funkcja zwraca listę największych lokalizacji, jakie subskrybuje
+        użytkownik. Długość listy określa parametr 'limit'.
+        """
+        my_locations = self.user.location_set.all()
+        return my_locations.order_by('users')[:limit]
+
     def get_absolute_url(self):
         return reverse('user:profile', kwargs={'username': self.user.username})
 

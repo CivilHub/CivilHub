@@ -14,19 +14,21 @@
                 </div></a>
                 <div class="follower-header">
                     <p class="follower-name">
-                        {{ usr.username }}
+                        {{ usr.get_full_name }}
                     </p>
                     <div class="points">
-                        <span class="points-count">55</span> pkt
+                        <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
                     </div>
                 </div>
 
                 <p class="follows-count">
-                    Obserwuje: <span>25</span>
+                    Obserwuje: <span>{{ usr.location_set.count }}</span>
                 </p>
-                <p class="follows-places">
-                    <a href="#">Warszawa</a>
-                </p>
+                <ul class="follows-places">
+                    {% for l in usr.profile.get_biggest_locations %}
+                        <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
+                    {% endfor %}
+                </ul>
                 {% if is_moderator and user != usr %}
                 <p class="admin-extra-options">
                     <a href="#" class="moderator-badge-add" data-target="{{ usr.pk }}">{% trans "Give badge" %}</a>
