@@ -2,6 +2,7 @@
 from django.db import models
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage
 from locations.models import Location
 
@@ -25,6 +26,9 @@ class UserProfile(models.Model):
         default = 'img/avatars/30x30_anonymous.png',
         storage = OverwriteStorage()
     )
+
+    def get_absolute_url(self):
+        return reverse('user:profile', kwargs={'username': self.user.username})
 
     def __unicode__(self):
         return self.user.get_full_name()

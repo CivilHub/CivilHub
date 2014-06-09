@@ -25,6 +25,7 @@ from userspace.models import Badge, UserProfile
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
+from actstream import action
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -216,5 +217,10 @@ class BadgeViewSet(viewsets.ModelViewSet):
                 'success': True,
                 'message': _("Badge saved"),
             }
+            action.send(
+                request.user,
+                verb   = _("gave badge to"),
+                target = user
+            )
 
         return Response(ctx)

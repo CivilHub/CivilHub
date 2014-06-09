@@ -16,6 +16,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe
+from actstream.models import model_stream
 from models import UserProfile, RegisterDemand, LoginData
 from forms import *
 
@@ -58,12 +59,14 @@ def profile(request, username):
         return redirect('user:login')
     user = get_object_or_404(User, username=username)
     prof = get_object_or_404(UserProfile, user=user)
+    stream = model_stream(request.user)
     # TODO - to jest żywcem przeniesione z panelu edycji, trzeba
     # utworzyć nowe templaty
     ctx = {
         'cuser': user,
         'profile': prof,
         'title': _('User Profile'),
+        'stream': stream,
     }
     return render(request, 'userspace/profile.html', ctx)
 
