@@ -8,14 +8,14 @@
 .tags ul{
     margin:1em 0;
     padding:.5em 10px;
-    text-align:center;
-    background:#71b5e9 url({% static 'places_core/includes/tagclouds/bg_tags.gif' %}) repeat-x;       
+    text-align:left;
+    /*background:#71b5e9 url({% static 'places_core/includes/tagclouds/bg_tags.gif' %}) repeat-x;*/
     }
 .tags li{
-    margin:0;
-    padding:0;
+    margin:0px 0px 5px 0px;
+    padding:5px;
     list-style:none;
-    display:inline;
+    display:inline-block;
     }
 .tags li a{
     text-decoration:none;
@@ -44,16 +44,16 @@
     background:#efefef;
     display:block;
     }
-.tags .alt .tag1, 
-.tags .alt .tag2, 
-.tags .alt .tag3, 
-.tags .alt .tag4, 
-.tags .alt .tag5{font-size:100%;}
-.tags .alt .tag1{background:#7cc0f4;}
-.tags .alt .tag2{background:#67abe0;}
-.tags .alt .tag3{background:#4d92c7;}
-.tags .alt .tag4{background:#3277ad;}
-.tags .alt .tag5{background:#266ca2;}
+.tags .tag1, 
+.tags .tag2, 
+.tags .tag3, 
+.tags .tag4, 
+.tags .tag5{font-size:100%;}
+.tags .tag1{background:#7cc0f4;}
+.tags .tag2{background:#67abe0;}
+.tags .tag3{background:#4d92c7;}
+.tags .tag4{background:#3277ad;}
+.tags .tag5{background:#266ca2;}
     
 /* // Tag cloud */
 </style>
@@ -77,7 +77,7 @@
     <div class="tags">
         <ul>
         {% for tag, counter in tags %}
-            <li class="tag-entry"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
         {% endfor %}
         </ul>
     </div>
@@ -88,10 +88,40 @@
 <script>
 (function ($) {
     "use strict";
+    var max_counter = 0,
+        i = 0,
+        min_counter, avg;
+        
     $('.tags > ul > li').each(function () {
-        var rand = Math.floor(Math.random() * 5) + 1;
-        $(this).addClass('tag' + rand);
+        // Zbieramy wartości counterów dla każdego taga.
+        var count = parseInt($(this).attr('data-counter'), 10);
+        if (count > max_counter) {
+            max_counter = count;
+        }
+        if (min_counter == undefined || count < min_counter) {
+            min_counter = count;
+        }
+        i++
     });
+    
+    $('.tags > ul > li').each(function () {
+        // Kolejna pętla - przyporządkujemy klasy na podstawie
+        // zebranych wcześniej wartości.
+        var count = parseInt($(this).attr('data-counter'), 10);
+        
+        if (count <= max_counter / 5) {
+            $(this).addClass('tag1');
+        } else if (count <= max_counter / 4) {
+            $(this).addClass('tag2');
+        } else if (count <= max_counter / 3) {
+            $(this).addClass('tag3');
+        } else if (count <= max_counter / 2) {
+            $(this).addClass('tag4');
+        } else {
+            $(this).addClass('tag5');
+        }
+    });
+    
 })(jQuery);
 </script>
 {% endblock %}
