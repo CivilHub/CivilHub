@@ -274,8 +274,26 @@ class SublocationList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SublocationList, self).get_context_data(**kwargs)
-        context['title'] = self.object.name + '::' + _("Sublocations")
-        context['sublocations'] = self.object.get_ancestor_chain()
+        sublocations = self.object.get_ancestor_chain()
+        max_per_page = 25
+        paginator    = Paginator(sublocations, max_per_page)
+        context      = {}
+        page         = self.request.GET.get('page')
+
+        try:
+            context['sublocations'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['sublocations'] = paginator.page(1)
+        except EmptyPage:
+            context['sublocations'] = paginator.page(paginator.num_pages)
+
+        if len(context['sublocations']) <= max_per_page:
+            context['navigation'] = False
+        else:
+            context['navigation'] = True
+
+        context['title']    = self.object.name + '::' + _("Sublocations")
+        context['location'] = self.object
         return context
 
 

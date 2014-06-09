@@ -28,14 +28,12 @@ class Location(models.Model):
 
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        to_slug_entry = self.name
-        try:
-            chk = Location.objects.filter(name=self.name)
-            to_slug_entry = self.name + '-' + str(len(chk))
-        except Location.DoesNotExist:
-            pass
-        self.slug = slugify(to_slug_entry)
+        if not self.pk:
+            to_slug_entry = self.name
+            chk = Location.objects.filter(slug=slugify(self.name))
+            if len(chk) > 0:
+                to_slug_entry = self.name + '-' + str(len(chk))
+            self.slug = slugify(to_slug_entry)
         super(Location, self).save(*args, **kwargs)
 
 
