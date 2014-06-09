@@ -1,0 +1,14 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Lista sub-lokalizacji dla aktualnie wybranego miejsca.
+{% endcomment %}
+
+{% block content %}
+<ul>
+{% for sublocation in sublocations %}
+    <li><a href="{{ sublocation.get_absolute_url }}">{{ sublocation.name }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

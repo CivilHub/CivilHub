@@ -55,17 +55,20 @@ class Location(models.Model):
         return reversed(parents)
 
 
-    def get_ancestor_chain(self):
+    def get_ancestor_chain(self, ancestors=None):
         """
         Get all sublocations and return dictionary of name - url pairs.
         """
-        ancestors = []
+        if ancestors == None:
+            ancestors = []
         for a in self.location_set.all():
             ancestors.append({
                 'name': a.name,
                 'url' : a.get_absolute_url(),
             })
-        return reversed(ancestors)
+            if a.location_set.count() > 0:
+                a.get_ancestor_chain(ancestors)
+        return ancestors
 
 
     def get_absolute_url(self):

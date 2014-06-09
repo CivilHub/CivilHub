@@ -264,6 +264,21 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         return render_to_response(self.template_name, context)
 
 
+class SublocationList(DetailView):
+    """
+    Strona zawiera listę lokalizacji, dla których bieżąca lokalizacja
+    jest lokalizacją macierzystą.
+    """
+    model = Location
+    template_name = 'locations/sublocation-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SublocationList, self).get_context_data(**kwargs)
+        context['title'] = self.object.name + '::' + _("Sublocations")
+        context['sublocations'] = self.object.get_ancestor_chain()
+        return context
+
+
 class LocationFollowersList(DetailView):
     """
     Location followers list

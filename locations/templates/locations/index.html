@@ -53,14 +53,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'locations:followers' location.slug %}"><span class="ch-icon ch-followers"></span>{% trans "Followers" %}</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-subspaces"></span>{% trans "Subspaces" %}</a>
-                    <ul class="dropdown-menu">
-                        {% for a in location.get_ancestor_chain %}
-                        <li><a href="{{ a.get_absolute_url }}">{{ a.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
+                <li><a href="{% url 'locations:sublocations' location.slug %}"><span class="ch-icon ch-subspaces"></span>{% trans "Subspaces" %}</a></li>
             </ul>
         </div>
     </div>
