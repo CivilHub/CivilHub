@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'south',    # Database migrations
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
+    'civmail',  # Newsletter i obsługa maili
 )
 
 
@@ -221,6 +222,8 @@ MEDIA_URL    = '/media/'
 
 
 # Email settings for testing purposes
+EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
+DJMAIL_REAL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # Pamiętaj żeby wywalić stąd dane swojego konta!!!
 EMAIL_HOST          = 'smtp.googlemail.com'
 EMAIL_PORT          = 587
