@@ -63,11 +63,11 @@ def profile(request, username):
     prof = get_object_or_404(UserProfile, user=user)
     # Custom action stream
     stream  = UserActionStream(user)
-    actions = stream.get_actions()
+    actions = stream.get_actions(action_type  = 'actor')
     ctx = {
         'cuser'  : user,
         'profile': prof,
-        'title'  : _('User Profile'),
+        'title'  : _("User Profile"),
         'stream' : actions,
     }
     return render(request, 'userspace/profile.html', ctx)
