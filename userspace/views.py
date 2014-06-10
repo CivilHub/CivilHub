@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib, datetime, random, string, os, captcha
+from itertools import chain
 from json import dumps
 from PIL import Image
 from bookmarks.models import Bookmark
@@ -55,18 +56,28 @@ def profile(request, username):
     """
     Show user info to other allowed users
     """
+    from helpers import UserActionStream
     if not request.user.is_authenticated():
         return redirect('user:login')
     user = get_object_or_404(User, username=username)
     prof = get_object_or_404(UserProfile, user=user)
     stream = model_stream(request.user)
+    ct = ContentType.objects.get_for_model(User)
+    pk = user.pk
+    user_actor_actions  = stream.filter(actor_content_type=ct)
+    user_actor_actions  = user_actor_actions.filter(actor_object_id=pk)
+    user_target_actions = stream.filter(target_content_type=ct)
+    user_target_actions = user_target_actions.filter(target_object_id=pk)
+    #actions = list(chain(user_actor_actions, user_target_actions))
+    stream = UserActionStream(user)
+    actions = stream.get_actions()
     # TODO - to jest żywcem przeniesione z panelu edycji, trzeba
     # utworzyć nowe templaty
     ctx = {
-        'cuser': user,
+        'cuser'  : user,
         'profile': prof,
-        'title': _('User Profile'),
-        'stream': stream,
+        'title'  : _('User Profile'),
+        'stream' : actions,
     }
     return render(request, 'userspace/profile.html', ctx)
 
