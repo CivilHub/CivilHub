@@ -4,6 +4,17 @@
 
 <div class="col-sm-9">
 <div class="main-content">
+    
+{% comment %}
+    List of most active followers.
+{% endcomment %}
+<h2>{% trans "Most active users" %}</h2>
+<ul>
+{% for follower in top_followers %}
+    <li><a href="{{ follower.user.get_absolute_url }}">{{ follower.user.get_full_name }}</a> - {{ follower.count }}</li>
+{% endfor %}
+</ul>
+    
 <div class="followers-entry">
 {% for usr in location.users.all %}
     <div class="row">

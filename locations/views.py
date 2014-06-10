@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from ideas.models import Idea
@@ -304,19 +305,12 @@ class LocationFollowersList(DetailView):
     model = Location
     template_name = 'locations/location_followers.html'
 
-    def most_active_followers(self, limit=None):
-        """ Show the most active followers of current place. """
-        # all location followers
-        followers = self.object.users.all()
-        # content type for user model
-        ct = ContentType.objects.get_for_model(User)
-        # all actions related to this place and made by users
-        all_actions = model_stream(self.object).filter(actor_content_type=ct)
-
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
         context['title'] = self.object.name + '::' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
+        ## TEST!!!
+        context['top_followers'] = self.object.most_active_followers()
         return context
 
 

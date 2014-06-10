@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import operator
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
+from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage
@@ -67,6 +70,36 @@ class Location(models.Model):
             if a.location_set.count() > 0:
                 a.get_ancestor_chain(ancestors)
         return ancestors
+
+
+    def count_users_actions(self, user):
+        """
+        Count actions related to this place performed
+        by particular provided user.
+        """
+        ct = ContentType.objects.get_for_model(User)
+        pk = user.pk
+        target_ct = ContentType.objects.get_for_model(self)
+        stream = model_stream(self)
+        actions = stream.filter(target_content_type=target_ct)
+        actions = actions.filter(actor_content_type=ct)
+        actions = actions.filter(actor_object_id=pk)
+        actions = actions.filter(target_object_id=self.pk)
+        return actions.count()
+
+
+    def most_active_followers(self, limit=10):
+        """ Show the most active followers of current place. """
+        tmp = []
+        for user in self.users.all():
+            tmp.append({
+                'user' : user,
+                'count': self.count_users_actions(user),
+            })
+        tmp = sorted(tmp, key=operator.itemgetter('count'))
+        actions = reversed(tmp)
+
+        return actions
 
 
     def get_absolute_url(self):
