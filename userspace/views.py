@@ -17,6 +17,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe
+from django.core.mail import send_mail
 from actstream.models import model_stream
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
@@ -124,9 +125,16 @@ def register(request):
                 user            = user
             )
             register_demand.save()
+            register_demand = RegisterDemand.objects.latest('pk')
             site_url = request.build_absolute_uri('/user/activate/')
             # TODO: wysłać adres_strony/user/activate/ + activation_link
             # mailem.
+            send_mail(
+                _("Registration"),
+                site_url + str(register_demand.activation_link),
+                settings.EMAIL_DEFAULT_ADDRESS,
+                (register_demand.user.email,)
+            )
             return render(request, 'userspace/register-success.html', {
                 'link': site_url + str(register_demand.activation_link),
                 'lang': get_language(),
@@ -176,7 +184,7 @@ def active(request, lang=None):
     i zaproszenie do pierwszego logowania.
     """
     ctx = {
-        'title': _("Thank you for registeration")
+        'title': _("Thank you for registration")
     }
     ctx['lang'] = lang if lang else settings.LANGUAGE_CODE
     return render(request, 'userspace/active.html', ctx)

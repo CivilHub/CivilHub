@@ -220,6 +220,17 @@ MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
 
+# Email settings for testing purposes
+# Pamiętaj żeby wywalić stąd dane swojego konta!!!
+EMAIL_HOST          = 'smtp.googlemail.com'
+EMAIL_PORT          = 587
+EMAIL_HOST_USER     = 'jpocentek@gmail.com'
+EMAIL_HOST_PASSWORD = 'Ftx6&6Tr'
+EMAIL_USE_TLS       = True
+# To na mój użytek
+EMAIL_DEFAULT_ADDRESS = 'jpocentek@gmail.com'
+
+
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
 SOUTH_MIGRATION_MODULES = {
