@@ -56,6 +56,9 @@ class UserActionStream(object):
         Returns all actions where user is target. It is necessary because we
         use UserProfile instead of pure django's User object, and this is 
         the place when we link profile actions with user's stream.
+        
+        In fact, it's not working as expected in this form. As long as basic
+        queryset is model_stream, profile-related actions are omitted anyway.
         """
         user_actions = self.stream.filter(target_content_type=self.content_type)
         user_actions = user_actions.filter(target_object_id=self.object_id)
