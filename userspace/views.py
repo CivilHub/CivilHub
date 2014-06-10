@@ -14,6 +14,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.utils.translation import get_language
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe
 from actstream.models import model_stream
@@ -89,6 +90,7 @@ def register(request):
 
         #if response.is_valid:
         if f.is_valid():
+            lang = get_language()
             user = User()
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -114,18 +116,21 @@ def register(request):
             user = User.objects.latest('id')
             # Create user profile
             salt = hashlib.md5()
-            salt.update(str(datetime.datetime.now().time))
-            register_demand = RegisterDemand(
+            salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+            register_demand     = RegisterDemand(
                 activation_link = salt.hexdigest(),
-                ip_address = get_ip(request),
-                user = user
+                language_code   = get_language(),
+                ip_address      = get_ip(request),
+                user            = user
             )
             register_demand.save()
             site_url = request.build_absolute_uri('/user/activate/')
             # TODO: wysłać adres_strony/user/activate/ + activation_link
             # mailem.
             return render(request, 'userspace/register-success.html', {
-                'link': site_url + str(register_demand.activation_link)
+                'link': site_url + str(register_demand.activation_link),
+                'lang': get_language(),
+                'ip'  : get_ip(request),
             })
         else:
             ctx = {
@@ -138,7 +143,7 @@ def register(request):
             }
             return render(request, 'userspace/register.html', ctx)
     ctx = {
-        'form': RegisterForm,
+        'form' : RegisterForm,
         'title': _("Registration"),
     }
     return render(request, 'userspace/register.html', ctx)
@@ -153,6 +158,7 @@ def activate(request, activation_link=None):
         return render(request, 'userspace/register.html', ctx)
     demand = RegisterDemand.objects.get(activation_link=activation_link)
     user = demand.user
+    lang = demand.language_code
     if user is not None:
         user_id = user.pk
         user.is_active = True
@@ -161,10 +167,10 @@ def activate(request, activation_link=None):
         user = User.objects.get(pk=user_id)
         user = auth.authenticate(username=user.username,
                                       password=user.password)
-        return redirect('user:active')
+        return redirect('user:active', lang=lang)
 
 
-def active(request):
+def active(request, lang=None):
     """
     Statyczny widok podziękowania za zarejestrowanie w serwisie
     i zaproszenie do pierwszego logowania.
@@ -172,6 +178,7 @@ def active(request):
     ctx = {
         'title': _("Thank you for registeration")
     }
+    ctx['lang'] = lang if lang else settings.LANGUAGE_CODE
     return render(request, 'userspace/active.html', ctx)
 
 

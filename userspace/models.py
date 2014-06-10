@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.conf import settings
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -72,7 +73,11 @@ class RegisterDemand(models.Model):
     określona data.
     """
     activation_link = models.CharField(max_length=1024)
-    ip_address = models.IPAddressField()
+    ip_address    = models.IPAddressField()
+    language_code = models.CharField(
+        max_length = 5,
+        default = settings.LANGUAGE_CODE
+    )
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         User,
