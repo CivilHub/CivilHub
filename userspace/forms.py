@@ -173,7 +173,7 @@ class PasswordRemindForm(forms.Form):
         label = _("Email address"),
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
-    captcha = ReCaptchaField()
+    #captcha = ReCaptchaField()
 
 
 class AvatarUploadForm(forms.Form):

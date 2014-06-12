@@ -18,7 +18,7 @@ from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe
 from actstream.models import model_stream
-from civmail import messages
+from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
@@ -114,7 +114,7 @@ def register(request):
                 # Create register demand object in DB
                 salt = hashlib.md5()
                 salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-                register_demand     = RegisterDemand(
+                register_demand = RegisterDemand(
                     activation_link = salt.hexdigest(),
                     ip_address      = get_ip(request),
                     user            = user,
@@ -139,7 +139,7 @@ def register(request):
             try:
                 # Send email with activation link.
                 translation.activate(register_demand.lang)
-                email = messages.ActivationLink()
+                email = emails.ActivationLink()
                 email.send(register_demand.email, {'link':link})
                 # Show confirmation
                 return render(request, 'userspace/register-success.html', {
@@ -175,6 +175,7 @@ def register(request):
 
 
 def activate(request, activation_link=None):
+    """ Activate new user account and delete related user demand object. """
     if activation_link == None:
         ctx = {
             'form': RegisterForm,
@@ -209,7 +210,7 @@ def active(request, lang=None):
 
 def passet(request):
     """
-    Set credentials for new users registered with social auth
+    Set credentials for new users registered with social auth.
     """
     ctx = {
         'title': _("Set your password"),
@@ -247,25 +248,32 @@ def pass_reset(request):
         f = PasswordRemindForm(request.POST)
         
         # talk to the reCAPTCHA service
-        response = captcha.client.submit(
-            request.POST.get('recaptcha_challenge_field'),
-            request.POST.get('recaptcha_response_field'),
-            settings.RECAPTCHA_PRIVATE_KEY,
-            request.META['REMOTE_ADDR'],)
+        #~ response = captcha.client.submit(
+            #~ request.POST.get('recaptcha_challenge_field'),
+            #~ request.POST.get('recaptcha_response_field'),
+            #~ settings.RECAPTCHA_PRIVATE_KEY,
+            #~ request.META['REMOTE_ADDR'],)
 
-        if response.is_valid:
+        if f.is_valid:
             try:
+                # If user does not exist, there is no need to do all this stuff.
                 user = User.objects.get(email=request.POST.get('email'))
                 new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
                 user.set_password(new_pass)
-                user.save()
                 ctx = {
                     'username': user.username,
                     'password': new_pass
                 }
-                return render(request, 'userspace/passremind-confirm.html', ctx)
+                translation.activate(user.profile.lang)
+                email = emails.PasswordResetMail()
+                email.send(user.email, ctx)
+                user.save()
             except ObjectDoesNotExist as ex:
+                # If user does not exist, pretend that everything is OK. This
+                # way no one will be able to find if given email exists in db.
                 pass
+
+            return render(request, 'userspace/passremind-confirm.html', ctx)
 
         else:
             ctx['errors'] = f.errors

@@ -18,3 +18,10 @@ class ActivationLink(template_mail.TemplateMail):
     generated during registration process.
     """
     name = "welcome"
+
+
+class PasswordResetMail(template_mail.TemplateMail):
+    """
+    Send message containing new random password to user who wants reset pass.
+    """
+    name = "password"
