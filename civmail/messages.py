@@ -32,3 +32,11 @@ class InviteUsersMail(template_mail.TemplateMail):
     Send invitations to follow location to selected user/users.
     """
     name = "invite"
+
+
+class InviteToContentMail(template_mail.TemplateMail):
+    """
+    Invite people to browse currently selected content by sending them email
+    with hard link to this content.
+    """
+    name = "content"

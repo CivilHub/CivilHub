@@ -180,6 +180,13 @@
         
         <div class="clear"></div>
         <hr />
+        {% if user.is_authenticated %}
+            {% include 'civmail/invite-users.html' %}
+            {% comment %}
+                Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
+            {% endcomment %}
+            <p><a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a></p>
+        {% endif %}
         <p class="custom-copyrights">Copyright&copy;2014</p>
         
     </div>
@@ -218,6 +225,13 @@
 
 {% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}
+
+{% if user.is_authenticated %}
+{% comment %}
+    Common scripts, but ONLY for authenticated users.
+{% endcomment %}
+<script src="{% static 'civmail/js/invite-people.js' %}"></script>
+{% endif %}
 
 <script src="{% static 'places_core/js/common-scripts.js' %}"></script>
 

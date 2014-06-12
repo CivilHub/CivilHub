@@ -1,0 +1,26 @@
+{% load staticfiles %}{% load i18n %}
+<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
+<div id="invite-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Invite people" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" action="{% url 'civmail:invite' %}" >
+                    <div class="form-group">
+                        <label for="invite-emails" class="control-label">{% trans "Enter email addresses" %}</label>
+                        <p class="help-block">{% trans "Enter email addressess divided with commas" %}</p>
+                        <input type="text" id="invite-emails" name="emails" class="form-control" data-defaulttext="{% trans "Add address" %}" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>

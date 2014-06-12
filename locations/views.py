@@ -493,7 +493,7 @@ class LocationContentSearch(View):
             })
 
 
-class InviteUsersView(View):
+class InviteUsersView(LoginRequiredMixin, View):
     """
     Widok z myślą o formularzu zapraszania innych użytkowników do 'śledzenia'
     lokalizacji. Definiuje metody, które zwracają formularz dla modala oraz

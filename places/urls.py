@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
+    # Email app
+    url(r'^civmail/', include('civmail.urls', namespace='civmail')),
     # Google Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
