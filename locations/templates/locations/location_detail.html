@@ -35,7 +35,7 @@
             {% comment %}
                 Link, który pozwala wysłać maila z zaproszeniem do tej lokalizacji.
             {% endcomment %}
-            <a href="#" class="invite-toggle">
+            <a href="#" title="{% trans "Invite other users to follow this location" %}" class="invite-toggle">
                 <span class="fa fa-plus-circle"> </span> {% trans "Invite users" %}
             </a>
         </li>
@@ -54,9 +54,42 @@
 //
 // Handle 'Invite User' system.
 // -------------------------------------------------------------------------
-var $modal = $('#modal');
+var $modal = $('#modal'),
+    apiUrl = '{% url 'locations:invite' location.pk %}';
 
 $modal.modal({show:false});
+
+$.get(apiUrl, function (data) {
+    $modal.html(data)
+        .find('.submit-btn')
+        .bind('click', function (evt) {
+            evt.preventDefault();
+            sendAjaxRequest('POST', apiUrl, {
+                data: {
+                    'user': $('#id_user').val(),
+                    'location': $('#id_location').val()
+                },
+                success: function (resp) {
+                    display_alert(resp.message, resp.level);
+                    $modal.modal('hide');
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            console.log($('#id_user').val());
+            console.log($('#id_location').val());
+        });
+});
+
+$('.invite-toggle')
+    .tooltip()
+    .bind('click',
+        function (evt) {
+            evt.preventDefault();
+            $modal.modal('show');
+        }
+    );
     
 })(jQuery);
 </script>

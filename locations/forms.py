@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 from taggit.forms import TagField
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -162,3 +163,18 @@ class SearchDiscussionForm(SearchForm):
             sqs = sqs.filter(location=location)
 
         return sqs
+
+
+class InviteUsersForm(forms.Form):
+    """
+    Formularz do wysyłania zaproszeń innym użytkownikom.
+    """
+    location = forms.ModelChoiceField(
+        queryset = Location.objects.all(),
+        widget   = forms.HiddenInput()
+    )
+    user = forms.ModelMultipleChoiceField(
+        label    = _("Select users"),
+        queryset = User.objects.all(),
+        widget   = forms.SelectMultiple(attrs={'class': 'form-control'})
+    )

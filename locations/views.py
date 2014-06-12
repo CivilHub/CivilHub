@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
@@ -22,6 +23,7 @@ from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from polls.models import Poll, Answer
 from polls.forms import PollForm
+from civmail import messages as mails
 from forms import *
 from models import Location
 # Use our mixin to allow only some users make actions
@@ -489,6 +491,60 @@ class LocationContentSearch(View):
                 'items'   : items,
                 'tags'    : tags,
             })
+
+
+class InviteUsersView(View):
+    """
+    Widok z myślą o formularzu zapraszania innych użytkowników do 'śledzenia'
+    lokalizacji. Definiuje metody, które zwracają formularz dla modala oraz
+    przesyłają maila do wybranych użytkowników.
+    """
+    http_method_names = [u'get', u'post']
+    template_name = 'locations/invite-users.html'
+    object = None
+
+    def get_object(self, pk):
+        """ Get location object from db. """
+        if not self.object:
+            self.object = Location.objects.get(pk=pk)
+        return self.object
+
+    def get(self, request, pk):
+        """ Create invite form. """
+        location = self.get_object(pk)
+        form = InviteUsersForm(initial={'location': location})
+        return render(request, self.template_name, {
+            'location': location,
+            'form': form,
+        })
+
+    def post(self, request, pk):
+        """ Send message to selected users. """
+        users = request.POST.getlist('user[]')
+        print len(users)
+        print ','.join(request.POST['user[]'])
+        if users:
+            for u in users:
+                user = User.objects.get(pk=u)
+                translation.activate(user.profile.lang)
+                email = mails.InviteUsersMail()
+                email.send(user.email, {
+                    'inviting_user': request.user,
+                    'location': self.get_object(pk),
+                })
+                print "Email sent"
+            ctx = {
+                'success': True,
+                'message': _("Successfully send invitation"),
+                'level'  : 'success',
+            }
+        else:
+            ctx = {
+                'success': False,
+                'message': _("User field cannot be empty"),
+                'level'  : 'danger',
+            }
+        return HttpResponse(json.dumps(ctx))
 
 
 @login_required

@@ -25,3 +25,10 @@ class PasswordResetMail(template_mail.TemplateMail):
     Send message containing new random password to user who wants reset pass.
     """
     name = "password"
+
+
+class InviteUsersMail(template_mail.TemplateMail):
+    """
+    Send invitations to follow location to selected user/users.
+    """
+    name = "invite"
