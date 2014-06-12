@@ -31,14 +31,19 @@
     <h3 class="actions-label">{% trans "Actions" %}:</h3>
     <ul class="custom-sidebar-nav">
         {% if user.is_authenticated %}                
-        <li>
-            {% comment %}
-                Link, który pozwala wysłać maila z zaproszeniem do tej lokalizacji.
-            {% endcomment %}
-            <a href="#" title="{% trans "Invite other users to follow this location" %}" class="invite-toggle">
-                <span class="fa fa-plus-circle"> </span> {% trans "Invite users" %}
-            </a>
-        </li>
+            <li>
+                {% comment %}
+                    Link, który pozwala wysłać maila z zaproszeniem do tej lokalizacji.
+                {% endcomment %}
+                <a href="#" title="{% trans "Invite other users to follow this location" %}" class="invite-toggle">
+                    <span class="fa fa-plus-circle"> </span> {% trans "Invite users" %}
+                </a>
+            </li>
+            {% if not user in location.users.all %}
+                <li><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">{% trans "Follow" %}</button></li>
+            {% else %}
+                <li><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button></li>
+            {% endif %}
         {% endif %}
     </ul>
 </div>
@@ -48,5 +53,6 @@
 
 {% block footer_scripts %}
 <script>window.API_URL = "{% url 'locations:invite' location.pk %}";</script>
+<script src="{% static 'locations/js/location-follow.js' %}"></script>
 <script src="{% static 'locations/js/invite.js' %}"></script>
 {% endblock %}
