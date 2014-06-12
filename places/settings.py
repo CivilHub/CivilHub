@@ -43,6 +43,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+    'kombu.transport.django',
+    'djcelery',
+    # http://niwibe.github.io/djmail/
+    'djmail',
     # https://django-modeltranslation.readthedocs.org/en/latest/
     'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
@@ -173,20 +178,6 @@ MESSAGE_TAGS = {
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-#DATABASES = {
-    #~ 'default': {
-        #~ 'ENGINE': 'django.db.backends.sqlite3',
-        #~ 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #~ }
-    #~ 'default': {
-        #~ 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #~ 'NAME': 'places',                      
-        #~ 'USER': 'places',
-        #~ 'PASSWORD': '233mmx',
-        #~ 'HOST': ''
-    #~ }
-#~ }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -221,17 +212,32 @@ MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
 
+# Email account settings
+EMAIL_HOST          = 'mail.composly.com'
+EMAIL_PORT          = 587
+EMAIL_HOST_USER     = 'test@composly.com'
+EMAIL_HOST_PASSWORD = 'test11'
+EMAIL_USE_TLS       = True
+# Enter real email address here in future
+EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
+
 # Email settings for testing purposes
 EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
-DJMAIL_REAL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# Pamiętaj żeby wywalić stąd dane swojego konta!!!
-EMAIL_HOST          = 'smtp.googlemail.com'
-EMAIL_PORT          = 587
-EMAIL_HOST_USER     = 'jpocentek@gmail.com'
-EMAIL_HOST_PASSWORD = 'Ftx6&6Tr'
-EMAIL_USE_TLS       = True
-# To na mój użytek
-EMAIL_DEFAULT_ADDRESS = 'jpocentek@gmail.com'
+# Uncomment below line to enable sending real emails.
+DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+# Celery task manager settings
+BROKER_URL               = 'django://'
+CELERY_TASK_SERIALIZER   = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT    = ['json']
+CELERY_TIMEZONE          = 'Europe/Warsaw'
+CELERY_ENABLE_UTC        = True
+CELERY_RESULT_BACKEND    = 'djcelery.backends.database:DatabaseBackend'
+# Uncomment following line to enable django caching system for Celery. Remember
+# to comment out above backend declaration used for development.
+#CELERY_RESULT_BACKEND   = 'djcelery.backends.cache:CacheBackend'
 
 
 # South database migrations schemes

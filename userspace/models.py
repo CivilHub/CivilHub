@@ -13,6 +13,7 @@ class UserProfile(models.Model):
     Profil użytkownika.
     """
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
+    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
     description = models.TextField(blank=True, null=True)
     birth_date  = models.CharField(max_length=10, blank=True)
     rank_pts  = models.IntegerField(blank=True, default=0)
@@ -74,10 +75,8 @@ class RegisterDemand(models.Model):
     """
     activation_link = models.CharField(max_length=1024)
     ip_address    = models.IPAddressField()
-    language_code = models.CharField(
-        max_length = 5,
-        default = settings.LANGUAGE_CODE
-    )
+    email = models.EmailField(max_length=256)
+    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         User,
@@ -90,6 +89,7 @@ class LoginData(models.Model):
     """
     Tabela przechowująca dane logowania włącznie z nazwą użytkownika,
     adresem IP oraz datą logowania.
+    TODO: Przechowywanie tylko 5 ostatnich sesji.
     """
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)

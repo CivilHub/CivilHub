@@ -14,11 +14,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from django.utils.translation import get_language
+from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe
-from django.core.mail import send_mail
 from actstream.models import model_stream
+from civmail import messages
+from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
 from forms import *
@@ -82,16 +83,8 @@ def register(request):
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 
-        # talk to the reCAPTCHA service
-        #~ response = captcha.client.submit(
-            #~ request.POST.get('recaptcha_challenge_field'),
-            #~ request.POST.get('recaptcha_response_field'),
-            #~ settings.RECAPTCHA_PRIVATE_KEY,
-            #~ request.META['REMOTE_ADDR'],)
-
-        #if response.is_valid:
         if f.is_valid():
-            lang = get_language()
+            lang = translation.get_language()
             user = User()
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -104,6 +97,7 @@ def register(request):
             try:
                 user.save()
             except Exception:
+                # Form valid, but user already exists
                 ctx = {
                     'form': RegisterForm(initial={
                         'username': request.POST.get('username'),
@@ -115,31 +109,52 @@ def register(request):
                 return render(request, 'userspace/register.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
-            # Create user profile
-            salt = hashlib.md5()
-            salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-            register_demand     = RegisterDemand(
-                activation_link = salt.hexdigest(),
-                language_code   = get_language(),
-                ip_address      = get_ip(request),
-                user            = user
-            )
-            register_demand.save()
-            register_demand = RegisterDemand.objects.latest('pk')
+
+            try:
+                # Create register demand object in DB
+                salt = hashlib.md5()
+                salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+                register_demand     = RegisterDemand(
+                    activation_link = salt.hexdigest(),
+                    ip_address      = get_ip(request),
+                    user            = user,
+                    email           = user.email,
+                    lang            = translation.get_language()
+                )
+                register_demand.save()
+                register_demand = RegisterDemand.objects.latest('pk')
+            except Exception as ex:
+                # if something goes wrong, delete created user to avoid future
+                # name conflicts (and allow another registration).
+                user.delete()
+                print str(ex)
+                return render(request, 'userspace/register-failed.html', {
+                    'title': _("Registration failed")
+                })
+
+            # Create activation link
             site_url = request.build_absolute_uri('/user/activate/')
-            # TODO: wysłać adres_strony/user/activate/ + activation_link
-            # mailem.
-            send_mail(
-                _("Registration"),
-                site_url + str(register_demand.activation_link),
-                settings.EMAIL_DEFAULT_ADDRESS,
-                (register_demand.user.email,)
-            )
-            return render(request, 'userspace/register-success.html', {
-                'link': site_url + str(register_demand.activation_link),
-                'lang': get_language(),
-                'ip'  : get_ip(request),
-            })
+            link = site_url + str(register_demand.activation_link)
+
+            try:
+                # Send email with activation link.
+                translation.activate(register_demand.lang)
+                email = messages.ActivationLink()
+                email.send(register_demand.email, {'link':link})
+                # Show confirmation
+                return render(request, 'userspace/register-success.html', {
+                    'title': _("Message send"),
+                })
+            except Exception as ex:
+                # User is registered and link is created, but there was errors
+                # during sanding email, so just show static page with link.
+                print str(ex)
+                return render(request, 'userspace/register-errors.html', {
+                    'title': _("Registration"),
+                    'link' : link,
+                })
+    
+        # Form invalid
         else:
             ctx = {
                 'form': RegisterForm(initial={
@@ -150,6 +165,8 @@ def register(request):
                 'errors': f.errors,
             }
             return render(request, 'userspace/register.html', ctx)
+
+    # Display registration form.
     ctx = {
         'form' : RegisterForm,
         'title': _("Registration"),
@@ -166,7 +183,7 @@ def activate(request, activation_link=None):
         return render(request, 'userspace/register.html', ctx)
     demand = RegisterDemand.objects.get(activation_link=activation_link)
     user = demand.user
-    lang = demand.language_code
+    lang = demand.lang
     if user is not None:
         user_id = user.pk
         user.is_active = True
