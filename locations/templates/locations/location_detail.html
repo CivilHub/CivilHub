@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load i18n %}
+{% load staticfiles %}{% load i18n %}
 
 {% block content %}
 <!-- Main content -->
@@ -47,50 +47,6 @@
 {% endblock %}
 
 {% block footer_scripts %}
-<script>
-(function ($) {
-    
-"use strict";
-//
-// Handle 'Invite User' system.
-// -------------------------------------------------------------------------
-var $modal = $('#modal'),
-    apiUrl = '{% url 'locations:invite' location.pk %}';
-
-$modal.modal({show:false});
-
-$.get(apiUrl, function (data) {
-    $modal.html(data)
-        .find('.submit-btn')
-        .bind('click', function (evt) {
-            evt.preventDefault();
-            sendAjaxRequest('POST', apiUrl, {
-                data: {
-                    'user': $('#id_user').val(),
-                    'location': $('#id_location').val()
-                },
-                success: function (resp) {
-                    display_alert(resp.message, resp.level);
-                    $modal.modal('hide');
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-            console.log($('#id_user').val());
-            console.log($('#id_location').val());
-        });
-});
-
-$('.invite-toggle')
-    .tooltip()
-    .bind('click',
-        function (evt) {
-            evt.preventDefault();
-            $modal.modal('show');
-        }
-    );
-    
-})(jQuery);
-</script>
+<script>window.API_URL = "{% url 'locations:invite' location.pk %}";</script>
+<script src="{% static 'locations/js/invite.js' %}"></script>
 {% endblock %}

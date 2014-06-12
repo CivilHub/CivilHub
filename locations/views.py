@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
+from actstream import action
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
@@ -311,7 +312,6 @@ class LocationFollowersList(DetailView):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
         context['title'] = self.object.name + '::' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
-        ## TEST!!!
         context['top_followers'] = self.object.most_active_followers()
         return context
 
@@ -521,18 +521,23 @@ class InviteUsersView(View):
     def post(self, request, pk):
         """ Send message to selected users. """
         users = request.POST.getlist('user[]')
-        print len(users)
-        print ','.join(request.POST['user[]'])
         if users:
             for u in users:
                 user = User.objects.get(pk=u)
                 translation.activate(user.profile.lang)
+                # Send email
                 email = mails.InviteUsersMail()
                 email.send(user.email, {
                     'inviting_user': request.user,
                     'location': self.get_object(pk),
                 })
-                print "Email sent"
+                # Record action for actstream
+                action.send(
+                    request.user,
+                    action_object = self.get_object(pk),
+                    target = user,
+                    verb = _("invited you to follow")
+                )
             ctx = {
                 'success': True,
                 'message': _("Successfully send invitation"),
