@@ -9,7 +9,7 @@ from locations.views import *
 from staticpages.views import PageView
 
 urlpatterns = patterns('',
-    url(r'^location_list/', LocationListView.as_view(), name='index'),
+    url(r'^places/', LocationListView.as_view(), name='index'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # lista sub-lokalizacji
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),

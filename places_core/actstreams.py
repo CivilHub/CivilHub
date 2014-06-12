@@ -24,6 +24,7 @@ def create_place_action_hook(sender, instance, created, **kwargs):
     """
     if created:
         instance.users.add(instance.creator)
+        instance.creator.profile.mod_areas.add(instance)
         action.send(instance.creator, action_object=instance, verb=_('created'))
 
 
