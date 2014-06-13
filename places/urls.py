@@ -29,6 +29,12 @@ sitemaps = {
     'polls'    : sitemaps.PollsSitemap,
     'discussions': sitemaps.DiscussionSitemap,
 }
+# Javascript translations catalog
+js_info_dict = {
+    'packages': (
+        'comments',
+    ),
+}
 
 urlpatterns = patterns('',
     # user account
@@ -75,6 +81,7 @@ urlpatterns = patterns('',
     url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     
     # Static Pages
     # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można

@@ -243,7 +243,7 @@ CELERY_RESULT_BACKEND    = 'djcelery.backends.database:DatabaseBackend'
 #CELERY_RESULT_BACKEND   = 'djcelery.backends.cache:CacheBackend'
 CELERY_IMPORTS = ('places_core.tasks',)
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
-    
+
 
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app

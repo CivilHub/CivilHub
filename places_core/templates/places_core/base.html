@@ -34,6 +34,9 @@
 <script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
 <script src="{% static 'places_core/js/djangojs.js' %}"></script>
 
+<!-- Django javascript translation catalog -->
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
 </head>

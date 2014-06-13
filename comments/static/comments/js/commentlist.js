@@ -23,10 +23,10 @@
     $('.comment-toggle').on('click', function () {
         if ($('#comments').is(':visible')) {
             $('#comments').slideUp('fast');
-            $(this).text('Show comments');
+            $(this).text(gettext('Show comments'));
         } else {
             $('#comments').slideDown('fast');
-            $(this).text('Hide comments');
+            $(this).text(gettext('Hide comments'));
         }
     });
     //
@@ -99,11 +99,11 @@
                 $b = this.$el.find('.show-replies:first');
             if (_that.sublistState === 'shown') {
                 $a.slideUp('fast');
-                $b.text('(show)');
+                $b.text(gettext('(show)'));
                 _that.sublistState = 'hidden';
             } else {
                 $a.slideDown('fast');
-                $b.text('(hide)');
+                $b.text(gettext('(hide)'));
                 _that.sublistState = 'shown';
             }
             return false;
@@ -155,7 +155,7 @@
                     }
                 },
                 error: function (err) {
-                    display_alert('Something somewhere went terribly wrong!', 'danger');
+                    display_alert(gettext('Something somewhere went terribly wrong!'), 'danger');
                 }
             });
             return false;
