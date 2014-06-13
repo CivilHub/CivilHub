@@ -2,6 +2,8 @@
 import hashlib, datetime, random, string, os, captcha
 from json import dumps
 from PIL import Image
+from datetime import timedelta
+from django.utils import timezone
 from bookmarks.models import Bookmark
 from ipware.ip import get_ip
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -22,6 +24,7 @@ from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
+from places_core.tasks import send_poll_email
 from forms import *
 
 
@@ -193,6 +196,8 @@ def activate(request, activation_link=None):
         user = User.objects.get(pk=user_id)
         user = auth.authenticate(username=user.username,
                                       password=user.password)
+        delta_t = timezone.now() + timedelta(days=3)
+        send_poll_email.apply_async(args=(user_id,), eta=delta_t)
         return redirect('user:active', lang=lang)
 
 
