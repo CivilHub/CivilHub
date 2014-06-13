@@ -40,3 +40,19 @@ class InviteToContentMail(template_mail.TemplateMail):
     with hard link to this content.
     """
     name = "content"
+
+
+class ServicePollMail(template_mail.TemplateMail):
+    """
+    Send this email after some time to every registered user to get feedback
+    about service functionality.
+    """
+    name = "service"
+
+
+class UserStreamMail(template_mail.TemplateMail):
+    """
+    Send this message once a week to users which wants to be informed about
+    activities in places they follow. In practice this is part of user stream.
+    """
+    name = "activities"

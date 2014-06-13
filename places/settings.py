@@ -239,6 +239,21 @@ CELERY_RESULT_BACKEND    = 'djcelery.backends.database:DatabaseBackend'
 # to comment out above backend declaration used for development.
 #CELERY_RESULT_BACKEND   = 'djcelery.backends.cache:CacheBackend'
 
+# Test celery scheduler
+from datetime import timedelta
+from civmail import tasks
+CELERYBEAT_SCHEDULE = {
+    'test_mail-every-30-seconds': {
+        'task': 'tasks.send_test_email',
+        'schedule': timedelta(seconds=30),
+        'args': ('krastley@gmail.com', 'Test', 'Test', 'Test'),
+    },
+    'notification_mail-every-30-seconds': {
+        'task': 'tasks.send_notification_emails',
+        'schedule': timedelta(seconds=30),
+    },
+}
+    
 
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
