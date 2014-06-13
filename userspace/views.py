@@ -286,7 +286,9 @@ def pass_reset(request):
 @csrf_exempt
 def login(request):
     """
-    Login form
+    Login form. Performs user login and record login data with basic info
+    about user IP address. It also keeps 5 last login datas in database for
+    each user.
     """
     if request.user.is_authenticated():
         return redirect('user:index')
@@ -309,6 +311,10 @@ def login(request):
                         address = get_ip(request)
                     )
                     login_data.save()
+                    datas = LoginData.objects.filter(user=user).order_by('-date')
+                    if len(datas) > 5:
+                        for i in range (len(datas) - 5):
+                            datas[i].delete()
                     return redirect('activities:actstream')
         messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
         return redirect(reverse('user:login'))

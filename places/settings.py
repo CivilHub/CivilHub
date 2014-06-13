@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+import djcelery
+djcelery.setup_loader()
 """
 Django settings for places project.
 
@@ -228,7 +231,7 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 
 
 # Celery task manager settings
-BROKER_URL               = 'django://'
+BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT    = ['json']
@@ -238,21 +241,8 @@ CELERY_RESULT_BACKEND    = 'djcelery.backends.database:DatabaseBackend'
 # Uncomment following line to enable django caching system for Celery. Remember
 # to comment out above backend declaration used for development.
 #CELERY_RESULT_BACKEND   = 'djcelery.backends.cache:CacheBackend'
-
-# Test celery scheduler
-from datetime import timedelta
-from civmail import tasks
-CELERYBEAT_SCHEDULE = {
-    'test_mail-every-30-seconds': {
-        'task': 'tasks.send_test_email',
-        'schedule': timedelta(seconds=30),
-        'args': ('krastley@gmail.com', 'Test', 'Test', 'Test'),
-    },
-    'notification_mail-every-30-seconds': {
-        'task': 'tasks.send_notification_emails',
-        'schedule': timedelta(seconds=30),
-    },
-}
+CELERY_IMPORTS = ('places_core.tasks',)
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
     
 
 # South database migrations schemes

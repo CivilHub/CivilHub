@@ -19,6 +19,10 @@ $emails.tagsInput({
     defaultText: inviteText
 });
 
+$form.on('submit', function (evt) {
+    evt.preventDefault();
+});
+
 $toggle.bind('click', function (evt) {
     evt.preventDefault();
     $modal.modal('show');
