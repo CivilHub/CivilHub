@@ -19,7 +19,7 @@
                     $btn.fadeOut('fast', function () {
                         $btn.removeClass('btn-follow-location btn-success')
                             .addClass('btn-unfollow-location btn-danger')
-                            .text('Stop following')
+                            .text(gettext('Stop following'))
                             .fadeIn('fast');
                     });
                 } else {
@@ -46,7 +46,7 @@
                     $btn.fadeOut('fast', function () {
                         $btn.removeClass('btn-unfollow-location btn-danger')
                             .addClass('btn-follow-location btn-success')
-                            .text('Follow')
+                            .text(gettext('Follow'))
                             .fadeIn('fast');
                     });
                     display_alert(resp.message, 'success');

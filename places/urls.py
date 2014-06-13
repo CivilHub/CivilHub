@@ -33,6 +33,12 @@ sitemaps = {
 js_info_dict = {
     'packages': (
         'comments',
+        'blog',
+        'gallery',
+        'locations',
+        'maps',
+        'topics',
+        'userspace',
     ),
 }
 

@@ -50,7 +50,8 @@ function civilGoogleMap(mapData) {
                     (function (m) {
                         markers.push(m);
                         google.maps.event.addListener(m, 'click', function () {
-                            var contentString = '<a href="' + m.url + '">GO TO</a>',
+                            var contentString = '<a href="' + m.url + '">' +
+                                    gettext('GO TO') + '</a>',
                                 infoWindow = new google.maps.InfoWindow({
                                     content: contentString
                                 });
@@ -111,7 +112,7 @@ $.get('/maps/pointers/', function (resp) {
             map.refreshMap(getFilters());
         });
     } else {
-        console.log("Failed to load map data");
+        console.log(gettext("Failed to load map data"));
     }
 });
 
