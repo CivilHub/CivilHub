@@ -1,0 +1,118 @@
+(function ($) {
+    
+"use strict";
+// Shortcut to get list of active filters
+var getFilters = function () {
+    var filterToggles = $('.map-filter-toggle'),
+        filters = [];
+        
+    filterToggles.each(function () {
+        if ($(this).is(':checked')) {
+            filters.push($(this).attr('data-target'));
+        }
+    });
+    
+    return filters;
+}
+//
+// Prepare Google Map
+// -------------------------------------------------------------------------
+//
+function civilGoogleMap(mapData) {
+    
+    var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+        'chco=FFFFFF,008CFF,000000&ext=.png';
+    
+    var map = {
+        map: null,
+        markerClusterer: null,
+            
+        refreshMap: function (filters) {
+            var _this = this,
+                markers = [],
+                i,
+                markerImage = new google.maps.MarkerImage(imageUrl,
+                    new google.maps.Size(24, 32));
+                    
+            if (_this.markerClusterer) {
+                _this.markerClusterer.clearMarkers();
+            }
+            
+            for (i = 0; i < mapData.length; ++i) {
+                var latLng = new google.maps.LatLng(mapData[i].latitude,
+                        mapData[i].longitude),
+                    marker = new google.maps.Marker({
+                        position: latLng,
+                        icon: window.MEDIA_URL + '/icons/marker-' + mapData[i].type + '.png'
+                    });
+                $.extend(marker, mapData[i]);
+                if (filters && filters.indexOf(marker.type) >= 0 || !filters) {
+                    (function (m) {
+                        markers.push(m);
+                        google.maps.event.addListener(m, 'click', function () {
+                            var contentString = '<a href="' + m.url + '">GO TO</a>',
+                                infoWindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+                            infoWindow.open(_this.map, m);
+                        });
+                    })(marker);
+                }
+            }
+            
+            _this.markerClusterer = new MarkerClusterer(_this.map, markers, {
+                maxZoom: 10,
+                gridSize: 30,
+                styles: window.MAP_STYLES[1]    
+            });
+        },
+        
+        initialize: function () {
+            var _this = this,
+                refresh = document.getElementById('refresh'),
+                clear = document.getElementById('clear');
+                
+            _this.map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: new google.maps.LatLng(52.0, 23.0)
+            });
+            
+            _this.refreshMap();
+        },
+        
+        clearClusters: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.markerClusterer.clearMarkers();
+        }
+    };
+    
+    map.initialize();
+    
+    return map;
+}
+//
+// Fetch objects from server and create map
+// -------------------------------------------------------------------------
+//
+$.get('/maps/pointers/', function (resp) {
+    var markers = [], map = null;
+    resp = JSON.parse(resp);
+    if (resp.success) {
+        $(resp.locations).each(function () {
+            markers.push(this);
+        });
+        $(resp.pointers).each(function () {
+            markers.push(this);
+        });
+        map = civilGoogleMap(markers);
+        $('.map-filter-toggle').bind('change', function (evt) {
+            evt.preventDefault;
+            map.refreshMap(getFilters());
+        });
+    } else {
+        console.log("Failed to load map data");
+    }
+});
+
+})(jQuery);
