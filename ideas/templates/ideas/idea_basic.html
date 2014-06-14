@@ -32,7 +32,7 @@
         {% endif %}
         <p>
             {% trans "Created" %} {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}">{{ idea.creator.get_full_name }}</a>
-            {% trans "Last edited" %} {{ idea.date_edited }}
+            {% if idea.edited %}{% trans "Last edited" %} {{ idea.date_edited }}{% endif %}
         </p>
         
         <div>{{ idea.description | safe | truncatewords_html:50 }}</div>

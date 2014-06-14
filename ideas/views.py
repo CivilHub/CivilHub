@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy
@@ -145,6 +146,7 @@ class CreateIdeaView(CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.creator = self.request.user
+        obj.edited = False
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
@@ -166,6 +168,11 @@ class UpdateIdeaView(UpdateView):
         context['title'] = self.object.name
         context['action'] = 'update'
         return context
+
+    def form_valid(self, form):
+        form.instance.edited = True
+        form.date_edited = timezone.now()
+        return super(UpdateIdeaView, self).form_valid(form)
 
 
 class DeleteIdeaView(DeleteView):

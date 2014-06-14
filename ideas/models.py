@@ -55,9 +55,6 @@ class Idea(models.Model):
         return len(comments)
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:
-            self.edited = True
-            self.date_edited = timezone.now()
         to_slug_entry = self.name
         try:
             chk = Idea.objects.filter(name=self.name)
