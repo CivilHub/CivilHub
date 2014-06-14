@@ -45,9 +45,11 @@ class News(models.Model):
         blank=True,
     )
     location = models.ForeignKey(Location)
+    edited = models.BooleanField(default=False)
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 
     def save(self, *args, **kwargs):
+        if self.pk: self.edited = True
         to_slug_entry = self.title
         try:
             chk = News.objects.filter(title=self.title)

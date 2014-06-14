@@ -80,7 +80,7 @@
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
             {% trans "Created by" %} <a href="/user/profile/<%= username %>"><%= user_full_name %></a> <%= moment(date_created).fromNow() %>
-            - {% trans "Last edited" %} <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %>
+            <% if (edited) { %>- {% trans "Last edited" %} <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %><% } %>
         </p>
         <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">{% trans "Read more" %} &raquo;</a></p>
         <div class="row">
