@@ -27,7 +27,7 @@
 <script>
 (function ($) {
     "use strict";
-    $('#id_description').customCKEditor();
+    $('#id_description').customCKEditor('minimal');
     $('[type="file"]').bootstrapFileInput();
     $('#id_latitude').before('<div id="map"></div>');
     $('#id_latitude, #id_longitude').css('display', 'none');

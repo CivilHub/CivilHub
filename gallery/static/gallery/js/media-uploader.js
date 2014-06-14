@@ -133,7 +133,7 @@ function mediaUploader () {
     return uploader;
 }
 
-$.fn.customCKEditor = function () {
+$.fn.customCKEditor = function (settings) {
     return $(this).each(function () {
         var $el = $(this),
             editor = CKEDITOR.replace($el.attr('id')),
@@ -154,6 +154,12 @@ $.fn.customCKEditor = function () {
                 });
             });
         }});
+        // Load additional CKEDITOR configuration
+        for (var key in window.CONFIG.ckeditor[settings]) {
+            if (window.CONFIG.ckeditor[settings].hasOwnProperty(key)) {
+                editor.config[key] = window.CONFIG.ckeditor[settings][key];
+            }
+        }
     });
 }
 })(jQuery);
