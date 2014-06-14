@@ -30,7 +30,7 @@
             <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
             <span class="comment-controls">
                 <% if (username === $('#target-user').val()) { %>
-                    <a href="#" title="{% trans "Edit entry" %}">
+                    <a href="#" class="comment-edit" title="{% trans "Edit entry" %}">
                         <span class="fa fa-edit"> </span>
                     </a>
                 <% } else { %>
