@@ -3,7 +3,6 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from captcha.fields import ReCaptchaField
 from .models import UserProfile
 
 
@@ -41,7 +40,6 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
-    #captcha = ReCaptchaField()
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -173,7 +171,6 @@ class PasswordRemindForm(forms.Form):
         label = _("Email address"),
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
-    #captcha = ReCaptchaField()
 
 
 class AvatarUploadForm(forms.Form):

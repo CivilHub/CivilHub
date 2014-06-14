@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os, captcha
+import hashlib, datetime, random, string, os
 from json import dumps
 from PIL import Image
 from datetime import timedelta
