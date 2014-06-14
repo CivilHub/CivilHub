@@ -1,6 +1,7 @@
 (function ($) {
     "use strict";
-    var editor = CKEDITOR.replace('id_content');
+    //var editor = CKEDITOR.replace('id_content');
+    $('#id_content').customCKEditor('minimal');
     $('.entry-controls').find('a').tooltip();
     $('.reply-entry-btn').on('click', function (evt) {
         evt.preventDefault();

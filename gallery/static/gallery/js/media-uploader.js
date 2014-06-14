@@ -76,7 +76,7 @@ function mediaUploader () {
                     resp = JSON.parse(resp);
                     $(resp.files).each(function () {
                         var _this = this,
-                            path = resp.href + 'thumbs/' + _this,
+                            path = resp.href + 'thumbs' + _this,
                             $img = $(document.createElement('img'));
 
                         $img.attr({

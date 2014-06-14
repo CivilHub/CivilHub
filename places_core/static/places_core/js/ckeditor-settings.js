@@ -12,10 +12,10 @@ window.CONFIG.ckeditor = {
     // (i w przyszłości innych customowych plug-inów).
     'custom': {
         toolbar: [
-            { name: 'document', items: [ 'Source', '-', 'NewPage', 'Preview', '-', 'Templates' ] },
+            { name: 'document', items: [ 'Source' ] },
             [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
-            '/',
-            { name: 'basicstyles', items: [ 'Bold', 'Italic', 'MediaUploader' ] }
+            { name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
+            { name: 'plugins', items: [ 'MediaUploader' ]},
         ]
     },
     // Absolutnie minimalna konfiguracja - do dyskusji etc. gdzie nie wstawia
@@ -23,6 +23,7 @@ window.CONFIG.ckeditor = {
     'minimal': {
         toolbar: [
             { name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
-        ]
+        ],
+        removePlugins: 'elementspath'
     }
 };

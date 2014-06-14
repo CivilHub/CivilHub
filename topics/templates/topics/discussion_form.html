@@ -16,11 +16,12 @@
 
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
 <script src="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_intro');
+    $('#id_intro').customCKEditor('custom');
     $('[type="checkbox"]').bootstrapSwitch({
         onText: '{% trans "Opened" %}',
         offText: '{% trans "Closed" %}',

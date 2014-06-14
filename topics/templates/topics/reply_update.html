@@ -13,10 +13,11 @@
 
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_content');
+    $('#id_content').customCKEditor('minimal');
 })(jQuery);
 </script>
 {% endblock %}

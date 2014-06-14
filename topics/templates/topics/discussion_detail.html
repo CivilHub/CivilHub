@@ -84,6 +84,7 @@
 {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 {% if user.is_authenticated and discussion.status %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
 <script src="{% static 'topics/js/reply-form.js' %}"></script>
 {% endif %}
 {% endblock %}
