@@ -91,7 +91,7 @@
     var max_counter = 0,
         i = 0,
         min_counter, avg;
-        
+
     $('.tags > ul > li').each(function () {
         // Zbieramy wartości counterów dla każdego taga.
         var count = parseInt($(this).attr('data-counter'), 10);
@@ -103,7 +103,7 @@
         }
         i++
     });
-    
+
     $('.tags > ul > li').each(function () {
         // Kolejna pętla - przyporządkujemy klasy na podstawie
         // zebranych wcześniej wartości.
@@ -121,7 +121,7 @@
             $(this).addClass('tag5');
         }
     });
-    
+
 })(jQuery);
 </script>
 {% endblock %}

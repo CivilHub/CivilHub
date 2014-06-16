@@ -464,21 +464,20 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
 
 class LocationContentSearch(View):
     """
-    Strona z wynikami sortowania treści dla jednego taga.
-    Zbieramy treści tylko z lokalizacji, którą aktualnie
-    przegląda użytkownik.
+    Strona z wynikami sortowania treści dla jednego taga lub kategorii.
+    Zbieramy treści tylko z lokalizacji, którą aktualnie przegląda użytkownik.
     """
     http_method_names = [u'get']
     template_name     = 'locations/tag-search.html'
 
-    def get(self, request, slug, tag=None):
+    def get(self, request, slug, tag=None, category=None):
         location = get_object_or_404(Location, slug=slug)
         t_filter = TagFilter(location)
-        tags     = t_filter.get_tags()
+        tags     = t_filter.get_items()
         items    = []
 
         if tag:
-            tag       = Tag.objects.get(name=tag)
+            tag = Tag.objects.get(name=tag)
             all_items = tag.taggit_taggeditem_items.all()
             for itm in all_items:
                 if itm.content_object.location == location:
