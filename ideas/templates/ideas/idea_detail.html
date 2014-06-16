@@ -41,7 +41,7 @@
             <h3>
                 <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a></h3>
                 <small>
-                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator }}</a> {{ idea.date_created }}<a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a>
+                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}<a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a>
                 </small>
 
 

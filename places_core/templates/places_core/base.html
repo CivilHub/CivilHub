@@ -88,12 +88,12 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">{% trans "Profile" %}</a></li>
-                        <li><a href="#">{% trans "My Places" %}</a></li>
-                        <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
-                        <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i>{% trans "Profile" %}</a></li>
+                        <li><a href="#"><i class="fa fa-home fa-fw"></i>{% trans "My Places" %}</a></li>
+                        <li><a href="{% url 'gallery:index' %}"><i class="fa fa-file-image-o fa-fw"></i>{% trans "Media" %}</a></li>
+                        <li><a href="{% url 'user:index' %}"><i class="fa fa-pencil-square-o fa-fw"></i>{% trans "Edit profile" %}</a></li>
                         <li class="divider"></li>
-                        <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
+                        <li><a href="{% url 'user:logout' %}"><i class="fa fa-sign-out fa-fw"></i>{% trans "Logout" %}</a></li>
                     </ul>
                 </li>
                 {% else %}
@@ -104,13 +104,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
-                    <a href="{% url 'locations:index' %}"><span class="ch-icon ch-home">{% trans "Places" %}</a></li>
-                <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-earth"></span>Browse <span class="fa fa-angle-down"></span></a>
+                    <!-- <a href="{% url 'locations:index' %}"><span class="ch-icon ch-home">{% trans "Places" %}</a></li>
+                <li class="dropdown"> -->
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %}<span class="fa fa-angle-down"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="">Tytuł</a>
+                                        <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
                                     </li>
+                                    <li class="divider"></li>
                                     <li>
                                         <a href="">Date</a>
                                     </li>
@@ -126,7 +127,7 @@
                                 </ul>
                             </li>
 
-                <li><a href="{% url 'maps:index' %}">{% trans "Map" %}</a></li>
+                <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
 
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-bookmark"></span>{% trans "My Bookmarks" %}<span class="fa fa-angle-down"></span></a>

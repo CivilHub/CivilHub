@@ -89,7 +89,7 @@
                                     <button data-target="{{ topic.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
                                 </div>
                                 {% endif %}
-                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.intro | striptags | truncatewords_html:4 }}</a></div>
+                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
                                 <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
                                 <div class="col-sm-5">
                                     <span class="count">{{ topic.entry_set.count }}</span>
