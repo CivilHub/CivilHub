@@ -26,7 +26,7 @@
         
         <div class="comments-{{ news.pk }}"></div>
         <div class="news-meta">
-            <p>{% trans "Created by" %} {{ news.creator.get_full_name }} | {{ news.date_created }}</p>
+            <p>{% trans "Created by" %} <span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span> | {{ news.date_created }}</p>
         </div>
         <div>
             {% trans "Tags" %}:

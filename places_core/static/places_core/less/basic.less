@@ -12,3 +12,39 @@
     -moz-box-shadow:    1px 1px 5px 0px rgba(50, 50, 50, 0.75);
     box-shadow:         1px 1px 5px 0px rgba(50, 50, 50, 0.75);
 }
+.user-popup-window {
+    position: absolute;
+    clear: both;
+    width: 330px;
+    min-height: 80px;
+    font-size: 10px;
+    background: #ffffff;
+    border: 1px solid #8c8c8c;
+    overflow: hidden;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    .user-popup-avatar {
+        width: 80px;
+        float: left;
+        img {
+            width: 80px;
+            height: 80px;
+        }
+    }
+    .user-popup-details {
+        width: 245px;
+        float: right;
+        padding: 5px 0px 0px 5px;
+        .user-popup-personals {
+            font-weight: bold;
+            color: #000000;
+        }
+    }
+    .user-popup-close {
+        float: right;
+        cursor: pointer;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+}

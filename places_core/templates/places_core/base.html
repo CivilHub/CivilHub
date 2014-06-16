@@ -242,6 +242,24 @@
 <script src="{% static 'civmail/js/invite-people.js' %}"></script>
 {% endif %}
 
+<script type="text/template" id="user-popup-tpl">
+<div class="user-popup-avatar">
+    <img src="<%= avatar %>" alt="<%= username %>" />
+</div>
+<div class="user-popup-details">
+    <span class="fa fa-times-circle-o user-popup-close"> </span>
+    <p class="user-popup-personals">
+        <a href="<%= user_link %>"><%= fullname %></a><br />
+        <%= rank_pts %> {% trans 'pts' %}
+    </p>
+    <p>
+        <% for (var i = 0; i < follows.length; i++) { %>
+            <%= follows[i] %>,&nbsp;
+        <% } %>
+    </p>
+</div>
+</script>
+
 <script src="{% static 'places_core/js/common-scripts.js' %}"></script>
 
 </body>

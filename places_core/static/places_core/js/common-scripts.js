@@ -53,5 +53,71 @@ $('.submenu-toggle').bind('click', function (evt) {
             .removeAttr('data-opened');
     }
 });
+//
+// Pop-up window with user informations.
+// -----------------------------------------------------------------------------
+(function () {
+    // User Backbone model
+    // -------------------
+    var UserModel = Backbone.Model.extend({});
+    // User Backbone view
+    // ------------------
+    var UserView  = Backbone.View.extend({
+            tagName  : 'div',
+            className: 'user-popup-window',
+            template : _.template($('#user-popup-tpl').html()),
+            events: {
+                'click .user-popup-close': 'close'
+            },
+            render: function () {
+                this.$el.html(this.template(this.model.toJSON()));
+                return this;
+            },
+            close: function () {
+                this.$el.empty().remove();
+            }
+        })
+    // Backbone user collection
+    // ------------------------
+    // Holds only one element, which is requested user, but can be easily
+    // extended.
+    //
+    var UserCollection = Backbone.Collection.extend({
+            model: UserModel
+        });
+    // User popup window
+    // -----------------
+    // Replaces standard Backbone's collection view.
+    // TODO: Close window on mouseout.
+    //
+    var UserPopupWindow = function (userdata, toggle) {
+        this.model = new UserModel();
+        this.collection = new UserCollection([userdata]);
+        this.open = function () {
+            this.collection.each(function (item) {
+                var view  = new UserView({model:item}),
+                    $elem = $(view.render().el);
+                    console.log($elem);
+                $elem
+                    .appendTo('body')
+                    .offset({
+                        left: toggle.offset().left,
+                        top : toggle.offset().top
+                    });
+            });
+        }
+        this.open();
+    }
+    // Bind events - open user popup window
+    // ------------------------------------
+    $('.user-window-toggle').bind('mouseenter', function (evt) {
+        var userId = $(this).attr('data-target'),
+            win = null,
+            $toggle = $(this);
+        $.get('/rest/users/' + userId, function (resp) {
+            win = new UserPopupWindow(resp, $toggle);
+        });
+    });
+})();
 
 })(jQuery);

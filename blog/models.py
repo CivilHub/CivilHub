@@ -49,14 +49,16 @@ class News(models.Model):
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 
     def save(self, *args, **kwargs):
-        if self.pk: self.edited = True
-        to_slug_entry = self.title
-        try:
-            chk = News.objects.filter(title=self.title)
-            to_slug_entry = self.title + '-' + str(len(chk))
-        except News.DoesNotExist:
-            pass
-        self.slug = slugify(to_slug_entry)
+        if self.pk:
+            self.edited = True
+        else:
+            to_slug_entry = self.title
+            try:
+                chk = News.objects.filter(title=self.title)
+                to_slug_entry = self.title + '-' + str(len(chk))
+            except News.DoesNotExist:
+                pass
+            self.slug = slugify(to_slug_entry)
         super(News, self).save(*args, **kwargs)
     
     def get_absolute_url(self):

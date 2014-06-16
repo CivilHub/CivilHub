@@ -16,9 +16,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     """
     User serializer to show short info during mouse hover
     """
+    id = serializers.Field(source='pk')
+    email = serializers.CharField()
+    username = serializers.CharField()
+    fullname = serializers.CharField(source='get_full_name')
+    rank_pts = serializers.IntegerField(source='profile.rank_pts')
+    avatar   = serializers.CharField(source='profile.avatar.url')
+    follows  = serializers.Field(source='profile.get_biggest_locations')
+    user_link= serializers.CharField(source='profile.get_absolute_url')
+
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('id', 'username', 'email','fullname', 'rank_pts', 'avatar',
+                  'follows', 'user_link')
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
