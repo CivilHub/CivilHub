@@ -107,7 +107,7 @@ def save_answers(request, pk):
         prof.rank_pts += 1
         prof.save()
 
-    return redirect('locations:results', kwargs={'place_slug': poll.location.slug, 'slug': poll.slug})
+    return redirect('polls:results', kwargs={'pk': poll.pk})
 
 
 @login_required

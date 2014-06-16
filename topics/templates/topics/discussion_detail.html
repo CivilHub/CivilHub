@@ -5,13 +5,19 @@
 {% block content %}
 <div class="col-sm-9">
 <div class="main-content">
-<h1>{{ title }}</h1><hr />
+<h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+<div class="entry-submenu">
+    <ul>
+        {% if marker_form %}<li><p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p></li>{% endif %}
+        <li>{% bookmark_form for discussion %}</li>
+    </ul>
+</div>
+<hr />
 
 {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
 
-{% if marker_form %}<p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>{% endif %}
 {{ discussion.intro | safe }}
-{% bookmark_form for discussion %}
+
 {% for entry in replies %}
     <div class="reply-entry well">
         <div class="row">

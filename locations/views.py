@@ -43,6 +43,11 @@ class LocationNewsList(DetailView):
     model = Location
     template_name = 'locations/location_news.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(LocationNewsList, self).get_context_data(**kwargs)
+        context['title'] = self.object.name + '::' + _("News")
+        return context
+
 
 class LocationNewsCreate(LoginRequiredMixin, CreateView):
     """

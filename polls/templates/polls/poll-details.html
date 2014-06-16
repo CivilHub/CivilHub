@@ -4,13 +4,14 @@
 
 {% block content %}
 <div class="col-sm-9">
-    <h1>{{ poll.title }}</h1><hr />
-    
-    {% bookmark_form for poll %}
-    
-    {% if marker_form %}
-        <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
-    {% endif %}
+    <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+    <div class="entry-submenu">
+        <ul>
+            <li>{% bookmark_form for poll %}</li>
+            {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+        </ul>
+    </div>
+    <hr />
     
     {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
     

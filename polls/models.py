@@ -24,7 +24,7 @@ class Poll(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.pk:
             to_slug_entry = self.title
             try:
                 chk = Poll.objects.filter(title=self.title)

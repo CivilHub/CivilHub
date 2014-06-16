@@ -3,24 +3,27 @@
 
 {% block content %}
 <div class="col-sm-9">
-    <h1>{{ title }}</h1><hr />
+    <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+    <div class="entry-submenu">
+        <ul>
+            <li>{% bookmark_form for news %}</li>
+            {% if user.is_authenticated and user != news.creator %}
+            <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
+                {% trans "Report abuse" %}</a></li>
+            {% endif %}
+            {% if user.is_authenticated and user == news.creator or is_moderator %}
+            <li><a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a></li>
+            <li><a href="">{% trans "Delete" %}</a></li>
+            <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <hr />
     <article>
-        {% bookmark_form for news %}
-        {% if user.is_authenticated and user != news.creator %}
-            <a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
-                {% trans "Report abuse" %}</a>
-        {% endif %}
-        
         {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
         
         <div>{{ news.content | safe }}</div>
-        {% if user.is_authenticated and user == news.creator or is_moderator %}
-            <div class="news-controls">
-                <a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a>
-                <a href="">{% trans "Delete" %}</a>
-                <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
-            </div>
-        {% endif %}
+        
         <div class="comments-{{ news.pk }}"></div>
         <div class="news-meta">
             <p>{% trans "Created by" %} {{ news.creator.get_full_name }} | {{ news.date_created }}</p>

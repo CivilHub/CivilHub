@@ -39,29 +39,27 @@
         <div class="col-sm-9">
 
             <h3>
-                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a></h3>
-                <small>
-                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}<a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a>
-                </small>
-
-
-
-
-
-                {% bookmark_form for idea %}
-                <div>
-                    <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a>
+                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+                <div class="entry-submenu">
+                    <ul>
+                        <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+                        <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
+                        <li>{% bookmark_form for idea %}</li>
+                        <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
+                    </ul>
                 </div>
+                <small>
+                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
+                </small>
                 <div>{{ idea.description | safe }}</div>
-  <!--   <div class="post-meta">
-        <p>{% trans "Created by" %} {{ idea.creator }} | {{ idea.date_created }}</p>
-        {% if idea.edited %}<p>{% trans "Last time edited" %}: {{ idea.date_edited }}</p>{% endif %}
-        <p>{% trans "Status" %}: {{ idea.status }}</p>
-    </div> -->
     <p>{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
         <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}" />{{ tag }}</a>, 
-        {% endfor %}</p>
+        {% endfor %}
+    </p>
+    <p>
+        <span class="fa fa-star"> </span> {% trans "Category" %}: {{ idea.category }}
+    </p>
         <div>
             <p>
                 {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
