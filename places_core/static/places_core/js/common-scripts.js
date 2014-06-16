@@ -56,6 +56,10 @@ $('.submenu-toggle').bind('click', function (evt) {
 //
 // Pop-up window with user informations.
 // -----------------------------------------------------------------------------
+// Żeby wywołać okienko z informacjami, wystarczy do dowolnego linku związanego
+// z użytkownikiem dodać parametr data-target równy 'pk' danego użytkownika oraz
+// klasę 'user-window-toggle'.
+//
 (function () {
     // User Backbone model
     // -------------------
