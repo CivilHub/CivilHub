@@ -61,6 +61,8 @@ $('.submenu-toggle').bind('click', function (evt) {
 // klasę 'user-window-toggle'.
 //
 (function () {
+    // Timeout for popup window to open/close.
+    var timeout = null, trigger = false;
     // User Backbone model
     // -------------------
     var UserModel = Backbone.Model.extend({});
@@ -107,6 +109,18 @@ $('.submenu-toggle').bind('click', function (evt) {
                     .offset({
                         left: toggle.offset().left,
                         top : toggle.offset().top
+                    })
+                    .on('mouseout', function () {
+                        trigger = true;
+                        timeout = setTimeout(function () {
+                            if (trigger) {
+                                $elem.empty().remove();
+                            }
+                        }, 1000);
+                    })
+                    .on('mouseover', function () {
+                        trigger = false;
+                        clearTimeout(timeout);
                     });
             });
         }
@@ -114,13 +128,24 @@ $('.submenu-toggle').bind('click', function (evt) {
     }
     // Bind events - open user popup window
     // ------------------------------------
-    $('.user-window-toggle').bind('mouseenter', function (evt) {
-        var userId = $(this).attr('data-target'),
-            win = null,
-            $toggle = $(this);
+    var openWindow = function ($toggle) {
+        var userId = $toggle.attr('data-target');
         $.get('/rest/users/' + userId, function (resp) {
-            win = new UserPopupWindow(resp, $toggle);
+            var win = new UserPopupWindow(resp, $toggle);
         });
+    };
+    $('.user-window-toggle').bind('mouseover', function () {
+        var $toggle = $(this);
+        trigger = true;
+        timeout = setTimeout(function () {
+            if (trigger) {
+                openWindow($toggle);
+            }
+        }, 1000);
+    });
+    $('.user-window-toggle').bind('mouseout', function () {
+        trigger = false;
+        clearTimeout(timeout);
     });
 })();
 
