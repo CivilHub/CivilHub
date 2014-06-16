@@ -61,8 +61,13 @@ $('.submenu-toggle').bind('click', function (evt) {
 // klasę 'user-window-toggle'.
 //
 (function () {
-    // Timeout for popup window to open/close.
-    var timeout = null, trigger = false;
+        // Timeout for popup window to open/close.
+    var timeout = null,
+        // Helper variable for delay functions.
+        trigger = false,
+        // Another helper to check if some popup is already opened.
+        state   = false;
+
     // User Backbone model
     // -------------------
     var UserModel = Backbone.Model.extend({});
@@ -100,6 +105,7 @@ $('.submenu-toggle').bind('click', function (evt) {
         this.model = new UserModel();
         this.collection = new UserCollection([userdata]);
         this.open = function () {
+            state = true;
             this.collection.each(function (item) {
                 var view  = new UserView({model:item}),
                     $elem = $(view.render().el);
@@ -108,7 +114,7 @@ $('.submenu-toggle').bind('click', function (evt) {
                     .appendTo('body')
                     .offset({
                         left: toggle.offset().left,
-                        top : toggle.offset().top
+                        top : toggle.offset().top - $elem.height()
                     })
                     .on('mouseout', function () {
                         trigger = true;
