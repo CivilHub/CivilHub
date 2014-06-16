@@ -83,7 +83,7 @@ class IdeaLocationForm(forms.ModelForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'location', 'tags')
+        fields = ('name', 'description', 'location', 'tags', 'category',)
 
 
 class NewsLocationForm(forms.ModelForm):
