@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest.serializers import *
 from rest_framework.mixins import ListModelMixin
 from rest_framework.decorators import link, api_view, renderer_classes
+from rest_framework.pagination import PaginationSerializer
 from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
@@ -58,6 +59,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    paginate_by = 2
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
