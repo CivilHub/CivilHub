@@ -28,6 +28,11 @@
         <div class="news-meta">
             <p>{% trans "Created by" %} <span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span> | {{ news.date_created }}</p>
         </div>
+        {% if news.category %}
+        <div>
+            <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}" />{{ news.category }}</a>
+        </div>
+        {% endif %}
         <div>
             {% trans "Tags" %}:
             {% for tag in news.tags.all %}

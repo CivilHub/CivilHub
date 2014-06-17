@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from taggit.models import Tag
 from blog.models import Category, News
 from ideas.models import Category as IdeaCategory
@@ -59,7 +60,7 @@ class NewsSerializer(serializers.ModelSerializer):
     avatar = serializers.Field(source='creator.profile.avatar.url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
     category = serializers.RelatedField()
-    category_id = serializers.Field(source='category.pk')
+    category_url = serializers.SerializerMethodField('category_search_url')
     edited = serializers.BooleanField()
     tags = serializers.RelatedField(many=True)
     comment_count = serializers.SerializerMethodField('get_comment_count')
@@ -68,7 +69,7 @@ class NewsSerializer(serializers.ModelSerializer):
         model = News
         fields = ('id', 'title', 'slug', 'content', 'date_created', 
                   'date_edited', 'username', 'avatar', 'location', 'category',
-                  'category_id', 'edited', 'tags', 'comment_count',
+                  'category_url', 'edited', 'tags', 'comment_count',
                   'user_full_name',)
 
     def get_comment_count(self, obj):
@@ -76,6 +77,14 @@ class NewsSerializer(serializers.ModelSerializer):
         content_type = ContentType.objects.get_for_model(obj)
         comments = CustomComment.objects.filter(content_type=content_type)
         return len(comments.filter(object_pk=pk))
+
+    def category_search_url(self, obj):
+        return reverse('locations:category_search', kwargs={
+            'slug'    : obj.location.slug,
+            'app'     : 'blog',
+            'model'   : 'news',
+            'category': obj.category.pk
+        })
 
 
 class CommentSerializer(serializers.ModelSerializer):
