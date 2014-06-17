@@ -45,7 +45,7 @@
     
     // Create DOM link element
     // -----------------------
-    // Creates links to next and previous result pages.
+    // Creates links to result pages.
     var createLink = function (url, text) {
         var a = $(document.createElement('a')),
             url = url || "#";

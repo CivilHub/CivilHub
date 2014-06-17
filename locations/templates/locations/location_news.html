@@ -71,7 +71,7 @@
     <div class="col-xs-11">
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
-            {% trans "Created by" %} <a href="/user/profile/<%= username %>"><%= user_full_name %></a> <%= moment(date_created).fromNow() %>
+            {% trans "Created by" %} <a href="/user/profile/<%= username %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= moment(date_created).fromNow() %>
             <% if (edited) { %>- {% trans "Last edited" %} <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %><% } %>
         </p>
         <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">{% trans "Read more" %} &raquo;</a></p>

@@ -94,7 +94,7 @@
                                 <div class="col-sm-5">
                                     <span class="count">{{ topic.entry_set.count }}</span>
                                     <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                                    <a href="{% url 'user:profile' topic.creator %}">{{ topic.creator.get_full_name }}</a>
+                                    <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
                                     {{ topic.date_created | timesince }}
                                 </div>
                             </div>

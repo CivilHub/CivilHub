@@ -153,6 +153,6 @@ $('.submenu-toggle').bind('click', function (evt) {
         trigger = false;
         clearTimeout(timeout);
     });
-})();
+});
 
 })(jQuery);
