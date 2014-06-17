@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
+from locations.models import Location
 
 
 class LocationGalleryItem(models.Model):
@@ -11,9 +14,16 @@ class LocationGalleryItem(models.Model):
     """
     name = models.CharField(max_length=64, blank=True, null=True)
     user = models.ForeignKey(User)
+    location = models.ForeignKey(Location, related_name='pictures')
     date_uploaded = models.DateTimeField(auto_now_add=True)
     picture_name  = models.CharField(max_length=256)
     description   = models.TextField(blank=True, null=True)
+
+    def url(self):
+        """
+        Returns picture url. This function is most useful for views.
+        """
+        return settings.MEDIA_URL + self.location.slug + '/' + self.picture_name
 
     def get_thumbnail(self, size):
         """
@@ -21,7 +31,18 @@ class LocationGalleryItem(models.Model):
         datory and related to thumb sizes declared in views module. It should
         be touple or list containing images width and height.
         """
-        return str(size[0]) + 'x' + str(size[1]) + self.picture_name
+        thumbname = str(size[0]) + 'x' + str(size[1]) + '_' + self.picture_name
+        return settings.MEDIA_URL + self.location.slug + '/thumbs/' + thumbname
+
+    def get_filepath(self):
+        """
+        This method returns full pathname to item picture. It may be useful for
+        other custom views.
+        """
+        return str(os.path.join(
+            settings.MEDIA_ROOT,
+            self.location.slug,
+            self.picture_name))
 
     def __unicode__(self):
-        return self.name
+        return self.name or self.picture_name

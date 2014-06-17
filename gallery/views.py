@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from easy_thumbnails.files import get_thumbnailer
 from userspace.models import UserProfile
 from locations.models import Location
+from .models import LocationGalleryItem
 
 THUMB_SIZES = [
     (30, 30),
@@ -137,6 +138,7 @@ class GalleryView(View):
                 destination.write(chunk)
             destination.close()
             create_gallery_thumbnail(username, filename)
+            return filename
 
     def delete(self, request, filename, slug=None):
         username = slug if slug else request.user.username
@@ -174,12 +176,37 @@ class PlaceGalleryView(GalleryView):
     """
     List and manage items uploaded by user.
     """
+    def get(self, request, slug):
+        location = Location.objects.get(slug=slug)
+        context = {
+            'title': _("Media gallery"),
+            'files': [],
+            'location': location,
+        }
+        for picture in location.pictures.all():
+            context['files'].append({
+                'thumb': picture.get_thumbnail((128,128)),
+                'href': picture.url(),
+                'name': picture.name or picture.picture_name,
+            })
+        return render(request, 'gallery/media-form.html', context)
 
     def post(self, request, slug):
-        super(PlaceGalleryView, self).post(request, slug)
-        prof = UserProfile.objects.get(user=request.user)
-        prof.rank_pts += 1
-        prof.save()
+        filename = super(PlaceGalleryView, self).post(request, slug)
+        try:
+            LocationGalleryItem.objects.get(picture_name=filename)
+        except LocationGalleryItem.DoesNotExist:
+            prof = UserProfile.objects.get(user=request.user)
+            prof.rank_pts += 1
+            prof.save()
+            item = LocationGalleryItem(
+                user = prof.user,
+                location = Location.objects.get(slug=slug),
+                picture_name = filename,
+                name = request.POST.get('name') or '',
+                description = request.POST.get('description') or ''
+            )
+            item.save()
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,

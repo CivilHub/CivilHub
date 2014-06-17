@@ -9,7 +9,7 @@
 <div class="col-sm-9">
     <div id="gallery">
     {% for file in files %}
-        <a href="{{ href }}/{{ file }}"><img src="{{ href }}thumbs/128x128_{{ file }}" class="gallery-item" /></a>
+        <a href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}" class="gallery-item" /></a>
     {% endfor %}
     </div>
     <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
