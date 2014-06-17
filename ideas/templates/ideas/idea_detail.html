@@ -58,7 +58,10 @@
         {% endfor %}
     </p>
     <p>
-        <span class="fa fa-star"> </span> {% trans "Category" %}: {{ idea.category }}
+        {% if idea.category %}
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
+                {% endif %}
     </p>
         <div>
             <p>

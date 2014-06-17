@@ -469,17 +469,17 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
 
 class LocationContentSearch(View):
     """
-    Strona z wynikami sortowania treści dla jednego taga lub kategorii.
-    Zbieramy treści tylko z lokalizacji, którą aktualnie przegląda użytkownik.
+    Strona z wynikami sortowania treści dla jednego taga. Zbieramy treści tylko
+    z lokalizacji, którą aktualnie przegląda użytkownik.
     """
     http_method_names = [u'get']
     template_name     = 'locations/tag-search.html'
 
-    def get(self, request, slug, tag=None, category=None):
+    def get(self, request, slug, tag=None):
         location = get_object_or_404(Location, slug=slug)
         t_filter = TagFilter(location)
-        tags     = t_filter.get_items()
-        items    = []
+        tags = t_filter.get_items()
+        items = []
 
         if tag:
             tag = Tag.objects.get(name=tag)
@@ -493,6 +493,31 @@ class LocationContentSearch(View):
                 'location': location,
                 'items'   : items,
                 'tags'    : tags,
+            })
+
+
+class LocationContentFilter(View):
+    """
+    Strona filtrowania treści w/g kategorii. Tego typu filtrowanie jest przy-
+    datne tylko dla poszczególnych rodzajów treści. Jak powyżej, zbieramy
+    treści tylko z aktualnie przeglądanej lokalizacji.
+    """
+    http_method_names = [u'get']
+    template_name = 'locations/category-search.html'
+
+    def get(self, request, slug, app, model, category):
+        location = Location.objects.get(slug=slug)
+        category_type = ContentType.objects.get(app_label=app, model='category')
+        category_type = category_type.model_class()
+        category = category_type.objects.get(pk=category)
+        ct = ContentType.objects.get(app_label=app, model=model)
+        ct = ct.model_class()
+        items = ct.objects.filter(location=location).filter(category=category)
+
+        return render(request, self.template_name, {
+                'title'   : _("Search by category"),
+                'location': location,
+                'items'   : items,
             })
 
 

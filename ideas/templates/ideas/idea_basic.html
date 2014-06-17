@@ -46,7 +46,10 @@
                 {% for tag in idea.tags.all %}
                     <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}">{{tag.name}}</a>, 
                 {% endfor %}
-                <span class="fa fa-star"> </span>{% trans "Category" %}: {{ idea.category }}
+                {% if idea.category %}
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
+                {% endif %}
             </div>
     </div>
 </div>

@@ -1,0 +1,20 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+<div class="col-sm-9">
+    <ul>
+    {% for item in items %}
+        <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+        
+    </ul>
+</div>
+{% endblock %}
