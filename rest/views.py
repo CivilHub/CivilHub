@@ -62,13 +62,19 @@ class NewsViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly,)
 
     def get_queryset(self):
+        order = '-date_created'
         if self.request.GET.get('pk'):
             pk = self.request.GET.get('pk')
             location = get_object_or_404(Location, pk=pk)
             newset = News.objects.filter(location=location)
-            return newset.order_by('-date_created')
         else:
-            return super(NewsViewSet, self).get_queryset().order_by('-date_created')
+            newset = super(NewsViewSet, self).get_queryset()
+        if self.request.GET.get('order'):
+            order = self.request.GET.get('order')
+        if self.request.GET.get('keywords'):
+            keywords = self.request.GET.get('keywords')
+            newset = newset.filter(title__icontains=keywords)
+        return newset.order_by(order)
 
     def pre_save(self, obj):
         obj.creator = self.request.user

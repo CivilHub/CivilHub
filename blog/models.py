@@ -17,8 +17,8 @@ class Category(models.Model):
     """
     User Blog Categories basic model
     """
-    name = models.CharField(max_length=64, unique=True)
-    slug = models.SlugField(max_length=64, unique=True)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64)
     description = models.TextField(max_length=1024, blank=True, null=True, default="")
     
     def get_absolute_url(self):

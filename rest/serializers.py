@@ -59,6 +59,7 @@ class NewsSerializer(serializers.ModelSerializer):
     avatar = serializers.Field(source='creator.profile.avatar.url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
     category = serializers.RelatedField()
+    category_id = serializers.Field(source='category.pk')
     edited = serializers.BooleanField()
     tags = serializers.RelatedField(many=True)
     comment_count = serializers.SerializerMethodField('get_comment_count')
@@ -67,7 +68,8 @@ class NewsSerializer(serializers.ModelSerializer):
         model = News
         fields = ('id', 'title', 'slug', 'content', 'date_created', 
                   'date_edited', 'username', 'avatar', 'location', 'category',
-                  'edited', 'tags', 'comment_count', 'user_full_name',)
+                  'category_id', 'edited', 'tags', 'comment_count',
+                  'user_full_name',)
 
     def get_comment_count(self, obj):
         pk = obj.pk

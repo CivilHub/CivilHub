@@ -45,4 +45,27 @@
     $.get(appUrl, function (newses) {
         new newsList.ListView(newses);
     });
+    
+    // Enable list sorting.
+    $('.news-list-sort-toggle').bind('click', function (e) {
+        var order = $(this).attr('data-target'),
+            url = appUrl + '&order=' + order;
+        e.preventDefault();
+        $('#entries').empty();
+        $.get(url, function (newses) {
+            new newsList.ListView(newses);
+        });
+    });
+    
+    // Enable searching
+    $('#news-search-form').bind('submit', function (e) {
+        var $qField = $(this).find('#q'),
+            keywords = $qField.val(),
+            url = appUrl + '&keywords=' + encodeURIComponent(keywords);
+        e.preventDefault();
+        $('#entries').empty();
+        $.get(url, function (newses) {
+            new newsList.ListView(newses);
+        });
+    });
 })(jQuery);
