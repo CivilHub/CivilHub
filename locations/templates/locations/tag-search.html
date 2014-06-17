@@ -77,7 +77,7 @@
     <div class="tags">
         <ul>
         {% for tag, counter in tags %}
-            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag.name %}">{{ tag }}</a></li>
         {% endfor %}
         </ul>
     </div>

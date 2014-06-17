@@ -14,8 +14,8 @@ urlpatterns = patterns('',
     # lista sub-lokalizacji
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),
     # wyszukiwanie treści w/g tagów
-    url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
     url(r'^(?P<slug>[\w-]+)/search/(?P<tag>[\w-]+)$', LocationContentSearch.as_view(), name='tag_search'),
+    url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
     # Location ideas sub-views
     url(r'^(?P<slug>[\w-]+)/ideas/create', LocationIdeaCreate.as_view(), name='new_idea'),
     url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)', IdeasDetailView.as_view(), name='idea_detail'),
