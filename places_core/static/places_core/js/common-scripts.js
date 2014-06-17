@@ -152,7 +152,11 @@ $('.submenu-toggle').bind('click', function (evt) {
     $('.user-window-toggle').bind('mouseout', function () {
         trigger = false;
         clearTimeout(timeout);
+        if (state) {
+            $('.user-popup-window').empty().remove();
+            state = false;
+        }
     });
-});
+})();
 
 })(jQuery);

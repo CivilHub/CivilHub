@@ -35,7 +35,7 @@
             </ul>
         </div>
         <p>
-            {% trans "Created" %} {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}">{{ idea.creator.get_full_name }}</a>
+            {% trans "Created" %} {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}"><span class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</span></a>
             {% if idea.edited %}{% trans "Last edited" %} {{ idea.date_edited }}{% endif %}
         </p>
         

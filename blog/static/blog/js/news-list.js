@@ -43,57 +43,22 @@
         model: newsList.News
     });
     
-    // Create DOM link element
-    // -----------------------
-    // Creates links to result pages.
-    var createLink = function (url, text) {
-        var a = $(document.createElement('a')),
-            url = url || "#";
-        a.text(text).attr('href', url)
-        if (url !== "#") {
-            a.on('click', function (e) {
-                e.preventDefault();
-                createNewsList(url);
-            });
-        }
-        return a;
-    }
-    
-    // Create paginator
-    // ----------------
-    // Crates page element with links to all result subpages.
-    var createPaginator = function (url, count, perPage) {
-        var paginator = $(document.createElement('div')),
-            pages = Math.ceil(count / perPage),
-            i = 0;
-        if (url.indexOf('page') > -1) {
-            url = url.slice(0, url.indexOf('page') + 5);
-        } else {
-            url = url + '&page=';
-        }
-        for (i = 1; i <= pages; i++) {
-            paginator.append(createLink(url + i, i));
-        }
-        return paginator;
-    }
-    
     // Create news list
     // ----------------
     var createNewsList = function (url) {
-        var next  = '',
-            prev  = '',
-            paginator = '';
+        var pgn  = '';
         $('#entries').empty();
         $.get(url, function (resp) {
-            paginator = createPaginator(url, resp.count, resp.results.length);
-            if (resp.next) {
-                next = createLink(resp.next, gettext('Next'));
-            }
-            if (resp.previous) {
-                prev = createLink(resp.previous, gettext('Previous'));
-            }
+            pgn = paginator({
+                baseUrl : url,
+                total   : resp.count,
+                perPage : resp.results.length,
+                previous: resp.previous,
+                next    : resp.next,
+                callback: createNewsList
+            });
             newsSet = new newsList.ListView(resp.results);
-            newsSet.$el.append(prev).append(paginator).append(next);
+            newsSet.$el.append(pgn);
         });
     }
     
@@ -116,4 +81,5 @@
         e.preventDefault();
         createNewsList(url);
     });
+    
 })(jQuery);
