@@ -32,7 +32,7 @@ var paginator = function (options) {
     pgn.$el.addClass(options.className);
     
     // Total pages
-    var pages = Math.floor(options.total / options.perPage);
+    var pages = Math.ceil(options.total / options.perPage);
     
     var createLink = function (url, text) {
         var a = $(document.createElement('a')),
