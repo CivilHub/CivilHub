@@ -268,7 +268,7 @@ commentlist.SublistView = Backbone.View.extend({
                 comment: comment,
                 submit_date: moment().format(),
                 parent: parentId
-            }
+            };
             comment = new commentlist.Comment(formData);
         comment.url = '/rest/comments/';
         _that.collection.add(comment);
@@ -305,7 +305,7 @@ commentlist.CommentlistView = Backbone.View.extend({
         formData = {
             comment: $comment.val(),
             submit_date: moment().format()
-        }
+        };
         comment = new commentlist.Comment(formData);
         comment.url = '/rest/comments/';
         _that.collection.add(comment);

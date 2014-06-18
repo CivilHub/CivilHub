@@ -30,7 +30,7 @@
         </div>
         {% if news.category %}
         <div>
-            <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}" />{{ news.category }}</a>
+            {% trans "Category" %}: <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}">{{ news.category }}</a>
         </div>
         {% endif %}
         <div>

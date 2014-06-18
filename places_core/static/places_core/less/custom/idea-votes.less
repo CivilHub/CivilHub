@@ -1,0 +1,108 @@
+.idea-votes {
+    
+    .vote-form {
+        
+        position: relative;
+        padding-right: 30px;
+        
+        .votes {
+            
+            float: none;
+            box-sizing: border-box;
+            width: 100%;
+            border-color: #dedede;
+            border-right: 1px solid #b1b1b1;
+            color: #464646;
+            font-size: 24px;
+            
+        }
+        
+        .vote-controls {
+            
+            width: 30px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            float: none;
+            
+            button.vote-btn {
+                
+                width: 100%;
+                box-sizing: border-box;
+                border-left: 0px;
+                border-color: #dedede;
+                
+                span {
+                    
+                    color: #464646;
+                    font-size: 20px;
+                    line-height: 13px;
+                    
+                }
+                
+                &:first-child {
+                    
+                    border-bottom: 0px;
+                    
+                }
+                
+                &:last-child {
+                    
+                    border-top: 1px solid #b1b1b1;
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    .idea-summary {
+        
+        padding-top: 3px;
+        
+        .idea-vote-count,
+        .idea-status-state label {
+            
+            font-size: 12px;
+            background: #b7f862;
+            color: #5e5e5e;
+            font-weight: 400;
+            line-height: 17px;
+            margin-bottom: 2px;
+            min-height: 20px;
+            display: block;
+            border: 1px solid #dedede;
+            border-radius: 4px;
+            
+        }
+        
+        .idea-status-state label {
+            
+            line-height: 15px;
+            
+        }
+        
+    }
+    
+}
+
+@media all and (max-width: 768px) {
+    
+    .idea-votes {
+        
+        .vote-form {
+            
+            .votes {
+                
+                height: 64px;
+                line-height: 64px;
+                
+            }
+            
+        }
+        
+    }
+    
+}
