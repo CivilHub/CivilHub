@@ -136,3 +136,79 @@
     }
     
 }
+
+/* Discussions */
+@eb_width:  1px;
+@eb_color:  #ebebeb;
+@eb_style:  solid;
+@eb_radius: 5px;
+@e_bgcolor: #ffffff;
+
+#minimap {
+  float: left;
+  margin: 0px 10px 10px 0px;
+}
+.detail-label-list {
+  padding-top: 20px;
+}
+.reply-entry {
+  position: relative;
+  .discussion-entry-content {
+    border: @eb_width @eb_style @eb_color;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 10;
+    width: 84% !important;
+    margin: 0px 0px 25px 30px;
+    padding: 0px !important;
+    .entry-meta {
+      margin: 10px 0px 10px 0px;
+      padding: 0px 15px 0px 15px;
+      a {
+        font-weight: bold;
+      }
+    }
+    .entry-content {
+      padding: 0px 15px 0px 15px;
+    }
+    .entry-footer {
+      padding: 0px 15px 0px 15px;
+      border-top: @eb_width @eb_style @eb_color;
+      font-size: 10px;
+      a {
+        color: #686868;
+        cursor: pointer;
+        font-size: 10px;
+        line-height: 28px;
+        &.quote-reply-link {
+          float: right;
+        }
+        .fa {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  .blobfish-left {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    left: 75px;
+    top: 25px;
+    transform: rotate(-45deg);
+    border-left: @eb_width @eb_style @eb_color;
+    border-top: @eb_width @eb_style @eb_color;
+    background-color: @e_bgcolor;
+    z-index: 11;
+  }
+  /* Rank points */
+  .custom-centered {
+    margin: 10px 0px 0px 20px;
+    font-size: 9px;
+  }
+  img {
+    margin-top: 0px !important;
+  }
+}
+/* // Discussions */
