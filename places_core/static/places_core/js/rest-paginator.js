@@ -28,7 +28,7 @@ var paginator = function (options) {
     var pgn = {
         $el: $(document.createElement('div'))
     };
-    
+
     pgn.$el.addClass(options.className);
     
     // Total pages
@@ -37,7 +37,7 @@ var paginator = function (options) {
     var createLink = function (url, text) {
         var a = $(document.createElement('a')),
             url = url || "#";
-        a.text(text).attr('href', url)
+        a.text(text).attr('href', url);
         if (url !== "#") {
             a.on('click', function (e) {
                 e.preventDefault();
@@ -48,7 +48,7 @@ var paginator = function (options) {
         }
         return a;
     };
-    
+
     var cleanUrl = function () {
         var url = options.baseUrl;
         if (url.indexOf('page') > -1) {
@@ -96,4 +96,4 @@ var paginator = function (options) {
     }
     // Return DOM element
     return pgn.$el;
-}
+};
