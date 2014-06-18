@@ -159,9 +159,9 @@
             </ul>
             {% if user.is_superuser %}
             {% comment %}
-            Create new category - allow superusers to create dynamically forum
-            categories via handy ajaxy form. This page element is hidden for
-            all other users and anonymous users.
+                Create new category - allow superusers to create dynamically forum
+                categories via handy ajaxy form. This page element is hidden for
+                all other users and anonymous users.
             {% endcomment %}
             <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
             <div id="new-category-form" class="modal fade">

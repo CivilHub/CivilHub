@@ -5,6 +5,18 @@
 {% block content %}
 <div class="col-sm-9">
 <div class="main-content">
+<div class="discussion-list-entry">
+    <div class="custom-label-list">
+        <span class="fa fa-list custom-fa"> </span>
+        <span class="custom-label-entry custom-main-label-entry">
+            <a href="{% url 'locations:discussions' discussion.location.slug %}">{% trans "All channels" %}</a>
+        </span>
+        <span class="custom-label-entry">
+            <a href="{% url 'locations:ajaxlist' discussion.location.slug %}?meta=question&state=all&time=any&category={{ discussion.category.pk }}&text=false" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
+        </span>
+    </div>
+</div>
+<hr />
 <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
 <div class="entry-submenu">
     <ul>
@@ -19,36 +31,37 @@
 {{ discussion.intro | safe }}
 
 {% for entry in replies %}
-    <div class="reply-entry well">
+    <div class="reply-entry">
         <div class="row">
+            <div class="blobfish-left">&nbsp;</div>
             <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar" style="margin-top:0px!important" />
+                <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
+                <p class="custom-centered">{{ entry.creator.profile.rank_pts }}</p>
             </div>
-            <div class="col-xs-11">
+            <div class="col-xs-11 discussion-entry-content">
                 <p class="entry-meta">
-                    <a href="{% url 'user:profile' entry.creator %}">{{ entry.creator.get_full_name }}</a> 
+                    <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
                     <span class="topic-date-col">
                         {{ entry.date_created | timesince }}
                         {% if entry.is_edited %}
                         <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }}
                         {% endif %}
                     </span>
-                    <span class="entry-controls">
-                        {% if user == entry.creator or is_moderator %}
-                            <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
-                                <span class="fa fa-edit"> </span>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
-                                <span class="fa fa-exclamation-triangle"> </span>
-                            </a>
-                            <a href="#" title="{% trans "Quote" %}" class="quote-reply-link">
-                                <span class="fa fa-reply-all"> </span>
-                            </a>
-                        {% endif %}
-                    </span>
+                    <span class="entry-controls"></span>
                 </p>
                 <div class="entry-content">{{ entry.content | safe }}</div>
+                <div class="entry-footer">
+                    <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+                    {% if user == entry.creator %}
+                        <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
+                            <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+                        </a>
+                    {% else %}
+                        <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                            <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
