@@ -5,10 +5,25 @@
 
 <div class="col-sm-9">
     <div id="gallery">
-    {% for file in files %}
-        <a href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}" class="gallery-item" /></a>
-    {% endfor %}
+        {% for file in files %}
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <a href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
+                <div class="caption">
+                    <h3>{{ file.name }}</h3>
+                    <p>{{ file.desc }}</p>
+                    {% if user.is_superuser %}
+                    <p class="item-controllers">
+                        <a href="#" class="btn btn-primary" role="button">{% trans "Edit" %}</a> 
+                        <a href="#" class="btn btn-danger" role="button">{% trans "Delete" %}</a>
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
+    <div class="custom-clear">&nbsp;</div>
     <button class="btn btn-default media-form-toggle">Upload file</button>
     <div id="media-form">
         <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
@@ -31,19 +46,6 @@
 </div>
 
 <script src="{% static 'places_core/includes/colorbox/jquery.colorbox.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#gallery a').colorbox({
-        rel: 'gal',
-        maxWidth: "90%",
-        maxHeight: "80%"
-    });
-    $('.media-form-toggle').on('click', function (e) {
-        e.preventDefault();
-        $('#media-form').slideDown('fast');
-    });
-})(jQuery);
-</script>
+<script src="{% static 'gallery/js/media-form.js' %}"></script>
 
 {% endblock %}

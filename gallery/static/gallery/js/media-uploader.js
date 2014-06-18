@@ -3,7 +3,7 @@
 //
 // Media uploader core
 // -------------------------------------------------------------------------
-//
+// Callback hell.
 function mediaUploader () {
     var uploader = object('MediaUploader');
     $.extend(uploader, {
@@ -161,5 +161,5 @@ $.fn.customCKEditor = function (settings) {
             }
         }
     });
-}
+};
 })(jQuery);
