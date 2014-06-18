@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-import os, json, sys
+import os, json, sys, hashlib, random
 from PIL import Image
+from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.views.generic import View
@@ -14,10 +15,13 @@ from userspace.models import UserProfile
 from locations.models import Location
 from .models import LocationGalleryItem
 
+# For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
     (30, 30),
     (128, 128),
 ]
+# Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
+IMAGE_MAX_SIZE = (1024,1024)
 
 def create_gallery(gallery_name):
     """
@@ -55,6 +59,17 @@ def create_gallery_thumbnail(gallery, filename):
         except IOError:
             return False
     return True
+
+
+def gallery_item_name():
+    """
+    Creates name based on md5 sum of current date and time to avoid naming
+    conflicts in files.
+    """
+    rand = random.randint(0, 10000)
+    basename = hashlib.md5()
+    basename.update(str(datetime.now().time) + str(rand))
+    return basename.hexdigest() + '.jpg'
 
 
 class ImageView(View):
@@ -130,13 +145,12 @@ class GalleryView(View):
         if not create_gallery(username):
             raise IOError
         for filename, f in request.FILES.iteritems():
-            filename = request.FILES[filename].name
-            file, ex = os.path.splitext(filename)
-            filename = slugify(file) + ex
-            destination = open(filepath + '/' + filename, 'wb+')
-            for chunk in f.chunks():
-                destination.write(chunk)
-            destination.close()
+            image = Image.open(f)
+            filename = gallery_item_name()
+            width, height = image.size
+            if width > IMAGE_MAX_SIZE[0] or height > IMAGE_MAX_SIZE[1]:
+                image.thumbnail(IMAGE_MAX_SIZE)
+            image.save(os.path.join(filepath, filename), "JPEG")
             create_gallery_thumbnail(username, filename)
             return filename
 

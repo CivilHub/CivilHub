@@ -3,27 +3,33 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/basic.css' %}" />
-<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/dropzone.css' %}" />
-
 <div class="col-sm-9">
     <div id="gallery">
     {% for file in files %}
         <a href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}" class="gallery-item" /></a>
     {% endfor %}
     </div>
-    <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="fallback">
-            <input name="file" type="file" class="form-input" multiple />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Upload" %}</button>
-        </div>
-    </form>
+    <button class="btn btn-default media-form-toggle">Upload file</button>
+    <div id="media-form">
+        <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label" for="image-name">{% trans "Image name" %}</label>
+                <input type="text" name="name" id="image-name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="image-description">{% trans "Image description" %}</label>
+                <textarea name="description" id="image-description" cols="20" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image" class="control-label">{% trans "Image" %}</label>
+                <input type="file" name="image" id="image-file" />
+            </div>
+            <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
+        </form>
+    </div>
 </div>
 
-<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
 <script src="{% static 'places_core/includes/colorbox/jquery.colorbox.js' %}"></script>
 <script>
 (function ($) {
@@ -32,6 +38,10 @@
         rel: 'gal',
         maxWidth: "90%",
         maxHeight: "80%"
+    });
+    $('.media-form-toggle').on('click', function (e) {
+        e.preventDefault();
+        $('#media-form').slideDown('fast');
     });
 })(jQuery);
 </script>
