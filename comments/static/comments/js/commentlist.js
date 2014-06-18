@@ -67,7 +67,9 @@ commentlist.CommentView = Backbone.View.extend({
         'click .show-replies': 'showReplies',
         'click .comment-reply': 'replyComment',
         'click .vote-up-link': 'voteUp',
-        'click .vote-down-link': 'voteDown'
+        'click .vote-down-link': 'voteDown',
+        'mouseover': 'showControls',
+        'mouseout': 'hideControls'
     },
     
     render: function () {
@@ -96,6 +98,14 @@ commentlist.CommentView = Backbone.View.extend({
             _that.edit();
         });
         return _that;
+    },
+    
+    showControls: function (e) {
+        this.$el.find('.comment-controls:first').css('opacity', 1);
+    },
+    
+    hideControls: function (e) {
+        this.$el.find('.comment-controls:first').css('opacity', 0);
     },
     
     update: function (attrs, callback, params) {
