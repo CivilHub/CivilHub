@@ -8,7 +8,8 @@
     });
     $('#id_description').customCKEditor('custom');
     $('#id_avatar')
-        .bootstrapFileInput();
+        // For unknown reason this plugin not working anymore.
+        //.bootstrapFileInput()
         .on('change', function () {
             $('#upload-avatar-form').submit();
         });

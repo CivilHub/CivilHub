@@ -87,7 +87,7 @@ $('.submenu-toggle').bind('click', function (evt) {
             close: function () {
                 this.$el.empty().remove();
             }
-        })
+    });
     // Backbone user collection
     // ------------------------
     // Holds only one element, which is requested user, but can be easily
@@ -129,9 +129,9 @@ $('.submenu-toggle').bind('click', function (evt) {
                         clearTimeout(timeout);
                     });
             });
-        }
+        };
         this.open();
-    }
+    };
     // Bind events - open user popup window
     // ------------------------------------
     var openWindow = function ($toggle) {
@@ -153,8 +153,10 @@ $('.submenu-toggle').bind('click', function (evt) {
         trigger = false;
         clearTimeout(timeout);
         if (state) {
-            $('.user-popup-window').empty().remove();
-            state = false;
+            timeout = setTimeout(function () {
+                $('.user-popup-window').empty().remove();
+                state = false;
+            }, 1000);
         }
     });
 })();
