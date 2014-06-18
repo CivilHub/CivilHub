@@ -1,0 +1,37 @@
+{% load staticfiles %} {% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
+<link href="{% static 'places_core/includes/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/includes/jquery-ui/themes/smoothness/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% block extra_styles %}{% endblock %}
+
+<script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'places_core/includes/bootbox/bootbox.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootstrap-flashmsg.js' %}"></script>
+<script src="{% static 'places_core/includes/underscore/underscore.js' %}"></script>
+<script src="{% static 'places_core/includes/backbone/backbone.js' %}"></script>
+<!-- http://momentjs.com/ -->
+<script src="{% static 'places_core/includes/momentjs/moment.js' %}"></script>
+<!-- git@bitbucket.org:krastley/javascript-helpers.git -->
+<script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
+<script src="{% static 'places_core/js/djangojs.js' %}"></script>
+
+<!-- CKEDITOR custom settings -->
+<script src="{% static 'places_core/js/ckeditor-settings.js' %}"></script>
+
+<!-- Django javascript translation catalog -->
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+
+{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
+{% block extra_scripts %}{% endblock %}
+</head>
