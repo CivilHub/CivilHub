@@ -199,6 +199,7 @@ class PlaceGalleryView(GalleryView):
         }
         for picture in location.pictures.all():
             context['files'].append({
+                'pk': picture.pk,
                 'thumb': picture.get_thumbnail((128,128)),
                 'desc': picture.description,
                 'href': picture.url(),

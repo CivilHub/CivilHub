@@ -14,8 +14,8 @@
                     <p>{{ file.desc }}</p>
                     {% if user.is_superuser %}
                     <p class="item-controllers">
-                        <a href="#" class="btn btn-primary" role="button">{% trans "Edit" %}</a> 
-                        <a href="#" class="btn btn-danger" role="button">{% trans "Delete" %}</a>
+                        <a href="#" class="btn btn-primary edit-item-btn" data-target="{{ file.pk }}" role="button">{% trans "Edit" %}</a> 
+                        <a href="#" class="btn btn-danger delete-item-btn" data-target="{{ file.pk }}" role="button">{% trans "Delete" %}</a>
                     </p>
                     {% endif %}
                 </div>

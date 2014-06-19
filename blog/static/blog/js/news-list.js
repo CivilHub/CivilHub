@@ -2,6 +2,7 @@
     "use strict";
     var newsList = {},
         newsSet = null,
+        pages = null,      // result pages total count for paginator.
         appUrl   = '/rest/news/?pk=' + $('#location-id').val();
     
     newsList.News = Backbone.Model.extend({});
@@ -49,8 +50,12 @@
         var pgn  = '';
         $('#entries').empty();
         $.get(url, function (resp) {
+            if (_.isNull(pages)) {
+                pages = Math.ceil(resp.count / resp.results.length);
+            }
             pgn = paginator({
                 baseUrl : url,
+                pages   : pages,
                 total   : resp.count,
                 perPage : resp.results.length,
                 previous: resp.previous,
@@ -60,7 +65,7 @@
             newsSet = new newsList.ListView(resp.results);
             newsSet.$el.append(pgn);
         });
-    }
+    };
     
     // Initialize first results page
     createNewsList(appUrl);

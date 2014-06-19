@@ -4,6 +4,7 @@
 //   - baseUrl : Base app url to fetch data from.
 //   - total   : Total elements count in current set.
 //   - perPage : Number of elements to display on one page.
+//   - pages   : Total number of results pages.
 //   - previous: Previous link provided by REST framework.
 //   - next    : Next link provided by REST framework.
 // @returns {jQuery DOMElement}
@@ -26,18 +27,19 @@ var paginator = function (options) {
     options = $.extend(defaults, options);
     
     var pgn = {
-        $el: $(document.createElement('div'))
+        $el: $(document.createElement('ul'))
     };
 
     pgn.$el.addClass(options.className);
     
     // Total pages
-    var pages = Math.ceil(options.total / options.perPage);
+    var pages = options.pages;
     
     var createLink = function (url, text) {
-        var a = $(document.createElement('a')),
+        var li = $(document.createElement('li')),
+            a = $(document.createElement('a')),
             url = url || "#";
-        a.text(text).attr('href', url);
+        a.appendTo(li).text(text).attr('href', url);
         if (url !== "#") {
             a.on('click', function (e) {
                 e.preventDefault();
@@ -46,7 +48,7 @@ var paginator = function (options) {
                 }
             });
         }
-        return a;
+        return li;
     };
 
     var cleanUrl = function () {
