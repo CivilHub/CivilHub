@@ -4,7 +4,7 @@
 (function ($) {    
 "use strict";
 
-$('#gallery a').colorbox({
+$('.gallery-item').colorbox({
     rel: 'gal',
     maxWidth: "90%",
     maxHeight: "80%"
@@ -36,6 +36,19 @@ $('.thumbnail').on('mouseover', function (e) {
                 $(this).css('display', 'none');
             }
         });
+    });
+});
+
+$('.item-control-btn').on('click', function (e) {
+    e.preventDefault();
+    sendAjaxRequest('DELETE', document.location.href, {
+        data: {pk: $(this).attr('data-target')},
+        success: function (resp) {
+            display_message(resp.message, resp.level);
+        },
+        error: function (err) {
+            console.log(err);
+        }
     });
 });
     

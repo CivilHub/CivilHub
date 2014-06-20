@@ -229,3 +229,20 @@ class PlaceGalleryView(GalleryView):
                 'message': _("File uploaded")
             }))
         return redirect(reverse('locations:gallery', kwargs={'slug':slug}))
+
+    def delete(self, request):
+        gallery = LocationGalleryItem.objects.get(pk=request.GET.get('pk'))
+        filepath = gallery.get_filepath()
+        filename = gallery.picture_name
+        thumbs = os.path.join(filepath, 'thumbs')
+
+        gallery.delete()
+        os.unlink(os.path.join(filepath, filename))
+        for s in THUMB_SIZES:
+            os.unlink(os.path.join(thumbs, str(s[0])+'x'+str(s[1]), filename))
+
+        return HttpResponse(json.dumps({
+            'success': True,
+            'message': _("Item deleted"),
+            'level'  : 'success',
+        }))
