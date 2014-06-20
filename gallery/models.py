@@ -36,13 +36,17 @@ class LocationGalleryItem(models.Model):
 
     def get_filepath(self):
         """
-        This method returns full pathname to item picture. It may be useful for
+        This method returns full pathname to item gallery. It may be useful for
         other custom views.
         """
-        return str(os.path.join(
-            settings.MEDIA_ROOT,
-            self.location.slug,
-            self.picture_name))
+        return str(os.path.join(settings.MEDIA_ROOT, self.location.slug))
+
+    def get_filename(self):
+        """
+        Returns full file path and filename.
+        """
+        path = self.get_filepath()
+        return os.path.join(path, self.picture_name)
 
     def __unicode__(self):
         return self.name or self.picture_name

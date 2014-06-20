@@ -19,7 +19,7 @@ var paginator = function (options) {
         nextPageLabel : gettext('Next'),
         className     : 'pagination',
         entryClassName: 'paginator-page',
-        activeClass   : 'paginator-active',
+        activeClass   : 'active',
         callback      : false,
         showEmpty     : false
     };
