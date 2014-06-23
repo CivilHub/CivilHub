@@ -98,7 +98,7 @@
     <script type="text/template" id="vote-counter-entry">
         <div class="counter-entry">
             <img src="<%= user_avatar %>" alt="<%= username %>" />
-            <%= user_full_name %> - <%= vote %>
+            <a href="<%= user_url %>"><%= user_full_name %></a> - <span class="label vote-result-label"><span class="fa">&nbsp;</span></span>
         </div>
     </script>
     <script>(function($){$('#vote-counter-modal').modal({show:false});})(jQuery);</script>

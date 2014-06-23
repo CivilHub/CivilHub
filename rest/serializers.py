@@ -170,13 +170,15 @@ class IdeaVoteCounterSerializer(serializers.ModelSerializer):
     """
     id = serializers.Field(source='pk')
     username = serializers.Field(source='user.username')
+    user_url = serializers.Field(source='user.profile.get_absolute_url')
     user_full_name = serializers.Field(source='user.get_full_name')
-    user_avatar = serializers.Field(source='user.profile.avatar.url')
+    user_avatar = serializers.Field(source='user.profile.thumbnail.url')
     vote = serializers.Field()
 
     class Meta:
         model = IdeaVote
-        fields = ('id', 'username', 'user_full_name', 'user_avatar', 'vote',)
+        fields = ('id', 'username', 'user_url', 'user_full_name',
+                  'user_avatar', 'vote',)
 
 
 class AbuseReportSerializer(serializers.ModelSerializer):

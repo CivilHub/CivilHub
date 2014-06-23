@@ -46,16 +46,12 @@ $('.vote-btn').on('click', function () {
 var voteCounter = function (ideaId) {
     // Put Backbone MVC in bootstrap modal window.
     var getVotes = function (id, callback) {
-            var data = {};
             sendAjaxRequest('GET', '/rest/idea_votes/', {
                 data: {pk: id},
                 success: function (resp) {
                     if (typeof(callback) === 'function') {
                         callback(resp);
                     }
-                },
-                error: function (err) {
-                    console.log(err);
                 }
             });
         },
@@ -68,7 +64,19 @@ var voteCounter = function (ideaId) {
             template:  _.template($('#vote-counter-entry').html()),
             render: function () {
                 this.$el.html(this.template(this.model.toJSON()));
+                this.markLabel(this.model.get('vote'));
                 return this;
+            },
+            markLabel: function (vote) {
+                var $label = this.$el.find('.vote-result-label'),
+                    $labelTxt = $label.find('.fa');
+                if (vote) {
+                    $label.addClass('label-success');
+                    $labelTxt.addClass('fa-arrow-up');
+                } else {
+                    $label.addClass('label-danger');
+                    $labelTxt.addClass('fa-arrow-down');
+                }
             }
         }),
 
@@ -91,7 +99,7 @@ var voteCounter = function (ideaId) {
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);
-                this.$el.modal('show');
+                this.$el.modal('show').data('voteCounter', this);
             },
             renderEntry: function (item) {
                 var entry = new VoteView({
