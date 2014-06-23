@@ -245,6 +245,16 @@ CELERY_IMPORTS = ('places_core.tasks',)
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
+# Ustawienia dla miniaturek
+# For each of set of size image thumbnals will be generated automatically.
+THUMB_SIZES = [
+    (30, 30),
+    (128, 128),
+]
+# Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
+IMAGE_MAX_SIZE = (1024,1024)
+
+
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
 SOUTH_MIGRATION_MODULES = {

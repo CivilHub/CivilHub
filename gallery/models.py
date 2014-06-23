@@ -19,6 +19,22 @@ class LocationGalleryItem(models.Model):
     picture_name  = models.CharField(max_length=256)
     description   = models.TextField(blank=True, null=True)
 
+    def delete(self):
+        filename = self.picture_name
+        filepath = self.get_filepath()
+        thumbs = os.path.join(filepath, 'thumbs')
+        for s in settings.THUMB_SIZES:
+            f = os.path.join(thumbs, str(s[0])+'x'+str(s[1])+'_' + filename)
+            try:
+                os.unlink(f)
+            except Exception:
+                pass
+        try:
+            os.unlink(self.get_filename())
+        except Exception:
+            pass
+        super(LocationGalleryItem, self).delete()
+
     def url(self):
         """
         Returns picture url. This function is most useful for views.

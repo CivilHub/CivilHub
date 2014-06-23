@@ -15,13 +15,6 @@ from userspace.models import UserProfile
 from locations.models import Location
 from .models import LocationGalleryItem
 
-# For each of set of size image thumbnals will be generated automatically.
-THUMB_SIZES = [
-    (30, 30),
-    (128, 128),
-]
-# Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
-IMAGE_MAX_SIZE = (1024,1024)
 
 def create_gallery(gallery_name):
     """
@@ -47,9 +40,8 @@ def create_gallery_thumbnail(gallery, filename):
     filepath = os.path.join(settings.MEDIA_ROOT, gallery)
     thumb_path = filepath + '/thumbs/'
 
-    for w, h in THUMB_SIZES:
+    for w, h in settings.THUMB_SIZES:
         size = w, h
-        print size
         thumbfile = str(w) + 'x' + str(h) + '_' + filename
         thumbname = os.path.join(thumb_path + thumbfile)
         try:
@@ -148,8 +140,8 @@ class GalleryView(View):
             image = Image.open(f)
             filename = gallery_item_name()
             width, height = image.size
-            if width > IMAGE_MAX_SIZE[0] or height > IMAGE_MAX_SIZE[1]:
-                image.thumbnail(IMAGE_MAX_SIZE)
+            if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
+                image.thumbnail(settings.IMAGE_MAX_SIZE)
             image.save(os.path.join(filepath, filename), "JPEG")
             create_gallery_thumbnail(username, filename)
             return filename
@@ -229,20 +221,3 @@ class PlaceGalleryView(GalleryView):
                 'message': _("File uploaded")
             }))
         return redirect(reverse('locations:gallery', kwargs={'slug':slug}))
-
-    def delete(self, request):
-        gallery = LocationGalleryItem.objects.get(pk=request.GET.get('pk'))
-        filepath = gallery.get_filepath()
-        filename = gallery.picture_name
-        thumbs = os.path.join(filepath, 'thumbs')
-
-        gallery.delete()
-        os.unlink(os.path.join(filepath, filename))
-        for s in THUMB_SIZES:
-            os.unlink(os.path.join(thumbs, str(s[0])+'x'+str(s[1]), filename))
-
-        return HttpResponse(json.dumps({
-            'success': True,
-            'message': _("Item deleted"),
-            'level'  : 'success',
-        }))

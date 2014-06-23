@@ -4,11 +4,13 @@
 (function ($) {    
 "use strict";
 
+/*
 $('.gallery-item').colorbox({
     rel: 'gal',
     maxWidth: "90%",
     maxHeight: "80%"
-});
+});*/
+
 
 $('.media-form-toggle').on('click', function (e) {
     e.preventDefault();
@@ -40,11 +42,16 @@ $('.thumbnail').on('mouseover', function (e) {
 });
 
 $('.item-control-btn').on('click', function (e) {
+    var tId = $(this).attr('data-target'),
+        $el = $(this).parents('.file-entry:first');
     e.preventDefault();
-    sendAjaxRequest('DELETE', document.location.href, {
-        data: {pk: $(this).attr('data-target')},
+    sendAjaxRequest('DELETE', '/rest/galleries/' , {
+        data: {pk: tId},
         success: function (resp) {
-            display_message(resp.message, resp.level);
+            display_alert(resp.message, resp.level);
+            $el.fadeOut('fast', function () {
+                $(this).empty().remove();
+            });
         },
         error: function (err) {
             console.log(err);

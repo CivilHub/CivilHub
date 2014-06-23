@@ -6,7 +6,7 @@
 <div class="col-sm-9">
     <div id="gallery">
         {% for file in files %}
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-4 file-entry">
             <div class="thumbnail">
                 <a class="gallery-item" href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
                 <div class="caption">

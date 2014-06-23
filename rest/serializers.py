@@ -11,6 +11,7 @@ from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from places_core.models import AbuseReport
 from userspace.models import Badge
+from gallery.models import LocationGalleryItem
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -192,3 +193,11 @@ class BadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Badge
         fields = ('id', 'name', 'description', 'thumbnail',)
+
+
+class GalleryItemSerializer(serializers.ModelSerializer):
+    """ Serializer class for location gallery items. """
+    id = serializers.Field(source='pk')
+
+    class Meta:
+        model = LocationGalleryItem

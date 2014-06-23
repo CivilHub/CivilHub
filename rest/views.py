@@ -23,6 +23,7 @@ from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from userspace.models import Badge, UserProfile
+from gallery.models import LocationGalleryItem
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
@@ -232,3 +233,19 @@ class BadgeViewSet(viewsets.ModelViewSet):
             )
 
         return Response(ctx)
+
+
+class GalleryViewSet(viewsets.ModelViewSet):
+    """ Location gallery item viewset. """
+    queryset = LocationGalleryItem.objects.all()
+    serializer_class = GalleryItemSerializer
+    permission_classes = (IsModeratorOrReadOnly,)
+
+    def delete(self, request):
+        itm = get_object_or_404(LocationGalleryItem, pk=request.DATA.get('pk'))
+        itm.delete()
+        return Response({
+            'success': True,
+            'level'  : 'success',
+            'message': _("Item deleted"),
+        })
