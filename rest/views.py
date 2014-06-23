@@ -18,7 +18,9 @@ from rest_framework.pagination import PaginationSerializer
 from locations.models import Location
 from taggit.models import Tag
 from blog.models import News
+from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
+from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
@@ -173,6 +175,22 @@ class IdeaCategoryViewSet(viewsets.ModelViewSet):
     queryset = IdeaCategory.objects.all()
     serializer_class = IdeaCategorySerializer
     permission_classes = (permissions.IsAdminUser,)
+
+
+class IdeaVoteCounterViewSet(viewsets.ViewSet):
+    """
+    Get list of users that voted for and against idea.
+    """
+    queryset = IdeaVote.objects.all()
+
+    def list(self, request):
+        if request.GET.get('pk'):
+            idea = Idea.objects.get(pk=request.GET.get('pk'))
+            queryset = IdeaVote.objects.filter(idea=idea)
+        else:
+            queryset = IdeaVote.objects.all()
+        serializer = IdeaVoteCounterSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class AbuseReportViewSet(viewsets.ModelViewSet):

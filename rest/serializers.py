@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from taggit.models import Tag
 from blog.models import Category, News
 from ideas.models import Category as IdeaCategory
+from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
@@ -161,6 +162,21 @@ class IdeaCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = IdeaCategory
         fields = ('name', 'description',)
+
+
+class IdeaVoteCounterSerializer(serializers.ModelSerializer):
+    """
+    Get user profile link along with vote value (positive or negative).
+    """
+    id = serializers.Field(source='pk')
+    username = serializers.Field(source='user.username')
+    user_full_name = serializers.Field(source='user.get_full_name')
+    user_avatar = serializers.Field(source='user.profile.avatar.url')
+    vote = serializers.Field()
+
+    class Meta:
+        model = IdeaVote
+        fields = ('id', 'username', 'user_full_name', 'user_avatar', 'vote',)
 
 
 class AbuseReportSerializer(serializers.ModelSerializer):

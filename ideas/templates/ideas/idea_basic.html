@@ -22,7 +22,7 @@
                     <label class="label label-danger">{% trans "Inactive" %}</label>
                 {% endif %}
             </div>
-            <div class="idea-vote-count">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
+            <div class="idea-vote-count" data-target={{ idea.pk }}>{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
         </div>
     </div>
     <div class="col-sm-9">

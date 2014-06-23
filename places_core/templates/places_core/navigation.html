@@ -46,31 +46,17 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
-                    <!-- <a href="{% url 'locations:index' %}"><span class="ch-icon ch-home">{% trans "Places" %}</a></li>
-                <li class="dropdown"> -->
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %}<span class="fa fa-angle-down"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <!-- <li>
-                                        <a href="">Date</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Categoria</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Nazwa użytkownika</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Answers</a>
-                                    </li> -->
-                                    {% for l in user.profile.followed_locations %}
-                                    <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %}<span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
+                        </li>
+                        <li class="divider"></li>
+                        {% for l in user.profile.followed_locations %}
+                        <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
 
                 <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
 

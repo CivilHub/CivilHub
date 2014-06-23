@@ -45,6 +45,9 @@
         {% include 'ideas/idea_basic.html' %}
     {% endfor %}
 </div>
+    {% comment %}
+        Model formularza dla kategorii.
+    {% endcomment %}
     <div id="new-category-form" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -71,6 +74,34 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+    {% comment %}
+        Modal dla listy głosujących użytkowników.
+    {% endcomment %}
+    <div class="modal fade" id="vote-counter-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Votes" %}</h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    {% comment %}
+        Pojedynczy wpis na liście głosujących użytkowników.
+    {% endcomment %}
+    <script type="text/template" id="vote-counter-entry">
+        <div class="counter-entry">
+            <img src="<%= user_avatar %>" alt="<%= username %>" />
+            <%= user_full_name %> - <%= vote %>
+        </div>
+    </script>
+    <script>(function($){$('#vote-counter-modal').modal({show:false});})(jQuery);</script>
     
 </div>
 

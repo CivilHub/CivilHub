@@ -38,7 +38,6 @@ class Idea(models.Model):
     location = models.ForeignKey(Location)
     status = models.BooleanField(default=True)
     # Track changes to mark item as edited when user changes it.
-    # Fixme - after saving tags this field is True which is not desired effect.
     edited = models.BooleanField(default=False)
     tags = TaggableManager()
     
