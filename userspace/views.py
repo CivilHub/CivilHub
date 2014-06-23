@@ -25,6 +25,7 @@ from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
 from places_core.tasks import send_poll_email
+from places_core.helpers import truncatesmart
 from forms import *
 
 
@@ -441,7 +442,7 @@ def my_bookmarks(request):
             'id': b.pk,
             'content_type': target_content_type.pk,
             'target': target.get_absolute_url(),
-            'label': target.__unicode__(),
+            'label': truncatesmart(target.__unicode__(), 30),
         })
     return HttpResponse(dumps({
         'success': True,
