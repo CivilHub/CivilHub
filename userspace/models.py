@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage
 from locations.models import Location
+from actstream.models import following
 
 
 class UserProfile(models.Model):
@@ -36,6 +37,12 @@ class UserProfile(models.Model):
         """
         my_locations = self.user.location_set.all()
         return my_locations.order_by('users')[:limit]
+
+    def followed_locations(self):
+        """
+        Metoda zwraca listę lokalizacji obserwowanych przez użytkownika.
+        """
+        return following(self.user)
 
     def get_absolute_url(self):
         return reverse('user:profile', kwargs={'username': self.user.username})

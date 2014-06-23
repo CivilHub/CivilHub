@@ -54,7 +54,7 @@
                                         <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
                                     </li>
                                     <li class="divider"></li>
-                                    <li>
+                                    <!-- <li>
                                         <a href="">Date</a>
                                     </li>
                                     <li>
@@ -65,7 +65,10 @@
                                     </li>
                                     <li>
                                         <a href="">Answers</a>
-                                    </li>
+                                    </li> -->
+                                    {% for l in user.profile.followed_locations %}
+                                    <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </li>
 
