@@ -1,7 +1,9 @@
 (function ($) {
     "use strict";
-    //var editor = CKEDITOR.replace('id_content');
+    var editor = null;
     $('#id_content').customCKEditor('minimal');
+    editor = $('#id_content').data('editor');
+    console.log(editor);
     $('.entry-controls').find('a').tooltip();
     $('.reply-entry-btn').on('click', function (evt) {
         evt.preventDefault();
@@ -9,10 +11,13 @@
     });
     $('.quote-reply-link').on('click', function (evt) {
         var $entry = $(this).parents('.reply-entry'),
-            quoteEntry = $entry.find('.news-user-avatar').attr('alt'),
-            quotedTxt = '<em>' + $entry.find('.entry-content').html() + '</em>';
+            quoteEntry = $entry.find('.user-window-toggle').text(),
+            quotedTxt = '<em>' + $entry.find('.entry-content').html() + '</em>',
+            range = editor.createRange();
         evt.preventDefault();
         $('#reply-form').slideDown('fast');
-        editor.setData('<h3>' + quoteEntry + ' wrotes:</h3>' + quotedTxt);
+        editor.setData('<h3>' + quoteEntry + ' wrotes:</h3>' + quotedTxt + '<p></p>');
+        range.moveToElementEditablePosition(p);
+        range.select();
     });
 })(jQuery);

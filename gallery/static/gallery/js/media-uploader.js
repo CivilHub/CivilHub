@@ -160,6 +160,8 @@ $.fn.customCKEditor = function (settings) {
                 editor.config[key] = window.CONFIG.ckeditor[settings][key];
             }
         }
+        // Give API endpoint to manipulate editor instance.
+        $el.data('editor', editor);
     });
 };
 })(jQuery);
