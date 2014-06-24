@@ -55,16 +55,7 @@
         {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
         {% block sidebar %}{% endblock %}
         
-        <div class="clear"></div>
-        <hr />
-        {% if user.is_authenticated %}
-            {% include 'civmail/invite-users.html' %}
-            {% comment %}
-                Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
-            {% endcomment %}
-            <p><a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a></p>
-        {% endif %}
-        <p class="custom-copyrights">Copyright&copy;2014</p>
+        {% include 'places_core/footer.html' %}
         
     </div>
 </div>

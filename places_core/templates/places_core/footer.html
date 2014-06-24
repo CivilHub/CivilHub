@@ -1,0 +1,14 @@
+{% load staticfiles %} {% load i18n %}
+{% comment %}
+    Universal footer template.
+{% endcomment %}
+<div class="clear"></div>
+<hr />
+{% if user.is_authenticated %}
+    {% include 'civmail/invite-users.html' %}
+    {% comment %}
+        Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
+    {% endcomment %}
+    <p><a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a></p>
+{% endif %}
+<p class="custom-copyrights">Copyright&copy;2014</p>

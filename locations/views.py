@@ -96,9 +96,46 @@ class LocationIdeasList(DetailView):
     model = Location
     template_name = 'locations/location_ideas.html'
 
+    @classmethod
+    def list_ideas(cls, queryset, order):
+        """ Order ideas list by few different keys. """
+        if order == 'title':
+            return queryset.order_by('name')
+        elif order == 'date':
+            return queryset.order_by('-date_created')
+        elif order == 'category':
+            return queryset.order_by('category__name')
+        elif order == 'username':
+            l = list(queryset);
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+        elif order == 'votes':
+            l = list(queryset);
+            l.sort(key=lambda x: x.get_votes())
+            return l
+        else:
+            return queryset
+
+    @classmethod
+    def filter_ideas(cls, queryset, filter):
+        """ Filter ideas queryset to exclude unecessary entries. """
+        if filter == 'true':
+            return queryset.filter(status=True)
+        elif filter == 'false':
+            return queryset.filter(status=False)
+        else:
+            return queryset.filter(name__icontains=filter)
+
     def get_context_data(self, **kwargs):
         context = super(LocationIdeasList, self).get_context_data(**kwargs)
+        ideas = self.object.idea_set.all()
+        if self.request.GET.get('order'):
+            ideas = self.list_ideas(ideas, self.request.GET.get('order'))
+        if self.request.GET.get('filter'):
+            ideas = self.filter_ideas(ideas, self.request.GET.get('filter'))
+        context['title'] = self.object.name + '::' + _("Ideas")
         context['form'] = IdeaCategoryForm()
+        context['ideas'] = ideas
         return context
 
 
