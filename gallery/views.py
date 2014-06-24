@@ -105,31 +105,8 @@ class GalleryView(View):
     """
     Generic gallery view class.
     """
-    def get(self, request, slug=None):
-        username = slug if slug else request.user.username
-        template = 'gallery/media-form.html' if slug else 'userspace/gallery.html'
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        filehref = settings.MEDIA_URL + username + '/'
-        files = []
-        if not create_gallery(username):
-            raise IOError
-        for file in os.listdir(filepath):
-            if not os.path.isdir(os.path.join(filepath, file)):
-                files.append(str(file))
-        if request.is_ajax():
-            return HttpResponse(json.dumps({
-                'href': filehref,
-                'files': sorted(files),
-            }))
-        else:
-            ctx = {
-                'href': filehref,
-                'title': _("Media gallery"),
-                'files': sorted(files),
-            }
-            if slug:
-                ctx['location'] = Location.objects.get(slug=slug)
-            return render(request, template, ctx)
+    class Meta:
+        abstract = True
 
     def post(self, request, slug=None):
         username = slug if slug else request.user.username

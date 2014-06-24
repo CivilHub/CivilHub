@@ -12,7 +12,7 @@ from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from places_core.models import AbuseReport
 from userspace.models import Badge
-from gallery.models import LocationGalleryItem
+from gallery.models import LocationGalleryItem, UserGalleryItem
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -219,3 +219,18 @@ class GalleryItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LocationGalleryItem
+
+
+class UserMediaSerializer(serializers.ModelSerializer):
+    """ Serializer for items in user gallery. """
+    id = serializers.Field(source='pk')
+    picture_name = serializers.CharField()
+    picture_url = serializers.Field(source='url')
+    thumbnail = serializers.SerializerMethodField('get_thumbnail')
+
+    def get_thumbnail(self, obj):
+        return obj.get_thumbnail((128,128))
+
+    class Meta:
+        model = UserGalleryItem
+        fields = ('id', 'picture_name', 'picture_url', 'thumbnail')

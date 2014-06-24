@@ -25,7 +25,7 @@ from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from userspace.models import Badge, UserProfile
-from gallery.models import LocationGalleryItem
+from gallery.models import LocationGalleryItem, UserGalleryItem
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
@@ -267,3 +267,15 @@ class GalleryViewSet(viewsets.ModelViewSet):
             'level'  : 'success',
             'message': _("Item deleted"),
         })
+
+
+class MediaViewSet(viewsets.ModelViewSet):
+    """ Handle user media for uploader. """
+    queryset = UserGalleryItem.objects.all()
+    serializer_class = UserMediaSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = UserGalleryItem.objects.filter(user=request.user)
+        serializer = UserMediaSerializer(queryset, many=True)
+        return Response(serializer.data)
