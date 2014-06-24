@@ -107,6 +107,7 @@ class LocationIdeasList(DetailView):
             return queryset.order_by('category__name')
         elif order == 'username':
             l = list(queryset);
+            # Order by last name - we assume that every user has full name
             l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
             return l
         elif order == 'votes':
@@ -118,7 +119,7 @@ class LocationIdeasList(DetailView):
 
     @classmethod
     def filter_ideas(cls, queryset, filter):
-        """ Filter ideas queryset to exclude unecessary entries. """
+        """ Filter ideas queryset to exclude unnecessary entries. """
         if filter == 'true':
             return queryset.filter(status=True)
         elif filter == 'false':
