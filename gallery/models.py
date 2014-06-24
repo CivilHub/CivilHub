@@ -72,7 +72,7 @@ class UserGalleryItem(GalleryItem):
         return settings.MEDIA_URL + self.user.username + '/thumbs/' + thumbname
 
     def get_filepath(self):
-        return str(os.path.join(settings.MEDIA_ROOT, self.user))
+        return str(os.path.join(settings.MEDIA_ROOT, str(self.user.username)))
 
 
 class LocationGalleryItem(GalleryItem):

@@ -279,3 +279,12 @@ class MediaViewSet(viewsets.ModelViewSet):
         queryset = UserGalleryItem.objects.filter(user=request.user)
         serializer = UserMediaSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    def delete(self, request):
+        itm = UserGalleryItem.objects.get(pk=request.DATA.get('pk'))
+        itm.delete()
+        return Response({
+            'success': True,
+            'level'  : 'success',
+            'message': _("Item deleted"),
+        })

@@ -4,6 +4,9 @@
 // Obsługa media-pluginu dla CKEditora.
 // -----------------------------------------------------------------------------
 
+var USER_GALLERY_URL = '/rest/usermedia/';
+var PLACE_GALLERY_URL = '/rest/gallery/';
+
 Dropzone.autoDiscover = false;
 
 // Media uploader
@@ -19,7 +22,7 @@ var mediaUploader = function (options) {
         options = $.extend(defaults, options),
 
         fetchGallery = function (callback) {
-            sendAjaxRequest('GET', '/rest/usermedia', {
+            sendAjaxRequest('GET', USER_GALLERY_URL, {
                 success: function (resp) {
                     if (typeof(callback) === 'function') {
                         callback(resp);
@@ -62,16 +65,38 @@ var mediaUploader = function (options) {
 
         MediaItemView = Backbone.View.extend({
             tagName:   'div',
+
             className: 'media-entry',
+
             template:  _.template($('#media-item-tpl').html()),
+
+            events: {
+                'click .delete-item-button': 'removeItem'
+            },
+
             render: function () {
                 this.$el.html(this.template(this.model.toJSON()));
                 return this;
             },
+
+            removeItem: function () {
+                var that = this;
+                sendAjaxRequest('DELETE', USER_GALLERY_URL, {
+                    data: {pk: that.model.get('id')},
+                    success: function (resp) {
+                        console.log(resp);
+                        that.$el.fadeOut('slow');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
         }),
 
         MediaList = Backbone.Collection.extend({
-            model: MediaItemModel
+            model: MediaItemModel,
+            url: USER_GALLERY_URL
         }),
 
         Uploader = Backbone.View.extend({
@@ -91,6 +116,7 @@ var mediaUploader = function (options) {
                     that.collection = new MediaList(items);
                     that.render();
                     that.active = true;
+                    that.listenTo(that.collection, 'reset', that.render);
                 });
             },
 
@@ -98,8 +124,8 @@ var mediaUploader = function (options) {
                 var that = this;
                 that.$userGallery.empty();
                 fetchGallery(function (items) {
-                    that.collection = new MediaList(items);
-                    that.render();
+                    that.collection.reset(items);
+                    $('a[href="#tabs-2"]').trigger('click');
                 });
             },
 
