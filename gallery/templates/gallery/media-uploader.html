@@ -48,9 +48,9 @@
 </div>
 <script type="text/template" id="media-item-tpl">
     <img src="<%= thumbnail %>" alt="<%= picture_name %>" />
+    <a href="#" class="delete-item-button"><span class="fa fa-times-circle-o">&nbsp;</span></a>
 </script>
-<script>(function($){$('#media-upload-modal').modal({show:false});})(jQuery);</script>
-
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
+<script>(function($){$('#media-upload-modal').modal({show:false});})(jQuery);</script>
 <script src="{% static 'gallery/js/media-uploader.js' %}"></script>

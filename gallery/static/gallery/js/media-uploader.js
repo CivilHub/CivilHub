@@ -1,9 +1,15 @@
 (function ($) {
 "use strict";
+//
+// Obsługa media-pluginu dla CKEditora.
+// -----------------------------------------------------------------------------
+
+Dropzone.autoDiscover = false;
 
 // Media uploader
 // --------------
 var mediaUploader = function (options) {
+
     var defaults = {
             callback: function (selected) {
                 console.log(selected);
@@ -20,6 +26,36 @@ var mediaUploader = function (options) {
                     }
                 }
             });
+        },
+
+        createDropzone = function () {
+            var $dz = $('#dropzone-input');
+            if ($dz.data('dropzone') !== undefined) {
+                // If dropzone already exists, 
+                // their is no need to create new one.
+                return $dz.data('dropzone');
+            } else {
+                return new Dropzone('#dropzone-input', {
+                    init: function () {
+                        var that = this;
+                        that.on("complete", function (file) {
+                            if (that.getUploadingFiles().length === 0 &&
+                                that.getQueuedFiles().length === 0) {
+                                // re-fetch gallery after media upload
+                                //uploader.fetchUserGallery();
+                                $('#media-upload-modal')
+                                    .data('mediaUploader')
+                                    .refetch();
+                            }
+                        });
+                        // Add dropzone to element's data to avoid 'Dropzone
+                        // already attached' error.
+                        $('#dropzone-input')
+                            .addClass('dropzone')
+                            .data('dropzone', that);
+                    }
+                });
+            }
         },
 
         MediaItemModel = Backbone.Model.extend({}),
@@ -40,18 +76,33 @@ var mediaUploader = function (options) {
 
         Uploader = Backbone.View.extend({
             active: false,
+
             selected: null,
+
             el: '#media-upload-modal',
+
             initialize: function () {
                 var that = this;
                 that.$el.find('#tabs').tabs();
                 that.$userGallery = that.$el.find('#tabs-2');
                 that.$sBtn = that.$el.find('.submit-btn');
+                that.dz = createDropzone();
+                fetchGallery(function (items) {
+                    that.collection = new MediaList(items);
+                    that.render();
+                    that.active = true;
+                });
+            },
+
+            refetch: function () {
+                var that = this;
+                that.$userGallery.empty();
                 fetchGallery(function (items) {
                     that.collection = new MediaList(items);
                     that.render();
                 });
             },
+
             render: function () {
                 var that = this;
                 this.collection.each(function (item) {
@@ -70,6 +121,7 @@ var mediaUploader = function (options) {
                     that.$el.modal('hide');
                 });
             },
+
             renderEntry: function (item) {
                 var that = this,
                     entry = new MediaItemView({
@@ -79,6 +131,8 @@ var mediaUploader = function (options) {
                     .appendTo(this.$userGallery)
                     .bind('click', function () {
                         that.selected = entry.model.get('picture_url');
+                        that.$el.find('.media-entry').removeClass('active');
+                        entry.$el.addClass('active');
                     });
             }
         });
@@ -101,9 +155,11 @@ $.fn.customCKEditor = function (settings) {
         editor.addCommand('Uploader', {exec: function () {
             uploader = mediaUploader({
                 callback: function (item) {
-                    image = CKEDITOR.dom.element
-                        .createFromHtml( '<img src="' + item + '" border="0" />' );
-                    editor.insertElement(image);
+                    if (!_.isNull(item)) {
+                        image = CKEDITOR.dom.element
+                            .createFromHtml( '<img src="' + item + '" border="0" />' );
+                        editor.insertElement(image);
+                    }
                 }
             });
         }});
