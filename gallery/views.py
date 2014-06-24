@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from easy_thumbnails.files import get_thumbnailer
 from userspace.models import UserProfile
 from locations.models import Location
-from .models import LocationGalleryItem
+from .models import LocationGalleryItem, UserGalleryItem
 
 
 def create_gallery(gallery_name):
@@ -166,9 +166,29 @@ class UserGalleryView(GalleryView):
     """
     List and manage items uploaded by user.
     """
+    def get(self, request):
+        context = {
+            'title': _("Media gallery"),
+            'files': [],
+        }
+        for picture in UserGalleryItem.objects.filter(user=request.user):
+            context['files'].append({
+                'pk': picture.pk,
+                'thumb': picture.get_thumbnail((128,128)),
+                'href': picture.url(),
+            })
+        return render(request, 'gallery/user-gallery.html', context)
 
     def post(self, request):
-        super(UserGalleryView, self).post(request)
+        filename = super(UserGalleryView, self).post(request)
+        try:
+            UserGalleryItem.objects.get(picture_name=filename)
+        except UserGalleryItem.DoesNotExist:
+            item = UserGalleryItem(
+                user = request.user,
+                picture_name = filename,
+            )
+            item.save()
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,
