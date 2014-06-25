@@ -4,15 +4,18 @@ from PIL import Image
 from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
-from django.views.generic import View
+from django.views.generic import View, DetailView
 from django.http import HttpResponse, Http404
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from easy_thumbnails.files import get_thumbnailer
 from userspace.models import UserProfile
 from locations.models import Location
+from comments.models import CustomComment
+from places_core.permissions import is_moderator
 from .models import LocationGalleryItem, UserGalleryItem
 
 
@@ -68,20 +71,17 @@ class ImageView(View):
     """
     Edit photos.
     """
-    def get(self, request, filename):
+    def get(self, request, pk):
         username = request.user.username
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        filehref = settings.MEDIA_URL + username + '/'
-        if not os.path.exists(os.path.join(filepath, filename)):
-            raise Http404
+        item = get_object_or_404(UserGalleryItem, pk=pk)
         ctx = {
             'title': _("Edit image"),
-            'imgpath': filehref,
-            'image': filename,
+            'href' : item.url(),
+            'image': item,
         }
         return render(request, 'gallery/media-editor.html', ctx)
 
-    def post(self, request, filename):
+    def post(self, request, pk):
         """
         Save changes in image.
         """
@@ -89,8 +89,9 @@ class ImageView(View):
         y = request.POST.get('y')
         x2 = request.POST.get('x2')
         y2 = request.POST.get('y2')
-        filename = request.POST.get('filename')
-        filepath = os.path.join(settings.MEDIA_ROOT, request.user.username)
+        item = get_object_or_404(UserGalleryItem, pk=pk)
+        filename = item.picture_name
+        filepath = item.get_filepath()
         file = os.path.join(filepath, filename)
         box = (int(x), int(y), int(x2), int(y2))
 
@@ -218,3 +219,31 @@ class PlaceGalleryView(GalleryView):
                 'message': _("File uploaded")
             }))
         return redirect(reverse('locations:gallery', kwargs={'slug':slug}))
+
+
+class PlacePictureView(DetailView):
+    """
+    Show single picture page with comments etc.
+    """
+    model = LocationGalleryItem
+    template_name = 'gallery/picture-view.html'
+    content_object_name = 'picture'
+
+    def get_object(self):
+        object = super(PlacePictureView, self).get_object()
+        content_type = ContentType.objects.get_for_model(LocationGalleryItem)
+        object.content_type = content_type.pk
+        comment_set = CustomComment.objects.filter(
+            content_type=content_type.pk
+        )
+        comment_set = comment_set.filter(object_pk=object.pk)
+        object.comments = len(comment_set)
+        return object
+
+    def get_context_data(self, **kwargs):
+        context = super(PlacePictureView, self).get_context_data(**kwargs)
+        context['is_moderator'] = is_moderator(self.request.user, self.object.location)
+        context['title'] = self.object.name
+        context['location'] = self.object.location
+        context['picture'] = self.get_object()
+        return context

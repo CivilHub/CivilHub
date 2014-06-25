@@ -5,7 +5,7 @@
 
 <div id="gallery">
 {% for file in files %}
-    <a href="{% url 'gallery:image' file %}"><img src="{{ file.thumb }}" class="gallery-item" /></a>
+    <a href="{% url 'gallery:image' file.pk %}"><img src="{{ file.thumb }}" class="gallery-item" /></a>
 {% endfor %}
 </div>
 <form role="form" action="{% url 'gallery:index' %}" class="form-hidden" method="post" enctype="multipart/form-data">

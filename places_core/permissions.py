@@ -16,6 +16,9 @@ def is_moderator(user, location):
     if user.is_superuser:
         return True
 
+    if user.is_anonymous:
+        return False
+
     profile = UserProfile.objects.get(user = user)
     if location in profile.mod_areas.all():
         return True

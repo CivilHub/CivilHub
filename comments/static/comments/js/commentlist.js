@@ -67,9 +67,7 @@ commentlist.CommentView = Backbone.View.extend({
         'click .show-replies': 'showReplies',
         'click .comment-reply': 'replyComment',
         'click .vote-up-link': 'voteUp',
-        'click .vote-down-link': 'voteDown',
-        'mouseover': 'showControls',
-        'mouseout': 'hideControls'
+        'click .vote-down-link': 'voteDown'
     },
     
     render: function () {
@@ -98,14 +96,6 @@ commentlist.CommentView = Backbone.View.extend({
             _that.edit();
         });
         return _that;
-    },
-    
-    showControls: function (e) {
-        this.$el.find('.comment-controls:first').css('opacity', 1);
-    },
-    
-    hideControls: function (e) {
-        this.$el.find('.comment-controls:first').css('opacity', 0);
     },
     
     update: function (attrs, callback, params) {
@@ -379,6 +369,16 @@ commentlist.Commentlist = Backbone.Collection.extend({
 // -------------------------------------------------------------------------
 $.get(url, function (comments) {
     new commentlist.CommentlistView(comments);
+});
+//
+// Bind show/hide comment controls event.
+// -------------------------------------------------------------------------
+$(document).on('mouseover', '.comment', function (e) {
+    e.stopPropagation();
+    $(this).find('.comment-controls:first').css('opacity', 1);
+});
+$(document).on('mouseout', '.comment', function () {
+    $(this).find('.comment-controls').css('opacity', 0);
 });
 
 })(jQuery);

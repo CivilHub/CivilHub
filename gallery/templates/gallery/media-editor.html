@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="{% static 'places_core/includes/Jcrop/css/jquery.Jcrop.min.css' %}" />
 
-<img src="{{ imgpath }}/{{ image }}" alt="{{ image }}" id="edited-image" />
+<img src="{{ href }}" alt="{{ image }}" id="edited-image" />
 
 <form role="form" id="image-cropp-form" method="post" action="">
     {% csrf_token %}

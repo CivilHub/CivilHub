@@ -1,0 +1,28 @@
+{% load staticfiles %}{% load i18n %}
+{% comment %}
+    Modal dla listy głosujących użytkowników.
+{% endcomment %}
+<div class="modal fade" id="vote-counter-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Votes" %}</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% comment %}
+    Pojedynczy wpis na liście głosujących użytkowników.
+{% endcomment %}
+<script type="text/template" id="vote-counter-entry">
+    <div class="counter-entry">
+        <img src="<%= user_avatar %>" alt="<%= username %>" />
+        <a href="<%= user_url %>"><%= user_full_name %></a> - <span class="label vote-result-label"><span class="fa">&nbsp;</span></span>
+    </div>
+</script>
+<script>(function($){$('#vote-counter-modal').modal({show:false});})(jQuery);</script>

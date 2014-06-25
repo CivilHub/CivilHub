@@ -2,15 +2,18 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}">
+<script type="text/javascript" src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+<script type="text/javascript">Shadowbox.init();</script>
 
 <div class="col-sm-9">
     <div id="gallery">
         {% for file in files %}
         <div class="col-sm-6 col-md-4 file-entry">
             <div class="thumbnail">
-                <a class="gallery-item" href="{{ file.href }}"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
+                <a class="gallery-item" href="{{ file.href }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
                 <div class="caption">
-                    <h3>{{ file.name }}</h3>
+                    <h3><a href="{% url 'locations:picture' slug=location.slug pk=file.pk %}">{{ file.name }}</a></h3>
                     <p>{{ file.desc }}</p>
                     {% if user.is_superuser %}
                     <p class="item-controllers">
@@ -45,7 +48,6 @@
     </div>
 </div>
 
-<script src="{% static 'places_core/includes/colorbox/jquery.colorbox.js' %}"></script>
 <script src="{% static 'gallery/js/media-form.js' %}"></script>
 
 {% endblock %}
