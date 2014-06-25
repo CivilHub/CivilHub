@@ -99,10 +99,10 @@ commentlist.CommentView = Backbone.View.extend({
     },
     
     update: function (attrs, callback, params) {
-        sendAjaxRequest('PUT', '/rest/comments/' + this.model.get('id'), {
+        sendAjaxRequest('PATCH', '/rest/comments/'+this.model.get('id')+'/', {
             data: attrs,
             success: function (resp) {
-                display_alert(gettext('Comment saved'));
+                display_alert(resp.message, resp.level);
                 if (typeof(callback) === 'function') {
                     params = params || {};
                     callback(params);
@@ -142,6 +142,7 @@ commentlist.CommentView = Backbone.View.extend({
                 var newContent = $editor.val();
                 evt.preventDefault();
                 _that.model.set('comment', newContent);
+                _that.model.set('submit_date', moment().format());
                 _that.update(_that.model.toJSON(), function () {
                     _that.render();
                 });

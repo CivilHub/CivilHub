@@ -100,7 +100,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
         return 'submit_date'
 
     def get_queryset(self):
-        if self.request.GET:
+        if self.request.GET.get('content-type'):
             order = self.set_element_order()
             content_label = self.request.GET['content-label']
             content_type = ContentType.objects.get(pk=self.request.GET['content-type'])
@@ -111,6 +111,25 @@ class CommentsViewSet(viewsets.ModelViewSet):
             return total_comments.order_by(order)
         else:
             queryset = super(CommentsViewSet, self).get_queryset()
+
+    def partial_update(self, request, pk=None):
+        if not pk: return False
+        comment = get_object_or_404(CustomComment, pk=pk)
+        comment.comment = request.DATA.get('comment')
+        comment.submit_date = timezone.now()
+        try:
+            comment.save()
+        except Exception as ex:
+            return Response({
+                'success': False,
+                'message': str(ex),
+                'level'  : 'danger',
+            })
+        return Response({
+            'success': True,
+            'message': _("Changes saved"),
+            'level'  : 'success',
+        })
 
     def pre_save(self, obj):
         obj.user = self.request.user

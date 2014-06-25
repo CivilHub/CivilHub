@@ -125,7 +125,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
 ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
                'blog.news', 'polls.poll', 'comments.customcomment',
-               'topics.discussion', 'userspace.userprofile', 'userspace.badge'),
+               'topics.discussion', 'userspace.userprofile', 'userspace.badge',
+               'gallery.locationgalleryitem',),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
