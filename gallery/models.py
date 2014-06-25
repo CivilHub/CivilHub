@@ -2,6 +2,7 @@
 import os
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from locations.models import Location
 
@@ -102,6 +103,13 @@ class LocationGalleryItem(GalleryItem):
 
     def get_filepath(self):
         return str(os.path.join(settings.MEDIA_ROOT, self.location.slug))
+
+    def get_absolute_url(self):
+        return reverse('locations:picture',
+                        kwargs={
+                            'slug': self.location.slug,
+                            'pk'  : self.pk,
+                        })
 
     def __unicode__(self):
         return self.name or self.picture_name

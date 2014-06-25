@@ -30,8 +30,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i>{% trans "Profile" %}</a></li>
-                        <li><a href="#"><i class="fa fa-home fa-fw"></i>{% trans "My Places" %}</a></li>
+                        <li><a href="{% url 'user:profile' user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Profile" %}</a></li>
+                        <li><a href="{% url 'user:locations' user.pk %}"><i class="fa fa-home fa-fw"></i>{% trans "My Places" %}</a></li>
                         <li><a href="{% url 'gallery:index' %}"><i class="fa fa-file-image-o fa-fw"></i>{% trans "Media" %}</a></li>
                         <li><a href="{% url 'user:index' %}"><i class="fa fa-pencil-square-o fa-fw"></i>{% trans "Edit profile" %}</a></li>
                         <li class="divider"></li>

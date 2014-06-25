@@ -10,6 +10,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -448,3 +449,17 @@ def my_bookmarks(request):
         'success': True,
         'bookmarks': bookmarks,
     }))
+
+
+class UserFollowedLocations(DetailView):
+    """
+    Present list of followed locations.
+    """
+    model = UserProfile
+    template_name = 'userspace/followed-locations.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UserFollowedLocations, self).get_context_data()
+        ctx['title'] = _("My places")
+        return ctx
