@@ -16,7 +16,14 @@ var $modal     = $('#invite-modal'),               // Modal window
 $modal.modal({show:false});
 
 $emails.tagsInput({
-    defaultText: inviteText
+    defaultText: inviteText,
+    onPaste: true,
+    onAddTag: function () {
+        var oldValue = $emails.val(),
+            newValue = oldValue.replace(/ /g, ',');
+        $emails.importTags('');
+        $emails.importTags(newValue);
+    }
 });
 
 $form.on('submit', function (evt) {

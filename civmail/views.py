@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import View
+from django.utils import translation
 from django.utils.translation import ugettext as _
 from places_core.mixins import LoginRequiredMixin
 from civmail import messages as mails
@@ -25,6 +26,7 @@ class InviteToContentView(LoginRequiredMixin, View):
     def post(self, request):
         """ Send emails. """
         emails = request.POST.get('emails').split(',')
+        translation.activate(request.user.profile.lang)
         message = {
             'link': {
                 'name': request.POST.get('name'),
