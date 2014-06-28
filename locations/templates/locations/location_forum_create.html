@@ -20,6 +20,9 @@
 (function ($) {
     "use strict";
     $('#id_intro').customCKEditor('custom');
+    $('#id_tags').tagsInput({
+        autocomplete_url: '/rest/tags/',
+    });
 })(jQuery);
 </script>
 {% endblock %}

@@ -27,6 +27,8 @@
 </div>
 <hr />
 
+{% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
+
 {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
 
 <div class="reply-entry">

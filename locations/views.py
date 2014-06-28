@@ -293,9 +293,13 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
-        form.instance.save()
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        obj.save()
+        # Without this next line the tags won't be saved.
+        form.save_m2m()
         topic = Discussion.objects.latest('pk')
+        super(LocationDiscussionCreate, self).form_valid(form)
         return redirect(reverse('locations:topic', 
             kwargs = {
                 'place_slug': topic.location.slug,

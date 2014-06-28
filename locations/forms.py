@@ -135,10 +135,11 @@ class DiscussionLocationForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
+    tags = TagField(required=False)
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location',)
+        fields = ('question', 'intro', 'category', 'location', 'tags')
 
 
 class SearchDiscussionForm(SearchForm):

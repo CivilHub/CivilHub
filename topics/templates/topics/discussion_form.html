@@ -30,6 +30,9 @@
         onColor: 'success',
         offColor: 'danger'
     });
+    $('#id_tags').tagsInput({
+        autocomplete_url: '/rest/tags/',
+    });
 })(jQuery);
 </script>
 {% endblock %}

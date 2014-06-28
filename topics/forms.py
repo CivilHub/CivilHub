@@ -2,6 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
+from taggit.forms import TagField
 from .models import Category, Entry, Discussion
 
 
@@ -29,10 +30,11 @@ class DiscussionForm(forms.ModelForm):
         required = False,
         label = _('Status'),
     )
+    tags = TagField(required=False)
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location', 'status')
+        fields = ('question', 'intro', 'category', 'location', 'status', 'tags')
 
 
 class ReplyForm(forms.ModelForm):

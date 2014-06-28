@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
+from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
 from bookmarks.handlers import library
@@ -30,6 +31,7 @@ class Discussion(models.Model):
     status   = models.BooleanField(default=True)
     location = models.ForeignKey(Location)
     category = models.ForeignKey(Category, blank=True, null=True)
+    tags     = TaggableManager()
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited  = models.DateTimeField(auto_now=True)
 
