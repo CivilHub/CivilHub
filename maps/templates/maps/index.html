@@ -2,38 +2,23 @@
 {% include 'places_core/header.html' %}
 <body>
 {% include 'places_core/navigation.html' %}  
-{% comment %}Główny widok mapy.{% endcomment %}
+{% comment %}
+    Główny widok mapy.
+{% endcomment %}
 <script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 <div id="map-options-toggle">
     <a href="#" title="{% trans "Show options" %}">
         <span class="fa fa-arrow-circle-down"> </span>
     </a>
 </div>
-<nav id="map-options-panel" class="navbar navbar-default navbar-inverse" role="navigation">
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#map-navbar-collapse">
-        <span class="sr-only">{% trans "Toggle navigation" %}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/">{% trans "Start" %}</a>
-    </div>
-    <div class="collapse navbar-collapse" id="map-navbar-collapse">
-        <form class="navbar-form navbar-nav">
-            Places <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" />
-            Ideas <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" />
-            Polls <input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" />
-            Discussions <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" />
-            News <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" />
-        </form>
-        <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
-            </div>
-            <a class="btn btn-default">{% trans "Search" %}</a>
-        </form>
-    </div>
+<nav id="map-options-panel" role="navigation">
+    <ul>
+        <li>Places <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /></li>
+        <li>Ideas <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /></li>
+        <li>Polls <input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /></li>
+        <li>Discussions <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /></li>
+        <li>News <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
+    </ul>
 </nav>
 <div id="map"></div>
 
@@ -106,3 +91,4 @@ window.MAP_STYLES = [[{
 </script>
 <script src="{% static 'maps/js/main-map.js' %}"></script>
 </body>
+</html>

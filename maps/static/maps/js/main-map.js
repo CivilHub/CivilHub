@@ -1,7 +1,13 @@
-(function ($) {
-    
+//
+// Google Maps API.
+// ================
+//
+(function ($) { 
 "use strict";
+//
 // Adjust map size to device screen and bind events to show/hide menu button.
+// -----------------------------------------------------------------------------
+//
 (function () {
     var topAdjust = $('#navbar-top').height(),
         $map      = $('#map'),
@@ -16,7 +22,9 @@
         height   : $(window).height() - topAdjust,
         'z-index': 10
     });
-    $panel.hide();
+
+    //$panel.hide();
+
     $toggle // show/hide map options button.
         .tooltip({placement:'right'})
         .bind('click',
@@ -28,7 +36,9 @@
                     .toggleClass('fa-arrow-circle-up');
             }
         );
+
 })();
+
 // Shortcut to get list of active filters
 var getFilters = function () {
     var filterToggles = $('.map-filter-toggle'),
@@ -44,7 +54,7 @@ var getFilters = function () {
 };
 //
 // Prepare Google Map
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 //
 function civilGoogleMap(mapData) {
     
@@ -121,8 +131,8 @@ function civilGoogleMap(mapData) {
     return map;
 }
 //
-// Fetch objects from server and create map
-// -------------------------------------------------------------------------
+// Fetch objects from server and create map.
+// -----------------------------------------------------------------------------
 //
 $.get('/maps/pointers/', function (resp) {
     var markers = [], map = null;
