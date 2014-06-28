@@ -22,49 +22,76 @@
     <ul>
         {% if marker_form %}<li><p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p></li>{% endif %}
         <li>{% bookmark_form for discussion %}</li>
+        {% if user == discussion.creator %}<li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>{% endif %}
     </ul>
 </div>
 <hr />
 
 {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
 
-{{ discussion.intro | safe }}
-
-{% for entry in replies %}
-    <div class="reply-entry">
-        <div class="row">
-            <div class="blobfish-left">&nbsp;</div>
-            <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
-                <p class="custom-centered">{{ entry.creator.profile.rank_pts }}</p>
-            </div>
-            <div class="col-xs-11 discussion-entry-content">
-                <p class="entry-meta">
-                    <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
-                    <span class="topic-date-col">
-                        {{ entry.date_created | timesince }}
-                        {% if entry.is_edited %}
-                        <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }}
-                        {% endif %}
-                    </span>
-                    <span class="entry-controls"></span>
-                </p>
-                <div class="entry-content">{{ entry.content | safe }}</div>
-                <div class="entry-footer">
-                    <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
-                    {% if user == entry.creator %}
-                        <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
-                            <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
-                        </a>
-                    {% else %}
-                        <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
-                            <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                        </a>
-                    {% endif %}
-                </div>
+<div class="reply-entry">
+    <div class="row">
+        <div class="blobfish-left">&nbsp;</div>
+        <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+            <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
+            <p class="custom-centered">{{ discussion.creator.profile.rank_pts }}</p>
+        </div>
+        <div class="col-xs-11 discussion-entry-content">
+            <p class="entry-meta">
+                <a href="{% url 'user:profile' discussion.creator %}" class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
+                <span class="topic-date-col">
+                    {{ discussion.date_created | timesince }}
+                </span>
+                <span class="entry-controls"></span>
+            </p>
+            <div class="entry-content">{{ discussion.intro | safe }}</div>
+            <div class="entry-footer">
+                <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+                {% if user != discussion.creator %}
+                    <a href="{% url 'reports:report' app_label='topics' model_label='discussion' object_pk=discussion.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                        <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
+
+{% for entry in replies %}
+<div class="reply-entry">
+    <div class="row">
+        <div class="blobfish-left">&nbsp;</div>
+        <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+            <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
+            <p class="custom-centered">{{ entry.creator.profile.rank_pts }}</p>
+        </div>
+        <div class="col-xs-11 discussion-entry-content">
+            <p class="entry-meta">
+                <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
+                <span class="topic-date-col">
+                    {{ entry.date_created | timesince }}
+                    {% if entry.is_edited %}
+                    <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }}
+                    {% endif %}
+                </span>
+                <span class="entry-controls"></span>
+            </p>
+            <div class="entry-content">{{ entry.content | safe }}</div>
+            <div class="entry-footer">
+                <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+                {% if user == entry.creator %}
+                    <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
+                        <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+                    </a>
+                {% else %}
+                    <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                        <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endfor %}
 <div class="pagination">
     <span class="step-links">
@@ -82,6 +109,7 @@
     </span>
 </div>
 {% if user.is_authenticated and discussion.status %}
+{% include 'gallery/media-uploader.html' %}
 <div>
     <button type="button" class="btn btn-primary reply-entry-btn">{% trans "Reply" %}</button>
 </div>

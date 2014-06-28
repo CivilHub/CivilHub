@@ -1,7 +1,7 @@
 (function ($) {
     "use strict";
     var editor = null;
-    $('#id_content').customCKEditor('minimal');
+    $('#id_content').customCKEditor('custom');
     editor = $('#id_content').data('editor');
     console.log(editor);
     $('.entry-controls').find('a').tooltip();

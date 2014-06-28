@@ -1,143 +1,100 @@
+/*
+ * Discussions stylesheet.
+ */
+
+/* Discussion list */
 .discussion-list-entry {
-    
-    padding-top: 15px;
-    
-    .custom-label-list {
-        
-        span {
-            
-            line-height: 26px;
-            
-            &.fa-list {
-                
-                
-                font-size: 14px;
-                line-height: 26px;
-                color: #999;
-                margin-right: 10px;
-                
-                &:before {
-                    
-                    line-height: 26px;
-                    
-                }
-                
-            }
-            
-            &.custom-label-entry.custom-main-label-entry {
-                
-                line-height: 20px;
-                padding-top: 2px;
-                padding-bottom: 3px;
-                border: 1px solid #eaeaea;
-                border-radius: 4px;
-                
-                a {
-                    
-                    color: #354059;
-                    font-size: 12px;
-                    line-height: 20px;
-                    
-                }
-                
-            }
-            
-            &.custom-label-entry {
-                
-                a {
-                    
-                    color: #999999;
-                    font-weight: 700;
-                    font-size: 12px;
-                    
-                }
-                
-            }
-            
+  padding-top: 15px;
+  
+  .custom-label-list {
+    span {
+      line-height: 26px;
+      &.fa-list {
+        font-size: 14px;
+        line-height: 26px;
+        color: #999;
+        margin-right: 10px;
+        &:before {
+          line-height: 26px;
         }
-        
+      }
+      &.custom-label-entry.custom-main-label-entry {
+        line-height: 20px;
+        padding-top: 2px;
+        padding-bottom: 3px;
+        border: 1px solid #eaeaea;
+        border-radius: 4px;
+        a {
+          color: #354059;
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+      &.custom-label-entry {
+        a {
+          color: #999999;
+          font-weight: 700;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  
+  .custom-tablelike .row {
+    border-bottom: 0px;
+  }
+  
+  .topic-list-entry {
+    margin-left: 0px;
+    margin-right: 0px;
+    border-bottom: 1px solid #eaeaea;
+    padding-top: 7px;
+    padding-bottom: 6px;
+    .excerpt {
+      text-align: left;
+      a {
+        color: @link-color;
+        font-size: 15px;
+        line-height: 21px;
+      }
+    }
+      
+    .category {
+      label {
+        background: transparent;
+        border: 1px solid #999999;
+        border-radius: 3px;
+        color: @link-color;
+        text-transform: uppercase;
+        font-weight: 400;
+        min-height: 19px;
+        line-height: 19px;
+      }
     }
     
-    .custom-tablelike .row {
-        
-        border-bottom: 0px;
-        
+    .count {
+      font-size: 15px;
+      line-height: 21px;
     }
-    
-    .topic-list-entry {
-        
-        margin-left: 0px;
-        margin-right: 0px;
-        border-bottom: 1px solid #eaeaea;
-        padding-top: 7px;
-        padding-bottom: 6px;
-        
-        .excerpt {
-            
-            text-align: left;
-            
-            a {
-                
-                color: @link-color;
-                font-size: 15px;
-                line-height: 21px;
-                
-            }
-            
-        }
-        
-        .category {
-            
-            label {
-                
-                background: transparent;
-                border: 1px solid #999999;
-                border-radius: 3px;
-                color: @link-color;
-                text-transform: uppercase;
-                font-weight: 400;
-                min-height: 19px;
-                line-height: 19px;
-                
-            }
-            
-        }
-        
-        .count {
-            
-            font-size: 15px;
-            line-height: 21px;
-            
-        }
-        
-    }
-    
+  }
 }
 
 @media all and (max-width: 768px) {
-    
-    .discussion-list-entry {
-        
-        .topic-list-entry {
-            
-            .row {
-                
-                >div {
-                    
-                    padding: 10px 0;
-                    text-align: center;
-                    
-                }
-                
-            }
-            
+  .discussion-list-entry {
+    .topic-list-entry {
+      .row {
+        >div {
+          padding: 10px 0;
+          text-align: center;
         }
-        
-    }
-    
+      }
+    } 
+  }
 }
+/* // Discussion list */
 
-/* Discussions */
+
+/* Discussion detail view */
 @eb_width:  1px;
 @eb_color:  #ebebeb;
 @eb_style:  solid;
@@ -146,7 +103,10 @@
 
 #minimap {
   float: left;
-  margin: 0px 10px 10px 0px;
+  width: 100%;
+  height: 200px;
+  margin: 0px 0px 20px 0px;
+  clear: both;
 }
 .detail-label-list {
   padding-top: 20px;
@@ -211,4 +171,4 @@
     margin-top: 0px !important;
   }
 }
-/* // Discussions */
+/* // Discussion detail view */
