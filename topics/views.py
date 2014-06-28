@@ -31,7 +31,7 @@ class DiscussionDetailView(DetailView):
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
         replies = Entry.objects.filter(discussion=topic)
-        paginator = Paginator(replies, 25)
+        paginator = Paginator(replies, 10)
         page = self.request.GET.get('page')
         moderator = is_moderator(self.request.user, topic.location)
         try:
@@ -112,27 +112,16 @@ class DeleteDiscussionView(LoginRequiredMixin, View):
             return render(request, 'topics/delete-confirm.html', ctx)
 
 
-class EntryUpdateView(LoginRequiredMixin, UpdateView):
+class EntryUpdateView(LoginRequiredMixin, View):
     """
     Update entry in static form.
     """
-    model = Entry
-    form_class = ReplyForm
-    template_name = 'topics/reply_update.html'
-
-    def get_context_data(self, **kwargs):
-        obj = super(EntryUpdateView, self).get_object()
-        context = super(EntryUpdateView, self).get_context_data(**kwargs)
-        self.success_url = reverse('discussion:details',
-                    kwargs={'slug': obj.discussion.slug})
-        context['title'] = _('Edit entry')
-        return context
-
-    def form_valid(self, form):
-        obj = form.instance
-        obj.save()
+    def post(self, request, slug, pk):
+        entry = get_object_or_404(Entry, pk=pk)
+        entry.content = request.POST.get('content')
+        entry.save()
         return redirect(reverse('discussion:details',
-                kwargs={'slug': obj.discussion.slug}))
+                                kwargs={'slug':entry.discussion.slug}))
 
 
 @login_required

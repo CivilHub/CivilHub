@@ -85,7 +85,7 @@
             <div class="entry-footer">
                 <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                 {% if user == entry.creator %}
-                    <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" title="{% trans "Edit entry" %}">
+                    <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" class="link-entry-edit" title="{% trans "Edit entry" %}">
                         <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
                     </a>
                 {% else %}
@@ -135,6 +135,9 @@
 {% block footer_scripts %}
 {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
 {% if user.is_authenticated and discussion.status %}
+<script>
+window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
+</script>
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'gallery/js/media-uploader.js' %}"></script>
 <script src="{% static 'topics/js/reply-form.js' %}"></script>

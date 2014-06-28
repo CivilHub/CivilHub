@@ -322,6 +322,7 @@ commentlist.CommentlistView = Backbone.View.extend({
         });   
         comment.save();
         incrementCommentCounter();
+        $comment.val('');
     },
     
     initialize: function (initialComments) {

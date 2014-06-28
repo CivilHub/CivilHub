@@ -9,6 +9,7 @@
         <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
     </div>
 </form>
+{% include 'gallery/media-uploader.html' %}
 {% endblock %}
 
 {% block footer_scripts %}
@@ -17,7 +18,7 @@
 <script>
 (function ($) {
     "use strict";
-    $('#id_content').customCKEditor('minimal');
+    $('#id_content').customCKEditor('custom');
 })(jQuery);
 </script>
 {% endblock %}

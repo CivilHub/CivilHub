@@ -42,12 +42,12 @@ class ReplyForm(forms.ModelForm):
     Reply to discussion topic.
     """
     content = forms.CharField(
-        required = True,
+        required = False,
         max_length = 2048,
         widget = forms.Textarea(attrs={'class': 'form-control'}),
     )
     discussion = forms.ModelChoiceField(
-        required = True,
+        required = False,
         queryset = Discussion.objects.all(),
         widget = forms.HiddenInput()
     )
