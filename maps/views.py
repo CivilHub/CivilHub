@@ -9,9 +9,25 @@ from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from places_core.helpers import truncatesmart
 from locations.models import Location
+from blog.models import News
 from models import MapPointer
 import forms
+
+
+class Pointer(object):
+    """
+    Handy class to create and manage map pointers based on content type.
+    """
+    def __init__(self, obj):
+        ct = ContentType.objects.get_for_model(obj)
+        self.latitude = obj.latitude
+        self.longitude = obj.longitude
+        self.content_type = ct.pk
+        if isinstance(obj, News):
+            self.name = obj.title
+            self.desc = truncatesmart(obj.content, 10)
 
 
 def index(request):

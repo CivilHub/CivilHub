@@ -1,5 +1,7 @@
+//
+// Comments app.
+// =============
 (function ($) {
-
 "use strict";
 // Set apps url
 var cType = $('#target-type').val(),
@@ -32,7 +34,7 @@ $('.comment-toggle').on('click', function () {
 });
 //
 // Comment model
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 commentlist.Comment = Backbone.Model.extend({
     defaults: {
         comment: 'Lorem ipsum',
@@ -49,7 +51,7 @@ commentlist.Comment = Backbone.Model.extend({
 });
 //
 // Comment view
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 commentlist.CommentView = Backbone.View.extend({
     tagName: 'div',
     className: 'comment',
@@ -116,12 +118,14 @@ commentlist.CommentView = Backbone.View.extend({
     
     edit: function () {
         var _that = this,
-            $content = _that.$el.find('.comment-content:first'),
+            $content  = _that.$el.find('.comment-content:first'),
+            $controls = _that.$el.find('.comment-controls:first'),
             content = $content.html(),
             $editor = $('<textarea></textarea>'),
             $cancel = $('<button></button>'),
             $submit = $('<button></button>');
         $content.empty();
+        $controls.css('display', 'none');
         $editor
             .text(content)
             .appendTo($content)
@@ -237,7 +241,7 @@ commentlist.CommentView = Backbone.View.extend({
                 }
             },
             error: function (err) {
-                display_alert('Something somewhere went terribly wrong!', 'danger');
+                display_alert(gettext('Something somewhere went terribly wrong!'), 'danger');
             }
         });
         return false;
@@ -245,7 +249,7 @@ commentlist.CommentView = Backbone.View.extend({
 });
 //
 // Comment replies
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 commentlist.SublistView = Backbone.View.extend({
     el: null,
     
@@ -290,7 +294,7 @@ commentlist.SublistView = Backbone.View.extend({
 });
 //
 // List all comments view
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 commentlist.CommentlistView = Backbone.View.extend({
     el: '#comments',
     
@@ -361,19 +365,19 @@ commentlist.CommentlistView = Backbone.View.extend({
 });
 //
 // Entire comments collection for selected element.
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 commentlist.Commentlist = Backbone.Collection.extend({
     model: commentlist.Comment
 });
 //
 // Start Application.
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 $.get(url, function (comments) {
     new commentlist.CommentlistView(comments);
 });
 //
 // Bind show/hide comment controls event.
-// -------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 $(document).on('mouseover', '.comment', function (e) {
     e.stopPropagation();
     $(this).find('.comment-controls:first').css('opacity', 1);

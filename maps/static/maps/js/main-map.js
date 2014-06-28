@@ -41,7 +41,7 @@ var getFilters = function () {
     });
     
     return filters;
-}
+};
 //
 // Prepare Google Map
 // -------------------------------------------------------------------------
