@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
@@ -15,7 +16,7 @@ from django.db import transaction
 from places_core.mixins import LoginRequiredMixin
 from maps.models import MapPointer
 from .models import Discussion, Entry
-from .forms import DiscussionForm, ReplyForm
+from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 from places_core.permissions import is_moderator
 
 
@@ -74,6 +75,41 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
         context['location'] = obj.location
         context['is_moderator'] = moderator
         return context
+
+
+class DeleteDiscussionView(LoginRequiredMixin, View):
+    """
+    Delete single discussion in 'classic' way.
+    """
+    template_name = 'topics/delete.html'
+
+    def get(self, request, pk):
+        discussion = get_object_or_404(Discussion, pk=pk)
+        ctx = {
+            'form' : ConfirmDeleteForm(initial={'confirm':True}),
+            'title': _("Delete discussion"),
+            'location': discussion.location,
+        }
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, pk):
+        discussion = get_object_or_404(Discussion, pk=pk)
+        try:
+            with transaction.commit_on_success(): discussion.delete()
+            ctx = {
+                'title': _("Entry deleted"),
+                'location': discussion.location,
+            }
+            return redirect(reverse('locations:discussions', kwargs={
+                'slug': discussion.location.slug
+            }))
+        except Exception as ex:
+            ctx = {
+                'title': _("Error"),
+                'error': str(ex),
+                'location': discussion.location,
+            }
+            return render(request, 'topics/delete-confirm.html', ctx)
 
 
 class EntryUpdateView(LoginRequiredMixin, UpdateView):

@@ -22,7 +22,10 @@
     <ul>
         {% if marker_form %}<li><p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p></li>{% endif %}
         <li>{% bookmark_form for discussion %}</li>
-        {% if user == discussion.creator %}<li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>{% endif %}
+        {% if user == discussion.creator %}
+        <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
+        <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
+        {% endif %}
     </ul>
 </div>
 <hr />

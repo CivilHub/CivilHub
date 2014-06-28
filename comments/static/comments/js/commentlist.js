@@ -85,6 +85,8 @@ commentlist.CommentView = Backbone.View.extend({
                     new commentlist.SublistView(replies, 
                         _that.$el.find('.subcomments'));
             });
+        } else {
+            _that.$el.find('.show-replies').hide();
         }
         _that.$el.find('.report-abuse-link').tooltip();
         _that.voteCounter.bind('mouseenter', function (evt) {
@@ -192,6 +194,7 @@ commentlist.CommentView = Backbone.View.extend({
             }
             return false;
         });
+        _that.$el.find('.show-replies').show();
         return false;
     },
     

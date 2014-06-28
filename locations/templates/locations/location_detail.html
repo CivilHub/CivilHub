@@ -30,15 +30,7 @@
     <ul class="sidebar-right">
     <h3 class="actions-label">{% trans "Actions" %}:</h3>
     <ul class="custom-sidebar-nav">
-        {% if user.is_authenticated %}                
-            <li>
-                {% comment %}
-                    Link, który pozwala wysłać maila z zaproszeniem do tej lokalizacji.
-                {% endcomment %}
-                <a href="#" title="{% trans "Invite other users to follow this location" %}" class="invite-toggle">
-                    <span class="fa fa-plus-circle"> </span> {% trans "Invite users" %}
-                </a>
-            </li>
+        {% if user.is_authenticated %}
             {% if not user in location.users.all %}
                 <li><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">{% trans "Follow" %}</button></li>
             {% else %}

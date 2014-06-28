@@ -55,3 +55,15 @@ class ReplyForm(forms.ModelForm):
     class Meta:
         model = Entry
         fields = ('content', 'discussion',)
+
+
+class ConfirmDeleteForm(forms.Form):
+    """
+    Delete discussion.
+    """
+    confirm = forms.BooleanField(
+        widget = forms.HiddenInput()
+    )
+
+    class Meta:
+        fields = ('confirm',)
