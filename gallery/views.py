@@ -14,6 +14,7 @@ from django.contrib.contenttypes.models import ContentType
 from easy_thumbnails.files import get_thumbnailer
 from userspace.models import UserProfile
 from locations.models import Location
+from locations.links import LINKS_MAP as links
 from comments.models import CustomComment
 from places_core.permissions import is_moderator
 from .models import LocationGalleryItem, UserGalleryItem
@@ -186,6 +187,7 @@ class PlaceGalleryView(GalleryView):
             'title': _("Media gallery"),
             'files': [],
             'location': location,
+            'links': links['gallery'],
         }
         for picture in location.pictures.all():
             context['files'].append({

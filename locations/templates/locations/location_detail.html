@@ -25,20 +25,8 @@
     {% endfor %}
     </ul>
 </div>
-<!-- Sidebar -->
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-    <h3 class="actions-label">{% trans "Actions" %}:</h3>
-    <ul class="custom-sidebar-nav">
-        {% if user.is_authenticated %}
-            {% if not user in location.users.all %}
-                <li><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">{% trans "Follow" %}</button></li>
-            {% else %}
-                <li><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button></li>
-            {% endif %}
-        {% endif %}
-    </ul>
-</div>
+{% include 'locations/sidebar.html' %}
+<button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button>
 <!-- Modal window -->
 <div id="modal" class="modal fade"></div>
 {% endblock %}

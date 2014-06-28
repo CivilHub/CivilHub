@@ -26,6 +26,7 @@ from polls.forms import PollForm
 from civmail import messages as mails
 from forms import *
 from models import Location
+from .links import LINKS_MAP as links
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
 # Activity stream
@@ -46,6 +47,7 @@ class LocationNewsList(DetailView):
     def get_context_data(self, **kwargs):
         context = super(LocationNewsList, self).get_context_data(**kwargs)
         context['title'] = self.object.name + '::' + _("News")
+        context['links'] = links['news']
         return context
 
 
@@ -137,6 +139,7 @@ class LocationIdeasList(DetailView):
         context['title'] = self.object.name + '::' + _("Ideas")
         context['form'] = IdeaCategoryForm()
         context['ideas'] = ideas
+        context['links'] = links['ideas']
         return context
 
 
@@ -202,6 +205,7 @@ class LocationDiscussionsList(DetailView):
         context['categories']   = ForumCategory.objects.all()
         context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
+        context['links']        = links['discussions']
         return context
 
 
@@ -262,6 +266,7 @@ def ajax_discussion_list(request, slug):
     context['categories']   = categories
     context['search_form']  = SearchDiscussionForm()
     context['is_moderator'] = is_moderator(request.user, location)
+    context['links']        = links['discussions']
 
     return render(request, 'locations/location_forum.html', context)
 
@@ -344,6 +349,7 @@ class SublocationList(DetailView):
 
         context['title']    = self.object.name + '::' + _("Sublocations")
         context['location'] = self.object
+        context['links']    = links['sublocations']
         return context
 
 
@@ -359,6 +365,7 @@ class LocationFollowersList(DetailView):
         context['title'] = self.object.name + '::' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
+        context['links'] = links['followers']
         return context
 
 
@@ -374,6 +381,7 @@ class LocationPollsList(DetailView):
         context = super(LocationPollsList, self).get_context_data(**kwargs)
         context['title'] = location.name + ':' + _('Polls')
         context['polls'] = Poll.objects.filter(location=location)
+        context['links'] = links['polls']
         context['is_moderator'] = is_moderator(self.request.user, location)
         return context
 
@@ -464,6 +472,7 @@ class LocationDetailView(DetailView):
         actions = actions.filter(target_object_id=location.pk)
         context['title'] = location.name
         context['actions'] = actions
+        context['links'] = links['summary']
         return context
 
 

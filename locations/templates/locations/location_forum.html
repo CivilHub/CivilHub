@@ -50,135 +50,101 @@
 {% block content %}
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col-sm-9">
-            <div class="main-content">
-                <div class="discussion-list-entry">
-                    <div class="custom-label-list">
 
-                        <span class="fa fa-list custom-fa"> </span>
-                        <span class="custom-label-entry custom-main-label-entry">
-                            <a href="#" class="forum-list-control" data-target="all" data-control="category">{% trans "All channels" %}</a>
-                        </span>
+<div class="row">
+    <div class="col-sm-9">
+        <div class="main-content">
+            <div class="discussion-list-entry">
+                <div class="custom-label-list">
+                    <span class="fa fa-list custom-fa"> </span>
+                    <span class="custom-label-entry custom-main-label-entry">
+                        <a href="#" class="forum-list-control" data-target="all" data-control="category">{% trans "All channels" %}</a>
+                    </span>
+                    {% for category in categories %}
+                    <span class="custom-label-entry">
+                        <a href="#" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category" rel='tooltip'>{{ category }}</a>
+                    </span>
+                    {% endfor %}
+                </div>
 
-                        {% for category in categories %}
-                        <span class="custom-label-entry">
-                            <a href="#" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category" rel='tooltip'>{{ category }}</a>
-                        </span>
-                        {% endfor %}
-                    </div>
-
-                    <div class="discussion-list custom-tablelike">
-                        {% if discussions %}
-                        {% for topic in discussions %}
-                        <div class="topic-list-entry custom-list-entry">
-                            <div class="row">
-                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
-                                <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
-                                <div class="col-sm-5">
-                                    <span class="count">{{ topic.entry_set.count }}</span>
-                                    <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                                    <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
-                                    {{ topic.date_created | timesince }}
-                                </div>
+                <div class="discussion-list custom-tablelike">
+                    {% if discussions %}
+                    {% for topic in discussions %}
+                    <div class="topic-list-entry custom-list-entry">
+                        <div class="row">
+                            <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
+                            <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
+                            <div class="col-sm-5">
+                                <span class="count">{{ topic.entry_set.count }}</span>
+                                <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
+                                <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
+                                {{ topic.date_created | timesince }}
                             </div>
                         </div>
-                        {% endfor %}
-                        <div class="pagination">
-                            <span class="step-links">
-                                {% if discussions.has_previous %}
-                                <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
-                                {% endif %}
-
-                                <span class="current">
-                                    {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
-                                </span>
-
-                                {% if discussions.has_next %}
-                                <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
-                                {% endif %}
-                            </span>
-                        </div>
-                        {% else %}
-                        <p>{% trans "There are no discussions opened yet." %}</p>
-                        {% endif %}
                     </div>
+                    {% endfor %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if discussions.has_previous %}
+                            <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
+                            {% endif %}
+
+                            <span class="current">
+                                {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
+                            </span>
+
+                            {% if discussions.has_next %}
+                            <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% else %}
+                    <p>{% trans "There are no discussions opened yet." %}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-3">
-            <ul class="sidebar-right">
-                <h3 class="actions-label">{% trans "Actions" %}:</h3>
-                {% if user.is_authenticated %}
-                <ul class="custom-sidebar-nav">                   
-                    <li>
-                        <a href="{% url 'locations:new_topic' location.slug %}">
-                            <span class="ch-icon ch-discussions"> </span> {% trans "New discussion" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'locations:new_poll' location.slug %}">
-                            <span class="ch-icon ch-polls"> </span> {% trans "Create poll" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'locations:news_create' location.slug %}">
-                            <span class="ch-icon ch-blog"> </span> {% trans "Add news" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'locations:new_idea' location.slug %}">
-                            <span class="ch-icon ch-ideas"> </span> {% trans "New idea" %}</button>
-                        </a>
-                        </li>
-                    <li>
-                        <a href="#"> <span class="ch-icon ch-photos"> </span> Upload Images </a>
-                    </li>
-                                        <li>
-                        <a href="#"> <span class="ch-icon ch-followers"> </span> Invite Friends to join </a>
-                    </li>
-                </ul>
-                {% endif %}
-            </ul>
-            {% if user.is_superuser %}
-            {% comment %}
-                Create new category - allow superusers to create dynamically forum
-                categories via handy ajaxy form. This page element is hidden for
-                all other users and anonymous users.
-            {% endcomment %}
-            <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
-            <div id="new-category-form" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">{% trans "Create forum category" %}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form role="presentation" method="post" action="" >
-                                <div class="form-group">
-                                    <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                                    <input type="text" id="category-name" class="form-control" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="category-description">{% trans "Description" %}</label>
-                                    <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                            <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-            {% endif %}
-        </div>
     </div>
+
+    {% include 'locations/sidebar.html' %}
     
-    <script>
+    {% if user.is_superuser %}
+    {% comment %}
+        Create new category - allow superusers to create dynamically forum
+        categories via handy ajaxy form. This page element is hidden for
+        all other users and anonymous users.
+    {% endcomment %}
+    <button class="btn btn-primary btn-category-create"><span class="fa fa-plus-circle"> </span> {% trans "New category" %}</button>
+    <div id="new-category-form" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "Create forum category" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="presentation" method="post" action="" >
+                        <div class="form-group">
+                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                            <input type="text" id="category-name" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="category-description">{% trans "Description" %}</label>
+                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    {% endif %}
+</div>
+    
+<script>
 (function ($) {
 "use strict";
 //

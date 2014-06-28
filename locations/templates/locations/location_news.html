@@ -98,42 +98,17 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-    <h3 class="actions-label">{% trans "Actions" %}:</h3>
-    {% if user.is_authenticated %}
-    <ul class="custom-sidebar-nav">                   
-        <li>
-            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
-                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_poll' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:news_create' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_idea' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
-            </a>
-        </li>
-        </ul>
-    {% endif %}
-    </ul>
-    {% if user.is_authenticated %}
+
+{% include 'locations/sidebar.html' %}
+
+{% if user.is_authenticated %}
 <p>
     {% if user.is_superuser %}
         <a href="{% url 'blog:newcategory' %}"><button class="btn-category-create btn btn-success">{% trans "Add category" %}</button></a>
     {% endif %}
 </p>
 {% endif %}
-</div>
+
 {% endblock %}
 
 
