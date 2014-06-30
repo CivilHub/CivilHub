@@ -100,7 +100,6 @@ $('.submenu-toggle').bind('click', function (evt) {
     // User popup window
     // -----------------
     // Replaces standard Backbone's collection view.
-    // TODO: Close window on mouseout.
     //
     var UserPopupWindow = function (userdata, toggle) {
         this.model = new UserModel();
@@ -110,7 +109,6 @@ $('.submenu-toggle').bind('click', function (evt) {
             this.collection.each(function (item) {
                 var view  = new UserView({model:item}),
                     $elem = $(view.render().el);
-                    console.log($elem);
                 $elem
                     .appendTo('body')
                     .offset({
@@ -141,7 +139,7 @@ $('.submenu-toggle').bind('click', function (evt) {
             var win = new UserPopupWindow(resp, $toggle);
         });
     };
-    $('.user-window-toggle').bind('mouseover', function () {
+    $(document).delegate('.user-window-toggle', 'mouseover', function () {
         var $toggle = $(this);
         trigger = true;
         timeout = setTimeout(function () {
@@ -150,7 +148,7 @@ $('.submenu-toggle').bind('click', function (evt) {
             }
         }, 1000);
     });
-    $('.user-window-toggle').bind('mouseout', function () {
+    $(document).delegate('.user-window-toggle', 'mouseout', function () {
         trigger = false;
         clearTimeout(timeout);
         if (state) {

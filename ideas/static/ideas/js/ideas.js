@@ -18,9 +18,35 @@ var ideaList = function () {
 
             template: _.template($('#idea-entry-tpl').html()),
 
+            submenu: {},
+
+            events: {
+                'click .submenu-toggle': 'openMenu',
+                'click .idea-vote-count': 'voteCounterWindow'
+            },
+
             render: function () {
+                var that = this;
                 this.$el.html(this.template(this.model.toJSON()));
+                this.submenu = {
+                    $el: that.$el.find('.entry-submenu'),
+                    opened: false
+                };
                 return this;
+            },
+
+            openMenu: function () {
+                if (this.submenu.opened) {
+                    this.submenu.$el.slideUp('fast');
+                    this.submenu.opened = false;
+                } else {
+                    this.submenu.$el.slideDown('fast');
+                    this.submenu.opened = true;
+                }
+            },
+
+            voteCounterWindow: function () {
+                var cc = civApp.voteCounter(this.model.get('id'));
             }
         }),
 
@@ -35,7 +61,6 @@ var ideaList = function () {
             initialize: function () {
                 var that = this;
                 that.collection = new IdeaCollection();
-                console.log(that.collection.url);
                 that.collection.fetch({
                     success: function () {
                         that.render();

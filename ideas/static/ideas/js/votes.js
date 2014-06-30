@@ -1,9 +1,8 @@
-(function ($) {
-"use strict";
+var civApp = civApp || {};
 //
 // Handle voting on list page.
 // -----------------------------------------------------------------------------
-$('.vote-btn').on('click', function () {
+$(document).delegate('.vote-btn', 'click', function () {
     var formData = {
             csrfmiddlewaretoken: getCookie('csrftoken'),
             idea: $(this).attr('data-target-id'),
@@ -43,7 +42,7 @@ $('.vote-btn').on('click', function () {
 //
 // Get list of users and their votes.
 // -----------------------------------------------------------------------------
-var voteCounter = function (ideaId) {
+civApp.voteCounter = function (ideaId) {
     // Put Backbone MVC in bootstrap modal window.
     var getVotes = function (id, callback) {
             sendAjaxRequest('GET', '/rest/idea_votes/', {
@@ -112,7 +111,5 @@ var voteCounter = function (ideaId) {
     return new Counter;
 };
 $('.idea-vote-count').bind('click', function () {
-    var cc = voteCounter($(this).attr('data-target'));
+    var cc = civApp.voteCounter($(this).attr('data-target'));
 });
-
-})(jQuery);

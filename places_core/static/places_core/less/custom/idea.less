@@ -1,38 +1,24 @@
 .idea-entry {
-    
-    .idea-content {
-        
-        
-        
+  .tag-list,
+  .category-list,
+  .comments-controls {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 25px;
+    a {
+      color: @link-hover-color;
+      font-weight: 400;
     }
-    
-    .tag-list,
-    .category-list,
-    .comments-controls {
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 25px;
-        
-        a {
-            
-            color: @link-hover-color;
-            font-weight: 400;
-            
-        }
-        
-    }
-    
-    .category-list {
-        
-        
-        
-    }
-    
-    .comments-controls {
-        
-        
-        
-    }
-    
+  }
+  .entry-submenu {
+    position: absolute;
+    left: 100%;
+    top: 48px;
+    margin-left: -100px;
+    z-index: 100;
+    background-color: #ffffff;
+    box-shadow        : 1px 1px 5px 0 rgba(50, 50, 50, 0.75);
+    -moz-box-shadow   : 1px 1px 5px 0 rgba(50, 50, 50, 0.75);
+    -webkit-box-shadow: 1px 1px 5px 0 rgba(50, 50, 50, 0.75);
+  }
 }

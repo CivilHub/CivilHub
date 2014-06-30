@@ -91,9 +91,16 @@ class BasicIdeaView(View):
     This is view for idea collection of one location. It is intended to return
     list of ideas formatted as JSON.
     """
-    def get(self, request, slug, *args, **kwargs):
-        location = Location.objects.get(slug=slug)
-        ideas = Idea.objects.filter(location=location)
+    def get(self, request, slug=None, *args, **kwargs):
+        """
+        Get list of all ideas or just idea set for one location if 'slug' is
+        provided (default None).
+        """
+        if not slug:
+            ideas = Idea.objects.all()
+        else:
+            location = Location.objects.get(slug=slug)
+            ideas = Idea.objects.filter(location=location)
         ctx = []
         for idea in ideas:
             tags = []
@@ -104,30 +111,36 @@ class BasicIdeaView(View):
                                    kwargs={'slug':idea.location.slug,
                                            'tag':tag.name})
                 })
-            ctx.append({
-                'id': idea.pk,
-                'name': idea.name,
-                'status': idea.status,
-                'link': idea.get_absolute_url(),
-                'description': idea.description,
-                'creator': idea.creator.get_full_name(),
-                'creator_url': idea.creator.profile.get_absolute_url(),
-                'creator_id': idea.creator.pk,
-                'avatar': idea.creator.profile.avatar.url,
-                'date_created': str(idea.date_created),
-                'date_edited': str(idea.date_edited),
-                'edited': idea.edited,
-                'total_votes': idea.get_votes(),
+            tmp = {
+                'id'            : idea.pk,
+                'name'          : idea.name,
+                'status'        : idea.status,
+                'link'          : idea.get_absolute_url(),
+                'description'   : idea.description,
+                'creator'       : idea.creator.get_full_name(),
+                'creator_url'   : idea.creator.profile.get_absolute_url(),
+                'creator_id'    : idea.creator.pk,
+                'avatar'        : idea.creator.profile.avatar.url,
+                'date_created'  : str(idea.date_created),
+                'date_edited'   : str(idea.date_edited),
+                'edited'        : idea.edited,
+                'total_votes'   : idea.get_votes(),
                 'total_comments': idea.get_comment_count(),
-                'tags': tags,
-                'category': idea.category.name,
-                'category_url': reverse('locations:category_search', kwargs={
-                    'slug': idea.location.slug,
-                    'app': 'ideas',
-                    'model': 'idea',
-                    'category': idea.category.pk,
-                }),
-            })
+                'tags'          : tags,
+            }
+            if idea.category:
+                tmp['category']     = idea.category.name
+                tmp['category_url'] = reverse('locations:category_search',
+                    kwargs={
+                        'slug'    : idea.location.slug,
+                        'app'     : 'ideas',
+                        'model'   : 'idea',
+                        'category': idea.category.pk,
+                    })
+            else:
+                tmp['category'] = ''
+                tmp['category_url'] = ''
+            ctx.append(tmp)
         return HttpResponse(json.dumps(ctx))
 
 

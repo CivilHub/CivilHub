@@ -41,9 +41,9 @@
 <div class="row">
 <div class="col-sm-9">
 <div class="main-content">
-    {% for idea in ideas %}
-        {% comment %}{% include 'ideas/idea_basic.html' %}{% endcomment %}
-    {% endfor %}
+    <noscript>{% for idea in ideas %}
+        {% include 'ideas/idea_basic.html' %}
+    {% endfor %}</noscript>
     <div id="idea-list-view"></div>
 </div>
     {% comment %}
