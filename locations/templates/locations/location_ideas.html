@@ -10,25 +10,42 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'locations:ideas' location.slug %}?order=title">{% trans "Title" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}?order=date">{% trans "Date" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}?order=category">{% trans "Category" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}?order=username">{% trans "Username" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}?order=votes">{% trans "Answers" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="order" data-target="title">{% trans "Title" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="order" data-target="date">{% trans "Date" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="order" data-target="category">{% trans "Category" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="order" data-target="username">{% trans "Username" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="order" data-target="answers">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'locations:ideas' location.slug %}?filter=true">{% trans "Active" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}?filter=false">{% trans "Closed" %}</a></li>
-                    <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="True">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="False">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="all">{% trans "All" %}</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Category" %}: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="list-controller active" data-control="category" data-target="all">{% trans "All" %}</a></li>
+                    {% for category in categories %}
+                    <li><a href="#" class="list-controller" data-control="category" data-target="{{ category.pk }}">{{ category.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </li>
         </ul>
-        <form class="navbar-form navbar-right" method="get" action="{% url 'locations:ideas' location.slug %}" role="search">
+        <ul class="nav navbar-nav">
+            <li><a href="#" class="list-controller active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
+            <li class="navbar-text"> | {% trans "Past" %}:</li>
+            <li><a href="" class="list-controller" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+        </ul>
+        <form class="navbar-form navbar-right" id="haystack-form" method="get" action="" role="search">
             <div class="form-group">
-                <input type="text" name="filter" class="form-control" placeholder="{% trans "Search" %}">
+                <input type="text" name="haystack" id="haystack" class="form-control" placeholder="{% trans "Search" %}">
             </div>
             <a class="search-button"><span class="fa fa-search"></span></a>
         </form>

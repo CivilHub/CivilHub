@@ -7,6 +7,72 @@
 
 var url = window.IDEA_API_URL;
 
+//
+// Funkcja pobierająca dodatkowe dane z formularza 'search'.
+// ---------------------------------------------------------
+var getSearchText = function () {
+    var $field = $('#haystack'),
+        txt = $field.val();
+    
+    if (_.isUndefined(txt) || txt.length <= 1) {
+        return '';
+    }
+    
+    return txt;
+};
+//
+// Wczytanie wybranych opcji.
+// ---------------------------
+// Sprawdzenie aktywnych elementów (klikniętych linków)
+// w celu "pozbierania" opcji wyszukiwarki.
+// 
+var getListOptions = function () {
+    var $sel = $('.list-controller'),
+        opts = {},
+        optType = null,
+        optValue = null;
+    
+    $sel.each(function () {
+        var $this = $(this);
+        
+        if ($this.hasClass('active')) {
+            optType = $this.attr('data-control');
+            optValue = $this.attr('data-target');
+            opts[optType] = optValue;
+        }
+    });
+    
+    opts['haystack'] = getSearchText();
+    
+    return opts;
+};
+//
+// Wczytanie opcji startowych.
+// ---------------------------
+// Parsowanie aktywnego url-a w celu ustawienia aktywnych
+// elementów w oparciu o wybrane opcje.
+//
+var loadListOptions = function () {
+    var $sel = $('.list-controller'),
+        data = urlToJSON(document.location.href);
+
+    if (_.isEmpty(data)) {
+        return true;
+    }
+
+    $sel.each(function () {
+        var key = $(this).attr('data-control'),
+            val = $(this).attr('data-target'),
+            selected = data[key];
+        
+        if (val === selected) {
+            $(this).addClass('active');
+        } else {
+            $(this).removeClass('active');
+        }
+    });
+};
+
 var ideaList = function () {
 
     var IdeaModel = Backbone.Model.extend({}),
@@ -82,6 +148,19 @@ var ideaList = function () {
                         model: item
                     });
                 $(itemView.render().el).appendTo(this.$el);
+            },
+
+            filter: function (filters) {
+                var that = this;
+                that.collection.url = window.IDEA_API_URL + JSONtoUrl(filters);
+                console.log(that.collection.url);
+                that.collection.fetch({
+                    success: function () {
+                        that.$el.empty();
+                        that.render();
+                        console.log(that.collection);
+                    }
+                });
             }
         });
 
@@ -89,5 +168,28 @@ var ideaList = function () {
 };
 
 var ideas = ideaList();
+
+//
+// Obsługa kliknięć.
+// -----------------
+// Po kliknięciu na aktywny link w formularzu ta funkcja
+// zbiera wybrane opcje i tworzy URL do przekierowania.
+$('.list-controller').bind('click', function (e) {
+    var selectedItem = $(this).attr('data-control'),
+        options = {},
+        url     = '';
+
+    e.preventDefault();
+
+    $('.active[data-control="' + selectedItem + '"]')
+        .removeClass('active');
+    $(this).addClass('active');
+
+    ideas.filter(getListOptions());
+});
+$('#haystack-form').bind('submit', function (e) {
+    e.preventDefault();
+    ideas.filter(getListOptions());
+});
 
 })(jQuery);

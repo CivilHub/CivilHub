@@ -17,6 +17,7 @@ from django.contrib.contenttypes.models import ContentType
 from taggit.models import Tag
 from actstream import action
 from ideas.models import Idea
+from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from blog.models import News
 from topics.models import Discussion, Entry
@@ -140,6 +141,7 @@ class LocationIdeasList(DetailView):
         context['form'] = IdeaCategoryForm()
         context['ideas'] = ideas
         context['links'] = links['ideas']
+        context['categories'] = IdeaCategory.objects.all()
         return context
 
 

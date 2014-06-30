@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
@@ -23,16 +24,17 @@ from locations.models import Location
 from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment
+# Custom permissions
 from places_core.permissions import is_moderator
+
 
 def get_votes(idea):
     """
-    Get total votes calculated
+    Get total votes calculated for particular Idea object.
     """
-    i = idea
-    votes_total = Vote.objects.filter(idea=i)
-    votes_up = len(votes_total.filter(vote=True))
-    votes_down = len(votes_total.filter(vote=False))
+    votes_total = Vote.objects.filter(idea=idea)
+    votes_up    = len(votes_total.filter(vote=True))
+    votes_down  = len(votes_total.filter(vote=False))
     return votes_up - votes_down
 
 
@@ -41,10 +43,7 @@ def vote(request):
     Make vote (up/down) on idea
     """
     if request.method == 'POST':
-        v    = request.POST['vote']
         idea = Idea.objects.get(pk=request.POST['idea'])
-        user = request.user
-        prof = UserProfile.objects.get(user=user)
         votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
         if len(votes_check) > 0:
             response = {
@@ -54,9 +53,9 @@ def vote(request):
             }
         else:
             user_vote = Vote(
-                user = user,
+                user = request.user,
                 idea = idea,
-                vote = True if v == 'up' else False
+                vote = True if request.POST.get('vote') == 'up' else False
             )
             user_vote.save()
             response = {
@@ -65,8 +64,8 @@ def vote(request):
                 'votes': get_votes(idea),
             }
             action.send(request.user, action_object=idea, verb='voted on')
-            prof.rank_pts += 1
-            prof.save()
+            request.user.profile.rank_pts += 1
+            request.user.profile.save()
         return HttpResponse(json.dumps(response))
 
 
@@ -92,6 +91,45 @@ class BasicIdeaView(View):
     This is view for idea collection of one location. It is intended to return
     list of ideas formatted as JSON.
     """
+    @classmethod
+    def get_queryset(cls, request, queryset):
+        """
+        Filter queryset according to search options provided by user. This me-
+        thod takes request and queryset to sort as parameters. All filters 
+        should be set in GET parameters.
+        """
+        status = request.GET.get('status')
+        if status == 'False':
+            queryset = queryset.filter(status=False)
+        elif status == 'True':
+            queryset = queryset.filter(status=True)
+
+        if request.GET.get('category') and request.GET.get('category') != 'all':
+            category = Category.objects.get(pk=request.GET.get('category'))
+            queryset = queryset.filter(category=category)
+
+        time_delta = None
+        time = request.GET.get('time')
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            queryset = queryset.filter(date_created__gte=time_delta)
+
+        haystack = request.GET.get('haystack')
+        if haystack and haystack != 'false':
+            print haystack
+            queryset = queryset.filter(name__icontains=haystack)
+
+        return queryset
+
     def get(self, request, slug=None, *args, **kwargs):
         """
         Get list of all ideas or just idea set for one location if 'slug' is
@@ -103,6 +141,7 @@ class BasicIdeaView(View):
             location = Location.objects.get(slug=slug)
             ideas = Idea.objects.filter(location=location)
 
+        ideas = self.get_queryset(request, ideas)
         ctx = []
 
         for idea in ideas:
