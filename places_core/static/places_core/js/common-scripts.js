@@ -11,6 +11,7 @@ $('.cancel-btn').on('click', function () {
 });
 // Tooltips for elements shared among templates.
 $('.navbar-avatar').tooltip({placement: 'bottom'});
+$('.custom-tooltip').tooltip();
 // List of user's bookmarks to fetch.
 $(document).ready(function () {
     $('.bookmarks-list-toggle').one('click', function (evt) {

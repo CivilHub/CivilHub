@@ -62,7 +62,7 @@
                     </span>
                     {% for category in categories %}
                     <span class="custom-label-entry">
-                        <a href="#" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category" rel='tooltip'>{{ category }}</a>
+                        <a href="#" class="forum-list-control custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
                     </span>
                     {% endfor %}
                 </div>
