@@ -32,6 +32,9 @@ var ideaList = function () {
                     $el: that.$el.find('.entry-submenu'),
                     opened: false
                 };
+                this.$el.find('.vote-btn').tooltip({
+                    placement: 'right'
+                });
                 return this;
             },
 

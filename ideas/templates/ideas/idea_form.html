@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
 {% block title %}{{ title | capfirst }}{% endblock %}
@@ -19,6 +19,7 @@
             <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         </div>
     </form>
+    {% include 'gallery/media-uploader.html' %}
 {% endblock %}
 
 {% block footer_scripts %}

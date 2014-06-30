@@ -30,7 +30,7 @@ class Idea(models.Model):
     """
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_edited = models.DateTimeField(blank=True, null=True)
+    date_edited = models.DateTimeField(blank=True, null=True, auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
     description = models.TextField(max_length=2048, null=True, blank=True,)

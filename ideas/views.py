@@ -11,6 +11,7 @@ from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import ugettext as _
+from django.utils.timesince import timesince
 from actstream import action
 # Application native models
 from userspace.models import UserProfile
@@ -101,9 +102,12 @@ class BasicIdeaView(View):
         else:
             location = Location.objects.get(slug=slug)
             ideas = Idea.objects.filter(location=location)
+
         ctx = []
+
         for idea in ideas:
             tags = []
+
             for tag in idea.tags.all():
                 tags.append({
                     'name': tag.name,
@@ -111,6 +115,7 @@ class BasicIdeaView(View):
                                    kwargs={'slug':idea.location.slug,
                                            'tag':tag.name})
                 })
+
             tmp = {
                 'id'            : idea.pk,
                 'name'          : idea.name,
@@ -121,13 +126,22 @@ class BasicIdeaView(View):
                 'creator_url'   : idea.creator.profile.get_absolute_url(),
                 'creator_id'    : idea.creator.pk,
                 'avatar'        : idea.creator.profile.avatar.url,
-                'date_created'  : str(idea.date_created),
-                'date_edited'   : str(idea.date_edited),
+                'date_created'  : timesince(idea.date_created),
                 'edited'        : idea.edited,
                 'total_votes'   : idea.get_votes(),
                 'total_comments': idea.get_comment_count(),
                 'tags'          : tags,
             }
+
+            tmp['edit_url'] = reverse('ideas:update', kwargs={
+                'slug': idea.slug,
+            })
+
+            try:
+                tmp['date_edited'] = timesince(idea.date_edited)
+            except Exception:
+                tmp['date_edited'] = ''
+
             if idea.category:
                 tmp['category']     = idea.category.name
                 tmp['category_url'] = reverse('locations:category_search',
@@ -140,7 +154,9 @@ class BasicIdeaView(View):
             else:
                 tmp['category'] = ''
                 tmp['category_url'] = ''
+
             ctx.append(tmp)
+
         return HttpResponse(json.dumps(ctx))
 
 
@@ -224,6 +240,7 @@ class UpdateIdeaView(UpdateView):
         context['is_moderator'] = is_moderator(self.request.user, self.object.location)
         if self.object.creator != self.request.user and not context['is_moderator']:
             raise PermissionDenied
+        context['location'] = self.object.location
         context['title'] = self.object.name
         context['action'] = 'update'
         return context

@@ -29,6 +29,7 @@ LINKS_MAP = {
         'new_idea',
         'add_news',
         'invite',
+        'idea_category',
     ),
     'polls': (
         'new_discussion',

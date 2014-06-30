@@ -1,0 +1,61 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Szablon dla idei - do obsługi listy idei w lokalizacji.
+{% endcomment %}
+
+<script>window.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>
+<script type="text/template" id="idea-entry-tpl">
+    <div class="idea-votes col-sm-3">
+    <div class="vote-form">
+        <div class="votes"><%= total_votes %></div>
+        <div class="vote-controls">
+            {% if user.is_authenticated %}
+                <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
+                <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" title="{% trans "Zły pomysł, jestem na NIE" %}"> <span class="fa fa-angle-down"></span></button>
+            {% else %}
+                <div class="button-vote-placeholder"></div>
+            {% endif %}
+        </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="idea-summary">
+            <div class="idea-status-state">
+                <% if (status) { %>
+                    <label class="label label-success">{% trans "Active" %}</label>
+                <% } else { %>
+                    <label class="label label-danger">{% trans "Inactive" %}</label>
+                <% } %>
+            </div>
+            <div class="idea-vote-count" data-target=<%= id %>><%= total_votes %> {% trans "votes" %}</div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <h3><a href="<%= link %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+        <div class="entry-submenu">
+            <ul>
+                <li><a href="<%= edit_url %>">{% trans "Edit" %}</a></li>
+            </ul>
+        </div>
+        <p>
+            {% trans "Created" %} <%= date_created %> {% trans "ago" %} {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
+            <% if (edited) { %>
+                {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.
+            <% } %>
+        </p>
+        
+        <div><%= description %></div>
+            <div>
+                <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+                <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+                <% for (var i = 0; i < tags.length; i++) { %>
+                    <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+                <% } %>
+                <% if (category) { %>
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="<%= category_url %>"><%= category %></a>
+                <% } %>
+            </div>
+    </div>
+</script>
+<script src="{% static 'ideas/js/ideas.js' %}"></script>

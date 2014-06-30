@@ -46,110 +46,18 @@
     {% endfor %}</noscript>
     <div id="idea-list-view"></div>
 </div>
-    {% comment %}
-        Model formularza dla kategorii.
-    {% endcomment %}
-    <div id="new-category-form" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans "Create ideas category" %}</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="presentation" method="post" action="" >
-                        <div class="form-group">
-                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                            <input type="text" id="category-name" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="category-description">{% trans "Description" %}</label>
-                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
+
+    {% include 'ideas/idea-category.html' %}
     {% include 'ideas/idea-votes.html' %}
     
 </div>
 
-{% include 'locations/sidebar.html' %}
+    {% include 'locations/sidebar.html' %}
 
 </div>
 </div>
-{% if user.is_authenticated %}
-<p>
-    {% if user.is_superuser %}
-    <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">{% trans "New category" %}</button></a>
-    {% endif %}
-</p>
-{% endif %}
 {% endblock %}
 
 {% block footer_scripts %}
-<script>window.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>
-<script type="text/template" id="idea-entry-tpl">
-    <div class="idea-votes col-sm-3">
-    <div class="vote-form">
-        <div class="votes"><%= total_votes %></div>
-        <div class="vote-controls">
-            {% if user.is_authenticated %}
-                <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-                <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
-            {% else %}
-                <div class="button-vote-placeholder"></div>
-            {% endif %}
-        </div>
-        </div>
-
-        <div class="clear">&nbsp;</div>
-        <div class="idea-summary">
-            <div class="idea-status-state">
-                <% if (status) { %>
-                    <label class="label label-success">{% trans "Active" %}</label>
-                <% } else { %>
-                    <label class="label label-danger">{% trans "Inactive" %}</label>
-                <% } %>
-            </div>
-            <div class="idea-vote-count" data-target=<%= id %>><%= total_votes %> {% trans "votes" %}</div>
-        </div>
-    </div>
-    <div class="col-sm-9">
-        <h3><a href="<%= link %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
-        <div class="entry-submenu">
-            <ul>
-                <li><a href="#">{% trans "Edit" %}</a></li>
-            </ul>
-        </div>
-        <p>
-            {% trans "Created" %} <%= date_created %> by <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
-            <% if (edited) { %>
-                {% trans "Last edited" %} <%= date_edited %>
-            <% } %>
-        </p>
-        
-        <div><%= description %></div>
-            <div>
-                <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
-                <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
-                <% for (var i = 0; i < tags.length; i++) { %>
-                    <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
-                <% } %>
-                <% if (category) { %>
-                <span class="fa fa-star"> </span>{% trans "Category" %}:
-                    <a href="<%= category_url %>"><%= category %></a>
-                <% } %>
-            </div>
-    </div>
-</script>
-<script src="{% static 'ideas/js/votes.js' %}"></script>
-<script src="{% static 'ideas/js/categories.js' %}"></script>
-<script src="{% static 'ideas/js/ideas.js' %}"></script>
+    {% include 'ideas/ideas.html' %}
 {% endblock %}
