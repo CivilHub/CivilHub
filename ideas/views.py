@@ -3,11 +3,11 @@ import json
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 # Use generic django views
-from django.views.generic import DetailView
+from django.views.generic import View, DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import ugettext as _
@@ -18,6 +18,7 @@ from models import Idea, Vote, Category
 from forms import IdeaForm, CategoryForm
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
+from locations.models import Location
 from places_core.mixins import LoginRequiredMixin
 # Custom comments
 from comments.models import CustomComment
@@ -83,6 +84,51 @@ class CreateCategory(LoginRequiredMixin, CreateView):
         context = super(CreateCategory, self).get_context_data(**kwargs)
         context['title'] = _('Create new category')
         return context
+
+
+class BasicIdeaView(View):
+    """
+    This is view for idea collection of one location. It is intended to return
+    list of ideas formatted as JSON.
+    """
+    def get(self, request, slug, *args, **kwargs):
+        location = Location.objects.get(slug=slug)
+        ideas = Idea.objects.filter(location=location)
+        ctx = []
+        for idea in ideas:
+            tags = []
+            for tag in idea.tags.all():
+                tags.append({
+                    'name': tag.name,
+                    'url': reverse('locations:tag_search',
+                                   kwargs={'slug':idea.location.slug,
+                                           'tag':tag.name})
+                })
+            ctx.append({
+                'id': idea.pk,
+                'name': idea.name,
+                'status': idea.status,
+                'link': idea.get_absolute_url(),
+                'description': idea.description,
+                'creator': idea.creator.get_full_name(),
+                'creator_url': idea.creator.profile.get_absolute_url(),
+                'creator_id': idea.creator.pk,
+                'avatar': idea.creator.profile.avatar.url,
+                'date_created': str(idea.date_created),
+                'date_edited': str(idea.date_edited),
+                'edited': idea.edited,
+                'total_votes': idea.get_votes(),
+                'total_comments': idea.get_comment_count(),
+                'tags': tags,
+                'category': idea.category.name,
+                'category_url': reverse('locations:category_search', kwargs={
+                    'slug': idea.location.slug,
+                    'app': 'ideas',
+                    'model': 'idea',
+                    'category': idea.category.pk,
+                }),
+            })
+        return HttpResponse(json.dumps(ctx))
 
 
 class IdeasListView(ListView):

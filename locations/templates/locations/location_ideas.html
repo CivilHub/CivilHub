@@ -42,8 +42,9 @@
 <div class="col-sm-9">
 <div class="main-content">
     {% for idea in ideas %}
-        {% include 'ideas/idea_basic.html' %}
+        {% comment %}{% include 'ideas/idea_basic.html' %}{% endcomment %}
     {% endfor %}
+    <div id="idea-list-view"></div>
 </div>
     {% comment %}
         Model formularza dla kategorii.
@@ -93,57 +94,62 @@
 {% endblock %}
 
 {% block footer_scripts %}
-<script src="{% static 'ideas/js/votes.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $(document).ready(function () {
-        var $modal = $('#new-category-form'),
-            $form = $modal.find('form:first'),
-            $sBtn = $modal.find('.submit-btn:first');
-    
-        $form.bind('submit', function (evt) {
-            var data = {
-                    name: $('#category-name').val(),
-                    description: $('#category-description').val()
-                };
-            evt.preventDefault();
-            sendAjaxRequest('POST', '/rest/ideas/', {
-                data: data,
-                success: function (resp) {
-                    display_alert('{% trans "Category added" %}', 'success');
-                    $modal.modal('hide');
-                },
-                error: function (err) {
-                    var $alert = {},
-                        errors = {},
-                        error = null;
-                    try {
-                        errors = err.responseJSON;
-                        for (error in errors) {
-                            if (errors.hasOwnProperty(error)) {
-                                $alert = $('<div class="alert alert-danger"></div>');
-                                $alert.prependTo($modal.find('.form-group:first'))
-                                    .text(error + ": " + errors[error]);
-                                console.log(error + ": " + errors[error]);
-                            }
-                        }
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-            });
-        });
+<script>window.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>
+<script type="text/template" id="idea-entry-tpl">
+    <div class="idea-votes col-sm-3">
+    <div class="vote-form">
+        <div class="votes"><%= total_votes %></div>
+        <div class="vote-controls">
+            {% if user.is_authenticated %}
+                <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+                <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
+            {% else %}
+                <div class="button-vote-placeholder"></div>
+            {% endif %}
+        </div>
+        </div>
+
+        <div class="clear">&nbsp;</div>
+        <div class="idea-summary">
+            <div class="idea-status-state">
+                <% if (status) { %>
+                    <label class="label label-success">{% trans "Active" %}</label>
+                <% } else { %>
+                    <label class="label label-danger">{% trans "Inactive" %}</label>
+                <% } %>
+            </div>
+            <div class="idea-vote-count" data-target=<%= id %>><%= total_votes %> {% trans "votes" %}</div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <h3><a href="<%= link %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+        <div class="entry-submenu">
+            <ul>
+                <li><a href="#">{% trans "Edit" %}</a></li>
+            </ul>
+        </div>
+        <p>
+            {% trans "Created" %} <%= date_created %> by <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
+            <% if (edited) { %>
+                {% trans "Last edited" %} <%= date_edited %>
+            <% } %>
+        </p>
         
-        $sBtn.bind('click', function (evt) {
-            $form.submit();
-        });
-    
-        $('.new-category-btn').bind('click', function (evt) {
-            evt.preventDefault();
-            $modal.modal('show');
-        });
-    });
-})(jQuery);
+        <div><%= description %></div>
+            <div>
+                <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+                <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+                <% for (var i = 0; i < tags.length; i++) { %>
+                    <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+                <% } %>
+                <% if (category) { %>
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="<%= category_url %>"><%= category %></a>
+                <% } %>
+            </div>
+    </div>
 </script>
+<script src="{% static 'ideas/js/votes.js' %}"></script>
+<script src="{% static 'ideas/js/categories.js' %}"></script>
+<script src="{% static 'ideas/js/ideas.js' %}"></script>
 {% endblock %}
