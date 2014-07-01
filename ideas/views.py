@@ -86,6 +86,69 @@ class CreateCategory(LoginRequiredMixin, CreateView):
         return context
 
 
+class BasicIdeaSerializer(object):
+    """
+    This is custom serializer for ideas. It passes properly formatted objects
+    that they can be later dumped to JSON format. It gets Idea object instance
+    as mandatory argument.
+    
+    For now this method supports only serializing - deserilizing should be
+    added later if needed.
+    """
+    def __init__(self, idea):
+        tags = []
+
+        for tag in idea.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':idea.location.slug,
+                                       'tag':tag.name})
+            })
+
+        self.data = {
+            'id'            : idea.pk,
+            'name'          : idea.name,
+            'status'        : idea.status,
+            'link'          : idea.get_absolute_url(),
+            'description'   : idea.description,
+            'creator'       : idea.creator.get_full_name(),
+            'creator_url'   : idea.creator.profile.get_absolute_url(),
+            'creator_id'    : idea.creator.pk,
+            'avatar'        : idea.creator.profile.avatar.url,
+            'date_created'  : timesince(idea.date_created),
+            'edited'        : idea.edited,
+            'total_votes'   : idea.get_votes(),
+            'total_comments': idea.get_comment_count(),
+            'tags'          : tags,
+        }
+
+        self.data['edit_url'] = reverse('ideas:update', kwargs={
+            'slug': idea.slug,
+        })
+
+        try:
+            self.data['date_edited'] = timesince(idea.date_edited)
+        except Exception:
+            self.data['date_edited'] = ''
+
+        if idea.category:
+            self.data['category']     = idea.category.name
+            self.data['category_url'] = reverse('locations:category_search',
+                kwargs={
+                    'slug'    : idea.location.slug,
+                    'app'     : 'ideas',
+                    'model'   : 'idea',
+                    'category': idea.category.pk,
+                })
+        else:
+            self.data['category'] = ''
+            self.data['category_url'] = ''
+
+    def as_array(self):
+        return self.data
+
+
 class BasicIdeaView(View):
     """
     This is view for idea collection of one location. It is intended to return
@@ -128,7 +191,24 @@ class BasicIdeaView(View):
             print haystack
             queryset = queryset.filter(name__icontains=haystack)
 
-        return queryset
+        order = request.GET.get('order')
+        if order == 'title':
+            return queryset.order_by('name')
+        elif order == 'date':
+            return queryset.order_by('-date_created')
+        elif order == 'category':
+            return queryset.order_by('category__name')
+        elif order == 'username':
+            l = list(queryset);
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+        elif order == 'votes':
+            l = list(queryset);
+            l.sort(key=lambda x: x.get_votes())
+            return l
+        else:
+            return queryset
 
     def get(self, request, slug=None, *args, **kwargs):
         """
@@ -145,56 +225,8 @@ class BasicIdeaView(View):
         ctx = []
 
         for idea in ideas:
-            tags = []
-
-            for tag in idea.tags.all():
-                tags.append({
-                    'name': tag.name,
-                    'url': reverse('locations:tag_search',
-                                   kwargs={'slug':idea.location.slug,
-                                           'tag':tag.name})
-                })
-
-            tmp = {
-                'id'            : idea.pk,
-                'name'          : idea.name,
-                'status'        : idea.status,
-                'link'          : idea.get_absolute_url(),
-                'description'   : idea.description,
-                'creator'       : idea.creator.get_full_name(),
-                'creator_url'   : idea.creator.profile.get_absolute_url(),
-                'creator_id'    : idea.creator.pk,
-                'avatar'        : idea.creator.profile.avatar.url,
-                'date_created'  : timesince(idea.date_created),
-                'edited'        : idea.edited,
-                'total_votes'   : idea.get_votes(),
-                'total_comments': idea.get_comment_count(),
-                'tags'          : tags,
-            }
-
-            tmp['edit_url'] = reverse('ideas:update', kwargs={
-                'slug': idea.slug,
-            })
-
-            try:
-                tmp['date_edited'] = timesince(idea.date_edited)
-            except Exception:
-                tmp['date_edited'] = ''
-
-            if idea.category:
-                tmp['category']     = idea.category.name
-                tmp['category_url'] = reverse('locations:category_search',
-                    kwargs={
-                        'slug'    : idea.location.slug,
-                        'app'     : 'ideas',
-                        'model'   : 'idea',
-                        'category': idea.category.pk,
-                    })
-            else:
-                tmp['category'] = ''
-                tmp['category_url'] = ''
-
-            ctx.append(tmp)
+            tmp = BasicIdeaSerializer(idea)
+            ctx.append(tmp.as_array())
 
         return HttpResponse(json.dumps(ctx))
 
