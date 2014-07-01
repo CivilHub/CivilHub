@@ -18,7 +18,7 @@ from .forms import NewsForm
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
-from places_core.helpers import SimplePaginator
+from places_core.helpers import SimplePaginator, truncatehtml
 
 
 class BasicNewsSerializer(object):
@@ -42,7 +42,7 @@ class BasicNewsSerializer(object):
             'title'         : obj.title,
             'slug'          : obj.slug,
             'link'          : obj.get_absolute_url(),
-            'description'   : obj.content,
+            'description'   : truncatehtml(obj.content, 240),
             'username'      : obj.creator.username,
             'user_full_name': obj.creator.get_full_name(),
             'creator_url'   : obj.creator.profile.get_absolute_url(),

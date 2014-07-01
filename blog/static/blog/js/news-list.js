@@ -152,7 +152,7 @@ var newsList = function () {
     return new NewsList();
 };
 
-// Initialize idea list.
+// Initialize list.
 // -----------------------------------------------------------------------------
 var blog = newsList();
 

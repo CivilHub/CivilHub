@@ -67,35 +67,6 @@
 
 {% include 'blog/news_list.html' %}
 
-<!-- <script type="text/template" id="news-entry-tpl">
-<div class="row">
-    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="news-user-avatar" /></div>
-    <div class="col-xs-11">
-        <h3><a href="<%= slug %>"><%= title %></a></h3>
-        <p>
-            {% trans "Created by" %} <a href="/user/profile/<%= username %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= moment(date_created).fromNow() %>
-            <% if (edited) { %>- {% trans "Last edited" %} <%= moment(date_edited).format('YYYY-MM-DD hh:mm:ss') %><% } %>
-        </p>
-        <p class="custom-booklike"><%= content %><a class="read-more-link" href="<%= slug %>">{% trans "Read more" %} &raquo;</a></p>
-        <div class="row">
-            <p class="col-sm-6"><span class="fa fa-star"> </span>
-                <a href="<%= category_url %>"><%= category %></a>
-            </p>
-            <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
-            <% $(tags).each(function (idx, tag) { %>
-                <a href="{% url 'locations:tag_search_index' location.slug %}<%= tag %>"><%= tag %></a>,&nbsp;
-            <% }); %>    
-            </p>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">{% trans "Comments" %}: <%= comment_count %></a></p>
-            </div>
-        </div>
-    </div>
-</div>
-</script> -->
-
 </div>
 
 {% endblock %}
