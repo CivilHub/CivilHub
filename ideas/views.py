@@ -22,7 +22,7 @@ from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
 from places_core.mixins import LoginRequiredMixin
-from places_core.helpers import SimplePaginator
+from places_core.helpers import SimplePaginator, truncatehtml
 # Custom comments
 from comments.models import CustomComment
 # Custom permissions
@@ -112,7 +112,7 @@ class BasicIdeaSerializer(object):
             'name'          : idea.name,
             'status'        : idea.status,
             'link'          : idea.get_absolute_url(),
-            'description'   : idea.description,
+            'description'   : truncatehtml(idea.description, 240),
             'creator'       : idea.creator.get_full_name(),
             'creator_url'   : idea.creator.profile.get_absolute_url(),
             'creator_id'    : idea.creator.pk,
