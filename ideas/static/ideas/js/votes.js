@@ -92,25 +92,51 @@ CivilApp.voteCounter = function (ideaId) {
         Counter = Backbone.View.extend({
             el: '#vote-counter-modal',
             initialize: function () {
-                var that = this;
+                var that = this,
+                    positive_votes = [],
+                    negative_votes = [];
                 getVotes(ideaId, function (votes) {
-                    that.collection = new CountList(votes);
-                    that.$entries = that.$el.find('.modal-body');
-                    that.$entries.empty();
+                    _.each(votes, function (item) {
+                        console.log(item);
+                        if (item.vote) {
+                            positive_votes.push(item);
+                        } else {
+                            negative_votes.push(item);
+                        }
+                    });
+                    that.positive_collection = new CountList(positive_votes);
+                    that.negative_collection = new CountList(negative_votes);
+                    that.$pEntries = that.$el.find('.positive-votes');
+                    that.$pCounter = that.$el.find('.positive-counter');
+                    that.$pEntries.empty();
+                    that.$nEntries = that.$el.find('.negative-votes');
+                    that.$nCounter = that.$el.find('.negative-counter');
+                    that.$nEntries.empty();
                     that.render();
                 });
             },
             render: function () {
-                this.collection.each(function (item) {
-                    this.renderEntry(item);
+                this.positive_collection.each(function (item) {
+                    this.renderPositiveEntry(item);
                 }, this);
+                this.$pCounter.text(this.positive_collection.length);
+                this.negative_collection.each(function (item) {
+                    this.renderNegativeEntry(item);
+                }, this);
+                this.$nCounter.text(this.negative_collection.length);
                 this.$el.modal('show').data('voteCounter', this);
             },
-            renderEntry: function (item) {
+            renderPositiveEntry: function (item) {
                 var entry = new VoteView({
                     model: item
                 });
-                $(entry.render().el).appendTo(this.$entries);
+                $(entry.render().el).appendTo(this.$pEntries);
+            },
+            renderNegativeEntry: function (item) {
+                var entry = new VoteView({
+                    model: item
+                });
+                $(entry.render().el).appendTo(this.$nEntries);
             }
         });
 
