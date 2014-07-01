@@ -225,8 +225,7 @@ class BasicIdeaView(View):
         ctx = {'results': []}
 
         for idea in ideas:
-            tmp = BasicIdeaSerializer(idea)
-            ctx['results'].append(tmp.as_array())
+            ctx['results'].append(BasicIdeaSerializer(idea).data)
 
         paginator = SimplePaginator(ctx['results'], 2)
         page = request.GET.get('page') if request.GET.get('page') else 1

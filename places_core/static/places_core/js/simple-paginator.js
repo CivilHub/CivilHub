@@ -8,13 +8,15 @@
 // skorzystać z rest-paginator.js.
 //
 // Najczęściej wykorzystywane opcje to 'currentPage', czyli numer aktualnie
-// przeglądanej strony, oraz 'totalPages', czyli całkowita liczba stron.
+// przeglądanej strony, 'totalPages', czyli całkowita liczba stron oraz callback
+// zwracany jako sukces po kliknięciu na któryś z lnków w paginacji.
 //
 // Przykład:
 //
 //   var my_paginator = CivilApp.SimplePaginator({
 //       currentPage: 5,
-//       totalPages: 35
+//       totalPages: 35,
+//       onChange: function (page) {alert(page);}
 //   });
 //
 var CivilApp = CivilApp || {};
@@ -32,7 +34,7 @@ CivilApp.SimplePaginator = function (options) {
             prevLabel  : '<',
             nextLabel  : '>',
             onChange: function (page) {
-                console.log(page);
+                console.log("Simple paginator selected page: " + page);
             }
         },
     

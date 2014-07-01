@@ -5,7 +5,7 @@
 (function ($) {
 "use strict";
 
-var url = window.IDEA_API_URL;
+var url = CivilApp.IDEA_API_URL;
 
 //
 // Funkcja pobierająca dodatkowe dane z formularza 'search'.
@@ -123,6 +123,8 @@ var ideaList = function () {
                 this.paginator = CivilApp.SimplePaginator({
                     currentPage: current_page,
                     totalPages: total_pages,
+                    prevLabel: gettext("Previous"),
+                    nextLabel: gettext("Next"),
                     onChange: function (page) {
                         that.filter(page);
                     }
@@ -140,7 +142,7 @@ var ideaList = function () {
             filter: function (page) {
                 var that = this,
                     filters = getListOptions(),
-                    url  = window.IDEA_API_URL + JSONtoUrl(filters);
+                    url  = CivilApp.IDEA_API_URL + JSONtoUrl(filters);
                 if (page) url += '&page=' + page;
                 $.get(url, function (resp) {
                     resp = JSON.parse(resp);

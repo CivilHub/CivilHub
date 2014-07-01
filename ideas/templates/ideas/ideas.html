@@ -4,7 +4,7 @@
     Szablon dla idei - do obsługi listy idei w lokalizacji.
 {% endcomment %}
 
-<script>window.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>
+<script>CivilApp.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3">
     <div class="vote-form">

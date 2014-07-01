@@ -1,7 +1,32 @@
-{% extends 'places_core/base.html' %}
-
-{% block content %}
-    {% for entry in entries %}
-        <h3>{{ entry.title }}</h3>
-    {% endfor %}
-{% endblock %}
+{% load staticfiles %}{% load i18n %}
+<script type="text/template" id="news-entry-tpl">
+<div class="row">
+    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="news-user-avatar" /></div>
+    <div class="col-xs-11">
+        <h3><a href="<%= slug %>"><%= title %></a></h3>
+        <p>
+            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= date_created %> {% trans "ago" %}.
+            <% if (edited) { %>- {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.<% } %>
+        </p>
+        <p class="custom-booklike"><%= description %><a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
+        <div class="row">
+            <p class="col-sm-6"><span class="fa fa-star"> </span>
+                <a href="<%= category_url %>"><%= category %></a>
+            </p>
+            <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+            <% for (var i = 0; i < tags.length; i++) { %>
+                <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+            <% } %> 
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">{% trans "Comments" %}: <%= comment_count %></a></p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<script>CivilApp.BLOG_API_URL="{% url 'blog:list' location.slug %}";</script>
+<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
+<script src="{% static 'blog/js/news-list.js' %}"></script>

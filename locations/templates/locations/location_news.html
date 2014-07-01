@@ -65,7 +65,9 @@
 </form>
 </script>
 
-<script type="text/template" id="news-entry-tpl">
+{% include 'blog/news_list.html' %}
+
+<!-- <script type="text/template" id="news-entry-tpl">
 <div class="row">
     <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="news-user-avatar" /></div>
     <div class="col-xs-11">
@@ -92,9 +94,10 @@
         </div>
     </div>
 </div>
-</script>
+</script> -->
 
 </div>
+
 {% endblock %}
 
 {% block sidebar %}
@@ -112,8 +115,8 @@
 {% endblock %}
 
 
-{% block footer_scripts %}
+{% block footer_scripts %}{% comment %}
 <script src="{% static 'places_core/js/rest-paginator.js' %}"></script>
 <script src="{% static 'blog/js/news.js' %}"></script>
 <script src="{% static 'blog/js/news-list.js' %}"></script>
-{% endblock %}
+{% endcomment %}{% endblock %}

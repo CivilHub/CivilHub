@@ -29,7 +29,7 @@
                     csrfmiddlewaretoken: getCookie('csrftoken'),
                     name: $('#name').val(),
                     description: $('#description').val()
-                }
+                };
                 $.ajax({
                     type: 'POST',
                     url: '/rest/categories/',

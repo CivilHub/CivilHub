@@ -1,90 +1,186 @@
+//
+// news-list.js
+// ============
+//
+// This is entire blog application.
+//
+var CivilApp = CivilApp || {};
+
 (function ($) {
-    "use strict";
-    var newsList = {},
-        newsSet = null,
-        pages = null,      // result pages total count for paginator.
-        appUrl   = '/rest/news/?pk=' + $('#location-id').val();
+"use strict";
+
+var url = CivilApp.BLOG_API_URL;
+
+//
+// Funkcja pobierająca dodatkowe dane z formularza 'search'.
+// ---------------------------------------------------------
+var getSearchText = function () {
+    var $field = $('#haystack'),
+        txt = $field.val();
     
-    newsList.News = Backbone.Model.extend({});
+    if (_.isUndefined(txt) || txt.length <= 1) {
+        return '';
+    }
     
-    newsList.NewsView = Backbone.View.extend({
-        tagName: 'div',
-        className: 'news-entry',
-        template: _.template($('#news-entry-tpl').html()),
+    return txt;
+};
+//
+// Wczytanie wybranych opcji.
+// ---------------------------
+// Sprawdzenie aktywnych elementów (klikniętych linków)
+// w celu "pozbierania" opcji wyszukiwarki.
+// 
+var getListOptions = function () {
+    var $sel = $('.list-controller'),
+        opts = {},
+        optType = null,
+        optValue = null;
+    
+    $sel.each(function () {
+        var $this = $(this);
         
-        render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
+        if ($this.hasClass('active')) {
+            optType = $this.attr('data-control');
+            optValue = $this.attr('data-target');
+            opts[optType] = optValue;
         }
     });
     
-    newsList.ListView = Backbone.View.extend({
-        el: '#entries',
-        
-        initialize: function (initialNews) {
-            this.collection = new newsList.NewsList(initialNews);
-            this.render();
-        },
-        
-        render: function () {
-            this.collection.each(function (item) {
-                this.renderNews(item);
-            }, this);
-        },
-        
-        renderNews: function (item) {
-            var NewsView = new newsList.NewsView({
-                model: item
-            });
-            $(NewsView.render().el).appendTo(this.$el);
-        }
-    });
+    opts['haystack'] = getSearchText();
     
-    newsList.NewsList = Backbone.Collection.extend({
-        model: newsList.News
-    });
-    
-    // Create news list
-    // ----------------
-    var createNewsList = function (url) {
-        var pgn  = '';
-        $('#entries').empty();
-        $.get(url, function (resp) {
-            if (_.isNull(pages)) {
-                pages = Math.ceil(resp.count / resp.results.length);
+    return opts;
+};
+//
+// Core function.
+// --------------
+// Zasadnicza funkcja odpowiedzialna za uruchomienie całego szkieletu
+// aplikacji.
+//
+var newsList = function () {
+
+    var NewsModel = Backbone.Model.extend({}),
+
+        NewsView = Backbone.View.extend({
+            tagName: 'div',
+
+            className: 'news-entry',
+
+            template: _.template($('#news-entry-tpl').html()),
+
+            submenu: {},
+
+            events: {
+                'click .submenu-toggle': 'openMenu'
+            },
+
+            render: function () {
+                var that = this;
+                this.$el.html(this.template(this.model.toJSON()));
+                this.submenu = {
+                    $el: that.$el.find('.entry-submenu'),
+                    opened: false
+                };
+                return this;
+            },
+
+            openMenu: function () {
+                if (this.submenu.opened) {
+                    this.submenu.$el.slideUp('fast');
+                    this.submenu.opened = false;
+                } else {
+                    this.submenu.$el.slideDown('fast');
+                    this.submenu.opened = true;
+                }
+            },
+        }),
+
+        NewsCollection = Backbone.Collection.extend({
+            model: NewsModel,
+            url: url
+        }),
+
+        NewsList = Backbone.View.extend({
+            el: '#entries',
+
+            initialize: function () {
+                var that = this;
+                $.get(url, function (resp) {
+                    resp = JSON.parse(resp);
+                    that.collection = new NewsCollection(resp.results);
+                    that.render(resp.current_page, resp.total_pages);
+                });
+            },
+
+            render: function (current_page, total_pages) {
+                var that = this;
+                this.collection.each(function (item) {
+                    this.renderEntry(item);
+                }, this);
+                this.paginator = CivilApp.SimplePaginator({
+                    currentPage: current_page,
+                    totalPages: total_pages,
+                    prevLabel: gettext("Previous"),
+                    nextLabel: gettext("Next"),
+                    onChange: function (page) {
+                        that.filter(page);
+                    }
+                });
+                $(this.paginator.$el).appendTo(this.$el);
+            },
+
+            renderEntry: function (item) {
+                var itemView = new NewsView({
+                        model: item
+                    });
+                $(itemView.render().el).appendTo(this.$el);
+            },
+
+            filter: function (page) {
+                var that = this,
+                    filters = getListOptions(),
+                    url  = CivilApp.BLOG_API_URL + JSONtoUrl(filters);
+                if (page) url += '&page=' + page;
+                $.get(url, function (resp) {
+                    resp = JSON.parse(resp);
+                    that.collection = new NewsCollection(resp.results);
+                    that.$el.empty();
+                    that.render(resp.current_page, resp.total_pages);
+                });
             }
-            pgn = paginator({
-                baseUrl : url,
-                pages   : pages,
-                total   : resp.count,
-                perPage : resp.results.length,
-                previous: resp.previous,
-                next    : resp.next,
-                callback: createNewsList
-            });
-            newsSet = new newsList.ListView(resp.results);
-            newsSet.$el.append(pgn);
         });
-    };
-    
-    // Initialize first results page
-    createNewsList(appUrl);
-    
-    // Enable list sorting.
-    $('.news-list-sort-toggle').bind('click', function (e) {
-        var order = $(this).attr('data-target'),
-            url = appUrl + '&order=' + order;
-        e.preventDefault();
-        createNewsList(url);
-    });
-    
-    // Enable searching
-    $('#news-search-form').bind('submit', function (e) {
-        var $qField = $(this).find('#q'),
-            keywords = $qField.val(),
-            url = appUrl + '&keywords=' + encodeURIComponent(keywords);
-        e.preventDefault();
-        createNewsList(url);
-    });
-    
+
+    return new NewsList();
+};
+
+// Initialize idea list.
+// -----------------------------------------------------------------------------
+var blog = newsList();
+
+//
+// Obsługa kliknięć.
+// -----------------
+// Po kliknięciu na aktywny link w formularzu ta funkcja
+// zbiera wybrane opcje i tworzy URL do przekierowania.
+//
+$('.list-controller').bind('click', function (e) {
+    var selectedItem = $(this).attr('data-control');
+
+    e.preventDefault();
+
+    $('.active[data-control="' + selectedItem + '"]')
+        .removeClass('active');
+    $(this).addClass('active');
+
+    blog.filter();
+});
+//
+// Zapisanie formularza.
+// ---------------------
+// W taki sam sposób jak powyżej, łączymy submit formularza.
+//
+$('#haystack-form').bind('submit', function (e) {
+    e.preventDefault();
+    blog.filter();
+});
+
 })(jQuery);
