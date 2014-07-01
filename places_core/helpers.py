@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+import json, math
 from operator import itemgetter
 from taggit.models import Tag
 from locations.models import Location
@@ -31,6 +31,32 @@ def truncatesmart(value, limit=40):
     
     # Join the words and return
     return ' '.join(words) + '...'
+
+
+class SimplePaginator(object):
+    """
+    Prosty paginator wyników zapytań prezentowanych w formie JSON. Ta klasa
+    została stworzona z myślą o wykorzystaniu w widokach nie serwowanych
+    przez Django REST Server.
+    It takes 2 mandatory parameters - queryset to filter and total number of 
+    items to display per one page.
+    """
+    queryset = None
+    per_page = 0
+    length   = 0
+
+    def __init__(self, queryset, per_page):
+        self.queryset = queryset
+        self.per_page = per_page
+        self.length = int(math.ceil(len(self.queryset)/(self.per_page*1.0)))
+
+    def count(self):
+        return self.length
+
+    def page(self, page):
+        """ Get single results page. """
+        set_finish = int(page) * self.per_page
+        return self.queryset[set_finish-self.per_page:set_finish]
 
 
 class ContentFilter(object):

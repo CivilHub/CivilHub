@@ -93,9 +93,8 @@ var paginator = function (options) {
     pgn.$el.append(createLink(cleanUrl() + pages, options.lastPageLabel));
     
     // We don't want paginating one page results - return dummy string.
-    if (pages <= 1 && !options.showEmpty) {
-        return '';
-    }
+    if (pages <= 1) return '';
+    
     // Return DOM element
     return pgn.$el;
 };

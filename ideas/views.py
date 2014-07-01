@@ -22,6 +22,7 @@ from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
 from places_core.mixins import LoginRequiredMixin
+from places_core.helpers import SimplePaginator
 # Custom comments
 from comments.models import CustomComment
 # Custom permissions
@@ -92,7 +93,7 @@ class BasicIdeaSerializer(object):
     that they can be later dumped to JSON format. It gets Idea object instance
     as mandatory argument.
     
-    For now this method supports only serializing - deserilizing should be
+    For now this method supports only serializing - deserializing should be
     added later if needed.
     """
     def __init__(self, idea):
@@ -188,7 +189,6 @@ class BasicIdeaView(View):
 
         haystack = request.GET.get('haystack')
         if haystack and haystack != 'false':
-            print haystack
             queryset = queryset.filter(name__icontains=haystack)
 
         order = request.GET.get('order')
@@ -222,11 +222,17 @@ class BasicIdeaView(View):
             ideas = Idea.objects.filter(location=location)
 
         ideas = self.get_queryset(request, ideas)
-        ctx = []
+        ctx = {'results': []}
 
         for idea in ideas:
             tmp = BasicIdeaSerializer(idea)
-            ctx.append(tmp.as_array())
+            ctx['results'].append(tmp.as_array())
+
+        paginator = SimplePaginator(ctx['results'], 2)
+        page = request.GET.get('page') if request.GET.get('page') else 1
+        ctx['current_page'] = page
+        ctx['total_pages'] = paginator.count()
+        ctx['results'] = paginator.page(page)
 
         return HttpResponse(json.dumps(ctx))
 

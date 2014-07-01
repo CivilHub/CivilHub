@@ -47,32 +47,11 @@ var getListOptions = function () {
     return opts;
 };
 //
-// Wczytanie opcji startowych.
-// ---------------------------
-// Parsowanie aktywnego url-a w celu ustawienia aktywnych
-// elementów w oparciu o wybrane opcje.
+// Core function.
+// --------------
+// Zasadnicza funkcja odpowiedzialna za uruchomienie całego szkieletu
+// aplikacji.
 //
-var loadListOptions = function () {
-    var $sel = $('.list-controller'),
-        data = urlToJSON(document.location.href);
-
-    if (_.isEmpty(data)) {
-        return true;
-    }
-
-    $sel.each(function () {
-        var key = $(this).attr('data-control'),
-            val = $(this).attr('data-target'),
-            selected = data[key];
-        
-        if (val === selected) {
-            $(this).addClass('active');
-        } else {
-            $(this).removeClass('active');
-        }
-    });
-};
-
 var ideaList = function () {
 
     var IdeaModel = Backbone.Model.extend({}),
@@ -129,18 +108,26 @@ var ideaList = function () {
 
             initialize: function () {
                 var that = this;
-                that.collection = new IdeaCollection();
-                that.collection.fetch({
-                    success: function () {
-                        that.render();
-                    }
+                $.get(url, function (resp) {
+                    resp = JSON.parse(resp);
+                    that.collection = new IdeaCollection(resp.results);
+                    that.render(resp.current_page, resp.total_pages);
                 });
             },
 
-            render: function () {
+            render: function (current_page, total_pages) {
+                var that = this;
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);
+                this.paginator = CivilApp.SimplePaginator({
+                    currentPage: current_page,
+                    totalPages: total_pages,
+                    onChange: function (page) {
+                        that.filter(page);
+                    }
+                });
+                $(this.paginator.$el).appendTo(this.$el);
             },
 
             renderEntry: function (item) {
@@ -150,16 +137,16 @@ var ideaList = function () {
                 $(itemView.render().el).appendTo(this.$el);
             },
 
-            filter: function (filters) {
-                var that = this;
-                that.collection.url = window.IDEA_API_URL + JSONtoUrl(filters);
-                console.log(that.collection.url);
-                that.collection.fetch({
-                    success: function () {
-                        that.$el.empty();
-                        that.render();
-                        console.log(that.collection);
-                    }
+            filter: function (page) {
+                var that = this,
+                    filters = getListOptions(),
+                    url  = window.IDEA_API_URL + JSONtoUrl(filters);
+                if (page) url += '&page=' + page;
+                $.get(url, function (resp) {
+                    resp = JSON.parse(resp);
+                    that.collection = new IdeaCollection(resp.results);
+                    that.$el.empty();
+                    that.render(resp.current_page, resp.total_pages);
                 });
             }
         });
@@ -167,6 +154,8 @@ var ideaList = function () {
     return new IdeasList();
 };
 
+// Initialize idea list.
+// -----------------------------------------------------------------------------
 var ideas = ideaList();
 
 //
@@ -174,10 +163,9 @@ var ideas = ideaList();
 // -----------------
 // Po kliknięciu na aktywny link w formularzu ta funkcja
 // zbiera wybrane opcje i tworzy URL do przekierowania.
+//
 $('.list-controller').bind('click', function (e) {
-    var selectedItem = $(this).attr('data-control'),
-        options = {},
-        url     = '';
+    var selectedItem = $(this).attr('data-control');
 
     e.preventDefault();
 
@@ -185,11 +173,16 @@ $('.list-controller').bind('click', function (e) {
         .removeClass('active');
     $(this).addClass('active');
 
-    ideas.filter(getListOptions());
+    ideas.filter();
 });
+//
+// Zapisanie formularza.
+// ---------------------
+// W taki sam sposób jak powyżej, łączymy submit formularza.
+//
 $('#haystack-form').bind('submit', function (e) {
     e.preventDefault();
-    ideas.filter(getListOptions());
+    ideas.filter();
 });
 
 })(jQuery);
