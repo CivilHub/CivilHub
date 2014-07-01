@@ -94,7 +94,7 @@ var ideaList = function () {
             },
 
             voteCounterWindow: function () {
-                var cc = civApp.voteCounter(this.model.get('id'));
+                var cc = CivilApp.voteCounter(this.model.get('id'));
             }
         }),
 

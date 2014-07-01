@@ -1,4 +1,10 @@
-var civApp = civApp || {};
+//
+// votes.js
+// ========
+//
+// Handles user's votes for ideas.
+//
+var CivilApp = CivilApp || {};
 //
 // Handle voting on list page.
 // -----------------------------------------------------------------------------
@@ -42,7 +48,7 @@ $(document).delegate('.vote-btn', 'click', function () {
 //
 // Get list of users and their votes.
 // -----------------------------------------------------------------------------
-civApp.voteCounter = function (ideaId) {
+CivilApp.voteCounter = function (ideaId) {
     // Put Backbone MVC in bootstrap modal window.
     var getVotes = function (id, callback) {
             sendAjaxRequest('GET', '/rest/idea_votes/', {
@@ -110,6 +116,3 @@ civApp.voteCounter = function (ideaId) {
 
     return new Counter;
 };
-$('.idea-vote-count').bind('click', function () {
-    var cc = civApp.voteCounter($(this).attr('data-target'));
-});

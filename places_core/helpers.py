@@ -53,8 +53,9 @@ class SimplePaginator(object):
     def count(self):
         return self.length
 
-    def page(self, page):
+    def page(self, page=None):
         """ Get single results page. """
+        if not page: page = 1
         set_finish = int(page) * self.per_page
         return self.queryset[set_finish-self.per_page:set_finish]
 

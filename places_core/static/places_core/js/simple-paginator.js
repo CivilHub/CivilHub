@@ -7,6 +7,16 @@
 // Ponieważ chcemy przesyłać wyniki w nieco innej formie, nie możemy tutaj
 // skorzystać z rest-paginator.js.
 //
+// Najczęściej wykorzystywane opcje to 'currentPage', czyli numer aktualnie
+// przeglądanej strony, oraz 'totalPages', czyli całkowita liczba stron.
+//
+// Przykład:
+//
+//   var my_paginator = CivilApp.SimplePaginator({
+//       currentPage: 5,
+//       totalPages: 35
+//   });
+//
 var CivilApp = CivilApp || {};
 
 CivilApp.SimplePaginator = function (options) {
@@ -17,6 +27,10 @@ CivilApp.SimplePaginator = function (options) {
             totalPages : 10,
             className  : 'pagination',
             activeClass: 'active',
+            firstLabel : '<<',
+            lastLabel  : '>>',
+            prevLabel  : '<',
+            nextLabel  : '>',
             onChange: function (page) {
                 console.log(page);
             }
@@ -33,7 +47,7 @@ CivilApp.SimplePaginator = function (options) {
             
             render: function () {
                 this.$el.html(this.template(this.model.toJSON()));
-                if (this.model.get('page') === options.startPage)
+                if (this.model.get('page') == options.currentPage)
                     this.$el.addClass(options.activeClass);
                 return this;
             }
@@ -47,10 +61,33 @@ CivilApp.SimplePaginator = function (options) {
         
             fillCollection: function () {
                 var i, page, models = [];
+                // Add first/prev links
+                if (options.currentPage > options.startPage) {
+                    models.push(new PageModel({
+                        text: options.firstLabel,
+                        page: options.startPage
+                    }));
+                    models.push(new PageModel({
+                        text: options.prevLabel,
+                        page: parseInt(options.currentPage, 10) - 1
+                    }));
+                }
+                // Add numeric links for pages
                 for (i = options.startPage; i <= options.totalPages; i++) {
                     models.push(new PageModel({
                         'text': i,
                         'page': i 
+                    }));
+                }
+                // Add next/last links
+                if (options.currentPage < options.totalPages) {
+                    models.push(new PageModel({
+                        text: options.nextLabel,
+                        page: parseInt(options.currentPage, 10) + 1
+                    }));
+                    models.push(new PageModel({
+                        text: options.lastLabel,
+                        page: options.totalPages
                     }));
                 }
                 this.collection = new Pages(models);
