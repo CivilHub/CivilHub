@@ -2,63 +2,72 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jqplot/jquery.jqplot.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'places_core/includes/jqplot/jquery.jqplot.css' %}" />
+    
 {% endblock %}
+
 
 {% block content %}
 
-<h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
-
-<div class="row">
-    <div class="col-sm-6">
-        <div id="chartdiv" style="height:400px;width:300px;"></div>
-    </div>
-    <div class="col-sm-6">
-        {% for aset in answers %}
-        <div>
-            <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
-            <ul>
-            {% for answer in aset.answers.all %}
-                <li>{{ answer }}</li>
-            {% endfor %}
-            </ul>
+    <div class="col-sm-9">
+        <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="chartdiv" style="height:400px;width:300px;"></div>
+            </div>
+            <div class="col-sm-6">
+                {% for aset in answers %}
+                <div>
+                    <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
+                    <ul>
+                    {% for answer in aset.answers.all %}
+                        <li>{{ answer }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
     </div>
-</div>
+    
+    {% include 'locations/sidebar.html' %}
 
 {% endblock %}
 
+
 {% block footer_scripts %}
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/jquery.jqplot.js' %}"></script>
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.dateAxisRenderer.js' %}"></script>
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasTextRenderer.js' %}"></script>
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
-<script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.barRenderer.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    var asets = [
-            {% for aset in answer_set %}['{{ aset.answer }}', {{ aset.counter }}],{% endfor %}
-        ],
-        plot1 = $.jqplot('chartdiv', [asets], {
-            title: '{{ poll.title }}',
-            animate: true,
-            series:[{renderer:$.jqplot.BarRenderer}],
-            axesDefaults: {
-                tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-                tickOptions: {
-                    angle: -30,
-                    fontSize: '10pt'
+
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/jquery.jqplot.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.dateAxisRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasTextRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.barRenderer.js' %}"></script>
+    <script>
+    (function ($) {
+        "use strict";
+        var asets = [
+                {% for aset in answer_set %}['{{ aset.answer }}', {{ aset.counter }}],{% endfor %}
+            ],
+            plot1 = $.jqplot('chartdiv', [asets], {
+                title: '{{ poll.title }}',
+                animate: true,
+                series:[{renderer:$.jqplot.BarRenderer}],
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: {
+                        angle: -30,
+                        fontSize: '10pt'
+                    }
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer
+                    }
                 }
-            },
-            axes: {
-                xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer
-                }
-            }
-        });
-})(jQuery);
-</script>
+            });
+    })(jQuery);
+    </script>
+    
 {% endblock %}

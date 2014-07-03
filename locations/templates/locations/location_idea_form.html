@@ -1,29 +1,40 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% comment %}
+    Formularz do tworzenia nowych idei.
+{% endcomment %}
+
 {% block content %}
-<div class="col-sm-9">
-    <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        </div>
-    </form>
-</div>
-{% include 'gallery/media-uploader.html' %}
+
+    <div class="col-sm-9">
+        <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+    
+    {% include 'gallery/media-uploader.html' %}
+    
 {% endblock %}
 
 {% block footer_scripts %}
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#id_description').customCKEditor();
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
-    });
-})(jQuery);
-</script>
+
+    <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
+    <script>
+    (function ($) {
+        "use strict";
+        $('#id_description').customCKEditor();
+        $('#id_tags').tagsInput({
+            autocomplete_url: '/rest/tags/',
+        });
+    })(jQuery);
+    </script>
+    
 {% endblock %}

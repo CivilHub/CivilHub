@@ -3,36 +3,39 @@
 {% load bookmarks_tags %} {% load i18n %}
 
 {% block content %}
-<div class="col-sm-9">
-    <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
-    <div class="entry-submenu">
-        <ul>
-            <li>{% bookmark_form for poll %}</li>
-            {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-        </ul>
-    </div>
-    <hr />
-    
-    {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
-    
-    <div>{{ poll.question | safe }}</div>
-    
-    {% if can_vote %}
-    <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
-        </div>
-    </form>
-    {% else %}
-    <p class="alert alert-info">
-        {% blocktrans %}You have already voted for this poll. You can't vote again.{% endblocktrans %}
-        <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
-    </p>
-    {% endif %}
-</div>
 
-{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
+    <div class="col-sm-9">
+        <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+        <div class="entry-submenu">
+            <ul>
+                <li>{% bookmark_form for poll %}</li>
+                {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+            </ul>
+        </div>
+        <hr />
+        
+        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        
+        <div>{{ poll.question | safe }}</div>
+        
+        {% if can_vote %}
+        <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
+            </div>
+        </form>
+        {% else %}
+        <p class="alert alert-info">
+            {% blocktrans %}You have already voted for this poll. You can't vote again.{% endblocktrans %}
+            <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
+        </p>
+        {% endif %}
+    </div>
+
+    {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
+    
+    {% include 'locations/sidebar.html' %}
 
 {% endblock %}

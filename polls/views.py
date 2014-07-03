@@ -16,6 +16,7 @@ from django.shortcuts import get_object_or_404, redirect
 from maps.models import MapPointer
 from userspace.models import UserProfile
 from locations.models import Location
+from locations.links import LINKS_MAP as links
 from places_core.helpers import SimplePaginator, truncatehtml
 from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
@@ -146,6 +147,7 @@ class PollDetails(DetailView):
         context['location'] = self.object.location
         context['title'] = self.object.title
         context['form'] = PollEntryAnswerForm(self.object)
+        context['links'] = links['polls']
         context['map_markers'] = MapPointer.objects.filter(
                 content_type = ContentType.objects.get_for_model(Poll)
             ).filter(object_pk=self.object.pk)
@@ -193,6 +195,7 @@ class PollResults(DetailView):
         context['location'] = self.object.location
         context['answers'] = AnswerSet.objects.filter(poll=self.object)[:10]
         context['answer_set'] = self.calculate_answsers()
+        context['links'] = links['polls']
         return context
 
 

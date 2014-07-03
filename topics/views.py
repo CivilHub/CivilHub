@@ -20,6 +20,7 @@ from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
 from maps.models import MapPointer
 from locations.models import Location
+from locations.links import LINKS_MAP as links
 from .models import Discussion, Entry, EntryVote, Category
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 
@@ -181,6 +182,7 @@ class DiscussionDetailView(DetailView):
                 'object_pk'   : self.object.pk,
             })
         context['is_moderator'] = moderator
+        context['links'] = links['discussions']
         return context
 
 

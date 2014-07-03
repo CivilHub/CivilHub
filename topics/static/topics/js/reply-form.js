@@ -32,7 +32,7 @@ $('.quote-reply-link').on('click', function (evt) {
     try {
         range.moveToElementEditablePosition(p);
         range.select();
-    catch (e) {
+    } catch (e) {
         console.log(e);
     }
 });

@@ -69,6 +69,7 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         ctx = {
                 'title': _('Create new entry'),
                 'location': Location.objects.get(slug=slug),
+                'links': links['news'],
                 'form': NewsLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -160,6 +161,8 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         slug = kwargs['slug']
         ctx = {
                 'location': Location.objects.get(slug=slug),
+                'title': _("Create new idea"),
+                'links': links['ideas'],
                 'form': IdeaLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -291,6 +294,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         ctx = {
                 'title': _('Create new discussion'),
                 'location': self.parent_object,
+                'links': links['discussions'],
                 'form': DiscussionLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -416,6 +420,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         ctx = {
                 'title': _('Create new poll'),
                 'location': location,
+                'links': links['polls'],
                 'form': PollForm(initial={
                     'location': location
                 })

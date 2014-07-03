@@ -21,6 +21,7 @@ from forms import IdeaForm, CategoryForm
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
+from locations.links import LINKS_MAP as links
 from places_core.mixins import LoginRequiredMixin
 from places_core.helpers import SimplePaginator, truncatehtml
 # Custom comments
@@ -270,6 +271,7 @@ class IdeasDetailView(DetailView):
         context['is_moderator'] = is_moderator(self.request.user, self.object.location)
         context['title'] = self.object.name
         context['location'] = self.object.location
+        context['links'] = links['ideas']
         context['map_markers'] = MapPointer.objects.filter(
                 content_type = ContentType.objects.get_for_model(self.object)
             ).filter(object_pk=self.object.pk)
@@ -319,6 +321,7 @@ class UpdateIdeaView(UpdateView):
         context['location'] = self.object.location
         context['title'] = self.object.name
         context['action'] = 'update'
+        context['links'] = links['ideas']
         return context
 
     def form_valid(self, form):

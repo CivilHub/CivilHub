@@ -2,34 +2,29 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<div class="main-content col-sm-9">
-    <h1>{{ picture.name }}</h1>
-    
-    <div class="picture-main-view">
-        <img src="{{ picture.url }}" alt="{{ picture.name }}" />
+
+    <div class="main-content col-sm-9">
+        <h1>{{ picture.name }}</h1>
+        
+        <div class="picture-main-view">
+            <img src="{{ picture.url }}" alt="{{ picture.name }}" />
+        </div>
+        
+        <div>
+            <p>
+                {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
+                <a class="comment-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a>
+            </p>
+        </div>
+        <input type="hidden" id="target-id" value="{{ picture.pk }}" />
+        <input type="hidden" id="target-label" value="gallery" />
+        <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
+        <input type="hidden" id="target-user" value="{{ user.username }}" />
+        <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+        <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+        {% include 'comments/commentlist.html' %}
     </div>
     
-    <div>
-        <p>
-            {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
-            <a class="comment-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a>
-        </p>
-    </div>
-    <input type="hidden" id="target-id" value="{{ picture.pk }}" />
-    <input type="hidden" id="target-label" value="gallery" />
-    <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
-    <input type="hidden" id="target-user" value="{{ user.username }}" />
-    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-    <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-    {% include 'comments/commentlist.html' %}
-</div>
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-        <h3 class="actions-label">{% trans "Actions" %}:</h3>
-        <ul class="custom-sidebar-nav">
-            
-        </ul>
-    </ul>
-</div>
+    {% include 'locations/sidebar.html' %}
 
 {% endblock %}

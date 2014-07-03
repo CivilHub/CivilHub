@@ -14,6 +14,7 @@ from django.contrib.contenttypes.models import ContentType
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
+from locations.links import LINKS_MAP as links
 from .models import Category, News
 from .forms import NewsForm
 # Use our mixin to allow only some users make actions
@@ -206,6 +207,7 @@ class NewsDetailView(DetailView):
                 'content_type': ContentType.objects.get_for_model(self.object),
                 'object_pk'   : self.object.pk,
             })
+        context['links'] = links['news']
         return context
 
     
@@ -239,4 +241,5 @@ class NewsUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = obj.title
         context['subtitle'] = _('Edit entry')
         context['location'] = obj.location
+        context['links'] = links['news']
         return context

@@ -12,6 +12,7 @@
         </div>
     </form>
 </div>
+{% include 'locations/sidebar.html' %}
 {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
 {% endblock %}
 

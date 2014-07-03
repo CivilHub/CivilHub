@@ -248,4 +248,5 @@ class PlacePictureView(DetailView):
         context['title'] = self.object.name
         context['location'] = self.object.location
         context['picture'] = self.get_object()
+        context['links'] = links['gallery']
         return context
