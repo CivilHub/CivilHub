@@ -21,6 +21,55 @@
 //
 var CivilApp = CivilApp || {};
 
+//
+// Helper functions.
+// -----------------------------------------------------------------------------
+//
+
+// Funkcja pobierająca dodatkowe dane z formularza 'search'.
+// ---------------------------------------------------------
+var getSearchText = function () {
+    var $field = $('#haystack'),
+        txt = $field.val();
+    
+    if (_.isUndefined(txt) || txt.length <= 1) {
+        return '';
+    }
+    
+    return txt;
+};
+
+//
+// Wczytanie wybranych opcji.
+// ---------------------------
+// Sprawdzenie aktywnych elementów (klikniętych linków)
+// w celu "pozbierania" opcji wyszukiwarki.
+// 
+var getListOptions = function () {
+    var $sel = $('.list-controller'),
+        opts = {},
+        optType = null,
+        optValue = null;
+    
+    $sel.each(function () {
+        var $this = $(this);
+        
+        if ($this.hasClass('active')) {
+            optType = $this.attr('data-control');
+            optValue = $this.attr('data-target');
+            opts[optType] = optValue;
+        }
+    });
+    
+    opts['haystack'] = getSearchText();
+    
+    return opts;
+};
+
+//
+// Paginator
+// -----------------------------------------------------------------------------
+//
 CivilApp.SimplePaginator = function (options) {
     
     var defaults = {

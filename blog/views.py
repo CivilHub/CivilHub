@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, datetime
 from dateutil.relativedelta import relativedelta
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -73,9 +73,6 @@ class BasicNewsSerializer(object):
             self.data['category'] = ''
             self.data['category_url'] = ''
 
-    def as_array(self):
-        return self.data
-
 
 class BasicBlogView(View):
     """
@@ -126,24 +123,32 @@ class BasicBlogView(View):
 
         return queryset.order_by('-date_created')
 
-    def get(self, request, slug=None, *args, **kwargs):
-        if not slug:
-            news_list = News.objects.all()
-        else:
-            location = Location.objects.get(slug=slug)
-            news_list = News.objects.filter(location=location)
+    def get(self, request, slug=None, pk=None, *args, **kwargs):
 
-        news_list = self.get_queryset(request, news_list)
         ctx = {'results': []}
 
-        for news in news_list:
-            ctx['results'].append(BasicNewsSerializer(news).data)
+        if not pk:
+            if not slug:
+                news_list = News.objects.all()
+            else:
+                location = Location.objects.get(slug=slug)
+                news_list = News.objects.filter(location=location)
 
-        paginator = SimplePaginator(ctx['results'], 15)
-        page = request.GET.get('page') if request.GET.get('page') else 1
-        ctx['current_page'] = page
-        ctx['total_pages'] = paginator.count()
-        ctx['results'] = paginator.page(page)
+            news_list = self.get_queryset(request, news_list)
+
+            for news in news_list:
+                ctx['results'].append(BasicNewsSerializer(news).data)
+
+            paginator = SimplePaginator(ctx['results'], 15)
+            page = request.GET.get('page') if request.GET.get('page') else 1
+            ctx['current_page'] = page
+            ctx['total_pages'] = paginator.count()
+            ctx['results'] = paginator.page(page)
+        else:
+            news = get_object_or_404(News, pk=pk)
+            ctx['results'] = BasicNewsSerializer(news).data
+            ctx['current_page'] = 1
+            ctx['total_pages'] = 1
 
         return HttpResponse(json.dumps(ctx))
 

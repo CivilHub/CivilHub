@@ -9,13 +9,13 @@
 
 <script type="text/template" id="topic-entry">
     <div class="row">
-        <div class="col-sm-5 excerpt">
+        <div class="col-sm-4 excerpt">
             <a href="<%= url %>"><%= question %></a>
         </div>
         <div class="col-sm-2 category">
             <a href="<%= category_url %>"><label class="label label-default"><%= category_name %></label></a>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6 custom-align-r">
             <span class="count"><%= answers %></span>
             <img src="<%= avatar %>" alt="<%= creator %>" class="user-avatar-minithumb" />
             <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>

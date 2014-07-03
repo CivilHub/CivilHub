@@ -44,7 +44,7 @@ class BasicDiscussionSerializer(object):
 
         self.data = {
             'id'           : obj.pk,
-            'question'     : truncatesmart(obj.question, 36),
+            'question'     : truncatesmart(obj.question, 28),
             'intro'        : truncatehtml(obj.intro, 240),
             'url'          : obj.get_absolute_url(),
             'date_created' : timesince(obj.date_created),

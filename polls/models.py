@@ -26,11 +26,9 @@ class Poll(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk:
             to_slug_entry = self.title
-            try:
-                chk = Poll.objects.filter(title=self.title)
+            chk = Poll.objects.filter(title=self.title)
+            if len(chk):
                 to_slug_entry = self.title + '-' + str(len(chk))
-            except Poll.DoesNotExist:
-                pass
             self.slug = slugify(to_slug_entry)
         super(Poll, self).save(*args, **kwargs)
 

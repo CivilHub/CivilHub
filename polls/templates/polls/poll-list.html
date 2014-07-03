@@ -1,0 +1,30 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Szablon dla listy ankiet - punkt wyjściowy dla aplikacji Backbone.
+{% endcomment %}
+
+<div id="polls"></div>
+
+<script type="text/template" id="poll-entry">
+    {% if user == poll.creator or is_moderator %}
+        <div class="btn-group list-entry-controls">
+            <a href="">
+                <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
+            </a>
+            <button data-target="<%= id %>" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
+                <span class="fa fa-times-circle-o"> </span></button>
+        </div>
+    {% endif %}
+    <div class="col-xs-4"><a href="<%= url %>"><%= title %></a></div>
+    <div class="col-xs-2">
+        <img src="<%= avatar %>" alt="<%= username %>" class="user-avatar-minithumb" />
+        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></a>
+    </div>
+    <div class="col-xs-2"><%= date_created %></div>
+    <div class="col-xs-4 custom-list-entry-la"><a href="<%= answers_url %>">{% trans "Show answers" %}</a></div>
+</script>
+
+<script>CivilApp.POLL_API_URL="{% url 'polls:list' location.slug %}";</script>
+<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
+<script src="{% static 'polls/js/poll-list.js' %}"></script>

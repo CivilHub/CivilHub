@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.db import transaction
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
-from django.views.generic import DetailView
+from django.utils.timesince import timesince
+from django.views.generic import View, DetailView
 from django.views.generic.edit import ProcessFormView
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
@@ -13,8 +15,122 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from maps.models import MapPointer
 from userspace.models import UserProfile
+from locations.models import Location
+from places_core.helpers import SimplePaginator, truncatehtml
 from .models import Poll, Answer, AnswerSet
 from .forms import PollEntryAnswerForm
+
+
+class BasicPollSerializer(object):
+    """
+    Serialize object instance into JSON format. It takes Poll object instance
+    as mandatory argument for __init__ function.
+    """
+    data = {}
+
+    def __init__(self, obj):
+        tags = []
+
+        #~ for tag in obj.tags.all():
+            #~ tags.append({
+                #~ 'name': tag.name,
+                #~ 'url': reverse('locations:tag_search',
+                               #~ kwargs={'slug':obj.location.slug,
+                                       #~ 'tag':tag.name})
+            #~ })
+
+        self.data = {
+            'id'            : obj.pk,
+            'title'         : obj.title,
+            'slug'          : obj.slug,
+            'url'           : obj.get_absolute_url(),
+            'question'      : truncatehtml(obj.question, 240),
+            'username'      : obj.creator.username,
+            'user_full_name': obj.creator.get_full_name(),
+            'creator_url'   : obj.creator.profile.get_absolute_url(),
+            'user_id'       : obj.creator.pk,
+            'avatar'        : obj.creator.profile.avatar.url,
+            'date_created'  : timesince(obj.date_created),
+            #'tags'          : tags,
+        }
+
+        self.data['answers_url'] = reverse('polls:results',
+                                            kwargs={'pk': obj.pk})
+
+        try:
+            self.data['date_edited'] = timesince(obj.date_edited)
+        except Exception:
+            self.data['date_edited'] = ''
+
+
+class BasicPollView(View):
+    """
+    Basic view for our JSON api.
+    """
+    def get_queryset(self, request, queryset):
+        order = request.GET.get('order')
+        time  = request.GET.get('time')
+        haystack = request.GET.get('haystack')
+
+        time_delta = None
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            queryset = queryset.filter(date_created__gte=time_delta)
+
+        if haystack and haystack != 'false':
+            queryset = queryset.filter(title__icontains=haystack)
+        
+        if order == 'title':
+            return queryset.order_by('title')
+        elif order == 'latest':
+            return queryset.order_by('-date_created')
+        elif order == 'oldest':
+            return queryset.order_by('date_created')
+        elif order == 'username':
+            l = list(queryset);
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+
+        return queryset.order_by('-date_created')
+
+    def get(self, request, slug=None, pk=None, *args, **kwargs):
+
+        ctx = {'results': []}
+
+        if not pk:
+            if not slug:
+                polls = Poll.objects.all()
+            else:
+                location = Location.objects.get(slug=slug)
+                polls = Poll.objects.filter(location=location)
+
+            polls = self.get_queryset(request, polls)
+
+            for poll in polls:
+                ctx['results'].append(BasicPollSerializer(poll).data)
+
+            paginator = SimplePaginator(ctx['results'], 50)
+            page = request.GET.get('page') if request.GET.get('page') else 1
+            ctx['current_page'] = page
+            ctx['total_pages'] = paginator.count()
+            ctx['results'] = paginator.page(page)
+        else:
+            news = get_object_or_404(Poll, pk=pk)
+            ctx['results'] = BasicPollSerializer(news).data
+            ctx['current_page'] = 1
+            ctx['total_pages'] = 1
+
+        return HttpResponse(json.dumps(ctx))
 
 
 class PollDetails(DetailView):

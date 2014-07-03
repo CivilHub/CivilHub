@@ -1,25 +1,27 @@
 //
-// discussion-list.js
-// ==================
+// poll-list.js
+// ============
 //
-// Lista tematów na forum.
+// Backbone-based list of polls.
 //
 var CivilApp = CivilApp || {};
 
 //
-// Main application
+// Basic application
 // -----------------------------------------------------------------------------
 //
-CivilApp.DiscussionList = function () {
+CivilApp.PollList = function () {
     
-    var url = CivilApp.TOPIC_API_URL,
+    var url = CivilApp.POLL_API_URL,
     
         Model = Backbone.Model.extend({}),
         
         View = Backbone.View.extend({
             tagName: 'div',
-            className: 'topic-list-entry custom-list-entry',
-            template: _.template($('#topic-entry').html()),
+            
+            className: 'polls-list-entry custom-list-entry row',
+            
+            template: _.template($('#poll-entry').html()),
             
             render: function () {
                 this.$el.html(this.template(this.model.toJSON()));
@@ -32,7 +34,7 @@ CivilApp.DiscussionList = function () {
         }),
         
         List = Backbone.View.extend({
-            el: '#discussions',
+            el: '#polls',
             
             _init: function (data) {
                 var that = this;
@@ -51,7 +53,7 @@ CivilApp.DiscussionList = function () {
             
             initialize: function () {
                 var that = this;
-                $.get(CivilApp.TOPIC_API_URL, function (resp) {
+                $.get(CivilApp.POLL_API_URL, function (resp) {
                     that._init(resp);
                 });
             },
@@ -71,7 +73,7 @@ CivilApp.DiscussionList = function () {
             filter: function (page) {
                 var that = this,
                     filters = getListOptions(),
-                    url  = CivilApp.TOPIC_API_URL + JSONtoUrl(filters);
+                    url  = CivilApp.POLL_API_URL + JSONtoUrl(filters);
                 if (page) url += '&page=' + page;
                 $.get(url, function (resp) {
                     that._init(resp);
@@ -89,7 +91,7 @@ CivilApp.DiscussionList = function () {
 (function ($, f) {
 "use strict";
 
-var app = f.DiscussionList();
+var app = f.PollList();
 //
 // Obsługa kliknięć.
 // -----------------

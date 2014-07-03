@@ -1,3 +1,9 @@
+//
+// create-poll.js
+// ==============
+//
+// Scripts to handle creating new poll.
+//
 (function ($) {
     "use strict";
     $('#id_question').customCKEditor('custom');
