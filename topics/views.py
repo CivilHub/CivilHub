@@ -136,7 +136,7 @@ class DiscussionListView(View):
         topics = self.get_queryset(request, topics)
         for topic in topics:
             context['results'].append(BasicDiscussionSerializer(topic).data)
-        paginator = SimplePaginator(context['results'], 2)
+        paginator = SimplePaginator(context['results'], 50)
         if request.GET.get('page'):
             page = request.GET.get('page')
         else:

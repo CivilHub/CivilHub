@@ -29,8 +29,12 @@ $('.quote-reply-link').on('click', function (evt) {
     evt.preventDefault();
     $('#reply-form').attr('action', reply).slideDown('fast');
     editor.setData('<h3>' + quoteEntry + ' wrotes:</h3>' + quotedTxt + '<p></p>');
-    range.moveToElementEditablePosition(p);
-    range.select();
+    try {
+        range.moveToElementEditablePosition(p);
+        range.select();
+    catch (e) {
+        console.log(e);
+    }
 });
 
 // Edit existing entry

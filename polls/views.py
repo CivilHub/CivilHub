@@ -2,6 +2,7 @@
 import json
 from django.db import transaction
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView
@@ -107,7 +108,7 @@ def save_answers(request, pk):
         prof.rank_pts += 1
         prof.save()
 
-    return redirect('polls:results', kwargs={'pk': poll.pk})
+    return redirect(reverse('polls:results', kwargs={'pk': poll.pk}))
 
 
 @login_required

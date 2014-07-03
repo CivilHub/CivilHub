@@ -139,7 +139,7 @@ class BasicBlogView(View):
         for news in news_list:
             ctx['results'].append(BasicNewsSerializer(news).data)
 
-        paginator = SimplePaginator(ctx['results'], 2)
+        paginator = SimplePaginator(ctx['results'], 15)
         page = request.GET.get('page') if request.GET.get('page') else 1
         ctx['current_page'] = page
         ctx['total_pages'] = paginator.count()

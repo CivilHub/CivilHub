@@ -227,7 +227,7 @@ class BasicIdeaView(View):
         for idea in ideas:
             ctx['results'].append(BasicIdeaSerializer(idea).data)
 
-        paginator = SimplePaginator(ctx['results'], 2)
+        paginator = SimplePaginator(ctx['results'], 15)
         page = request.GET.get('page') if request.GET.get('page') else 1
         ctx['current_page'] = page
         ctx['total_pages'] = paginator.count()
