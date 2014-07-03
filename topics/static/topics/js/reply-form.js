@@ -47,4 +47,27 @@ $('.link-entry-edit').bind('click', function (e) {
     });
 });
 
+// Vote on entry
+// -----------------------------------------------------------------------------
+$('.entry-vote').on('click', function (e) {
+    var $toggle = $(this),
+        $entry = $toggle.parents('.reply-entry:first'),
+        $counter = $entry.find('.entry-vote-count:first'),
+        url = $toggle.attr('href'),
+        vote = $toggle.hasClass('entry-vote-up') ? true : false;
+
+    e.preventDefault();
+
+    sendAjaxRequest('POST', url, {
+        data: {vote: vote},
+        success: function (resp) {
+            display_alert(resp.message, resp.level);
+            $counter.text(resp.votes);
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+});
+
 })(jQuery);

@@ -85,10 +85,18 @@
             <div class="entry-footer">
                 <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                 {% if user == entry.creator %}
+                    <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
                     <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" class="link-entry-edit" title="{% trans "Edit entry" %}">
                         <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
                     </a>
                 {% else %}
+                    <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
+                    <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-up">
+                        <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
+                    </a> |
+                    <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
+                        <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+                    </a> |
                     <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
                         <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                     </a>

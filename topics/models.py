@@ -79,6 +79,31 @@ class Entry(MPTTModel):
             self.is_edited = True
         super(Entry, self).save(*args, **kwargs)
 
+    def get_upvotes(self):
+        return len(self.votes.filter(vote=True))
+
+    def get_downvotes(self):
+        return len(self.votes.filter(vote=False))
+
+    def calculate_votes(self):
+        votes_total = self.votes
+        votes_up = len(votes_total.filter(vote=True))
+        votes_down = len(votes_total.filter(vote=False))
+        return votes_up - votes_down
+
+
+class EntryVote(models.Model):
+    """
+    Users can vote up or down on forum entries, but only once.
+    """
+    user = models.ForeignKey(User)
+    vote = models.BooleanField(default=False)
+    entry = models.ForeignKey(Entry, related_name='votes')
+    date_voted = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.vote
+
 
 # Allow users to bookmark content
 library.register(Discussion)

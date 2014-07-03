@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from places_core.mixins import LoginRequiredMixin
 from maps.models import MapPointer
-from .models import Discussion, Entry
+from .models import Discussion, Entry, EntryVote
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 from places_core.permissions import is_moderator
 
@@ -193,3 +193,41 @@ def reply(request, slug):
             return HttpResponse(_('An error occured'))
     return HttpResponseRedirect(reverse('discussion:details',
                                 kwargs={'slug': topic.slug,}))
+
+
+@login_required
+@require_POST
+@transaction.non_atomic_requests
+@transaction.autocommit
+def vote(request, pk):
+    """ Vote for reply. """
+    entry = Entry.objects.get(pk=pk)
+    vote  = False if request.POST.get('vote') == 'false' else True
+    user  = request.user
+    check = EntryVote.objects.filter(entry=entry).filter(user=user)
+    if not len(check):
+        entry_vote = EntryVote.objects.create(
+            entry = entry,
+            user  = user,
+            vote  = vote)
+        try:
+            entry_vote.save()
+            context = {
+                'success': True,
+                'message': _("Vote saved"),
+                'votes'  : Entry.objects.get(pk=pk).calculate_votes(),
+                'level'  : "success",
+            }
+        except Exception as ex:
+            context = {
+                'success': False,
+                'message': str(ex),
+                'level'  : "danger",
+            }
+    else:
+        context = {
+            'success': False,
+            'message': _("You already voted on this entry."),
+            'level'  : "warning",
+        }
+    return HttpResponse(json.dumps(context))
