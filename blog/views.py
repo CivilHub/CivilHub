@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
@@ -83,7 +84,47 @@ class BasicBlogView(View):
     is built.
     """
     def get_queryset(self, request, queryset):
-        return queryset
+        order = request.GET.get('order')
+        time = request.GET.get('time')
+        category = request.GET.get('category')
+        haystack = request.GET.get('haystack')
+
+        if category and category != 'all':
+            category = Category.objects.get(pk=request.GET.get('category'))
+            queryset = queryset.filter(category=category)
+
+        time_delta = None
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            queryset = queryset.filter(date_created__gte=time_delta)
+
+        if haystack and haystack != 'false':
+            queryset = queryset.filter(title__icontains=haystack)
+        
+        if order == 'title':
+            return queryset.order_by('title')
+        elif order == 'latest':
+            return queryset.order_by('-date_created')
+        elif order == 'oldest':
+            return queryset.order_by('date_created')
+        elif order == 'category':
+            return queryset.order_by('category__name')
+        elif order == 'username':
+            l = list(queryset);
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+
+        return queryset.order_by('-date_created')
 
     def get(self, request, slug=None, *args, **kwargs):
         if not slug:

@@ -14,6 +14,7 @@ LINKS_MAP = {
         'new_idea',
         'add_news',
         'invite',
+        'news_category',
     ),
     'discussions': (
         'new_discussion',

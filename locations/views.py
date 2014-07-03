@@ -20,6 +20,7 @@ from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from blog.models import News
+from blog.models import Category as BlogCategory
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from polls.models import Poll, Answer
@@ -47,6 +48,7 @@ class LocationNewsList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationNewsList, self).get_context_data(**kwargs)
+        context['categories'] = BlogCategory.objects.all()
         context['title'] = self.object.name + '::' + _("News")
         context['links'] = links['news']
         return context
