@@ -45,7 +45,7 @@
             <p class="entry-meta">
                 <a href="{% url 'user:profile' discussion.creator %}" class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
                 <span class="topic-date-col">
-                    {{ discussion.date_created | timesince }}
+                    {{ discussion.date_created | timesince }} {% trans "ago" %}
                 </span>
                 <span class="entry-controls"></span>
             </p>
@@ -74,9 +74,9 @@
             <p class="entry-meta">
                 <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
                 <span class="topic-date-col">
-                    {{ entry.date_created | timesince }}
+                    {{ entry.date_created | timesince }} {% trans "ago" %}
                     {% if entry.is_edited %}
-                    <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }}
+                    <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }} {% trans "ago" %}
                     {% endif %}
                 </span>
                 <span class="entry-controls"></span>

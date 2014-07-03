@@ -34,7 +34,9 @@
         <h3><a href="<%= link %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
         <div class="entry-submenu">
             <ul>
+                {% if user.is_superuser or is_moderator %}
                 <li><a href="<%= edit_url %>">{% trans "Edit" %}</a></li>
+                {% endif %}
             </ul>
         </div>
         <p>
