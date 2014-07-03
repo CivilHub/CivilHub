@@ -4,6 +4,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
+from django.utils.timesince import timesince
 from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
@@ -14,10 +15,84 @@ from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from places_core.mixins import LoginRequiredMixin
+from places_core.permissions import is_moderator
+from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
 from maps.models import MapPointer
+from locations.models import Location
 from .models import Discussion, Entry, EntryVote
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
-from places_core.permissions import is_moderator
+
+
+class BasicDiscussionSerializer(object):
+    """
+    This is simple serializer to convert Discussion object instances into
+    JSON format.
+    """
+    data = {}
+
+    def __init__(self, obj):
+        tags = []
+
+        for tag in obj.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':obj.location.slug,
+                                       'tag':tag.name})
+            })
+
+        self.data = {
+            'id'           : obj.pk,
+            'question'     : truncatesmart(obj.question, 36),
+            'intro'        : truncatehtml(obj.intro, 240),
+            'url'          : obj.get_absolute_url(),
+            'date_created' : timesince(obj.date_created),
+            'creator'      : obj.creator.get_full_name(),
+            'creator_id'   : obj.creator.pk,
+            'creator_url'  : obj.creator.get_absolute_url(),
+            'avatar'       : obj.creator.profile.thumbnail.url,
+            'status'       : obj.status,
+            'category_id'  : obj.category.pk,
+            'category_name': obj.category.name,
+            'tags'         : tags,
+        }
+
+        if obj.category:
+            self.data['category']     = obj.category.name
+            self.data['category_url'] = reverse('locations:category_search',
+                kwargs={
+                    'slug'    : obj.location.slug,
+                    'app'     : 'topics',
+                    'model'   : 'discussion',
+                    'category': obj.category.pk,
+                })
+        else:
+            self.data['category'] = ''
+            self.data['category_url'] = ''
+
+
+class DiscussionListView(View):
+    """
+    Basic view for discussions REST api.
+    """
+    def get(self, request, slug=None):
+        if slug:
+            location = Location.objects.get(slug=slug)
+            topics = Discussion.objects.filter(location=location)
+        else:
+            topics = Discussion.objects.all()
+        context = {'results': []}
+        for topic in topics:
+            context['results'].append(BasicDiscussionSerializer(topic).data)
+        paginator = SimplePaginator(context['results'], 2)
+        if request.GET.get('page'):
+            page = request.GET.get('page')
+        else:
+            page = 1
+        context['results'] = paginator.page(page)
+        context['current_page'] = page
+        context['total_pages'] = paginator.count()
+        return HttpResponse(json.dumps(context))
 
 
 class DiscussionDetailView(DetailView):

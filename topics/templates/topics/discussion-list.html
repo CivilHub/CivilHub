@@ -1,0 +1,29 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Ajaxowa lista dyskusji - ten szablon jest zaczepem dla aplikacji
+    Backbone.
+{% endcomment %}
+
+<div id="discussions" class="discussion-list custom-tablelike"></div>
+
+<script type="text/template" id="topic-entry">
+    <div class="row">
+        <div class="col-sm-5 excerpt">
+            <a href="<%= url %>"><%= question %></a>
+        </div>
+        <div class="col-sm-2 category">
+            <a href="<%= category_url %>"><label class="label label-default"><%= category_name %></label></a>
+        </div>
+        <div class="col-sm-5">
+            <span class="count"></span>
+            <img src="<%= avatar %>" alt="<%= creator %>" class="user-avatar-minithumb" />
+            <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
+            <%= date_created %>
+        </div>
+    </div>
+</script>
+
+<script>CivilApp.TOPIC_API_URL="{% url 'discussion:list' location.slug %}";</script>
+<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
+<script src="{% static 'topics/js/discussion-list.js' %}"></script>

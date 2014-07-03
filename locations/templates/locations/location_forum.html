@@ -2,7 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% comment %}
-    Klasa 'forum-list-control' jest ważna!
+    Klasa 'list-controller' jest ważna!
     Bez niej kontrolki wyszukiwania nie działają!
 {% endcomment %}
 
@@ -14,28 +14,28 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
-                    <li><a href="" class="forum-list-control active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
-                    <li><a href="" class="forum-list-control" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
+                    <li><a href="" class="list-controller active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="1" data-control="state">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch forum-list-control active" data-target="all" data-control="state">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-state-switch list-controller" data-target="1" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch list-controller" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch list-controller active" data-target="all" data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav">
-            <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="forum-list-control active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
+            <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="list-controller active" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
             <li class="navbar-text"> | {% trans "Past" %}:</li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="day">{% trans "Day" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="week">{% trans "Week" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="month">{% trans "Month" %}</a></li>
-            <li><a href="" class="forum-list-control" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li><a href="" class="list-controller" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
         <form id="search-form" class="navbar-form navbar-right" role="search" method="get" action="">
             <div class="form-group">
@@ -58,55 +58,62 @@
                 <div class="custom-label-list">
                     <span class="fa fa-list custom-fa"> </span>
                     <span class="custom-label-entry custom-main-label-entry">
-                        <a href="#" class="forum-list-control" data-target="all" data-control="category">{% trans "All channels" %}</a>
+                        <a href="#" class="list-controller" data-target="all" data-control="category">{% trans "All channels" %}</a>
                     </span>
                     {% for category in categories %}
                     <span class="custom-label-entry">
-                        <a href="#" class="forum-list-control custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
+                        <a href="#" class="list-controller custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
                     </span>
                     {% endfor %}
                 </div>
 
-                <div class="discussion-list custom-tablelike">
-                    {% if discussions %}
-                    {% for topic in discussions %}
-                    <div class="topic-list-entry custom-list-entry">
-                        <div class="row">
-                            <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
-                            <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
-                            <div class="col-sm-5">
-                                <span class="count">{{ topic.entry_set.count }}</span>
-                                <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                                <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
-                                {{ topic.date_created | timesince }}
+                <noscript>
+                    <div class="discussion-list custom-tablelike">
+                        {% if discussions %}
+                        {% for topic in discussions %}
+                        <div class="topic-list-entry custom-list-entry">
+                            <div class="row">
+                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
+                                <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
+                                <div class="col-sm-5">
+                                    <span class="count">{{ topic.entry_set.count }}</span>
+                                    <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
+                                    <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
+                                    {{ topic.date_created | timesince }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% if discussions.has_previous %}
-                            <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
-                            {% endif %}
+                        {% endfor %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {% if discussions.has_previous %}
+                                <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
+                                {% endif %}
 
-                            <span class="current">
-                                {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
+                                <span class="current">
+                                    {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
+                                </span>
+
+                                {% if discussions.has_next %}
+                                <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
+                                {% endif %}
                             </span>
-
-                            {% if discussions.has_next %}
-                            <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
-                            {% endif %}
-                        </span>
+                        </div>
+                        {% else %}
+                        <p>{% trans "There are no discussions opened yet." %}</p>
+                        {% endif %}
                     </div>
-                    {% else %}
-                    <p>{% trans "There are no discussions opened yet." %}</p>
-                    {% endif %}
-                </div>
+                </noscript>
+                
+                {% include 'topics/discussion-list.html' %}
+                
             </div>
         </div>
     </div>
 
     {% include 'locations/sidebar.html' %}
+    
+</div><!-- / .row -->
     
     {% if user.is_superuser %}
     {% comment %}
@@ -142,7 +149,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     {% endif %}
-</div>
     
 <script>
 (function ($) {
