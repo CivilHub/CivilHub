@@ -16,7 +16,7 @@
             <a href="<%= category_url %>"><label class="label label-default"><%= category_name %></label></a>
         </div>
         <div class="col-sm-5">
-            <span class="count"></span>
+            <span class="count"><%= answers %></span>
             <img src="<%= avatar %>" alt="<%= creator %>" class="user-avatar-minithumb" />
             <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
             <%= date_created %>

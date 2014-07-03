@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
+import json, datetime
+from dateutil.relativedelta import relativedelta
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
@@ -19,7 +20,7 @@ from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
 from maps.models import MapPointer
 from locations.models import Location
-from .models import Discussion, Entry, EntryVote
+from .models import Discussion, Entry, EntryVote, Category
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 
 
@@ -54,6 +55,7 @@ class BasicDiscussionSerializer(object):
             'status'       : obj.status,
             'category_id'  : obj.category.pk,
             'category_name': obj.category.name,
+            'answers'      : obj.entry_set.count(),
             'tags'         : tags,
         }
 
@@ -75,6 +77,55 @@ class DiscussionListView(View):
     """
     Basic view for discussions REST api.
     """
+    def get_queryset(self, request, queryset):
+        order    = request.GET.get('order')
+        time     = request.GET.get('time')
+        status   = request.GET.get('state')
+        category = request.GET.get('category')
+        haystack = request.GET.get('haystack')
+
+        if category and category != 'all':
+            category = Category.objects.get(pk=request.GET.get('category'))
+            queryset = queryset.filter(category=category)
+
+        time_delta = None
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            queryset = queryset.filter(date_created__gte=time_delta)
+
+        if haystack and haystack != 'false':
+            queryset = queryset.filter(question__icontains=haystack)
+
+        if status == 'False':
+            queryset = queryset.filter(status=False)
+        elif status == 'True':
+            queryset = queryset.filter(status=True)
+        
+        if order == 'question':
+            return queryset.order_by('question')
+        elif order == 'latest':
+            return queryset.order_by('-date_created')
+        elif order == 'oldest':
+            return queryset.order_by('date_created')
+        elif order == 'category':
+            return queryset.order_by('category__name')
+        elif order == 'username':
+            l = list(queryset);
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+
+        return queryset.order_by('-date_created')
+
     def get(self, request, slug=None):
         if slug:
             location = Location.objects.get(slug=slug)
@@ -82,6 +133,7 @@ class DiscussionListView(View):
         else:
             topics = Discussion.objects.all()
         context = {'results': []}
+        topics = self.get_queryset(request, topics)
         for topic in topics:
             context['results'].append(BasicDiscussionSerializer(topic).data)
         paginator = SimplePaginator(context['results'], 2)

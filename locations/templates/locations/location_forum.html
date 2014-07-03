@@ -14,17 +14,18 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
-                    <li><a href="" class="list-controller active" data-target="question" data-control="meta">{% trans "Title" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="date_edited" data-control="meta">{% trans "Date" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="category" data-control="meta">{% trans "Category" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="creator" data-control="meta">{% trans "Username" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="question" data-control="order">{% trans "Question" %}</a></li>
+                    <li><a href="" class="list-controller active" data-target="latest" data-control="order">{% trans "Latest" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="oldest" data-control="order">{% trans "Oldest" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="category" data-control="order">{% trans "Category" %}</a></li>
+                    <li><a href="" class="list-controller" data-target="creator" data-control="order">{% trans "Username" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch list-controller" data-target="1" data-control="state">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch list-controller" data-target="0" data-control="state">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-state-switch list-controller" data-target="True" data-control="state">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-state-switch list-controller" data-target="False" data-control="state">{% trans "Closed" %}</a></li>
                     <li><a href="#" class="list-state-switch list-controller active" data-target="all" data-control="state">{% trans "All" %}</a></li>
                 </ul>
             </li>
@@ -37,9 +38,9 @@
             <li><a href="" class="list-controller" data-control="time" data-target="month">{% trans "Month" %}</a></li>
             <li><a href="" class="list-controller" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
-        <form id="search-form" class="navbar-form navbar-right" role="search" method="get" action="">
+        <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
             <div class="form-group">
-                {{ search_form }}
+                <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
             </div>
             <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
         </form>
