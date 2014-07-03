@@ -6,6 +6,8 @@
     <form action="" method="post" role="form">
         {% csrf_token %}
         {{ form }}
+        <input type="text" id="id_latitude" name="latitude" />
+        <input type="text" id="id_longitude" name="longitude" />
         <div class="form-group">
             <button type="submit" class="btn btn-primary save-btn">{% trans "Save" %}</button>
         </div>
@@ -16,12 +18,21 @@
 
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'maps/js/jquery.mapinput.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
     $('#id_intro').customCKEditor('custom');
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',
+    });
+    $('#id_latitude').before('<div id="map"></div>');
+    $('#id_latitude, #id_longitude').css('display', 'none');
+    $('#map').mapinput({
+        latField: '#id_latitude',
+        lngField: '#id_longitude',
+        width: 640,
+        height: 480
     });
 })(jQuery);
 </script>

@@ -50,6 +50,7 @@
                 <span class="entry-controls"></span>
             </p>
             <div class="entry-content">{{ discussion.intro | safe }}</div>
+            <div class="custom-clear">&nbsp;</div>
             <div class="entry-footer">
                 <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                 {% if user != discussion.creator %}
@@ -82,6 +83,7 @@
                 <span class="entry-controls"></span>
             </p>
             <div class="entry-content">{{ entry.content | safe }}</div>
+            <div class="custom-clear">&nbsp;</div>
             <div class="entry-footer">
                 <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                 {% if user == entry.creator %}

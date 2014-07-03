@@ -39,6 +39,7 @@ $('.link-entry-edit').bind('click', function (e) {
     var $entry = $(this).parents('.reply-entry'),
         content= $entry.find('.entry-content').html(),
         target = $(this).attr('href');
+    console.log(content);
     e.preventDefault();
     $('#reply-form').attr('action', target).slideDown('fast', function () {
         editor.setData(content);

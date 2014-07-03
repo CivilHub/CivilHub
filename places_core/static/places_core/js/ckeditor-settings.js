@@ -16,7 +16,8 @@ window.CONFIG.ckeditor = {
             [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
             { name: 'basicstyles', items: [ 'Bold', 'Italic' ] },
             { name: 'plugins', items: [ 'MediaUploader' ]},
-        ]
+        ],
+        allowedContent: true
     },
     // Absolutnie minimalna konfiguracja - do dyskusji etc. gdzie nie wstawia
     // się obrazków, za to potrzebny jest plugin BB-Code itp.

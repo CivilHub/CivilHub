@@ -26,6 +26,7 @@ from topics.models import Category as ForumCategory
 from polls.models import Poll, Answer
 from polls.forms import PollForm
 from civmail import messages as mails
+from maps.models import MapPointer
 from forms import *
 from models import Location
 from .links import LINKS_MAP as links
@@ -308,6 +309,17 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         # Without this next line the tags won't be saved.
         form.save_m2m()
         topic = Discussion.objects.latest('pk')
+        lat = self.request.POST.get('latitude')
+        lon = self.request.POST.get('longitude')
+        if lat and lon:
+            mp = MapPointer.objects.create(
+                content_object = topic,
+                latitude = lat,
+                longitude = lon
+            )
+            mp.save()
+            mp = MapPointer.objects.latest('pk')
+            print mp
         super(LocationDiscussionCreate, self).form_valid(form)
         return redirect(reverse('locations:topic', 
             kwargs = {
