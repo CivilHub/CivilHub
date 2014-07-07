@@ -8,6 +8,7 @@
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from actstream import action
+from actstream.actions import follow
 from userspace.models import UserProfile
 from locations.models import Location
 from comments.models import CustomComment as Comment
@@ -25,6 +26,7 @@ def create_place_action_hook(sender, instance, created, **kwargs):
     if created:
         instance.users.add(instance.creator)
         instance.creator.profile.mod_areas.add(instance)
+        follow(instance.creator, instance, actor_only = False)
         action.send(instance.creator, action_object=instance, verb=_('created'))
 
 
