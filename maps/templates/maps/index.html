@@ -7,8 +7,11 @@
 {% endcomment %}
 <script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 <div id="map-options-toggle">
-    <a href="#" title="{% trans "Show options" %}">
+    <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">
         <span class="fa fa-arrow-circle-down"> </span>
+    </a>
+    <a id="map-follow-toggle" href="#" title="{% trans "Only followed locations" %}">
+        <span class="fa fa-circle-o"> </span>
     </a>
 </div>
 <nav id="map-options-panel" role="navigation">

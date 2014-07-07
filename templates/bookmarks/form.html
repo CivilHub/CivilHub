@@ -1,7 +1,7 @@
 {% load staticfiles %}{% load i18n %}
 {% if form %}
     {% if user.is_authenticated %}
-        <script src="{% static 'application/js/bookmark-form.js' %}"></script>
+        <script src="{% static 'places_core/js/bookmark-form.js' %}"></script>
         <form id="generic-bookmark-form" action="{% url 'bookmarks:bookmarks_bookmark' %}" method="post" accept-charset="UTF-8" class="bookmarks_form">
             {% csrf_token %}
             {{ form }}
@@ -13,7 +13,18 @@
             <span class="error" style="display: none;">{% trans "Error during process" %}</span>
         </form>
         <script>
-        (function($){"use strict";$('#generic-bookmark-form').bookmarkForm();})(jQuery);
+        (function ($) {
+            "use strict";
+            $('#generic-bookmark-form').bookmarkForm({
+                onSubmit: function (created) {
+                    if (created) {
+                        display_alert("{% trans "Bookmark created" %}", "success");
+                    } else {
+                        display_alert("{% trans "Bookmark deleted" %}", "warning");
+                    }
+                }
+            }).removeAttr('id');
+        })(jQuery);
         </script>
     {% else %}{% comment %}
         <a href="{{ login_url }}?{{ next }}={{ next_url|default:request.get_full_path }}">add</a>

@@ -4,17 +4,17 @@
 // Custom scripts for django-generic-bookmarks.
 // Provides ajax interface for bookmark form.
 //
-$.fn.bookmarkForm = function () {
+$.fn.bookmarkForm = function (options) {
     "use strict";
-    return $(this).each(function (options) {
+    return $(this).each(function () {
         
         var $element = $(this),
         
             defaults = {
-                onSubmit: function (fields) { return fields; }
+                onSubmit: function (created) { return created; }
             },
             
-            options = $.fn.extend(defaults, options),
+            settings = $.extend(defaults, options),
             
             form = {
                 $el: $element,
@@ -70,15 +70,19 @@ $.fn.bookmarkForm = function () {
                 }
             };
             
-        $element
-            .removeAttr('id')
+        // We want display only simple link
+        form.$addBtn.insertAfter($element);
+        form.$removeBtn.insertAfter(form.$addBtn);
             
+        $element
             .data('bookmarkForm', form)
+            
+            .css('display', 'none')
             
             .on('submit', function (e) {
                 e.preventDefault();
                 form.submit(function (resp) {
-                    options.onSubmit(form.serialize());
+                    settings.onSubmit(resp.created);
                 }, function (err) {
                     console.log(err);
                 });
@@ -93,5 +97,7 @@ $.fn.bookmarkForm = function () {
             e.preventDefault();
             $element.submit();
         });
+        
+        return $element;
     });
 };

@@ -11,7 +11,7 @@
 (function () {
     var topAdjust = $('#navbar-top').height(),
         $map      = $('#map'),
-        $toggle   = $('#map-options-toggle > a'),
+        $toggle   = $('#map-filter-toggle'),
         $panel    = $('#map-options-panel');
 
     $map.css({
@@ -134,24 +134,43 @@ function civilGoogleMap(mapData) {
 // Fetch objects from server and create map.
 // -----------------------------------------------------------------------------
 //
-$.get('/maps/pointers/', function (resp) {
-    var markers = [], map = null;
-    resp = JSON.parse(resp);
-    if (resp.success) {
-        $(resp.locations).each(function () {
-            markers.push(this);
-        });
-        $(resp.pointers).each(function () {
-            markers.push(this);
-        });
-        map = civilGoogleMap(markers);
-        $('.map-filter-toggle').bind('change', function (evt) {
-            evt.preventDefault;
-            map.refreshMap(getFilters());
-        });
+var fetchMap = function (url) {
+    $.get(url, function (resp) {
+        var markers = [], map = null;
+        resp = JSON.parse(resp);
+        if (resp.success) {
+            $(resp.locations).each(function () {
+                markers.push(this);
+            });
+            $(resp.pointers).each(function () {
+                markers.push(this);
+            });
+            map = civilGoogleMap(markers);
+            $('.map-filter-toggle').bind('change', function (evt) {
+                evt.preventDefault;
+                map.refreshMap(getFilters());
+            });
+        } else {
+            console.log(gettext("Failed to load map data"));
+        }
+    });
+};
+
+fetchMap('/maps/pointers/');
+//
+// Only followed locations button.
+// -----------------------------------------------------------------------------
+//
+$('#map-follow-toggle').on('click', function (e) {
+    var $icon = $(this).find('.fa:first');
+    e.preventDefault();
+    $('#map').empty();
+    if ($icon.hasClass('fa-circle-o')) {
+        fetchMap('/maps/pointers/?followed=true');
     } else {
-        console.log(gettext("Failed to load map data"));
+        fetchMap('/maps/pointers/');
     }
-});
+    $icon.toggleClass('fa-circle-o').toggleClass('fa-check-circle-o');
+}).tooltip({placement:'right'});
 
 })(jQuery);

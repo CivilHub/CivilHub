@@ -181,11 +181,12 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         ctx = {
                 'title': _('Create new idea'),
                 'location': form.cleaned_data.get('location'),
-                'form': form,
+                'form': self.form_class(self.request.POST),
                 'errors': form.errors,
                 'user': self.request.user,
+                'links': links['ideas'],
             }
-        return render_to_response(self.template_name, ctx)
+        return render(self.request, self.template_name, ctx)
 
 
 class LocationDiscussionsList(DetailView):
@@ -300,11 +301,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 })
             }
         return render(request, self.template_name, ctx)
-
-    def get_context_data(self, **kwargs):
-        context = super(LocationDiscussionCreate, self).get_context_data(**kwargs)
-        context['title'] = _('Create new topic')
-        return context
+                
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -333,10 +330,13 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         ))
 
     def form_invalid(self, form):
-        context = self.get_context_data(form=form)
+        context = {}
         context['location'] = form.instance.location
         context['user'] = self.request.user
-        return render_to_response(self.template_name, context)
+        context['form'] = DiscussionLocationForm(self.request.POST)
+        context['links'] = links['discussions']
+        context['title'] = _("Create new discussion")
+        return render(self.request, self.template_name, context)
 
 
 class SublocationList(DetailView):
@@ -464,7 +464,10 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         context = super(LocationPollCreate, self).get_context_data(form=form)
         context['location'] = Location.objects.get(pk=self.request.POST.get('location'))
         context['user'] = self.request.user
-        return render_to_response(self.template_name, context)
+        context['form'] = self.form_class(self.request.POST)
+        context['links'] = links['polls']
+        context['title'] = _("Create new poll")
+        return render(self.request, self.template_name, context)
 
 
 class LocationListView(ListView):

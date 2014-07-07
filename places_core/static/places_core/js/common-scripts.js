@@ -18,7 +18,6 @@ $('.custom-tooltip-bottom').tooltip({
 // List of user's bookmarks to fetch.
 $(document).ready(function () {
     $('.bookmarks-list-toggle').one('click', function (evt) {
-        console.log(evt);
         $.get('/user/my_bookmarks', function (resp) {
             var $list = $('.bookmarks-list');
             resp = JSON.parse(resp);

@@ -38,11 +38,9 @@ class Discussion(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             to_slug_entry = self.question
-            try:
-                chk = Discussion.objects.filter(question=self.question)
+            chk = Discussion.objects.filter(question=self.question)
+            if len(chk) > 0:
                 to_slug_entry = self.question + '-' + str(len(chk))
-            except Discussion.DoesNotExist:
-                pass
             self.slug = slugify(to_slug_entry)
         super(Discussion, self).save(*args, **kwargs)
 

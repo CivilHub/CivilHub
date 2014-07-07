@@ -48,8 +48,20 @@ def get_pointers(request):
     """
     locations = []
     pointers  = []
-    ls = Location.objects.all()
-    ps = MapPointer.objects.all()
+    followed  = request.GET.get('followed')
+    if followed:
+        ls = request.user.profile.followed_locations()
+        id_list = []
+        ct = ContentType.objects.get_for_model(Location)
+        for location in ls:
+            id_list.append(location.pk) 
+        ps = []
+        for point in MapPointer.objects.all():
+            if point.content_object.location.pk in id_list:
+                ps.append(point)
+    else:
+        ls = Location.objects.all()
+        ps = MapPointer.objects.all()
     for l in ls:
         # Take only locations with lat and long
         if l.latitude and l.longitude:
