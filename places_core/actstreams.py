@@ -24,10 +24,10 @@ def create_place_action_hook(sender, instance, created, **kwargs):
     TODO - move it to more appropriate place.
     """
     if created:
+        action.send(instance.creator, action_object=instance, verb=_('created'))
         instance.users.add(instance.creator)
         instance.creator.profile.mod_areas.add(instance)
         follow(instance.creator, instance, actor_only = False)
-        action.send(instance.creator, action_object=instance, verb=_('created'))
 
 
 post_save.connect(create_place_action_hook, sender=Location)

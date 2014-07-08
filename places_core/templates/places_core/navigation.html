@@ -55,6 +55,10 @@
                         {% for l in user.profile.followed_locations %}
                         <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
                         {% endfor %}
+                        {% if user.is_authenticated %}
+                        <li class="divider"></li>
+                        <li><a href="{% url 'locations:create' %}">{% trans "Create new" %}</a></li>
+                        {% endif %}
                     </ul>
                 </li>
 

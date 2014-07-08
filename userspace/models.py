@@ -29,6 +29,11 @@ class UserProfile(models.Model):
         default = 'img/avatars/30x30_anonymous.png',
         storage = OverwriteStorage()
     )
+    background_image = models.ImageField(
+        upload_to = "img/backgrounds/",
+        default = 'img/backgrounds/background.jpg',
+        storage = OverwriteStorage()
+    )
 
     def get_biggest_locations(self, limit=5):
         """

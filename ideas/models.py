@@ -54,13 +54,12 @@ class Idea(models.Model):
         return len(comments)
 
     def save(self, *args, **kwargs):
-        to_slug_entry = self.name
-        try:
+        if not self.pk:
+            to_slug_entry = self.name
             chk = Idea.objects.filter(name=self.name)
-            to_slug_entry = self.name + '-' + str(len(chk))
-        except Idea.DoesNotExist:
-            pass
-        self.slug = slugify(to_slug_entry)
+            if len(chk) > 0:
+                to_slug_entry = self.name + '-' + str(len(chk))
+            self.slug = slugify(to_slug_entry)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
