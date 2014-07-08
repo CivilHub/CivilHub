@@ -96,9 +96,8 @@ def comment_action_hook(sender, instance, created, **kwargs):
         prof.save()
         action.send(
             instance.user,
-            action_object = instance,
-            verb = _('commented'),
-            target = instance.content_object
+            action_object = instance.content_object,
+            verb = _('commented')
         )
 
 

@@ -1,30 +1,124 @@
 {% extends 'places_core/base.html' %} {% load i18n %} 
 
+{% block header %}
+
+    <div class="location-logo" style="background-image:url({{ location.image.url }})">
+        <div class="container">
+            
+        </div>
+    </div>
+    <nav id="location-navbar" class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+                  <span class="sr-only">{% trans "Toggle navigation" %}</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+            <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
+
 {% block content %}
 
-<h2>{{ cuser.username }}</h2>
-<p>{% trans "This profile is public" %}</p>
-<ul>
-{% for action in stream %}
-    <li>
-        {% if action.actor.get_absolute_url %}<a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
-        {% else %}<a href="{{ action.actor_url }}">{{ action.actor }}</a>{% endif %}
-        {{ action.verb }}
-        {% if action.action_object_content_type %}
-            &nbsp;{{ action.action_object_content_type }}&nbsp;
-        {% endif %}
-        {% if action.action_object %}
-            {% if action.action_object.get_absolute_url %}<a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-            {% else %}<a href="{{ action.target_url }}">{{ action.action_object }}</a>{% endif %}
-        {% endif %}
-        {% if action.action_object and action.target %}to{% endif %}
-        {% if action.target %}
-            {% if action.target.get_absolute_url %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-            {% else %}<a href="{{ action.target_url }}">{{ action.target }}</a>{% endif %}
-        {% endif %}
-        {{ action.timestamp|timesince }} {% trans "ago" %}
-    </li>
-{% endfor %}
-</ul>
+    <div class="user-activities col-sm-9">
+        
+        <div class="col-sm-3 user-data">
+            <div class="profile-page-avatar">
+                <img src="{{ profile.avatar.url }}" alt="{{ user.username }}" />
+            </div>
+            <p class="profile-page-details">
+                {{ user.get_full_name }}
+                <br />
+                {{ profile.rank_pts }}
+            </p>
+            {% if profile.badges %}
+                <ul class="user-badges-list">
+                {% for badge in profile.badges.all %}
+                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if profile.followed_locations %}
+                <ul class="user-following-list">
+                {% for location in profile.followed_locations %}
+                    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="col-sm-9 main-content user-activity-stream">
+            
+            {% for action in stream %}
+                <div class="row user-action-entry">
+                    
+                    <div class="col-xs-2 entry-avatar-col">
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.username }}" class="inline-user-avatar" />
+                        <p>{{ action.actor.profile.rank_pts }}</p>
+                    </div>
+                    
+                    <div class="col-xs-10 entry-meta-col">
+                        <div class="entry-header">
+                            <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+                            {{ action.verb }}
+                            {% if action.action_object_content_type %}
+                                &nbsp;{{ action.action_object_content_type }}&nbsp;
+                            {% endif %}
+                            {% if action.action_object %}
+                                {% if action.action_object.get_absolute_url %}
+                                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.action_object }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if action.action_object and action.target %}to{% endif %}
+                            {% if action.target %}
+                                {% if action.target.get_absolute_url %}
+                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.target }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {{ action.timestamp|timesince }} {% trans "ago" %}
+                        </div>
+                        <div class="entry-body">
+                            {% if action.action_object_content_type.model == 'poll' %}
+                                {{ action.action_object.question | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'idea' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'news' %}
+                                {{ action.action_object.content | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'location' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                        </div>
+                        <div class="entry-footer">
+                            
+                        </div>
+                    </div><!-- // .entry-meta-col -->
+                    
+                </div><!-- // .user-action-entry -->
+            {% endfor %}
+            
+        </div><!-- // .user-activity-stream -->
+        
+    </div><!-- // .user-activities -->
+
+    {% include 'locations/sidebar.html' %}
     
 {% endblock %}

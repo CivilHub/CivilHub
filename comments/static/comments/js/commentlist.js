@@ -37,6 +37,7 @@ $('.comment-toggle').on('click', function () {
 // -----------------------------------------------------------------------------
 commentlist.Comment = Backbone.Model.extend({
     defaults: {
+        user: 0,
         comment: 'Lorem ipsum',
         content_id: $('#target-id').val(),
         content_type: $('#target-type').val(),
