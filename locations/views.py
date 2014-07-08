@@ -428,43 +428,32 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         return render(request, self.template_name, ctx)
 
     def post(self, request, *args, **kwargs):
-        poll = Poll.objects.create(
-            title = request.POST.get('title'),
-            question = request.POST.get('question'),
-            location = get_object_or_404(Location,
-                       pk=request.POST.get('location')),
-            creator = request.user,
-            multiple = True if request.POST.get('multiple') else False
-        )
-        self.object = poll
-        if len(poll.title) > 0 and poll.title != '':
-            try:
-                poll.tags.add(request.POST.get('tags'))
-                poll.save()
-                for key, val in request.POST.iteritems():
-                    if 'answer_txt_' in key:
-                        a = Answer(poll=poll, answer=val)
-                        a.save()
-                return redirect(poll.get_absolute_url())
-            except Exception as ex:
-                pass
-        return self.form_invalid(form=self.form_class(request.POST))
-
-    def get_success_url(self):
-        """
-        Returns the supplied URL.
-        """
-        return reverse('locations:polls', kwargs={'slug':self.object.location.slug})
-
-    def form_valid(self, form):
-        form.instance.creator = self.request.user
-        return super(LocationPollCreate, self).form_valid(form)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.creator = self.request.user
+            obj.save()
+            # Without this next line the tags won't be saved.
+            form.save_m2m()
+            for key, val in request.POST.iteritems():
+                if 'answer_txt_' in key:
+                    a = Answer(poll=obj, answer=val)
+                    a.save()
+            return redirect(obj.get_absolute_url())
+        else:
+            context = {
+                'title': _('Create new poll'),
+                'location': form.cleaned_data['location'],
+                'links': links['polls'],
+                'form': PollForm(request.POST),
+            }
+            return render(request, self.template_name, context)
 
     def form_invalid(self, form):
         context = super(LocationPollCreate, self).get_context_data(form=form)
         context['location'] = Location.objects.get(pk=self.request.POST.get('location'))
-        context['user'] = self.request.user
-        context['form'] = self.form_class(self.request.POST)
+        context['user']  = self.request.user
+        context['form']  = self.form_class(self.request.POST)
         context['links'] = links['polls']
         context['title'] = _("Create new poll")
         return render(self.request, self.template_name, context)
