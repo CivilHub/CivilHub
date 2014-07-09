@@ -13,6 +13,94 @@ from topics.models import Discussion
 from places_core.models import AbuseReport
 from userspace.models import Badge
 from gallery.models import LocationGalleryItem, UserGalleryItem
+from locations.models import Location
+
+
+class MyActionsSerializer(serializers.Serializer):
+    """
+    Serializer for user activity stream.
+    """
+    id = serializers.Field(source='pk')
+    verb = serializers.Field()
+    date_created = serializers.Field(source='timesince')
+    actor = serializers.SerializerMethodField('get_actor_data')
+    object = serializers.SerializerMethodField('get_action_object')
+    object_ct = serializers.Field(source='action_object_content_type.model')
+    target = serializers.SerializerMethodField('get_action_target')
+    target_ct = serializers.Field(source='target_content_type.model')
+
+    def get_object_url(self, obj):
+        try:
+            ct = obj.action_object_content_type
+            target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
+            return target.get_absolute_url()
+        except Exception:
+            return u''
+
+    def serialize_selected_object(self, content_type, instance):
+        """ 
+        Factory method to get serialized data for passed objects. It use's
+        basic serializers if possible.
+        """
+        if content_type.model == 'location':
+            serializer = LocationBasicSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'news':
+            serializer = NewsSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'idea':
+            serializer = IdeaBasicSerializer(instance)
+            return serializer.data
+        else:
+            data = {
+                'id': instance.pk,
+                'url': self.get_object_url(obj),
+            }
+            return data
+        
+    def get_action_object(self, obj):
+        try:
+            ct = obj.action_object_content_type
+            target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
+            return self.serialize_selected_object(ct, target)
+        except Exception:
+            return None
+            
+    def get_action_target(self, obj):
+        try:
+            ct = obj.target_content_type
+            target = ct.get_object_for_this_type(pk=obj.target_object_id)
+            return self.serialize_selected_object(ct, target)
+        except Exception:
+            return None
+    
+    def get_actor_data(self, obj):
+        """ WARNING: we assume that every actor is user instance!!!. """
+        user = User.objects.get(pk=obj.actor_object_id)
+        serializer = UserSerializer(user)
+        return serializer.data
+
+
+class LocationBasicSerializer(serializers.ModelSerializer):
+    """ Basic location serializer for lists etc. """
+    id = serializers.Field(source='pk')
+    name = serializers.CharField()
+    url = serializers.Field(source='get_absolute_url')
+    
+    class Meta:
+        model = Location
+        fields = ('id', 'name', 'url')
+
+
+class IdeaBasicSerializer(serializers.ModelSerializer):
+    """ Serialize ideas in format appropriate for lists etc. """
+    id = serializers.Field(source='pk')
+    name = serializers.CharField()
+    url = serializers.Field(source='get_absolute_url')
+    
+    class Meta:
+        model = Location
+        fields = ('id', 'name', 'url')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

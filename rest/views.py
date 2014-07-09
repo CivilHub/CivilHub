@@ -32,6 +32,42 @@ from places_core.mixins import AtomicFreeTransactionMixin
 from actstream import action
 
 
+class UserActionsRestViewSet(viewsets.ViewSet):
+    """
+    This class uses rest framework serializer to send data related to user
+    profile (static view enabled as 'profile' page).
+    """
+    serializer_class = MyActionsSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+    
+    def get_queryset(self, pk=None):
+        from userspace.helpers import UserActionStream
+        if pk:
+            user = get_object_or_404(User, pk=pk)
+        else:
+            user = self.request.user
+        return UserActionStream(user).get_actions()
+        
+    def list(self, request):
+        pk = request.QUERY_PARAMS.get('user_id') or None
+        queryset = self.get_queryset(pk)
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+        
+    def create(self, request):
+        pass
+    
+    def retrieve(self, request, pk=None):
+        pass
+        
+    def partial_update(self, request, pk=None):
+        pass
+    
+    def destroy(self, request, pk=None):
+        pass
+
+
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for viewing accounts.
