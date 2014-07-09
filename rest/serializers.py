@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from taggit.models import Tag
 from blog.models import Category, News
+from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
@@ -14,6 +15,7 @@ from places_core.models import AbuseReport
 from userspace.models import Badge
 from gallery.models import LocationGalleryItem, UserGalleryItem
 from locations.models import Location
+from polls.models import Poll
 
 
 class MyActionsSerializer(serializers.Serializer):
@@ -22,7 +24,7 @@ class MyActionsSerializer(serializers.Serializer):
     """
     id = serializers.Field(source='pk')
     verb = serializers.Field()
-    date_created = serializers.Field(source='timesince')
+    timestamp = serializers.Field(source='timesince')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
     object_ct = serializers.Field(source='action_object_content_type.model')
@@ -46,10 +48,13 @@ class MyActionsSerializer(serializers.Serializer):
             serializer = LocationBasicSerializer(instance)
             return serializer.data
         elif content_type.model == 'news':
-            serializer = NewsSerializer(instance)
+            serializer = NewsBasicSerializer(instance)
             return serializer.data
         elif content_type.model == 'idea':
             serializer = IdeaBasicSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'poll':
+            serializer = PollBasicSerializer(instance)
             return serializer.data
         else:
             data = {
@@ -64,7 +69,7 @@ class MyActionsSerializer(serializers.Serializer):
             target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
             return self.serialize_selected_object(ct, target)
         except Exception:
-            return None
+            return {}
             
     def get_action_target(self, obj):
         try:
@@ -72,7 +77,7 @@ class MyActionsSerializer(serializers.Serializer):
             target = ct.get_object_for_this_type(pk=obj.target_object_id)
             return self.serialize_selected_object(ct, target)
         except Exception:
-            return None
+            return {}
     
     def get_actor_data(self, obj):
         """ WARNING: we assume that every actor is user instance!!!. """
@@ -81,26 +86,30 @@ class MyActionsSerializer(serializers.Serializer):
         return serializer.data
 
 
-class LocationBasicSerializer(serializers.ModelSerializer):
-    """ Basic location serializer for lists etc. """
+class BasicSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
-    name = serializers.CharField()
+    name = serializers.CharField(source='__unicode__')
     url = serializers.Field(source='get_absolute_url')
     
     class Meta:
-        model = Location
-        fields = ('id', 'name', 'url')
+        abstract = True
 
-
-class IdeaBasicSerializer(serializers.ModelSerializer):
-    """ Serialize ideas in format appropriate for lists etc. """
-    id = serializers.Field(source='pk')
-    name = serializers.CharField()
-    url = serializers.Field(source='get_absolute_url')
-    
+class LocationBasicSerializer(BasicSerializer):
     class Meta:
         model = Location
-        fields = ('id', 'name', 'url')
+
+class IdeaBasicSerializer(BasicSerializer):
+    class Meta:
+        model = Idea
+
+class NewsBasicSerializer(BasicSerializer):
+    class Meta:
+        model = News
+
+class PollBasicSerializer(BasicSerializer):
+    name = serializers.CharField(source='title')
+    class Meta:
+        model = Poll
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

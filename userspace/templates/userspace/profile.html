@@ -1,6 +1,9 @@
-{% extends 'places_core/base.html' %} {% load i18n %} 
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %} 
 
 {% block header %}
+
+    <input type="hidden" name="target_user" id="target-user" value="{{ cuser.pk }}" />
 
     <div class="location-logo" style="background-image:url({{ profile.background_image.url }})">
         <div class="container">
@@ -119,6 +122,40 @@
         </div><!-- // .user-activity-stream -->
         
     </div><!-- // .user-activities -->
+    
+    <script type="text/template" id="action-template">
+        <div class="col-xs-2 entry-avatar-col">
+            <img src="<%= actor.avatar %>" alt="<%= actor.username %>" class="inline-user-avatar" />
+            <p><%= actor.rank_pts %></p>
+        </div>
+        
+        <div class="col-xs-10 entry-meta-col">
+            <div class="entry-header">
+                <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+                <%= verb %>
+                <% if (!_.isEmpty(object_ct)) { %>
+                    <%= object_ct %>
+                    <% if (_.isEmpty(target_ct)) { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                    <% } else { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                        {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                    <% } %>
+                <% } else if (!_.isEmpty(target_ct)) { %>
+                    <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+            </div>
+            <div class="entry-body">
+                
+            </div>
+            <div class="clear">&nbsp;</div>
+            <div class="entry-footer">
+                {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
+            </div>
+        </div><!-- // .entry-meta-col -->
+    </script>
+    
+    <script src="{% static 'userspace/js/profile.js' %}"></script>
     
     <script>
     (function ($) {
