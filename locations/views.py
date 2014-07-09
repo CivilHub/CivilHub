@@ -89,11 +89,11 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         ctx = {
                 'title': _('Create new entry'),
                 'location': form.cleaned_data.get('location'),
-                'form': form,
+                'form': self.form_class(self.request.POST),
                 'errors': form.errors,
                 'user': self.request.user,
             }
-        return render_to_response(self.template_name, ctx)
+        return render(self.request, self.template_name, ctx)
 
 
 class LocationIdeasList(DetailView):

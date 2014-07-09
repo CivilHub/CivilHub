@@ -8,7 +8,9 @@
             {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= date_created %> {% trans "ago" %}.
             <% if (edited) { %>- {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.<% } %>
         </p>
-        <p class="custom-booklike"><%= description %><a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
+        <p class="custom-booklike"><%= description %>
+        <div class="clear">&nbsp;</div>
+        <a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
         <div class="row">
             <p class="col-sm-6"><span class="fa fa-star"> </span>
                 <a href="<%= category_url %>"><%= category %></a>

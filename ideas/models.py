@@ -33,7 +33,7 @@ class Idea(models.Model):
     date_edited = models.DateTimeField(blank=True, null=True, auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
-    description = models.TextField(max_length=2048, null=True, blank=True,)
+    description = models.TextField(max_length=20480, null=True, blank=True,)
     category = models.ForeignKey(Category, null=True, blank=True)
     location = models.ForeignKey(Location)
     status = models.BooleanField(default=True)

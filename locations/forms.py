@@ -66,7 +66,7 @@ class IdeaLocationForm(forms.ModelForm):
     )
     description = forms.CharField(
         required = False,
-        max_length = 2048,
+        max_length = 20480,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     category = forms.ModelChoiceField(

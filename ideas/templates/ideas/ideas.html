@@ -47,17 +47,18 @@
         </p>
         
         <div><%= description %></div>
-            <div>
-                <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
-                <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
-                <% for (var i = 0; i < tags.length; i++) { %>
-                    <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
-                <% } %>
-                <% if (category) { %>
-                <span class="fa fa-star"> </span>{% trans "Category" %}:
-                    <a href="<%= category_url %>"><%= category %></a>
-                <% } %>
-            </div>
+        <div class="clear">&nbsp;</div>
+        <div>
+            <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+            <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+            <% for (var i = 0; i < tags.length; i++) { %>
+                <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+            <% } %>
+            <% if (category) { %>
+            <span class="fa fa-star"> </span>{% trans "Category" %}:
+                <a href="<%= category_url %>"><%= category %></a>
+            <% } %>
+        </div>
     </div>
 </script>
 <script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
