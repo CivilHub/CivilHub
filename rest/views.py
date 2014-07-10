@@ -65,7 +65,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 25)
+        paginator = Paginator(queryset, 15)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
@@ -79,8 +79,6 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         serializer_context = {'request': request}
         serializer = PaginatedActionSerializer(actions,
                                              context=serializer_context)
-
-        #serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
 

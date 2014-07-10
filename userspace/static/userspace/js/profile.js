@@ -39,6 +39,8 @@ app.ActionList = Backbone.View.extend({
     
     nextPage: null,
     
+    filterContent: false,
+    
     initCollection: function (callback, context, data) {
         $.ajax({
             type: 'GET',
@@ -56,22 +58,50 @@ app.ActionList = Backbone.View.extend({
     },
     
     initialize: function () {
+        this.$spinner = $(document.createElement('span'));
+        this.$spinner
+            .addClass('fa fa-spin fa-circle-o-notch')
+            .hide();
         this.initCollection(function (actions, next) {
-            this.nextPage = next || null;
+            this.setPage(next);
             this.collection = new app.ActionCollection(actions);
             this.render();
+            this.listenTo(this.collection, 'add', this.renderItem);
         }, this, {'user_id':app.actionUserId});
     },
     
     filter: function (content) {
-        content = content || false;
+        this.filterContent = content || false;
         var data = {};
         data.user_id = app.actionUserId;
-        if (content) data.content = content;
+        if (this.filterContent) data.content = this.filterContent;
         this.initCollection(function (actions, next) {
-            this.nextPage = next || null;
+            this.setPage(next);
             this.collection.reset(actions);
             this.render();
+        }, this, data);
+    },
+    
+    setPage: function (next) {
+        if (next) this.nextPage = next.slice(next.indexOf('&page')+6);
+        else this.nextPage = null;
+    },
+    
+    getPage: function (page) {
+        page = page || this.nextPage;
+        if (_.isNull(page)) return false;
+        this.$spinner.appendTo(this.$el).fadeIn('fast');
+        var data = {
+            'user_id': app.actionUserId,
+            'page': this.nextPage
+        }
+        if (this.filterContent) data.content = this.filterContent;
+        this.initCollection(function (actions, next) {
+            this.setPage(next);
+            _.each(actions, function (item) {
+                this.collection.add(item);
+            }, this);
+            this.$spinner.fadeOut('fast');
         }, this, data);
     },
     
@@ -80,6 +110,7 @@ app.ActionList = Backbone.View.extend({
         this.collection.each(function (item) {
             this.renderItem(item);
         }, this);
+        this.$spinner.appendTo(this.$el);
     },
     
     renderItem: function (item) {
@@ -91,8 +122,16 @@ app.ActionList = Backbone.View.extend({
 });
 
 app.actions = new app.ActionList();
+
+
 // Check if there is a better way to handle external events.
 $('.list-controller').on('click', function (e) {
     e.preventDefault();
     app.actions.filter($(this).attr('data-target'));
+});
+// Enable lazy-loading on page scrolling
+$(window).scroll(function() {
+   if($(window).scrollTop() + $(window).height() == $(document).height()) {
+       app.actions.getPage();
+   }
 });
