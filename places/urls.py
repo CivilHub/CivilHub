@@ -86,7 +86,7 @@ urlpatterns = patterns('',
         'document_root': settings.MEDIA_ROOT,
     }),
     # REST server
-    url(r'^rest/', include(router.urls)),
+    url(r'^rest/', include(router.urls, namespace='rest')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),

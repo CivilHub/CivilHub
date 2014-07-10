@@ -12,6 +12,7 @@ from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from places_core.models import AbuseReport
+from places_core.helpers import truncatehtml
 from userspace.models import Badge
 from gallery.models import LocationGalleryItem, UserGalleryItem
 from locations.models import Location
@@ -30,6 +31,7 @@ class MyActionsSerializer(serializers.Serializer):
     object_ct = serializers.Field(source='action_object_content_type.model')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
+    description = serializers.SerializerMethodField('get_action_description')
 
     def get_object_url(self, obj):
         try:
@@ -62,6 +64,25 @@ class MyActionsSerializer(serializers.Serializer):
                 'url': self.get_object_url(obj),
             }
             return data
+
+    def get_action_description(self, obj):
+        try:
+            ct = obj.action_object_content_type
+            target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
+            if ct.model == 'idea':
+                return truncatehtml(target.description, 100)
+            elif ct.model == 'location':
+                return truncatehtml(target.description, 100)
+            elif ct.model == 'news':
+                return truncatehtml(target.content, 100)
+            elif ct.model == 'poll':
+                return truncatehtml(target.question, 100)
+            elif ct.model == 'discussion':
+                return truncatehtml(target.intro, 100)
+            else:
+                return u''
+        except Exception:
+            return u''
         
     def get_action_object(self, obj):
         try:
@@ -97,19 +118,23 @@ class BasicSerializer(serializers.ModelSerializer):
 class LocationBasicSerializer(BasicSerializer):
     class Meta:
         model = Location
+        fields = ('id', 'name', 'url',)
 
 class IdeaBasicSerializer(BasicSerializer):
     class Meta:
         model = Idea
+        fields = ('id', 'name', 'url',)
 
 class NewsBasicSerializer(BasicSerializer):
     class Meta:
         model = News
+        fields = ('id', 'name', 'url',)
 
 class PollBasicSerializer(BasicSerializer):
     name = serializers.CharField(source='title')
     class Meta:
         model = Poll
+        fields = ('id', 'name', 'url',)
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

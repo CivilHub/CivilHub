@@ -3,8 +3,6 @@
 
 {% block header %}
 
-    <input type="hidden" name="target_user" id="target-user" value="{{ cuser.pk }}" />
-
     <div class="location-logo" style="background-image:url({{ profile.background_image.url }})">
         <div class="container">
             
@@ -61,7 +59,7 @@
         
         <div class="col-sm-9 main-content user-activity-stream">
             
-            {% for action in stream %}
+            {% for action in stream %}<noscript>
                 <div class="row user-action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
@@ -117,7 +115,7 @@
                     </div><!-- // .entry-meta-col -->
                     
                 </div><!-- // .user-action-entry -->
-            {% endfor %}
+            </noscript>{% endfor %}
             
         </div><!-- // .user-activity-stream -->
         
@@ -145,14 +143,17 @@
                     <a href="<%= target.url %>"><%= target.name %></a>
                 <% } %>
             </div>
-            <div class="entry-body">
-                
-            </div>
+            <div class="entry-body"><%= description %></div>
             <div class="clear">&nbsp;</div>
             <div class="entry-footer">
                 {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
             </div>
         </div><!-- // .entry-meta-col -->
+    </script>
+    
+    <script>
+        app.actionApiUrl = "{% url 'rest:my_actions-list' %}";
+        app.actionUserId = {{ cuser.pk }};
     </script>
     
     <script src="{% static 'userspace/js/profile.js' %}"></script>
