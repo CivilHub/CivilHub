@@ -154,6 +154,7 @@
                 <% } else if (!_.isEmpty(target_ct)) { %>
                     <a href="<%= target.url %>"><%= target.name %></a>
                 <% } %>
+                <%= timestamp %> {% trans "ago" %}
             </div>
             <div class="entry-body"><%= description %></div>
             <div class="clear">&nbsp;</div>

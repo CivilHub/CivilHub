@@ -65,7 +65,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 15)
+        paginator = Paginator(queryset, 10)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:

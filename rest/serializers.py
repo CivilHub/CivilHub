@@ -70,16 +70,20 @@ class MyActionsSerializer(serializers.Serializer):
         try:
             ct = obj.action_object_content_type
             target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
-            if ct.model == 'idea':
-                return truncatehtml(target.description, 100)
+            if obj.verb == 'commented':
+                return u''
+            elif obj.verb == 'voted on':
+                return u''
+            elif ct.model == 'idea':
+                return truncatehtml(target.description, 140)
             elif ct.model == 'location':
-                return truncatehtml(target.description, 100)
+                return truncatehtml(target.description, 140)
             elif ct.model == 'news':
-                return truncatehtml(target.content, 100)
+                return truncatehtml(target.content, 140)
             elif ct.model == 'poll':
-                return truncatehtml(target.question, 100)
+                return truncatehtml(target.question, 140)
             elif ct.model == 'discussion':
-                return truncatehtml(target.intro, 100)
+                return truncatehtml(target.intro, 140)
             else:
                 return u''
         except Exception:
