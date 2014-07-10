@@ -37,14 +37,16 @@ app.ActionList = Backbone.View.extend({
     
     el: '.user-activity-stream',
     
-    initCollection: function (callback, context) {
+    nextPage: null,
+    
+    initCollection: function (callback, context, data) {
         $.ajax({
             type: 'GET',
             url: app.actionApiUrl,
-            data: {'user_id':app.actionUserId},
+            data:  data || {},
             success: function (resp) {
                 if (typeof(callback) === 'function') {
-                    callback.call(context, resp);
+                    callback.call(context, resp.results, resp.next);
                 }
             },
             error: function (err) {
@@ -54,13 +56,27 @@ app.ActionList = Backbone.View.extend({
     },
     
     initialize: function () {
-        this.initCollection(function (actions) {
+        this.initCollection(function (actions, next) {
+            this.nextPage = next || null;
             this.collection = new app.ActionCollection(actions);
             this.render();
-        }, this);
+        }, this, {'user_id':app.actionUserId});
+    },
+    
+    filter: function (content) {
+        content = content || false;
+        var data = {};
+        data.user_id = app.actionUserId;
+        if (content) data.content = content;
+        this.initCollection(function (actions, next) {
+            this.nextPage = next || null;
+            this.collection.reset(actions);
+            this.render();
+        }, this, data);
     },
     
     render: function () {
+        this.$el.empty();
         this.collection.each(function (item) {
             this.renderItem(item);
         }, this);
@@ -75,3 +91,8 @@ app.ActionList = Backbone.View.extend({
 });
 
 app.actions = new app.ActionList();
+// Check if there is a better way to handle external events.
+$('.list-controller').on('click', function (e) {
+    e.preventDefault();
+    app.actions.filter($(this).attr('data-target'));
+});

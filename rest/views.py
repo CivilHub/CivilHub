@@ -8,6 +8,7 @@ from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import authentication, viewsets, permissions, renderers
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -53,12 +54,33 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('ideas.idea')
         elif ct == 'news':
             return UserActionStream(user).get_actions('blog.news')
+        elif ct == 'location':
+            return UserActionStream(user).get_actions('locations.location')
+        elif ct == 'poll':
+            return UserActionStream(user).get_actions('polls.poll')
         
     def list(self, request):
         pk = request.QUERY_PARAMS.get('user_id') or None
-        ct = request.QUERY_PARAMS.get('content') or None
+        ct = request.QUERY_PARAMS.get('content') or None        
         queryset = self.get_queryset(pk, ct)
-        serializer = self.serializer_class(queryset, many=True)
+        
+        page = request.QUERY_PARAMS.get('page')
+        paginator = Paginator(queryset, 25)
+        try:
+            actions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            actions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            actions = paginator.page(paginator.num_pages)
+
+        serializer_context = {'request': request}
+        serializer = PaginatedActionSerializer(actions,
+                                             context=serializer_context)
+
+        #serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
 
 

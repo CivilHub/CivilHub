@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+from rest_framework.pagination import PaginationSerializer
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -105,6 +106,12 @@ class MyActionsSerializer(serializers.Serializer):
         user = User.objects.get(pk=obj.actor_object_id)
         serializer = UserSerializer(user)
         return serializer.data
+
+
+class PaginatedActionSerializer(PaginationSerializer):
+    """ Paginate results for lazy loader. """
+    class Meta:
+        object_serializer_class = MyActionsSerializer
 
 
 class BasicSerializer(serializers.ModelSerializer):

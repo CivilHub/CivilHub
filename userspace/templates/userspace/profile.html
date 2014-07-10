@@ -8,7 +8,7 @@
             
         </div>
     </div>
-    <nav id="location-navbar" class="navbar navbar-default" role="navigation">
+    <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -20,8 +20,20 @@
               </div>
             <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
                 <ul class="nav navbar-nav navbar-right">
-                    
+                    <ul class="nav navbar-nav">
+                    <li><a href="#" class="list-controller active" data-control="content" data-target="">{% trans "Everything" %}</a></li>
+                    <li class="navbar-text"> | {% trans "Past" %}:</li>
+                    <li><a href="#" class="list-controller" data-control="content" data-target="idea">{% trans "Ideas" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="content" data-target="news">{% trans "Blog" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="content" data-target="location">{% trans "Locations" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="content" data-target="poll">{% trans "Polls" %}</a></li>
                 </ul>
+                <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
+                    <div class="form-group">
+                        <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
+                    </div>
+                    <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+                </form>
             </div>
         </div>
     </nav>
