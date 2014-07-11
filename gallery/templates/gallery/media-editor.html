@@ -3,8 +3,6 @@
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'places_core/includes/Jcrop/css/jquery.Jcrop.min.css' %}" />
-
 <img src="{{ href }}" alt="{{ image }}" id="edited-image" />
 
 <form role="form" id="image-cropp-form" method="post" action="">
@@ -19,9 +17,6 @@
         <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
     </div>
 </form>
-
-<script src="{% static 'places_core/includes/Jcrop/js/jquery.color.js' %}"></script>
-<script src="{% static 'places_core/includes/Jcrop/js/jquery.Jcrop.js' %}"></script>
 
 <script>
 (function ($) {

@@ -7,25 +7,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/includes/jquery-ui/themes/smoothness/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
 <script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery-ui/ui/jquery-ui.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'places_core/includes/bootbox/bootbox.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/bootstrap-flashmsg.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery/jquery.tagsinput.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery/jquery.color.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery/jquery.Jcrop.js' %}"></script>
+<script src="{% static 'places_core/includes/jquery-ui/jquery-ui.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootstrap.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootbox.js' %}"></script>
+<script src="{% static 'places_core/includes/bootstrap/bootstrap.file-input.js' %}"></script>
 <script src="{% static 'places_core/includes/underscore/underscore.js' %}"></script>
 <script src="{% static 'places_core/includes/backbone/backbone.js' %}"></script>
-<!-- http://momentjs.com/ -->
+<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
 <script src="{% static 'places_core/includes/momentjs/moment.js' %}"></script>
-<!-- git@bitbucket.org:krastley/javascript-helpers.git -->
-<script src="{% static 'places_core/includes/helpers/helpers.js' %}"></script>
+<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
 <script src="{% static 'places_core/js/djangojs.js' %}"></script>
 <script src="{% static 'places_core/js/utils.js' %}"></script>
 <script src="{% static 'places_core/js/ui.js' %}"></script>
+<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
 
 <!-- CKEDITOR custom settings -->
 <script src="{% static 'places_core/js/ckeditor-settings.js' %}"></script>
@@ -37,3 +40,6 @@
 {% block extra_scripts %}{% endblock %}
 <script>var CivilApp={};</script>
 </head>
+<body>
+    
+    <div id="messages"></div>

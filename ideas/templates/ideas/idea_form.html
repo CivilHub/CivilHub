@@ -8,13 +8,6 @@
 {% block title %}{{ title | capfirst }}{% endblock %}
 
 
-{% block extra_styles %}
-
-    <link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
-    
-{% endblock %}
-
-
 {% block content %}
 
     <div class="col-sm-9">
@@ -41,9 +34,7 @@
 
 {% block footer_scripts %}
 
-    <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'gallery/js/media-uploader.js' %}"></script>
-    <script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
     <script>
     (function ($) {
         "use strict";
