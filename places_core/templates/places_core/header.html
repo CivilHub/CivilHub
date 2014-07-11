@@ -11,36 +11,12 @@
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
-{% comment %}
-<script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery.tagsinput.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery.color.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery.Jcrop.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery-ui/jquery-ui.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/bootstrap.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/bootbox.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/bootstrap.file-input.js' %}"></script>
-<script src="{% static 'places_core/includes/underscore/underscore.js' %}"></script>
-<script src="{% static 'places_core/includes/backbone/backbone.js' %}"></script>
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/momentjs/moment.js' %}"></script>
-<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
-<script src="{% static 'places_core/js/djangojs.js' %}"></script>
-<script src="{% static 'places_core/js/utils.js' %}"></script>
-<script src="{% static 'places_core/js/ui.js' %}"></script>
-<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
 
-<!-- CKEDITOR custom settings -->
-<script src="{% static 'places_core/js/ckeditor-settings.js' %}"></script>
-
-<!-- Django javascript translation catalog -->
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-{% endcomment %}
-<script data-main="{% static 'places_core/js/application/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+<script data-main="{% static 'places_core/js/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
-<script>var CivilApp={};</script>
 </head>
 <body>
     

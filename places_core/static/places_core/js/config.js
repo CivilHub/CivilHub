@@ -33,22 +33,19 @@ require.config({
         },
         
         jqueryui: {
-            dep: ['jquery']
+            deps: ['jquery']
         },
         
         bootstrap: {
-            deps: ['jquery'],
-            exports: '$'
+            deps: ['jquery']
         },
         
         'bootstrap-switch': {
-            deps: ['bootstrap'],
-            exports: '$.fn.bootstrapSwitch'
+            deps: ['bootstrap']
         },
         
         'bootstrap-fileinput': {
-            deps: ['bootstrap'],
-            exports: '$.fn.bootstrapFileInput'
+            deps: ['bootstrap']
         },
         
         bootbox: {
@@ -67,6 +64,6 @@ require.config({
     }
 });
 
-require(['bootstrap'], function ($) {
-    
+require(['js/main'], function (test) {
+    $(document).trigger('load');
 });

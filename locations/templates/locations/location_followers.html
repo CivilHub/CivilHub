@@ -89,7 +89,7 @@
 </div>
 <p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
 </script>
-
+{% comment %}
 <script src="{% static 'userspace/js/badges.js' %}"></script>
 <script>
 (function ($) {
@@ -145,6 +145,7 @@
     });
 })(jQuery);
 </script>
+{% endcomment %}
 {% endif %}
 
 {% endblock %}

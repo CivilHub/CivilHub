@@ -3,10 +3,6 @@
 
 {% block content %}
 
-    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}">
-    <script type="text/javascript" src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
-    <script type="text/javascript">Shadowbox.init();</script>
-
     <div class="col-sm-9">
         <div id="gallery">
             {% for file in files %}
@@ -48,8 +44,6 @@
             </form>
         </div>
     </div>
-
-    <script src="{% static 'gallery/js/media-form.js' %}"></script>
     
     {% include 'locations/sidebar.html' %}
 
