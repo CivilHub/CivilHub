@@ -249,8 +249,7 @@ class EntryUpdateView(LoginRequiredMixin, View):
         entry = get_object_or_404(Entry, pk=pk)
         entry.content = request.POST.get('content')
         entry.save()
-        return redirect(reverse('discussion:details',
-                                kwargs={'slug':entry.discussion.slug}))
+        return redirect(request.META['HTTP_REFERER'] + '#reply-' + str(entry.pk))
 
 
 @login_required
@@ -320,8 +319,7 @@ def reply(request, slug):
             entry.save()
         except:
             return HttpResponse(_('An error occured'))
-    return HttpResponseRedirect(reverse('discussion:details',
-                                kwargs={'slug': topic.slug,}))
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] + '#reply-' + str(entry.pk))
 
 
 @login_required
