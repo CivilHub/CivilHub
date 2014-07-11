@@ -11,7 +11,7 @@
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
-
+{% comment %}
 <script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
 <script src="{% static 'places_core/includes/jquery/jquery.tagsinput.js' %}"></script>
 <script src="{% static 'places_core/includes/jquery/jquery.color.js' %}"></script>
@@ -35,6 +35,8 @@
 
 <!-- Django javascript translation catalog -->
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+{% endcomment %}
+<script data-main="{% static 'places_core/js/application/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
