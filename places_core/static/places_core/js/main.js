@@ -7,7 +7,8 @@
 define(['jquery',
         'backbone',
         'bootstrap',
-        'js/common'], 
+        'js/common',
+        'js/topics/discussion-list/discussions'], 
 
 function ($, Backbone) {
     "use strict";

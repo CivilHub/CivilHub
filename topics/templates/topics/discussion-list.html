@@ -17,13 +17,9 @@
         </div>
         <div class="col-sm-6 custom-align-r">
             <span class="count"><%= answers %></span>
-            <img src="<%= avatar %>" alt="<%= creator %>" class="user-avatar-minithumb" />
-            <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
+            <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
+            <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
             <%= date_created %>
         </div>
     </div>
 </script>
-
-<script>CivilApp.TOPIC_API_URL="{% url 'discussion:list' location.slug %}";</script>
-<script src="{% static 'places_core/js/simple-paginator.js' %}"></script>
-<script src="{% static 'topics/js/discussion-list.js' %}"></script>

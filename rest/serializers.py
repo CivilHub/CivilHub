@@ -298,6 +298,55 @@ class ForumCategorySerializer(serializers.ModelSerializer):
         fields = ('name', 'description',)
 
 
+class DiscussionSerializer(serializers.ModelSerializer):
+    """ Basic serializer for discussions. """
+    id = serializers.Field(source='pk')
+    question = serializers.CharField()
+    intro = serializers.CharField()
+    url = serializers.Field(source='get_absolute_url')
+    creator_id = serializers.Field(source='creator.pk')
+    creator_username = serializers.Field(source='creator.username')
+    creator_fullname = serializers.Field(source='creator.get_full_name')
+    creator_url = serializers.Field(source='creator.profile.get_absolute_url')
+    creator_avatar = serializers.Field(source='creator.profile.avatar.url')
+    date_created = serializers.DateTimeField()
+    date_edited = serializers.DateTimeField()
+    status = serializers.BooleanField()
+    category_name = serializers.Field(source='category.name')
+    category_url = serializers.SerializerMethodField('category_search_url')
+    tags = serializers.SerializerMethodField('get_tags')
+    answers = serializers.SerializerMethodField('get_answer_count')
+
+    class Meta:
+        model = Discussion
+        fields = ('id', 'question', 'intro', 'url', 'creator_id', 'answers',
+                  'creator_fullname', 'creator_url', 'creator_avatar', 'category_name',
+                  'date_created', 'date_edited', 'status', 'category_url', 'tags',
+                  'creator_username',)
+    
+    def get_tags(self, obj):
+        tags = []
+        for tag in obj.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':obj.location.slug,
+                                       'tag':tag.name})
+            })
+        return tags
+
+    def category_search_url(self, obj):
+        return reverse('locations:category_search', kwargs={
+            'slug'    : obj.location.slug,
+            'app'     : 'topics',
+            'model'   : 'discussion',
+            'category': obj.category.pk
+        })
+
+    def get_answer_count(self, obj):
+        return obj.entry_set.count()
+
+
 class IdeaCategorySerializer(serializers.ModelSerializer):
     """
     Allow superusers to create new idea categories dynamically.
