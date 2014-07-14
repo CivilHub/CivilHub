@@ -323,7 +323,7 @@ class DiscussionSerializer(serializers.ModelSerializer):
                   'creator_fullname', 'creator_url', 'creator_avatar', 'category_name',
                   'date_created', 'date_edited', 'status', 'category_url', 'tags',
                   'creator_username',)
-    
+
     def get_tags(self, obj):
         tags = []
         for tag in obj.tags.all():
@@ -357,6 +357,60 @@ class IdeaCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = IdeaCategory
         fields = ('name', 'description',)
+
+
+class IdeaSerializer(serializers.ModelSerializer):
+    """ Idea serializer. """
+    id = serializers.Field(source='pk')
+    name = serializers.CharField()
+    url = serializers.Field(source='get_absolute_url')
+    description = serializers.CharField()
+    creator_id = serializers.Field(source='creator.pk')
+    creator_url = serializers.Field(source='creator.profile.get_absolute_url')
+    creator_username = serializers.Field(source='creator.username')
+    creator_fullname = serializers.Field(source='creator.get_full_name')
+    creator_avatar = serializers.Field(source='creator.profile.avatar.url')
+    date_created = serializers.DateTimeField()
+    date_edited = serializers.DateTimeField()
+    category_name = serializers.SerializerMethodField('get_category_name')
+    category_url = serializers.SerializerMethodField('category_search_url')
+    total_comments = serializers.Field(source='get_comment_count')
+    total_votes = serializers.Field(source='get_votes')
+    edited = serializers.BooleanField()
+    tags = serializers.SerializerMethodField('get_tags')
+
+    class Meta:
+        model = Idea
+        fields = ('id','name','description','creator_id','creator_username',
+                 'creator_fullname','creator_avatar','date_created','date_edited',
+                 'edited','tags','category_name','category_url','total_comments',
+                 'total_votes','url','creator_url',)
+
+    def get_tags(self, obj):
+        tags = []
+        for tag in obj.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':obj.location.slug,
+                                       'tag':tag.name})
+            })
+        return tags
+
+    def category_search_url(self, obj):
+        if obj.category:
+            return reverse('locations:category_search', kwargs={
+                'slug'    : obj.location.slug,
+                'app'     : 'topics',
+                'model'   : 'discussion',
+                'category': obj.category.pk
+            })
+        return r''
+
+    def get_category_name(self, obj):
+        if obj.category:
+            return obj.category.name
+        return u''
 
 
 class IdeaVoteCounterSerializer(serializers.ModelSerializer):

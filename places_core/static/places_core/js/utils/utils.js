@@ -13,7 +13,7 @@ define(['jquery'], function ($) {
     //
     // Csrf protection methods.
     // see: https://docs.djangoproject.com/en/dev/ref/contrib/csrf/#ajax
-    // -----------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     utils.csrfSafeMethod = function(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

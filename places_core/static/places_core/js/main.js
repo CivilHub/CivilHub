@@ -8,9 +8,10 @@ define(['jquery',
         'backbone',
         'bootstrap',
         'js/common',
-        'js/topics/discussion-list/discussions'], 
+        'js/ideas/idea-list/ideas'], 
 
 function ($, Backbone) {
     "use strict";
+
     console.log('Main application loaded');
 });

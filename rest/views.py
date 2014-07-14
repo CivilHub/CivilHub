@@ -338,6 +338,70 @@ class IdeaCategoryViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAdminUser,)
 
 
+class IdeaListViewSet(viewsets.ModelViewSet):
+    """ Idea list viewset. """
+    queryset = Idea.objects.all()
+    serializer_class = IdeaSerializer
+    paginate_by = 2
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        if self.request.QUERY_PARAMS.get('pk'):
+            pk = self.request.QUERY_PARAMS.get('pk')
+            location = get_object_or_404(Location, pk=pk)
+            queryset = Idea.objects.filter(location=location)
+        else:
+            queryset = Idea.objects.all()
+
+        if self.request.QUERY_PARAMS.get('haystack'):
+            haystack = self.request.QUERY_PARAMS.get('haystack')
+            queryset = queryset.filter(name__icontains=haystack)
+
+        category_pk = self.request.QUERY_PARAMS.get('category')
+        if category_pk and category_pk != 'all':
+            category = get_object_or_404(ForumCategory, pk=category_pk)
+            queryset = queryset.filter(category=category)
+
+        status = self.request.QUERY_PARAMS.get('state')
+        if status and status != 'all':
+            s = True if status == 'True' else False
+            queryset = queryset.filter(status=s)
+
+        time_delta = None
+        time = self.request.QUERY_PARAMS.get('time')
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            queryset = queryset.filter(date_created__gte=time_delta)
+
+        order = self.request.QUERY_PARAMS.get('order')
+        if order == 'title':
+            return queryset.order_by('name')
+        elif order == 'oldest':
+            return queryset.order_by('date_created')
+        elif order == 'category':
+            return queryset.order_by('category__name')
+        elif order == 'username':
+            l = list(queryset)
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+
+        return queryset.order_by('-date_created')
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
+
 class IdeaVoteCounterViewSet(viewsets.ViewSet):
     """
     Get list of users that voted for and against idea.

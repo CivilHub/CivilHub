@@ -4,7 +4,8 @@
     Szablon dla idei - do obsługi listy idei w lokalizacji.
 {% endcomment %}
 
-{% comment %}<script>CivilApp.IDEA_API_URL="{% url 'ideas:list' location.slug %}"</script>{% endcomment %}
+<input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/ideas/?pk={{ location.pk }}" />
+
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3">
     <div class="vote-form">
@@ -31,16 +32,16 @@
         </div>
     </div>
     <div class="col-sm-9">
-        <h3><a href="<%= link %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+        <h3><a href="<%= url %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
         <div class="entry-submenu">
             <ul>
                 {% if user.is_superuser or is_moderator %}
-                <li><a href="<%= edit_url %>">{% trans "Edit" %}</a></li>
+                <li><a href="#">{% trans "Edit" %}</a></li>
                 {% endif %}
             </ul>
         </div>
         <p>
-            {% trans "Created" %} <%= date_created %> {% trans "ago" %} {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator %></span></a>
+            {% trans "Created" %} <%= date_created %> {% trans "ago" %} {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
             <% if (edited) { %>
                 {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.
             <% } %>
@@ -49,14 +50,14 @@
         <div><%= description %></div>
         <div class="clear">&nbsp;</div>
         <div>
-            <a href="<%= link %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+            <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
             <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
             <% for (var i = 0; i < tags.length; i++) { %>
                 <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
             <% } %>
-            <% if (category) { %>
+            <% if (category_name) { %>
             <span class="fa fa-star"> </span>{% trans "Category" %}:
-                <a href="<%= category_url %>"><%= category %></a>
+                <a href="<%= category_url %>"><%= category_name %></a>
             <% } %>
         </div>
     </div>
