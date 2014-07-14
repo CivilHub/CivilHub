@@ -4,9 +4,9 @@
 //
 // Media uploader plugin for CKEditor.
 //
-define(['jquery', 'dropzone'],
+define(['jquery', 'dropzone', 'js/utils/utils'],
 
-function ($, Dropzone) {
+function ($, Dropzone, utils) {
     "use strict";
     
     var USER_GALLERY_URL = '/rest/usermedia/';
@@ -27,11 +27,9 @@ function ($, Dropzone) {
             options = $.extend(defaults, options),
 
             fetchGallery = function (callback) {
-                sendAjaxRequest('GET', USER_GALLERY_URL, {
-                    success: function (resp) {
-                        if (typeof(callback) === 'function') {
-                            callback(resp);
-                        }
+                $.get(USER_GALLERY_URL, function (resp) {
+                    if (typeof(callback) === 'function') {
+                        callback(resp);
                     }
                 });
             },
@@ -86,7 +84,19 @@ function ($, Dropzone) {
 
                 removeItem: function () {
                     var that = this;
-                    sendAjaxRequest('DELETE', USER_GALLERY_URL, {
+                    $.ajaxSetup({
+                        beforeSend: function(xhr, settings) {
+                            if (!utils.csrfSafeMethod(settings.type) &&
+                                utils.sameOrigin(settings.url)) {
+                                    
+                                xhr.setRequestHeader("X-CSRFToken", 
+                                    utils.getCookie('csrftoken'));
+                            }
+                        }
+                    });
+                    $.ajax({
+                        type: 'DELETE',
+                        url: USER_GALLERY_URL,
                         data: {pk: that.model.get('id')},
                         success: function (resp) {
                             console.log(resp);
