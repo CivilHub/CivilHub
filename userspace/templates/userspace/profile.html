@@ -164,26 +164,8 @@
         </div><!-- // .entry-meta-col -->
     </script>
     
-    <script>
-        app.actionApiUrl = "{% url 'rest:my_actions-list' %}";
-        app.actionUserId = {{ cuser.pk }};
-    </script>
-    
-    <script src="{% static 'userspace/js/profile.js' %}"></script>
-    
-    <script>
-    (function ($) {
-        "use strict";
-        var $list = $('.user-following-list'),
-            $items = $list.find('li');
-        $list.css({
-            'list-style-type': 'none',
-            'padding-left': '10px'
-        })
-        $items.prepend('<span class="fa fa-thumb-tack">&nbsp;</span>');
-        $items.not(':first').find('.fa:first').css('opacity', 0);
-    })(jQuery);
-    </script>
+    <input type="hidden" name="rest_api_url" id="rest-api-url" value="{% url 'rest:my_actions-list' %}" />
+    <input type="hidden" name="rest_api_usr" id="rest-api-usr" value="{{ cuser.pk }}" />
 
     {% include 'locations/sidebar.html' %}
     

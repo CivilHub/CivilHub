@@ -1,7 +1,8 @@
 //
 // Comments app.
 // =============
-(function ($) {
+//
+define (['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 "use strict";
 // Set apps url
 var cType = $('#target-type').val(),
@@ -391,4 +392,4 @@ $(document).on('mouseout', '.comment', function () {
     $(this).find('.comment-controls').css('opacity', 0);
 });
 
-})(jQuery);
+});

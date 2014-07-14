@@ -64,6 +64,6 @@ require.config({
     }
 });
 
-require(['js/main'], function (test) {
+require(['js/main'], function () {
     $(document).trigger('load');
 });
