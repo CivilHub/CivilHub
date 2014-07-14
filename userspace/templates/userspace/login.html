@@ -24,19 +24,11 @@
             <form action="" method="post">
                 <div class="input-section row">
                     <div class="col-sm-12">
-                        
-                                  <!--   <div><label for="login">Username or Email</label></div>
-                                    <div><input type="text" name="password" id="login"></div>
-                                    <div><label for="password">Password</label> <a href="#">(forgot password)</a></div>
-                                    <div><input type="password" name="password" id="password"></div> -->
                                     
                                     {{ form.errors }}
                                     <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
                                         {% csrf_token %}
                                         {{ form }}
-                                       <!--  <div class="form-group">
-                                            <button class="btn btn-primary btn-login-submit" type="submit">{% trans "Login" %}</button>
-                                        </div> -->
                                         <div class="submit-section row">
                                             <div>
                                                 
@@ -56,32 +48,4 @@
                 </div>
             </div>
 
-
-
-<!-- <div class="row">
-    <div class="col-sm-6">
-        <p>
-            <a href="{% url 'social:begin' 'facebook' %}">
-                <img src="{% static 'userspace/img/facebook-logo.png' %}" alt="{% trans "Login with" %} Facebook" width="200" />
-            </a>
-        </p>
-        <p>
-            <a href="{% url 'social:begin' 'google' %}">
-                <img src="{% static 'userspace/img/google-logo.png' %}" alt="{% trans "Login with" %} Google" width="200" />
-            </a>
-        </p>
-    </div>
-    <div class="col-sm-6">
-        {{ form.errors }}
-        <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
-            {% csrf_token %}
-            {{ form }}
-            <div class="form-group">
-                <button class="btn btn-primary btn-login-submit" type="submit">{% trans "Login" %}</button>
-            </div>
-        </form>
-    </div>
-</div>
-<p class="custom-centered"><a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a></p>
-<p class="custom-centered">Don't have account yet? <a href="{% url 'user:register' %}">{% trans "Register now" %}</a></p> -->
 {% endblock %}

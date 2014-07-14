@@ -187,6 +187,7 @@ class NewsSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
     title = serializers.CharField(max_length=64)
     slug = serializers.SlugField()
+    link = serializers.Field(source='get_absolute_url')
     content = serializers.Field(source='get_entry_introtext')
     date_created = serializers.DateTimeField()
     date_edited = serializers.DateTimeField()
@@ -194,19 +195,31 @@ class NewsSerializer(serializers.ModelSerializer):
     user_id = serializers.Field(source='creator.pk')
     user_full_name = serializers.Field(source='creator.get_full_name')
     avatar = serializers.Field(source='creator.profile.avatar.url')
+    creator_url = serializers.Field(source='creator.profile.get_absolute_url')
     location = serializers.PrimaryKeyRelatedField(read_only=True)
     category = serializers.RelatedField()
     category_url = serializers.SerializerMethodField('category_search_url')
     edited = serializers.BooleanField()
-    tags = serializers.RelatedField(many=True)
+    tags = serializers.SerializerMethodField('get_tags')
     comment_count = serializers.SerializerMethodField('get_comment_count')
 
     class Meta:
         model = News
-        fields = ('id', 'title', 'slug', 'content', 'date_created', 
+        fields = ('id', 'title', 'slug', 'link', 'content', 'date_created', 
                   'date_edited', 'username', 'user_id', 'avatar', 'location',
                   'category', 'category_url', 'edited', 'tags', 'comment_count',
-                  'user_full_name',)
+                  'user_full_name', 'creator_url',)
+
+    def get_tags(self, obj):
+        tags = []
+        for tag in obj.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':obj.location.slug,
+                                       'tag':tag.name})
+            })
+        return tags
 
     def get_comment_count(self, obj):
         pk = obj.pk

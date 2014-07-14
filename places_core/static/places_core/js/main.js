@@ -7,8 +7,7 @@
 define(['jquery',
         'backbone',
         'bootstrap',
-        'js/common',
-        'js/userspace/profile/profileForm'], 
+        'js/common'], 
 
 function ($, Backbone) {
     "use strict";

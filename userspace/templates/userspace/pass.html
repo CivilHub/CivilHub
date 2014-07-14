@@ -1,13 +1,14 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %} {% load i18n %}
+
 {% block content %}
-<form id="password-reset" method="post" action="{% url 'user:passet' %}">
-{% csrf_token %}
-{{ form }}
-<div class="form-group">
-    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-</div>
-{% endblock %}
-{% block footer_scripts %}
-<script src="{% static 'userspace/js/password.js' %}"></script>
+
+    <form id="password-reset" method="post" action="{% url 'user:passet' %}">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+        </div>
+    </form>
+
 {% endblock %}

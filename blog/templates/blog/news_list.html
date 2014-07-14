@@ -1,4 +1,5 @@
 {% load staticfiles %}{% load i18n %}
+
 <script type="text/template" id="news-entry-tpl">
 <div class="row">
     <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="news-user-avatar" /></div>
@@ -8,7 +9,7 @@
             {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= date_created %> {% trans "ago" %}.
             <% if (edited) { %>- {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.<% } %>
         </p>
-        <p class="custom-booklike"><%= description %>
+        <p class="custom-booklike"><%= content %></p>
         <div class="clear">&nbsp;</div>
         <a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
         <div class="row">

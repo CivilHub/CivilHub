@@ -53,5 +53,87 @@ define(['jquery'], function ($) {
         return cookieValue;
     };
     
+    //
+    // Funkcja konwertuje zapytanie GET na JSON.
+    // -----------------------------------------
+    // @returns Obj
+    utils.urlToJSON = function (url) {
+        var urlItems = [],
+            jsonData = {},
+            i, itm;
+            
+        url = url.split('?')[1] || false;
+        
+        if (!url) {
+            return {}; // Brak danych GET.
+        }
+        
+        url = url.split('&');
+        
+        for (i = 0; i < url.length; i++) {
+            itm = url[i].split('=');
+            jsonData[itm[0]] = itm[1];
+        }
+        
+        return jsonData;
+    }
+    //
+    // Funkcja serializuje proste obiekty do URL.
+    // ------------------------------------------
+    // @param {JSON Obj} json Obiekt do konwersji
+    utils.JSONtoUrl = function (json) {
+        var pairs = _.pairs(json),
+            urlitems = [],
+            i;
+        
+        for (i = 0; i < pairs.length; i++) {
+            urlitems.push(pairs[i].join('='));
+        }
+        
+        return urlitems.join('&');
+    }
+    
+    //
+    // Helper functions
+    // ================
+    // Funkcja pobierająca dodatkowe dane z formularza 'search'.
+    // ---------------------------------------------------------
+    utils.getSearchText = function () {
+        var $field = $('#haystack'),
+            txt = $field.val();
+        
+        if (_.isUndefined(txt) || txt.length <= 1) {
+            return '';
+        }
+        
+        return txt;
+    };
+    //
+    // Wczytanie wybranych opcji.
+    // ---------------------------
+    // Sprawdzenie aktywnych elementów (klikniętych linków)
+    // w celu "pozbierania" opcji wyszukiwarki.
+    // 
+    utils.getListOptions = function () {
+        var $sel = $('.list-controller'),
+            opts = {},
+            optType = null,
+            optValue = null;
+        
+        $sel.each(function () {
+            var $this = $(this);
+            
+            if ($this.hasClass('active')) {
+                optType = $this.attr('data-control');
+                optValue = $this.attr('data-target');
+                opts[optType] = optValue;
+            }
+        });
+        
+        opts['haystack'] = utils.getSearchText();
+        
+        return opts;
+    };
+    
     return utils;
 });

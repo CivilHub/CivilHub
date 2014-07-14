@@ -85,6 +85,8 @@
             </div>
         </form>
         </script>
+        
+        <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
 
         {% include 'blog/news_list.html' %}
 
@@ -96,9 +98,4 @@
 
     {% include 'locations/sidebar.html' %}
 
-{% endblock %}
-
-
-{% block footer_scripts %}
-<script src="{% static 'blog/js/news.js' %}"></script>
 {% endblock %}

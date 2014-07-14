@@ -2,11 +2,13 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<form id="create-blog-entry-form" role="form" method="post" action="">
-    {% csrf_token %}
-    {{ form }}
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">{% trans Save %}</button>
-    </div>
-</form>
+
+    <form id="create-blog-entry-form" role="form" method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{% trans Save %}</button>
+        </div>
+    </form>
+
 {% endblock %}
