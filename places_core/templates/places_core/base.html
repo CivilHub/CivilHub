@@ -5,20 +5,6 @@
 
 {% include 'places_core/header.html' %}
 
-{% comment %}Place for success/warning messages from django.contrib.messages.{% endcomment %}
-{% if messages %}
-<div class="message-area">
-{% for message in messages %}
-    <script>
-    (function ($) {
-        "use strict";
-        display_alert('{{ message }}', '{{ message.tags }}');
-    })(jQuery);
-    </script>
-{% endfor %}
-</div>
-{% endif %}
-
 {% comment %}Main page navigation - top navbar{% endcomment %}
 {% include 'places_core/navigation.html' %}
 

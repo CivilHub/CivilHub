@@ -1,4 +1,4 @@
-    {% extends 'places_core/base.html' %}
+{% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
@@ -36,9 +36,4 @@
 {% else %}
     <p class="custom-booklike">{% trans "You are not allowed to visit this page. Sorry." %}</p>
 {% endif %}
-{% endblock %}
-
-{% block footer_scripts %}
-<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
-<script src="{% static 'userspace/js/userarea.js' %}"></script>
 {% endblock %}

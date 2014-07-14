@@ -7,6 +7,8 @@
 require.config({
     baseUrl: '/static/places_core/',
     
+    waitSeconds: 200,
+    
     paths: {
         jquery: 'includes/jquery/jquery',
         underscore: 'includes/underscore/underscore',
