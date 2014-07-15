@@ -23,6 +23,7 @@ LINKS_MAP = {
         'new_idea',
         'upload',
         'invite',
+        'discussion_category',
     ),
     'ideas': (
         'new_discussion',

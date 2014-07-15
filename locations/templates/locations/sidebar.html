@@ -52,6 +52,11 @@
                     <span class="ch-icon"> </span> {% trans "New category" %}
                 </a>
             </li>{% endif %}
+            {% if 'discussion_category' in links and user.is_superuser %}<li>
+                <a href="#" class="new-category-btn">
+                    <span class="ch-icon"> </span> {% trans "New forum category" %}
+                </a>
+            </li>{% endif %}
             {% endif %}
         </ul>
     </ul>

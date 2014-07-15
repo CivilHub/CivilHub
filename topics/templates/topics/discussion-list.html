@@ -24,4 +24,31 @@
     </div>
 </script>
 
+<script type="text/template" id="new-category-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Create new category" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="presentation" method="post" action="" >
+                    <div class="form-group">
+                        <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                        <input type="text" id="category-name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">{% trans "Description" %}</label>
+                        <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</script><!-- /.modal -->
+
 <script>require(['/static/places_core/js/topics/discussion-list/discussions.js'],function(){});</script>

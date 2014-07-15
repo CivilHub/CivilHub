@@ -20,8 +20,8 @@ require.config({
         'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
         bootbox: 'includes/bootstrap/bootbox',
         ckeditor: 'includes/ckeditor/ckeditor',
-        dropzone: 'includes/dropzone/dropzone'
-        
+        dropzone: 'includes/dropzone/dropzone',
+        paginator: 'includes/backbone/backbone.paginator'
     },
     
     shim: {

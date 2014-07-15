@@ -2,12 +2,23 @@
 // discussions.js
 // ==============
 // Entry point for topics list application.
-require(['js/topics/discussion-list/discussionList'],
+require(['js/topics/discussion-list/discussionList',
+         'js/ui/categoryForm'],
 
-function (DiscussionList) {
+function (DiscussionList, CategoryForm) {
     "use strict";
     
+    var Form = CategoryForm.extend({
+        baseurl: '/rest/discussion/'
+    });
+    
+    var categoryForm = new Form();
+    
     var discussions = new DiscussionList();
+    
+    $('.new-category-btn').on('click', function (e) {
+        categoryForm.open();
+    });
     
     //
     // Obsługa kliknięć.

@@ -166,6 +166,8 @@
     
     <input type="hidden" name="rest_api_url" id="rest-api-url" value="{% url 'rest:my_actions-list' %}" />
     <input type="hidden" name="rest_api_usr" id="rest-api-usr" value="{{ cuser.pk }}" />
+    
+    <script>require(['/static/places_core/js/userspace/actions/actions.js'],function(){});</script>
 
     {% include 'locations/sidebar.html' %}
     
