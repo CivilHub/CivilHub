@@ -59,7 +59,7 @@ function ($, _, Backbone, utils) {
                 var that = this;
                 $.get(baseurl, function (resp) {
                     that.collection = new NewsCollection(resp.results);
-                    that.render(resp.current_page, resp.total_pages);
+                    that.render();
                 });
             },
 
@@ -68,16 +68,6 @@ function ($, _, Backbone, utils) {
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);
-                this.paginator = CivilApp.SimplePaginator({
-                    currentPage: current_page,
-                    totalPages: total_pages,
-                    prevLabel: gettext("Previous"),
-                    nextLabel: gettext("Next"),
-                    onChange: function (page) {
-                        that.filter(page);
-                    }
-                });
-                $(this.paginator.$el).appendTo(this.$el);
             },
 
             renderEntry: function (item) {
@@ -95,7 +85,7 @@ function ($, _, Backbone, utils) {
                 $.get(url, function (resp) {
                     that.collection = new NewsCollection(resp.results);
                     that.$el.empty();
-                    that.render(resp.current_page, resp.total_pages);
+                    that.render();
                 });
             }
         });

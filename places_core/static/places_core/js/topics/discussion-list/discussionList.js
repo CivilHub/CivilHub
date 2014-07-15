@@ -20,16 +20,6 @@ function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection) {
         _init: function (data) {
             var that = this;
             this.collection = new DiscussionCollection(data.results);
-            //~ this.paginator = CivilApp.SimplePaginator({
-                //~ currentPage: data.current_page,
-                //~ totalPages: data.total_pages,
-                //~ onChange: function (page) {
-                    //~ that.filter(page);
-                //~ }
-            //~ });
-            this.paginator = {
-                render: function () { this.$el = $('<div></div>'); return this }
-            }
             this.$el.empty();
             this.render();
         },
@@ -45,7 +35,6 @@ function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection) {
             this.collection.each(function (item) {
                 this.renderItem(item);
             }, this);
-            this.paginator.$el.appendTo(this.$el);
         },
         
         renderItem: function (item) {
