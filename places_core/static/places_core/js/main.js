@@ -8,8 +8,7 @@ define(['jquery',
         'backbone',
         'bootstrap',
         'js/common',
-        'js/ideas/idea-list/ideas',
-        'js/ideas/votes/votes'], 
+        'js/polls/poll-list/pollList'], 
 
 function ($, Backbone) {
     "use strict";

@@ -28,6 +28,7 @@ from topics.models import Category as ForumCategory
 from topics.models import Discussion
 from userspace.models import Badge, UserProfile
 from gallery.models import LocationGalleryItem, UserGalleryItem
+from polls.models import Poll
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
@@ -151,6 +152,58 @@ class NewsViewSet(viewsets.ModelViewSet):
             return newset.order_by('date_created')
         elif order == 'category':
             return newset.order_by('category__name')
+        elif order == 'username':
+            l = list(newset)
+            # Order by last name - we assume that every user has full name
+            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
+            return l
+
+        return newset.order_by('-date_created')
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
+
+class PollListViewSet(viewsets.ModelViewSet):
+    """ Vieset to manage entire location's polls list. """
+    queryset = Poll.objects.all()
+    serializer_class = PollSerializer
+    paginate_by = 2
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        if self.request.QUERY_PARAMS.get('pk'):
+            pk = self.request.QUERY_PARAMS.get('pk')
+            location = get_object_or_404(Location, pk=pk)
+            newset = Poll.objects.filter(location=location)
+        else:
+            newset = Poll.objects.all()
+
+        if self.request.QUERY_PARAMS.get('haystack'):
+            haystack = self.request.QUERY_PARAMS.get('haystack')
+            newset = newset.filter(title__icontains=haystack)
+
+        time_delta = None
+        time = self.request.QUERY_PARAMS.get('time')
+
+        if time == 'day':
+            time_delta = datetime.date.today() - datetime.timedelta(days=1)
+        if time == 'week':
+            time_delta = datetime.date.today() - datetime.timedelta(days=7)
+        if time == 'month':
+            time_delta = datetime.date.today() - relativedelta(months=1)
+        if time == 'year':
+            time_delta = datetime.date.today() - relativedelta(years=1)
+
+        if time_delta:
+            newset = newset.filter(date_created__gte=time_delta)
+
+        order = self.request.QUERY_PARAMS.get('order')
+        if order == 'title':
+            return newset.order_by('title')
+        elif order == 'oldest':
+            return newset.order_by('date_created')
         elif order == 'username':
             l = list(newset)
             # Order by last name - we assume that every user has full name

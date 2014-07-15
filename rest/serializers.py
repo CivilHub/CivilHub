@@ -236,6 +236,42 @@ class NewsSerializer(serializers.ModelSerializer):
         })
 
 
+class PollSerializer(serializers.ModelSerializer):
+    """ Standard poll serializer. """
+    id = serializers.Field(source='pk')
+    title = serializers.CharField()
+    question = serializers.CharField()
+    url = serializers.Field(source='get_absolute_url')
+    creator_id = serializers.Field(source='creator.pk')
+    creator_username = serializers.Field(source='creator.username')
+    creator_fullname = serializers.Field(source='creator.get_full_name')
+    creator_url = serializers.Field(source='creator.profile.get_absolute_url')
+    creator_avatar = serializers.Field(source='creator.profile.avatar.url')
+    date_created = serializers.DateTimeField()
+    tags = serializers.SerializerMethodField('get_tags')
+    answers_url = serializers.SerializerMethodField('get_answers_url')
+
+    class Meta:
+        model = Poll
+        fields = ('id', 'title', 'question', 'url', 'creator_id', 'creator_username',
+                  'creator_fullname', 'creator_url', 'creator_avatar', 'date_created',
+                  'tags', 'answers_url',)
+
+    def get_answers_url(self, obj):
+        return reverse('polls:results', kwargs={'pk': obj.pk})
+
+    def get_tags(self, obj):
+        tags = []
+        for tag in obj.tags.all():
+            tags.append({
+                'name': tag.name,
+                'url': reverse('locations:tag_search',
+                               kwargs={'slug':obj.location.slug,
+                                       'tag':tag.name})
+            })
+        return tags
+
+
 class CommentSerializer(serializers.ModelSerializer):
     """
     Custom comments

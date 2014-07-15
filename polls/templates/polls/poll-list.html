@@ -18,12 +18,11 @@
     {% endif %}
     <div class="col-xs-4"><a href="<%= url %>"><%= title %></a></div>
     <div class="col-xs-2">
-        <img src="<%= avatar %>" alt="<%= username %>" class="user-avatar-minithumb" />
-        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></a>
+        <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
+        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
     </div>
     <div class="col-xs-2"><%= date_created %></div>
     <div class="col-xs-4 custom-list-entry-la"><a href="<%= answers_url %>">{% trans "Show answers" %}</a></div>
 </script>
 
-<script>CivilApp.POLL_API_URL="{% url 'polls:list' location.slug %}";</script>
-<script src="{% static 'polls/js/poll-list.js' %}"></script>
+<input type="hidden" name="poll_api_url" id="poll-api-url" value="/rest/polls/?pk={{ location.pk }}" />
