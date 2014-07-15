@@ -28,7 +28,7 @@ function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection) {
                 //~ }
             //~ });
             this.paginator = {
-                render: function () { return $('<div></div>'); }
+                render: function () { this.$el = $('<div></div>'); return this }
             }
             this.$el.empty();
             this.render();

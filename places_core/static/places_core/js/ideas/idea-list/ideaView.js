@@ -5,9 +5,10 @@
 define(['jquery',
         'underscore',
         'backbone',
+        'js/ideas/votes/counterWindow',
         'bootstrap'],
 
-function ($, _, Backbone) {
+function ($, _, Backbone, CounterWindow) {
     "use strict";
     
     var IdeaView = Backbone.View.extend({
@@ -48,7 +49,11 @@ function ($, _, Backbone) {
         },
 
         voteCounterWindow: function () {
-            //var cc = CivilApp.voteCounter(this.model.get('id'));
+            // Extend counter window to pass model ID.
+            var CW = CounterWindow.extend({
+                'ideaId': this.model.get('id')
+            });
+            var cc = new CW();
         }
     });
     

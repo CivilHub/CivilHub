@@ -21,12 +21,11 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
             var that = this;
             $.get(baseurl, function (resp) {
                 that.collection = new IdeaCollection(resp.results);
-                console.log(that.collection);
-                that.render(resp.current_page, resp.total_pages);
+                that.render();
             });
         },
 
-        render: function (current_page, total_pages) {
+        render: function () {
             var that = this;
             this.collection.each(function (item) {
                 this.renderEntry(item);
