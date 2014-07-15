@@ -30,16 +30,6 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
             this.collection.each(function (item) {
                 this.renderEntry(item);
             }, this);
-            //~ this.paginator = CivilApp.SimplePaginator({
-                //~ currentPage: current_page,
-                //~ totalPages: total_pages,
-                //~ prevLabel: gettext("Previous"),
-                //~ nextLabel: gettext("Next"),
-                //~ onChange: function (page) {
-                    //~ that.filter(page);
-                //~ }
-            //~ });
-            //~ $(this.paginator.$el).appendTo(this.$el);
         },
 
         renderEntry: function (item) {
@@ -56,9 +46,8 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
             if (page) url += '&page=' + page;
             $.get(url, function (resp) {
                 that.collection = new IdeaCollection(resp.results);
-                console.log(that.collection);
                 that.$el.empty();
-                that.render(resp.current_page, resp.total_pages);
+                that.render();
             });
         }
     });

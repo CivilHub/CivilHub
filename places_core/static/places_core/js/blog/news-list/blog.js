@@ -4,7 +4,23 @@
 //
 // Run scripts for location's blog.
 //
-require(['js/blog/news-list/news-list'], function (NewsList) {
+require(['js/blog/news-list/news-list',
+         'js/ui/categoryForm'],
+
+function (NewsList, CategoryForm) {
+    
+    "use strict";
+    
+    var Form = CategoryForm.extend({
+        baseurl: '/rest/categories/'
+    });
+    
+    var categoryForm = new Form();
+    
+    $('.btn-category-create').on('click', function (e) {
+        e.preventDefault();
+        categoryForm.open();
+    });
     
     // Initialize list.
     // -------------------------------------------------------------------------

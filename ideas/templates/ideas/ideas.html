@@ -63,4 +63,10 @@
     </div>
 </script>
 
-<script>require(['/static/places_core/js/ideas/idea-list/ideas.js'], function () {});</script>
+{% include 'locations/category-form.html' %}
+
+<script>
+    require(['/static/places_core/js/ideas/idea-list/ideas.js',
+             '/static/places_core/js/ideas/votes/votes.js'],
+    function () {});
+</script>

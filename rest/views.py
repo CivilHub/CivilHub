@@ -19,7 +19,7 @@ from rest_framework.decorators import link, api_view, renderer_classes
 from rest_framework.pagination import PaginationSerializer
 from locations.models import Location
 from taggit.models import Tag
-from blog.models import News
+from blog.models import News, Category
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.models import Vote as IdeaVote
@@ -129,6 +129,11 @@ class NewsViewSet(viewsets.ModelViewSet):
         if self.request.QUERY_PARAMS.get('haystack'):
             haystack = self.request.QUERY_PARAMS.get('haystack')
             newset = newset.filter(title__icontains=haystack)
+
+        category_pk = self.request.QUERY_PARAMS.get('category')
+        if category_pk and category_pk != 'all':
+            category = get_object_or_404(Category, pk=category_pk)
+            newset = newset.filter(category=category)
 
         time_delta = None
         time = self.request.QUERY_PARAMS.get('time')
