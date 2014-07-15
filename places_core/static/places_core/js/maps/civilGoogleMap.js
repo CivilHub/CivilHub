@@ -1,66 +1,14 @@
 //
-// Google Maps API.
-// ================
-//
-require(['jquery',
-         'bootstrap',
-         '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
+// civilGoogleMap.js
+// =================
+// Main map to show everything :)
+define(['jquery',
+        'bootstrap',
+        '/static/places_core/js/maps/markerclusterer.js'],
 
 function ($) {
-    
     "use strict";
-    //
-    // Adjust map size to device screen and bind events to show/hide menu button.
-    // -----------------------------------------------------------------------------
-    //
-    (function () {
-        var topAdjust = $('#navbar-top').height(),
-            $map      = $('#map'),
-            $toggle   = $('#map-filter-toggle'),
-            $panel    = $('#map-options-panel');
-
-        $map.css({
-            position : "absolute",
-            left     : 0,
-            top      : topAdjust,
-            width    : "100%",
-            height   : $(window).height() - topAdjust,
-            'z-index': 10
-        });
-
-        //$panel.hide();
-
-        $toggle // show/hide map options button.
-            .tooltip({placement:'right'})
-            .bind('click',
-                function (evt) {
-                    evt.preventDefault();
-                    $panel.slideToggle('fast');
-                    $toggle.find('.fa')
-                        .toggleClass('fa-arrow-circle-down')
-                        .toggleClass('fa-arrow-circle-up');
-                }
-            );
-
-    })();
-
-    // Shortcut to get list of active filters
-    var getFilters = function () {
-        var filterToggles = $('.map-filter-toggle'),
-            filters = [];
-            
-        filterToggles.each(function () {
-            if ($(this).is(':checked')) {
-                filters.push($(this).attr('data-target'));
-            }
-        });
-        
-        return filters;
-    };
-    //
-    // Prepare Google Map
-    // -----------------------------------------------------------------------------
-    //
+    
     function civilGoogleMap(mapData) {
         
         var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
@@ -134,7 +82,22 @@ function ($) {
         map.initialize();
         
         return map;
-    }
+    };
+    
+    // Shortcut to get list of active filters
+    var getFilters = function () {
+        var filterToggles = $('.map-filter-toggle'),
+            filters = [];
+            
+        filterToggles.each(function () {
+            if ($(this).is(':checked')) {
+                filters.push($(this).attr('data-target'));
+            }
+        });
+        
+        return filters;
+    };
+    
     //
     // Fetch objects from server and create map.
     // -----------------------------------------------------------------------------
@@ -160,8 +123,11 @@ function ($) {
             }
         });
     };
-
-    fetchMap('/maps/pointers/');
+    
+    window.initializeMainMap = function () {
+        fetchMap('/maps/pointers/');
+    };
+    
     //
     // Only followed locations button.
     // -----------------------------------------------------------------------------
@@ -177,5 +143,6 @@ function ($) {
         }
         $icon.toggleClass('fa-circle-o').toggleClass('fa-check-circle-o');
     }).tooltip({placement:'right'});
-
+    
+    return fetchMap;
 });

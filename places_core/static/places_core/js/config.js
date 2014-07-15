@@ -14,6 +14,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         text: 'includes/require/text',
+        'async': 'includes/require/async',
         jqueryui: 'includes/jquery-ui/jquery-ui',
         bootstrap: 'includes/bootstrap/bootstrap',
         'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
@@ -22,7 +23,9 @@ require.config({
         ckeditor: 'includes/ckeditor/ckeditor',
         dropzone: 'includes/dropzone/dropzone',
         paginator: 'includes/backbone/backbone.paginator',
-        moment: 'includes/momentjs/moment'
+        moment: 'includes/momentjs/moment',
+        //maps: 'async!http://maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'
+        maps: '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'
     },
     
     shim: {

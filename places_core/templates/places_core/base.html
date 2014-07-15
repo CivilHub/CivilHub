@@ -18,18 +18,17 @@
         ze zdjęciem, ścieżka lokalizacji oraz drugie menu poniżej banneru mają
         swoje miejsce tutaj.
     {% endcomment %}
+    
     {% block header %}
-    <div class="container">
-        <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small>
-            <!--<span class="fa fa-cogs custom-logolike"> </span>-->
-        </h1>
-        <hr />
-    </div>
+    
+        <div class="container">
+            <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
+            <hr />
+        </div>
+    
     {% endblock %}
     
     <div class="container">
-        
-        <script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
         
         {% comment %}
             W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
@@ -82,13 +81,6 @@
 {% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}
 
-{% if user.is_authenticated %}
-{% comment %}
-    Common scripts, but ONLY for authenticated users.
-{% endcomment %}
-<!--<script src="{% static 'civmail/js/invite-people.js' %}"></script>-->
-{% endif %}
-
 <script type="text/template" id="user-popup-tpl">
 <div class="user-popup-avatar">
     <img src="<%= avatar %>" alt="<%= username %>" />
@@ -106,8 +98,6 @@
     </p>
 </div>
 </script>
-
-<!--<script src="{% static 'places_core/js/common-scripts.js' %}"></script>-->
 
 </body>
 </html>

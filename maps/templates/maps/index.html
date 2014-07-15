@@ -5,7 +5,6 @@
 {% comment %}
     Główny widok mapy.
 {% endcomment %}
-<script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
 <div id="map-options-toggle">
     <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">
         <span class="fa fa-arrow-circle-down"> </span>
@@ -25,7 +24,24 @@
 </nav>
 <div id="map"></div>
 
-<script src="{% static 'places_core/includes/google/markerclusterer.js' %}"></script>
+<script type="text/template" id="user-popup-tpl">
+<div class="user-popup-avatar">
+    <img src="<%= avatar %>" alt="<%= username %>" />
+</div>
+<div class="user-popup-details">
+    <span class="fa fa-times-circle-o user-popup-close"> </span>
+    <p class="user-popup-personals">
+        <a href="<%= user_link %>"><%= fullname %></a><br />
+        <%= rank_pts %> {% trans 'pts' %}
+    </p>
+    <p>
+        <% for (var i = 0; i < follows.length; i++) { %>
+            <%= follows[i] %>,&nbsp;
+        <% } %>
+    </p>
+</div>
+</script>
+
 <script>
 // Globals
 window.MEDIA_URL = '{% static 'maps' %}';
@@ -92,6 +108,6 @@ window.MAP_STYLES = [[{
     textSize: 12
 }]];
 </script>
-<script src="{% static 'maps/js/main-map.js' %}"></script>
+<script>require(['/static/places_core/js/maps/mainMap.js'],function(){});</script>
 </body>
 </html>
