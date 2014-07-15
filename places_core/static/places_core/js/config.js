@@ -21,7 +21,8 @@ require.config({
         bootbox: 'includes/bootstrap/bootbox',
         ckeditor: 'includes/ckeditor/ckeditor',
         dropzone: 'includes/dropzone/dropzone',
-        paginator: 'includes/backbone/backbone.paginator'
+        paginator: 'includes/backbone/backbone.paginator',
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {
@@ -62,6 +63,10 @@ require.config({
         dropzone: {
             deps: ['jquery'],
             exports: 'Dropzone'
+        },
+        
+        moment: {
+            exports: 'moment'
         }
     }
 });

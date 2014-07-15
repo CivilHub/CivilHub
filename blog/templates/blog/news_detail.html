@@ -7,7 +7,7 @@
         <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
-                <li>{% bookmark_form for news %}</li>
+                {% comment %}<li>{% bookmark_form for news %}</li>{% endcomment %}
                 {% if user.is_authenticated and user != news.creator %}
                 <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
                     {% trans "Report abuse" %}</a></li>
@@ -21,7 +21,6 @@
         </div>
         <hr />
         <article>
-            {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
             
             <div>{{ news.content | safe }}</div>
             
@@ -53,8 +52,6 @@
         </p>
         {% include 'comments/commentlist.html' %}
     </div>
-    
-    {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
     
     {% include 'locations/sidebar.html' %}
 
