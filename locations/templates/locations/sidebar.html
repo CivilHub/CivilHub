@@ -61,3 +61,12 @@
         </ul>
     </ul>
 </div>
+
+{% if user.is_authenticated %}
+    {% comment %}
+        Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
+    {% endcomment %}
+    
+    {% include 'civmail/invite-users.html' %}
+    
+{% endif %}
