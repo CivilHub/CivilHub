@@ -11,6 +11,6 @@ define(['jquery',
 
 function ($, Backbone) {
     "use strict";
-
+    
     console.log('Main application loaded');
 });

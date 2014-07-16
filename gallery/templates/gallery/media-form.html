@@ -46,5 +46,17 @@
     </div>
     
     {% include 'locations/sidebar.html' %}
+    
+    <script>
+    require(['/static/places_core/js/gallery/mediaForm.js'],
+    function (MediaForm) {
+        "use strict"
+        var form = new MediaForm();
+        $('.media-form-toggle').on('click', function (e) {
+            e.preventDefault();
+            form.toggle();
+        });
+    });
+    </script>
 
 {% endblock %}
