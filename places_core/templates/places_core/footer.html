@@ -1,12 +1,19 @@
 {% load staticfiles %} {% load i18n %}
+
 {% comment %}
     Universal footer template.
 {% endcomment %}
+
 <div class="clear"></div>
 <hr />
+
 {% if user.is_authenticated %}
     {% comment %}
         Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
     {% endcomment %}
+    
+    {% include 'civmail/invite-users.html' %}
+    
 {% endif %}
+
 <p class="custom-copyrights">Copyright&copy;2014</p>

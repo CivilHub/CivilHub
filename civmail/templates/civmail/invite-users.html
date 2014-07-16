@@ -1,4 +1,5 @@
 {% load staticfiles %}{% load i18n %}
+
 <div id="invite-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -22,3 +23,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<a id="invite-people-toggle" href="#">{% trans "Invite people" %}</a>
+
+<script>require(['/static/places_core/js/inviter/userinviter.js'],function(){});</script>
