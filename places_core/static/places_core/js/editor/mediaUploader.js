@@ -4,7 +4,7 @@
 //
 // Media uploader plugin for CKEditor.
 //
-define(['jquery', 'dropzone', 'js/utils/utils'],
+define(['jquery', 'dropzone', 'js/utils/utils', 'jqueryui'],
 
 function ($, Dropzone, utils) {
     "use strict";

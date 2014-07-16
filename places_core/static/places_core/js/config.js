@@ -17,6 +17,7 @@ require.config({
         'async': 'includes/require/async',
         jqueryui: 'includes/jquery-ui/jquery-ui',
         tagsinput: 'includes/jquery/jquery.tagsinput',
+        mapinput: 'js/ui/jquery.mapinput',
         bootstrap: 'includes/bootstrap/bootstrap',
         'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
         'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
@@ -44,6 +45,10 @@ require.config({
         },
         
         tagsinput: {
+            deps: ['jquery']
+        },
+        
+        mapinput: {
             deps: ['jquery']
         },
         
