@@ -28,7 +28,7 @@
                     <label class="label label-danger">{% trans "Inactive" %}</label>
                     {% endif %}
                 </div>
-                <div class="idea-vote-count">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
+                <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
             </div>
             {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
             {% if idea.creator == user or is_moderator %}
@@ -75,16 +75,18 @@
         <input type="hidden" id="target-user" value="{{ user.username }}" />
         <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
         <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-        {% include 'comments/commentlist.html' %}
+        {% comment %}{% include 'comments/commentlist.html' %}{% endcomment %}
     </div>
 
 </div>
 </div>
 
+{% include 'ideas/idea-votes.html' %}
+
 {% include 'locations/sidebar.html' %}
 
-{% endblock %}
+{% include 'maps/pointer-modal-form.html' %}
 
-{% block footer_scripts %}
-{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
+<script>require(['/static/places_core/js/ideas/idea-view/idea.js'],function(){});</script>
+
 {% endblock %}

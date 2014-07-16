@@ -6,7 +6,6 @@
 {% endcomment %}
 
 <script type="text/template" id="map-marker-form-template">
-<div id="map-marker-form" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,8 +23,11 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 </script>
+
+<script>require(['/static/places_core/js/maps/pointer.js'],function(){});</script>
+
+{% comment %}
 <script src="{% static 'maps/js/jquery.mapinput.js' %}"></script>
 <script>
 (function ($) {
@@ -83,3 +85,4 @@
     });
 })(jQuery);
 </script>
+{% endcomment %}

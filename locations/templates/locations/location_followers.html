@@ -89,63 +89,9 @@
 </div>
 <p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
 </script>
-{% comment %}
-<script src="{% static 'userspace/js/badges.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    //
-    // Show only five first locations in follower entry and give users link
-    // to hide/show rest of them.
-    // -------------------------------------------------------------------------
-    //
-    $('.follows-places').each(function () {
-        // If list is too short, simply return.
-        if ($(this).find('li').length <= 5) {
-            return true;
-        }
-        // Prepare DOM elements.
-        var $entry  = $(this),
-            $links  = $entry.children('li'),
-            $toggle = $(document.createElement('a')),
-            $hide   = $(document.createElement('a')),
-            hidden  = [];
-        // For each item, hide it if necessary.
-        $links.each(function (idx, el) {
-            if (idx > 4) {
-                $(el).hide();
-                hidden.push($(el));
-            }
-        });
-        // Show hidden links.
-        $toggle.appendTo($entry)
-            .text('{% trans "Show more" %}')
-            .attr('href', '#')
-            .on('click', function (evt) {
-                evt.preventDefault();
-                $(hidden).each(function () {
-                    $(this).show('fast');
-                });
-                $toggle.fadeOut('fast');
-                $hide.fadeIn('fast');
-            });
-        // Hide hidden links.
-        $hide.appendTo($entry)
-            .hide()
-            .text('{% trans "Hide" %}')
-            .attr('href', '#')
-            .on('click', function (evt) {
-                evt.preventDefault();
-                $(hidden).each(function () {
-                    $(this).hide('fast');
-                });
-                $hide.fadeOut('fast');
-                $toggle.fadeIn('fast');
-            });
-    });
-})(jQuery);
-</script>
-{% endcomment %}
+
+<script>require(['/static/places_core/js/locations/badges.js'],function(){});</script>
+
 {% endif %}
 
 {% endblock %}

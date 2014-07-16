@@ -7,6 +7,8 @@
 require.config({
     baseUrl: '/static/places_core/',
     
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
     waitSeconds: 200,
     
     paths: {
