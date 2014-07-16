@@ -2,28 +2,24 @@
 {% load staticfiles %} {% load i18n %} 
 
 {% block content %}
-<div class="col-sm-9">
-    <form role="form" method="post" action="">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-        </div>
-    </form>
-</div>
-{% include 'locations/sidebar.html' %}
-{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
-{% endblock %}
 
-{% block footer_scripts %}
-<script>
-(function ($) {
-    "use strict";
-    $('#id_content').customCKEditor();
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
-    });
-})(jQuery);
-</script>
+    <div class="col-sm-9">
+        <form role="form" method="post" action="" id="news-create-form">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+    
+    {% if user.is_authenticated %}
+        {% include 'gallery/media-uploader.html' %}
+    {% endif %}
+    
+    <script>require(['/static/places_core/js/locations/newsForm.js'],function(LocationForm){var form = new LocationForm();});</script>
+
 {% endblock %}

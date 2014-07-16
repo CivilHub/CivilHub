@@ -4,7 +4,7 @@
 {% block content %}
 
     <div class="col-sm-9">
-        <form action="" method="post" role="form">
+        <form action="" method="post" role="form" id="poll-create-form">
             {% csrf_token %}
             {{ form }}
             <div id="poll-answer-form"></div>
@@ -22,12 +22,7 @@
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
     
     {% include 'locations/sidebar.html' %}
-
-{% endblock %}
-
-
-{% block footer_scripts %}
-
+    
     <script type="text/template" id="answer-entry-tpl">
         <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>
         <div class="form-group">
@@ -35,6 +30,7 @@
             <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
         </div>
     </script>
-    <script src="{% static 'polls/js/create-poll.js' %}"></script>
+    
+    <script>require(['/static/places_core/js/polls/poll-form/create-poll.js'],function(){}); </script>
 
 {% endblock %}

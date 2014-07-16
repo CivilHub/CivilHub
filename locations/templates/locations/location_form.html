@@ -18,8 +18,6 @@
     </form>
     {% include 'gallery/media-uploader.html' %}
     
-    <script>
-    require(['/static/places_core/js/locations/locationform.js'],function(){});
-    </script>
+    <script>require(['/static/places_core/js/locations/locationForm.js'],function(LocationForm){var form = new LocationForm();});</script>
 
 {% endblock %}

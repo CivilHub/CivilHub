@@ -8,7 +8,7 @@
 {% block content %}
 
     <div class="col-sm-9">
-        <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
+        <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
             {% csrf_token %}
             {{ form }}
             <div class="form-group">
@@ -21,18 +21,12 @@
     
     {% include 'gallery/media-uploader.html' %}
     
-{% endblock %}
-
-{% block footer_scripts %}
-
     <script>
-    (function ($) {
+    require(['/static/places_core/js/locations/ideaForm.js'],
+    function (IdeaForm) {
         "use strict";
-        $('#id_description').customCKEditor();
-        $('#id_tags').tagsInput({
-            autocomplete_url: '/rest/tags/',
-        });
-    })(jQuery);
+        var form = new IdeaForm();
+    });
     </script>
     
 {% endblock %}

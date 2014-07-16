@@ -49,6 +49,8 @@ INSTALLED_APPS = (
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
+    # https://github.com/ottoyiu/django-cors-headers/
+    'corsheaders',
     # http://niwibe.github.io/djmail/
     'djmail',
     # https://django-modeltranslation.readthedocs.org/en/latest/
@@ -163,6 +165,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -261,3 +264,17 @@ IMAGE_MAX_SIZE = (1024,1024)
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
+
+
+# CORS settings
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'accept-encoding',
+)

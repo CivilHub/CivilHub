@@ -2,37 +2,25 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.css' %}" />
-<div class="col-sm-9">
-    <form role="form" action="" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-        </div>
-    </form>
-</div>
-{% include 'gallery/media-uploader.html' %}
-{% endblock %}
 
-{% block footer_scripts %}
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
-<script src="{% static 'places_core/includes/bootstrap/bootstrap-switch.min.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#id_intro').customCKEditor('custom');
-    $('[type="checkbox"]').bootstrapSwitch({
-        onText: '{% trans "Opened" %}',
-        offText: '{% trans "Closed" %}',
-        wrapperClass: 'form-group',
-        onColor: 'success',
-        offColor: 'danger'
+    <div class="col-sm-9">
+        <form role="form" action="" method="post" id="discussion-create-form">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+
+    {% include 'gallery/media-uploader.html' %}
+    
+    <script>
+    require(['/static/places_core/js/locations/discussionForm.js'],
+    function (DiscussionForm) {
+        "use strict";
+        var form = new DiscussionForm();
     });
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
-    });
-})(jQuery);
-</script>
+    </script>
+
 {% endblock %}

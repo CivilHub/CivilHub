@@ -12,9 +12,9 @@
 
     <div class="col-sm-9">
         {% if action == 'update' %}
-            <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}">
+            <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
         {% else %}
-            <form role="form" method="post" action="{% url 'ideas:create' %}">
+            <form role="form" method="post" action="{% url 'ideas:create' %}" id="idea-create-form">
         {% endif %}
         
             {% csrf_token %}
@@ -28,5 +28,13 @@
     {% include 'locations/sidebar.html' %}
     
     {% include 'gallery/media-uploader.html' %}
+    
+    <script>
+    require(['/static/places_core/js/locations/ideaForm.js'],
+    function (IdeaForm) {
+        "use strict";
+        var form = new IdeaForm();
+    });
+    </script>
     
 {% endblock %}
