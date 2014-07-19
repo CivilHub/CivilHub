@@ -183,6 +183,7 @@ class DiscussionDetailView(DetailView):
             })
         context['is_moderator'] = moderator
         context['links'] = links['discussions']
+        context['appname'] = 'discussion'
         return context
 
 

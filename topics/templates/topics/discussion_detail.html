@@ -4,6 +4,8 @@
 
 {% block content %}
 
+    <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
+
     <div class="col-sm-9">
         <div class="main-content">
         <div class="discussion-list-entry">
@@ -64,6 +66,7 @@
             </div>
         </div>
 
+        <noscript>
         {% for entry in replies %}
             <div class="reply-entry" id="reply-{{ entry.pk }}">
                 <div class="row">
@@ -126,6 +129,9 @@
                 {% endif %}
             </span>
         </div>
+        </noscript>
+        
+        <div id="replies"></div>
         
         {% if user.is_authenticated and discussion.status %}
         
@@ -152,5 +158,50 @@
     </div>
     
     {% include 'locations/sidebar.html' %}
+    
+    <script type="text/template" id="reply-tpl">
+        <div class="row">
+            <div class="blobfish-left">&nbsp;</div>
+            <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+                <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="news-user-avatar user-window-toggle" data-target="<%= creator_id %>" />
+                <p class="custom-centered"></p>
+            </div>
+            <div class="col-xs-11 discussion-entry-content">
+                <p class="entry-meta">
+                    <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a> 
+                    <span class="topic-date-col">
+                        <%= date_created %> {% trans "ago" %}
+                        <% if (is_edited) { %>
+                            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <%= date_edited %> {% trans "ago" %}
+                        <% } %>
+                    </span>
+                    <span class="entry-controls"></span>
+                </p>
+                <div class="entry-content"><%= content %></div>
+                <div class="custom-clear">&nbsp;</div>
+                <div class="entry-footer">
+                    <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+                    {% if user == entry.creator %}
+                        <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
+                        <a href="" class="link-entry-edit" title="{% trans "Edit entry" %}">
+                            <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+                        </a>
+                    {% else %}
+                        <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
+                        <a href="" class="entry-vote entry-vote-up">
+                            <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
+                        </a> |
+                        <a href="" class="entry-vote entry-vote-down">
+                            <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+                        </a> |
+                        <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                            <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+                        </a> 
+                    {% endif %}
+                    | {% bookmark_form for discussion %}
+                </div>
+            </div>
+        </div>
+    </script>
 
 {% endblock %}

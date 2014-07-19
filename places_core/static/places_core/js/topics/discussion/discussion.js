@@ -6,11 +6,14 @@
 define(['jquery',
         'backbone',
         'js/ui/ui',
+        'js/topics/discussion/replyListView',
         'bootstrap',
         'js/common'],
 
-function ($, Backbone, ui) {
+function ($, Backbone, ui, ReplyListView) {
     "use strict";
+    
+    var discussion = new ReplyListView();
     
     ui.message.success('Main application loaded');
 });

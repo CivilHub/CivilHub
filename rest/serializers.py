@@ -11,7 +11,7 @@ from ideas.models import Category as IdeaCategory
 from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
-from topics.models import Discussion
+from topics.models import Discussion, Entry
 from places_core.models import AbuseReport
 from places_core.helpers import truncatehtml
 from userspace.models import Badge
@@ -381,6 +381,29 @@ class DiscussionSerializer(serializers.ModelSerializer):
 
     def get_answer_count(self, obj):
         return obj.entry_set.count()
+
+
+class DiscussionReplySerializer(serializers.ModelSerializer):
+    """ 
+    This is serializer to use in dynamically created list under
+    discussion - e.g. list of other user's replies. 
+    """
+    id = serializers.Field(source='pk')
+    content = serializers.CharField()
+    creator_id = serializers.Field(source='creator.pk')
+    creator_username = serializers.Field(source='creator.username')
+    creator_fullname = serializers.Field(source='creator.get_full_name')
+    creator_avatar = serializers.Field(source='creator.profile.avatar.url')
+    creator_url = serializers.Field(source='creator.profile.get_absolute_url')
+    date_created = serializers.DateTimeField()
+    date_edited = serializers.DateTimeField()
+    is_edited = serializers.BooleanField()
+
+    class Meta:
+        model = Entry
+        fields = ('id', 'content', 'creator_id', 'creator_username', 'creator_fullname',
+                  'creator_avatar', 'date_created', 'date_edited', 'is_edited',
+                  'creator_url',)
 
 
 class IdeaCategorySerializer(serializers.ModelSerializer):

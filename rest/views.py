@@ -25,7 +25,7 @@ from ideas.models import Category as IdeaCategory
 from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
-from topics.models import Discussion
+from topics.models import Discussion, Entry
 from userspace.models import Badge, UserProfile
 from gallery.models import LocationGalleryItem, UserGalleryItem
 from polls.models import Poll
@@ -385,6 +385,24 @@ class ForumViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.creator = self.request.user
+
+
+class DiscussionRepliesViewSet(viewsets.ModelViewSet):
+    """
+    List of replies for discussion.
+    """
+    queryset = Entry.objects.all()
+    serializer_class = DiscussionReplySerializer
+    paginate_by = 2
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        topic_pk = self.request.QUERY_PARAMS.get('pk')
+        if topic_pk:
+            discussion = get_object_or_404(Discussion, pk=topic_pk)
+            return Entry.objects.filter(discussion=discussion)
+        return Entry.objects.all()
 
 
 class IdeaCategoryViewSet(viewsets.ModelViewSet):
