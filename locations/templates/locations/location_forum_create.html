@@ -19,11 +19,11 @@
 
     {% include 'locations/sidebar.html' %}
     
-    <script>
+    {% comment %}<script>
         require(['/static/places_core/js/locations/discussionForm.js'],
         function(DiscussionForm) {
             var form = new DiscussionForm();
         });
-    </script>
+    </script>{% endcomment %}
 
 {% endblock %}

@@ -15,7 +15,7 @@ function ($) {
         $img = $form.find('#id_avatar');
     
     $img
-        .bootstrapFileInput()
+        //.bootstrapFileInput()
         .on('change', function () {
             $form.submit();
         });

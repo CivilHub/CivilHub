@@ -38,6 +38,7 @@ def index(request):
     return render_to_response('maps/index.html', {
         'title': _("Map"),
         'user': request.user,
+        'appname': 'main-map',
     })
 
 

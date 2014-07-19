@@ -30,9 +30,3 @@
 <!-- Modal window -->
 <div id="modal" class="modal fade"></div>
 {% endblock %}
-
-{% block footer_scripts %}{% comment %}
-<script>window.API_URL = "{% url 'locations:invite' location.pk %}";</script>
-<script src="{% static 'locations/js/location-follow.js' %}"></script>
-<script src="{% static 'locations/js/invite.js' %}"></script>
-{% endcomment %}{% endblock %}

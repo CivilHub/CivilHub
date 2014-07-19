@@ -47,6 +47,7 @@ def index(request):
     ctx = {
         'user': user,
         'profile': prof,
+        'appname': 'userarea',
         'form': UserProfileForm(initial={
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
