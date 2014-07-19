@@ -13,7 +13,12 @@
 {% block extra_styles %}{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script data-main="{% static 'places_core/js/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+
+{% if appname %}
+    <script data-main="/static/places_core/js/{{ appname }}.js" src="{% static 'places_core/includes/require/require.js' %}"></script>
+{% else %}
+    <script data-main="{% static 'places_core/js/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+{% endif %}
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}

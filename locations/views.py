@@ -52,6 +52,7 @@ class LocationNewsList(DetailView):
         context['categories'] = BlogCategory.objects.all()
         context['title'] = self.object.name + '::' + _("News")
         context['links'] = links['news']
+        context['appname'] = 'news-list'
         return context
 
 
@@ -70,6 +71,7 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
                 'title': _('Create new entry'),
                 'location': Location.objects.get(slug=slug),
                 'links': links['news'],
+                'appname': 'news-create',
                 'form': NewsLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -91,6 +93,7 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
                 'location': form.cleaned_data.get('location'),
                 'form': self.form_class(self.request.POST),
                 'errors': form.errors,
+                'appname': 'news-create',
                 'user': self.request.user,
             }
         return render(self.request, self.template_name, ctx)
@@ -145,6 +148,7 @@ class LocationIdeasList(DetailView):
         context['form'] = IdeaCategoryForm()
         context['ideas'] = ideas
         context['links'] = links['ideas']
+        context['appname'] = 'idea-list'
         context['categories'] = IdeaCategory.objects.all()
         return context
 
@@ -163,6 +167,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
                 'location': Location.objects.get(slug=slug),
                 'title': _("Create new idea"),
                 'links': links['ideas'],
+                'appname': 'idea-create',
                 'form': IdeaLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -184,6 +189,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
                 'form': self.form_class(self.request.POST),
                 'errors': form.errors,
                 'user': self.request.user,
+                'appname': 'idea-create',
                 'links': links['ideas'],
             }
         return render(self.request, self.template_name, ctx)
@@ -215,6 +221,7 @@ class LocationDiscussionsList(DetailView):
         context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
         context['links']        = links['discussions']
+        context['appname']      = 'discussion-list'
         return context
 
 
@@ -276,6 +283,7 @@ def ajax_discussion_list(request, slug):
     context['search_form']  = SearchDiscussionForm()
     context['is_moderator'] = is_moderator(request.user, location)
     context['links']        = links['discussions']
+    context['appname']      = 'discussion-list'
 
     return render(request, 'locations/location_forum.html', context)
 
@@ -296,6 +304,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 'title': _('Create new discussion'),
                 'location': self.parent_object,
                 'links': links['discussions'],
+                'appname': 'discussion-create',
                 'form': DiscussionLocationForm(initial={
                     'location': Location.objects.get(slug=slug)
                 })
@@ -336,6 +345,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         context['form'] = DiscussionLocationForm(self.request.POST)
         context['links'] = links['discussions']
         context['title'] = _("Create new discussion")
+        context['appname'] = 'discussion-create'
         return render(self.request, self.template_name, context)
 
 
@@ -370,6 +380,7 @@ class SublocationList(DetailView):
         context['title']    = self.object.name + '::' + _("Sublocations")
         context['location'] = self.object
         context['links']    = links['sublocations']
+        context['appname']  = 'sublocations'
         return context
 
 
@@ -386,6 +397,7 @@ class LocationFollowersList(DetailView):
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
         context['links'] = links['followers']
+        context['appname'] = 'followers'
         return context
 
 
@@ -403,6 +415,7 @@ class LocationPollsList(DetailView):
         context['polls'] = Poll.objects.filter(location=location)
         context['links'] = links['polls']
         context['is_moderator'] = is_moderator(self.request.user, location)
+        context['appname'] = 'poll-list'
         return context
 
 
@@ -421,6 +434,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
                 'title': _('Create new poll'),
                 'location': location,
                 'links': links['polls'],
+                'appname': 'poll-create',
                 'form': PollForm(initial={
                     'location': location
                 })
@@ -445,6 +459,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
                 'title': _('Create new poll'),
                 'location': form.cleaned_data['location'],
                 'links': links['polls'],
+                'appname': 'poll-create',
                 'form': PollForm(request.POST),
             }
             return render(request, self.template_name, context)
@@ -456,6 +471,7 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
         context['form']  = self.form_class(self.request.POST)
         context['links'] = links['polls']
         context['title'] = _("Create new poll")
+        context['appname'] = 'poll-create'
         return render(self.request, self.template_name, context)
 
 
@@ -486,6 +502,7 @@ class LocationDetailView(DetailView):
         context['title'] = location.name
         context['actions'] = actions
         context['links'] = links['summary']
+        context['appname'] = 'location'
         return context
 
 
@@ -500,6 +517,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateLocationView, self).get_context_data(**kwargs)
         context['title'] = _('create new location')
+        context['appname'] = 'location-create'
         return context
 
     def form_valid(self, form):
@@ -520,6 +538,7 @@ class UpdateLocationView(LoginRequiredMixin, UpdateView):
         context['title'] = location.name
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
+        context['appname'] = 'location-create'
         return context
 
 
@@ -557,6 +576,7 @@ class LocationContentSearch(View):
                 'location': location,
                 'items'   : items,
                 'tags'    : tags,
+                'appname' : 'tag-search',
             })
 
 
@@ -582,6 +602,7 @@ class LocationContentFilter(View):
                 'title'   : _("Search by category"),
                 'location': location,
                 'items'   : items,
+                'appname' : 'category-search',
             })
 
 
