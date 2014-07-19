@@ -33,7 +33,7 @@
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
 
-        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        
 
         <div class="reply-entry">
             <div class="row">
@@ -153,16 +153,4 @@
     
     {% include 'locations/sidebar.html' %}
 
-{% endblock %}
-
-{% block footer_scripts %}
-
-    {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
-    {% if user.is_authenticated and discussion.status %}
-        <script>window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";</script>
-        <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-        <script src="{% static 'gallery/js/media-uploader.js' %}"></script>
-        <script src="{% static 'topics/js/reply-form.js' %}"></script>
-    {% endif %}
-    
 {% endblock %}

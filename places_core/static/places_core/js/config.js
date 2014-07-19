@@ -87,5 +87,7 @@ require.config({
 });
 
 require(['js/main'], function () {
+    
     $(document).trigger('load');
+    
 });
