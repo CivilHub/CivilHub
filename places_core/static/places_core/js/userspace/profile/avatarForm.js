@@ -5,8 +5,7 @@
 // Change/edit user avatar.
 //
 require(['jquery',
-         'bootstrap',
-         'bootstrap-fileinput'],
+         'bootstrap'],
 
 function ($) {
     "use strict";
@@ -15,7 +14,6 @@ function ($) {
         $img = $form.find('#id_avatar');
     
     $img
-        //.bootstrapFileInput()
         .on('change', function () {
             $form.submit();
         });
