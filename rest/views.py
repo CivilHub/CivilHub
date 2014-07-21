@@ -100,6 +100,24 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
 
 
+class CurrentUserViewSet(viewsets.ModelViewSet):
+    """
+    Przekazanie informacji o aktywnym użytkowniku do zewnętrznej aplikacji.
+    """
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    
+    def list(self, request, pk=None):
+        if pk:
+            user = get_object_or_404(User, pk=pk)
+        else:
+            user = request.user
+        serializer = self.serializer_class(user)
+        if user.is_anonymous():
+            return Response({'test':'TEST'})
+        return Response(serializer.data)
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows categories to be viewed or edited.
@@ -589,3 +607,12 @@ class MediaViewSet(viewsets.ModelViewSet):
             'level'  : 'success',
             'message': _("Item deleted"),
         })
+
+
+class LocationBasicViewSet(viewsets.ModelViewSet):
+    """
+    Viewset dla lokalizacji - listuje podstawowe informacje.
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationBasicSerializer
+    permission_classes = (IsModeratorOrReadOnly,)

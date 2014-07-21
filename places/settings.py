@@ -70,6 +70,9 @@ INSTALLED_APPS = (
     #'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
+    'rest_framework.authtoken',
+    # https://github.com/ottoyiu/django-cors-headers
+    'corsheaders',
     # https://github.com/skorokithakis/django-annoying
     'annoying',
     #'python-social-auth',
@@ -147,7 +150,11 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -160,15 +167,29 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'rest.disable.DisableCSRF',
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'accept-encoding',
 )
 
 ROOT_URLCONF = 'places.urls'

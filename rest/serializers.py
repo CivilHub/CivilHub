@@ -315,6 +315,7 @@ class TagSerializer(serializers.ModelSerializer):
     """
     Allow fetching existing tags for jQuery Autocomplete.
     """
+    id = serializers.Field(source='pk')
     label = serializers.CharField(source='name')
 
     class Meta:

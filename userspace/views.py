@@ -182,6 +182,7 @@ def register(request):
 
 def activate(request, activation_link=None):
     """ Activate new user account and delete related user demand object. """
+    from rest_framework.authtoken.models import Token
     if activation_link == None:
         ctx = {
             'form': RegisterForm,
@@ -201,6 +202,9 @@ def activate(request, activation_link=None):
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)
         send_poll_email.apply_async(args=(user_id,), eta=delta_t)
+        # Create auth token for REST api:
+        token = Token.objects.create(user=user)
+        token.save()
         return redirect('user:active', lang=lang)
 
 
@@ -464,3 +468,14 @@ class UserFollowedLocations(DetailView):
         ctx = super(UserFollowedLocations, self).get_context_data()
         ctx['title'] = _("My places")
         return ctx
+
+
+def test_view(request):
+    """
+    Do testowania różnych rzeczy.
+    """
+    import json
+    if request.is_ajax():
+        return HttpResponse(json.dumps({'info':'Yes, is AJAX request'}))
+    else:
+        return HttpResponse("No, it's not AJAX request")

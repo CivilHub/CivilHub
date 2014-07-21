@@ -5,6 +5,7 @@ from userspace import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'test/', views.test_view, name='test'),
     url(r'login/', views.login, name='login'),
     url(r'logout/', views.logout, name='logout'),
     url(r'active/(?P<lang>\w+)/', views.active, name='active'),

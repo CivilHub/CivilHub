@@ -10,6 +10,7 @@ from places_core import actstreams
 from rest_framework import routers
 from rest import views
 router = routers.DefaultRouter()
+router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')
 router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
@@ -28,6 +29,7 @@ router.register(r'idea_votes', views.IdeaVoteCounterViewSet, base_name=r'idea_vo
 router.register(r'usermedia', views.MediaViewSet, base_name=r'usermedia')
 router.register(r'my_actions', views.UserActionsRestViewSet, base_name=r'my_actions')
 router.register(r'polls', views.PollListViewSet, base_name=r'polls')
+router.register(r'locationlist', views.LocationBasicViewSet, base_name=r'locationlist')
 # django sitemaps framework
 import places_core.sitemaps as sitemaps
 sitemaps = {
@@ -92,6 +94,7 @@ urlpatterns = patterns('',
     # REST server
     url(r'^rest/', include(router.urls, namespace='rest')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
     url(r'^search/', include('haystack.urls', namespace='search')),
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^i18n/', include('django.conf.urls.i18n')),
