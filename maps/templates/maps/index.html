@@ -1,64 +1,67 @@
 {% load staticfiles %} {% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
+<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
-{% include 'places_core/header.html' %}
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% block extra_styles %}{% endblock %}
 
-{% include 'places_core/navigation.html' %}  
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-{% comment %}
-    Główny widok mapy.
-{% endcomment %}
+{% include 'places_core/navigation.html' %}
 
-{% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            common: 'js/common.js'
+<script>
+require.config({
+    baseUrl: "{% static 'places_core' %}",
+    
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
+    waitSeconds: 200,
+    
+    paths: {
+        jquery: 'includes/jquery/jquery',
+        bootstrap: 'includes/bootstrap/bootstrap',
+        underscore: 'includes/underscore/underscore',
+        backbone: 'includes/backbone/backbone',
+        common: 'js/common'
+    },
+    
+    shim: {
+        underscore: {
+            deps: ['jquery'],
+            exports: '_'
         },
         
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
+        backbone: {
+            deps: ['underscore'],
+            exports: 'Backbone'
+        },
+        
+        bootstrap: {
+            deps: ['jquery']
+        },
+        
+        tagsinput: {
+            deps: ['jquery']
+        },
+    }
+});
 
-    require(['jquery', 'ui', 'common', 'js/maps/mainMap'], function ($, ui) {
-        
-        ui.message.success("Main application loaded");
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
+require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
     
-{% endblock %}
+    window.MEDIA_URL = '/media';
+    
+    $(document).trigger('load');
+    
+});
+</script>
 
 <div id="map-options-toggle">
     <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">

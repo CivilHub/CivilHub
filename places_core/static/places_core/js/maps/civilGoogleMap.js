@@ -4,7 +4,8 @@
 // Main map to show everything :)
 define(['jquery',
         'bootstrap',
-        'js/maps/markerclusterer.js'],
+        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap',
+        'js/maps/markerclusterer'],
 
 function ($) {
     "use strict";
@@ -55,14 +56,14 @@ function ($) {
                 _this.markerClusterer = new MarkerClusterer(_this.map, markers, {
                     maxZoom: 10,
                     gridSize: 30,
-                    styles: {
+                    styles: [{
                         url: MEDIA_URL + '/images/people35.png',
                         height: 35,
                         width: 35,
                         anchor: [16, 0],
                         textColor: '#ff00ff',
                         textSize: 10
-                    }
+                    }]
                 });
             },
             

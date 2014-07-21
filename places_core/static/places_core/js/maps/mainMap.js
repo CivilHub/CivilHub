@@ -4,15 +4,14 @@
 //
 require(['jquery',
          'bootstrap',
-         'js/maps/civilGoogleMap.js',
-         '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap'],
+         'js/maps/civilGoogleMap'],
 
 function ($) {
     
     "use strict";
     //
     // Adjust map size to device screen and bind events to show/hide menu button.
-    // -----------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     //
     (function () {
         var topAdjust = $('#navbar-top').height(),
