@@ -5,7 +5,8 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'editor/customCKEditor'],
+        'tagsinput',
+        'js/editor/customCKEditor'],
 
 function ($, _, Backbone) {
     
@@ -17,6 +18,9 @@ function ($, _, Backbone) {
         
         initialize: function () {
             this.$el.find('#id_question').customCKEditor('custom');
+            this.$el.find('#id_tags').tagsInput({
+                autocomplete_url: '/rest/tags/'
+            });
         }
     });
     

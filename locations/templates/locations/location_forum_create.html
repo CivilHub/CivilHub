@@ -1,6 +1,79 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 300,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            mapinput: 'js/ui/jquery.mapinput',
+            'async': 'includes/require/async',
+            'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
+            jqueryui: 'includes/jquery-ui/jquery-ui'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            mapinput: {
+                deps: ['jquery']
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/locations/discussionForm',
+             'common'],
+
+    function ($, DiscussionForm) {
+        
+        var form = new DiscussionForm();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <div class="col-sm-9">

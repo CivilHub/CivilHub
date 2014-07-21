@@ -1,6 +1,86 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %} {% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            jqueryui: 'includes/jquery-ui/jquery-ui',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            dropzone: {
+                deps: ['jquery'],
+                exports: 'Dropzone'
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/locations/pollForm',
+             'common'],
+
+    function ($, PollForm) {
+        
+        "use strict";
+        
+        var form = new PollForm();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <div class="col-sm-9">
@@ -30,7 +110,5 @@
             <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
         </div>
     </script>
-    
-    {% comment %}<script>require(['/static/places_core/js/polls/poll-form/create-poll.js'],function(){}); </script>{% endcomment %}
 
 {% endblock %}

@@ -595,7 +595,7 @@ class MediaViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
 
     def list(self, request, *args, **kwargs):
-        queryset = UserGalleryItem.objects.filter(user=request.user)
+        queryset = UserGalleryItem.objects.filter(user=request.user.pk)
         serializer = UserMediaSerializer(queryset, many=True)
         return Response(serializer.data)
 

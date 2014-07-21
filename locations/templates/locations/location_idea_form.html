@@ -5,6 +5,78 @@
     Formularz do tworzenia nowych idei.
 {% endcomment %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 300,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            jqueryui: 'includes/jquery-ui/jquery-ui',
+            dropzone: 'includes/dropzone/dropzone'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
+            },
+            
+            dropzone: {
+                deps: ['jquery'],
+                exports: 'Dropzone'
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/locations/ideaForm',
+             'common'],
+
+    function ($, IdeaForm) {
+        
+        var form = new IdeaForm();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <div class="col-sm-9">
