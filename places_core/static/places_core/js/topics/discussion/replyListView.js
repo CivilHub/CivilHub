@@ -7,32 +7,47 @@ define(['jquery',
         'underscore',
         'backbone',
         'js/topics/discussion/replyCollection',
-        'js/topics/discussion/replyView'],
+        'js/topics/discussion/replyView',
+        'js/ui/paginatorView'],
 
-function ($, _, Backbone, ReplyCollection, ReplyView) {
+function ($, _, Backbone, ReplyCollection, ReplyView, PaginatorView) {
     "use strict";
     
     var ReplyListView = Backbone.View.extend({
         
-        el: '#replies',
+        el: '.main-content',
         
         initialize: function () {
-            var self = this;
+            var self = this,
+                targetId = $('#discussion-id').val();
+            this.listElement = this.$el.find('#replies');
             this.collection = new ReplyCollection();
-            this.collection.targetId = $('#discussion-id').val();
-            this.collection.currentPage = 1;
             this.collection.fetch({
-                data: {pk: $('#discussion-id').val()}
+                data: {pk: targetId},
+                success: function () {
+                    self.paginator = new PaginatorView({
+                        count: self.collection.totalResultsCounter,
+                        perPage: 2,
+                        targetCollection: self.collection,
+                        data: {
+                            pk: targetId
+                        }
+                    });
+                    $(self.paginator.render().el).appendTo(self.$el);
+                }
             });
             this.listenTo(this.collection, 'sync', this.render);
-            
-            $('body').on('click', function (e) {
-                self.collection.getPage();
-            });
+            //~ $('body').on('click', function (e) {
+                //~ self.collection.getNextPage({
+                    //~ data: {
+                        //~ pk: targetId
+                    //~ }
+                //~ });
+            //~ });
         },
         
         render: function () {
-            this.$el.empty();
+            this.listElement.empty();
             this.collection.each(function (item) {
                 this.renderEntry(item);
             }, this);
@@ -42,7 +57,7 @@ function ($, _, Backbone, ReplyCollection, ReplyView) {
             var reply = new ReplyView({
                 model: item
             });
-            $(reply.render().el).appendTo(this.$el);
+            $(reply.render().el).appendTo(this.listElement);
         }
     });
     

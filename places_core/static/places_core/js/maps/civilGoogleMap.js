@@ -4,7 +4,7 @@
 // Main map to show everything :)
 define(['jquery',
         'bootstrap',
-        '/static/places_core/js/maps/markerclusterer.js'],
+        'js/maps/markerclusterer.js'],
 
 function ($) {
     "use strict";
@@ -55,7 +55,14 @@ function ($) {
                 _this.markerClusterer = new MarkerClusterer(_this.map, markers, {
                     maxZoom: 10,
                     gridSize: 30,
-                    styles: window.MAP_STYLES[1]    
+                    styles: {
+                        url: MEDIA_URL + '/images/people35.png',
+                        height: 35,
+                        width: 35,
+                        anchor: [16, 0],
+                        textColor: '#ff00ff',
+                        textSize: 10
+                    }
                 });
             },
             

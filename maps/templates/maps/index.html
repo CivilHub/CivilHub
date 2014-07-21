@@ -1,10 +1,65 @@
 {% load staticfiles %} {% load i18n %}
+
 {% include 'places_core/header.html' %}
 
 {% include 'places_core/navigation.html' %}  
+
 {% comment %}
     Główny widok mapy.
 {% endcomment %}
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            common: 'js/common.js'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery', 'ui', 'common', 'js/maps/mainMap'], function ($, ui) {
+        
+        ui.message.success("Main application loaded");
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
+
 <div id="map-options-toggle">
     <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">
         <span class="fa fa-arrow-circle-down"> </span>
@@ -22,92 +77,26 @@
         <li>News <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
     </ul>
 </nav>
+
 <div id="map"></div>
 
 <script type="text/template" id="user-popup-tpl">
-<div class="user-popup-avatar">
-    <img src="<%= avatar %>" alt="<%= username %>" />
-</div>
-<div class="user-popup-details">
-    <span class="fa fa-times-circle-o user-popup-close"> </span>
-    <p class="user-popup-personals">
-        <a href="<%= user_link %>"><%= fullname %></a><br />
-        <%= rank_pts %> {% trans 'pts' %}
-    </p>
-    <p>
-        <% for (var i = 0; i < follows.length; i++) { %>
-            <%= follows[i] %>,&nbsp;
-        <% } %>
-    </p>
-</div>
+    <div class="user-popup-avatar">
+        <img src="<%= avatar %>" alt="<%= username %>" />
+    </div>
+    <div class="user-popup-details">
+        <span class="fa fa-times-circle-o user-popup-close"> </span>
+        <p class="user-popup-personals">
+            <a href="<%= user_link %>"><%= fullname %></a><br />
+            <%= rank_pts %> {% trans 'pts' %}
+        </p>
+        <p>
+            <% for (var i = 0; i < follows.length; i++) { %>
+                <%= follows[i] %>,&nbsp;
+            <% } %>
+        </p>
+    </div>
 </script>
 
-<script>
-// Globals
-window.MEDIA_URL = '{% static 'maps' %}';
-window.MAP_STYLES = [[{
-    url: MEDIA_URL + '/images/people35.png',
-    height: 35,
-    width: 35,
-    anchor: [16, 0],
-    textColor: '#ff00ff',
-    textSize: 10
-}, {
-    url: MEDIA_URL + '/images/people45.png',
-    height: 45,
-    width: 45,
-    anchor: [24, 0],
-    textColor: '#ff0000',
-    textSize: 11
-}, {
-    url: MEDIA_URL + '/images/people55.png',
-    height: 55,
-    width: 55,
-    anchor: [32, 0],
-    textColor: '#ffffff',
-    textSize: 12
-}], [{
-    url: MEDIA_URL + '/images/conv30.png',
-    height: 27,
-    width: 30,
-    anchor: [3, 0],
-    textColor: '#ff00ff',
-    textSize: 10
-}, {
-    url: MEDIA_URL + '/images/conv40.png',
-    height: 36,
-    width: 40,
-    anchor: [6, 0],
-    textColor: '#ff0000',
-    textSize: 11
-}, {
-    url: MEDIA_URL + '/images/conv50.png',
-    width: 50,
-    height: 45,
-    anchor: [8, 0],
-    textSize: 12
-}], [{
-    url: MEDIA_URL + '/images/heart30.png',
-    height: 26,
-    width: 30,
-    anchor: [4, 0],
-    textColor: '#ff00ff',
-    textSize: 10
-}, {
-    url: MEDIA_URL + '/images/heart40.png',
-    height: 35,
-    width: 40,
-    anchor: [8, 0],
-    textColor: '#ff0000',
-    textSize: 11
-}, {
-    url: MEDIA_URL + '/images/heart50.png',
-    width: 50,
-    height: 44,
-    anchor: [12, 0],
-    textSize: 12
-}]];
-</script>
-{% comment %}<script>require(['/static/places_core/js/maps/mainMap.js'],function(){});</script>{% endcomment %}
 </body>
 </html>

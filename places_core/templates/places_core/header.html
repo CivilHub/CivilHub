@@ -13,12 +13,65 @@
 {% block extra_styles %}{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-{% if appname %}
-    <script data-main="/static/places_core/js/{{ appname }}.js" src="{% static 'places_core/includes/require/require.js' %}"></script>
-{% else %}
-    <script data-main="{% static 'places_core/js/config.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
-{% endif %}
+{% comment %}
+    W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
+    i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
+    faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
+{% endcomment %}
+
+{% block require_scripts %}
+    
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            common: 'js/common.js'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery', 'ui', 'common'], function ($, ui) {
+        
+        ui.message.success("Main application loaded");
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}

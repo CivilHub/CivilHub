@@ -1,9 +1,86 @@
 {% load staticfiles %} {% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
+<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+
+<script src="{% static 'places_core/js/utils/djangojs.js' %}"></script>
+
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% block extra_styles %}{% endblock %}
+
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="{% static 'places_core/includes/require/require.js' %}"></script>
+
 {% comment %}
-    This is base template for entire application - every module extends it.
+    W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
+    i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
+    faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
 {% endcomment %}
 
-{% include 'places_core/header.html' %}
+{% block require_scripts %}
+    
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            common: 'js/common.js'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery', 'ui', 'common'], function ($, ui) {
+        
+        ui.message.success("Main application loaded");
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
+
+{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
+{% block extra_scripts %}{% endblock %}
+</head>
+<body>
+    
+    <div id="messages"></div>
 
 {% comment %}Main page navigation - top navbar{% endcomment %}
 {% include 'places_core/navigation.html' %}

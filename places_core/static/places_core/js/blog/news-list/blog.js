@@ -25,7 +25,7 @@ function (NewsList, CategoryForm) {
     // Initialize list.
     // -------------------------------------------------------------------------
     var blog = new NewsList();
-
+    
     //
     // Obsługa kliknięć.
     // -----------------

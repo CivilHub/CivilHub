@@ -4,7 +4,7 @@
 //
 require(['jquery',
          'bootstrap',
-         '/static/places_core/js/maps/civilGoogleMap.js',
+         'js/maps/civilGoogleMap.js',
          '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap'],
 
 function ($) {

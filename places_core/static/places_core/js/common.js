@@ -10,10 +10,11 @@ define(['jquery',
         'bootstrap'],
 
 function ($, _, Backbone) {
+    
     "use strict";
-    //
+    
     // Common simple scripts.
-    // ----------------------
+    // -------------------------------------------------------------------------
     // Errorlist custom styles.
     $('.errorlist > li').addClass('alert alert-danger');
     // Cancel button for some forms which allow back one page.
@@ -26,7 +27,10 @@ function ($, _, Backbone) {
     $('.custom-tooltip-bottom').tooltip({
         placement: 'bottom'
     });
+    
+    
     // List of user's bookmarks to fetch.
+    // -------------------------------------------------------------------------
     $(document).ready(function () {
         $('.bookmarks-list-toggle').one('click', function (evt) {
             $.get('/user/my_bookmarks', function (resp) {
@@ -45,9 +49,9 @@ function ($, _, Backbone) {
             });
         });
     });
-    //
+    
     // Submenus for content entries.
-    // -----------------------------
+    // -------------------------------------------------------------------------
     $('.submenu-toggle').bind('click', function (evt) {
         var $toggle     = $(this),
             $entryTitle = $toggle.parent(),
@@ -67,7 +71,7 @@ function ($, _, Backbone) {
                 .removeAttr('data-opened');
         }
     });
-    //
+    
     // Pop-up window with user informations.
     // -------------------------------------------------------------------------
     // Żeby wywołać okienko z informacjami, wystarczy do dowolnego linku 

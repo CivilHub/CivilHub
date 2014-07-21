@@ -4,7 +4,7 @@
 //
 // Manage location's blog.
 //
-define(['jquery', 'underscore', 'backbone', 'js/utils/utils'],
+define(['jquery', 'underscore', 'backbone', 'utils'],
 
 function ($, _, Backbone, utils) {
     "use strict";

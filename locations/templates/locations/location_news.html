@@ -1,6 +1,65 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            bootbox: 'includes/bootstrap/bootbox'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery', 'ui', 'common', 'js/blog/news-list/blog'], function ($, ui) {
+        
+        ui.message.success("Main application loaded");
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block topbar %}
 
     <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
