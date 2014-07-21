@@ -9,23 +9,19 @@
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
-<script src="{% static 'places_core/js/utils/djangojs.js' %}"></script>
-
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-<script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
-
-{% comment %}
-    W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
-    i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
-    faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
-{% endcomment %}
-
 {% block require_scripts %}
+
+    {% comment %}
+        W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
+        i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
+        faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
+    {% endcomment %}
     
     <script>
     require.config({
@@ -41,8 +37,10 @@
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
             tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
             ui: 'js/ui/ui',
-            common: 'js/common.js'
+            utils: 'js/utils/utils',
+            common: 'js/common'
         },
         
         shim: {
@@ -60,15 +58,18 @@
                 deps: ['jquery']
             },
             
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
             tagsinput: {
                 deps: ['jquery']
             },
         }
     });
 
-    require(['jquery', 'ui', 'common'], function ($, ui) {
-        
-        ui.message.success("Main application loaded");
+    require(['jquery', 'common'], function ($) {
         
         $(document).trigger('load');
         

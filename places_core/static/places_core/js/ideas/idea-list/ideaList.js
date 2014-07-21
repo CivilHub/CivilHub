@@ -5,7 +5,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'js/utils/utils',
+        'utils',
         'js/ideas/idea-list/ideaCollection',
         'js/ideas/idea-list/ideaView'],
 

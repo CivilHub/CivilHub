@@ -3,27 +3,16 @@
 // ========
 // Run idea list.
 require(['jquery',
-         'js/ui/categoryForm',
          'js/ideas/idea-list/ideaList'],
 
-function ($, CategoryForm, IdeaList) {
+function ($, IdeaList) {
+    
     "use strict";
-    
-    var Form = CategoryForm.extend({
-        baseurl: '/rest/idea_categories/'
-    });
-    
-    var categoryForm = new Form();
-    
-    $('.new-category-btn').on('click', function (e) {
-        e.preventDefault();
-        categoryForm.open();
-    });
     
     // Initialize list.
     // -------------------------------------------------------------------------
     var ideas = new IdeaList();
-
+    
     //
     // Obsługa kliknięć.
     // -----------------

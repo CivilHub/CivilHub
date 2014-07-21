@@ -8,7 +8,9 @@ require(['jquery',
          'js/polls/poll-list/pollListView'],
 
 function ($, _, utils, PollListView) {
+    
     "use strict";
+    
     var polls = new PollListView();
     //
     // Obsługa kliknięć.

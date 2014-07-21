@@ -20,7 +20,8 @@
             ui: 'js/ui/ui',
             utils: 'js/utils/utils',
             common: 'js/common',
-            bootbox: 'includes/bootstrap/bootbox'
+            bootbox: 'includes/bootstrap/bootbox',
+            list: 'js/topics/news-list/niew'
         },
         
         shim: {
@@ -49,9 +50,11 @@
         }
     });
 
-    require(['jquery', 'ui', 'common', 'js/blog/news-list/blog'], function ($, ui) {
+    require(['jquery',
+             'js/blog/news-list/blog',
+             'common'], function ($) {
         
-        ui.message.success("Main application loaded");
+        "use strict";
         
         $(document).trigger('load');
         

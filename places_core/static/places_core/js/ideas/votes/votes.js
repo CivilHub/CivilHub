@@ -3,9 +3,9 @@
 // ========
 // App to manage idea votes - vote up/down.
 require(['jquery',
-        'underscore',
-        'js/utils/utils',
-        'js/ui/ui'],
+         'underscore',
+         'utils',
+         'js/ui/ui'],
 
 function ($, _, utils, ui) {
     
