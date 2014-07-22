@@ -7,9 +7,10 @@ define(['jquery',
         'backbone',
         'utils',
         'js/ideas/idea-list/ideaCollection',
-        'js/ideas/idea-list/ideaView'],
+        'js/ideas/idea-list/ideaView',
+        'js/ui/paginatorView'],
 
-function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
+function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
     "use strict";
     
     var baseurl = $('#rest-api-url').val();
@@ -18,15 +19,22 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
         el: '#idea-list-view',
 
         initialize: function () {
-            var that = this;
+            var self = this;
             $.get(baseurl, function (resp) {
-                that.collection = new IdeaCollection(resp.results);
-                that.render();
+                self.collection = new IdeaCollection(resp.results);
+                self.render();
+                self.paginator = new PaginatorView({
+                    count: resp.count,
+                    perPage: 2,
+                    targetCollection: self.collection
+                });
+                $(self.paginator.render().el).insertAfter(self.$el);
+                self.listenTo(self.collection, 'sync', self.render);
             });
         },
 
         render: function () {
-            var that = this;
+            this.$el.empty();
             this.collection.each(function (item) {
                 this.renderEntry(item);
             }, this);
@@ -42,13 +50,9 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView) {
         filter: function (page) {
             var that = this,
                 filters = utils.getListOptions(),
-                url  = baseurl + '&' + utils.JSONtoUrl(filters);
-            if (page) url += '&page=' + page;
-            $.get(url, function (resp) {
-                that.collection = new IdeaCollection(resp.results);
-                that.$el.empty();
-                that.render();
-            });
+                url = baseurl + '&' + utils.JSONtoUrl(filters);
+            this.collection.url = url;
+            this.collection.fetch();
         }
     });
     

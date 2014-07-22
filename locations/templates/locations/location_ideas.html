@@ -18,6 +18,7 @@
             bootstrap: 'includes/bootstrap/bootstrap',
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
+            paginator: 'includes/backbone/backbone.paginator',
             tagsinput: 'includes/jquery/jquery.tagsinput',
             bootbox: 'includes/bootstrap/bootbox',
             ui: 'js/ui/ui',
@@ -75,11 +76,11 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-controller" data-control="order" data-target="title">{% trans "Title" %}</a></li>
-                    <li><a href="#" class="list-controller" data-control="order" data-target="date">{% trans "Date" %}</a></li>
-                    <li><a href="#" class="list-controller" data-control="order" data-target="category">{% trans "Category" %}</a></li>
-                    <li><a href="#" class="list-controller" data-control="order" data-target="username">{% trans "Username" %}</a></li>
-                    <li><a href="#" class="list-controller" data-control="order" data-target="answers">{% trans "Answers" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="title">{% trans "Title" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="date">{% trans "Date" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="category">{% trans "Category" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="username">{% trans "Username" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="answers">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">

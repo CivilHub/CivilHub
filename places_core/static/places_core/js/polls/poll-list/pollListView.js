@@ -7,9 +7,10 @@ define(['jquery',
         'backbone',
         'js/utils/utils',
         'js/polls/poll-list/pollListEntry',
-        'js/polls/poll-list/pollListCollection'],
+        'js/polls/poll-list/pollListCollection',
+        'js/ui/paginatorView'],
 
-function ($, _, Backbone, utils, PollListEntry, PollListCollection) {
+function ($, _, Backbone, utils, PollListEntry, PollListCollection, PaginatorView) {
     
     "use strict";
     
@@ -23,6 +24,16 @@ function ($, _, Backbone, utils, PollListEntry, PollListCollection) {
             this.collection = new PollListCollection(data.results);
             this.$el.empty();
             this.render();
+            if (this.paginator !== undefined) {
+                this.paginator.$el.empty().remove();
+            }
+            this.paginator = new PaginatorView({
+                count: data.count,
+                perPage: 2,
+                targetCollection: this.collection
+            });
+            $(this.paginator.render().el).insertAfter(this.$el);
+            this.listenTo(this.collection, 'sync', this.render);
         },
         
         initialize: function () {
@@ -33,6 +44,7 @@ function ($, _, Backbone, utils, PollListEntry, PollListCollection) {
         },
         
         render: function () {
+            this.$el.empty();
             this.collection.each(function (item) {
                 this.renderItem(item);
             }, this);
@@ -46,11 +58,9 @@ function ($, _, Backbone, utils, PollListEntry, PollListCollection) {
         filter: function (page) {
             var that = this,
                 filters = utils.getListOptions(),
-                url  = baseurl + '&' + utils.JSONtoUrl(filters);
-            if (page) url += '&page=' + page;
-            $.get(url, function (resp) {
-                that._init(resp);
-            });
+                url = baseurl + '&' + utils.JSONtoUrl(filters);
+            this.collection.url = url;
+            this.collection.fetch();
         }
     });
     

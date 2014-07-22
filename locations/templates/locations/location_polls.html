@@ -13,9 +13,11 @@
         
         paths: {
             jquery: 'includes/jquery/jquery',
+            jquery: 'includes/jquery/jquery',
             bootstrap: 'includes/bootstrap/bootstrap',
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
+            paginator: 'includes/backbone/backbone.paginator',
             tagsinput: 'includes/jquery/jquery.tagsinput',
             bootbox: 'includes/bootstrap/bootbox',
             ui: 'js/ui/ui',
@@ -69,10 +71,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
-                        <li><a href="" class="list-controller" data-target="question" data-control="order">{% trans "Question" %}</a></li>
-                        <li><a href="" class="list-controller active" data-target="latest" data-control="order">{% trans "Latest" %}</a></li>
-                        <li><a href="" class="list-controller" data-target="oldest" data-control="order">{% trans "Oldest" %}</a></li>
-                        <li><a href="" class="list-controller" data-target="creator" data-control="order">{% trans "Username" %}</a></li>
+                        <li><a href="" class="list-controller" data-target="question" data-control="sortby">{% trans "Question" %}</a></li>
+                        <li><a href="" class="list-controller active" data-target="latest" data-control="sortby">{% trans "Latest" %}</a></li>
+                        <li><a href="" class="list-controller" data-target="oldest" data-control="sortby">{% trans "Oldest" %}</a></li>
+                        <li><a href="" class="list-controller" data-target="creator" data-control="sortby">{% trans "Username" %}</a></li>
                     </ul>
                 </li>
             </ul>
