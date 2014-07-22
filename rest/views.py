@@ -56,10 +56,12 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('ideas.idea')
         elif ct == 'news':
             return UserActionStream(user).get_actions('blog.news')
-        elif ct == 'location':
-            return UserActionStream(user).get_actions('locations.location')
         elif ct == 'poll':
             return UserActionStream(user).get_actions('polls.poll')
+        elif ct == 'discussion':
+            return UserActionStream(user).get_actions('topics.discussion')
+        elif ct == 'gallery':
+            return UserActionStream(user).get_actions('gallery.locationgalleryitem')
         
     def list(self, request):
         pk = request.QUERY_PARAMS.get('user_id') or None
