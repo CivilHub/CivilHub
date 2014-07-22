@@ -99,13 +99,9 @@ function ($, _, Backbone, utils, PaginatorView) {
             filter: function (page) {
                 var that = this,
                     filters = utils.getListOptions(),
-                    url  = baseurl + '&' + utils.JSONtoUrl(filters);
-                if (page) url += '&page=' + page;
-                $.get(url, function (resp) {
-                    that.collection = new NewsCollection(resp.results);
-                    that.$el.empty();
-                    that.render();
-                });
+                    url = baseurl + '&' + utils.JSONtoUrl(filters);
+                this.collection.url = url;
+                this.collection.fetch();
             }
         });
     
