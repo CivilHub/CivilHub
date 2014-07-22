@@ -24,6 +24,7 @@
             {% endfor %}
         </div>
         <div class="custom-clear">&nbsp;</div>
+        {% if user.is_authenticated %}
         <button class="btn btn-default media-form-toggle">Upload file</button>
         <div id="media-form">
             <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
@@ -43,6 +44,7 @@
                 <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
             </form>
         </div>
+        {% endif %}
     </div>
     
     {% include 'locations/sidebar.html' %}

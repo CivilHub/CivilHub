@@ -65,9 +65,6 @@ def profile(request, username):
     """
     Show user info to other allowed users
     """
-    if not request.user.is_authenticated():
-        return redirect('user:login')
-
     user = get_object_or_404(User, username=username)
     prof = get_object_or_404(UserProfile, user=user)
     # Custom action stream

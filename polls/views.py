@@ -157,8 +157,11 @@ class PollDetails(DetailView):
                 'object_pk'   : self.object.pk,
             })
         context['can_vote'] = True
-        chk = AnswerSet.objects.filter(user=self.request.user).filter(poll=self.object)
-        if len(chk) > 0:
+        try:
+            chk = AnswerSet.objects.filter(user=self.request.user).filter(poll=self.object)
+            if len(chk) > 0:
+                context['can_vote'] = False
+        except:
             context['can_vote'] = False
         return context
 

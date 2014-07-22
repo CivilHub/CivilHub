@@ -42,9 +42,7 @@
                 <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> {% trans "Login" %}</a></li>
                 {% endif %}
         </ul>
-            {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %}<span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">
@@ -64,6 +62,8 @@
 
                 <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
 
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span><span class="fa fa-angle-down"></span>

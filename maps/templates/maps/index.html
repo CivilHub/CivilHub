@@ -67,9 +67,11 @@ require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
     <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">
         <span class="fa fa-arrow-circle-down"> </span>
     </a>
+    {% if user.is_authenticated %}
     <a id="map-follow-toggle" href="#" title="{% trans "Only followed locations" %}">
         <span class="fa fa-circle-o"> </span>
     </a>
+    {% endif %}
 </div>
 <nav id="map-options-panel" role="navigation">
     <ul>
