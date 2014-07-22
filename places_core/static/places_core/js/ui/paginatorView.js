@@ -85,6 +85,9 @@ function ($, _, Backbone) {
             this.collection.each(function (item) {
                 this.renderPage(item);
             }, this);
+            if (this.totalPages <= 1) {
+                this.$el.hide();
+            }
             return this;
         },
         
@@ -113,6 +116,7 @@ function ($, _, Backbone) {
             if (page > this.firstPage) {
                 this.linkPrev.set('page', page - 1);
             }
+            $(document).scrollTop(0);
         },
         
         setPage: function (page) {

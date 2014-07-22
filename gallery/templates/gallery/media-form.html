@@ -44,10 +44,10 @@
     });
 
     require(['jquery',
-             'js/gallery/mediaForm.js',
+             'js/gallery/mediaForm',
              'common'],
 
-    function (MediaForm) {
+    function ($, MediaForm) {
         "use strict"
         var form = new MediaForm();
         $('.media-form-toggle').on('click', function (e) {
