@@ -9,14 +9,21 @@ define(['jquery',
         'backbone',
         'utils', 
         'js/ui/paginatorView',
-        'paginator'],
+        'paginator',
+        'moment'],
 
 function ($, _, Backbone, utils, PaginatorView) {
     "use strict";
         
     var baseurl = $('#rest-api-url').val(),
 
-        NewsModel = Backbone.Model.extend({}),
+        NewsModel = Backbone.Model.extend({
+            initialize: function (params) {
+                if (params) {
+                    this.set('date_created', moment(params.date_created).fromNow());
+                }
+            }
+        }),
 
         NewsView = Backbone.View.extend({
             tagName: 'div',

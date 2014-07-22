@@ -6,8 +6,8 @@
     <div class="col-xs-11">
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
-            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= date_created %> {% trans "ago" %}.
-            <% if (edited) { %>- {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.<% } %>
+            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <%= date_created %>.
+            <% if (edited) { %>- {% trans "Last edited" %} <%= date_edited %>.<% } %>
         </p>
         <p class="custom-booklike"><%= content %></p>
         <div class="clear">&nbsp;</div>

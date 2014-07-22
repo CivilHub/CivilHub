@@ -22,7 +22,8 @@
             utils: 'js/utils/utils',
             common: 'js/common',
             bootbox: 'includes/bootstrap/bootbox',
-            list: 'js/topics/news-list/niew'
+            list: 'js/topics/news-list/niew',
+            moment: 'includes/momentjs/moment'
         },
         
         shim: {
@@ -90,17 +91,17 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav">
-            	<li class="navbar-text"> {% trans "When" %}:</li>
+                <li class="navbar-text"> {% trans "When" %}:</li>
                 <li><a href="#" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
                 <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
-	   	<li class="navbar-text-narrow">{% trans "Past" %}:</li>
-            	<li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
-	    	<li class="navbar-text-narrow">|</li>
-            	<li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
-	    	<li class="navbar-text-narrow">|</li>
-            	<li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
-	    	<li class="navbar-text-narrow">|</li>
-            	<li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+        <li class="navbar-text-narrow">{% trans "Past" %}:</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
             </ul>
             <form id="haystack-form" class="navbar-form navbar-right" role="search">
                 <div class="form-group">
