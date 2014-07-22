@@ -6,7 +6,8 @@ define(['jquery',
         'underscore',
         'backbone',
         'js/ideas/votes/counterWindow',
-        'bootstrap'],
+        'bootstrap',
+        'moment'],
 
 function ($, _, Backbone, CounterWindow) {
     "use strict";
@@ -35,6 +36,12 @@ function ($, _, Backbone, CounterWindow) {
             this.$el.find('.vote-btn').tooltip({
                 placement: 'right'
             });
+            this.$el.find('.date-created')
+                .text(moment(this.model.get('date_created')).fromNow());
+            if (this.model.get('edited')) {
+                this.$el.find('.date-edited')
+                    .text(moment(this.model.get('date_edited')).fromNow());
+            }
             return this;
         },
 

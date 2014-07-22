@@ -2,7 +2,7 @@
 // discussionEntry.js
 // ==================
 // Single list entry view.
-define(['jquery', 'underscore', 'backbone'],
+define(['jquery', 'underscore', 'backbone', 'moment'],
 
 function ($, _, Backbone) {
     "use strict";
@@ -17,6 +17,12 @@ function ($, _, Backbone) {
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+            this.$el.find('.date-created')
+                .text(moment(this.model.get('date_created')).fromNow());
+            if (this.model.get('edited')) {
+                this.$el.find('.date-edited')
+                    .text(moment(this.model.get('date_edited')).fromNow());
+            }
             return this;
         }
     });

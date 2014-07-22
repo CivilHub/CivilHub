@@ -41,9 +41,9 @@
             </ul>
         </div>
         <p>
-            {% trans "Created" %} <%= date_created %> {% trans "ago" %} {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
+            {% trans "Created" %} <span class="date-created"><%= date_created %></span> {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
             <% if (edited) { %>
-                {% trans "Last edited" %} <%= date_edited %> {% trans "ago" %}.
+                {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
             <% } %>
         </p>
         

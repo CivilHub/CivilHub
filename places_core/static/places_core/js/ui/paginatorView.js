@@ -43,19 +43,27 @@ function ($, _, Backbone) {
         className: 'pagination',
         
         events: {
-            'click': 'selectPage'
+            'click': 'selectPage',
+            'urlChange': 'test'
+        },
+        
+        test: function () {
+            alert("URL changed!");
         },
         
         initialize: function (options) {
-            
-            var i, page;
-            
             this.totalPages = Math.ceil(options.count / options.perPage);
             this.firstPage        = options.startPage || 1;
             this.currentPage      = options.startPage || 1;
             this.collection       = new Backbone.Collection();
             this.targetCollection = options.targetCollection || null;
             this.queryParams      = options.data || {};
+            
+            this.createLinks();
+        },
+        
+        createLinks: function () {
+            var i, page;
             
             this.collection.add([
                 new Backbone.Model({page: this.firstPage, label: '<<'}),
@@ -82,6 +90,7 @@ function ($, _, Backbone) {
         },
         
         render: function () {
+            this.$el.empty();
             this.collection.each(function (item) {
                 this.renderPage(item);
             }, this);

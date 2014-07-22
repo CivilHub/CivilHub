@@ -2,18 +2,12 @@
 // ideaModel.js
 // ============
 // Basic model for idea list.
-define(['backbone', 'moment'],
+define(['backbone'],
 
 function (Backbone) {
     "use strict";
     
-    var IdeaModel = Backbone.Model.extend({
-        initialize: function (params) {
-            if (params) {
-                this.set('date_created', moment(params.date_created).fromNow());
-            }
-        }
-    });
+    var IdeaModel = Backbone.Model.extend({});
     
     return IdeaModel;
 });

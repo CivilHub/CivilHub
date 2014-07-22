@@ -17,13 +17,7 @@ function ($, _, Backbone, utils, PaginatorView) {
         
     var baseurl = $('#rest-api-url').val(),
 
-        NewsModel = Backbone.Model.extend({
-            initialize: function (params) {
-                if (params) {
-                    this.set('date_created', moment(params.date_created).fromNow());
-                }
-            }
-        }),
+        NewsModel = Backbone.Model.extend({}),
 
         NewsView = Backbone.View.extend({
             tagName: 'div',
@@ -45,6 +39,12 @@ function ($, _, Backbone, utils, PaginatorView) {
                     $el: that.$el.find('.entry-submenu'),
                     opened: false
                 };
+                this.$el.find('.date-created')
+                    .text(moment(this.model.get('date_created')).fromNow());
+                if (this.model.get('edited')) {
+                    this.$el.find('.date-edited')
+                        .text(moment(this.model.get('date_edited')).fromNow());
+                }
                 return this;
             },
 
@@ -108,7 +108,11 @@ function ($, _, Backbone, utils, PaginatorView) {
                     filters = utils.getListOptions(),
                     url = baseurl + '&' + utils.JSONtoUrl(filters);
                 this.collection.url = url;
-                this.collection.fetch();
+                this.collection.fetch({
+                    success: function () {
+                        that.paginator.trigger('urlChange')
+                    }
+                });
             }
         });
     
