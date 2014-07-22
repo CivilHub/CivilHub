@@ -246,7 +246,8 @@ function ($, _, Backbone, ui) {
                     }
                 },
                 error: function (err) {
-                    display_alert(gettext('Something somewhere went terribly wrong!'), 'danger');
+                    console.log(err);
+                    //display_alert(gettext('Something somewhere went terribly wrong!'), 'danger');
                 }
             });
             return false;
@@ -271,9 +272,11 @@ function ($, _, Backbone, ui) {
                         _that.model.set('downvotes', ++vStart);
                         _that.model.set('total_votes', --vTotal);
                         _that.render();
-                        display_alert(resp.message, 'success');
+                        ui.message.success(resp.message);
+                        //display_alert(resp.message, 'success');
                     } else {
-                        display_alert(resp.message, 'danger');
+                        ui.message.alert(resp.message);
+                        //display_alert(resp.message, 'danger');
                     }
                 },
                 error: function (err) {
