@@ -1,6 +1,64 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            bootbox: 'includes/bootstrap/bootbox',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/gallery/mediaForm.js',
+             'common'],
+
+    function (MediaForm) {
+        "use strict"
+        var form = new MediaForm();
+        $('.media-form-toggle').on('click', function (e) {
+            e.preventDefault();
+            form.toggle();
+        });
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <div class="col-sm-9">
@@ -48,17 +106,5 @@
     </div>
     
     {% include 'locations/sidebar.html' %}
-    
-    <script>
-    require(['/static/places_core/js/gallery/mediaForm.js'],
-    function (MediaForm) {
-        "use strict"
-        var form = new MediaForm();
-        $('.media-form-toggle').on('click', function (e) {
-            e.preventDefault();
-            form.toggle();
-        });
-    });
-    </script>
 
 {% endblock %}

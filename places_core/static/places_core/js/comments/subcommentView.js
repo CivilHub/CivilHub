@@ -13,17 +13,6 @@ define(['jquery',
 function ($, _, Backbone, moment, CommentModel, CommentCollection, CommentView) {
     "use strict";
     
-    console.log("jQuery");
-    console.log($);
-    console.log("Underscore");
-    console.log(_);
-    console.log("CommentView");
-    console.log(CommentView);
-    console.log("CommentModel");
-    console.log(CommentModel);
-    console.log("CommentCollection");
-    console.log(CommentCollection);
-    
     var SubcommentView = Backbone.View.extend({
         el: null,
         

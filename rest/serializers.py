@@ -158,13 +158,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     fullname = serializers.CharField(source='get_full_name')
     rank_pts = serializers.IntegerField(source='profile.rank_pts')
     avatar   = serializers.CharField(source='profile.avatar.url')
-    follows  = serializers.Field(source='profile.get_biggest_locations')
+    follows  = serializers.SerializerMethodField('get_followed_locations')
+    #follows  = serializers.Field(source='profile.get_biggest_locations')
     user_link= serializers.CharField(source='profile.get_absolute_url')
 
     class Meta:
         model = User
         fields = ('id', 'username', 'email','fullname', 'rank_pts', 'avatar',
                   'follows', 'user_link')
+
+    def get_followed_locations(self, obj):
+        locations = obj.profile.get_biggest_locations()
+        serializer = LocationBasicSerializer(locations, many=True)
+        return serializer.data
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
