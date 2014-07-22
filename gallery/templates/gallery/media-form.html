@@ -61,6 +61,10 @@
 
 {% block content %}
 
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+    <script>Shadowbox.init();</script>
+
     <div class="col-sm-9">
         <div id="gallery">
             {% for file in files %}
