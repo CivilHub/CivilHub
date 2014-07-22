@@ -44,6 +44,11 @@ class LocationForm(forms.ModelForm):
         label = _('Longitude'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
+    population = forms.IntegerField(
+        required = False,
+        label = _("Population"),
+        widget = forms.NumberInput(attrs={'class': 'form-control'})
+    )
     image = forms.ImageField(
         required = False,
         label = _('Image')
@@ -51,7 +56,7 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ('name', 'description', 'parent',
+        fields = ('name', 'description', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
 
 

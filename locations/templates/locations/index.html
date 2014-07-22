@@ -17,8 +17,8 @@
         <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
             <ul class="dropdown-menu ancestors-menu">
-                {% for f in location.get_ancestor_chain %}
-                <li><a href="{{ f.url }}">{{ f.name }}</a></li>
+                {% for f in location.location_set.all %}
+                <li><a href="{{ f.get_absolute_url }}">{{ f.name }}</a></li>
                 {% endfor %}
             </ul>
         </li>

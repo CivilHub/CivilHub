@@ -23,6 +23,7 @@ class Location(models.Model):
     creator   = models.ForeignKey(User, blank=True, related_name='created_locations')
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
+    population= models.IntegerField(blank=True, null=True)
     image     = models.ImageField(
         upload_to = 'img/locations/',
         default = 'img/locations/nowhere.jpg',
