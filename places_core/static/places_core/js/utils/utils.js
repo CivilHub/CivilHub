@@ -103,7 +103,7 @@ define(['jquery', 'underscore'], function ($, _) {
             txt = $field.val();
         
         if (_.isUndefined(txt) || txt.length <= 1) {
-            return '';
+            return ' ';
         }
         
         return txt;

@@ -386,14 +386,14 @@ class ForumViewSet(viewsets.ModelViewSet):
         if time_delta:
             queryset = queryset.filter(date_created__gte=time_delta)
 
-        order = self.request.QUERY_PARAMS.get('order')
-        if order == 'title':
+        sortby = self.request.QUERY_PARAMS.get('sortby')
+        if sortby == 'title':
             return queryset.order_by('question')
-        elif order == 'oldest':
+        elif sortby == 'oldest':
             return queryset.order_by('date_created')
-        elif order == 'category':
+        elif sortby == 'category':
             return queryset.order_by('category__name')
-        elif order == 'username':
+        elif sortby == 'username':
             l = list(queryset)
             # Order by last name - we assume that every user has full name
             l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])

@@ -4,9 +4,14 @@
 //
 // Manage location's blog.
 //
-define(['jquery', 'underscore', 'backbone', 'utils'],
+define(['jquery',
+        'underscore',
+        'backbone',
+        'utils', 
+        'js/ui/paginatorView',
+        'paginator'],
 
-function ($, _, Backbone, utils) {
+function ($, _, Backbone, utils, PaginatorView) {
     "use strict";
         
     var baseurl = $('#rest-api-url').val(),
@@ -47,24 +52,38 @@ function ($, _, Backbone, utils) {
             },
         }),
 
-        NewsCollection = Backbone.Collection.extend({
+        NewsCollection = Backbone.PageableCollection.extend({
+            
             model: NewsModel,
-            url: baseurl
+            
+            url: baseurl,
+            
+            parse: function (data) {
+                return data.results;
+            }
         }),
 
         NewsList = Backbone.View.extend({
             el: '#entries',
 
             initialize: function () {
-                var that = this;
+                var self = this;
                 $.get(baseurl, function (resp) {
-                    that.collection = new NewsCollection(resp.results);
-                    that.render();
+                    self.collection = new NewsCollection(resp.results);
+                    self.render();
+                    self.paginator = new PaginatorView({
+                        count: resp.count,
+                        perPage: 2,
+                        targetCollection: self.collection
+                    });
+                    $(self.paginator.render().el).insertAfter(self.$el);
+                    self.listenTo(self.collection, 'sync', self.render);
                 });
             },
 
             render: function (current_page, total_pages) {
                 var that = this;
+                this.$el.empty();
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);

@@ -221,7 +221,6 @@ class LocationDiscussionsList(DetailView):
         context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
         context['links']        = links['discussions']
-        context['appname']      = 'discussion-list'
         return context
 
 
