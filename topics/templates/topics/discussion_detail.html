@@ -22,7 +22,10 @@
             tagsinput: 'includes/jquery/jquery.tagsinput',
             ui: 'js/ui/ui',
             utils: 'js/utils/utils',
-            common: 'js/common'
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            jqueryui: 'includes/jquery-ui/jquery-ui'
         },
         
         shim: {
@@ -47,13 +50,32 @@
             bootbox: {
                 deps: ['bootstrap'],
                 exports: 'bootbox'
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            dropzone: {
+                deps: ['jquery'],
+                exports: 'Dropzone'
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
             }
         }
     });
 
     require(['jquery',
              'common',
-             'js/topics/discussion/discussion'], function ($) {
+             'js/topics/discussion/replyForm',
+             'js/topics/discussion/discussion'],
+    
+    function ($) {
+        "use strict";
+        
+        window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
         
         $(document).trigger('load');
         
@@ -247,7 +269,7 @@
                             <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
                         </a>
                     {% else %}
-                        <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
+                        <span class="entry-vote-count"><%= vote_count %></span>
                         <a href="" class="entry-vote entry-vote-up">
                             <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
                         </a> |

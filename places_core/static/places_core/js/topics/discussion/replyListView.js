@@ -37,13 +37,6 @@ function ($, _, Backbone, ReplyCollection, ReplyView, PaginatorView) {
                 }
             });
             this.listenTo(this.collection, 'sync', this.render);
-            //~ $('body').on('click', function (e) {
-                //~ self.collection.getNextPage({
-                    //~ data: {
-                        //~ pk: targetId
-                    //~ }
-                //~ });
-            //~ });
         },
         
         render: function () {

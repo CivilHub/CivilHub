@@ -5,7 +5,7 @@
 // Collection of simple tools to deal with
 // Django REST framework.
 //
-define(['jquery'], function ($) {
+define(['jquery', 'underscore'], function ($, _) {
     "use strict";
     
     var utils = utils || {};

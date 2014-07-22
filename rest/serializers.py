@@ -399,12 +399,13 @@ class DiscussionReplySerializer(serializers.ModelSerializer):
     date_created = serializers.DateTimeField()
     date_edited = serializers.DateTimeField()
     is_edited = serializers.BooleanField()
+    vote_count = serializers.Field(source='votes.count')
 
     class Meta:
         model = Entry
         fields = ('id', 'content', 'creator_id', 'creator_username', 'creator_fullname',
                   'creator_avatar', 'date_created', 'date_edited', 'is_edited',
-                  'creator_url',)
+                  'creator_url', 'vote_count',)
 
 
 class IdeaCategorySerializer(serializers.ModelSerializer):
