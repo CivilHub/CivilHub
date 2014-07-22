@@ -2,9 +2,9 @@
 // Comments app.
 // =============
 //
-require (['jquery', 'underscore', 'backbone', 'moment'],
+require (['jquery', 'underscore', 'backbone', 'ui', 'moment'],
 
-function ($, _, Backbone) {
+function ($, _, Backbone, ui) {
     "use strict";
     // Set apps url
     var cType = $('#target-type').val(),
@@ -225,19 +225,24 @@ function ($, _, Backbone) {
             var _that = this,
                 vStart = _that.model.get('upvotes'),
                 vTotal = _that.model.get('total_votes');
-            sendAjaxRequest('POST', '/rest/votes/', {
+            $.ajaxSetup({
+                headers: {'X-CSRFToken': getCookie('csrftoken')}
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/rest/votes/',
                 data: {
                     vote: 'up',
-                    comment: _that.model.id
+                    comment: _that.model.get('id')
                 },
                 success: function (resp) {
                     if (resp.success === true) {
                         _that.model.set('upvotes', ++vStart);
                         _that.model.set('total_votes', ++vTotal);
                         _that.render();
-                        display_alert(resp.message, 'success');
+                        ui.message.success(resp.message);
                     } else {
-                        display_alert(resp.message, 'danger');
+                        ui.message.alert(resp.message);
                     }
                 },
                 error: function (err) {
@@ -251,7 +256,12 @@ function ($, _, Backbone) {
             var _that = this,
                 vStart = _that.model.get('downvotes'),
                 vTotal = _that.model.get('total_votes');
-            sendAjaxRequest('POST', '/rest/votes/', {
+            $.ajaxSetup({
+                headers: {'X-CSRFToken': getCookie('csrftoken')}
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/rest/votes/',
                 data: {
                     vote: 'down',
                     comment: _that.model.id

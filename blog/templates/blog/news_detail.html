@@ -1,5 +1,62 @@
 {% extends 'locations/index.html' %}
+{% load staticfiles %}
 {% load bookmarks_tags %}{% load i18n %}
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/comments/commentlist'], function ($) {
+        
+        "use strict";
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
 
 {% block content %}
 

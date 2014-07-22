@@ -3,6 +3,69 @@
 {% load bookmarks_tags %}
 {% load i18n %}
 
+{% block require_scripts %}
+    
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            bootbox: 'includes/bootstrap/bootbox',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            }
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/comments/commentlist',
+             'js/ideas/votes/votes'],
+
+    function ($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
+
 {% block content %}
 <div class="main-content col-sm-9">
     <div class="row idea-entry">
@@ -75,7 +138,7 @@
         <input type="hidden" id="target-user" value="{{ user.username }}" />
         <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
         <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-        {% comment %}{% include 'comments/commentlist.html' %}{% endcomment %}
+        {% include 'comments/commentlist.html' %}
     </div>
 
 </div>
@@ -84,9 +147,5 @@
 {% include 'ideas/idea-votes.html' %}
 
 {% include 'locations/sidebar.html' %}
-
-{% include 'maps/pointer-modal-form.html' %}
-
-<script>require(['/static/places_core/js/ideas/idea-view/idea.js'],function(){});</script>
 
 {% endblock %}
