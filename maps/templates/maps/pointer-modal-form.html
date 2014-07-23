@@ -6,6 +6,7 @@
 {% endcomment %}
 
 <script type="text/template" id="map-marker-form-template">
+<div class="modal fade" id="pointer-form">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,66 +24,5 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+</div>
 </script>
-
-<script>require(['/static/places_core/js/maps/pointer.js'],function(){});</script>
-
-{% comment %}
-<script src="{% static 'maps/js/jquery.mapinput.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('.map-marker-toggle').bind('click', function (evt) {
-        evt.preventDefault();
-        var $modal   = $(_.template($('#map-marker-form-template').html(), {})),
-            $form    = $modal.find('form:first'),
-            $submit  = $modal.find('.submit-btn:first'),
-            formData = {};
-            
-        $modal.modal('show');
-        
-        $modal.on('shown.bs.modal', function () {
-            
-            $('#id_latitude').before('<div id="map"></div>');
-            $('#map').mapinput({
-                latField: '#id_latitude',
-                lngField: '#id_longitude',
-                width: 550,
-                height: 300
-            });
-            
-            $form.on('submit', function (evt) {
-                evt.preventDefault();
-            });
-            
-            $submit.on('click', function () {
-                formData = {
-                    content_type: $('#id_content_type').val(),
-                    object_pk   : $('#id_object_pk').val(),
-                    latitude    : $('#id_latitude').val(),
-                    longitude   : $('#id_longitude').val()
-                }
-                
-                sendAjaxRequest('POST', $form.attr('action'), {
-                    data: formData,
-                    success: function (resp) {
-                        display_alert(resp.message, resp.level);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-                
-                $modal.modal('hide');
-            });
-        });
-        
-        $modal.on('hidden.bs.modal', function () {
-            $modal.empty().remove();
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-        });
-    });
-})(jQuery);
-</script>
-{% endcomment %}

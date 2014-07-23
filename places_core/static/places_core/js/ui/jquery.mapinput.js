@@ -2,8 +2,8 @@
 // jquery.mapinput.js
 // ==================
 // Mapinput AMD module.
-define(['jquery',
-        'async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
+require(['jquery',
+         'async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
         
 function ($) {
     

@@ -23,7 +23,9 @@
             ui: 'js/ui/ui',
             utils: 'js/utils/utils',
             common: 'js/common',
-            moment: 'includes/momentjs/moment'
+            moment: 'includes/momentjs/moment',
+            mapinput: 'js/ui/jquery.mapinput',
+            async: 'includes/require/async'
         },
         
         shim: {
@@ -48,12 +50,17 @@
             bootbox: {
                 deps: ['bootstrap'],
                 exports: 'bootbox'
+            },
+            
+            mapinput: {
+                deps: ['jquery']
             }
         }
     });
 
     require(['jquery',
              'common',
+             'js/maps/pointer',
              'js/comments/commentlist'],
 
     function ($) {
@@ -67,6 +74,7 @@
 
 {% block content %}
 <div class="main-content col-sm-9">
+    {% include 'maps/pointer-modal-form.html' %}
     <div class="row idea-entry">
         <div class="idea-votes col-sm-3">
             <div class="vote-form">
