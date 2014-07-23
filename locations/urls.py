@@ -49,6 +49,7 @@ urlpatterns = patterns('',
     # Ajaxy functions - follow/unfollow location actions
     url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
     url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
+    url(r'background/(?P<pk>\d+)', change_background, name='background'),
     # Ajaxy functions - invite other users to follow location.
     url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite')
 )

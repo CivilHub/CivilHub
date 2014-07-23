@@ -2,7 +2,7 @@
 import json, datetime
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import translation
@@ -711,3 +711,15 @@ def remove_follower(request, pk):
             'message': _('Something, somewhere went terribly wrong'),
         }
     return HttpResponse(json.dumps(response))
+
+
+@login_required
+@require_POST
+def change_background(request, pk):
+    location = Location.objects.get(pk=pk)
+    user = request.user
+    if not user.is_superuser and not location in user.mod_areas.all():
+        return HttpResponseForbidden()
+    location.image = request.FILES['background']
+    location.save()
+    return redirect(request.META['HTTP_REFERER'])
