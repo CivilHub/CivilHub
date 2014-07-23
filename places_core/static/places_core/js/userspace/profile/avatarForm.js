@@ -7,9 +7,10 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'bootstrap'],
+        'bootstrap',
+        'liquid'],
 
-function ($, _, Backbone, utils) {
+function ($, _, Backbone) {
     
     "use strict";
     
@@ -29,12 +30,15 @@ function ($, _, Backbone, utils) {
             this.previewImg = this.$el.find('#avatar-img-placeholder');
             this.$uploader.on('change', function (e) {
                 e.preventDefault();
-                that.$form.submit();
+                that.setAvatar();
             });
             this.$form.on('submit', function (e) {
                 e.preventDefault();
-                //that.uploadAvatar();
-                that.setAvatar();
+                that.uploadAvatar();
+            });
+            this.$el.find('.submit-btn').on('click', function (e) {
+                e.preventDefault();
+                that.$form.submit();
             });
         },
         
@@ -60,17 +64,28 @@ function ($, _, Backbone, utils) {
                 that.previewImg.attr('src', e.target.result).show();
             }
             reader.readAsDataURL(img);
-            console.log(img);
-            console.log(this.previewImg);
+            
+            $(".imgLiquidFill").imgLiquid({
+                fill: true,
+                horizontalAlign: "center",
+                verticalAlign: "top"
+            });
         },
         
         uploadAvatar: function () {
             var that = this,
                 formData = new FormData();
+            
+            // If user didn't selected any image
+            if (!this.previewImg.is(':visible')) {
+                this.close();
+                return false;
+            }
+            
             formData.append('avatar', this.$uploader[0].files[0]);
             formData.append('csrfmiddlewaretoken',
                 this.$form.find('[name="csrfmiddlewaretoken"]').val())
-            alert(that.$form.attr('target'));
+            
             $.ajax({
                 type: 'POST',
                 url: '/user/upload_avatar/',
@@ -78,7 +93,9 @@ function ($, _, Backbone, utils) {
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log(data);
+                    data = JSON.parse(data);
+                    $('.user-thumb, .navbar-avatar').attr('src', data.avatar);
+                    that.close();
                 },
                 error: function (err) {
                     console.log(err);
