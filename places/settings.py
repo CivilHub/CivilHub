@@ -251,9 +251,9 @@ EMAIL_USE_TLS       = True
 EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
 
 # Email settings for testing purposes
-EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
+#EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 # Uncomment below line to enable sending real emails.
-#DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
 # Celery task manager settings

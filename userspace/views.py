@@ -425,7 +425,10 @@ def upload_avatar(request):
             user.thumbnail = 'img/avatars/' + thumbname
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-    return redirect('user:index')
+    return HttpResponse(dumps({
+        'avatar': user.avatar.url
+    }));
+    #return redirect('user:index')
 
 
 @require_safe

@@ -36,7 +36,7 @@ define(['jquery', 'underscore'], function ($, _) {
     // ------------------
     // @param {string} name Cookie's name
     // @returns {string} Cookie's value
-    utils.getCookie = function (name) {
+    window.getCookie = utils.getCookie = function (name) {
         "use strict";
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
