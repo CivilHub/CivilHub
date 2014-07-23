@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.utils import timezone
 from bookmarks.models import Bookmark
 from ipware.ip import get_ip
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
@@ -479,3 +479,17 @@ def test_view(request):
         return HttpResponse(json.dumps({'info':'Yes, is AJAX request'}))
     else:
         return HttpResponse("No, it's not AJAX request")
+
+
+def change_background(request):
+    """
+    Allow users to customize their profiles.
+    """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            profile = request.user.profile
+        else:
+            return HttpResponseForbidden()
+        profile.background_image = request.FILES['background']
+        profile.save()
+        return redirect(request.META['HTTP_REFERER'])

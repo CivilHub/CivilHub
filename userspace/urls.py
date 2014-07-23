@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'save_settings/', views.save_settings, name='save_settings'),
     url(r'my_bookmarks/', views.my_bookmarks, name='my_bookmarks'),
     url(r'locations/(?P<pk>\d+)/', views.UserFollowedLocations.as_view(), name='locations'),
+    url(r'background/', views.change_background, name='background'),
     url(r'(?P<username>\w+)/$', views.profile, name='profile'),
 )

@@ -579,6 +579,15 @@ class GalleryViewSet(viewsets.ModelViewSet):
     queryset = LocationGalleryItem.objects.all()
     serializer_class = GalleryItemSerializer
     permission_classes = (IsModeratorOrReadOnly,)
+    
+    def get_queryset(self):
+        if self.request.QUERY_PARAMS.get('pk'):
+            pk = self.request.QUERY_PARAMS.get('pk')
+            location = get_object_or_404(Location, pk=pk)
+            queryset = LocationGalleryItem.objects.filter(location=location)
+        else:
+            queryset = LocationGalleryItem.objects.all()
+        return queryset
 
     def delete(self, request):
         itm = get_object_or_404(LocationGalleryItem, pk=request.DATA.get('pk'))
