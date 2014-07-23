@@ -12,7 +12,7 @@ function ($, utils, ui) {
         
     $('.map-marker-toggle').bind('click', function (evt) {
         evt.preventDefault();
-        alert($('#map-marker-form-template').html());
+        
         var $modal   = $(_.template($('#map-marker-form-template').html(), {})),
             $form    = $modal.find('form:first'),
             $submit  = $modal.find('.submit-btn:first'),
