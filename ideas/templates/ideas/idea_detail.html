@@ -63,6 +63,7 @@
              'ui',
              'js/ideas/votes/counterWindow',
              'common',
+             'js/maps/minimap',
              'js/maps/pointer',
              'js/comments/commentlist'],
 
@@ -116,6 +117,29 @@
             });
             var cc = new CW();
         });
+        
+        var runMinimap = function () {
+            
+            {% if map_markers %}
+                var minimapData = [];
+                {% for m in map_markers %}
+                minimapData.push({
+                    lat: '{{ m.latitude }}',
+                    lng: '{{ m.longitude }}',
+                    pk: '{{ m.pk }}'
+                });
+                {% endfor %}
+                $('#minimap').minimap(minimapData);
+                
+            {% else %}
+                return true;
+            {% endif %}
+        
+        };
+        
+        setTimeout(function () {
+            runMinimap();
+        }, 2000);
         
         $(document).trigger('load');
         

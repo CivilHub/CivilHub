@@ -3,10 +3,12 @@
 // ==========
 // Display minimap for different content types.
 define(['jquery',
+        'utils',
+        'ui',
         'bootbox',
         '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
 
-function ($, bootbox) {
+function ($, utils, ui, bootbox) {
     "use strict";
     $.fn.minimap = function (markers) {
         return $(this).each(function () {
@@ -36,14 +38,20 @@ function ($, bootbox) {
                 google.maps.event.addListener(m, 'click', function() {
                     bootbox.confirm(gettext("Are you sure you want to delete this marker?"), function (resp) {
                         if (resp) {
-                            sendAjaxRequest('POST', '/maps/remove/', {
+                            $.ajax({
+                                beforeSend: function (xhr, settings) {
+                                    xhr.setRequestHeader("X-CSRFToken", utils.getCookie('csrftoken'));
+                                },
+                                type: 'POST',
+                                url: '/maps/remove/',
                                 data: {pk: marker.pk},
+                                dataType: 'json',
                                 success: function (resp) {
-                                    display_alert(resp.message, resp.level);
+                                    ui.message.success(resp.message);
                                     m.setVisible(false);
                                 },
-                                error: function (resp) {
-                                    console.log(resp);
+                                error: function (err) {
+                                    console.log(err);
                                 }
                             });
                         }
