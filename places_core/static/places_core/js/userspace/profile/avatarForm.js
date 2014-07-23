@@ -64,12 +64,6 @@ function ($, _, Backbone) {
                 that.previewImg.attr('src', e.target.result).show();
             }
             reader.readAsDataURL(img);
-            
-            $(".imgLiquidFill").imgLiquid({
-                fill: true,
-                horizontalAlign: "center",
-                verticalAlign: "top"
-            });
         },
         
         uploadAvatar: function () {

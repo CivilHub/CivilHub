@@ -122,7 +122,7 @@
                 <h4 class="modal-title">{% trans "Choose Avatar" %}</h4>
             </div>
             <div class="modal-body">
-                <div class="imgLiquidNoFill imgLiquid" style="width:250px; height:250px;"><img id="avatar-img-placeholder" /></div>
+                <img id="avatar-img-placeholder" style="display:none;max-width:100%" />
                 <form id="modal-upload-form" enctype="multipart/form-data" action="{% url 'user:upload_avatar' %}" method="post">
                     {% csrf_token %}
                     {{ avatar_form }}
