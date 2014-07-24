@@ -56,7 +56,7 @@ require.config({
 
 require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
     
-    window.MEDIA_URL = '/media';
+    window.MEDIA_URL = "{% static 'maps' %}";
     
     $(document).trigger('load');
     

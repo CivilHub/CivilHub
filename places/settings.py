@@ -300,6 +300,7 @@ SOUTH_MIGRATION_MODULES = {
 
 
 # CORS settings
+# IMPORTANT - Be sure to change this settings in production
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_HEADERS = (
