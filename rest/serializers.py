@@ -208,13 +208,14 @@ class NewsSerializer(serializers.ModelSerializer):
     edited = serializers.BooleanField()
     tags = serializers.SerializerMethodField('get_tags')
     comment_count = serializers.SerializerMethodField('get_comment_count')
-
+    comment_meta = serializers.SerializerMethodField('get_comment_meta')
+    
     class Meta:
         model = News
         fields = ('id', 'title', 'slug', 'link', 'content', 'date_created', 
                   'date_edited', 'username', 'user_id', 'avatar', 'location',
                   'category', 'category_url', 'edited', 'tags', 'comment_count',
-                  'user_full_name', 'creator_url',)
+                  'user_full_name', 'creator_url', 'comment_meta')
 
     def get_tags(self, obj):
         tags = []
@@ -226,6 +227,12 @@ class NewsSerializer(serializers.ModelSerializer):
                                        'tag':tag.name})
             })
         return tags
+
+    def get_comment_meta(self, obj):
+        return {
+            'content-type': ContentType.objects.get_for_model(News).pk,
+            'content-label': 'blog',
+        }
 
     def get_comment_count(self, obj):
         pk = obj.pk
@@ -445,13 +452,20 @@ class IdeaSerializer(serializers.ModelSerializer):
     total_votes = serializers.Field(source='get_votes')
     edited = serializers.BooleanField()
     tags = serializers.SerializerMethodField('get_tags')
+    comment_meta = serializers.SerializerMethodField('get_comment_meta')
 
     class Meta:
         model = Idea
         fields = ('id','name','description','creator_id','creator_username',
                  'creator_fullname','creator_avatar','date_created','date_edited',
                  'edited','tags','category_name','category_url','total_comments',
-                 'total_votes','url','creator_url',)
+                 'total_votes','url','creator_url', 'comment_meta',)
+
+    def get_comment_meta(self, obj):
+        return {
+            'content-type': ContentType.objects.get_for_model(Idea).pk,
+            'content-label': 'ideas',
+        }
 
     def get_tags(self, obj):
         tags = []
@@ -532,9 +546,17 @@ class BadgeSerializer(serializers.ModelSerializer):
 class GalleryItemSerializer(serializers.ModelSerializer):
     """ Serializer class for location gallery items. """
     id = serializers.Field(source='pk')
+    comment_meta = serializers.SerializerMethodField('get_comment_meta')
+
+    def get_comment_meta(self, obj):
+        return {
+            'content-type': ContentType.objects.get_for_model(LocationGalleryItem).pk,
+            'content-label': 'gallery',
+        }
 
     class Meta:
         model = LocationGalleryItem
+        fields = ('id', 'comment_meta',)
 
 
 class UserMediaSerializer(serializers.ModelSerializer):

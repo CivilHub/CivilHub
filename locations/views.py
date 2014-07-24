@@ -716,6 +716,7 @@ def remove_follower(request, pk):
 @login_required
 @require_POST
 def change_background(request, pk):
+    """ Change place picture with single button. """
     location = Location.objects.get(pk=pk)
     user = request.user
     if not user.is_superuser and not location in user.mod_areas.all():
