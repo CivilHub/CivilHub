@@ -546,6 +546,9 @@ class BadgeSerializer(serializers.ModelSerializer):
 class GalleryItemSerializer(serializers.ModelSerializer):
     """ Serializer class for location gallery items. """
     id = serializers.Field(source='pk')
+    description = serializers.CharField()
+    thumbnail = serializers.SerializerMethodField('item_thumbnail')
+    picture = serializers.Field(source='url')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
 
     def get_comment_meta(self, obj):
@@ -554,9 +557,12 @@ class GalleryItemSerializer(serializers.ModelSerializer):
             'content-label': 'gallery',
         }
 
+    def item_thumbnail(self, obj):
+        return obj.get_thumbnail((128,128))
+
     class Meta:
         model = LocationGalleryItem
-        fields = ('id', 'comment_meta',)
+        fields = ('id', 'comment_meta', 'description', 'thumbnail', 'picture',)
 
 
 class UserMediaSerializer(serializers.ModelSerializer):
