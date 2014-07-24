@@ -23,9 +23,11 @@
             ui: 'js/ui/ui',
             utils: 'js/utils/utils',
             common: 'js/common',
+            async: 'includes/require/async',
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
-            jqueryui: 'includes/jquery-ui/jquery-ui'
+            jqueryui: 'includes/jquery-ui/jquery-ui',
+            mapinput: 'js/ui/jquery.mapinput'
         },
         
         shim: {
@@ -70,6 +72,8 @@
     require(['jquery',
              'common',
              'js/topics/discussion/replyForm',
+             'js/maps/minimap',
+             'js/maps/pointer',
              'js/topics/discussion/discussion'],
     
     function ($) {
@@ -85,6 +89,8 @@
 {% endblock %}
 
 {% block content %}
+
+    {% include 'maps/pointer-modal-form.html' %}
 
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
 

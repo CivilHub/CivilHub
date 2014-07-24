@@ -2,14 +2,99 @@
 {% load staticfiles %}
 {% load bookmarks_tags %} {% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            async: 'includes/require/async',
+            moment: 'includes/momentjs/moment',
+            mapinput: 'js/ui/jquery.mapinput'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/maps/minimap',
+             'js/maps/pointer',
+             'js/comments/commentlist'], function ($) {
+        
+        "use strict";
+        
+        var runMinimap = function () {
+            
+            {% if map_markers %}
+                var minimapData = [];
+                {% for m in map_markers %}
+                minimapData.push({
+                    lat: '{{ m.latitude }}',
+                    lng: '{{ m.longitude }}',
+                    pk: '{{ m.pk }}'
+                });
+                {% endfor %}
+                $('#minimap').minimap(minimapData);
+                
+            {% else %}
+                return true;
+            {% endif %}
+        
+        };
+        
+        setTimeout(function () {
+            runMinimap();
+        }, 2000);
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
+
+    {% include 'maps/pointer-modal-form.html' %}
 
     <div class="col-sm-9">
         <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
                 <li>{% bookmark_form for poll %}</li>
-                {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+                <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
             </ul>
         </div>
         <hr />
@@ -33,8 +118,6 @@
         </p>
         {% endif %}
     </div>
-
-    {% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
     
     {% include 'locations/sidebar.html' %}
 

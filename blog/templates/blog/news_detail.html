@@ -21,7 +21,9 @@
             ui: 'js/ui/ui',
             utils: 'js/utils/utils',
             common: 'js/common',
-            moment: 'includes/momentjs/moment'
+            async: 'includes/require/async',
+            moment: 'includes/momentjs/moment',
+            mapinput: 'js/ui/jquery.mapinput'
         },
         
         shim: {
@@ -47,9 +49,34 @@
 
     require(['jquery',
              'common',
+             'js/maps/minimap',
+             'js/maps/pointer',
              'js/comments/commentlist'], function ($) {
         
         "use strict";
+        
+        var runMinimap = function () {
+            
+            {% if map_markers %}
+                var minimapData = [];
+                {% for m in map_markers %}
+                minimapData.push({
+                    lat: '{{ m.latitude }}',
+                    lng: '{{ m.longitude }}',
+                    pk: '{{ m.pk }}'
+                });
+                {% endfor %}
+                $('#minimap').minimap(minimapData);
+                
+            {% else %}
+                return true;
+            {% endif %}
+        
+        };
+        
+        setTimeout(function () {
+            runMinimap();
+        }, 2000);
         
         $(document).trigger('load');
         
@@ -60,11 +87,13 @@
 
 {% block content %}
 
+    {% include 'maps/pointer-modal-form.html' %}
+
     <div class="col-sm-9">
         <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
-                {% comment %}<li>{% bookmark_form for news %}</li>{% endcomment %}
+                <li>{% bookmark_form for news %}</li>
                 {% if user.is_authenticated and user != news.creator %}
                 <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
                     {% trans "Report abuse" %}</a></li>
@@ -76,6 +105,7 @@
                 {% endif %}
             </ul>
         </div>
+        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
         <hr />
         <article>
             

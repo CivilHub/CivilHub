@@ -102,7 +102,7 @@ function ($, _, Backbone, bootbox) {
     //
     // Handy interface for messages via ui object.
     // --------------------------------------------
-    ui.message = new ui.MessageArea();
+    window.message = ui.message = new ui.MessageArea();
 
 
     //

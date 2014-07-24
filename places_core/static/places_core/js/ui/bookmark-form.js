@@ -4,7 +4,7 @@
 // Custom scripts for django-generic-bookmarks.
 // Provides ajax interface for bookmark form.
 //
-define(['jquery'],
+require(['jquery'],
 
 function ($) {
     
@@ -15,7 +15,7 @@ function ($) {
         return $(this).each(function () {
             
             var $element = $(this),
-            
+                
                 defaults = {
                     onSubmit: function (created) { return created; }
                 },
