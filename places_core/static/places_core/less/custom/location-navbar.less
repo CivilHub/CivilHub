@@ -23,11 +23,13 @@
         
         li {
             
+			
+			
             a,
             a.active {
                 
                 border-right: none;
-                font-weight: 700;
+                font-weight: normal;
                 font-size: 12px;
                 line-height: 15px;
                 padding: 10px 15px;
@@ -35,19 +37,31 @@
                 text-shadow: none;
                 
             }
+			
+			
             
             &:not(:first-child) {
                 
                 a,
                 a.active {
                     
-                    padding-left: 15px;
+                    padding-left: 20px;
                     
                 }
                 
+				a.active {
+				color: #2889de;
+				}
+				
             }
             
         }
+		li.active {
+				color: #2889de;
+				a {
+					color: #2889de;
+				}
+		}
         
     }
     

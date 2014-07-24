@@ -13,7 +13,7 @@
   min-height: @navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
   margin-bottom: @navbar-margin-bottom;
   border: 1px solid transparent;
-
+  background-color: @navbar-default-bg;
   // Prevent floats from breaking the navbar
   &:extend(.clearfix all);
 
@@ -55,7 +55,8 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
   &:extend(.clearfix all);
   -webkit-overflow-scrolling: touch;
-
+	
+	
   .navbar-soon {
 	color: #0582f7;
     font-size: 65%;
@@ -63,6 +64,23 @@
     margin-top: -35px;
     position: absolute;
     right: 15px;
+  }
+  
+  .bs-navbar-soon {
+	color: #0582f7;
+    font-size: 61%;
+    margin-right: 0;
+    position: absolute;
+    right: 22px;
+  }
+  
+  
+  >i.fa {
+		  
+			left: 11px;
+			position: absolute;
+			top: 12px;
+		  
   }
   
   &.in {
@@ -94,6 +112,13 @@
       padding-right: 0;
     }
   }
+}
+.navbar-top-border {
+	border-bottom: #d9d9d9 1px;
+}
+
+.navbar-top-search {
+	float: left;
 }
 
 .navbar-fixed-top,
@@ -241,6 +266,51 @@
     padding-top:    10px;
     padding-bottom: 10px;
     line-height: @line-height-computed;
+  }
+  
+  >li >i.fa {
+		  
+	font-size: 18px;
+	position: absolute;
+	top: 8px;
+	margin-left: 2px;
+
+  }
+  
+  li.navbar-icon >span {
+    margin-left: 8px;
+    margin-right: -8px;
+    margin-top: 5px;
+  }
+  
+  li >a >span.navbar-icon {
+	margin-left: -23px;
+	margin-top: -5px;
+	position: absolute;
+  }
+  
+  >li >a >i.fa {
+		  
+	position: absolute;
+	margin-left: -13px;
+	margin-top: 1px;
+
+  }
+  
+  >li >span.breaker {
+		
+	color: #595959;
+	font-size: 13px;
+	font-weight: normal;
+	position: absolute;
+	padding: 10px 0px;
+	line-height: 15px;
+	margin-left: -3px;	
+		
+  }
+  
+  >li.last-element {
+	margin-left: -15px;
   }
 
   @media (max-width: @grid-float-breakpoint-max) {

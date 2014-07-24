@@ -2,7 +2,7 @@
 {% comment %}
     This is main top navigation panel to include in other templates.
 {% endcomment %}
-<nav id="navbar-top"class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav id="navbar-top"class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
     <div class="container">
         <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
@@ -12,6 +12,14 @@
             <span class="icon-bar"></span>
         </button>
         <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.jpg' %}"></a>
+	<div class="navbar-top-search">
+	    <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                <div class="form-group">
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                </div>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+            </form>
+	</div>
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
             
@@ -28,7 +36,7 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.get_full_name }}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} <span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'user:profile' user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Profile" %}</a></li>
                         <li><a href="{% url 'user:locations' user.pk %}"><i class="fa fa-home fa-fw"></i>{% trans "My Places" %}</a></li>
@@ -44,7 +52,7 @@
         </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %}<span class="fa fa-angle-down"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
@@ -66,7 +74,8 @@
                 <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#">
-                        <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span><span class="fa fa-angle-down"></span>
+                        <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span>
+			{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu bookmarks-list"></ul>
                 </li>

@@ -69,14 +69,16 @@
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
     
     <ul class="nav navbar-nav">
+    <li><i class="fa fa-map-marker"></i></li>
     {% for parent in location.get_parent_chain %}
-        <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
+        <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+	<li><span class="breaker">></span></li>
     {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
         </li>
         {% if location.get_ancestor_chain %}
-        <li>
+        <li class="last-element">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
             <ul class="dropdown-menu ancestors-menu">
                 {% for f in location.location_set.all %}

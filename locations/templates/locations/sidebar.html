@@ -60,6 +60,32 @@
             {% endif %}
         </ul>
     </ul>
+
+    <div class="tags">
+        <ul>
+        {% for tag, counter in tags %}
+            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+
+    <div class="sidebar-right">
+	<div class="followers-sidebar">
+	<h3 class="title">{% trans "Most active users" %}</h3>
+	<div class="followers-box">
+    	{% for usr in location.users.all %}
+	    <div class="follower">
+	    	<a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+	    	<img alt="{{ usr.username }}" src="{{ usr.profile.avatar.url }}">
+	    </a>
+	    </div>
+   	 {% endfor %}
+<div class="clear"></div>
+	 </div>
+	 </div>
+    </div>
 </div>
 
 {% if user.is_authenticated %}
