@@ -59,18 +59,14 @@
     });
 
     require(['jquery',
-             'js/userspace/profile/avatarForm',
              'js/userspace/profile/profileForm',
              'common'],
 
-    function ($, AvatarForm) {
+    function ($) {
         "use strict";
-               
-        var aForm = new AvatarForm();
         
-        $('.avatar-toggle-btn').on('click', function (e) {
-            e.preventDefault();
-            aForm.open();
+        $('#id_avatar').on('change', function (e) {
+            $('#upload-avatar-form').submit();
         });
         
         $(document).trigger('load');
@@ -90,11 +86,11 @@
 <div class="row">
     <div class="col-sm-3">
         <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
-        <noscript><form id="upload-avatar-form" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
+        <form id="upload-avatar-form" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
             {% csrf_token %}
             {{ avatar_form }}
-        </form></noscript>
-        <p><button class="btn btn-primary avatar-toggle-btn">{% trans "Change avatar" %}</button></p>
+        </form>
+        {% comment %}<p><button class="btn btn-primary avatar-toggle-btn">{% trans "Change avatar" %}</button></p>{% endcomment %}
         <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
         <p>Points: {{ profile.rank_pts }}</p>
         <ul>

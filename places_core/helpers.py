@@ -194,8 +194,13 @@ class TagFilter(ContentFilter):
 
 def process_background_image(imgfile, dirname=None):
     """
-    Scale image and create proper thumbnails. This images are then
-    used as background for location and profile pages.
+    Scales image. This images are then used as background for location and 
+    profile pages. 
+    
+    Function takes image file (usually from request.FILES['file']) as argument
+    and changes it's size and name. If `dirname` is provided as path relative
+    to MEDIA_ROOT settings, image will be saved on this path. If not ,`img`
+    folder will be used instead.
     """
     img = Image.open(imgfile)
     pathname = dirname or 'img'

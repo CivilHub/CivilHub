@@ -410,14 +410,20 @@ def upload_avatar(request):
     """
     Upload/change user avatar
     """
+    from .helpers import crop_avatar, delete_thumbnails
     if request.method == 'POST':
         f = AvatarUploadForm(request.POST, request.FILES)
         if f.is_valid():
             user = UserProfile.objects.get(user=request.user.id)
-            user.avatar = request.FILES['avatar']
+            try:
+                os.unlink(user.avatar.path)
+                delete_thumbnails(user.avatar.name.split('/')[-1:][0])
+            except Exception:
+                pass
+            user.avatar = crop_avatar(request.FILES['avatar'])
             size = 30, 30
             path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-            file, ext = os.path.splitext(request.FILES['avatar'].name)
+            file, ext = os.path.splitext(user.avatar.name.split('/')[-1:][0])
             thumbname = '30x30_' + file + ext
             img = Image.open(user.avatar)
             tmp = img.copy()
@@ -426,10 +432,10 @@ def upload_avatar(request):
             user.thumbnail = 'img/avatars/' + thumbname
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-    return HttpResponse(dumps({
-        'avatar': user.avatar.url
-    }));
-    #return redirect('user:index')
+    #~ return HttpResponse(dumps({
+        #~ 'avatar': user.avatar.url
+    #~ }));
+    return redirect('user:index')
 
 
 @require_safe
