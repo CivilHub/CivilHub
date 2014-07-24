@@ -280,6 +280,9 @@ THUMB_SIZES = [
 # Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
 IMAGE_MAX_SIZE = (1024,1024)
 
+# Maximum size for location and profile pages background images
+BACKGROUND_IMAGE_SIZE = 2080
+
 
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app

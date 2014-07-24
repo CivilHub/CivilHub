@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, datetime
+import json, datetime, os
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden
@@ -37,7 +37,7 @@ from actstream.actions import follow, unfollow
 from actstream.models import Action
 # custom permissions
 from places_core.permissions import is_moderator
-from places_core.helpers import TagFilter
+from places_core.helpers import TagFilter, process_background_image
 
 
 class LocationNewsList(DetailView):
@@ -721,6 +721,11 @@ def change_background(request, pk):
     user = request.user
     if not user.is_superuser and not location in user.mod_areas.all():
         return HttpResponseForbidden()
-    location.image = request.FILES['background']
+    img = process_background_image(request.FILES['background'], 'img/locations')
+    try:
+        os.unlink(location.image.path)
+    except Exception:
+        pass
+    location.image = img
     location.save()
     return redirect(request.META['HTTP_REFERER'])

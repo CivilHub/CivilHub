@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-import json, math
+import json, math, os, re
+from uuid import uuid4 as uuid
+from PIL import Image
 from operator import itemgetter
 from taggit.models import Tag
+from django.conf import settings
+from django.core.files import File
 from locations.models import Location
-import re
 
 tag_end_re = re.compile(r'(\w+)[^>]*>')
 entity_end_re = re.compile(r'(\w+;)')
@@ -187,3 +190,18 @@ class TagFilter(ContentFilter):
                         self._items[tag.name] += 1
                     except KeyError:
                         self._items[tag.name] = 1
+
+
+def process_background_image(imgfile, dirname=None):
+    """
+    Scale image and create proper thumbnails. This images are then
+    used as background for location and profile pages.
+    """
+    img = Image.open(imgfile)
+    pathname = dirname or 'img'
+    dirname = os.path.join(settings.MEDIA_ROOT, pathname)
+    imgname = str(uuid()) + str(len(os.listdir(dirname))) + '.jpg'
+    if img.size[0] > settings.BACKGROUND_IMAGE_SIZE:
+        img.thumbnail((settings.BACKGROUND_IMAGE_SIZE, settings.BACKGROUND_IMAGE_SIZE))
+    img.save(os.path.join(dirname, imgname), 'JPEG')
+    return File(open(os.path.join(dirname, imgname)))

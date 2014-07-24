@@ -19,14 +19,15 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_safe
+from django.views.decorators.http import require_safe, require_POST
+from django.contrib.auth.decorators import login_required
 from actstream.models import model_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream
 from places_core.tasks import send_poll_email
-from places_core.helpers import truncatesmart
+from places_core.helpers import truncatesmart, process_background_image
 from forms import *
 
 
@@ -481,6 +482,8 @@ def test_view(request):
         return HttpResponse("No, it's not AJAX request")
 
 
+@login_required
+@require_POST
 def change_background(request):
     """
     Allow users to customize their profiles.
@@ -490,6 +493,10 @@ def change_background(request):
             profile = request.user.profile
         else:
             return HttpResponseForbidden()
-        profile.background_image = request.FILES['background']
+        try:
+            os.unlink(profile.background_image.path)
+        except Exception:
+            pass
+        profile.background_image = process_background_image(request.FILES['background'], 'img/backgrounds')
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
