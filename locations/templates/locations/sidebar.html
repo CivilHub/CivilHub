@@ -78,7 +78,7 @@
         {% for usr in location.users.all %}
         <div class="follower">
             <a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-            <img alt="{{ usr.username }}" src="{{ usr.profile.avatar.url }}">
+            <img alt="{{ usr.username }}" src="{{ usr.profile.thumbnail_small }}">
         </a>
         </div>
      {% endfor %}

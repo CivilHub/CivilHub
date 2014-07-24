@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 from django.db import models
 from django.conf import settings
 from annoying.fields import AutoOneToOneField
@@ -7,6 +8,17 @@ from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage
 from locations.models import Location
 from actstream.models import following
+
+
+def thumbnail(imgname, size):
+    """
+    Returns profile avatar in selected size. It takes full path to profile
+    image (e.g profile.avatar.name) and selected size which should be integer
+    meaning thumb width.
+    """
+    file, ext = os.path.splitext(imgname.split('/')[-1:][0])
+    pathname = os.path.join(settings.MEDIA_URL, '/'.join(imgname.split('/')[:-1]))
+    return pathname + '/' + str(size) + 'x' + str(size) + '_' + file + ext
 
 
 class UserProfile(models.Model):
@@ -34,6 +46,15 @@ class UserProfile(models.Model):
         default = 'img/backgrounds/background.jpg',
         storage = OverwriteStorage()
     )
+    
+    def thumbnail_small(self):
+        return thumbnail(self.avatar.name, 30)
+        
+    def thumbnail_medium(self):
+        return thumbnail(self.avatar.name, 60)
+
+    def thumbnail_big(self):
+        return thumbnail(self.avatar.name, 90)
 
     def get_biggest_locations(self, limit=5):
         """
