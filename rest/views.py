@@ -320,6 +320,12 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
                                date_voted = timezone.now(),
                                comment=CustomComment.objects.get(pk=self.request.POST['comment']))
             vote.save()
+            action.send(
+                request.user,
+                action_object=vote.comment,
+                verb='voted on',
+                vote = True if request.POST.get('vote') == 'up' else False
+            )
             return Response({
                 'success': True,
                 'message': _('Vote saved')

@@ -65,7 +65,12 @@ def vote(request):
                 'message': 'Vote saved',
                 'votes': get_votes(idea),
             }
-            action.send(request.user, action_object=idea, verb='voted on')
+            action.send(
+                request.user,
+                action_object=idea,
+                verb='voted on',
+                vote = True if request.POST.get('vote') == 'up' else False
+            )
             request.user.profile.rank_pts += 1
             request.user.profile.save()
         return HttpResponse(json.dumps(response))

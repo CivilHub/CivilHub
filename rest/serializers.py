@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import gettext as _
 from django.core.urlresolvers import reverse
 from taggit.models import Tag
 from blog.models import Category, News
@@ -59,6 +60,13 @@ class MyActionsSerializer(serializers.Serializer):
         elif content_type.model == 'poll':
             serializer = PollBasicSerializer(instance)
             return serializer.data
+        elif content_type.model == 'locationgalleryitem':
+            serializer = GalleryItemSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'discussion':
+            serializer = DiscussionSerializer(instance)
+            serializer.data['name'] = serializer.data['question']
+            return serializer.data
         else:
             data = {
                 'id': instance.pk,
@@ -71,9 +79,13 @@ class MyActionsSerializer(serializers.Serializer):
             ct = obj.action_object_content_type
             target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
             if obj.verb == 'commented':
-                return u''
+                return truncatehtml(obj.data['comment'], 140) + ' <a href="' + obj.data['comment_url'] + '">' + _("More") + '</a>'
             elif obj.verb == 'voted on':
-                return u''
+                if obj.data['vote']:
+                    return obj.actor.first_name + ' ' + _("like this") + '.'
+                else:
+                    return obj.actor.first_name + ' ' + _("don't like this") + '.'
+                return obj.data['vote']
             elif ct.model == 'idea':
                 return truncatehtml(target.description, 140)
             elif ct.model == 'location':
@@ -546,6 +558,7 @@ class BadgeSerializer(serializers.ModelSerializer):
 class GalleryItemSerializer(serializers.ModelSerializer):
     """ Serializer class for location gallery items. """
     id = serializers.Field(source='pk')
+    name = serializers.CharField()
     description = serializers.CharField()
     thumbnail = serializers.SerializerMethodField('item_thumbnail')
     picture = serializers.Field(source='url')
@@ -562,7 +575,8 @@ class GalleryItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LocationGalleryItem
-        fields = ('id', 'comment_meta', 'description', 'thumbnail', 'picture',)
+        fields = ('id', 'comment_meta', 'description', 'thumbnail', 'picture',
+                  'name',)
 
 
 class UserMediaSerializer(serializers.ModelSerializer):

@@ -7,6 +7,7 @@
 #
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
 from actstream import action
 from actstream.actions import follow
 from userspace.models import UserProfile
@@ -97,7 +98,9 @@ def comment_action_hook(sender, instance, created, **kwargs):
         action.send(
             instance.user,
             action_object = instance.content_object,
-            verb = _('commented')
+            verb = _('commented'),
+            comment = instance.comment,
+            comment_url = instance.content_object.get_absolute_url() + '#comment-' + str(instance.pk)
         )
 
 
