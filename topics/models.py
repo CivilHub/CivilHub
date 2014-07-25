@@ -89,6 +89,9 @@ class Entry(MPTTModel):
         votes_down = len(votes_total.filter(vote=False))
         return votes_up - votes_down
 
+    def get_absolute_url(self):
+        return self.discussion.get_absolute_url()
+
 
 class EntryVote(models.Model):
     """

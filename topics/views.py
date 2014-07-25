@@ -15,6 +15,7 @@ from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from actstream import action
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
@@ -318,8 +319,15 @@ def reply(request, slug):
         )
         try:
             entry.save()
+            action.send(
+                request.user,
+                action_object=entry,
+                target = topic,
+                verb= _('posted')
+            )
         except:
             return HttpResponse(_('An error occured'))
+        
     return HttpResponseRedirect(request.META['HTTP_REFERER'] + '#reply-' + str(entry.pk))
 
 

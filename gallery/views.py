@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from easy_thumbnails.files import get_thumbnailer
+from actstream import action
 from userspace.models import UserProfile
 from locations.models import Location
 from locations.links import LINKS_MAP as links
@@ -215,6 +216,12 @@ class PlaceGalleryView(GalleryView):
                 description = request.POST.get('description') or ''
             )
             item.save()
+            action.send(
+                request.user,
+                action_object = item,
+                target = item.location,
+                verb= _('uploaded')
+            )
         if request.is_ajax():
             return HttpResponse(json.dumps({
                 'success': True,

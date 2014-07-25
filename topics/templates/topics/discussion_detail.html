@@ -27,7 +27,8 @@
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
             jqueryui: 'includes/jquery-ui/jquery-ui',
-            mapinput: 'js/ui/jquery.mapinput'
+            mapinput: 'js/ui/jquery.mapinput',
+            moment: 'includes/momentjs/moment'
         },
         
         shim: {
@@ -71,7 +72,6 @@
 
     require(['jquery',
              'common',
-             'js/topics/discussion/replyForm',
              'js/maps/minimap',
              'js/maps/pointer',
              'js/topics/discussion/discussion'],
@@ -80,6 +80,11 @@
         "use strict";
         
         window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
+        
+        $('.reply-entry-btn').on('click', function (e) {
+            e.preventDefault();
+            $('#reply-form').slideToggle('slow');
+        });
         
         $(document).trigger('load');
         
@@ -258,9 +263,9 @@
                 <p class="entry-meta">
                     <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a> 
                     <span class="topic-date-col">
-                        <%= date_created %> {% trans "ago" %}
+                        <span class="date-created"><%= date_created %></span>
                         <% if (is_edited) { %>
-                            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <%= date_edited %> {% trans "ago" %}
+                            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <span class="date-edited"><%= date_edited %></span>
                         <% } %>
                     </span>
                     <span class="entry-controls"></span>

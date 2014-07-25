@@ -30,10 +30,19 @@ class MyActionsSerializer(serializers.Serializer):
     timestamp = serializers.Field(source='timesince')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
-    object_ct = serializers.Field(source='action_object_content_type.model')
+    #object_ct = serializers.Field(source='action_object_content_type.model')
+    object_ct = serializers.SerializerMethodField('get_verbose_name')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
     description = serializers.SerializerMethodField('get_action_description')
+
+    def get_verbose_name(self, obj):
+        try:
+            ct = obj.action_object_content_type
+            target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
+            return target._meta.verbose_name
+        except Exception:
+            return u''
 
     def get_object_url(self, obj):
         try:
@@ -96,6 +105,10 @@ class MyActionsSerializer(serializers.Serializer):
                 return truncatehtml(target.question, 140)
             elif ct.model == 'discussion':
                 return truncatehtml(target.intro, 140)
+            elif ct.model == 'entry':
+                return truncatehtml(target.content, 140)
+            elif ct.model == 'locationgalleryitem':
+                return '<img src="' + target.get_thumbnail((128,128)) + '" />';
             else:
                 return u''
         except Exception:
@@ -562,6 +575,7 @@ class GalleryItemSerializer(serializers.ModelSerializer):
     description = serializers.CharField()
     thumbnail = serializers.SerializerMethodField('item_thumbnail')
     picture = serializers.Field(source='url')
+    url = serializers.Field(source='get_absolute_url')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
 
     def get_comment_meta(self, obj):
@@ -576,7 +590,7 @@ class GalleryItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = LocationGalleryItem
         fields = ('id', 'comment_meta', 'description', 'thumbnail', 'picture',
-                  'name',)
+                  'name', 'url',)
 
 
 class UserMediaSerializer(serializers.ModelSerializer):

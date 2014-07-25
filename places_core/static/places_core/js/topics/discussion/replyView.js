@@ -4,7 +4,8 @@
 // Single reply.
 define(['jquery',
         'underscore',
-        'backbone'],
+        'backbone',
+        'moment'],
 
 function ($, _, Backbone, utils) {
     "use strict";
@@ -44,6 +45,12 @@ function ($, _, Backbone, utils) {
                 e.preventDefault();
                 self.sendVote(false);
             });
+            this.$el.find('.date-created')
+                .text(moment(this.model.get('date_created')).fromNow());
+            if (this.model.get('edited')) {
+                this.$el.find('.date-edited')
+                    .text(moment(this.model.get('date_edited')).fromNow());
+            }
             return this;
         },
         

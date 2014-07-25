@@ -75,17 +75,6 @@ post_save.connect(create_object_action_hook, sender=Discussion)
 post_save.connect(create_object_action_hook, sender=Poll)
 
 
-def answer_discussion_action_hook(sender, instance, created, **kwargs):
-    """
-    Action hook to notice users about answers in their discussions.
-    This hook is fired up anytime someone post answer on discussion.
-    """
-    pass
-
-
-post_save.connect(answer_discussion_action_hook, sender=Entry)
-
-
 def comment_action_hook(sender, instance, created, **kwargs):
     """
     Action hook dla komentarzy - poinformuj innych o tym, że komentarz

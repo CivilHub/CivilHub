@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
 
 
@@ -14,6 +15,7 @@ class GalleryItem(models.Model):
     """
     class Meta:
         abstract = True
+        verbose_name = _("gallery item")
 
     user = models.ForeignKey(User)
     picture_name  = models.CharField(max_length=256)
@@ -85,6 +87,9 @@ class LocationGalleryItem(GalleryItem):
     name = models.CharField(max_length=64, blank=True, null=True)
     location = models.ForeignKey(Location, related_name='pictures')
     description = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name = _("gallery item")
 
     def url(self):
         """
