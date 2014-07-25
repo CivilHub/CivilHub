@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}
+{% extends 'staticpages/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
 {% block title %}{% trans "Homepage" %}{% endblock %}
@@ -9,39 +9,39 @@
 <div class="signup-view signup-view-background">
     <h1 class="home-first"> People have the Power</h1>
     <div>
-	<div class="half">
-	    <div class="start-text">
-	    	<h2>{% trans "Build your Place,</br>better, together, now!" %}</h2>
-	    	<p>{% trans "Collaborate to build, improve</br> our local communities." %}</p>
-	    	</br>
-	    	<p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
-	    </div>
-	</div>
-	<div class="half">
-	    <form>
-		<input class="long" type="text" placeholder="{% trans "Your username" %}">
-		<div>
-		    <input class="short short-left" type="text" placeholder="{% trans "Name" %}">
-		    <input class="short" type="text" placeholder="{% trans "Surname" %}">
-		</div>
-		<input class="long" type="text" placeholder="{% trans "Your email" %}">
-		<input class="long" type="text" placeholder="{% trans "Create a password" %}">
-		<input class="long" type="text" placeholder="{% trans "Repeat password" %}">
-		<div>
-		    <a href="#">
-		    	<img class="short-left" src="{% static 'places_core/img/fb-connect.png' %}">
-		    </a>
-		    <a href="#">
-		    	<img src="{% static 'places_core/img/g-connect.png' %}">
-		    </a>
-		</div>
-		<button class="long signup-button">{% trans "Sign up" %}</button>
-		</br>
-		<p class="terms">
-		{% trans "By clicking 'Sign up', you agree to our <b>terms of service</b> and <b>privacy policy</b>. We will send you account related emails occasionally." %}
-		</p>
-	    </form>
-	</div>
+    <div class="half">
+        <div class="start-text">
+            <h2>{% trans "Build your Place,</br>better, together, now!" %}</h2>
+            <p>{% trans "Collaborate to build, improve</br> our local communities." %}</p>
+            </br>
+            <p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
+        </div>
+    </div>
+    <div class="half">
+        <form>
+        <input class="long" type="text" placeholder="{% trans "Your username" %}">
+        <div>
+            <input class="short short-left" type="text" placeholder="{% trans "Name" %}">
+            <input class="short" type="text" placeholder="{% trans "Surname" %}">
+        </div>
+        <input class="long" type="text" placeholder="{% trans "Your email" %}">
+        <input class="long" type="text" placeholder="{% trans "Create a password" %}">
+        <input class="long" type="text" placeholder="{% trans "Repeat password" %}">
+        <div>
+            <a href="#">
+                <img class="short-left" src="{% static 'places_core/img/fb-connect.png' %}">
+            </a>
+            <a href="#">
+                <img src="{% static 'places_core/img/g-connect.png' %}">
+            </a>
+        </div>
+        <button class="long signup-button">{% trans "Sign up" %}</button>
+        </br>
+        <p class="terms">
+        {% trans "By clicking 'Sign up', you agree to our <b>terms of service</b> and <b>privacy policy</b>. We will send you account related emails occasionally." %}
+        </p>
+        </form>
+    </div>
     </div>
     <div class="clear"></div>
 </div>
@@ -56,29 +56,29 @@
 
     <img src="{% static 'places_core/img/line.jpg' %}">
     <div class="row">
-	<div class="span4">
-	    <img src="{% static 'places_core/img/point.png' %}">
-	</div>
-	<div class="span4">
-	    <img src="{% static 'places_core/img/collaboration.png' %}">
-	</div>
-	<div class="span4">
-	    <img src="{% static 'places_core/img/idea.png' %}">
-	</div>
+    <div class="span4">
+        <img src="{% static 'places_core/img/point.png' %}">
+    </div>
+    <div class="span4">
+        <img src="{% static 'places_core/img/collaboration.png' %}">
+    </div>
+    <div class="span4">
+        <img src="{% static 'places_core/img/idea.png' %}">
+    </div>
     </div>
     <div class="row">
-	<div class="span4">
-	    <b>{% trans "Find the Place, where you live." %}</b></br>
-		{% trans "We have more than 80 thousand places, but You can always create own for your housing, village." %}
-	</div>
-	<div class="span4">
-	    <b>{% trans "Collaborate with People !@#$%!." %}</b></br>
-		{% trans "Great collaboration starts with communication. We always want to know what happens near us." %}
-	</div>
-	<div class="span4">
-	    <b>{% trans "Share Your Ideas" %}</b></br>
-		{% trans "You and other people have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
-	</div>
+    <div class="span4">
+        <b>{% trans "Find the Place, where you live." %}</b></br>
+        {% trans "We have more than 80 thousand places, but You can always create own for your housing, village." %}
+    </div>
+    <div class="span4">
+        <b>{% trans "Collaborate with People !@#$%!." %}</b></br>
+        {% trans "Great collaboration starts with communication. We always want to know what happens near us." %}
+    </div>
+    <div class="span4">
+        <b>{% trans "Share Your Ideas" %}</b></br>
+        {% trans "You and other people have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
+    </div>
     </div>
 
 </div>
