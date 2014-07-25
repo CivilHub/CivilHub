@@ -160,7 +160,7 @@ class DiscussionDetailView(DetailView):
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
         replies = Entry.objects.filter(discussion=topic)
-        paginator = Paginator(replies, 10)
+        paginator = Paginator(replies, 2)
         page = self.request.GET.get('page')
         moderator = is_moderator(self.request.user, topic.location)
         try:

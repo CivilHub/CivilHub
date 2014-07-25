@@ -3,7 +3,6 @@
 // ==========
 // Display minimap for different content types.
 define(['jquery',
-        'utils',
         'ui',
         'bootbox',
         '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
@@ -40,7 +39,7 @@ function ($, utils, ui, bootbox) {
                         if (resp) {
                             $.ajax({
                                 beforeSend: function (xhr, settings) {
-                                    xhr.setRequestHeader("X-CSRFToken", utils.getCookie('csrftoken'));
+                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                                 },
                                 type: 'POST',
                                 url: '/maps/remove/',

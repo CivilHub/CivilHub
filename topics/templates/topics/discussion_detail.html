@@ -27,8 +27,7 @@
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
             jqueryui: 'includes/jquery-ui/jquery-ui',
-            mapinput: 'js/ui/jquery.mapinput',
-            moment: 'includes/momentjs/moment'
+            mapinput: 'js/ui/jquery.mapinput'
         },
         
         shim: {
@@ -71,20 +70,99 @@
     });
 
     require(['jquery',
+             'ui',
+             'js/topics/discussion/replyForm',
+             'mapinput',
              'common',
              'js/maps/minimap',
-             'js/maps/pointer',
-             'js/topics/discussion/discussion'],
+             'js/ui/bookmark-form'],
     
-    function ($) {
+    function ($, ui) {
         "use strict";
         
         window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
         
-        $('.reply-entry-btn').on('click', function (e) {
-            e.preventDefault();
-            $('#reply-form').slideToggle('slow');
+        $('.map-marker-toggle').bind('click', function (evt) {
+            evt.preventDefault();
+            
+            var $modal   = $(_.template($('#map-marker-form-template').html(), {})),
+                $form    = $modal.find('form:first'),
+                $submit  = $modal.find('.submit-btn:first'),
+                formData = {};
+                
+            $modal.modal('show');
+            
+            $modal.on('shown.bs.modal', function () {
+                
+                $('#id_latitude').before('<div id="map"></div>');
+                $('#map').mapinput({
+                    latField: '#id_latitude',
+                    lngField: '#id_longitude',
+                    width: 550,
+                    height: 300
+                });
+                
+                $form.on('submit', function (evt) {
+                    evt.preventDefault();
+                });
+                
+                $submit.on('click', function () {
+                    formData = {
+                        content_type: $('#id_content_type').val(),
+                        object_pk   : $('#id_object_pk').val(),
+                        latitude    : $('#id_latitude').val(),
+                        longitude   : $('#id_longitude').val()
+                    }
+                    
+                    $.ajax({
+                        beforeSend: function (xhr, settings) {
+                            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                        },
+                        type: 'POST',
+                        url: $form.attr('action'),
+                        data: formData,
+                        dataType: 'json',
+                        success: function (resp) {
+                            ui.message.success(resp.message);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                    
+                    $modal.modal('hide');
+                });
+            });
+            
+            $modal.on('hidden.bs.modal', function () {
+                $modal.empty().remove();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            });
         });
+        
+        var runMinimap = function () {
+            
+            {% if map_markers %}
+                var minimapData = [];
+                {% for m in map_markers %}
+                minimapData.push({
+                    lat: '{{ m.latitude }}',
+                    lng: '{{ m.longitude }}',
+                    pk: '{{ m.pk }}'
+                });
+                {% endfor %}
+                $('#minimap').minimap(minimapData);
+                
+            {% else %}
+                return true;
+            {% endif %}
+        
+        };
+        
+        setTimeout(function () {
+            runMinimap();
+        }, 2000);
         
         $(document).trigger('load');
         
@@ -125,10 +203,10 @@
             </ul>
         </div>
         <hr />
+        
+        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
-
-        
 
         <div class="reply-entry">
             <div class="row">
@@ -159,7 +237,7 @@
             </div>
         </div>
 
-        <noscript>
+        {% comment %}<noscript>{% endcomment %}
         {% for entry in replies %}
             <div class="reply-entry" id="reply-{{ entry.pk }}">
                 <div class="row">
@@ -207,22 +285,28 @@
             </div>
         {% endfor %}
         
-        <div class="pagination">
-            <span class="step-links">
-                {% if replies.has_previous %}
-                    <a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a>
-                {% endif %}
-
-                <span class="current">
-                    {% trans "Page" %} {{ replies.number }} {% trans "of" %} {{ replies.paginator.num_pages }}.
-                </span>
-
-                {% if replies.has_next %}
-                    <a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a>
-                {% endif %}
-            </span>
+        <div class="current">
+            {% trans "Page" %} {{ replies.number }} {% trans "of" %} {{ replies.paginator.num_pages }}.
         </div>
-        </noscript>
+        
+        <ul class="pagination">
+            
+            {% if replies.has_previous %}
+                <li><a href="?page=1">&laquo;</a></li>
+                <li><a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a></li>
+            {% endif %}    
+            
+            {% for page in replies.paginator.page_range %}
+                <li{% if page == replies.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if replies.has_next %}
+                <li><a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a></li>
+                <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+        
+        {% comment %}</noscript>{% endcomment %}
         
         <div id="replies"></div>
         

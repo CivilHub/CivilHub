@@ -10,8 +10,6 @@ function ($) {
     
     var editor = null,
         reply  = window.CIVIL_REPLY_URL;
-        
-    alert("Sparta");
 
     $('#id_content').customCKEditor('custom');
     editor = $('#id_content').data('editor');
