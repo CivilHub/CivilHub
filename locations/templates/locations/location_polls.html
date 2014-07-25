@@ -92,6 +92,13 @@
             <li class="navbar-text-narrow">|</li>
                 <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
             </ul>
+
+	    <ul class="nav navbar-nav navbar-right">
+        	<li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+        	<li class="navbar-text">{% trans "Stats" %}</li>
+        	<span class="bs-navbar-soon">(soon)</span>
+            </ul>
+
             <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
                 <div class="form-group">
                     <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
