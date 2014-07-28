@@ -89,3 +89,7 @@
         <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">{% trans "Create new" %}</button></a></div>
     {% endif %}
 {% endblock %}
+
+{% block footer_scripts %}
+<script src="{% static 'locations/js/location-follow.js' %}"></script>
+{% endblock %}

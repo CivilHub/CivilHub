@@ -80,6 +80,8 @@
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
+{% comment %} Google Analytics code {% endcomment %}
+<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
 </head>
 <body>
     
@@ -122,9 +124,12 @@
         {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
         {% block sidebar %}{% endblock %}
         
-        {% include 'places_core/footer.html' %}
+        
         
     </div>
+
+    {% include 'places_core/footer.html' %}
+
 </div>
 
 {% comment %}

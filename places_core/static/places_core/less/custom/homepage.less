@@ -1,10 +1,16 @@
+body {
+	/* padding-top: 0px; */
+}
+
+.homepage-divider {
+	height: 30px;
+	width: 100%;
+}
+
 .signup-view-background {
-	background: #fff url("/static/places_core/img/civilhome.jpg") center repeat;
-	background-size: 1440px 632px;
-	margin-left: -150px;
-	margin-right: -150px;
-	padding-top: 60px;
-	padding-bottom: 38px;
+	background: url("/static/places_core/img/civilhome.jpg") no-repeat fixed center center / cover #fff;
+	padding-bottom: 200px;
+    padding-top: 100px;
 }
 .signup-view {
 	h1 {
@@ -15,12 +21,16 @@
 		text-shadow: 0 2px #40403b;
 	}
 		
+	.narrow {
+		margin-left: 15%;
+    margin-right: 0;
+	}
+	
 	.half {
 		width: 50%;
 		float:left;		
 		
 		.start-text {
-			margin-left: 155px;
 			color: #fff;
 			text-shadow: 0 2px #40403b;
 			
@@ -104,10 +114,109 @@
 .why-view {
 	color: #454545;
 	text-align: center;
+	
+	.line {
+		background: url("/static/places_core/img/line.jpg") no-repeat scroll center center / 1196px 20px #fff;
+	}
+	
+	.row {
+		float: left;
+		margin: 40px;
+		img {
+			width: 64px;
+			height: 64px;
+			margin-bottom: 20px;
+		}
+	}
 	h2 {
 		color: #454545;
+		font-size: 37px;
 	}
-	a {
+	
+	.why-table {
+		margin: 0 15%;
+	}
+	
+	.proud-table {
+		margin: 3% 0 0 15%;
+		text-align: left;
+		
+		.left-img {
+			float: right;
+			height: 24px;
+			margin-right: -18px;
+			margin-top: 11px;
+			width: 24px;
+		}
+		
+		.row-part {
+			height: 70px;
+			margin-top: 20px;
+		}
+			
+		h3 {
+			font-size: 35px;
+			margin-left: 13%;
+		}
+		
+		h4 {
+			font-weight: bold;
+		}
+		
+		.left-part {
+			margin-right: 0;
+		}
+		
+		.right-part {
+			overflow: hidden;
+			img.pageview {
+				border: 1px solid #000;
+				height: 510px;
+				width: 692px;
+				max-width: none;
+			}
+		}
+	}
+	
+	.subheader {
+		font-size: 20px;
+	}
+	a, a:hover {
 		color: #0384fc;
+		text-decoration: none;
+	}
+}
+
+.map-view {
+
+	background: url("/static/places_core/img/map.jpg") no-repeat fixed center center / cover #fff;
+    padding-top: 547px;
+    
+	img {
+		height: 547px;
+		width: 1440px;
+	}
+}
+
+.access-view {
+    margin: 0 15%;
+
+	h3 {
+		color: #454545;
+		font-size: 35px;
+	}
+	
+	.img-appstore {
+		height: 66px;
+		width: 191px;
+	}
+	
+	.img-googleplay {
+		height: 64px;
+		width: 187px;
+	}
+	.img-left {
+		float: left;
+		padding: 10px;	
 	}
 }

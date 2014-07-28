@@ -122,11 +122,12 @@
 
 {% endblock %}
 
-{% block content %}
-    
-    <div class="col-sm-9">
 
-            <div id="entries"></div>
+{% block content %}
+
+    <div class="col-sm-9 main-content">
+
+            {% comment %}<div id="entries" class="all-entries"></div>{% endcomment %}
 
         <div id="entries"></div>
 
@@ -168,6 +169,7 @@
         {% include 'blog/news_list.html' %}
 
     </div>
+
 
 {% endblock %}
 

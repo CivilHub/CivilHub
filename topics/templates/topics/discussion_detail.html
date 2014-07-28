@@ -339,6 +339,8 @@
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
 
+        
+
         <div class="reply-entry">
             <div class="row">
                 <div class="blobfish-left">&nbsp;</div>
