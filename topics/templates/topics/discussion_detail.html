@@ -359,7 +359,8 @@
                     <div class="entry-footer">
                         <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                         {% if user != discussion.creator %}
-                            <a href="{% url 'reports:report' app_label='topics' model_label='discussion' object_pk=discussion.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                            <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ content_type }}" data-id="{{ discussion.pk }}" data-label="topics">
+                            {% comment %}<a href="{% url 'reports:report' app_label='topics' model_label='discussion' object_pk=discussion.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">{% endcomment %}
                                 <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                             </a>
                         {% endif %}
