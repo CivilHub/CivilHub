@@ -52,7 +52,7 @@ class LocationNewsList(DetailView):
         context['categories'] = BlogCategory.objects.all()
         context['title'] = self.object.name + '::' + _("News")
         context['links'] = links['news']
-        context['appname'] = 'news-list'
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -150,6 +150,7 @@ class LocationIdeasList(DetailView):
         context['links'] = links['ideas']
         context['appname'] = 'idea-list'
         context['categories'] = IdeaCategory.objects.all()
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -221,6 +222,7 @@ class LocationDiscussionsList(DetailView):
         context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
         context['links']        = links['discussions']
+        context['tags'] = TagFilter(location).get_items()
         return context
 
 
@@ -283,6 +285,7 @@ def ajax_discussion_list(request, slug):
     context['is_moderator'] = is_moderator(request.user, location)
     context['links']        = links['discussions']
     context['appname']      = 'discussion-list'
+    context['tags'] = TagFilter(location).get_items()
 
     return render(request, 'locations/location_forum.html', context)
 
@@ -379,7 +382,7 @@ class SublocationList(DetailView):
         context['title']    = self.object.name + '::' + _("Sublocations")
         context['location'] = self.object
         context['links']    = links['sublocations']
-        context['appname']  = 'sublocations'
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -396,7 +399,7 @@ class LocationFollowersList(DetailView):
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
         context['links'] = links['followers']
-        context['appname'] = 'followers'
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -414,7 +417,7 @@ class LocationPollsList(DetailView):
         context['polls'] = Poll.objects.filter(location=location)
         context['links'] = links['polls']
         context['is_moderator'] = is_moderator(self.request.user, location)
-        context['appname'] = 'poll-list'
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -492,6 +495,7 @@ class LocationDetailView(DetailView):
     Detailed location view
     """
     model = Location
+    
     def get_context_data(self, **kwargs):
         location = super(LocationDetailView, self).get_object()
         context = super(LocationDetailView, self).get_context_data(**kwargs)
@@ -502,6 +506,7 @@ class LocationDetailView(DetailView):
         context['actions'] = actions
         context['links'] = links['summary']
         context['appname'] = 'location'
+        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 
@@ -575,7 +580,6 @@ class LocationContentSearch(View):
                 'location': location,
                 'items'   : items,
                 'tags'    : tags,
-                'appname' : 'tag-search',
             })
 
 
@@ -601,7 +605,7 @@ class LocationContentFilter(View):
                 'title'   : _("Search by category"),
                 'location': location,
                 'items'   : items,
-                'appname' : 'category-search',
+                context['tags']: TagFilter(location).get_items()
             })
 
 

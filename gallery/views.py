@@ -18,6 +18,7 @@ from locations.models import Location
 from locations.links import LINKS_MAP as links
 from comments.models import CustomComment
 from places_core.permissions import is_moderator
+from places_core.helpers import TagFilter
 from .models import LocationGalleryItem, UserGalleryItem
 
 
@@ -189,6 +190,7 @@ class PlaceGalleryView(GalleryView):
             'files': [],
             'location': location,
             'links': links['gallery'],
+            'tags': TagFilter(location).get_items()
         }
         for picture in location.pictures.all():
             context['files'].append({
