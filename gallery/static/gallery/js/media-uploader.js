@@ -1,159 +1,202 @@
 (function ($) {
-    "use strict";
-    //
-    // Media uploader core
-    // -------------------------------------------------------------------------
-    //
-    function mediaUploader () {
-        var uploader = object('MediaUploader');
-        $.extend(uploader, {
-            selectedItem: null,
+"use strict";
+//
+// Obsługa media-pluginu dla CKEditora.
+// -----------------------------------------------------------------------------
 
-            $el: $('#media-upload-modal'),
+var USER_GALLERY_URL = '/rest/usermedia/';
+var PLACE_GALLERY_URL = '/rest/gallery/';
 
-            $imgList: {},
+Dropzone.autoDiscover = false;
 
-            $galList: {},
+// Media uploader
+// --------------
+var mediaUploader = function (options) {
 
-            dz: {},
-
-            fetchUserGallery: function () {
-                $('#user-media-list').empty();
-                $.get('/gallery', function (resp) {
-                    resp = JSON.parse(resp);
-
-                    $(resp.files).each(function (idx) {
-                        var _this = this,
-                            path = resp.href + '/thumbs/' + _this,
-                            $img = $(document.createElement('img'));
-
-                        $img.attr({
-                            src    : path,
-                            'class': 'media-thumbnail'
-                        });
-
-                        $('#user-media-list').append($img);
-
-                        $img.on('click', function () {
-                            $('.media-uploader-controls').empty().remove();
-                            $('.uploader-selected-item')
-                                .removeClass('uploader-selected-item');
-                            $img.addClass('uploader-selected-item')
-                                .after('<span class="media-uploader-controls fa fa-minus-circle"> </span>');
-                            $('.media-uploader-controls').on('click', function () {
-                                var imgPath = $img.attr('src'),
-                                    imgName = imgPath.slice(imgPath.lastIndexOf('/') + 1);
-                                sendAjaxRequest('DELETE', '/gallery/' + imgName + '/', {
-                                    success: function (resp) {
-                                        display_alert(resp.message, resp.level);
-                                        $img.fadeOut('fast', function () {
-                                            $img.empty().remove();
-                                            $('.media-uploader-controls').empty().remove();
-                                        });
-                                    },
-                                    error: function (err) {
-                                        console.log(err);
-                                    }
-                                });
-                            });
-                            uploader.selectedItem = resp.href + _this;
-                        });
-                    });
-                });
-            },
-
-            open: function (callback) {
-                this.$el.modal('show');
-                this.$el.find('#tabs').tabs();
-                if (this.$el.find('#place-media-list').length > 0) {
-                    uploader.$galList = this.$el.find('#place-media-list');
-                }
-                // Get items from place gallery.
-                // -----------------------------
-                if (!_.isEmpty(this.$galList)) {
-                    var slug = this.$galList.attr('data-target');
-                    $.get('/' + slug + '/gallery/', function (resp) {
-                        resp = JSON.parse(resp);
-                        $(resp.files).each(function () {
-                            var _this = this,
-                                path = resp.href + 'thumbs/' + _this,
-                                $img = $(document.createElement('img'));
-    
-                            $img.attr({
-                                src    : path,
-                                'class': 'media-thumbnail'
-                            });
-
-                            uploader.$galList.append($img);
-
-                            $img.on('click', function () {
-                                $('.media-uploader-controls').empty().remove();
-                                $('.uploader-selected-item')
-                                    .removeClass('uploader-selected-item');
-                                $img.addClass('uploader-selected-item');
-                                uploader.selectedItem = resp.href + _this;
-                            });
-                        });
-                    });
-                }
-                // Primitive callback to allow fetch picture only once
-                // into CKEDITOR instance.
-                if (callback) {
-                    callback();
-                }
-            },
-            
-            close: function () {
-                this.$el.modal('hide');
+    var defaults = {
+            callback: function (selected) {
+                console.log(selected);
             }
-        });
-        
-        uploader.$el.one('shown.bs.modal', function () {
-            //
-            // Get items from user's gallery directory.
-            // -----------------------------------------------------------------
-            //
-            uploader.fetchUserGallery();
-            if (!$('#dropzone-input').hasClass('dropzone')) {
-                uploader.dz = new Dropzone('#dropzone-input', {
+        },
+
+        options = $.extend(defaults, options),
+
+        fetchGallery = function (callback) {
+            sendAjaxRequest('GET', USER_GALLERY_URL, {
+                success: function (resp) {
+                    if (typeof(callback) === 'function') {
+                        callback(resp);
+                    }
+                }
+            });
+        },
+
+        createDropzone = function () {
+            var $dz = $('#dropzone-input');
+            if ($dz.data('dropzone') !== undefined) {
+                // If dropzone already exists, 
+                // their is no need to create new one.
+                return $dz.data('dropzone');
+            } else {
+                return new Dropzone('#dropzone-input', {
                     init: function () {
-                        $('#dropzone-input').addClass('dropzone');
-                        this.on("complete", function (file) {
-                            if (this.getUploadingFiles().length === 0 &&
-                                this.getQueuedFiles().length === 0) {
+                        var that = this;
+                        that.on("complete", function (file) {
+                            if (that.getUploadingFiles().length === 0 &&
+                                that.getQueuedFiles().length === 0) {
                                 // re-fetch gallery after media upload
-                                uploader.fetchUserGallery();
+                                //uploader.fetchUserGallery();
+                                $('#media-upload-modal')
+                                    .data('mediaUploader')
+                                    .refetch();
                             }
                         });
+                        // Add dropzone to element's data to avoid 'Dropzone
+                        // already attached' error.
+                        $('#dropzone-input')
+                            .addClass('dropzone')
+                            .data('dropzone', that);
                     }
                 });
             }
-        });
+        },
 
-        return uploader;
-    }
+        MediaItemModel = Backbone.Model.extend({}),
 
-    $.fn.customCKEditor = function () {
-        return $(this).each(function () {
-            var $el = $(this),
-                editor = CKEDITOR.replace($el.attr('id')),
-                uploader = mediaUploader(),
-                image = {};
-            editor.ui.addButton('MediaUploader', {
-                label: 'Add Media',
-                command: 'Uploader'
-            });
-            editor.addCommand('Uploader', {exec: function () {
-                uploader.open(function () {
-                    uploader.$el.find('.submit-btn:first').one('click', function (evt) {
-                        image = CKEDITOR.dom.element
-                            .createFromHtml( '<img src="' + uploader.selectedItem + '" border="0" />' );
-                        editor.insertElement(image);
-                        evt.preventDefault();
-                        uploader.close();
-                    });
+        MediaItemView = Backbone.View.extend({
+            tagName:   'div',
+
+            className: 'media-entry',
+
+            template:  _.template($('#media-item-tpl').html()),
+
+            events: {
+                'click .delete-item-button': 'removeItem'
+            },
+
+            render: function () {
+                this.$el.html(this.template(this.model.toJSON()));
+                return this;
+            },
+
+            removeItem: function () {
+                var that = this;
+                sendAjaxRequest('DELETE', USER_GALLERY_URL, {
+                    data: {pk: that.model.get('id')},
+                    success: function (resp) {
+                        console.log(resp);
+                        that.$el.fadeOut('slow');
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
                 });
-            }});
+            }
+        }),
+
+        MediaList = Backbone.Collection.extend({
+            model: MediaItemModel,
+            url: USER_GALLERY_URL
+        }),
+
+        Uploader = Backbone.View.extend({
+            active: false,
+
+            selected: null,
+
+            el: '#media-upload-modal',
+
+            initialize: function () {
+                var that = this;
+                that.$el.find('#tabs').tabs();
+                that.$userGallery = that.$el.find('#tabs-2');
+                that.$sBtn = that.$el.find('.submit-btn');
+                that.dz = createDropzone();
+                fetchGallery(function (items) {
+                    that.collection = new MediaList(items);
+                    that.render();
+                    that.active = true;
+                    that.listenTo(that.collection, 'reset', that.render);
+                });
+            },
+
+            refetch: function () {
+                var that = this;
+                that.$userGallery.empty();
+                fetchGallery(function (items) {
+                    that.collection.reset(items);
+                    $('a[href="#tabs-2"]').trigger('click');
+                });
+            },
+
+            render: function () {
+                var that = this;
+                this.collection.each(function (item) {
+                    this.renderEntry(item);
+                }, this);
+                this.$el
+                    .modal('show')
+                    .data('mediaUploader', this)
+                    .one('hidden.bs.modal', function () {
+                        that.$userGallery.empty();
+                    });
+                this.$sBtn.one('click', function () {
+                    if (typeof(options.callback) === 'function') {
+                        options.callback(that.selected);
+                    }
+                    that.$el.modal('hide');
+                });
+            },
+
+            renderEntry: function (item) {
+                var that = this,
+                    entry = new MediaItemView({
+                        model: item
+                    });
+                $(entry.render().el)
+                    .appendTo(this.$userGallery)
+                    .bind('click', function () {
+                        that.selected = entry.model.get('picture_url');
+                        that.$el.find('.media-entry').removeClass('active');
+                        entry.$el.addClass('active');
+                    });
+            }
         });
-    }
+
+    return new Uploader;
+};
+
+// CKEditor plugin
+// ---------------
+$.fn.customCKEditor = function (settings) {
+    return $(this).each(function () {
+        var $el = $(this),
+            editor = CKEDITOR.replace($el.attr('id')),
+            uploader = null,
+            image = {};
+        editor.ui.addButton('MediaUploader', {
+            label: gettext('Add Media'),
+            command: 'Uploader'
+        });
+        editor.addCommand('Uploader', {exec: function () {
+            uploader = mediaUploader({
+                callback: function (item) {
+                    if (!_.isNull(item)) {
+                        image = CKEDITOR.dom.element
+                            .createFromHtml( '<img src="' + item + '" border="0" />' );
+                        editor.insertElement(image);
+                    }
+                }
+            });
+        }});
+        // Load additional CKEDITOR configuration
+        for (var key in window.CONFIG.ckeditor[settings]) {
+            if (window.CONFIG.ckeditor[settings].hasOwnProperty(key)) {
+                editor.config[key] = window.CONFIG.ckeditor[settings][key];
+            }
+        }
+        // Give API endpoint to manipulate editor instance.
+        $el.data('editor', editor);
+    });
+};
 })(jQuery);

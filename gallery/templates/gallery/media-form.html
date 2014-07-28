@@ -1,35 +1,114 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            bootbox: 'includes/bootstrap/bootbox',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/gallery/mediaForm',
+             'common'],
+
+    function ($, MediaForm) {
+        "use strict"
+        var form = new MediaForm();
+        $('.media-form-toggle').on('click', function (e) {
+            e.preventDefault();
+            form.toggle();
+        });
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/basic.css' %}" />
-<link rel="stylesheet" href="{% static 'places_core/includes/dropzone/css/dropzone.css' %}" />
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+    <script>Shadowbox.init();</script>
 
-<div class="col-sm-9">
-    <div id="gallery">
-    {% for file in files %}
-        <a href="{{ href }}/{{ file }}"><img src="{{ href }}thumbs/{{ file }}" class="gallery-item" /></a>
-    {% endfor %}
+    <div class="col-sm-9">
+        <div id="gallery">
+            {% for file in files %}
+            <div class="col-sm-6 col-md-4 file-entry">
+                <div class="thumbnail">
+                    <a class="gallery-item" href="{{ file.href }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
+                    <div class="caption">
+                        <h3><a href="{% url 'locations:picture' slug=location.slug pk=file.pk %}">{{ file.name }}</a></h3>
+                        <p>{{ file.desc }}</p>
+                        {% if user.is_superuser %}
+                        <p class="item-controllers">
+                            <button class="btn btn-primary edit-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Edit" %}</button> 
+                            <button class="btn btn-danger delete-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Delete" %}</button>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="custom-clear">&nbsp;</div>
+        {% if user.is_authenticated %}
+        <button class="btn btn-default media-form-toggle">Upload file</button>
+        <div id="media-form">
+            <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="control-label" for="image-name">{% trans "Image name" %}</label>
+                    <input type="text" name="name" id="image-name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="image-description">{% trans "Image description" %}</label>
+                    <textarea name="description" id="image-description" cols="20" rows="10" class="form-control"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image" class="control-label">{% trans "Image" %}</label>
+                    <input type="file" name="image" id="image-file" />
+                </div>
+                <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
+            </form>
+        </div>
+        {% endif %}
     </div>
-    <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="fallback">
-            <input name="file" type="file" class="form-input" multiple />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Upload" %}</button>
-        </div>
-    </form>
-</div>
-
-<script src="{% static 'places_core/includes/dropzone/dropzone.js' %}"></script>
-<script src="{% static 'places_core/includes/colorbox/jquery.colorbox.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#gallery a').colorbox({rel:'gal'});
-})(jQuery);
-</script>
+    
+    {% include 'locations/sidebar.html' %}
 
 {% endblock %}

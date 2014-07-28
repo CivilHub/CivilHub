@@ -1,109 +1,161 @@
 {% extends 'locations/index.html' %}
-{% load i18n %} 
-{% block content %}
-<div class="col-sm-9">
-{% if polls %}
-<div class="polls-list custom-tablelike">
-    <div class="row polls-list-heading custom-list-heading">
-        <div class="col-xs-4">{% trans "Title" %}</div>
-        <div class="col-xs-2">{% trans "Created by" %}</div>
-        <div class="col-xs-2">{% trans "Date created" %}</div>
-        <div class="col-xs-4">&nbsp;</div>
-    </div>
-    {% for poll in polls %}
-    <div class="polls-list-entry custom-list-entry row">
-        {% if user == poll.creator or user.is_superuser %}
-            <div class="btn-group list-entry-controls">
-                <a href="">
-                    <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
-                </a>
-                <button data-target="{{ poll.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
-                    <span class="fa fa-times-circle-o"> </span></button>
-            </div>
-        {% endif %}
-        <div class="col-xs-4"><a href="{{ poll.pk }}">{{ poll.title }}</a></div>
-        <div class="col-xs-2">
-            <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
-            <a href="{% url 'user:profile' poll.creator %}">{{ poll.creator.get_full_name }}</a>
-        </div>
-        <div class="col-xs-2">{{ poll.date_created | timesince }}</div>
-        <div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>
-    </div>
-    {% endfor %}
-</div>
-{% else %}
-    <h2>{% trans "There are no polls yet" %}</h2>
-{% endif %}
-</div>
-{% endblock %}
+{% load i18n %}{% load staticfiles %}
 
-{% block sidebar %}
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-    <h3 class="actions-label">{% trans "Actions" %}:</h3>
-    {% if user.is_authenticated %}
-    <ul class="custom-sidebar-nav">                   
-        <li>
-            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
-                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_poll' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:news_create' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_idea' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
-            </a>
-        </li>
-        </ul>
-    {% endif %}
-    </ul>
-</div>
-{% endblock %}
+{% block require_scripts %}
 
-
-
-{% block footer_scripts %}
-{% if user.is_authenticated %}
-<script>
-(function ($) {
-    "use strict";
-    //
-    // Delete existing poll - only owners and superadmins
-    // -------------------------------------------------------------------------
-    $('.delete-btn').on('click', function () {
-        var question = '{% trans "Are you sure you want to delete this poll?" %}',
-            target = $(this).attr('data-target'),
-            url = '/polls/delete/' + target + '/',
-            $entry = $(this).parents('.polls-list-entry:first');
-        bootbox.confirm(question, function (resp) {
-            if (resp) {
-                sendAjaxRequest('POST', url, {
-                    data: {confirm: true},
-                    success: function (resp) {
-                        display_alert(resp.message, resp.level);
-                        if (resp.success) {
-                            $entry.fadeOut('slow', function () {
-                                $entry.empty().remove();
-                            });
-                        }
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
-            } 
-        });
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            paginator: 'includes/backbone/backbone.paginator',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
     });
-})(jQuery);
-</script>
-{% endif %}
+
+    require(['jquery',
+             'common',
+             'js/polls/poll-list/pollList'], function ($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
+{% block topbar %}
+
+    <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
+                        <li><a href="" class="list-controller" data-target="question" data-control="sortby">{% trans "Question" %}</a></li>
+                        <li><a href="" class="list-controller active" data-target="latest" data-control="sortby">{% trans "Latest" %}</a></li>
+                        <li><a href="" class="list-controller" data-target="oldest" data-control="sortby">{% trans "Oldest" %}</a></li>
+                        <li><a href="" class="list-controller" data-target="creator" data-control="sortby">{% trans "Username" %}</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav">
+        <li class="navbar-text"> {% trans "When" %}:</li>
+                <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
+                <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
+            <li class="navbar-text-narrow">{% trans "Past" %}:</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+            <li class="navbar-text-narrow">|</li>
+                <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+            </ul>
+
+	    <ul class="nav navbar-nav navbar-right">
+        	<li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+        	<li class="navbar-text">{% trans "Stats" %}</li>
+        	<span class="bs-navbar-soon">(soon)</span>
+            </ul>
+
+            <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
+                <div class="form-group">
+                    <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
+                </div>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+            </form>
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="col-sm-9">
+        {% if polls %}
+        <div class="polls-list custom-tablelike">
+            
+            <div class="row polls-list-heading custom-list-heading">
+                <div class="col-xs-4">{% trans "Title" %}</div>
+                <div class="col-xs-2">{% trans "Created by" %}</div>
+                <div class="col-xs-2">{% trans "Date created" %}</div>
+                <div class="col-xs-4">&nbsp;</div>
+            </div>
+            
+            <noscript>
+                {% for poll in polls %}
+                <div class="polls-list-entry custom-list-entry row">
+                    {% if user == poll.creator or is_moderator %}
+                        <div class="btn-group list-entry-controls">
+                            <a href="">
+                                <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
+                            </a>
+                            <button data-target="{{ poll.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
+                                <span class="fa fa-times-circle-o"> </span></button>
+                        </div>
+                    {% endif %}
+                    <div class="col-xs-4"><a href="{{ poll.get_absolute_url }}">{{ poll.title }}</a></div>
+                    <div class="col-xs-2">
+                        <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator }}" class="user-avatar-minithumb" />
+                        <a href="{% url 'user:profile' poll.creator %}" class="user-window-toggle" data-target="{{ poll.creator.pk }}">{{ poll.creator.get_full_name }}</a>
+                    </div>
+                    <div class="col-xs-2">{{ poll.date_created | timesince }}</div>
+                    {% comment %}<div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>{% endcomment %}
+                    <div class="col-xs-4 custom-list-entry-la"><a href="{% url 'polls:results' poll.pk %}">{% trans "Show answers" %}</a></div>
+                </div>
+                {% endfor %}
+            </noscript>
+            
+            {% include 'polls/poll-list.html' %}
+            
+        </div>
+        {% else %}
+            <h2>{% trans "There are no polls yet" %}</h2>
+        {% endif %}
+        
+    </div>
+
+    {% include 'locations/sidebar.html' %}
+
 {% endblock %}

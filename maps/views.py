@@ -9,9 +9,25 @@ from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from places_core.helpers import truncatesmart
 from locations.models import Location
+from blog.models import News
 from models import MapPointer
 import forms
+
+
+class Pointer(object):
+    """
+    Handy class to create and manage map pointers based on content type.
+    """
+    def __init__(self, obj):
+        ct = ContentType.objects.get_for_model(obj)
+        self.latitude = obj.latitude
+        self.longitude = obj.longitude
+        self.content_type = ct.pk
+        if isinstance(obj, News):
+            self.name = obj.title
+            self.desc = truncatesmart(obj.content, 10)
 
 
 def index(request):
@@ -22,6 +38,7 @@ def index(request):
     return render_to_response('maps/index.html', {
         'title': _("Map"),
         'user': request.user,
+        'appname': 'main-map',
     })
 
 
@@ -32,8 +49,20 @@ def get_pointers(request):
     """
     locations = []
     pointers  = []
-    ls = Location.objects.all()
-    ps = MapPointer.objects.all()
+    followed  = request.GET.get('followed')
+    if followed:
+        ls = request.user.profile.followed_locations()
+        id_list = []
+        ct = ContentType.objects.get_for_model(Location)
+        for location in ls:
+            id_list.append(location.pk) 
+        ps = []
+        for point in MapPointer.objects.all():
+            if point.content_object.location.pk in id_list:
+                ps.append(point)
+    else:
+        ls = Location.objects.all()
+        ps = MapPointer.objects.all()
     for l in ls:
         # Take only locations with lat and long
         if l.latitude and l.longitude:
@@ -42,14 +71,20 @@ def get_pointers(request):
                 'longitude': l.longitude,
                 'name'     : l.name,
                 'url'      : l.get_absolute_url(),
+                'type'     : str(ContentType.objects.get_for_model(l)),
             })
     for p in ps:
+        try:
+            url = p.content_object.get_absolute_url()
+        except Exception:
+            break
         pointers.append({
             'latitude'    : p.latitude,
             'longitude'   : p.longitude,
             'content_type': p.content_type.pk,
             'object_pk'   : p.object_pk,
             'url'         : p.content_object.get_absolute_url(),
+            'type'        : str(p.content_type),
         })
     context = {
         'success'  : True,

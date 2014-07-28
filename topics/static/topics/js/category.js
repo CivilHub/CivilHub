@@ -35,7 +35,7 @@
                     url: '/rest/categories/',
                     data: formData,
                     success: function (data) {
-                        display_alert('New category added', 'success');
+                        display_alert(gettext('New category added'), 'success');
                         $modal.modal('hide');
                     },
                     error: function (err) {

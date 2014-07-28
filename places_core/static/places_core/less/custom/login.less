@@ -1,0 +1,225 @@
+.login-page {
+    
+    padding: 15px;
+    
+    
+    .login-form {
+        
+        
+        width: 400px;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        
+        background: #fff;
+        
+        border: 1px solid #6e8290;
+        border-radius: 5px;
+        margin-top: 120px;
+        
+        .login-form-header {
+            
+            margin-top: 0px;
+            background: #758b9b;
+            border-bottom: 1px solid #586873;
+            -webkit-border-top-left-radius: 4px;
+            -webkit-border-top-right-radius: 4px;
+            -moz-border-radius-topleft: 4px;
+            -moz-border-radius-topright: 4px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            padding: 10px 20px;
+            
+            text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0px;
+            
+        }
+        
+        .login-social {
+            
+            padding: 0px 10px;
+            margin: 12px 0px;
+            
+            .login-facebook {
+                
+                text-align: left;
+                
+            }
+            
+            .login-twitter {
+                
+                text-align: center;
+                
+            }
+            
+            .login-google {
+                
+                text-align: right;
+                
+            }
+            
+        }
+        
+        .input-section {
+            
+            margin: 18px 0px 10px 0px;
+            padding: 0px 10px;
+            
+            label {
+                
+                color: #333333;
+                font-size: 16px;
+                font-weight: 20px;
+                margin-bottom: 0px;
+                
+            }
+            
+            a {
+                
+                position: relative;
+                top: -1px;
+                line-height: 22px;
+                display: inline-block;
+                
+            }
+            
+            >div>div:nth-child(even) {
+                
+                margin-bottom: 20px;
+                
+            }
+            
+            >div>div:nth-child(odd) {
+                
+                margin-bottom: 5px;
+                
+            }
+            
+            input {
+                
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #cccccc;
+                border-radius: 4px;
+                outline: none;
+                line-height: 20px;
+                font-size: 12px;
+                padding: 6px 15px;
+                
+                &:focus {
+                    
+                    outline: none;
+                    
+                }
+                
+            }
+            
+            
+        }
+        
+        .submit-section {
+            
+            margin: 0 0 20px 0;
+            padding: 0 10px;
+            
+            a {
+                
+                line-height: 28px;
+                
+            }
+            
+            input {
+                
+                border: 1px solid #1967a9;
+                color: #fff;
+                background: #23a2e3; /* Old browsers */
+            background: -moz-linear-gradient(top,  #23a2e3 0%, #1a82d9 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#23a2e3), color-stop(100%,#1a82d9)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #23a2e3 0%,#1a82d9 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23a2e3', endColorstr='#1a82d9',GradientType=0 ); /* IE6-9 */
+                border-radius: 5px;
+                line-height: 20px;
+                padding: 5px 10px;
+                font-weight: 700;
+                text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+                
+                &:focus {
+                    
+                    outline: none;
+                    
+                }
+                
+            }
+            
+            >div:last-child {
+                
+                text-align: right;
+                
+            }
+            
+        }
+        
+        a {
+            
+            color: @link-hover-color;
+            
+        }
+        
+    }
+
+    
+}
+
+@media all and (max-width: 768px) {
+    
+    .login-page {
+        
+        .login-form {
+            
+            margin-top: 20px;
+            
+            text-align: center;
+            
+            .login-social {
+                
+                .login-facebook,
+                .login-twitter,
+                .login-google {
+                
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    text-align: center;
+                    
+                }
+                
+            }
+            
+            .submit-section {
+                
+                div {
+                    
+                    text-align: center;
+                    
+                }
+                
+                input[type=submit] {
+                    
+                    width: 100%;
+                    margin-top: 10px;
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}

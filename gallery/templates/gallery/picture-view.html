@@ -1,0 +1,86 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            bootbox: 'includes/bootstrap/bootbox',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/comments/commentlist',
+             'common'],
+
+    function ($) {
+        "use strict"
+        
+    });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="main-content col-sm-9">
+        <h1>{{ picture.name }}</h1>
+        
+        <div class="picture-main-view">
+            <img src="{{ picture.url }}" alt="{{ picture.name }}" />
+        </div>
+        
+        <div>
+            <p>
+                {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
+                <a class="comment-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a>
+            </p>
+        </div>
+        <input type="hidden" id="target-id" value="{{ picture.pk }}" />
+        <input type="hidden" id="target-label" value="gallery" />
+        <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
+        <input type="hidden" id="target-user" value="{{ user.username }}" />
+        <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+        <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+        {% include 'comments/commentlist.html' %}
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+
+{% endblock %}

@@ -30,15 +30,14 @@ class Idea(models.Model):
     """
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
-    date_edited = models.DateTimeField(blank=True, null=True)
+    date_edited = models.DateTimeField(blank=True, null=True, auto_now=True)
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
-    description = models.TextField(max_length=2048, null=True, blank=True,)
+    description = models.TextField(max_length=20480, null=True, blank=True,)
     category = models.ForeignKey(Category, null=True, blank=True)
     location = models.ForeignKey(Location)
     status = models.BooleanField(default=True)
     # Track changes to mark item as edited when user changes it.
-    # Fixme - after saving tags this field is True which is not desired effect.
     edited = models.BooleanField(default=False)
     tags = TaggableManager()
     
@@ -55,14 +54,19 @@ class Idea(models.Model):
         return len(comments)
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:
-            self.edited = True
-            self.date_edited = timezone.now()
-        self.slug = slugify(self.name)
+        if not self.pk:
+            to_slug_entry = self.name
+            chk = Idea.objects.filter(name=self.name)
+            if len(chk) > 0:
+                to_slug_entry = self.name + '-' + str(len(chk))
+            self.slug = slugify(to_slug_entry)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return reverse('ideas:details', kwargs={'slug':self.slug})
+        return reverse('locations:idea_detail', kwargs={
+            'slug':self.slug,
+            'place_slug': self.location.slug,
+        })
     
     def __unicode__(self):
         return self.name

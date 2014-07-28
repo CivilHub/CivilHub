@@ -1,0 +1,120 @@
+@import "sprites.less";
+
+@import "old.less";
+@import "style.less";
+@import "location-navbar.less";
+@import "location.less";
+@import "filter-navbar.less";
+@import "top.less";
+@import "main-page-content.less";
+@import "sidebar-right.less";
+@import "idea-votes.less";
+@import "comments.less";
+@import "idea.less";
+@import "followers.less";
+@import "discussion-list.less";
+@import "places.less";
+@import "login.less";
+@import "tags.less";
+@import "location-gallery.less";
+@import "media-uploader.less";
+@import "map.less";
+@import "user-profile.less";
+@import "flash-messages.less";
+@import "homepage.less";
+
+/* General classes to use in entire project */
+.custom-centered {
+  text-align: center;
+}
+.custom-align-l {
+  text-align: left;
+}
+.custom-align-r {
+  text-align: right;
+}
+.custom-justified {
+  text-align: justify;
+}
+.custom-important {
+  font-weight: bold;
+}
+.custom-clear {
+  font-size: 1px;
+  clear: both;
+}
+
+/* List entries menu - e.g. news list or ideas list */
+.submenu-toggle {
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+}
+.entry-submenu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background-color: #ffffff;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         1px 1px 5px 0px rgba(50, 50, 50, 0.75);
+}
+/* // List entries menu */
+
+/* User pop-up windows */
+.user-popup-window {
+    position: absolute;
+    clear: both;
+    width: 330px;
+    min-height: 80px;
+    font-size: 10px;
+    background: #ffffff;
+    border: 1px solid #8c8c8c;
+    overflow: hidden;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 100;
+    .user-popup-avatar {
+        width: 80px;
+        float: left;
+        img {
+            width: 80px;
+            height: 80px;
+        }
+    }
+    .user-popup-details {
+        width: 245px;
+        float: right;
+        padding: 5px 0px 0px 5px;
+        .user-popup-personals {
+            font-weight: bold;
+            color: #000000;
+        }
+    }
+    .user-popup-close {
+        float: right;
+        cursor: pointer;
+        margin-right: 5px;
+        font-size: 14px;
+    }
+}
+/* // User popup window */
+
+/* Pagination - custom paginator */
+.pagination {
+    text-align: center;
+    margin: 0px auto;
+    a {
+        margin: 0px 2px 0px 0px;
+        padding: 2px;
+        color: #adadad;
+        background-color: #ffffff;
+        border: 1px solid #adadad;
+        &.paginator-active, &:hover {
+            color: #ffffff;
+            background-color: #adadad;
+        }
+    }
+}
+/* // Pagination */

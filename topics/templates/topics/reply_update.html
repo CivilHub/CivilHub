@@ -9,14 +9,16 @@
         <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
     </div>
 </form>
+{% include 'gallery/media-uploader.html' %}
 {% endblock %}
 
 {% block footer_scripts %}
 <script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
+<script src="{% static 'gallery/js/media-uploader.js' %}"></script>
 <script>
 (function ($) {
     "use strict";
-    CKEDITOR.replace('id_content');
+    $('#id_content').customCKEditor('custom');
 })(jQuery);
 </script>
 {% endblock %}

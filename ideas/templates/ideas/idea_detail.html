@@ -3,63 +3,232 @@
 {% load bookmarks_tags %}
 {% load i18n %}
 
-{% block content %}
-<div class="col-sm-9">
-<div class="main-content">
-    <h3>
-        <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
-        <small>
-            {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
-        </small>
-    </h3>
-    {% if idea.creator == user %}
-        <p><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></p>
-        <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
-    {% endif %}
+{% block require_scripts %}
     
-    {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            bootbox: 'includes/bootstrap/bootbox',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment',
+            mapinput: 'js/ui/jquery.mapinput',
+            async: 'includes/require/async'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            mapinput: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'utils',
+             'ui',
+             'js/ideas/votes/counterWindow',
+             'common',
+             'js/maps/minimap',
+             'js/maps/pointer',
+             'js/comments/commentlist'],
+
+    function ($, utils, ui, CounterWindow) {
+        
+        "use strict";
+        
+        $(document).delegate('.vote-btn', 'click', function () {
+            var formData = {
+                    csrfmiddlewaretoken: utils.getCookie('csrftoken'),
+                    idea: $(this).attr('data-target-id'),
+                    vote: $(this).attr('data-vote')
+                },
+
+                $votes = $(this).parents('.idea-votes:first')
+                    .find('.votes:first'),
+
+                $counter = $(this).parents('.idea-votes:first')
+                    .find('.idea-vote-count:first'),
+
+                votes = parseInt($counter.text(), 10) || 0,
+
+                callback = function (data) {
+                    data = JSON.parse(data);
+                    if (data.success === true) {
+                        ui.message.success(data.message);
+                        $votes.html(data.votes);
+                        if (!_.isNaN(votes)) {
+                            $counter.text(++votes);
+                        } else {
+                            $counter.text(0);
+                        }
+                    } else {
+                        ui.message.warning(data.message);
+                    }
+                };
+
+            $.ajax({
+                type: 'POST',
+                url: '/ideas/vote/',
+                data: formData,
+                success: callback
+            });
+        });
+        
+        $('.idea-vote-count').on('click', function (e) {
+            e.preventDefault();
+            var ideaId = $(this).attr('data-target');
+            var CW = CounterWindow.extend({
+                'ideaId': ideaId
+            });
+            var cc = new CW();
+        });
+        
+        var runMinimap = function () {
+            
+            {% if map_markers %}
+                var minimapData = [];
+                {% for m in map_markers %}
+                minimapData.push({
+                    lat: '{{ m.latitude }}',
+                    lng: '{{ m.longitude }}',
+                    pk: '{{ m.pk }}'
+                });
+                {% endfor %}
+                $('#minimap').minimap(minimapData);
+                
+            {% else %}
+                return true;
+            {% endif %}
+        
+        };
+        
+        setTimeout(function () {
+            runMinimap();
+        }, 2000);
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
     
-    {% bookmark_form for idea %}
-    <div class="idea-votes">
-        <div class="votes">{{ idea.get_votes }}</div>
-        {% if user.is_authenticated %}
-            <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn btn btn-default">+</button>
-            <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn btn btn-default">-</button>
-        {% endif %}
-    </div>
-    <div>
-        <a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a>
-    </div>
-    <div>{{ idea.description | safe }}</div>
-    <div class="post-meta">
-        <p>{% trans "Created by" %} {{ idea.creator }} | {{ idea.date_created }}</p>
-        {% if idea.edited %}<p>{% trans "Last time edited" %}: {{ idea.date_edited }}</p>{% endif %}
-        <p>{% trans "Status" %}: {{ idea.status }}</p>
-    </div>
-    <p>{% trans "Tags" %}:</p>
-    <ul>
-        {% for tag in idea.tags.all %}
-        <li>{{ tag }}</li>
-        {% endfor %}
-    </ul>
-    <div>
-        <p>
-            {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
-            <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
-        </p>
-    </div>
-    <input type="hidden" id="target-id" value="{{ idea.pk }}" />
-    <input type="hidden" id="target-label" value="ideas" />
-    <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
-    <input type="hidden" id="target-user" value="{{ user.username }}" />
-    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-    <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-    {% include 'comments/commentlist.html' %}
-</div>
-</div>
 {% endblock %}
 
-{% block footer_scripts %}
-{% if marker_form %}{% include 'maps/pointer-modal-form.html' %}{% endif %}
-<script src="{% static 'ideas/js/votes.js' %}"></script>
+{% block content %}
+<div class="main-content col-sm-9">
+    {% include 'maps/pointer-modal-form.html' %}
+    <div class="row idea-entry">
+        <div class="idea-votes col-sm-3">
+            <div class="vote-form">
+                <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
+                <div class="vote-controls">
+                    {% if user.is_authenticated %}
+                    <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+                    <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
+                    {% else %}
+                    <div class="button-vote-placeholder"></div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="clear">&nbsp;</div>
+            <div class="idea-summary">
+                <div class="idea-status-state">
+                    {% if idea.status %}
+                    <label class="label label-success">{% trans "Active" %}</label>
+                    {% else %}
+                    <label class="label label-danger">{% trans "Inactive" %}</label>
+                    {% endif %}
+                </div>
+                <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
+            </div>
+            {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+            {% if idea.creator == user or is_moderator %}
+
+            <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
+            {% endif %}
+        </div>
+        <div class="col-sm-9">
+
+            <h3>
+                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+                <div class="entry-submenu">
+                    <ul>
+                        <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+                        <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
+                        <li>{% bookmark_form for idea %}</li>
+                        <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
+                    </ul>
+                </div>
+                <small>
+                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
+                </small>
+                <div>{{ idea.description | safe }}</div>
+    <p>{% trans "Tags" %}:
+        {% for tag in idea.tags.all %}
+        <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}" />{{ tag }}</a>, 
+        {% endfor %}
+    </p>
+    <p>
+        {% if idea.category %}
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
+                {% endif %}
+    </p>
+        <div>
+            <p>
+                {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
+                <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
+            </p>
+        </div>
+        <input type="hidden" id="target-id" value="{{ idea.pk }}" />
+        <input type="hidden" id="target-label" value="ideas" />
+        <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
+        <input type="hidden" id="target-user" value="{{ user.username }}" />
+        <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+        <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+        {% include 'comments/commentlist.html' %}
+    </div>
+
+</div>
+</div>
+
+{% include 'ideas/idea-votes.html' %}
+
+{% include 'locations/sidebar.html' %}
+
 {% endblock %}

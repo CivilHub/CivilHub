@@ -1,6 +1,8 @@
 {% extends 'locations/index.html' %}
-{% load i18n %}
+{% load staticfiles %}{% load i18n %}
+
 {% block content %}
+<!-- Main content -->
 <div class="col-sm-9">
     <h1>{{ location.name }} {% trans "summary" %}</h1>
     <div>{{ location.description | safe }}</div>
@@ -23,4 +25,8 @@
     {% endfor %}
     </ul>
 </div>
+{% include 'locations/sidebar.html' %}
+<button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button>
+<!-- Modal window -->
+<div id="modal" class="modal fade"></div>
 {% endblock %}

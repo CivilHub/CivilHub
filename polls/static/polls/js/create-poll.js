@@ -1,6 +1,12 @@
+//
+// create-poll.js
+// ==============
+//
+// Scripts to handle creating new poll.
+//
 (function ($) {
     "use strict";
-    $('#id_question').customCKEditor();
+    $('#id_question').customCKEditor('custom');
     $('#id_title').focus();
     $('#id_tags').tagsInput({
         autocomplete_url: '/rest/tags/',

@@ -1,0 +1,37 @@
+/*
+ * MEDIA UPLOADER
+ * 
+ * Styles for modal media uploader, i.e. CKEditor custom plugin.
+ */
+#media-upload-modal {
+
+  .media-entry {
+    display: inline-block;
+    position: relative;
+    margin: 0px 5px 0px 0px;
+    height: 128px;
+
+    &.active {
+      outline: 1px solid red;
+    }
+
+    .delete-item-button {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      display: none;
+      transition: all 0.3s;
+      font-size: 22px;
+    }
+
+    &:hover {
+    
+      .delete-item-button {
+        display: block;
+      }
+
+    }
+
+  }
+
+}

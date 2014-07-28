@@ -1,8 +1,9 @@
 {% load staticfiles %}
 
 {% if map_markers %}
-<div id="minimap" style="width:300px;height:300px;"></div>
-<script src="{% static 'maps/js/minimap.js' %}"></script>
+<div id="minimap"></div>
+<div style="clear:both;">&nbsp;</div>
+{% comment %}<script src="{% static 'maps/js/minimap.js' %}"></script>
 <script class="minimap-data">
 (function ($) {
     "use strict";
@@ -16,5 +17,5 @@
     {% endfor %}
     $('#minimap').minimap(minimapData);
 })(jQuery);
-</script>
+</script>{% endcomment %}
 {% endif %}

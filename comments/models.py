@@ -31,6 +31,13 @@ class CustomComment(MPTTModel, Comment):
         votes_down = len(votes_total.filter(vote=False))
         return votes_up - votes_down
 
+    def get_absolute_url(self):
+        """
+        Fake this function to redirect to parent object and get rid
+        of actstream error.
+        """
+        return self.content_object.get_absolute_url()
+
 
 class CommentVote(models.Model):
     """

@@ -1,0 +1,140 @@
+.places-entry {
+    
+    padding-top: 15px;
+    padding-bottom: 0px;
+    
+    .row {
+        
+        margin-bottom: 15px;
+        
+        &:last-child {
+            
+            margin-bottom: 0px;
+            
+        }
+        
+    }
+    
+    .place {
+        
+        border: 1px solid #8c8c8c;
+        border-radius: 5px;
+        
+        .place-photo {
+            
+            img {
+            
+                max-width: 100%;
+                height: auto;
+                -webkit-border-top-left-radius: 5px;
+                -webkit-border-top-right-radius: 5px;
+                -moz-border-radius-topleft: 5px;
+                -moz-border-radius-topright: 5px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                
+            }
+            
+        }
+        
+        .place-header {
+            
+            background: #f2f2f2; /* Old browsers */
+            background: -moz-linear-gradient(top,  #f2f2f2 46%, #e4e4e4 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(46%,#f2f2f2), color-stop(100%,#e4e4e4)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #f2f2f2 46%,#e4e4e4 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #f2f2f2 46%,#e4e4e4 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #f2f2f2 46%,#e4e4e4 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #f2f2f2 46%,#e4e4e4 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#e4e4e4',GradientType=0 ); /* IE6-9 */
+            
+            border-top: 1px solid #ececec;
+            border-bottom: 1px solid #b6b6b6;
+            
+            padding: 8px 50px 8px 10px;
+            position: relative;
+            font-size: 9px;
+            line-height: 12px;
+            
+            p {
+                
+                margin-bottom: 0px;
+                
+            }
+            
+            .follower-name {
+                
+                margin-bottom: 0px;
+                
+            }
+            
+            .follow-link {
+                
+                position: absolute;
+                top: 8px;
+                right: 10px;
+                font-weight: 700;
+                
+                a {
+                    
+                    color: @link-hover-color;
+                    
+                }
+                
+            }
+            
+        }
+        
+        .follows-count {
+            
+            padding: 8px 10px 8px 10px;
+            margin-bottom: 0px;
+            font-size: 9px;
+            line-height: 12px;
+            
+            >span {
+                
+                color: @link-hover-color;
+                
+            }
+            
+        }
+        
+        .follows-places {
+            
+            padding: 0px 10px 15px 10px;
+            margin-bottom: 0px;
+            
+            font-size: 9px;
+            line-height: 12px;
+            
+            a {
+                
+                font-size: 9px;
+                line-height: 12px;
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media all and (max-width: 768px) {
+    
+    .places-entry >.row>div {
+        
+        text-align: center;
+        
+        .place {
+            
+            display: inline-block;
+            margin-bottom: 30px;
+            text-align: left;
+            
+        }
+        
+    }
+    
+}

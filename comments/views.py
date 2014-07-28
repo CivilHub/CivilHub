@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import CustomComment, CommentVote
 
+
 def get_related_comments(object_id, app_label, model_label):
     """
     Get related comments for given object
@@ -17,6 +18,7 @@ def get_related_comments(object_id, app_label, model_label):
     comments = CustomComment.objects.filter(content_type=content_type).filter(object_pk=int(object_id))
     
     return comments
+
 
 def get_comment_count(request, object_id, app_label, model_label):
     """
@@ -30,7 +32,8 @@ def get_comment_count(request, object_id, app_label, model_label):
     }
     
     return HttpResponse(json.dumps(ctx));
-    
+
+
 def get_comment_votes(comment):
     """
     Get total votes on this comment
@@ -40,7 +43,8 @@ def get_comment_votes(comment):
     votes_down = len(total_votes.filter(vote=False))
     
     return votes_up - votes_down
-    
+
+
 def get_comment_tree(request, object_id, app_label, model_label):
     """
     Get complete comment tree for designated target

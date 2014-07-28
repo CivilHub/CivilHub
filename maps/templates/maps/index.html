@@ -1,182 +1,107 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %} {% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
+<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
-{% comment %}Główny widok mapy.{% endcomment %}
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% block extra_styles %}{% endblock %}
 
-{% block content %}
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#map-navbar-collapse">
-        <span class="sr-only">{% trans "Toggle navigation" %}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/">{% trans "Start" %}</a>
-    </div>
-    <div class="collapse navbar-collapse" id="map-navbar-collapse">
-        <form class="navbar-form navbar-nav">
-            Places <input type="checkbox" data-target="locations" class="map-filter-toggle" checked="checked" />
-            Ideas <input type="checkbox" data-target="16" class="map-filter-toggle" checked="checked" />
-            Polls <input type="checkbox" data-target="34" class="map-filter-toggle" checked="checked" />
-            Discussions <input type="checkbox" data-target="38" class="map-filter-toggle" checked="checked" />
-            News <input type="checkbox" data-target="19" class="map-filter-toggle" checked="checked" />
-        </form>
-        <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
-            </div>
-            <a class="btn btn-default">{% trans "Search" %}</a>
-        </form>
-    </div>
-</nav>
-<div id="map"></div>
-{% endblock %}
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-{% block footer_scripts %}
+{% include 'places_core/navigation.html' %}
+
 <script>
-(function ($) {
-    "use strict";
-    // Globals - let markerIconImage be here to easier get image paths.
-    var markerIconImage = function (ct) {
-        var markers = {
-            16: '{% static 'maps/icons/marker-idea.png' %}', // Idea
-            34: '{% static 'maps/icons/marker-poll.png' %}', // Poll
-            38: '{% static 'maps/icons/marker-discussion.png' %}', // Discussion
-            19: '{% static 'maps/icons/marker-news.png' %}'  // News
-        };
-        return markers[ct];
-    }
-    // Shortcut to get list of active filters
-    var getFilters = function () {
-        var filterToggles = $('.map-filter-toggle'),
-            filters = [];
-            
-        filterToggles.each(function () {
-            if ($(this).is(':checked')) {
-                filters.push($(this).attr('data-target'));
-            }
-        });
+require.config({
+    baseUrl: "{% static 'places_core' %}",
+    
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
+    waitSeconds: 200,
+    
+    paths: {
+        jquery: 'includes/jquery/jquery',
+        bootstrap: 'includes/bootstrap/bootstrap',
+        underscore: 'includes/underscore/underscore',
+        backbone: 'includes/backbone/backbone',
+        common: 'js/common'
+    },
+    
+    shim: {
+        underscore: {
+            deps: ['jquery'],
+            exports: '_'
+        },
         
-        return filters;
+        backbone: {
+            deps: ['underscore'],
+            exports: 'Backbone'
+        },
+        
+        bootstrap: {
+            deps: ['jquery']
+        },
+        
+        tagsinput: {
+            deps: ['jquery']
+        },
     }
-    //
-    // Prepare Google Map
-    // -------------------------------------------------------------------------
-    //
-    function civilGoogleMap(markers, options) {
+});
 
-        var defaults = {
-                center: new google.maps.LatLng(0, 0),
-                zoom: 2
-            },
-            mapOptions = $.extend(defaults, options);
-        
-        map = {
-            map: new google.maps.Map(document.getElementById("map"), mapOptions),
-            markerList: markers,
-            markers: [],
-            
-            placeMarker: function (location, data) {
-                var _this = this,
-                    marker = new google.maps.Marker({
-                        position: location,
-                        map: _this.map
-                    });
-                if (data) {
-                    $.extend(marker, data);
-                }
-                _this.markers.push(marker);
-                
-                return marker;
-            },
-            
-            infoWindow: function (content) {
-                var win = new google.maps.InfoWindow({
-                    content: content
-                });
-                return win;
-            },
-            
-            filter: function (filters) {
-                var _this = this,
-                    allowLocations = false;
-                
-                if (!filters) {
-                    return _this.markers;
-                }
-                
-                if (_.indexOf(filters, 'locations') >= 0) {
-                    allowLocations = true;
-                }
-                
-                $(_this.markers).each(function (idx, marker) {
-                    if (_.isUndefined(marker.content_type)) {
-                        if (allowLocations) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
-                        }
-                    } else {
-                        if (filters.indexOf('' + marker.content_type) >= 0) {
-                            marker.setVisible(true);
-                        } else {
-                            marker.setVisible(false);
-                        }
-                    }
-                });
-            },
-            
-            render: function () {
-                var _this = this;
-                
-                $(_this.markerList).each(function () {
-                    var marker = this,
-                        position = new google.maps.LatLng(
-                            marker.latitude,
-                            marker.longitude
-                        ),
-                        m = _this.placeMarker(position, marker);
-                    
-                    if (!_.isUndefined(marker.content_type)) {
-                        m.setIcon(markerIconImage(marker.content_type));
-                    }
-                        
-                    google.maps.event.addListener(m, 'click', function(event) {
-                        var w = _this.infoWindow('<a href="' + marker.url + '">Go to</a>');
-                        w.open(_this.map, m);
-                    });
-                })
-            }
-        }
-        
-        return map;
-    }
-    //
-    // Fetch objects from server and create map
-    // -------------------------------------------------------------------------
-    //
-    $.get('/maps/pointers/', function (resp) {
-        var markers = [], map = null;
-        resp = JSON.parse(resp);
-        if (resp.success) {
-            $(resp.locations).each(function () {
-                markers.push(this);
-            });
-            $(resp.pointers).each(function () {
-                markers.push(this);
-            });
-            map = civilGoogleMap(markers);
-            map.render();
-            map.filter(getFilters());
-            $('.map-filter-toggle').bind('change', function (evt) {
-                evt.preventDefault;
-                map.filter(getFilters());
-            });
-        } else {
-            console.log("Failed to load map data");
-        }
-    });
-})(jQuery);
+require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
+    
+    window.MEDIA_URL = "{% static 'maps' %}";
+    
+    $(document).trigger('load');
+    
+});
 </script>
-{% endblock %}
+
+<div id="map-options-toggle">
+    <a id="map-filter-toggle" href="#" title="{% trans "Show options" %}">
+        <span class="fa fa-arrow-circle-down"> </span>
+    </a>
+    {% if user.is_authenticated %}
+    <a id="map-follow-toggle" href="#" title="{% trans "Only followed locations" %}">
+        <span class="fa fa-circle-o"> </span>
+    </a>
+    {% endif %}
+</div>
+<nav id="map-options-panel" role="navigation">
+    <ul>
+        <li>Places <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /></li>
+        <li>Ideas <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /></li>
+        <li>Polls <input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /></li>
+        <li>Discussions <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /></li>
+        <li>News <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
+    </ul>
+</nav>
+
+<div id="map"></div>
+
+<script type="text/template" id="user-popup-tpl">
+    <div class="user-popup-avatar">
+        <img src="<%= avatar %>" alt="<%= username %>" />
+    </div>
+    <div class="user-popup-details">
+        <span class="fa fa-times-circle-o user-popup-close"> </span>
+        <p class="user-popup-personals">
+            <a href="<%= user_link %>"><%= fullname %></a><br />
+            <%= rank_pts %> {% trans 'pts' %}
+        </p>
+        <p>
+            <% for (var i = 0; i < follows.length; i++) { %>
+                <%= follows[i] %>,&nbsp;
+            <% } %>
+        </p>
+    </div>
+</script>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
         var $btn = $(this);
         $.ajax({
             type: 'POST',
-            url: 'locations/add_follower/' + $btn.attr('data-location-id'),
+            url: '/add_follower/' + $btn.attr('data-location-id'),
             data: {
                 csrfmiddlewaretoken: getCookie('csrftoken')
             },
@@ -19,7 +19,7 @@
                     $btn.fadeOut('fast', function () {
                         $btn.removeClass('btn-follow-location btn-success')
                             .addClass('btn-unfollow-location btn-danger')
-                            .text('Stop following')
+                            .text(gettext('Stop following'))
                             .fadeIn('fast');
                     });
                 } else {
@@ -36,7 +36,7 @@
         var $btn = $(this);
         $.ajax({
             type: 'POST',
-            url: 'locations/remove_follower/' + $btn.attr('data-location-id'),
+            url: '/remove_follower/' + $btn.attr('data-location-id'),
             data: {
                 csrfmiddlewaretoken: getCookie('csrftoken')
             },
@@ -46,7 +46,7 @@
                     $btn.fadeOut('fast', function () {
                         $btn.removeClass('btn-unfollow-location btn-danger')
                             .addClass('btn-follow-location btn-success')
-                            .text('Follow')
+                            .text(gettext('Follow'))
                             .fadeIn('fast');
                     });
                     display_alert(resp.message, 'success');

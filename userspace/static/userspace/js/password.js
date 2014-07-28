@@ -12,7 +12,7 @@
         if ($pass.val() === '' || $chk.val() === '') {
             bootbox.alert("Password can't be empty!");
         } else if ($pass.val() !== $chk.val()) {
-            bootbox.alert('Passwords not match!');
+            bootbox.alert(gettext('Passwords not match!'));
         } else {
             return true;
         }

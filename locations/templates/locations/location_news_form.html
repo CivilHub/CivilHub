@@ -1,30 +1,98 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %} {% load i18n %} 
+{% load staticfiles %} {% load i18n %}
 
-{% block content %}
-<div class="col-sm-9">
-    <form role="form" method="post" action="">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
-            <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-        </div>
-    </form>
-</div>
-{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            jqueryui: 'includes/jquery-ui/jquery-ui'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            dropzone: {
+                exports: 'Dropzone'
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/locations/newsForm',
+             'common'],
+
+    function ($, NewsForm) {
+        
+        var form = new NewsForm();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
 {% endblock %}
 
-{% block footer_scripts %}
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#id_content').customCKEditor();
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
-    });
-})(jQuery);
-</script>
+{% block content %}
+
+    <div class="col-sm-9">
+        <form role="form" method="post" action="" id="news-create-form">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+    
+    {% if user.is_authenticated %}
+        {% include 'gallery/media-uploader.html' %}
+    {% endif %}
+    
 {% endblock %}

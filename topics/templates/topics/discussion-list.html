@@ -1,0 +1,27 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Ajaxowa lista dyskusji - ten szablon jest zaczepem dla aplikacji
+    Backbone.
+{% endcomment %}
+
+<div id="discussions" class="discussion-list custom-tablelike"></div>
+
+<script type="text/template" id="topic-entry">
+    <div class="row">
+        <div class="col-sm-4 excerpt">
+            <a href="<%= url %>"><%= question %></a>
+        </div>
+        <div class="col-sm-2 category">
+            <a href="<%= category_url %>"><label class="label label-default"><%= category_name %></label></a>
+        </div>
+        <div class="col-sm-6 custom-align-r">
+            <span class="count"><%= answers %></span>
+            <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
+            <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
+            <span class="date-created"><%= date_created %></span>
+        </div>
+    </div>
+</script>
+
+{% include 'locations/category-form.html' %}

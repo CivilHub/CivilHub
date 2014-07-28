@@ -1,6 +1,5 @@
 {% extends 'places_core/base.html' %} {% load i18n %}
 
 {% block content %}
-    <p>{% trans "Username" %}: {{ username }}</p>
-    <p>{% trans "Password" %}: {{ password }}</p>
+    <p>{% blocktrans %}We send an email with new password on address provided by you. It is strongly suggested to change this password as soon as possible in your account settings panel.{% endblocktrans %}</p>
 {% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}
+{% load bookmarks_tags %}{% load i18n %}
+
+{% block content %}
+{% if error %}<p class="alert alert-danger">{{ error }}</p>{% endif %}
+<p>{% blocktrans %}Entry deleted{% endblocktrans %}.</p>
+{% endblock %}

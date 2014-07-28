@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+import djcelery
+djcelery.setup_loader()
 """
 Django settings for places project.
 
@@ -20,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
 
-RECAPTCHA_PUBLIC_KEY = '6LdNLPQSAAAAAIUZQ14Atth5VBL45JwN-8_G0BiU'
-RECAPTCHA_PRIVATE_KEY = '98dfg6df7g56df6gdfgdfg65JHJH656565GFGFGs'
+#~ RECAPTCHA_PUBLIC_KEY = '6LdNLPQSAAAAAIUZQ14Atth5VBL45JwN-8_G0BiU'
+#~ RECAPTCHA_PRIVATE_KEY = '98dfg6df7g56df6gdfgdfg65JHJH656565GFGFGs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -42,10 +45,20 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
+    #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+    'kombu.transport.django',
+    'djcelery',
+    # https://github.com/ottoyiu/django-cors-headers/
+    'corsheaders',
+    # http://niwibe.github.io/djmail/
+    'djmail',
+    # https://django-modeltranslation.readthedocs.org/en/latest/
+    'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
     # https://github.com/praekelt/django-recaptcha
-    'captcha',
+    #'captcha',
     # http://django-generic-bookmarks.readthedocs.org/en/latest
     'bookmarks',
     # https://github.com/SmileyChris/easy-thumbnails
@@ -57,6 +70,9 @@ INSTALLED_APPS = (
     #'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
+    'rest_framework.authtoken',
+    # https://github.com/ottoyiu/django-cors-headers
+    'corsheaders',
     # https://github.com/skorokithakis/django-annoying
     'annoying',
     #'python-social-auth',
@@ -69,7 +85,7 @@ INSTALLED_APPS = (
     'places_core', # for common templates and static files
     'userspace',# panel użytkownika
     'locations',
-    'ideas',
+    'ideas',     
     'blog',
     'polls',
     'rest',     # out for django rest framework
@@ -78,6 +94,8 @@ INSTALLED_APPS = (
     'gallery',  # user media app
     'south',    # Database migrations
     'maps',     # Custom app for Google Maps
+    'staticpages', # Statyczne strony
+    'civmail',  # Newsletter i obsługa maili
 )
 
 
@@ -102,7 +120,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/passet/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
 # Google API keys
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '764247090603.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
@@ -110,7 +128,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
 
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea', 'blog.news'),
+    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
+               'blog.news', 'polls.poll', 'comments.customcomment',
+               'topics.discussion', 'userspace.userprofile', 'userspace.badge',
+               'gallery.locationgalleryitem', 'topics.entry'),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
@@ -129,7 +150,12 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -138,17 +164,33 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
 )
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'rest.disable.DisableCSRF',
+)
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'accept-encoding',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -213,8 +255,74 @@ MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
 
+# Email account settings
+EMAIL_HOST          = 'mail.composly.com'
+EMAIL_PORT          = 587
+EMAIL_HOST_USER     = 'test@composly.com'
+EMAIL_HOST_PASSWORD = 'test11'
+EMAIL_USE_TLS       = True
+# Enter real email address here in future
+EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
+
+# Email settings for testing purposes
+#EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
+# Uncomment below line to enable sending real emails.
+DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+
+# Celery task manager settings
+BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
+CELERY_TASK_SERIALIZER   = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT    = ['json']
+CELERY_TIMEZONE          = 'Europe/Warsaw'
+CELERY_ENABLE_UTC        = True
+CELERY_RESULT_BACKEND    = 'djcelery.backends.database:DatabaseBackend'
+# Uncomment following line to enable django caching system for Celery. Remember
+# to comment out above backend declaration used for development.
+#CELERY_RESULT_BACKEND   = 'djcelery.backends.cache:CacheBackend'
+CELERY_IMPORTS = ('places_core.tasks',)
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+
+
+# Ustawienia dla miniaturek
+# For each of set of size image thumbnals will be generated automatically.
+THUMB_SIZES = [
+    (30, 30),
+    (128, 128),
+]
+# Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
+IMAGE_MAX_SIZE = (1024,1024)
+
+# Maximum size for location and profile pages background images
+BACKGROUND_IMAGE_SIZE = 2080
+
+# Settings for user avatar pictures
+AVATAR_SIZE = (128, 128)
+AVATAR_THUMBNAIL_SIZES = [
+    (30, 30),
+    (60, 60),
+    (90, 90),
+]
+
+
 # South database migrations schemes
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
+
+
+# CORS settings
+# IMPORTANT - Be sure to change this settings in production
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'x-csrftoken',
+    'accept-encoding',
+)

@@ -6,7 +6,7 @@ from .views import *
 
 urlpatterns = patterns('',
     # Wordpress-like media uploader
-    url(r'^image/(?P<filename>.*\w+)/', ImageView.as_view(), name='image'),
+    url(r'^image/(?P<pk>\d+)/', ImageView.as_view(), name='image'),
     url(r'^(?P<filename>.*\w+)', UserGalleryView.as_view(), name='gallery_delete'),
     url(r'^$', UserGalleryView.as_view(), name='index'),
 )

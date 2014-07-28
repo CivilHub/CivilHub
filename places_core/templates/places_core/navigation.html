@@ -1,0 +1,91 @@
+{% load staticfiles %} {% load i18n %}
+{% comment %}
+    This is main top navigation panel to include in other templates.
+{% endcomment %}
+<nav id="navbar-top"class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
+            <span class="sr-only">{% trans "Toggle navigation" %}</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.jpg' %}"></a>
+    <div class="navbar-top-search">
+        <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                <div class="form-group">
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                </div>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+            </form>
+    </div>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+            
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li class="user-hidden-link">
+                    <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>
+                    <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> {% trans "Logout" %}</a>
+                </li>
+                 
+                <li class="user-profile-link">
+                    <a class="avatar" href="{% url 'user:index' %}">
+                        <img src="{{ user.profile.thumbnail.url }}" alt="{{ user }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} <span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'user:profile' user.username %}"><i class="fa fa-user fa-fw"></i>{% trans "Profile" %}</a></li>
+                        <li><a href="{% url 'user:locations' user.pk %}"><i class="fa fa-home fa-fw"></i>{% trans "My Places" %}</a></li>
+                        <li><a href="{% url 'gallery:index' %}"><i class="fa fa-file-image-o fa-fw"></i>{% trans "Media" %}</a></li>
+                        <li><a href="{% url 'user:index' %}"><i class="fa fa-pencil-square-o fa-fw"></i>{% trans "Edit profile" %}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'user:logout' %}"><i class="fa fa-sign-out fa-fw"></i>{% trans "Logout" %}</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> {% trans "Login" %}</a></li>
+                {% endif %}
+        </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'locations:index' %}"><span class="ch-icon ch-home"></span>{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'locations:index' %}"><i class="fa fa-globe fa-fw"></i>{% trans "Browse Places" %}</a>
+                        </li>
+                        <li class="divider"></li>
+                        {% for l in user.profile.followed_locations %}
+                        <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
+                        {% endfor %}
+                        {% if user.is_authenticated %}
+                        <li class="divider"></li>
+                        <li><a href="{% url 'locations:create' %}"><i class="fa fa-plus-square-o fa-fw"></i>{% trans "Create new" %}</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
+
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
+                <li class="dropdown">
+                    <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span>
+            {% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu bookmarks-list"></ul>
+                </li>
+                {% comment %} 
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-envelope"></span></a>
+                </li>
+		{% endcomment %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>

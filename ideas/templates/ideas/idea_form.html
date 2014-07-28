@@ -1,36 +1,40 @@
-{% extends 'places_core/base.html' %}
+{% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Ten formularz jest wykorzystywany przy edycji (nie tworzeniu!) idei.
+{% endcomment %}
 
 {% block title %}{{ title | capfirst }}{% endblock %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
-{% endblock %}
 
 {% block content %}
-    {% if action == 'update' %}
-    <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}">
-    {% else %}
-    <form role="form" method="post" action="{% url 'ideas:create' %}">
-    {% endif %}
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        </div>
-    </form>
-{% endblock %}
 
-{% block footer_scripts %}
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    CKEDITOR.replace('id_description');
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
+    <div class="col-sm-9">
+        {% if action == 'update' %}
+            <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
+        {% else %}
+            <form role="form" method="post" action="{% url 'ideas:create' %}" id="idea-create-form">
+        {% endif %}
+        
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+    
+    {% include 'gallery/media-uploader.html' %}
+    
+    <script>
+    require(['/static/places_core/js/locations/ideaForm.js'],
+    function (IdeaForm) {
+        "use strict";
+        var form = new IdeaForm();
     });
-})(jQuery);
-</script>
+    </script>
+    
 {% endblock %}

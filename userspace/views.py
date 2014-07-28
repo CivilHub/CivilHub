@@ -1,22 +1,33 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os, captcha
+import hashlib, datetime, random, string, os
 from json import dumps
 from PIL import Image
+from datetime import timedelta
+from django.utils import timezone
 from bookmarks.models import Bookmark
 from ipware.ip import get_ip
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_safe
+from django.views.decorators.http import require_safe, require_POST
+from django.contrib.auth.decorators import login_required
+from actstream.models import model_stream
+from civmail import messages as emails
+from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
+from helpers import UserActionStream
+from places_core.tasks import send_poll_email
+from places_core.helpers import truncatesmart, process_background_image
 from forms import *
 
 
@@ -37,6 +48,7 @@ def index(request):
     ctx = {
         'user': user,
         'profile': prof,
+        'appname': 'userarea',
         'form': UserProfileForm(initial={
                   'first_name': user.first_name,
                   'last_name':  user.last_name,
@@ -54,16 +66,16 @@ def profile(request, username):
     """
     Show user info to other allowed users
     """
-    if not request.user.is_authenticated():
-        return redirect('user:login')
     user = get_object_or_404(User, username=username)
     prof = get_object_or_404(UserProfile, user=user)
-    # TODO - to jest żywcem przeniesione z panelu edycji, trzeba
-    # utworzyć nowe templaty
+    # Custom action stream
+    stream  = UserActionStream(user)
+    actions = stream.get_actions(action_type  = 'actor')
     ctx = {
-        'cuser': user,
+        'cuser'  : user,
         'profile': prof,
-        'title': _('User Profile'),
+        'title'  : _("User Profile"),
+        'stream' : actions,
     }
     return render(request, 'userspace/profile.html', ctx)
 
@@ -75,40 +87,78 @@ def register(request):
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 
-        # talk to the reCAPTCHA service
-        #~ response = captcha.client.submit(
-            #~ request.POST.get('recaptcha_challenge_field'),
-            #~ request.POST.get('recaptcha_response_field'),
-            #~ settings.RECAPTCHA_PRIVATE_KEY,
-            #~ request.META['REMOTE_ADDR'],)
-
-        #if response.is_valid:
         if f.is_valid():
+            lang = translation.get_language()
             user = User()
             username = request.POST.get('username')
             password = request.POST.get('password')
             user.username = username
             user.set_password(password)
             user.email = request.POST.get('email')
+            user.first_name = request.POST.get('first_name')
+            user.last_name  = request.POST.get('last_name')
             user.is_active = False
-            user.save()
+            try:
+                user.save()
+            except Exception:
+                # Form valid, but user already exists
+                ctx = {
+                    'form': RegisterForm(initial={
+                        'username': request.POST.get('username'),
+                        'email':    request.POST.get('email')
+                    }),
+                    'title' : _("Registration"),
+                    'errors': _("Selected username already exists. Please provide another one."),
+                }
+                return render(request, 'userspace/register.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
-            # Create user profile
-            salt = hashlib.md5()
-            salt.update(str(datetime.datetime.now().time))
-            register_demand = RegisterDemand(
-                activation_link = salt.hexdigest(),
-                ip_address = get_ip(request),
-                user = user
-            )
-            register_demand.save()
+
+            try:
+                # Create register demand object in DB
+                salt = hashlib.md5()
+                salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+                register_demand = RegisterDemand(
+                    activation_link = salt.hexdigest(),
+                    ip_address      = get_ip(request),
+                    user            = user,
+                    email           = user.email,
+                    lang            = translation.get_language()
+                )
+                register_demand.save()
+                register_demand = RegisterDemand.objects.latest('pk')
+            except Exception as ex:
+                # if something goes wrong, delete created user to avoid future
+                # name conflicts (and allow another registration).
+                user.delete()
+                print str(ex)
+                return render(request, 'userspace/register-failed.html', {
+                    'title': _("Registration failed")
+                })
+
+            # Create activation link
             site_url = request.build_absolute_uri('/user/activate/')
-            # TODO: wysłać adres_strony/user/activate/ + activation_link
-            # mailem.
-            return render(request, 'userspace/test.html', {
-                'link': site_url + str(register_demand.activation_link)
-            })
+            link = site_url + str(register_demand.activation_link)
+
+            try:
+                # Send email with activation link.
+                translation.activate(register_demand.lang)
+                email = emails.ActivationLink()
+                email.send(register_demand.email, {'link':link})
+                # Show confirmation
+                return render(request, 'userspace/register-success.html', {
+                    'title': _("Message send"),
+                })
+            except Exception as ex:
+                # User is registered and link is created, but there was errors
+                # during sanding email, so just show static page with link.
+                print str(ex)
+                return render(request, 'userspace/register-errors.html', {
+                    'title': _("Registration"),
+                    'link' : link,
+                })
+    
+        # Form invalid
         else:
             ctx = {
                 'form': RegisterForm(initial={
@@ -119,14 +169,18 @@ def register(request):
                 'errors': f.errors,
             }
             return render(request, 'userspace/register.html', ctx)
+
+    # Display registration form.
     ctx = {
-        'form': RegisterForm,
+        'form' : RegisterForm,
         'title': _("Registration"),
     }
     return render(request, 'userspace/register.html', ctx)
 
 
 def activate(request, activation_link=None):
+    """ Activate new user account and delete related user demand object. """
+    from rest_framework.authtoken.models import Token
     if activation_link == None:
         ctx = {
             'form': RegisterForm,
@@ -135,31 +189,48 @@ def activate(request, activation_link=None):
         return render(request, 'userspace/register.html', ctx)
     demand = RegisterDemand.objects.get(activation_link=activation_link)
     user = demand.user
+    lang = demand.lang
     if user is not None:
         user_id = user.pk
         user.is_active = True
         user.save()
         demand.delete()
         user = User.objects.get(pk=user_id)
-        auth_user = auth.authenticate(username=user.username,
+        user = auth.authenticate(username=user.username,
                                       password=user.password)
-        return redirect('user:index')
+        delta_t = timezone.now() + timedelta(days=3)
+        send_poll_email.apply_async(args=(user_id,), eta=delta_t)
+        # Create auth token for REST api:
+        token = Token.objects.create(user=user)
+        token.save()
+        return redirect('user:active', lang=lang)
+
+
+def active(request, lang=None):
+    """
+    Statyczny widok podziękowania za zarejestrowanie w serwisie
+    i zaproszenie do pierwszego logowania.
+    """
+    ctx = {
+        'title': _("Thank you for registration")
+    }
+    ctx['lang'] = lang if lang else settings.LANGUAGE_CODE
+    return render(request, 'userspace/active.html', ctx)
 
 
 def passet(request):
     """
-    Set credentials for new users registered with social auth
+    Set credentials for new users registered with social auth.
     """
     ctx = {
         'title': _("Set your password"),
     }
     if request.method == 'POST':
-        f = RegisterForm(request.POST)
+        f = SocialAuthPassetForm(request.POST)
         if f.is_valid():
             user = User(request.user.id)
             user.username = f.cleaned_data['username']
             user.set_password(f.cleaned_data['password'])
-            user.save()
             # Re-fetch user object from DB
             user = User.objects.get(pk=request.user.id)
             # Create user profile if not exists
@@ -170,7 +241,9 @@ def passet(request):
                 prof.user = user
                 prof.save()
             return redirect('user:index')
-    ctx['form'] = RegisterForm()
+        ctx['form'] = SocialAuthPassetForm(request.POST)
+        return render(request, 'userspace/pass.html', ctx)
+    ctx['form'] = SocialAuthPassetForm()
     return render(request, 'userspace/pass.html', ctx)
 
 
@@ -185,25 +258,32 @@ def pass_reset(request):
         f = PasswordRemindForm(request.POST)
         
         # talk to the reCAPTCHA service
-        response = captcha.client.submit(
-            request.POST.get('recaptcha_challenge_field'),
-            request.POST.get('recaptcha_response_field'),
-            settings.RECAPTCHA_PRIVATE_KEY,
-            request.META['REMOTE_ADDR'],)
+        #~ response = captcha.client.submit(
+            #~ request.POST.get('recaptcha_challenge_field'),
+            #~ request.POST.get('recaptcha_response_field'),
+            #~ settings.RECAPTCHA_PRIVATE_KEY,
+            #~ request.META['REMOTE_ADDR'],)
 
-        if response.is_valid:
+        if f.is_valid:
             try:
+                # If user does not exist, there is no need to do all this stuff.
                 user = User.objects.get(email=request.POST.get('email'))
                 new_pass = ''.join(random.choice(string.letters + string.digits) for _ in range(8))
                 user.set_password(new_pass)
-                user.save()
                 ctx = {
                     'username': user.username,
                     'password': new_pass
                 }
-                return render(request, 'userspace/passremind-confirm.html', ctx)
+                translation.activate(user.profile.lang)
+                email = emails.PasswordResetMail()
+                email.send(user.email, ctx)
+                user.save()
             except ObjectDoesNotExist as ex:
+                # If user does not exist, pretend that everything is OK. This
+                # way no one will be able to find if given email exists in db.
                 pass
+
+            return render(request, 'userspace/passremind-confirm.html', ctx)
 
         else:
             ctx['errors'] = f.errors
@@ -216,14 +296,21 @@ def pass_reset(request):
 @csrf_exempt
 def login(request):
     """
-    Login form
+    Login form. Performs user login and record login data with basic info
+    about user IP address. It also keeps 5 last login datas in database for
+    each user.
     """
     if request.user.is_authenticated():
         return redirect('user:index')
     if request.method == 'POST':
         f = LoginForm(request.POST)
         if f.is_valid():
-            username = f.cleaned_data['username']
+            try:
+                user = User.objects.get(email=f.cleaned_data['email'])
+            except User.DoesNotExist as ex:
+                messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
+                return redirect(reverse('user:login'))
+            username = user.username
             password = request.POST['password']
             user = auth.authenticate(username = username, password = password)
             if user is not None:
@@ -234,6 +321,10 @@ def login(request):
                         address = get_ip(request)
                     )
                     login_data.save()
+                    datas = LoginData.objects.filter(user=user).order_by('-date')
+                    if len(datas) > 5:
+                        for i in range (len(datas) - 5):
+                            datas[i].delete()
                     return redirect('activities:actstream')
         messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
         return redirect(reverse('user:login'))
@@ -264,15 +355,10 @@ def save_settings(request):
         if f.is_valid():
             user.first_name = f.cleaned_data['first_name']
             user.last_name  = f.cleaned_data['last_name']
-            user.email      = f.cleaned_data['email']
             prof.birth_date = f.cleaned_data['birth_date']
             prof.description= f.cleaned_data['description']
             error = None
-            if user.email and User.objects.filter(email=user.email).exclude(pk=user.id).exists():
-                error = _("This email address is already in use")
             if error != None:
-                #return HttpResponse(_('Form invalid'))
-                # FIXME: show form errors to user.
                 ctx = {
                     'user': user,
                     'profile': prof,
@@ -324,14 +410,20 @@ def upload_avatar(request):
     """
     Upload/change user avatar
     """
+    from .helpers import crop_avatar, delete_thumbnails
     if request.method == 'POST':
         f = AvatarUploadForm(request.POST, request.FILES)
         if f.is_valid():
             user = UserProfile.objects.get(user=request.user.id)
-            user.avatar = request.FILES['avatar']
+            try:
+                os.unlink(user.avatar.path)
+                delete_thumbnails(user.avatar.name.split('/')[-1:][0])
+            except Exception:
+                pass
+            user.avatar = crop_avatar(request.FILES['avatar'])
             size = 30, 30
             path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-            file, ext = os.path.splitext(request.FILES['avatar'].name)
+            file, ext = os.path.splitext(user.avatar.name.split('/')[-1:][0])
             thumbname = '30x30_' + file + ext
             img = Image.open(user.avatar)
             tmp = img.copy()
@@ -340,6 +432,9 @@ def upload_avatar(request):
             user.thumbnail = 'img/avatars/' + thumbname
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
+    #~ return HttpResponse(dumps({
+        #~ 'avatar': user.avatar.url
+    #~ }));
     return redirect('user:index')
 
 
@@ -360,9 +455,54 @@ def my_bookmarks(request):
             'id': b.pk,
             'content_type': target_content_type.pk,
             'target': target.get_absolute_url(),
-            'label': target.__unicode__(),
+            'label': truncatesmart(target.__unicode__(), 30),
         })
     return HttpResponse(dumps({
         'success': True,
         'bookmarks': bookmarks,
     }))
+
+
+class UserFollowedLocations(DetailView):
+    """
+    Present list of followed locations.
+    """
+    model = UserProfile
+    template_name = 'userspace/followed-locations.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UserFollowedLocations, self).get_context_data()
+        ctx['title'] = _("My places")
+        return ctx
+
+
+def test_view(request):
+    """
+    Do testowania różnych rzeczy.
+    """
+    import json
+    if request.is_ajax():
+        return HttpResponse(json.dumps({'info':'Yes, is AJAX request'}))
+    else:
+        return HttpResponse("No, it's not AJAX request")
+
+
+@login_required
+@require_POST
+def change_background(request):
+    """
+    Allow users to customize their profiles.
+    """
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            profile = request.user.profile
+        else:
+            return HttpResponseForbidden()
+        try:
+            os.unlink(profile.background_image.path)
+        except Exception:
+            pass
+        profile.background_image = process_background_image(request.FILES['background'], 'img/backgrounds')
+        profile.save()
+        return redirect(request.META['HTTP_REFERER'])

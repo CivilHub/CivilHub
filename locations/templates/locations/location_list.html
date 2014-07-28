@@ -1,6 +1,58 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            common: 'js/common',
+            utils: 'js/utils/utils',
+            ui: 'js/ui/ui'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            }
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'utils',
+             'ui',
+             'js/locations/location-follow'],
+
+    function($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block content %}
 
     <!-- Location search form -->
@@ -36,8 +88,4 @@
     {% if user.is_authenticated %}
         <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">{% trans "Create new" %}</button></a></div>
     {% endif %}
-{% endblock %}
-
-{% block footer_scripts %}
-<script src="{% static 'locations/js/location-follow.js' %}"></script>
 {% endblock %}

@@ -3,6 +3,73 @@
 
 {% block title%}{{ location.name }}:Ideas{% endblock %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            paginator: 'includes/backbone/backbone.paginator',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            moment: 'includes/momentjs/moment'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery',
+             'utils',
+             'common',
+             'js/ideas/idea-list/ideas',
+             'js/ideas/votes/votes'],
+    
+    function ($, utils) {
+        
+        "use strict";
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block topbar %}
 <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
@@ -10,25 +77,54 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="">{% trans "Title" %}</a></li>
-                    <li><a href="">{% trans "Date" %}</a></li>
-                    <li><a href="">{% trans "Category" %}</a></li>
-                    <li><a href="">{% trans "Username" %}</a></li>
-                    <li><a href="">{% trans "Answers" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="title">{% trans "Title" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="date">{% trans "Date" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="category">{% trans "Category" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="username">{% trans "Username" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="sortby" data-target="answers">{% trans "Answers" %}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li><a href="#" class="list-state-switch" data-target="active">{% trans "Active" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="closed">{% trans "Closed" %}</a></li>
-                    <li><a href="#" class="list-state-switch" data-target="all">{% trans "All" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="True">{% trans "Active" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="False">{% trans "Closed" %}</a></li>
+                    <li><a href="#" class="list-controller" data-control="status" data-target="all">{% trans "All" %}</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Category" %}: <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="list-controller active" data-control="category" data-target="all">{% trans "All" %}</a></li>
+                    {% for category in categories %}
+                    <li><a href="#" class="list-controller" data-control="category" data-target="{{ category.pk }}">{{ category.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </li>
         </ul>
-        <form class="navbar-form navbar-right" role="search">
+        <ul class="nav navbar-nav">
+            <li class="navbar-text"> {% trans "When" %}:</li>
+        <li><a href="#" class="list-controller active  navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
+        <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
+        <li class="navbar-text-narrow">{% trans "Past" %}:</li>
+            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+        <li class="navbar-text-narrow">|</li>
+            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+        <li class="navbar-text-narrow">|</li>
+            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+        <li class="navbar-text-narrow">|</li>
+            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+        </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+        <li class="navbar-text">{% trans "Stats" %}</li>
+        <span class="bs-navbar-soon">(soon)</span>
+        </ul>
+
+        <form class="navbar-form navbar-right" id="haystack-form" method="get" action="" role="search">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="{% trans "Search" %}">
+                <input type="text" name="haystack" id="haystack" class="form-control" placeholder="{% trans "Search" %}">
             </div>
             <a class="search-button"><span class="fa fa-search"></span></a>
         </form>
@@ -37,132 +133,33 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-sm-9">
-    {% for idea in location.idea_set.all %}
-        {% include 'ideas/idea_basic.html' %}
-    {% endfor %}
 
-    <div id="new-category-form" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans "Create ideas category" %}</h4>
-                </div>
-                <div class="modal-body">
-                    <form role="presentation" method="post" action="" >
-                        <div class="form-group">
-                            <label for="category-name" class="control-label">{% trans "Name" %}</label>
-                            <input type="text" id="category-name" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label for="category-description">{% trans "Description" %}</label>
-                            <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                    <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-</div>
-{% endblock %}
+    <div>
+    <div class="row">
+        <div class="col-sm-9">
+        <div class="main-content">
+            {% if ideas %}
+            <noscript>{% for idea in ideas %}
+                {% include 'ideas/idea_basic.html' %}
+            {% endfor %}</noscript>
+            <div id="idea-list-view"></div>
+            {% else %}
+                <p class="alert alert-info">{% trans "There are no ideas yet" %}.</p>
+            {% endif %}
+        </div>
 
-{% block sidebar %}
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-    <h3 class="actions-label">{% trans "Actions" %}:</h3>
-    {% if user.is_authenticated %}
-    <ul class="custom-sidebar-nav">                   
-        <li>
-            <a href="{% url 'locations:new_topic' location.slug %}" class="btn-topic-create">
-                <span class="fa fa-plus-circle"> </span> {% trans "New discussion" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_poll' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Create poll" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:news_create' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "Add news" %}
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'locations:new_idea' location.slug %}">
-                <span class="fa fa-file-o"> </span> {% trans "New idea" %}</button>
-            </a>
-        </li>
-        </ul>
-    {% endif %}
-    </ul>
-    {% if user.is_authenticated %}
-    <p>
-        {% if user.is_superuser %}
-        <a href="{% url 'ideas:new_category' %}"><button class="btn btn-success new-category-btn">{% trans "New category" %}</button></a>
-        {% endif %}
-    </p>
-    {% endif %}
-</div>
+            {% include 'ideas/idea-category.html' %}
+            {% include 'ideas/idea-votes.html' %}
+            
+        </div>
+
+            {% include 'locations/sidebar.html' %}
+
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block footer_scripts %}
-<script src="{% static 'ideas/js/votes.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $(document).ready(function () {
-        var $modal = $('#new-category-form'),
-            $form = $modal.find('form:first'),
-            $sBtn = $modal.find('.submit-btn:first');
-    
-        $form.bind('submit', function (evt) {
-            var data = {
-                    name: $('#category-name').val(),
-                    description: $('#category-description').val()
-                };
-            evt.preventDefault();
-            sendAjaxRequest('POST', '/rest/ideas/', {
-                data: data,
-                success: function (resp) {
-                    display_alert('{% trans "Category added" %}', 'success');
-                    $modal.modal('hide');
-                },
-                error: function (err) {
-                    var $alert = {},
-                        errors = {},
-                        error = null;
-                    try {
-                        errors = err.responseJSON;
-                        for (error in errors) {
-                            if (errors.hasOwnProperty(error)) {
-                                $alert = $('<div class="alert alert-danger"></div>');
-                                $alert.prependTo($modal.find('.form-group:first'))
-                                    .text(error + ": " + errors[error]);
-                                console.log(error + ": " + errors[error]);
-                            }
-                        }
-                    } catch (err) {
-                        console.log(err);
-                    }
-                }
-            });
-        });
-        
-        $sBtn.bind('click', function (evt) {
-            $form.submit();
-        });
-    
-        $('.new-category-btn').bind('click', function (evt) {
-            evt.preventDefault();
-            $modal.modal('show');
-        });
-    });
-})(jQuery);
-</script>
+    {% include 'ideas/ideas.html' %}
 {% endblock %}

@@ -1,24 +1,105 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block extra_styles %}
-<link rel="stylesheet" href="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.css' %}" />
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery',
+             'js/ui/ui',
+             'common',
+             'js/userspace/background'],
+
+    function($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
 {% endblock %}
 
 {% block header %}
-<nav id="location-chain-menu" class="navbar navbar-inverse custom-navbar">
-    <div class="container">
-        <ul class="nav navbar-nav">
-        {% for parent in location.get_parent_chain %}
-            <li><a href="{{ parent.url }}">{{ parent.name }}&nbsp;&raquo;&nbsp;</a></li>
-        {% endfor %}
-            <li class="active"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-        </ul>
-    </div>
+<nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
+<div class="container">
+<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+    
+    <ul class="nav navbar-nav">
+    <li><i class="fa fa-map-marker"></i></li>
+    {% for parent in location.get_parent_chain %}
+        <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+	<li><span class="breaker">></span></li>
+    {% endfor %}
+        <li class="active">
+            <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
+        </li>
+        {% if location.get_ancestor_chain %}
+        <li class="last-element">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
+            <ul class="dropdown-menu ancestors-menu">
+                {% for f in location.location_set.all %}
+                <li><a href="{{ f.get_absolute_url }}">{{ f.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+    </ul>
+    
+</div>
+</div>
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container">
         <h1 class="location-name-title">{{ location.name }}</h1>
+        {% if request.user.is_superuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'locations:background' location.pk %}" method="post">
+            {% csrf_token %}
+            <input type="file" name="background" id="background" />
+        </form>
+        <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
         {% if user not in locations.users.all %}
             <button class="btn btn-success btn-fallow-location">{% trans "Follow" %}</button>
         {% endif %}
@@ -36,17 +117,21 @@
           </div>
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}">{% trans "Summary" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}">{% trans "Blog" %}</a></li>
-                <li><a href="{% url 'locations:discussions' location.slug %}">{% trans "Discussions" %}</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
-                <li><a href="{% url 'locations:polls' location.slug %}">{% trans "Polls" %}</a></li>
-                <li><a href="{% url 'locations:gallery' location.slug %}">{% trans "Gallery" %}</a></li>
+                <li><a href="{{ location.get_absolute_url }}"><span class="ch-icon ch-content"></span>{% trans "Summary" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}"><span class="ch-icon ch-blog"></span>{% trans "Blog" %}</a></li>
+                <li><a href="{% url 'locations:discussions' location.slug %}"><span class="ch-icon ch-discussions"></span>{% trans "Discussions" %}</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}"><span class="ch-icon ch-ideas"></span>{% trans "Ideas" %}</a></li>
+                <li><a href="{% url 'locations:polls' location.slug %}"><span class="ch-icon ch-polls"></span>{% trans "Polls" %}</a></li>
+                <li><a href="#"></span><span class="ch-icon ch-projects"></span>{% trans "Projects" %}</a><span class="navbar-soon">(soon)</span></li>
+                <li><a href="#"></span><span class="ch-icon ch-events"></span>{% trans "Events" %}</a><span class="navbar-soon">(soon)</span></li>
+                <li><a href="#"></span><i class="fa fa-file-text-o"></i> {% trans "Documents" %}</a><span class="navbar-soon">(soon)</span></li>
+                <!--<li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-videos"></span>{% trans "Videos" %}</a></li>-->
+                <li><a href="{% url 'locations:gallery' location.slug %}"><span class="ch-icon ch-photos"></span>{% trans "Gallery" %}</a></li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
-                <li><a href="#">{% trans "Subspaces" %}</a></li>
+                <li><a href="{% url 'locations:followers' location.slug %}"><span class="ch-icon ch-followers"></span>{% trans "Followers" %}</a></li>
+                <li><a href="{% url 'locations:sublocations' location.slug %}"><span class="ch-icon ch-subspaces"></span>{% trans "Subspaces" %}</a></li>
             </ul>
         </div>
     </div>

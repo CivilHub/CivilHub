@@ -2,7 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
-from captcha.fields import ReCaptchaField
+from django.core.exceptions import ValidationError
 from .models import UserProfile
 
 
@@ -20,6 +20,16 @@ class RegisterForm(forms.Form):
         max_length = 128,
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
+    first_name = forms.CharField(
+        label = _("First name"),
+        max_length = 30,
+        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'first-name',})
+    )
+    last_name = forms.CharField(
+        label = _("Last name"),
+        max_length = 30,
+        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'last-name',})
+    )
     password = forms.CharField(
         label = _('Password'),
         max_length = 64,
@@ -30,21 +40,54 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
-    #captcha = ReCaptchaField()
     
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(RegisterForm, self).__init__(*args, **kwargs)
 
 
-class LoginForm(forms.Form):
+class SocialAuthPassetForm(forms.Form):
     """
-    Login registered user
+    Ustawienie nazwy użytkownika i hasła dla użytkowników
+    logujących się przez social auth.
     """
     username = forms.CharField(
         label = _('Username'),
         max_length = 32,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
+        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
+    )
+    password = forms.CharField(
+        label = _('Password'),
+        max_length = 64,
+        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
+    )
+    passchk = forms.CharField(
+        label = _("Repeat password"),
+        max_length = 32,
+        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
+    )
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(SocialAuthPassetForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        try:
+            chk_user = User.objects.get(username=self.cleaned_data.get('username'))
+            raise ValidationError(_('Username already taken. Pick another one!'))
+        except User.DoesNotExist:
+            pass
+        return super(SocialAuthPassetForm, self).clean()
+
+
+class LoginForm(forms.Form):
+    """
+    Login registered user
+    """
+    email = forms.CharField(
+        label = _('Email'),
+        max_length = 32,
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
     )
     password = forms.CharField(
         label = _('Password'),
@@ -69,12 +112,6 @@ class UserProfileForm(forms.Form):
         required = False,
         widget = forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':_('Last name')})                         
     )
-    email = forms.EmailField(
-        label = _("Email"),
-        max_length = 64,
-        required = False,
-        widget = forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':_('Email address')})                         
-    )
     description = forms.CharField(
         label = _("About me"),
         max_length = 10248,
@@ -90,7 +127,7 @@ class UserProfileForm(forms.Form):
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'email', 'description', 'birth_date')
+        fields = ('first_name', 'last_name', 'description', 'birth_date')
 
 
 class PasswordResetForm(forms.Form):
@@ -134,7 +171,6 @@ class PasswordRemindForm(forms.Form):
         label = _("Email address"),
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
-    captcha = ReCaptchaField()
 
 
 class AvatarUploadForm(forms.Form):

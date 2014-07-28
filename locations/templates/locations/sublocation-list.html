@@ -1,0 +1,54 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Lista sub-lokalizacji dla aktualnie wybranego miejsca.
+    Jak wszędzie - kod CSS trzeba przenieść do lessów.
+{% endcomment %}
+
+{% block extra_styles %}
+<style>
+.sublocation-list-row {
+    height: 60px;
+    line-height: 40px;
+    border: 1px solid #adadad;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.sublocation-list-row:hover {
+    -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+}
+.sublocation-list-row a {
+    font-size: 30px;
+    color: blue;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for sublocation in sublocations %}
+        <div class="row sublocation-list-row"><a href="{{ sublocation.url }}">{{ sublocation.name }}</a></div>
+    {% endfor %}
+</div>
+{% if navigation %}
+<div class="pagination">
+    <span class="step-links">
+        {% if discussions.has_previous %}
+        <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span class="current">
+            {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
+        </span>
+
+        {% if discussions.has_next %}
+        <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}

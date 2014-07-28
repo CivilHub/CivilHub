@@ -1,8 +1,24 @@
 # -*- coding: utf-8 -*-
+import os
 from django.db import models
+from django.conf import settings
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage
+from locations.models import Location
+from actstream.models import following
+
+
+def thumbnail(imgname, size):
+    """
+    Returns profile avatar in selected size. It takes full path to profile
+    image (e.g profile.avatar.name) and selected size which should be integer
+    meaning thumb width.
+    """
+    file, ext = os.path.splitext(imgname.split('/')[-1:][0])
+    pathname = os.path.join(settings.MEDIA_URL, '/'.join(imgname.split('/')[:-1]))
+    return pathname + '/' + str(size) + 'x' + str(size) + '_' + file + ext
 
 
 class UserProfile(models.Model):
@@ -10,9 +26,11 @@ class UserProfile(models.Model):
     Profil użytkownika.
     """
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
+    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
     description = models.TextField(blank=True, null=True)
     birth_date  = models.CharField(max_length=10, blank=True)
-    rank_pts = models.IntegerField(blank=True, null=True)
+    rank_pts  = models.IntegerField(blank=True, default=0)
+    mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
     avatar = models.ImageField(
         upload_to = "img/avatars/",
         default = 'img/avatars/anonymous.png',
@@ -23,6 +41,62 @@ class UserProfile(models.Model):
         default = 'img/avatars/30x30_anonymous.png',
         storage = OverwriteStorage()
     )
+    background_image = models.ImageField(
+        upload_to = "img/backgrounds/",
+        default = 'img/backgrounds/background.jpg',
+        storage = OverwriteStorage()
+    )
+    
+    def thumbnail_small(self):
+        return thumbnail(self.avatar.name, 30)
+        
+    def thumbnail_medium(self):
+        return thumbnail(self.avatar.name, 60)
+
+    def thumbnail_big(self):
+        return thumbnail(self.avatar.name, 90)
+
+    def get_biggest_locations(self, limit=5):
+        """
+        Funkcja zwraca listę największych lokalizacji, jakie subskrybuje
+        użytkownik. Długość listy określa parametr 'limit'.
+        """
+        my_locations = self.user.location_set.all()
+        return my_locations.order_by('users')[:limit]
+
+    def followed_locations(self):
+        """
+        Metoda zwraca listę lokalizacji obserwowanych przez użytkownika.
+        """
+        return following(self.user)
+
+    def get_absolute_url(self):
+        return reverse('user:profile', kwargs={'username': self.user.username})
+
+    def __unicode__(self):
+        return self.user.get_full_name()
+
+
+class Badge(models.Model):
+    """
+    Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
+    została zaakceptowana i zrealizowana itp. itd.
+    """
+    name = models.CharField(max_length=128)
+    description = models.TextField()
+    user = models.ManyToManyField(
+        UserProfile,
+        related_name='badges',
+        blank=True
+    )
+    thumbnail = models.ImageField(
+        upload_to = "img/badges",
+        default = "img/badges/badge.png",
+        storage = OverwriteStorage()
+    )
+
+    def __unicode__(self):
+        return self.name
 
 
 class RegisterDemand(models.Model):
@@ -33,7 +107,9 @@ class RegisterDemand(models.Model):
     określona data.
     """
     activation_link = models.CharField(max_length=1024)
-    ip_address = models.IPAddressField()
+    ip_address    = models.IPAddressField()
+    email = models.EmailField(max_length=256)
+    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         User,
@@ -46,6 +122,7 @@ class LoginData(models.Model):
     """
     Tabela przechowująca dane logowania włącznie z nazwą użytkownika,
     adresem IP oraz datą logowania.
+    TODO: Przechowywanie tylko 5 ostatnich sesji.
     """
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)

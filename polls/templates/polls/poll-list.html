@@ -1,0 +1,28 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Szablon dla listy ankiet - punkt wyjściowy dla aplikacji Backbone.
+{% endcomment %}
+
+<div id="polls"></div>
+
+<script type="text/template" id="poll-entry">
+    {% if user == poll.creator or is_moderator %}
+        <div class="btn-group list-entry-controls">
+            <a href="">
+                <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
+            </a>
+            <button data-target="<%= id %>" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
+                <span class="fa fa-times-circle-o"> </span></button>
+        </div>
+    {% endif %}
+    <div class="col-xs-4"><a href="<%= url %>"><%= title %></a></div>
+    <div class="col-xs-2">
+        <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
+        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
+    </div>
+    <div class="col-xs-2 date-created"><%= date_created %></div>
+    <div class="col-xs-4 custom-list-entry-la"><a href="<%= answers_url %>">{% trans "Show answers" %}</a></div>
+</script>
+
+<input type="hidden" name="poll_api_url" id="poll-api-url" value="/rest/polls/?pk={{ location.pk }}" />

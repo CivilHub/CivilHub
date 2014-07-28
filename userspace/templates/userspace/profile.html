@@ -1,6 +1,241 @@
-{% extends 'places_core/base.html' %} {% load i18n %} 
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %} 
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/userspace/background',
+             'js/userspace/actions/actions'],
+
+    function($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
+{% block header %}
+
+    <div class="location-logo" style="background-image:url({{ profile.background_image.url }})">
+        <div class="container">
+            {% if request.user == cuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
+                {% csrf_token %}
+                <input type="file" name="background" id="background" />
+            </form>
+            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
+        </div>
+    </div>
+    <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+                  <span class="sr-only">{% trans "Toggle navigation" %}</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+            <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+        <ul class="nav navbar-nav navbar-nav-userspace">
+                    <li><a href="#" class="list-controller userspace active" data-control="content" data-target=""><span class="ch-icon ch-content navbar-icon"></span>{% trans "Everything" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="news"><span class="ch-icon ch-blog navbar-icon"></span>{% trans "Blog" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion"><span class="ch-icon ch-discussions navbar-icon"></span>{% trans "Discussions" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="idea"><span class="ch-icon ch-ideas navbar-icon"></span>{% trans "Ideas" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="poll"><span class="ch-icon ch-polls navbar-icon"></span>{% trans "Polls" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery"><span class="ch-icon ch-photos navbar-icon"></span>{% trans "Gallery" %}</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    
+                    <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
+                        <div class="form-group">
+                            <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
+                        </div>
+                        <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+                    </form>
+        </ul>
+            </div>
+        </div>
+    </nav>
+
+{% endblock %}
 
 {% block content %}
-    <h2>{{ cuser.username }}</h2>
-    <p>{% trans "This profile is public" %}</p>
+
+    <div class="user-activities col-sm-9">
+        
+        <div class="col-sm-3 user-data">
+            <div class="profile-page-avatar">
+                <img src="{{ profile.avatar.url }}" alt="{{ cuser.username }}" />
+            </div>
+            <p class="profile-page-details">
+                {{ cuser.get_full_name }}
+                <br />
+                {{ profile.rank_pts }}
+            </p>
+            {% if profile.badges %}
+                <ul class="user-badges-list">
+                {% for badge in profile.badges.all %}
+                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% if profile.followed_locations %}
+                <ul class="user-following-list">
+                {% for location in profile.followed_locations %}
+                    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <div class="col-sm-9 main-content user-activity-stream">
+            
+            {% for action in stream %}<noscript>
+                <div class="row user-action-entry">
+                    
+                    <div class="col-xs-2 entry-avatar-col">
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.username }}" class="inline-user-avatar" />
+                        <p>{{ action.actor.profile.rank_pts }}</p>
+                    </div>
+                    
+                    <div class="col-xs-10 entry-meta-col">
+                        <div class="entry-header">
+                            <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+                            {{ action.verb }}
+                            {% if action.action_object_content_type %}
+                                &nbsp;{{ action.action_object_content_type }}&nbsp;
+                            {% endif %}
+                            {% if action.action_object %}
+                                {% if action.action_object.get_absolute_url %}
+                                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.action_object }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if action.action_object and action.target %}to{% endif %}
+                            {% if action.target %}
+                                {% if action.target.get_absolute_url %}
+                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.target }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {{ action.timestamp|timesince }} {% trans "ago" %}
+                        </div>
+                        <div class="entry-body">
+                            {% if action.action_object_content_type.model == 'poll' %}
+                                {{ action.action_object.question | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'idea' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'news' %}
+                                {{ action.action_object.content | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'location' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                        </div>
+                        <div class="clear">&nbsp;</div>
+                        <div class="entry-footer">
+                            {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
+                        </div>
+                    </div><!-- // .entry-meta-col -->
+                    
+                </div><!-- // .user-action-entry -->
+            </noscript>{% endfor %}
+            
+        </div><!-- // .user-activity-stream -->
+        
+    </div><!-- // .user-activities -->
+    
+    <script type="text/template" id="action-template">
+        <div class="col-xs-2 entry-avatar-col">
+            <img src="<%= actor.avatar %>" alt="<%= actor.username %>" class="inline-user-avatar" />
+            <p><%= actor.rank_pts %></p>
+        </div>
+        
+        <div class="col-xs-10 entry-meta-col">
+            <div class="entry-header">
+                <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+                <%= verb %>
+                <% if (!_.isEmpty(object_ct)) { %>
+                    <%= object_ct %>
+                    <% if (_.isEmpty(target_ct)) { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                    <% } else { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                        {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                    <% } %>
+                <% } else if (!_.isEmpty(target_ct)) { %>
+                    <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+                <%= timestamp %> {% trans "ago" %}
+            </div>
+            <div class="entry-body"><%= description %></div>
+            <div class="clear">&nbsp;</div>
+            <div class="entry-footer">
+                {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
+            </div>
+        </div><!-- // .entry-meta-col -->
+    </script>
+    
+    <input type="hidden" name="rest_api_url" id="rest-api-url" value="{% url 'rest:my_actions-list' %}" />
+    <input type="hidden" name="rest_api_usr" id="rest-api-usr" value="{{ cuser.pk }}" />
+
+    {% include 'locations/sidebar.html' %}
+    
 {% endblock %}

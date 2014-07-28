@@ -1,15 +1,18 @@
 {% load i18n %}
 <div class="row idea-entry">
-    <div class="idea-votes col-sm-2">
+    <div class="idea-votes col-sm-3">
+    <div class="vote-form">
         <div class="votes">{{ idea.get_votes }}</div>
         <div class="vote-controls">
             {% if user.is_authenticated %}
-                <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn">+</button>
-                <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn">-</button>
+                <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+                <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
             {% else %}
                 <div class="button-vote-placeholder"></div>
             {% endif %}
         </div>
+        </div>
+
         <div class="clear">&nbsp;</div>
         <div class="idea-summary">
             <div class="idea-status-state">
@@ -19,26 +22,34 @@
                     <label class="label label-danger">{% trans "Inactive" %}</label>
                 {% endif %}
             </div>
-            <div class="idea-vote-count">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
+            <div class="idea-vote-count" data-target={{ idea.pk }}>{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
         </div>
     </div>
-    <div class="col-sm-10">
-        <h3><a href="{% url 'locations:idea_detail' place_slug=idea.location.slug slug=idea.slug %}">{{ idea.name }}</a></h3>
-        <p>
-            Created {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}">{{ idea.creator.get_full_name }}</a>
-            - Last edited {{ idea.date_edited }}
-        </p>
-        {% if idea.creator == user %}
-            <p><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></p>
-        {% endif %}
-        <div>{{ idea.description | safe | truncatewords_html:50 }}</div>
-        <div class="row">
-            <div class="col-sm-3">
-                <a href="{{ idea.slug }}#comments"><span class="fa fa-comments"> </span> {{ idea.get_comment_count }} {% trans "comments" %}</a>
-            </div>
-            <div class="col-sm-9">
-                <span class="fa fa-tags"> </span> {% trans "Tags" %}: {% for tag in idea.tags.all %}<a href="#">{{tag.name}}</a>, {% endfor %}
-            </div>
+    <div class="col-sm-9">
+        <h3><a href="{% url 'locations:idea_detail' place_slug=idea.location.slug slug=idea.slug %}">{{ idea.name }}</a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+        <div class="entry-submenu">
+            <ul>
+                {% if idea.creator == user %}
+                    <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
+                {% endif %}
+            </ul>
         </div>
+        <p>
+            {% trans "Created" %} {{ idea.date_created }} by <a href="{% url 'user:profile' idea.creator.username %}"><span class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</span></a>
+            {% if idea.edited %}{% trans "Last edited" %} {{ idea.date_edited }}{% endif %}
+        </p>
+        
+        <div>{{ idea.description | safe | truncatewords_html:50 }}</div>
+            <div>
+                <a href="{{ idea.get_absolute_url }}"><span class="fa fa-comments"> </span> {{ idea.get_comment_count }} {% trans "comments" %}</a>
+                <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+                {% for tag in idea.tags.all %}
+                    <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}">{{tag.name}}</a>, 
+                {% endfor %}
+                {% if idea.category %}
+                <span class="fa fa-star"> </span>{% trans "Category" %}:
+                    <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
+                {% endif %}
+            </div>
     </div>
 </div>

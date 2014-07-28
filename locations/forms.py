@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 from taggit.forms import TagField
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -43,6 +44,11 @@ class LocationForm(forms.ModelForm):
         label = _('Longitude'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
+    population = forms.IntegerField(
+        required = False,
+        label = _("Population"),
+        widget = forms.NumberInput(attrs={'class': 'form-control'})
+    )
     image = forms.ImageField(
         required = False,
         label = _('Image')
@@ -50,7 +56,7 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ('name', 'description', 'parent',
+        fields = ('name', 'description', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
 
 
@@ -65,7 +71,7 @@ class IdeaLocationForm(forms.ModelForm):
     )
     description = forms.CharField(
         required = False,
-        max_length = 2048,
+        max_length = 20480,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     category = forms.ModelChoiceField(
@@ -82,7 +88,7 @@ class IdeaLocationForm(forms.ModelForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'location', 'tags')
+        fields = ('name', 'description', 'location', 'tags', 'category',)
 
 
 class NewsLocationForm(forms.ModelForm):
@@ -134,10 +140,11 @@ class DiscussionLocationForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
+    tags = TagField(required=False)
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location',)
+        fields = ('question', 'intro', 'category', 'location', 'tags')
 
 
 class SearchDiscussionForm(SearchForm):
@@ -162,3 +169,18 @@ class SearchDiscussionForm(SearchForm):
             sqs = sqs.filter(location=location)
 
         return sqs
+
+
+class InviteUsersForm(forms.Form):
+    """
+    Formularz do wysyłania zaproszeń innym użytkownikom.
+    """
+    location = forms.ModelChoiceField(
+        queryset = Location.objects.all(),
+        widget   = forms.HiddenInput()
+    )
+    user = forms.ModelMultipleChoiceField(
+        label    = _("Select users"),
+        queryset = User.objects.all(),
+        widget   = forms.SelectMultiple(attrs={'class': 'form-control'})
+    )

@@ -1,0 +1,27 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+<div class="col-sm-9">
+    <ul>
+    {% for item in items %}
+        <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<div class="col-sm-3">
+    <ul class="sidebar-right">
+        
+    </ul>
+    <div class="tags">
+        <ul>
+        {% for tag, counter in tags %}
+            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

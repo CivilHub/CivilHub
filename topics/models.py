@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
+from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
 from bookmarks.handlers import library
@@ -23,18 +24,24 @@ class Discussion(models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
-    question = models.CharField(max_length=256)
-    slug     = models.SlugField(max_length=256)
+    question = models.CharField(max_length=256, unique=True)
+    slug     = models.SlugField(max_length=256, unique=True)
     intro    = models.TextField()
     creator  = models.ForeignKey(User)
     status   = models.BooleanField(default=True)
     location = models.ForeignKey(Location)
     category = models.ForeignKey(Category, blank=True, null=True)
+    tags     = TaggableManager()
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited  = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.question)
+        if not self.slug:
+            to_slug_entry = self.question
+            chk = Discussion.objects.filter(question=self.question)
+            if len(chk) > 0:
+                to_slug_entry = self.question + '-' + str(len(chk))
+            self.slug = slugify(to_slug_entry)
         super(Discussion, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -69,6 +76,34 @@ class Entry(MPTTModel):
         if self.pk is not None:
             self.is_edited = True
         super(Entry, self).save(*args, **kwargs)
+
+    def get_upvotes(self):
+        return len(self.votes.filter(vote=True))
+
+    def get_downvotes(self):
+        return len(self.votes.filter(vote=False))
+
+    def calculate_votes(self):
+        votes_total = self.votes
+        votes_up = len(votes_total.filter(vote=True))
+        votes_down = len(votes_total.filter(vote=False))
+        return votes_up - votes_down
+
+    def get_absolute_url(self):
+        return self.discussion.get_absolute_url()
+
+
+class EntryVote(models.Model):
+    """
+    Users can vote up or down on forum entries, but only once.
+    """
+    user = models.ForeignKey(User)
+    vote = models.BooleanField(default=False)
+    entry = models.ForeignKey(Entry, related_name='votes')
+    date_voted = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.vote
 
 
 # Allow users to bookmark content

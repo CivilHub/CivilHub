@@ -1,0 +1,66 @@
+{% load staticfiles %}{% load i18n %}
+
+{% comment %}
+    Szablon dla idei - do obsługi listy idei w lokalizacji.
+{% endcomment %}
+
+<input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/ideas/?pk={{ location.pk }}" />
+
+<script type="text/template" id="idea-entry-tpl">
+    <div class="idea-votes col-sm-3">
+    <div class="vote-form">
+        <div class="votes"><%= total_votes %></div>
+        <div class="vote-controls">
+            {% if user.is_authenticated %}
+                <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
+                <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" title="{% trans "Zły pomysł, jestem na NIE" %}"> <span class="fa fa-angle-down"></span></button>
+            {% else %}
+                <div class="button-vote-placeholder"></div>
+            {% endif %}
+        </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="idea-summary">
+            <div class="idea-status-state">
+                <% if (status) { %>
+                    <label class="label label-success">{% trans "Active" %}</label>
+                <% } else { %>
+                    <label class="label label-danger">{% trans "Inactive" %}</label>
+                <% } %>
+            </div>
+            <div class="idea-vote-count" data-target=<%= id %>><%= total_votes %> {% trans "votes" %}</div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <h3><a href="<%= url %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+        <div class="entry-submenu">
+            <ul>
+                {% if user.is_superuser or is_moderator %}
+                <li><a href="#">{% trans "Edit" %}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <p>
+            {% trans "Created" %} <span class="date-created"><%= date_created %></span> {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
+            <% if (edited) { %>
+                {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
+            <% } %>
+        </p>
+        
+        <div><%= description %></div>
+        <div class="clear">&nbsp;</div>
+        <div>
+            <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+            <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
+            <% for (var i = 0; i < tags.length; i++) { %>
+                <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+            <% } %>
+            <% if (category_name) { %>
+            <span class="fa fa-star"> </span>{% trans "Category" %}:
+                <a href="<%= category_url %>"><%= category_name %></a>
+            <% } %>
+        </div>
+    </div>
+</script>
+
+{% include 'locations/category-form.html' %}

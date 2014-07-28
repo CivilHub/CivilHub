@@ -2,10 +2,13 @@
 from django.conf.urls import patterns, url
 from userspace import views
 
+
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'test/', views.test_view, name='test'),
     url(r'login/', views.login, name='login'),
     url(r'logout/', views.logout, name='logout'),
+    url(r'active/(?P<lang>\w+)/', views.active, name='active'),
     url(r'activate/(?P<activation_link>\w+)/', views.activate, name='activate'),
     url(r'register/', views.register, name='register'),
     url(r'passet/', views.passet, name='passet'),
@@ -14,5 +17,7 @@ urlpatterns = patterns('',
     url(r'upload_avatar/', views.upload_avatar, name='upload_avatar'),
     url(r'save_settings/', views.save_settings, name='save_settings'),
     url(r'my_bookmarks/', views.my_bookmarks, name='my_bookmarks'),
+    url(r'locations/(?P<pk>\d+)/', views.UserFollowedLocations.as_view(), name='locations'),
+    url(r'background/', views.change_background, name='background'),
     url(r'(?P<username>\w+)/$', views.profile, name='profile'),
 )

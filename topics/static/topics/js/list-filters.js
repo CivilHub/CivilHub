@@ -5,45 +5,6 @@
 (function ($) {
     "use strict";
     //
-    // Funkcja konwertuje zapytanie GET na JSON.
-    // -----------------------------------------
-    // @returns Obj
-    function urlToJSON (url) {
-        var urlItems = [],
-            jsonData = {},
-            i, itm;
-            
-        url = url.split('?')[1] || false;
-        
-        if (!url) {
-            return {}; // Brak danych GET.
-        }
-        
-        url = url.split('&');
-        
-        for (i = 0; i < url.length; i++) {
-            itm = url[i].split('=');
-            jsonData[itm[0]] = itm[1];
-        }
-        
-        return jsonData;
-    }
-    //
-    // Funkcja serializuje proste obiekty do URL.
-    // ------------------------------------------
-    // @param {JSON Obj} json Obiekt do konwersji
-    function JSONtoUrl(json) {
-        var pairs = _.pairs(json),
-            urlitems = [],
-            i;
-        
-        for (i = 0; i < pairs.length; i++) {
-            urlitems.push(pairs[i].join('='));
-        }
-        
-        return '?' + urlitems.join('&');
-    }
-    //
     // Funkcja pobierająca dodatkowe dane z formularza 'search'.
     // ---------------------------------------------------------
     function getSearchText() {

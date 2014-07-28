@@ -1,17 +1,176 @@
 {% extends 'locations/index.html' %}
-{% load i18n %}
+{% load staticfiles %}{% load i18n %}
+
+{% block extra_styles %}
+
+    <link rel="stylesheet" href="{% static 'places_core/includes/jqplot/jquery.jqplot.css' %}" />
+    
+{% endblock %}
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            plot: 'includes/jqplot/jquery.jqplot',
+            'dateAxisRenderer': 'includes/jqplot/plugins/jqplot.dateAxisRenderer',
+            'canvasTextRenderer':'includes/jqplot/plugins/jqplot.canvasTextRenderer',
+            'canvasAxisTickRenderer': 'includes/jqplot/plugins/jqplot.canvasAxisTickRenderer',
+            'categoryAxisRenderer': 'includes/jqplot/plugins/jqplot.categoryAxisRenderer',
+            'barRenderer': 'includes/jqplot/plugins/jqplot.barRenderer'
+            
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            plot: {
+                deps: ['jquery']
+            },
+            
+            dateAxisRenderer: { deps: ['plot'] },
+            canvasTextRenderer: { deps: ['plot'] },
+            canvasAxisTickRenderer: { deps: ['plot'] },
+            categoryAxisRenderer: { deps: ['plot'] },
+            barRenderer: { deps: ['plot'] }
+        }
+    });
+
+    require(['jquery',
+             'dateAxisRenderer',
+             'canvasTextRenderer',
+             'canvasAxisTickRenderer',
+             'categoryAxisRenderer',
+             'barRenderer',
+             'common'],
+    
+    function ($) {
+        
+        var asets = [
+                {% for aset in answer_set %}['{{ aset.answer }}', {{ aset.counter }}],{% endfor %}
+            ],
+            plot1 = $.jqplot('chartdiv', [asets], {
+                title: '{{ poll.title }}',
+                animate: true,
+                series:[{renderer:$.jqplot.BarRenderer}],
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: {
+                        angle: -30,
+                        fontSize: '10pt'
+                    }
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer
+                    }
+                }
+            });
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
+
 {% block content %}
-<div class="col-sm-9">
-    <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
-    {% for aset in answers %}
-    <div>
-        <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
-        <ul>
-        {% for answer in aset.answers.all %}
-            <li>{{ answer }}</li>
-        {% endfor %}
-        </ul>
+
+    <div class="col-sm-9">
+        <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <div id="chartdiv" style="height:400px;width:300px;"></div>
+            </div>
+            <div class="col-sm-6">
+                {% for aset in answers %}
+                <div>
+                    <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
+                    <ul>
+                    {% for answer in aset.answers.all %}
+                        <li>{{ answer }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    {% endfor %}
-</div>
+    
+    {% include 'locations/sidebar.html' %}
+
+{% endblock %}
+
+
+{% block footer_scripts %}
+{% comment %}
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/jquery.jqplot.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.dateAxisRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasTextRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.canvasAxisTickRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.categoryAxisRenderer.js' %}"></script>
+    <script type="text/javascript" src="{% static 'places_core/includes/jqplot/plugins/jqplot.barRenderer.js' %}"></script>
+    <script>
+    (function ($) {
+        "use strict";
+        var asets = [
+                {% for aset in answer_set %}['{{ aset.answer }}', {{ aset.counter }}],{% endfor %}
+            ],
+            plot1 = $.jqplot('chartdiv', [asets], {
+                title: '{{ poll.title }}',
+                animate: true,
+                series:[{renderer:$.jqplot.BarRenderer}],
+                axesDefaults: {
+                    tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+                    tickOptions: {
+                        angle: -30,
+                        fontSize: '10pt'
+                    }
+                },
+                axes: {
+                    xaxis: {
+                        renderer: $.jqplot.CategoryAxisRenderer
+                    }
+                }
+            });
+    })(jQuery);
+    </script>
+{% endcomment %}
 {% endblock %}

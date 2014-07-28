@@ -26,7 +26,7 @@
                 m.setPosition(pos);
                 
                 google.maps.event.addListener(m, 'click', function() {
-                    bootbox.confirm("Are you sure you want to delete this marker?", function (resp) {
+                    bootbox.confirm(gettext("Are you sure you want to delete this marker?"), function (resp) {
                         if (resp) {
                             sendAjaxRequest('POST', '/maps/remove/', {
                                 data: {pk: marker.pk},

@@ -1,0 +1,23 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+
+<div id="gallery">
+{% for file in files %}
+    <a href="{% url 'gallery:image' file.pk %}"><img src="{{ file.thumb }}" class="gallery-item" /></a>
+{% endfor %}
+</div>
+<form role="form" action="{% url 'gallery:index' %}" class="form-hidden" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="fallback">
+        <input name="file" type="file" class="form-input" multiple />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary submit-btn">{% trans "Upload" %}</button>
+    </div>
+</form>
+
+{% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
+
+{% endblock %}

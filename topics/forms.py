@@ -2,6 +2,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
+from taggit.forms import TagField
 from .models import Category, Entry, Discussion
 
 
@@ -29,10 +30,11 @@ class DiscussionForm(forms.ModelForm):
         required = False,
         label = _('Status'),
     )
+    tags = TagField(required=False)
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location', 'status')
+        fields = ('question', 'intro', 'category', 'location', 'status', 'tags')
 
 
 class ReplyForm(forms.ModelForm):
@@ -40,12 +42,12 @@ class ReplyForm(forms.ModelForm):
     Reply to discussion topic.
     """
     content = forms.CharField(
-        required = True,
+        required = False,
         max_length = 2048,
         widget = forms.Textarea(attrs={'class': 'form-control'}),
     )
     discussion = forms.ModelChoiceField(
-        required = True,
+        required = False,
         queryset = Discussion.objects.all(),
         widget = forms.HiddenInput()
     )
@@ -53,3 +55,15 @@ class ReplyForm(forms.ModelForm):
     class Meta:
         model = Entry
         fields = ('content', 'discussion',)
+
+
+class ConfirmDeleteForm(forms.Form):
+    """
+    Delete discussion.
+    """
+    confirm = forms.BooleanField(
+        widget = forms.HiddenInput()
+    )
+
+    class Meta:
+        fields = ('confirm',)

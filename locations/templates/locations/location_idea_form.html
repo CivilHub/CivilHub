@@ -1,29 +1,104 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block content %}
-<div class="col-sm-9">
-    <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        </div>
-    </form>
-</div>
-{% include 'gallery/media-uploader.html' %}
+{% comment %}
+    Formularz do tworzenia nowych idei.
+{% endcomment %}
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 300,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            common: 'js/common',
+            ckeditor: 'includes/ckeditor/ckeditor',
+            dropzone: 'includes/dropzone/dropzone',
+            jqueryui: 'includes/jquery-ui/jquery-ui',
+            dropzone: 'includes/dropzone/dropzone'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+            
+            ckeditor: {
+                exports: 'CKEDITOR'
+            },
+            
+            jqueryui: {
+                deps: ['jquery']
+            },
+            
+            dropzone: {
+                deps: ['jquery'],
+                exports: 'Dropzone'
+            }
+        }
+    });
+
+    require(['jquery',
+             'js/locations/ideaForm',
+             'common'],
+
+    function ($, IdeaForm) {
+        
+        var form = new IdeaForm();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
 {% endblock %}
 
-{% block footer_scripts %}
-<script src="{% static 'places_core/includes/ckeditor/ckeditor.js' %}"></script>
-<script src="{% static 'places_core/includes/jquery/jquery-tags-input/jquery.tagsinput.js' %}"></script>
-<script>
-(function ($) {
-    "use strict";
-    $('#id_description').customCKEditor();
-    $('#id_tags').tagsInput({
-        autocomplete_url: '/rest/tags/',
+{% block content %}
+
+    <div class="col-sm-9">
+        <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+        </form>
+    </div>
+    
+    {% include 'locations/sidebar.html' %}
+    
+    {% include 'gallery/media-uploader.html' %}
+    
+    <script>
+    require(['/static/places_core/js/locations/ideaForm.js'],
+    function (IdeaForm) {
+        "use strict";
+        var form = new IdeaForm();
     });
-})(jQuery);
-</script>
+    </script>
+    
 {% endblock %}
