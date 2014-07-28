@@ -545,7 +545,7 @@ class AbuseReportSerializer(serializers.ModelSerializer):
     sender  = serializers.PrimaryKeyRelatedField(read_only=True)
     status  = serializers.Field()
     content_type  = serializers.PrimaryKeyRelatedField()
-    object_pk     = serializers.RelatedField()
+    object_pk     = serializers.IntegerField()
     date_reported = serializers.DateTimeField(required=False)
 
     class Meta:

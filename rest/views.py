@@ -532,6 +532,7 @@ class AbuseReportViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.sender = self.request.user
+        obj.site_id = settings.SITE_ID
 
 
 class BadgeViewSet(viewsets.ModelViewSet):

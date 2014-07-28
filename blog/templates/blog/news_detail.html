@@ -95,7 +95,7 @@
             <ul>
                 <li>{% bookmark_form for news %}</li>
                 {% if user.is_authenticated and user != news.creator %}
-                <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
+                <li><a class="report-abuse-link" data-app="blog" data-model="news" data-id="{{ news.pk }}" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
                     {% trans "Report abuse" %}</a></li>
                 {% endif %}
                 {% if user.is_authenticated and user == news.creator or is_moderator %}
