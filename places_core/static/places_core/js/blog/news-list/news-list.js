@@ -76,14 +76,18 @@ function ($, _, Backbone, utils, PaginatorView) {
             initialize: function () {
                 var self = this;
                 $.get(baseurl, function (resp) {
-                    self.collection = new NewsCollection(resp.results);
-                    self.render();
-                    self.paginator = new PaginatorView({
-                        count: resp.count,
-                        perPage: 2,
-                        targetCollection: self.collection
-                    });
-                    $(self.paginator.render().el).insertAfter(self.$el);
+                    if (resp.count) {
+                        self.collection = new NewsCollection(resp.results);
+                        self.render();
+                        self.paginator = new PaginatorView({
+                            count: resp.count,
+                            perPage: 2,
+                            targetCollection: self.collection
+                        });
+                        $(self.paginator.render().el).insertAfter(self.$el);
+                    } else {
+                        self.$el.append('<p class="alert alert-info">' + gettext("There are no entries yet") + '</p>');
+                    }
                     self.listenTo(self.collection, 'sync', self.render);
                 });
             },

@@ -38,7 +38,11 @@ function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection, Paginato
         initialize: function () {
             var self = this;
             $.get(baseurl, function (resp) {
-                self._init(resp);
+                if (resp.count) {
+                    self._init(resp);
+                } else {
+                    self.$el.append('<p class="alert alert-info">' + gettext("There are no discussions yet") + '</p>');
+                }
             });
         },
         

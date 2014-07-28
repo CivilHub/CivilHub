@@ -9,6 +9,7 @@ define(['jquery',
 
 function ($, utils, ui, bootbox) {
     "use strict";
+    console.log(bootbox);
     $.fn.minimap = function (markers) {
         return $(this).each(function () {
             var $this = $(this),

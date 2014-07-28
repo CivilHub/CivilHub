@@ -71,13 +71,14 @@
 
     require(['jquery',
              'ui',
+             'bootbox',
              'js/topics/discussion/replyForm',
              'mapinput',
              'common',
              'js/maps/minimap',
              'js/ui/bookmark-form'],
     
-    function ($, ui) {
+    function ($, ui, bootbox) {
         "use strict";
         
         window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
@@ -163,6 +164,54 @@
         setTimeout(function () {
             runMinimap();
         }, 2000);
+        
+        //
+        // Save user's vote on server
+        // --------------------------
+        // @param {boolean} vote
+        // @param {string} url
+        // @param {jQuery Object} $counter
+        //
+        var sendVote = function (vote, url, $counter) {
+            var votes = parseInt($counter.text(), 10) || 0;
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    vote: vote,
+                    csrfmiddlewaretoken: $('[name="csrfmiddlewaretoken"]:first').val()
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    if (resp.success) {
+                        message.success(resp.message);
+                        $counter.text(++votes);
+                    } else {
+                        message.warning(resp.message);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        };
+        
+        $('.entry-vote-up').on('click', function (e) {
+            e.preventDefault();
+            var vote = true;
+            var url = $(this).attr('href');
+            var $counter = $(this).siblings('.entry-vote-count');
+            sendVote(vote, url, $counter);
+        });
+        
+        $('.entry-vote-down').on('click', function (e) {
+            e.preventDefault();
+            var vote = false;
+            var url = $(this).attr('href');
+            var $counter = $(this).siblings('.entry-vote-count');
+            console.log($counter);
+            sendVote(vote, url, $counter);
+        });
         
         $(document).trigger('load');
         
