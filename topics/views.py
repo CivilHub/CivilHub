@@ -184,7 +184,7 @@ class DiscussionDetailView(DetailView):
             })
         context['is_moderator'] = moderator
         context['links'] = links['discussions']
-        context['appname'] = 'discussion'
+        context['ct'] = ContentType.objects.get_for_model(Entry).pk
         return context
 
 
