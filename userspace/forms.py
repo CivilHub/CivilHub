@@ -94,6 +94,11 @@ class LoginForm(forms.Form):
         max_length = 64,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
     )
+    remember_me = forms.BooleanField(
+        label = _("Remember me"),
+        required = False,
+        widget = forms.CheckboxInput(attrs={'checked': 'checked'})
+    )
 
 
 class UserProfileForm(forms.Form):

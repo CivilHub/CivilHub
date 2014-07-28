@@ -303,6 +303,8 @@ def login(request):
     if request.user.is_authenticated():
         return redirect('user:index')
     if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
         f = LoginForm(request.POST)
         if f.is_valid():
             try:
