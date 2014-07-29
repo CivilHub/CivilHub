@@ -108,6 +108,9 @@ def get_pointers(request):
                     'type'     : str(ContentType.objects.get_for_model(l)),
                     'desc'     : truncatehtml(l.description, 100),
                     'date'     : '',
+                    'img'      : l.image.url,
+                    'user': l.creator.get_full_name(),
+                    'profile': l.creator.profile.get_absolute_url(),
                 }
             })
     for p in ps:

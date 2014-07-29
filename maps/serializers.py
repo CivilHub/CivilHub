@@ -30,8 +30,11 @@ class MapObjecSerializer(serializers.ModelSerializer):
         tmpobj = {
             'title': obj.content_object.__unicode__(),
             'url': obj.content_object.get_absolute_url(),
+            'img': obj.content_object.creator.profile.thumbnail_medium(),
             'type': obj.content_object._meta.verbose_name,
             'desc': obj.content_object.get_description(),
-            'date': timesince(obj.content_object.date_created)
+            'date': timesince(obj.content_object.date_created),
+            'user': obj.content_object.creator.get_full_name(),
+            'profile': obj.content_object.creator.profile.get_absolute_url()
         }
         return tmpobj

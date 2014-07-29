@@ -79,8 +79,13 @@ function ($) {
                             google.maps.event.addListener(m, 'click', function () {
                                 var contentString = dialogTemplate({
                                     url: m.content_object.url,
+                                    type: m.content_object.type,
                                     title: m.content_object.title,
-                                    desc: m.content_object.desc
+                                    desc: m.content_object.desc,
+                                    date: m.content_object.date,
+                                    img: m.content_object.img,
+                                    user: m.content_object.user,
+                                    profile: m.content_object.profile
                                 });
                                 
                                 var infoWindow = new google.maps.InfoWindow({
