@@ -1,44 +1,16 @@
 //
-// civilGoogleMap.js
-// =================
-// Main map to show everything :)
-define(['jquery',
-        'bootstrap',
-        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap',
-        'js/maps/markerclusterer'],
+// map.js
+// ======
+// Entry point for Google Maps.
+//
+require(['jquery',
+         'bootstrap',
+         'js/maps/markerclusterer',
+         '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap',],
 
 function ($) {
+    
     "use strict";
-    
-    //
-    // Fetch objects from server and create map.
-    // -----------------------------------------------------------------------------
-    //
-    var fetchMap = function (url) {
-        $.get(url, function (resp) {
-            var markers = [], map = null;
-            resp = JSON.parse(resp);
-            if (resp.success) {
-                $(resp.locations).each(function () {
-                    markers.push(this);
-                });
-                $(resp.pointers).each(function () {
-                    markers.push(this);
-                });
-                map = civilGoogleMap(markers);
-                $('.map-filter-toggle').bind('change', function (evt) {
-                    evt.preventDefault;
-                    map.refreshMap(getFilters());
-                });
-            } else {
-                console.log(gettext("Failed to load map data"));
-            }
-        });
-    };
-    
-    window.initializeMainMap = function () {
-        fetchMap('/maps/pointers/');
-    };
     
     function civilGoogleMap(mapData) {
         
@@ -138,6 +110,77 @@ function ($) {
         return map;
     };
     
+    //
+    // Fetch objects from server and create map.
+    // -----------------------------------------------------------------------------
+    //
+    var fetchMap = function (url) {
+        $.get(url, function (resp) {
+            var markers = [];
+            resp = JSON.parse(resp);
+            if (resp.success) {
+                $(resp.locations).each(function () {
+                    markers.push(this);
+                });
+                $(resp.pointers).each(function () {
+                    markers.push(this);
+                });
+                window.CivilMap = civilGoogleMap(markers);
+                $('.map-filter-toggle').bind('change', function (evt) {
+                    evt.preventDefault;
+                    map.refreshMap(getFilters());
+                });
+            } else {
+                console.log(gettext("Failed to load map data"));
+            }
+        });
+    };
+    
+    window.initializeMainMap = function () {
+        fetchMap('/maps/pointers/');
+    };
+    
+    setTimeout(function () {
+        if (_.isUndefined(window.CivilMap)) {
+            initializeMainMap();
+        }
+    }, 3000);
+    
+    //
+    // Adjust map size to device screen and bind events to show/hide menu button.
+    // -------------------------------------------------------------------------
+    //
+    (function () {
+        var topAdjust = $('#navbar-top').height(),
+            $map      = $('#map'),
+            $toggle   = $('#map-filter-toggle'),
+            $panel    = $('#map-options-panel');
+
+        $map.css({
+            position : "absolute",
+            left     : 0,
+            top      : topAdjust,
+            width    : "100%",
+            height   : $(window).height() - topAdjust,
+            'z-index': 10
+        });
+
+        //$panel.hide();
+
+        $toggle // show/hide map options button.
+            .tooltip({placement:'right'})
+            .bind('click',
+                function (evt) {
+                    evt.preventDefault();
+                    $panel.slideToggle('fast');
+                    $toggle.find('.fa')
+                        .toggleClass('fa-arrow-circle-down')
+                        .toggleClass('fa-arrow-circle-up');
+                }
+            );
+
+    })();
+
     // Shortcut to get list of active filters
     var getFilters = function () {
         var filterToggles = $('.map-filter-toggle'),
@@ -151,22 +194,4 @@ function ($) {
         
         return filters;
     };
-    
-    //
-    // Only followed locations button.
-    // -----------------------------------------------------------------------------
-    //
-    $('#map-follow-toggle').on('click', function (e) {
-        var $icon = $(this).find('.fa:first');
-        e.preventDefault();
-        $('#map').empty();
-        if ($icon.hasClass('fa-circle-o')) {
-            fetchMap('/maps/pointers/?followed=true');
-        } else {
-            fetchMap('/maps/pointers/');
-        }
-        $icon.toggleClass('fa-circle-o').toggleClass('fa-check-circle-o');
-    }).tooltip({placement:'right'});
-    
-    return fetchMap;
 });

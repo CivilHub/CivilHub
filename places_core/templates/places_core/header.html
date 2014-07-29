@@ -1,4 +1,4 @@
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %} {% load i18n %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +15,14 @@
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-{% block require_scripts %}
+{% comment %}
+    W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
+    i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
+    faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
+{% endcomment %}
 
+{% block require_scripts %}
+    
     <script>
     require.config({
         baseUrl: "{% static 'places_core' %}",
@@ -31,10 +37,8 @@
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
             tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
             ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
+            common: 'js/common.js'
         },
         
         shim: {
@@ -52,18 +56,15 @@
                 deps: ['jquery']
             },
             
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
             tagsinput: {
                 deps: ['jquery']
             },
         }
     });
 
-    require(['jquery', 'utils', 'common'], function ($) {
+    require(['jquery', 'ui', 'common'], function ($, ui) {
+        
+        ui.message.success("Main application loaded");
         
         $(document).trigger('load');
         
@@ -72,19 +73,9 @@
     
 {% endblock %}
 
+{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
+{% block extra_scripts %}{% endblock %}
 </head>
-
 <body>
-
-{% include 'places_core/navigation.html' %}
-
-{% block content %}
-
-    {% comment %}Tutaj wchodzi kod pojedynczej statycznej strony.{% endcomment %}
-
-{% endblock %}
-
-{% include 'places_core/footer.html' %}
-
-</body>
-</html>
+    
+    <div id="messages"></div>

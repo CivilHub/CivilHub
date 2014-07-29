@@ -38,6 +38,23 @@ from actstream.models import Action
 # custom permissions
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image
+# REST views
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from .serializers import SimpleLocationSerializer
+
+
+class LocationAPIViewSet(viewsets.ModelViewSet):
+    """
+    REST view for mobile app. Provides a way to manage and add new locations.
+    """
+    model = Location
+    serializer_class = SimpleLocationSerializer
+    paginate_by = 25
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
 
 
 class LocationNewsList(DetailView):

@@ -25,6 +25,47 @@ from locations.links import LINKS_MAP as links
 from .models import Discussion, Entry, EntryVote, Category
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 
+# REST API
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from serializers import ForumCategorySimpleSerializer, ForumTopicSimpleSerializer, ForumEntrySimpleSerializer
+
+
+class ForumTopicAPIViewSet(viewsets.ModelViewSet):
+    """
+    This is simplified discussion view set for mobile app.
+    """
+    queryset = Discussion.objects.all()
+    serializer_class = ForumTopicSimpleSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
+
+class ForumEntryAPIViewSet(viewsets.ModelViewSet):
+    """
+    Simple view to manage topic answers.
+    """
+    queryset = Entry.objects.all()
+    serializer_class = ForumEntrySimpleSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        discussion_id = self.request.QUERY_PARAMS.get('pk', None)
+        if discussion_id:
+            discussion = get_object_or_404(Discussion, pk=discussion_id)
+            return Entry.objects.filter(discussion=discussion)
+        return super(ForumEntryAPIViewSet, self).get_queryset()
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
 
 class BasicDiscussionSerializer(object):
     """
@@ -184,7 +225,8 @@ class DiscussionDetailView(DetailView):
             })
         context['is_moderator'] = moderator
         context['links'] = links['discussions']
-        context['appname'] = 'discussion'
+        context['content_type'] = ContentType.objects.get_for_model(Discussion).pk
+        context['ct'] = ContentType.objects.get_for_model(Entry).pk
         return context
 
 

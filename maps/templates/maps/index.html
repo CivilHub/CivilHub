@@ -54,7 +54,7 @@ require.config({
     }
 });
 
-require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
+require(['jquery', 'common', 'js/maps/map'], function ($) {
     
     window.MEDIA_URL = "{% static 'maps' %}";
     
@@ -102,6 +102,25 @@ require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
         </p>
     </div>
 </script>
+
+{% comment %}Szablon dla okienka dialogowego Google Maps{% endcomment %}
+
+<script type="text/template" id="map-dialog-tpl">
+    <div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
+    <div class="col-sm-10">
+        <h4><a href="<%= url %>"><%= title %></a> (<%= type %>)</h4>
+        <div><%= desc %></div>
+        <div>
+            {% trans "Created" %}
+            <% if (date !== '') { %>
+                 <%= date %> {% trans "ago" %}
+            <% } %>
+            {% trans "by" %} <a href="<%= profile %>"><%= user %></a>
+        </div>
+    </div>
+</script>
+
+<div style="display:none;">{% include 'places_core/footer.html' %}</div>
 
 </body>
 </html>

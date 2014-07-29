@@ -91,10 +91,14 @@ function ($, _, Backbone, ActionCollection, ActionView) {
         
         render: function () {
             this.$el.empty();
-            this.collection.each(function (item) {
-                this.renderItem(item);
-            }, this);
-            this.$spinner.appendTo(this.$el);
+            if (this.collection.length > 0) {
+                this.collection.each(function (item) {
+                    this.renderItem(item);
+                }, this);
+                this.$spinner.appendTo(this.$el);
+            } else {
+                this.$el.append('<p class="alert alert-info">' + gettext("No activity yet") + '</p>');
+            }
         },
         
         renderItem: function (item) {

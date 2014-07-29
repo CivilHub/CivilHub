@@ -10,9 +10,110 @@ define(['jquery',
         'bootstrap',
         'js/ui/bookmark-form'],
 
-function ($, _, Backbone, ui) {
+function ($, _, Backbone) {
     
     "use strict";
+    
+    window.getCookie = function (name) {
+        "use strict";
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+    
+    //
+    // Abuse reports
+    // -------------------------------------------------------------------------
+    
+    var AbuseModel = Backbone.Model.extend({
+        defaults: {
+            comment: "",
+            content_type: 0,
+            content_label: "",
+            object_pk: 0,
+            csrfmiddlewaretoken: getCookie('csrftoken')
+        }
+    });
+    
+    var AbuseWindow = Backbone.View.extend({
+        
+        tagName: 'div',
+        
+        className: 'modal fade',
+        
+        template: _.template($('#abuse-window-tpl').html()),
+        
+        events: {
+            'click .submit-btn': 'sendReport'
+        },
+        
+        initialize: function (data) {
+            this.model = new AbuseModel(data);
+            this.render();
+            this.$el.modal({show:false});
+        },
+        
+        render: function () {
+            var self = this;
+            this.$el.html(this.template(this.model.toJSON()));
+            this.$form = this.$el.find('form:first');
+            this.$el.on('hidden.bs.modal', function () {
+                self.destroy();
+            });
+        },
+        
+        open: function () {
+            this.$el.modal('show');
+        },
+        
+        close: function () {
+            this.$el.modal('hide');
+        },
+        
+        destroy: function () {
+            this.$el.empty().remove();
+        },
+        
+        sendReport: function () {
+            $.ajax({
+                type: 'POST',
+                url: '/rest/reports/',
+                data: this.$form.serializeArray(),
+                success: function (resp) {
+                    console.log(resp);
+                    message.success(gettext("Report sent"));
+                },
+                error: function (err) {
+                    console.log(err);
+                    message.alert(gettext("An error occured"));
+                }
+            });
+            this.close();
+        }
+    });
+    
+    //
+    // Handle abuse reports for regular content on single view page.
+    //
+    $(document).delegate('.report-abuse-link', 'click', function (e) {
+        e.preventDefault();
+        var reportWindow = new AbuseWindow({
+            content_type: $('#target-type').val(),
+            content_label: $('#target-label').val(),
+            object_pk: $('#target-id').val()
+        });
+        reportWindow.open();
+    });
     
     //
     // Tag Cloud

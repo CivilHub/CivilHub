@@ -1,44 +1,16 @@
 //
-// civilGoogleMap.js
-// =================
-// Main map to show everything :)
+// CivilMap.js
+// ===========
+// Returns proper Google Maps object
+//
 define(['jquery',
-        'bootstrap',
-        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false&callback=initializeMainMap',
-        'js/maps/markerclusterer'],
+        'underscore',
+        'js/maps/markerclusterer',
+        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
 
-function ($) {
+
+function ($, _) {
     "use strict";
-    
-    //
-    // Fetch objects from server and create map.
-    // -----------------------------------------------------------------------------
-    //
-    var fetchMap = function (url) {
-        $.get(url, function (resp) {
-            var markers = [], map = null;
-            resp = JSON.parse(resp);
-            if (resp.success) {
-                $(resp.locations).each(function () {
-                    markers.push(this);
-                });
-                $(resp.pointers).each(function () {
-                    markers.push(this);
-                });
-                map = civilGoogleMap(markers);
-                $('.map-filter-toggle').bind('change', function (evt) {
-                    evt.preventDefault;
-                    map.refreshMap(getFilters());
-                });
-            } else {
-                console.log(gettext("Failed to load map data"));
-            }
-        });
-    };
-    
-    window.initializeMainMap = function () {
-        fetchMap('/maps/pointers/');
-    };
     
     function civilGoogleMap(mapData) {
         
@@ -138,35 +110,5 @@ function ($) {
         return map;
     };
     
-    // Shortcut to get list of active filters
-    var getFilters = function () {
-        var filterToggles = $('.map-filter-toggle'),
-            filters = [];
-            
-        filterToggles.each(function () {
-            if ($(this).is(':checked')) {
-                filters.push($(this).attr('data-target'));
-            }
-        });
-        
-        return filters;
-    };
-    
-    //
-    // Only followed locations button.
-    // -----------------------------------------------------------------------------
-    //
-    $('#map-follow-toggle').on('click', function (e) {
-        var $icon = $(this).find('.fa:first');
-        e.preventDefault();
-        $('#map').empty();
-        if ($icon.hasClass('fa-circle-o')) {
-            fetchMap('/maps/pointers/?followed=true');
-        } else {
-            fetchMap('/maps/pointers/');
-        }
-        $icon.toggleClass('fa-circle-o').toggleClass('fa-check-circle-o');
-    }).tooltip({placement:'right'});
-    
-    return fetchMap;
+    return civilGoogleMap;
 });

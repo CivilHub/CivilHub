@@ -211,17 +211,28 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'description')
 
 
+class NewsSimpleSerializer(serializers.ModelSerializer):
+    """
+    Serializer przeznaczony dla API mobilnej aplikacji. Uproszczony POST itp.
+    """
+    slug = serializers.SlugField(required=False)
+    creator = serializers.PrimaryKeyRelatedField(required=False)
+
+    class Meta:
+        model = News
+
+
 class NewsSerializer(serializers.ModelSerializer):
     """
     News serializer - API endpoint for news Backbone application.
     """
     id = serializers.Field(source='pk')
     title = serializers.CharField(max_length=64)
-    slug = serializers.SlugField()
+    slug = serializers.SlugField(required=False)
     link = serializers.Field(source='get_absolute_url')
     content = serializers.Field(source='get_entry_introtext')
-    date_created = serializers.DateTimeField()
-    date_edited = serializers.DateTimeField()
+    date_created = serializers.DateTimeField(required=False)
+    date_edited = serializers.DateTimeField(required=False)
     username = serializers.Field(source='creator.username')
     user_id = serializers.Field(source='creator.pk')
     user_full_name = serializers.Field(source='creator.get_full_name')
@@ -334,6 +345,9 @@ class CommentSerializer(serializers.ModelSerializer):
                   'avatar', 'content_type', 'object_pk', 'replies',
                   'total_votes', 'upvotes', 'downvotes', 'user_full_name',)
 
+    def get_contenttype(self, obj):
+        return ContentType.objects.get_for_model(CustomComment).pk
+
 
 class CommentVoteSerializer(serializers.ModelSerializer):
     """
@@ -378,14 +392,15 @@ class DiscussionSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
     question = serializers.CharField()
     intro = serializers.CharField()
+    location = serializers.PrimaryKeyRelatedField()
     url = serializers.Field(source='get_absolute_url')
     creator_id = serializers.Field(source='creator.pk')
     creator_username = serializers.Field(source='creator.username')
     creator_fullname = serializers.Field(source='creator.get_full_name')
     creator_url = serializers.Field(source='creator.profile.get_absolute_url')
     creator_avatar = serializers.Field(source='creator.profile.avatar.url')
-    date_created = serializers.DateTimeField()
-    date_edited = serializers.DateTimeField()
+    date_created = serializers.DateTimeField(required=False)
+    date_edited = serializers.DateTimeField(required=False)
     status = serializers.BooleanField()
     category_name = serializers.Field(source='category.name')
     category_url = serializers.SerializerMethodField('category_search_url')
@@ -397,7 +412,7 @@ class DiscussionSerializer(serializers.ModelSerializer):
         fields = ('id', 'question', 'intro', 'url', 'creator_id', 'answers',
                   'creator_fullname', 'creator_url', 'creator_avatar', 'category_name',
                   'date_created', 'date_edited', 'status', 'category_url', 'tags',
-                  'creator_username',)
+                  'creator_username', 'location',)
 
     def get_tags(self, obj):
         tags = []
@@ -434,8 +449,8 @@ class DiscussionReplySerializer(serializers.ModelSerializer):
     creator_fullname = serializers.Field(source='creator.get_full_name')
     creator_avatar = serializers.Field(source='creator.profile.avatar.url')
     creator_url = serializers.Field(source='creator.profile.get_absolute_url')
-    date_created = serializers.DateTimeField()
-    date_edited = serializers.DateTimeField()
+    date_created = serializers.DateTimeField(required=False)
+    date_edited = serializers.DateTimeField(required=False)
     is_edited = serializers.BooleanField()
     vote_count = serializers.Field(source='votes.count')
 
@@ -469,8 +484,8 @@ class IdeaSerializer(serializers.ModelSerializer):
     creator_username = serializers.Field(source='creator.username')
     creator_fullname = serializers.Field(source='creator.get_full_name')
     creator_avatar = serializers.Field(source='creator.profile.avatar.url')
-    date_created = serializers.DateTimeField()
-    date_edited = serializers.DateTimeField()
+    date_created = serializers.DateTimeField(required=False)
+    date_edited = serializers.DateTimeField(required=False)
     category_name = serializers.SerializerMethodField('get_category_name')
     category_url = serializers.SerializerMethodField('category_search_url')
     total_comments = serializers.Field(source='get_comment_count')
@@ -545,7 +560,7 @@ class AbuseReportSerializer(serializers.ModelSerializer):
     sender  = serializers.PrimaryKeyRelatedField(read_only=True)
     status  = serializers.Field()
     content_type  = serializers.PrimaryKeyRelatedField()
-    object_pk     = serializers.RelatedField()
+    object_pk     = serializers.IntegerField()
     date_reported = serializers.DateTimeField(required=False)
 
     class Meta:

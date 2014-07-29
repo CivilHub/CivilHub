@@ -84,6 +84,7 @@ def register(request):
     """
     Register new user via django system.
     """
+    from rest_framework.authtoken.models import Token
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 
@@ -100,6 +101,9 @@ def register(request):
             user.is_active = False
             try:
                 user.save()
+                # Create auth token for REST api:
+                token = Token.objects.create(user=user)
+                token.save()
             except Exception:
                 # Form valid, but user already exists
                 ctx = {
@@ -145,10 +149,6 @@ def register(request):
                 translation.activate(register_demand.lang)
                 email = emails.ActivationLink()
                 email.send(register_demand.email, {'link':link})
-                # Show confirmation
-                return render(request, 'userspace/register-success.html', {
-                    'title': _("Message send"),
-                })
             except Exception as ex:
                 # User is registered and link is created, but there was errors
                 # during sanding email, so just show static page with link.
@@ -157,6 +157,8 @@ def register(request):
                     'title': _("Registration"),
                     'link' : link,
                 })
+            # Show confirmation
+            return redirect('user:message_sent')
     
         # Form invalid
         else:
@@ -178,9 +180,17 @@ def register(request):
     return render(request, 'userspace/register.html', ctx)
 
 
+def confirm_registration(request):
+    """
+    Show confirmation about successfull registration.
+    """
+    return render(request, 'userspace/register-success.html', {
+        'title': _("Message send"),
+    })
+
+
 def activate(request, activation_link=None):
     """ Activate new user account and delete related user demand object. """
-    from rest_framework.authtoken.models import Token
     if activation_link == None:
         ctx = {
             'form': RegisterForm,
@@ -200,9 +210,6 @@ def activate(request, activation_link=None):
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)
         send_poll_email.apply_async(args=(user_id,), eta=delta_t)
-        # Create auth token for REST api:
-        token = Token.objects.create(user=user)
-        token.save()
         return redirect('user:active', lang=lang)
 
 
@@ -303,6 +310,8 @@ def login(request):
     if request.user.is_authenticated():
         return redirect('user:index')
     if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
         f = LoginForm(request.POST)
         if f.is_valid():
             try:

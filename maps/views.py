@@ -9,11 +9,45 @@ from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
-from places_core.helpers import truncatesmart
+from places_core.helpers import truncatesmart, truncatehtml
 from locations.models import Location
 from blog.models import News
 from models import MapPointer
 import forms
+# REST API
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest import serializers
+from .serializers import MapPointerSerializer, MapObjecSerializer
+
+
+class MapObjectAPIViewSet(viewsets.ViewSet):
+    """
+    This viewset is made only for GET requests. It presents entire
+    list of all map objects created by users in proper format. They
+    are then used to populate main map view with map pointers.
+    """
+    queryset = MapPointer.objects.all()
+
+    def list(self, request):
+        pointers = MapPointer.objects.all()
+        serializer = MapObjecSerializer(pointers, many=True)
+        return Response(serializer.data)
+
+
+class MapPointerAPIViewSet(viewsets.ModelViewSet):
+    """
+    This is entry point for simple map pointer object serializer.
+    It allows users to managet map pointers related to objects that
+    they have created. This functionality isn't fully implemented yet.
+    For now any registered user can create and manage map pointers.
+    
+    TODO: only owners/admins/moderators manage map pointers
+    """
+    queryset = MapPointer.objects.all()
+    serializer_class = MapPointerSerializer
+    paginate_by = 10
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class Pointer(object):
@@ -67,25 +101,21 @@ def get_pointers(request):
         # Take only locations with lat and long
         if l.latitude and l.longitude:
             locations.append({
-                'latitude' : l.latitude,
-                'longitude': l.longitude,
-                'name'     : l.name,
-                'url'      : l.get_absolute_url(),
-                'type'     : str(ContentType.objects.get_for_model(l)),
+                'lat' : l.latitude,
+                'lng': l.longitude,
+                'content_object': {
+                    'title'    : l.name,
+                    'url'      : l.get_absolute_url(),
+                    'type'     : str(ContentType.objects.get_for_model(l)),
+                    'desc'     : truncatehtml(l.description, 100),
+                    'date'     : '',
+                    'img'      : l.image.url,
+                    'user': l.creator.get_full_name(),
+                    'profile': l.creator.profile.get_absolute_url(),
+                }
             })
     for p in ps:
-        try:
-            url = p.content_object.get_absolute_url()
-        except Exception:
-            break
-        pointers.append({
-            'latitude'    : p.latitude,
-            'longitude'   : p.longitude,
-            'content_type': p.content_type.pk,
-            'object_pk'   : p.object_pk,
-            'url'         : p.content_object.get_absolute_url(),
-            'type'        : str(p.content_type),
-        })
+        pointers.append(MapObjecSerializer(p).data)
     context = {
         'success'  : True,
         'locations': locations,

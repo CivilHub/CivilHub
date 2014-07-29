@@ -1,9 +1,4 @@
 {% load staticfiles %} {% load i18n %}
-
-{% comment %}
-    This is base template for entire application - every module extends it.
-{% endcomment %}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +80,8 @@
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
-
+{% comment %} Google Analytics code {% endcomment %}
+<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
 </head>
 <body>
     
@@ -116,8 +112,6 @@
     
     <div class="container">
         
-        <script src="//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false"></script>
-        
         {% comment %}
             W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
             wyszukiwarki. Nadpisywany w szablonie każdego modułu.
@@ -130,9 +124,12 @@
         {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
         {% block sidebar %}{% endblock %}
         
-        {% include 'places_core/footer.html' %}
+        
         
     </div>
+
+    {% include 'places_core/footer.html' %}
+
 </div>
 
 {% comment %}

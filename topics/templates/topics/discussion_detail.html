@@ -78,7 +78,7 @@
              'js/maps/minimap',
              'js/ui/bookmark-form'],
     
-    function ($, ui, bootbox) {
+    function ($, ui, bootbox, AbuseWindow) {
         "use strict";
         
         window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
@@ -213,6 +213,88 @@
             sendVote(vote, url, $counter);
         });
         
+        // Abuse reports for entries
+        // ---------------------------------------------------------------------
+        var AbuseModel = Backbone.Model.extend({
+            defaults: {
+                comment: "",
+                content_type: 0,
+                content_label: "",
+                object_pk: 0,
+                csrfmiddlewaretoken: getCookie('csrftoken')
+            }
+        });
+        
+        var AbuseWindow = Backbone.View.extend({
+            
+            tagName: 'div',
+            
+            className: 'modal fade',
+            
+            template: _.template($('#abuse-window-tpl').html()),
+            
+            events: {
+                'click .submit-btn': 'sendReport'
+            },
+            
+            initialize: function (data) {
+                this.model = new AbuseModel(data);
+                this.render();
+                this.$el.modal({show:false});
+            },
+            
+            render: function () {
+                var self = this;
+                this.$el.html(this.template(this.model.toJSON()));
+                this.$form = this.$el.find('form:first');
+                this.$el.on('hidden.bs.modal', function () {
+                    self.destroy();
+                });
+            },
+            
+            open: function () {
+                this.$el.modal('show');
+            },
+            
+            close: function () {
+                this.$el.modal('hide');
+            },
+            
+            destroy: function () {
+                this.$el.empty().remove();
+            },
+            
+            sendReport: function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/rest/reports/',
+                    data: this.$form.serializeArray(),
+                    success: function (resp) {
+                        console.log(resp);
+                        message.success(gettext("Report sent"));
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        message.alert(gettext("An error occured"));
+                    }
+                });
+                this.close();
+            }
+        });
+    
+        $(document).delegate('.report-abuse-entry-link', 'click', function (e) {
+            e.preventDefault();
+            var $toggle = $(this);
+            console.log($toggle);
+            var win = new AbuseWindow({
+                content_type: $toggle.attr('data-content'),
+                content_label: $toggle.attr('data-label'),
+                object_pk: $toggle.attr('data-id')
+            });
+            win.open();
+            console.log(getCookie('csrftoken'));
+        });
+        
         $(document).trigger('load');
         
     });
@@ -257,6 +339,8 @@
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
 
+        
+
         <div class="reply-entry">
             <div class="row">
                 <div class="blobfish-left">&nbsp;</div>
@@ -277,7 +361,8 @@
                     <div class="entry-footer">
                         <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
                         {% if user != discussion.creator %}
-                            <a href="{% url 'reports:report' app_label='topics' model_label='discussion' object_pk=discussion.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                            <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ content_type }}" data-id="{{ discussion.pk }}" data-label="topics">
+                            {% comment %}<a href="{% url 'reports:report' app_label='topics' model_label='discussion' object_pk=discussion.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">{% endcomment %}
                                 <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                             </a>
                         {% endif %}
@@ -323,7 +408,7 @@
                                 <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
                                     <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
                                 </a> |
-                                <a href="{% url 'reports:report' app_label='topics' model_label='entry' object_pk=entry.pk %}" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                                <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                                     <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                                 </a> 
                             {% endif %}
@@ -420,7 +505,7 @@
                         <a href="" class="entry-vote entry-vote-down">
                             <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
                         </a> |
-                        <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link">
+                        <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                             <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                         </a> 
                     {% endif %}

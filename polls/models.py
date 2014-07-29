@@ -7,6 +7,7 @@ from locations.models import Location
 from taggit.managers import TaggableManager
 # Generic bookmarks
 from bookmarks.handlers import library
+from places_core.helpers import truncatehtml
 
 
 class Poll(models.Model):
@@ -39,6 +40,9 @@ class Poll(models.Model):
                 'slug': self.slug
             }
         )
+
+    def get_description(self):
+        return truncatehtml(self.question, 100)
 
     def __unicode__(self):
         return self.title

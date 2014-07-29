@@ -128,6 +128,33 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
+class SimpleNewsViewSet(viewsets.ViewSet):
+    """
+    Widok dla aplikacji mobilnej. Podstawowy serializer dla bloga. Get można
+    brać spokojnie z następnego viewsa, tutaj ułatwiamy POST. Nie mam czasu
+    dopisywać funkcji zwrotnych.
+    """
+    serializer_class = NewsSimpleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def list(self, request, *args, **kwargs):
+        serializer = NewsSerializer(News.objects.all(), many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        news = News.objects.create(
+            title = request.DATA.get('title'),
+            content = request.DATA.get('content'),
+            creator = self.request.user,
+            category = Category.objects.get(pk=request.DATA.get('category')),
+            location = Location.objects.get(pk=request.DATA.get('location'))
+        )
+        news.save()
+        serializer = NewsSerializer(news)
+        return Response(serializer.data)
+
+
 class NewsViewSet(viewsets.ModelViewSet):
     """
     News viewset - API endpoint for news Backbone application.
@@ -532,6 +559,7 @@ class AbuseReportViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.sender = self.request.user
+        obj.site_id = settings.SITE_ID
 
 
 class BadgeViewSet(viewsets.ModelViewSet):

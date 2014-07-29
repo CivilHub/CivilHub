@@ -2,6 +2,12 @@
 from django.conf.urls import patterns, url
 import views
 
+# REST API
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('pointers', views.MapPointerAPIViewSet, 'pointers')
+router.register('objects', views.MapObjectAPIViewSet, 'objects')
+
 
 urlpatterns = patterns('',
     url(r'^save/', views.save_pointer, name='save'),

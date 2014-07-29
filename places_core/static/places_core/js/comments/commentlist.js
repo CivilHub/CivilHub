@@ -6,6 +6,7 @@ require (['jquery', 'underscore', 'backbone', 'ui', 'moment'],
 
 function ($, _, Backbone, ui) {
     "use strict";
+    
     // Set apps url
     var cType = $('#target-type').val(),
         cId = $('#target-id').val(),
@@ -53,6 +54,78 @@ function ($, _, Backbone, ui) {
             $(this).text(gettext('Hide comments'));
         }
     });
+    
+    //
+    // Abuse reports
+    // -----------------------------------------------------------------------------
+    
+    var AbuseModel = Backbone.Model.extend({
+        defaults: {
+            comment: "",
+            content_type: 0,
+            content_label: "",
+            object_pk: 0,
+            csrfmiddlewaretoken: getCookie('csrftoken')
+        }
+    });
+    
+    var AbuseWindow = Backbone.View.extend({
+        
+        tagName: 'div',
+        
+        className: 'modal fade',
+        
+        template: _.template($('#abuse-window-tpl').html()),
+        
+        events: {
+            'click .submit-btn': 'sendReport'
+        },
+        
+        initialize: function (data) {
+            this.model = new AbuseModel(data);
+            this.render();
+            this.$el.modal({show:false});
+        },
+        
+        render: function () {
+            var self = this;
+            this.$el.html(this.template(this.model.toJSON()));
+            this.$form = this.$el.find('form:first');
+            this.$el.on('hidden.bs.modal', function () {
+                self.destroy();
+            });
+        },
+        
+        open: function () {
+            this.$el.modal('show');
+        },
+        
+        close: function () {
+            this.$el.modal('hide');
+        },
+        
+        destroy: function () {
+            this.$el.empty().remove();
+        },
+        
+        sendReport: function () {
+            $.ajax({
+                type: 'POST',
+                url: '/rest/reports/',
+                data: this.$form.serializeArray(),
+                success: function (resp) {
+                    console.log(resp);
+                    message.success(gettext("Report sent"));
+                },
+                error: function (err) {
+                    console.log(err);
+                    message.alert(gettext("An error occured"));
+                }
+            });
+            this.close();
+        }
+    });
+    
     //
     // Comment model
     // -----------------------------------------------------------------------------
@@ -91,7 +164,16 @@ function ($, _, Backbone, ui) {
             'click .show-replies': 'showReplies',
             'click .comment-reply': 'replyComment',
             'click .vote-up-link': 'voteUp',
-            'click .vote-down-link': 'voteDown'
+            'click .vote-down-link': 'voteDown',
+            'click .report-abuse-comment-link': 'reportAbuse'
+        },
+        
+        reportAbuse: function () {
+            var self = this;
+            var win = new AbuseWindow({
+                content_label: 'comments',
+                object_id: self.model.get('id')
+            });
         },
         
         render: function () {

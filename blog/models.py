@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
+from places_core.helpers import truncatehtml
 # Generic bookmarks
 from bookmarks.handlers import library
 
@@ -76,6 +77,9 @@ class News(models.Model):
     def get_entry_introtext(self):
         clean_content = strip_tags(self.content)
         return clean_content[:200] + '...'
+
+    def get_description(self):
+        return truncatehtml(self.content, 100)
     
     def __unicode__(self):
         return self.title
