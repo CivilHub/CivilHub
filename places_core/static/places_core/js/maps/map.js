@@ -39,7 +39,7 @@ function ($) {
                             mapData[i].lng),
                         marker = new google.maps.Marker({
                             position: latLng,
-                            icon: '/static/maps/icons/marker-' + mapData[i].content_object.type + '.png'
+                            icon: window.STATIC_URL + '/icons/marker-' + mapData[i].content_object.type + '.png'
                         });
                     $.extend(marker, mapData[i]);
                     if (filters && filters.indexOf(marker.content_object.type) >= 0 || !filters) {
@@ -75,7 +75,7 @@ function ($) {
                     maxZoom: 10,
                     gridSize: 30,
                     styles: [{
-                        url: '/static/maps/images/people35.png',
+                        url: window.STATIC_URL + '/images/people35.png',
                         height: 35,
                         width: 35,
                         anchor: [16, 0],
@@ -128,7 +128,7 @@ function ($) {
                 window.CivilMap = civilGoogleMap(markers);
                 $('.map-filter-toggle').bind('change', function (evt) {
                     evt.preventDefault;
-                    map.refreshMap(getFilters());
+                    window.CivilMap.refreshMap(getFilters());
                 });
             } else {
                 console.log(gettext("Failed to load map data"));
