@@ -103,6 +103,11 @@ require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
     </div>
 </script>
 
+<script type="text/template" id="map-dialog-tpl">
+    <a href="<%= url %>"><%= title %></a>
+    <div><%= desc %></div>
+</script>
+
 {% include 'places_core/footer.html' %}
 
 </body>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.utils.translation import gettext as _
+from django.utils.timesince import timesince
 from .models import MapPointer
 
 
@@ -30,6 +31,7 @@ class MapObjecSerializer(serializers.ModelSerializer):
             'title': obj.content_object.__unicode__(),
             'url': obj.content_object.get_absolute_url(),
             'type': obj.content_object._meta.verbose_name,
-            'desc': obj.content_object.get_description()
+            'desc': obj.content_object.get_description(),
+            'date': timesince(obj.content_object.date_created)
         }
         return tmpobj

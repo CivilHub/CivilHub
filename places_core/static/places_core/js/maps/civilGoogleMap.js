@@ -44,6 +44,8 @@ function ($) {
         
         var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
             'chco=FFFFFF,008CFF,000000&ext=.png';
+            
+        var dialogTemplate = _.template($('#map-dialog-tpl').html());
         
         var map = {
             map: null,
@@ -69,16 +71,25 @@ function ($) {
                         });
                     $.extend(marker, mapData[i]);
                     if (filters && filters.indexOf(marker.content_object.type) >= 0 || !filters) {
+                        
                         (function (m) {
+                            
                             markers.push(m);
+                            
                             google.maps.event.addListener(m, 'click', function () {
-                                var contentString = '<a href="' + m.content_object.url + '">' +
-                                        m.content_object.title + '</a><div>' + m.content_object.desc + '</div>',
-                                    infoWindow = new google.maps.InfoWindow({
-                                        content: contentString
-                                    });
+                                var contentString = dialogTemplate({
+                                    url: m.content_object.url,
+                                    title: m.content_object.title,
+                                    desc: m.content_object.desc
+                                });
+                                
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: contentString
+                                });
+                                
                                 infoWindow.open(_this.map, m);
                             });
+                            
                         })(marker);
                     }
                 }

@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
-from places_core.helpers import truncatesmart
+from places_core.helpers import truncatesmart, truncatehtml
 from locations.models import Location
 from blog.models import News
 from models import MapPointer
@@ -103,9 +103,11 @@ def get_pointers(request):
                 'lat' : l.latitude,
                 'lng': l.longitude,
                 'content_object': {
-                    'name'     : l.name,
+                    'title'    : l.name,
                     'url'      : l.get_absolute_url(),
                     'type'     : str(ContentType.objects.get_for_model(l)),
+                    'desc'     : truncatehtml(l.description, 100),
+                    'date'     : '',
                 }
             })
     for p in ps:
