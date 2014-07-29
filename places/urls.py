@@ -121,10 +121,11 @@ from locations.urls import router as location_router
 from ideas.urls import router as idea_router
 from topics.urls import router as discussion_router
 from blog.urls import router as blog_router
+from maps.urls import router as map_router
 urlpatterns += patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
     url(r'^api-discussions/', include(discussion_router.urls)),
     url(r'^api-blog/', include(blog_router.urls)),
+    url(r'^api-maps/', include(map_router.urls)),
 )
-

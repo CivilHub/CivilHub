@@ -14,6 +14,39 @@ from locations.models import Location
 from blog.models import News
 from models import MapPointer
 import forms
+# REST API
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
+from rest import serializers
+from .serializers import MapPointerSerializer, MapObjecSerializer
+
+
+class MapObjectAPIViewSet(viewsets.ViewSet):
+    """
+    This viewset is made only for GET requests. It presents entire
+    list of all map objects created by users in proper format. They
+    are then used to populate main map view with map pointers.
+    """
+    queryset = MapPointer.objects.all()
+
+    def list(self, request):
+        pointers = MapPointer.objects.all()
+        serializer = MapObjecSerializer(pointers, many=True)
+        return Response(serializer.data)
+
+
+class MapPointerAPIViewSet(viewsets.ModelViewSet):
+    """
+    This is entry point for simple map pointer object serializer.
+    It allows users to managet map pointers related to objects that
+    they have created. This functionality isn't fully implemented yet.
+    For now any registered user can create and manage map pointers.
+    
+    TODO: only owners/admins/moderators manage map pointers
+    """
+    queryset = MapPointer.objects.all()
+    serializer_class = MapPointerSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class Pointer(object):

@@ -7,6 +7,7 @@ from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
 from bookmarks.handlers import library
+from places_core.helpers import truncatehtml
 
 
 class Category(models.Model):
@@ -52,8 +53,14 @@ class Discussion(models.Model):
             }
         )
 
+    def get_description(self):
+        return truncatehtml(self.intro, 100)
+
     def __unicode__(self):
         return self.question
+    
+    class Meta:
+        verbose_name = _("discussion")
 
 
 class Entry(MPTTModel):
