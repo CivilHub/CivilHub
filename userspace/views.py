@@ -84,6 +84,7 @@ def register(request):
     """
     Register new user via django system.
     """
+    from rest_framework.authtoken.models import Token
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 
@@ -100,6 +101,9 @@ def register(request):
             user.is_active = False
             try:
                 user.save()
+                # Create auth token for REST api:
+                token = Token.objects.create(user=user)
+                token.save()
             except Exception:
                 # Form valid, but user already exists
                 ctx = {
@@ -180,7 +184,6 @@ def register(request):
 
 def activate(request, activation_link=None):
     """ Activate new user account and delete related user demand object. """
-    from rest_framework.authtoken.models import Token
     if activation_link == None:
         ctx = {
             'form': RegisterForm,
@@ -200,9 +203,6 @@ def activate(request, activation_link=None):
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)
         send_poll_email.apply_async(args=(user_id,), eta=delta_t)
-        # Create auth token for REST api:
-        token = Token.objects.create(user=user)
-        token.save()
         return redirect('user:active', lang=lang)
 
 
