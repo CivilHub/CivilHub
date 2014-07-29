@@ -10,6 +10,36 @@ define(['jquery',
 function ($) {
     "use strict";
     
+    //
+    // Fetch objects from server and create map.
+    // -----------------------------------------------------------------------------
+    //
+    var fetchMap = function (url) {
+        $.get(url, function (resp) {
+            var markers = [], map = null;
+            resp = JSON.parse(resp);
+            if (resp.success) {
+                $(resp.locations).each(function () {
+                    markers.push(this);
+                });
+                $(resp.pointers).each(function () {
+                    markers.push(this);
+                });
+                map = civilGoogleMap(markers);
+                $('.map-filter-toggle').bind('change', function (evt) {
+                    evt.preventDefault;
+                    map.refreshMap(getFilters());
+                });
+            } else {
+                console.log(gettext("Failed to load map data"));
+            }
+        });
+    };
+    
+    window.initializeMainMap = function () {
+        fetchMap('/maps/pointers/');
+    };
+    
     function civilGoogleMap(mapData) {
         
         var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
@@ -35,7 +65,7 @@ function ($) {
                             mapData[i].longitude),
                         marker = new google.maps.Marker({
                             position: latLng,
-                            icon: window.MEDIA_URL + '/icons/marker-' + mapData[i].type + '.png'
+                            icon: '/static/maps/icons/marker-' + mapData[i].type + '.png'
                         });
                     $.extend(marker, mapData[i]);
                     if (filters && filters.indexOf(marker.type) >= 0 || !filters) {
@@ -57,7 +87,7 @@ function ($) {
                     maxZoom: 10,
                     gridSize: 30,
                     styles: [{
-                        url: MEDIA_URL + '/images/people35.png',
+                        url: '/static/maps/images/people35.png',
                         height: 35,
                         width: 35,
                         anchor: [16, 0],
@@ -104,36 +134,6 @@ function ($) {
         });
         
         return filters;
-    };
-    
-    //
-    // Fetch objects from server and create map.
-    // -----------------------------------------------------------------------------
-    //
-    var fetchMap = function (url) {
-        $.get(url, function (resp) {
-            var markers = [], map = null;
-            resp = JSON.parse(resp);
-            if (resp.success) {
-                $(resp.locations).each(function () {
-                    markers.push(this);
-                });
-                $(resp.pointers).each(function () {
-                    markers.push(this);
-                });
-                map = civilGoogleMap(markers);
-                $('.map-filter-toggle').bind('change', function (evt) {
-                    evt.preventDefault;
-                    map.refreshMap(getFilters());
-                });
-            } else {
-                console.log(gettext("Failed to load map data"));
-            }
-        });
-    };
-    
-    window.initializeMainMap = function () {
-        fetchMap('/maps/pointers/');
     };
     
     //

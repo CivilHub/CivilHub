@@ -46,6 +46,27 @@ class ForumTopicAPIViewSet(viewsets.ModelViewSet):
         obj.creator = self.request.user
 
 
+class ForumEntryAPIViewSet(viewsets.ModelViewSet):
+    """
+    Simple view to manage topic answers.
+    """
+    queryset = Entry.objects.all()
+    serializer_class = ForumEntrySimpleSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        discussion_id = self.request.QUERY_PARAMS.get('pk', None)
+        if discussion_id:
+            discussion = get_object_or_404(Discussion, pk=discussion_id)
+            return Entry.objects.filter(discussion=discussion)
+        return super(ForumEntryAPIViewSet, self).get_queryset()
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
+
 class BasicDiscussionSerializer(object):
     """
     This is simple serializer to convert Discussion object instances into

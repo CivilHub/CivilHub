@@ -31,5 +31,8 @@ class ForumEntrySimpleSerializer(serializers.ModelSerializer):
     """
     This is serializer for single forum entry (response).
     """
+    id = serializers.Field(source='pk')
+    
     class Meta:
         model = Entry
+        exclude = ('creator',)
