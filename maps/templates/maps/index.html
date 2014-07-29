@@ -54,37 +54,7 @@ require.config({
     }
 });
 
-require(['jquery', 'common', 'js/maps/mainMap'], function ($) {
-    
-    //
-    // Fetch objects from server and create map.
-    // -----------------------------------------------------------------------------
-    //
-    var fetchMap = function (url) {
-        $.get(url, function (resp) {
-            var markers = [], map = null;
-            resp = JSON.parse(resp);
-            if (resp.success) {
-                $(resp.locations).each(function () {
-                    markers.push(this);
-                });
-                $(resp.pointers).each(function () {
-                    markers.push(this);
-                });
-                map = civilGoogleMap(markers);
-                $('.map-filter-toggle').bind('change', function (evt) {
-                    evt.preventDefault;
-                    map.refreshMap(getFilters());
-                });
-            } else {
-                console.log(gettext("Failed to load map data"));
-            }
-        });
-    };
-    
-    window.initializeMainMap = function () {
-        fetchMap('/maps/pointers/');
-    };
+require(['jquery', 'common', 'js/maps/map'], function ($) {
     
     window.MEDIA_URL = "{% static 'maps' %}";
     
