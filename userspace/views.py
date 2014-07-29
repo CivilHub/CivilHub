@@ -149,10 +149,6 @@ def register(request):
                 translation.activate(register_demand.lang)
                 email = emails.ActivationLink()
                 email.send(register_demand.email, {'link':link})
-                # Show confirmation
-                return render(request, 'userspace/register-success.html', {
-                    'title': _("Message send"),
-                })
             except Exception as ex:
                 # User is registered and link is created, but there was errors
                 # during sanding email, so just show static page with link.
@@ -161,6 +157,8 @@ def register(request):
                     'title': _("Registration"),
                     'link' : link,
                 })
+            # Show confirmation
+            return redirect('user:message_sent')
     
         # Form invalid
         else:
@@ -180,6 +178,15 @@ def register(request):
         'title': _("Registration"),
     }
     return render(request, 'userspace/register.html', ctx)
+
+
+def confirm_registration(request):
+    """
+    Show confirmation about successfull registration.
+    """
+    return render(request, 'userspace/register-success.html', {
+        'title': _("Message send"),
+    })
 
 
 def activate(request, activation_link=None):
