@@ -18,6 +18,8 @@
 {% include 'places_core/navigation.html' %}
 
 <script>
+window.STATIC_URL = "{% static 'maps' %}";
+
 require.config({
     baseUrl: "{% static 'places_core' %}",
     
@@ -55,8 +57,6 @@ require.config({
 });
 
 require(['jquery', 'common', 'js/maps/map'], function ($) {
-    
-    window.MEDIA_URL = "{% static 'maps' %}";
     
     $(document).trigger('load');
     
