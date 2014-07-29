@@ -8,11 +8,6 @@
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-<style>
-    body {
-        overlay: hidden;
-    }
-</style>
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
@@ -125,7 +120,7 @@ require(['jquery', 'common', 'js/maps/map'], function ($) {
     </div>
 </script>
 
-<div style="position:absolute;top:100%">{% include 'places_core/footer.html' %}</div>
+<div style="display:none;">{% include 'places_core/footer.html' %}</div>
 
 </body>
 </html>
