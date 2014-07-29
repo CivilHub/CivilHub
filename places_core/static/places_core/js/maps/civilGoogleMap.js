@@ -61,19 +61,19 @@ function ($) {
                 }
                 
                 for (i = 0; i < mapData.length; ++i) {
-                    var latLng = new google.maps.LatLng(mapData[i].latitude,
-                            mapData[i].longitude),
+                    var latLng = new google.maps.LatLng(mapData[i].lat,
+                            mapData[i].lng),
                         marker = new google.maps.Marker({
                             position: latLng,
-                            icon: '/static/maps/icons/marker-' + mapData[i].type + '.png'
+                            icon: '/static/maps/icons/marker-' + mapData[i].content_object.type + '.png'
                         });
                     $.extend(marker, mapData[i]);
-                    if (filters && filters.indexOf(marker.type) >= 0 || !filters) {
+                    if (filters && filters.indexOf(marker.content_object.type) >= 0 || !filters) {
                         (function (m) {
                             markers.push(m);
                             google.maps.event.addListener(m, 'click', function () {
-                                var contentString = '<a href="' + m.url + '">' +
-                                        gettext('GO TO') + '</a>',
+                                var contentString = '<a href="' + m.content_object.url + '">' +
+                                        m.content_object.title + '</a><div>' + m.content_object.desc + '</div>',
                                     infoWindow = new google.maps.InfoWindow({
                                         content: contentString
                                     });
