@@ -211,7 +211,7 @@ MESSAGE_TAGS = {
 DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql', 
-#        'NAME': 'places',
+#        'NAME': 'civilhub',
 #        'USER': 'places',
 #        'PASSWORD': '987xyz',
 #        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
@@ -220,11 +220,15 @@ DATABASES = {
 #
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'places',                      
+        'NAME': 'civilhub',                      
         'USER': 'places',
         'PASSWORD': '987xyz',
         'HOST': ''
     }
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
 }
 
 # Internationalization
