@@ -40,6 +40,7 @@ class IdeaAPIViewSet(viewsets.ModelViewSet):
     """
     model = Idea
     serializer_class = IdeaSimpleSerializer
+    paginate_by = 5
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)

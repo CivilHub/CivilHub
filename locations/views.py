@@ -51,6 +51,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     """
     model = Location
     serializer_class = SimpleLocationSerializer
+    paginate_by = 25
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)

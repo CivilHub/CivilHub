@@ -46,6 +46,7 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     """
     queryset = MapPointer.objects.all()
     serializer_class = MapPointerSerializer
+    paginate_by = 10
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 

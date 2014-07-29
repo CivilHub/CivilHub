@@ -34,6 +34,7 @@ class NewsAPIView(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSimpleSerializer
+    paginate_by = 10
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
