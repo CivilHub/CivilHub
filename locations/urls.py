@@ -8,6 +8,10 @@ from gallery.views import PlaceGalleryView, PlacePictureView
 from locations.views import *
 from staticpages.views import PageView
 
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('locations', LocationAPIViewSet, 'locations')
+
 urlpatterns = patterns('',
     url(r'^places/', LocationListView.as_view(), name='index'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),

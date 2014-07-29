@@ -171,9 +171,8 @@ function ($, _, Backbone, ui) {
         reportAbuse: function () {
             var self = this;
             var win = new AbuseWindow({
-                content_label = 'comments',
-                object_id = self.model.get('id'),
-                
+                content_label: 'comments',
+                object_id: self.model.get('id')
             });
         },
         

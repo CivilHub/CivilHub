@@ -28,6 +28,24 @@ from places_core.helpers import SimplePaginator, truncatehtml
 from comments.models import CustomComment
 # Custom permissions
 from places_core.permissions import is_moderator
+# REST API
+from serializers import IdeaSimpleSerializer
+from rest_framework import permissions, viewsets
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+
+
+class IdeaAPIViewSet(viewsets.ModelViewSet):
+    """
+    Simple ViewSet for mobile API.
+    """
+    model = Idea
+    serializer_class = IdeaSimpleSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
 
 
 def get_votes(idea):

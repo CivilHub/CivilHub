@@ -2,6 +2,10 @@
 from django.conf.urls import patterns, url
 from ideas.views import *
 
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('idea', IdeaAPIViewSet, 'ideas')
+
 urlpatterns = patterns('',
     url(r'categories/create/', CreateCategory.as_view(), name='new_category'),
     url(r'^$', IdeasListView.as_view(), name='index'),

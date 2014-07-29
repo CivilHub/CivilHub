@@ -21,6 +21,25 @@ from .forms import NewsForm
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml
+# Mobile API
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from .serializers import NewsSimpleSerializer
+
+
+class NewsAPIView(viewsets.ModelViewSet):
+    """
+    Simple view for mobile applications. Provides a way to manage blog.
+    """
+    queryset = News.objects.all()
+    serializer_class = NewsSimpleSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
 
 
 class BasicNewsSerializer(object):

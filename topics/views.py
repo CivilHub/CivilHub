@@ -25,6 +25,26 @@ from locations.links import LINKS_MAP as links
 from .models import Discussion, Entry, EntryVote, Category
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 
+# REST API
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from serializers import ForumCategorySimpleSerializer, ForumTopicSimpleSerializer, ForumEntrySimpleSerializer
+
+
+class ForumTopicAPIViewSet(viewsets.ModelViewSet):
+    """
+    This is simplified discussion view set for mobile app.
+    """
+    queryset = Discussion.objects.all()
+    serializer_class = ForumTopicSimpleSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def pre_save(self, obj):
+        obj.creator = self.request.user
+
 
 class BasicDiscussionSerializer(object):
     """

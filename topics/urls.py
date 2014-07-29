@@ -2,6 +2,11 @@
 from django.conf.urls import patterns, include, url
 from topics.views import *
 
+# mobile API
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('topic', ForumTopicAPIViewSet, 'topic')
+
 urlpatterns = patterns('',
     url('^delete/', delete_topic, name='delete'),
     url('^(?P<slug>[\w-]+)/reply/', reply, name='reply'),

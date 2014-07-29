@@ -211,13 +211,24 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'description')
 
 
+class NewsSimpleSerializer(serializers.ModelSerializer):
+    """
+    Serializer przeznaczony dla API mobilnej aplikacji. Uproszczony POST itp.
+    """
+    slug = serializers.SlugField(required=False)
+    creator = serializers.PrimaryKeyRelatedField(required=False)
+
+    class Meta:
+        model = News
+
+
 class NewsSerializer(serializers.ModelSerializer):
     """
     News serializer - API endpoint for news Backbone application.
     """
     id = serializers.Field(source='pk')
     title = serializers.CharField(max_length=64)
-    slug = serializers.SlugField()
+    slug = serializers.SlugField(required=False)
     link = serializers.Field(source='get_absolute_url')
     content = serializers.Field(source='get_entry_introtext')
     date_created = serializers.DateTimeField(required=False)

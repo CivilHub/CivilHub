@@ -2,6 +2,11 @@
 from django.conf.urls import patterns, url
 from views import *
 
+# mobile API
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('entries', NewsAPIView, 'entries')
+
 urlpatterns = patterns('',
     # Get single news entry in JSON format
     url(r'list/(?P<slug>[\w-]+)/(?P<pk>\d+)/', BasicBlogView.as_view(), name='list_entry'),

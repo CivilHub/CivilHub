@@ -6,11 +6,17 @@ from staticpages.views import PageView
 admin.autodiscover()
 # include action hooks globally
 from places_core import actstreams
+
 # djangorestframework
 from rest_framework import routers
 from rest import views
 router = routers.DefaultRouter()
+
+# Widoki dla API
+router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
 router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')
+
+# Widoki dla strony
 router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
@@ -110,3 +116,15 @@ urlpatterns = patterns('',
     url(r'^$', PageView.as_view(page='home')),
     url(r'^', include('locations.urls', namespace='locations')),
 )
+
+from locations.urls import router as location_router
+from ideas.urls import router as idea_router
+from topics.urls import router as discussion_router
+from blog.urls import router as blog_router
+urlpatterns += patterns('',
+    url(r'^api-ideas/', include(idea_router.urls)),
+    url(r'^api-locations/', include(location_router.urls)),
+    url(r'^api-discussions/', include(discussion_router.urls)),
+    url(r'^api-blog/', include(blog_router.urls)),
+)
+
