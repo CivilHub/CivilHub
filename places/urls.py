@@ -59,7 +59,6 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
-
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),

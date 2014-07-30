@@ -108,19 +108,22 @@ HAYSTACK_CONNECTIONS = {
 
 # Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (
-    'social.backends.open_id.OpenIdAuth',
-    'social.backends.google.GoogleOpenId',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.google.GoogleOAuth',
+    'social.backends.google.GooglePlusAuth',
+    #'social.backends.open_id.OpenIdAuth',
+    #'social.backends.google.GoogleOpenId',
+    #'social.backends.google.GoogleOAuth2',
+    #'social.backends.google.GoogleOAuth',
     'social.backends.twitter.TwitterOAuth',
     'social.backends.facebook.FacebookOAuth2',
-    'social.backends.yahoo.YahooOpenId',
+    #'social.backends.twitter.Facebook2OAuth2',
+    #'social.backends.yahoo.YahooOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
+
 # Google API keys
 #SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '764247090603.apps.googleusercontent.com'
 #SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
@@ -129,6 +132,13 @@ SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
 # New Google+ login
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = '621695853095-7p2mrjthfvma0rq0loolpoocq6f94577.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'y4xJ9Vr18aQAkhyp8DDkaz5l'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '345109858975991'
+SOCIAL_AUTH_FACEBOOK_SECRET = '685c46b205d4aa87deee26826b1ca958'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_TWITTER_KEY = 'OMqEsrvkxHgMuwEs4FZWWkr4q'
+SOCIAL_AUTH_TWITTER_SECRET = 'SDlUX3bxzZdjF1quH3VtSDg34XAA8Are8pIU461kVLiRjHn5H8'
 
 
 
