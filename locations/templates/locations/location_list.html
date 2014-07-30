@@ -1,95 +1,14 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            common: 'js/common',
-            utils: 'js/utils/utils',
-            ui: 'js/ui/ui'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'common',
-             'utils',
-             'ui',
-             'js/locations/location-follow'],
-
-    function($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
-{% endblock %}
-
 {% block content %}
 
-    <!-- Location search form -->
-    <form role="form" name="search_location" id="search-location" method="get" action="{% url 'search:haystack_search' %}">
-        <div class="form-group">
-            <input type="text" name="q" id="id_q" class="form-control" />
-            <input type="hidden" name="models" id="models" value="locations.location" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary submit-btn">Search</button>
-        </div>
-    </form>
-
-    {% for location in locations %}
-    <div class="location-entry col-sm-6">
-        <h2><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></h2>
-        {% if user.is_authenticated and user == location.creator %}
-            <p>
-                <a href="{% url 'locations:update' location.slug %}">{% trans "Edit" %}</a> | 
-                <a href="{% url 'locations:delete' location.slug %}">{% trans "Delete" %}</a>
-            </p>
-        {% endif %}
-        {% if user.is_authenticated and not user in location.users.all %}
-            <p><button data-location-id="{{ location.id }}" class="btn btn-success btn-follow-location">{% trans "Follow" %}</button></p>
-        {% endif %}
-        {% if user.is_authenticated and user in location.users.all %}
-            <p><button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button></p>
-        {% endif %}
-        <p><img src="{{ location.image.url }}" alt="{{ location.name }}" class="location-preview-img" /></p>
-    </div>
-    {% endfor %}
-    <div style="clear:both;">&nbsp;</div>
-    {% if user.is_authenticated %}
-        <div><a href="{% url 'locations:create' %}"><button class="btn btn-primary">{% trans "Create new" %}</button></a></div>
+    {% if locations %}
+        <ul>
+        {% for location in locations %}
+            <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+        {% endfor %}
+        </ul>
     {% endif %}
-{% endblock %}
 
-{% block footer_scripts %}
-<script src="{% static 'locations/js/location-follow.js' %}"></script>
 {% endblock %}
