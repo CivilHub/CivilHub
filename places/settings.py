@@ -220,7 +220,7 @@ DATABASES = {
 #
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'civilhub',                      
+        'NAME': 'places',                      
         'USER': 'places',
         'PASSWORD': '987xyz',
         'HOST': ''
