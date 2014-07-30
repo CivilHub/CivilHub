@@ -12,7 +12,9 @@ function ($) {
     
     "use strict";
     
-    var running = false;
+    // Mark request as running to avoid google maps being loaded second
+    // time after timeout function executes.
+    var mapRunning = false;
     
     function civilGoogleMap(mapData) {
         
@@ -117,7 +119,7 @@ function ($) {
     // -----------------------------------------------------------------------------
     //
     var fetchMap = function (url) {
-        running = true;
+        mapRunning = true;
         $.get(url, function (resp) {
             var markers = [];
             resp = JSON.parse(resp);
@@ -144,7 +146,7 @@ function ($) {
     };
     
     setTimeout(function () {
-        if (_.isUndefined(window.CivilMap) && !mapRunning) {
+        if (mapRunning === false) {
             initializeMainMap();
         }
     }, 3000);
