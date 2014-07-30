@@ -114,8 +114,8 @@ AUTHENTICATION_BACKENDS = (
     #'social.backends.google.GoogleOAuth2',
     #'social.backends.google.GoogleOAuth',
     'social.backends.twitter.TwitterOAuth',
-    #'social.backends.facebook.FacebookOAuth2',
-    'social.backends.twitter.Facebook2OAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    #'social.backends.twitter.Facebook2OAuth2',
     #'social.backends.yahoo.YahooOpenId',
     'django.contrib.auth.backends.ModelBackend',
 )
