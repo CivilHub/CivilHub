@@ -59,6 +59,10 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
+
+    # Testy, próby i inne takie, które nie powinny iść na produkcję
+    url(r'^tests/', include('testapp.urls', namespace='tests')),
+    
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),

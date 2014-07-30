@@ -96,6 +96,8 @@ INSTALLED_APPS = (
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
     'civmail',  # Newsletter i obsługa maili
+    # Do wywalenia na produkcji
+    'testapp',
 )
 
 
