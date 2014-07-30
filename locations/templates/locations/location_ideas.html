@@ -116,7 +116,7 @@
             <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
 
-	<ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
         <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
         <li class="navbar-text">{% trans "Stats" %}</li>
         <span class="bs-navbar-soon">(soon)</span>
@@ -134,38 +134,27 @@
 
 {% block content %}
 <div>
-<div class="row">
-<div class="col-sm-9">
-<div class="main-content">
-    <noscript>{% for idea in ideas %}
-        {% include 'ideas/idea_basic.html' %}
-    {% endfor %}</noscript>
-    <div id="idea-list-view"></div>
-</div>
-
-    <div>
-    <div class="row">
-        <div class="col-sm-9">
-        <div class="main-content">
+    <div class="col-sm-9 main-content">
+        
+        <div id="idea-list-view"></div>
+        
+        <noscript>
             {% if ideas %}
-            <noscript>{% for idea in ideas %}
+            {% for idea in ideas %}
                 {% include 'ideas/idea_basic.html' %}
-            {% endfor %}</noscript>
-            <div id="idea-list-view"></div>
+            {% endfor %}
+            
             {% else %}
                 <p class="alert alert-info">{% trans "There are no ideas yet" %}.</p>
             {% endif %}
-        </div>
+        </noscript>
 
-            {% include 'ideas/idea-category.html' %}
-            {% include 'ideas/idea-votes.html' %}
+        {% include 'ideas/idea-category.html' %}
+        {% include 'ideas/idea-votes.html' %}
             
-        </div>
-
-            {% include 'locations/sidebar.html' %}
-
-        </div>
     </div>
+
+    {% include 'locations/sidebar.html' %}
 
 {% endblock %}
 
