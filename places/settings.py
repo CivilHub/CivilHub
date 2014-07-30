@@ -157,6 +157,7 @@ ACTSTREAM_SETTINGS = {
 
 # django rest framework
 REST_FRAMEWORK = {
+    'PAGINATE_BY': 10,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -223,17 +224,7 @@ MESSAGE_TAGS = {
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql', 
-#        'NAME': 'civilhub',
-#        'USER': 'places',
-#        'PASSWORD': '987xyz',
-#        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#        'PORT': '3306',
-#    }
-#
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'places',                      
