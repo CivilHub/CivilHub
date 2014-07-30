@@ -12,6 +12,8 @@ function ($) {
     
     "use strict";
     
+    var running = false;
+    
     function civilGoogleMap(mapData) {
         
         var imageUrl = 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
@@ -115,6 +117,7 @@ function ($) {
     // -----------------------------------------------------------------------------
     //
     var fetchMap = function (url) {
+        running = true;
         $.get(url, function (resp) {
             var markers = [];
             resp = JSON.parse(resp);
@@ -141,7 +144,7 @@ function ($) {
     };
     
     setTimeout(function () {
-        if (_.isUndefined(window.CivilMap)) {
+        if (_.isUndefined(window.CivilMap) && !mapRunning) {
             initializeMainMap();
         }
     }, 3000);
