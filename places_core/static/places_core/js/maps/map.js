@@ -142,7 +142,22 @@ function ($) {
     };
     
     window.initializeMainMap = function () {
-        fetchMap('/maps/pointers/');
+        //fetchMap('/maps/pointers/');
+        mapRunning = true;
+        var markers = [];
+        $.getJSON('/static/maps/data/pointers.json', function (json) {
+             $(json.locations).each(function () {
+                markers.push(this);
+            });
+            $(json.pointers).each(function () {
+                markers.push(this);
+            });
+            window.CivilMap = civilGoogleMap(markers);
+            $('.map-filter-toggle').bind('change', function (evt) {
+                evt.preventDefault;
+                window.CivilMap.refreshMap(getFilters());
+            });
+        });
     };
     
     setTimeout(function () {
