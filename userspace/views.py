@@ -307,6 +307,7 @@ def login(request):
     about user IP address. It also keeps 5 last login datas in database for
     each user.
     """
+    from social.backends.google import GooglePlusAuth
     if request.user.is_authenticated():
         return redirect('user:index')
     if request.method == 'POST':
@@ -341,6 +342,8 @@ def login(request):
     ctx = {
         'title': _('Login'),
         'form': f,
+        'plus_scope': ' '.join(GooglePlusAuth.DEFAULT_SCOPE),
+        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
     return render(request, 'userspace/login.html', ctx)
 

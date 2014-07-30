@@ -29,7 +29,8 @@
         <script type="text/javascript">
             var signInCallback = function (result) {
                 if (result['error']) {
-                    alert('An error happened:', result['error']);
+                    //alert('An error happened:', result['error']);
+                    console.log('An error happened:', result['error']);
                 } else {
                     $('#code').attr('value', result['code']);
                     $('#at').attr('value', result['access_token']);
@@ -41,7 +42,7 @@
         <div id="signinButton">
             <span class="g-signin" data-scope="{{ plus_scope }}"
                                    data-clientid="{{ plus_id }}"
-                                   data-redirecturi="postmessage"
+                                   data-redirecturi="{% url 'user:passet' %}"
                                    data-accesstype="offline"
                                    data-cookiepolicy="single_host_origin"
                                    data-callback="signInCallback">
@@ -53,6 +54,20 @@
             <input id="at" type="hidden" name="access_token" value="" />
             <input id="code" type="hidden" name="code" value="" />
         </form>
+    
+    {% comment %}
+    
+        End test
+        
+    {% endcomment %}
+    
+    {% comment %}
+    
+        Testujemy Twitter Auth login
+        
+    {% endcomment %}
+    
+        <a href="{% url 'social:begin' 'twitter' %}"><img src="google.jpg"></a>
     
     {% comment %}
     
