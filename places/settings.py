@@ -122,8 +122,14 @@ LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
 # Google API keys
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '764247090603.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
+#SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '764247090603.apps.googleusercontent.com'
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyCxWK_o_FPyxWMn_NUNP4xOqY_NnAmIMkc'
+#SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'AIzaSyD-XS_nJIqv9WdL6ZBxbyrD165GLOHDfBY'
+
+# New Google+ login
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = '621695853095-7p2mrjthfvma0rq0loolpoocq6f94577.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'y4xJ9Vr18aQAkhyp8DDkaz5l'
+
 
 
 # django-activity-stream settings
