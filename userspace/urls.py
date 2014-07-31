@@ -6,6 +6,7 @@ from userspace import views
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'confirm-register/', views.confirm_registration, name='message_sent'),
+    url(r'twitter-email/', views.SetTwitterEmailView.as_view(), name='twitter_email'),
     url(r'test/', views.test_view, name='test'),
     url(r'login/', views.login, name='login'),
     url(r'logout/', views.logout, name='logout'),

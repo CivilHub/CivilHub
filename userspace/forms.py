@@ -187,3 +187,15 @@ class AvatarUploadForm(forms.Form):
         help_text = "",
         widget = forms.FileInput(attrs={'title':_('Change')})
     )
+
+
+class TwitterEmailForm(forms.Form):
+    """
+    Prosty formularz do ustawienia adresu email użytkownika logującego się
+    przy pomocy konta na Twitterze.
+    """
+    account_email = forms.EmailField(
+        label = _("email address"),
+        help_text = _("Please provide your email address. Twitter doesn't"),
+        widget = forms.EmailInput(attrs={'class': 'form-control'})
+    )
