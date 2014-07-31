@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
 {% load bookmarks_tags %} {% load i18n %}
-
+{% block title %} {{ poll.title }}, {{ location.name }} | CivilHub {% endblock %}
 {% block require_scripts %}
 
     <script>
@@ -89,7 +89,7 @@
 
     {% include 'maps/pointer-modal-form.html' %}
 
-    <div class="col-sm-9">
+    <div class="col-sm-9 main-content">
         <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>

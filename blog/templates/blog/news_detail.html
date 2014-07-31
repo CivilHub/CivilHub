@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load bookmarks_tags %}{% load i18n %}
 
+{% block title %} {{ news.title }}, {{ location.name }} | CivilHub {% endblock %}
+
 {% block require_scripts %}
 
     <script>
@@ -90,33 +92,34 @@
     {% include 'maps/pointer-modal-form.html' %}
 
     <div class="col-sm-9">
-	<div class="blog-detail">
-	    	<div class="row">
-	    	<div class="col-md-11">
-           	    <h1>{{ title }}</h1>
-	    	</div>
-	    
-	    	<div class="col-md-1">
-		    {% if user.is_authenticated %}
-		    <h1><span class="fa fa-cog submenu-toggle"> </span></h1>
-		    {% endif %}
+		<div class="blog-detail">
+			<div class="row">
+			
+				<div class="col-md-11">
+					<h1>{{ title }}</h1>
+				</div>
+			
+				<div class="col-md-1">
+				{% if user.is_authenticated %}
+				<h1><span class="fa fa-cog submenu-toggle"> </span></h1>
+				{% endif %}
 
-		    <div class="entry-submenu">
-                    <ul class="">
-                        <li>{% bookmark_form for news %}</li>
-                        {% if user.is_authenticated and user != news.creator %}
-                        <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
-                            {% trans "Report abuse" %}</a></li>
-                        {% endif %}
-                        {% if user.is_authenticated and user == news.creator or is_moderator %}
-                        <li><a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a></li>
-                        <li><a href="">{% trans "Delete" %}</a></li>
-                        <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-	    	</div>
-	    </div>
+					<div class="entry-submenu">
+						<ul>
+							<li>{% bookmark_form for news %}</li>
+							{% if user.is_authenticated and user != news.creator %}
+							<li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
+								{% trans "Report abuse" %}</a></li>
+							{% endif %}
+							{% if user.is_authenticated and user == news.creator or is_moderator %}
+							<li><a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a></li>
+							<li><a href="">{% trans "Delete" %}</a></li>
+							<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
 
             
             {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}

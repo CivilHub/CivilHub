@@ -24,7 +24,7 @@
         <div class="col-sm-3 ">
             <div class="follower">
                 <a href="{% url 'user:profile' usr.username %}">
-                <div class="follower-photo"><img alt="{{ usr.username }}" src="{{ usr.profile.avatar.url }}">
+                <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}">
                 </div></a>
                 <div class="follower-header">
                     <p class="follower-name">

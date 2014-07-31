@@ -111,6 +111,16 @@ urlpatterns = patterns('',
     # dodawać kolejne.
     url(r'^home/', PageView.as_view(page='home')),
     url(r'^about/', PageView.as_view(page='about')),
+    url(r'^privacy/', PageView.as_view(page='privacy')),
+    url(r'^terms/', PageView.as_view(page='terms')),
+    url(r'^cookies/', PageView.as_view(page='cookies')),
+    url(r'^contact/', PageView.as_view(page='contact')),
+    url(r'^jobs/', PageView.as_view(page='jobs')),
+    url(r'^press/', PageView.as_view(page='press')),
+    url(r'^mission/', PageView.as_view(page='mission')),
+    url(r'^team/', PageView.as_view(page='team')),
+    url(r'^values/', PageView.as_view(page='values')),
+    url(r'^credo/', PageView.as_view(page='credo')),
     
     # Default URL - Nie wstawiać nic poniżej!!!
     url(r'^$', PageView.as_view(page='home')),

@@ -1,8 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
-
-{% block title%}{{ location.name }}:Ideas{% endblock %}
-
+{% block title %} {{ location.name }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 
     <script>
@@ -116,7 +114,7 @@
             <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
 
-    <ul class="nav navbar-nav navbar-right">
+	<ul class="nav navbar-nav navbar-right">
         <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
         <li class="navbar-text">{% trans "Stats" %}</li>
         <span class="bs-navbar-soon">(soon)</span>
