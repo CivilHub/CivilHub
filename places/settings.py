@@ -201,7 +201,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'rest.disable.DisableCSRF',
+    'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True

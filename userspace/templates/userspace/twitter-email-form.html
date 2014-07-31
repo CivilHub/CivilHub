@@ -1,0 +1,15 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block content %}
+
+    <!--<form role="form" method="post" action="{% url 'social:complete' 'twitter' %}">-->
+    <form role="form" method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <div class="form-group">
+            <button class="btn btn-primary">{% trans "Send" %}</button>
+        </div>
+    </form>
+
+{% endblock %}

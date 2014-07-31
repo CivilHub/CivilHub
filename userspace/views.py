@@ -31,6 +31,25 @@ from places_core.helpers import truncatesmart, process_background_image
 from forms import *
 
 
+class SetTwitterEmailView(FormView):
+    """
+    W tym widoku użytkownik, który rejestruje się przy pomocy konta na Twitterze
+    ustawia swój adres email. Adres jest wymagany i musi być unikalny dla
+    całego systemu.
+    """
+    form_class = TwitterEmailForm
+    template_name = 'userspace/twitter-email-form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SetTwitterEmailView, self).get_context_data(**kwargs)
+        context['title'] = _("Set email")
+        return context
+
+    def form_valid(self, form, **kwargs):
+        self.request.session['account_email'] = form.cleaned_data['account_email']
+        return redirect(reverse('social:complete', kwargs={'backend':'twitter'}))
+
+
 def index(request):
     """
     User profile / settings
