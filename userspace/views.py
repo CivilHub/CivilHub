@@ -93,7 +93,7 @@ def profile(request, username):
     ctx = {
         'cuser'  : user,
         'profile': prof,
-        'title'  : _("User Profile"),
+        'title'  : user.first_name + " " + user.last_name + " | CivilHub",
         'stream' : actions,
     }
     return render(request, 'userspace/profile.html', ctx)

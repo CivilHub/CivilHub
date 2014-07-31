@@ -1,6 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load i18n %}{% load staticfiles %}
-
+{% block title %} {{ location.name }}, {% trans "Polls" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 
     <script>
@@ -112,7 +112,7 @@
 
 {% block content %}
 
-    <div class="col-sm-9">
+    <div class="col-sm-9 main-content">
         {% if polls %}
         <div class="polls-list custom-tablelike">
             

@@ -18,30 +18,50 @@
             	<p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
             </div>
     	</div>
+		
+		{{ errors }}
     	<div class="half">
-            <form>
-            <input class="long" type="text" placeholder="{% trans "Your username" %}">
+            <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
+			{% csrf_token %}
+			<input type="hidden" name="frontpage" value="true">
+			<input id="username" class="long" type="text" name="username" placeholder="{% trans "Your username" %}">
             <div>
-           	 <input class="short short-left" type="text" placeholder="{% trans "Name" %}">
-           	 <input class="short" type="text" placeholder="{% trans "Surname" %}">
+           	 <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
+           	 <input id="surname" class="short" type="text" name="last_name" placeholder="{% trans "Surname" %}">
             </div>
-            <input class="long" type="text" placeholder="{% trans "Your email" %}">
-            <input class="long" type="password" placeholder="{% trans "Create a password" %}">
-            <input class="long" type="password" placeholder="{% trans "Repeat password" %}">
+            <input id="email" class="long" type="text" name="email" placeholder="{% trans "Your email" %}">
+            <input id="pass1" class="long" type="password" name="password" placeholder="{% trans "Create a password" %}">
+            <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
             <div>
-            	<a href="#">
-                    <img class="short-left" src="{% static 'places_core/img/fb-connect.png' %}">
-            	</a>
-                <a href="#">
-                    <img src="{% static 'places_core/img/g-connect.png' %}">
-                </a>
+
+            <button type="button" class="short social-button social-button-left" style="background: url({% static 'places_core/img/fb-connect.png' %}) no-repeat; 
+				background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'facebook' %}'">{% trans "Connect with Facebook" %}</button>
+				
+			<button type="button" class="short social-button" style="background: url({% static 'places_core/img/tw-connect.png' %}) no-repeat; 
+				background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+            	
+			<button type="button" class="short social-button social-button-left" style="background: url({% static 'places_core/img/lin-connect.png' %}) no-repeat; 
+				background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                    
+			<button type="button" class="short social-button" style="background: url({% static 'places_core/img/gp-connect.png' %}) no-repeat; 
+				background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'google' %}'">{% trans "Connect with Google+" %}</button>
             </div>
-            <button class="long signup-button">{% trans "Sign up" %}</button>
+            <button id="signup_button" type="button" class="long signup-button">{% trans "Sign up" %}</button>
             </br>
+
             <p class="terms">
-            {% trans "By clicking 'Sign up', you agree to our <b>terms of service</b> and <b>privacy policy</b>. We will send you account related emails occasionally." %}
+            {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy">{% trans "privacy policy" %}</a>.
             </p>
             </form>
+			<script type="text/javascript">
+				$('#signup_button').on('click', function(){
+
+						  
+							$('#pl-register-form').popover('show'); 
+	
+				});
+			</script>
+			
         </div>
         </div>
         <div class="clear"></div>

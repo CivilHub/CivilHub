@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load bookmarks_tags %}{% load i18n %}
 
+{% block title %} {{ title }}, {{ location.name }} | CivilHub {% endblock %}
+
 {% block require_scripts %}
 
     <script>
@@ -325,7 +327,7 @@
         <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
-                {% if marker_form %}<li><p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p></li>{% endif %}
+                {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
                 <li>{% bookmark_form for discussion %}</li>
                 {% if user == discussion.creator %}
                 <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
@@ -345,7 +347,7 @@
             <div class="row">
                 <div class="blobfish-left">&nbsp;</div>
                 <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                    <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
+                    <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="news-user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
                     <p class="custom-centered">{{ discussion.creator.profile.rank_pts }}</p>
                 </div>
                 <div class="col-xs-11 discussion-entry-content">

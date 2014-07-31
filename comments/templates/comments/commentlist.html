@@ -4,7 +4,7 @@
     <div class="commentformarea">
         {% if user.is_authenticated %}
         <div class="col-sm-2">
-            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="current-user-comment-avatar" />
+            <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="current-user-comment-avatar" />
         </div>
         <div class="col-sm-10">
             <form id="user-comment-form" role="presentation" class="comment-form-body">
@@ -17,7 +17,7 @@
             </form>
         </div>
         {% endif %}
-        <p>Order by: 
+        <p>{% trans "Order by" %}: 
             <a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a> | 
             <a class="change-order-link" href="#" data-order="submit_date">{% trans "Newest" %}</a> |
             <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Oldest" %}</a>

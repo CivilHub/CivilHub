@@ -67,7 +67,7 @@ class LocationNewsList(DetailView):
     def get_context_data(self, **kwargs):
         context = super(LocationNewsList, self).get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.all()
-        context['title'] = self.object.name + '::' + _("News")
+        context['title'] = self.object.name + ', ' + _("News")
         context['links'] = links['news']
         context['tags'] = TagFilter(self.object).get_items()
         return context
@@ -161,7 +161,7 @@ class LocationIdeasList(DetailView):
             ideas = self.list_ideas(ideas, self.request.GET.get('order'))
         if self.request.GET.get('filter'):
             ideas = self.filter_ideas(ideas, self.request.GET.get('filter'))
-        context['title'] = self.object.name + '::' + _("Ideas")
+        context['title'] = self.object.name + ', ' + _("Ideas") + " | CivilHub"
         context['form'] = IdeaCategoryForm()
         context['ideas'] = ideas
         context['links'] = links['ideas']
@@ -234,7 +234,7 @@ class LocationDiscussionsList(DetailView):
         except EmptyPage:
             context['discussions'] = paginator.page(paginator.num_pages)
 
-        context['title']        = location.name + '::' + _("Discussions")
+        context['title']        = location.name + ", " + _("Discussions") + " | CivilHub"
         context['categories']   = ForumCategory.objects.all()
         context['search_form']  = SearchDiscussionForm()
         context['is_moderator'] = is_moderator(self.request.user, location)
@@ -295,7 +295,7 @@ def ajax_discussion_list(request, slug):
     except EmptyPage:
         context['discussions'] = paginator.page(paginator.num_pages)
 
-    context['title']        = location.name + ':' + _('Discussions')
+    context['title']        = location.name + ', ' + _('Discussions')
     context['location']     = location
     context['categories']   = categories
     context['search_form']  = SearchDiscussionForm()
@@ -396,7 +396,7 @@ class SublocationList(DetailView):
         else:
             context['navigation'] = True
 
-        context['title']    = self.object.name + '::' + _("Sublocations")
+        context['title']    = self.object.name + ', ' + _("Sublocations")
         context['location'] = self.object
         context['links']    = links['sublocations']
         context['tags'] = TagFilter(self.object).get_items()
@@ -412,7 +412,7 @@ class LocationFollowersList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
-        context['title'] = self.object.name + '::' + _("Followers")
+        context['title'] = self.object.name + ', ' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
         context['links'] = links['followers']
@@ -430,7 +430,7 @@ class LocationPollsList(DetailView):
     def get_context_data(self, **kwargs):
         location = super(LocationPollsList, self).get_object()
         context = super(LocationPollsList, self).get_context_data(**kwargs)
-        context['title'] = location.name + ':' + _('Polls')
+        context['title'] = location.name + ', ' + _('Polls')
         context['polls'] = Poll.objects.filter(location=location)
         context['links'] = links['polls']
         context['is_moderator'] = is_moderator(self.request.user, location)
