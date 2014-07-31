@@ -63,11 +63,13 @@
     
     {% comment %}
     
-        Testujemy Twitter Auth login
+        Testujemy Twitter Auth i LinkedIn login
         
     {% endcomment %}
     
         <a href="{% url 'social:begin' 'twitter' %}"><img src="google.jpg"></a>
+        
+        <a href="{% url 'social:begin' 'linkedin' %}"><img src="google.jpg"></a>
     
     {% comment %}
     

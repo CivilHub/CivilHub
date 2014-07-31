@@ -117,6 +117,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     #'social.backends.twitter.Facebook2OAuth2',
     #'social.backends.yahoo.YahooOpenId',
+    'social.backends.linkedin.LinkedinOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '/user/login/'
@@ -134,6 +135,15 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 SOCIAL_AUTH_TWITTER_KEY = 'OMqEsrvkxHgMuwEs4FZWWkr4q'
 SOCIAL_AUTH_TWITTER_SECRET = 'SDlUX3bxzZdjF1quH3VtSDg34XAA8Are8pIU461kVLiRjHn5H8'
+
+SOCIAL_AUTH_LINKEDIN_KEY = '77uveqo8v3tk5v'
+SOCIAL_AUTH_LINKEDIN_SECRET = 'PSsrYr0Acg4BdKWM'
+SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
+                                   ('firstName', 'first_name'),
+                                   ('lastName', 'last_name'),
+                                   ('emailAddress', 'email_address'),
+                                   ('headline', 'headline'),
+                                   ('industry', 'industry')]
 
 
 
