@@ -29,8 +29,7 @@ class PageView(View):
     def get(self, request, page=None):
         if self.page: page = self.page
         if page == None:
-            pages = self.get_all_pages()
-            return render(request, 'staticpages/pages/home.html', {'pages':pages})
+            return render(request, 'staticpages/pages/home.html')
         else:
             try:
                 template_name = 'staticpages/pages/' + page + '.html'
