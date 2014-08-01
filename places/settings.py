@@ -178,7 +178,6 @@ ACTSTREAM_SETTINGS = {
 
 # django rest framework
 REST_FRAMEWORK = {
-    'PAGINATE_BY': 10,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -217,7 +216,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'places_core.middleware.SocialAuthExceptionMiddleware',
+    #'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True

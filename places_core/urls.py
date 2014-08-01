@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.conf.urls import patterns, url
-from places_core.views import CreateAbuseReport, report_sent
+from places_core import views
+# REST API
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('content_types', views.ContentTypeAPIViewSet, 'content_types')
 
 
 urlpatterns = patterns('',
-    url(r'^sent/', report_sent),
+    url(r'^sent/', views.report_sent),
     url(r'^(?P<app_label>.+)/(?P<model_label>.+)/(?P<object_pk>\d+)/',
-        CreateAbuseReport.as_view(), name='report'),
+        views.CreateAbuseReport.as_view(), name='report'),
 )

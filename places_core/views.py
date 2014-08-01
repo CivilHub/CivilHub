@@ -6,6 +6,35 @@ from django.contrib.sites.models import get_current_site
 from django.shortcuts import render
 from .models import AbuseReport
 from .forms import AbuseReportForm
+# REST API
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from .serializers import ContentTypeSerializer
+
+
+class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Widok umożliwiający pobieranie ID typów zawartości na podstawie nazwy
+    aplikacji lub modelu i vice-versa. Tylko zapytania GET! Domyślnie listowane
+    są wszystkie typy zawartości.
+    
+    Wyszukiwać można na dwa sposoby, dodając parametry GET do zapytania:
+        1. Podać ID konkretnego typu zawartości (np. ?id=8)
+        2. Podać nazwę aplikacji i modelu (np. ?app_label=ideas&model=idea)
+    """
+    queryset = ContentType.objects.all()
+    serializer_class = ContentTypeSerializer
+
+    def get_queryset(self):
+        app_label = self.request.QUERY_PARAMS.get('app_label', None)
+        model = self.request.QUERY_PARAMS.get('model', None)
+        id = self.request.QUERY_PARAMS.get('id', None)
+        if id:
+            return ContentType.objects.filter(pk=id)
+        elif app_label and model:
+            return ContentType.objects.filter(app_label=app_label, model=model)
+        else:
+            return ContentType.objects.all()
 
 
 class CreateAbuseReport(CreateView):
