@@ -42,6 +42,10 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
     z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
     w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
     konkretnym użytkownikiem o danym ID.
+    
+    Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
+    typu zawartości (content_type), oraz id konkretnego obiektu (object_id).
+    "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
     """
     queryset = Bookmark.objects.all()
     serializer_class = BookmarkSerializer
