@@ -38,17 +38,7 @@
         </div>
     </div>
     <div class="col-sm-9">
-        {% if user.is_authenticated %}
-        <h3><a href="<%= url %>"><%= name %></a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
-        <div class="entry-submenu">
-            <ul>
-                {% if user.is_superuser or is_moderator %}
-                <li><a href="#">{% trans "Edit" %}</a></li>
-                {% endif %}
-                <li><a href="#"></a></li>
-            </ul>
-        </div>
-        {% endif %}
+        <h3><a href="<%= url %>"><%= name %></a></h3>
         <p>
             {% trans "Created" %} <span class="date-created"><%= date_created %></span> {% trans "by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
             <% if (edited) { %>
