@@ -162,12 +162,12 @@
                     <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
                     <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
                     {% else %}
-						<!-- Dodanie parametrow GET aby powrocic do strony ideas -->
-						<form action="{% url 'user:login' %}" method="GET">
-							<input type="hidden" name="url" value="{{ request.path }}" />
-							<button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
-							<button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
-						</form>
+                        <!-- Dodanie parametrow GET aby powrocic do strony ideas -->
+                        <form action="{% url 'user:login' %}" method="GET">
+                            <input type="hidden" name="url" value="{{ request.path }}" />
+                            <button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
+                            <button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
+                        </form>
                     {% endif %}
                 </div>
             </div>
@@ -196,7 +196,9 @@
                 <div class="entry-submenu">
                     <ul>
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+                        {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
+                        {% endif %}
                         <li>{% bookmark_form for idea %}</li>
                         <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
                     </ul>
