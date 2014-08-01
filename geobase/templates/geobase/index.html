@@ -1,0 +1,12 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block title %}GEO index page{% endblock %}
+
+{% block content %}
+
+    <h1>Geo index page</h1>
+    
+    <p>{% trans "Session language" %}: {{ language }}</p>
+    
+{% endblock %}

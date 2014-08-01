@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'taggit',
     # Core program modules
     'places_core', # for common templates and static files
+    'geobase',  # Kraje, języki i wszystko, co powiązane z mapą
     'userspace',# panel użytkownika
     'locations',
     'ideas',     

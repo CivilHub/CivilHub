@@ -59,6 +59,8 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
+    # Countries and geolocation
+    url(r'^geobase/', include('geobase.urls', namespace='geobase')),
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
@@ -134,6 +136,7 @@ from blog.urls import router as blog_router
 from maps.urls import router as map_router
 from userspace.urls import router as user_router
 from places_core.urls import router as core_router
+from geobase.urls import router as geo_router
 urlpatterns += patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -142,4 +145,5 @@ urlpatterns += patterns('',
     url(r'^api-maps/', include(map_router.urls)),
     url(r'^api-userspace/', include(user_router.urls)),
     url(r'^api-core/', include(core_router.urls)),
+    url(r'^api-geo/', include(geo_router.urls)),
 )

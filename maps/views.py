@@ -38,7 +38,7 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
 class MapPointerAPIViewSet(viewsets.ModelViewSet):
     """
     This is entry point for simple map pointer object serializer.
-    It allows users to managet map pointers related to objects that
+    It allows users to manage map pointers related to objects that
     they have created. This functionality isn't fully implemented yet.
     For now any registered user can create and manage map pointers.
     
@@ -48,32 +48,6 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     serializer_class = MapPointerSerializer
     paginate_by = 10
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
-
-
-class Pointer(object):
-    """
-    Handy class to create and manage map pointers based on content type.
-    """
-    def __init__(self, obj):
-        ct = ContentType.objects.get_for_model(obj)
-        self.latitude = obj.latitude
-        self.longitude = obj.longitude
-        self.content_type = ct.pk
-        if isinstance(obj, News):
-            self.name = obj.title
-            self.desc = truncatesmart(obj.content, 10)
-
-
-def index(request):
-    """
-    This view only displays template. Places and other markers
-    are loaded via AJAX and THEN map is created.
-    """
-    return render_to_response('maps/index.html', {
-        'title': _("Map"),
-        'user': request.user,
-        'appname': 'main-map',
-    })
 
 
 @require_GET
@@ -129,6 +103,8 @@ def get_pointers(request):
 def save_pointer(request):
     """
     This view handle ajaxy form in modal to create new map marker.
+    
+    TODO: this could be made simpler with REST framework.
     """
     ct = ContentType.objects.get(pk=request.POST.get('content_type'))
     pointer = MapPointer()
@@ -159,6 +135,8 @@ def save_pointer(request):
 def delete_pointer(request):
     """
     Delete map pointer.
+    
+    TODO: this could be made simpler with REST framework.
     """
     pk = request.POST.get('pk')
     try:
@@ -191,6 +169,21 @@ def delete_pointer(request):
                 'level': 'danger',
             }
     return HttpResponse(dumps(resp))
+
+
+# Static views
+# ------------------------------------------------------------------------------
+
+def index(request):
+    """
+    This view only displays template. Places and other markers
+    are loaded via AJAX and THEN map is created.
+    """
+    return render_to_response('maps/index.html', {
+        'title': _("Map"),
+        'user': request.user,
+        'appname': 'main-map',
+    })
 
 
 class CreateMapPoint(CreateView):

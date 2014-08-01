@@ -28,6 +28,7 @@ require.config({
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
@@ -52,11 +53,62 @@ require.config({
         
         tagsinput: {
             deps: ['jquery']
-        },
+        }
     }
 });
 
-require(['jquery', 'common', 'js/maps/map'], function ($) {
+define('gmaps', ['async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'], function () {
+    return google.maps;
+});
+
+require(['jquery',
+         'js/maps/map',
+         'gmaps',
+         'common'],
+
+function ($, CivilMap) {
+    
+    "use strict";
+    
+    (function () {
+        var topAdjust = $('#navbar-top').height(),
+            $map      = $('#map'),
+            $toggle   = $('#map-filter-toggle'),
+            $panel    = $('#map-options-panel');
+
+        $map.css({
+            position : "absolute",
+            left     : 0,
+            top      : topAdjust,
+            width    : "100%",
+            height   : $(window).height() - topAdjust,
+            'z-index': 10
+        });
+
+        //$panel.hide();
+
+        $toggle // show/hide map options button.
+            .tooltip({placement:'right'})
+            .bind('click',
+                function (evt) {
+                    evt.preventDefault();
+                    $panel.slideToggle('fast');
+                    $toggle.find('.fa')
+                        .toggleClass('fa-arrow-circle-down')
+                        .toggleClass('fa-arrow-circle-up');
+                }
+            );
+
+    })();
+    
+    console.log($('#map'));
+    
+    $(document).ready(function () {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: new google.maps.LatLng(52.0, 23.0)
+        });
+    });
     
     $(document).trigger('load');
     
