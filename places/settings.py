@@ -81,6 +81,8 @@ INSTALLED_APPS = (
     'actstream',
     #http://django-taggit.readthedocs.org/en/latest/
     'taggit',
+    # geodjango
+    'django.contrib.gis',
     # Core program modules
     'places_core', # for common templates and static files
     'geobase',  # Kraje, języki i wszystko, co powiązane z mapą
@@ -100,13 +102,69 @@ INSTALLED_APPS = (
 )
 
 
+# Core django settings
+#-------------------------------------------------------------------------------
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
+    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
+)
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'places_core.middleware.SocialAuthExceptionMiddleware',
+)
+
+ROOT_URLCONF = 'places.urls'
+
+WSGI_APPLICATION = 'places.wsgi.application'
+
+# Django messages framework
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    50: 'danger',
+}
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_URL   = '/static/'
+MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
+MEDIA_URL    = '/media/'
+
+# Haystack - search engine
+#-------------------------------------------------------------------------------
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
 
-
+# Social Auth
+#-------------------------------------------------------------------------------
 # Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GooglePlusAuth',
@@ -163,7 +221,8 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('industry', 'industry')]
 
 
-
+# Actstreams
+#-------------------------------------------------------------------------------
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
@@ -177,6 +236,8 @@ ACTSTREAM_SETTINGS = {
     'GFK_FETCH_DEPTH': 1,
 }
 
+# REST framework
+#-------------------------------------------------------------------------------
 # django rest framework
 REST_FRAMEWORK = {
     # Use hyperlinked styles by default.
@@ -196,30 +257,8 @@ REST_FRAMEWORK = {
     )
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'django.core.context_processors.i18n',
-)
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
-
-
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'places_core.middleware.SocialAuthExceptionMiddleware',
-)
-
+# CORS settings
+# IMPORTANT - Be sure to change this settings in production
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
@@ -231,31 +270,11 @@ CORS_ALLOW_HEADERS = (
     'accept-encoding',
 )
 
-ROOT_URLCONF = 'places.urls'
-
-WSGI_APPLICATION = 'places.wsgi.application'
-
-# Django messages framework
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
-from django.contrib.messages import constants as messages
-MESSAGE_TAGS = {
-    messages.ERROR: 'danger',
-    50: 'danger',
-}
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # Internationalization
+#-------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Europe/Warsaw'
 
@@ -265,20 +284,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL   = '/static/'
-MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
-MEDIA_URL    = '/media/'
-
-
+# Email settings
+#-------------------------------------------------------------------------------
 # Email account settings
 EMAIL_HOST          = 'mail.composly.com'
 EMAIL_PORT          = 587
@@ -294,6 +306,8 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 #DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
+# Celery/Rabbit i taski
+#-------------------------------------------------------------------------------
 # Celery task manager settings
 BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
@@ -310,6 +324,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
 # Ustawienia dla miniaturek
+#-------------------------------------------------------------------------------
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
     (30, 30),
@@ -331,22 +346,15 @@ AVATAR_THUMBNAIL_SIZES = [
 
 
 # South database migrations schemes
+#-------------------------------------------------------------------------------
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
 
 
-# CORS settings
-# IMPORTANT - Be sure to change this settings in production
-CORS_ORIGIN_ALLOW_ALL = True
-
-CORS_ALLOW_HEADERS = (
-    'x-requested-with',
-    'content-type',
-    'accept',
-    'origin',
-    'authorization',
-    'x-csrftoken',
-    'accept-encoding',
-)
+# GeoIP settings
+#-------------------------------------------------------------------------------
+GEOIP_PATH = os.path.join(BASE_DIR, 'geobase', 'data')
+GEOIP_COUNTRY = 'GeoIP.dat'
+GEOIP_CITY = 'GeoLiteCity.dat'

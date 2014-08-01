@@ -29,7 +29,7 @@ class LanguageCode(models.Model):
     sposób będziemy mogli odwoływać się do kodów/krajów dzięki relacji.
     """
     code = models.CharField(max_length=10)
-    country = models.ForeignKey(Country)
+    country = models.ForeignKey(Country, related_name='language')
 
     def __unicode__(self):
         return self.code
