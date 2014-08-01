@@ -141,7 +141,8 @@ function ($, _, Backbone, ui) {
             replies: 0,
             total_votes: 0,
             upvotes: 0,
-            downvotes: 0
+            downvotes: 0,
+            submit_date: moment().format()
         }
     });
     //
@@ -444,8 +445,10 @@ function ($, _, Backbone, ui) {
         },
         
         initialize: function (initialComments) {
+            console.log(initialComments);
             var _that = this;
             _that.collection = new commentlist.Commentlist(initialComments);
+            console.log(_that.collection);
             _that.render();
             _that.listenTo(_that.collection, 'add', _that.renderComment);
             _that.listenTo(_that.collection, 'reset', _that.reRender);
@@ -467,6 +470,7 @@ function ($, _, Backbone, ui) {
         
         render: function () {
             this.collection.each(function (item) {
+                console.log(item);
                 this.renderComment(item);
             }, this);
         },
@@ -494,8 +498,8 @@ function ($, _, Backbone, ui) {
     //
     // Start Application.
     // -----------------------------------------------------------------------------
-    $.get(url, function (comments) {
-        new commentlist.CommentlistView(comments);
+    $.get(url, function (resp) {
+        new commentlist.CommentlistView(resp.results);
     });
     //
     // Bind show/hide comment controls event.

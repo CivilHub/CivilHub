@@ -1,0 +1,300 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block title %}{% trans "Terms of use" %}{% endblock %}
+
+{% block content %}
+
+<div class="static-page-content">
+	<h1 class="text-center">{% trans "Terms of use" %}</h1>
+	<div class="col-md-2"></div>
+	
+	<div class="col-md-8">
+		<div class="content">
+			<ul>
+				<h3><li>{% trans "Definicje" %}</li></h3>
+					<p>&sect 1. 
+					{% blocktrans %}
+					Poniższy regulamin określa warunki korzystania z CivilHub.org w szczególności prawa i 
+					obowiązki zarejestrowanych użytkowników.
+					{% endblocktrans %}</p>
+
+					<p>&sect 2. 
+					{% blocktrans %}
+					Poniższy regulamin dotyczy:
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.1 Regulaminu - należy przez to rozumieć zbiór przepisów określających prawa i obowiązki 
+					użytkowników jak i CivilHub.org, zasady ochrony danych osobowych, jak i również zasady 
+					określające zakres odpowiedzialności CivilHub.org z tytułu świadczenia usług.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.2 CivilHub.org - należy przez to rozumieć organizację która łączy ludzi w celu wspólnej 
+					realizacji lokalnych pomysłów i projektów. Głównym celem organizacji jest propagowanie 
+					partycypacji społecznej w lokalnych obszarach świata. 
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.3 Użytkownika- należy przez to rozumieć osobę fizyczną która poprzez rejestrację konta 
+					i akceptację regulaminu uzyskuje dostęp do usług oferowanych przez CivilHub.org.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.4 Profilu - należy przez to rozumieć miejsce w CivilHub.org gdzie opublikowany jest zbiór
+					informacji o użytkowniku uzyskanych podczas rejestracji.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.5 Konta - należy przez to rozumieć zbiór danych które potwierdzają bycie użytkownikiem 
+					CivilHub.org. Poprzez podanie loginu oraz hasła użytkownik dostaje możliwość modyfikacji 
+					danych opublikowanych w profilu oraz możliwość modyfikacji konta.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					2.6 Administratora - należy przez to rozumieć osobe odpowiedzialną za prowadzenie 
+					CivilHub.org. 
+					{% endblocktrans %}</p>
+
+					<h3><li>II {% trans "Zawieranie i rozwiązywanie umów o świadczenie usług drogą elektroniczną" %}</li></h3>
+
+					<p>&sect 3. 
+					{% blocktrans %}
+					Użytkownikiem CivilHub.org może być osoba fizyczna która ukończyła 13 lat.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					3.1 Osoba fizyczna może zostać użytkownikiem CivilHub.org jeśli posiada zdolność do 
+					czynności prawnych lub też posiada zgodę przedstawiciela ustawowego w przypadku gdy 
+					posiada ograniczoną zdolność do czynności prawnych.
+					{% endblocktrans %}</p>
+
+					<p>&sect 4. 
+					{% blocktrans %}
+					W celu korzystania z usług oferowanych przez CivilHub.org niezbędne jest założenie konta. 
+					Konto zakłada się poprzez wypełnienie formularza rejestracyjnego w którym należy podać 
+					niezbędne dane osobowe.
+					{% endblocktrans %}</p>
+
+					<p>&sect 5. 
+					{% blocktrans %}
+					Wypełnienie formularza rejestracyjnego, utworzenie konta, korzystania z usług oferowanych 
+					przez CivilHub.org oraz publikowanie informacji jest całkowicie bezpłatne. 
+					{% endblocktrans %}</p>
+
+					<p>&sect 6. 
+					{% blocktrans %}
+					Rejestrując konto użytkownik wyraża zgodę na wszystkie warunki niniejszego regulaminu 
+					izobowiązuje się do ich przestrzegania.
+					{% endblocktrans %}</p>
+
+					<p>&sect 7.
+					{% blocktrans %}
+					W przypadku wycofania zgody na który ktokolwiek z punktów regulaminu użytkownik jest 
+					zobowiązany do osobistego usunięcia konta lub powiadomienia administratora o wycofaniu 
+					zgody.
+					{% endblocktrans %}</p>
+
+					<p>&sect 8. 
+					{% blocktrans %}
+					Umowa o świadczeniu usług drogą elektroniczną zostaje zawarta w chwili wypełnienia przez 
+					użytkownika formularza rejestracyjnego oraz zaakceptowania regulaminu. 
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					8.1 Umowa zostaje zawarta na czas nieokreślony 
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					8.2 Każda ze stron może rozwiązać umowę bez podania przyczyny w trybie natychmiastowym.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					8.3 Użytkownik rozwiązuje umowę poprzez skasowanie konta albo zgłoszenie usunięcia konta 
+					administratowi.
+					{% endblocktrans %}</p>
+
+					<p>
+					{% blocktrans %}
+					8.4 CivilHub.org rozwiązuje umowę poprzez skasowanie konta użytkownika przez 
+					administratora.
+					{% endblocktrans %}</p>
+
+					<p>&sect 9. 
+					{% blocktrans %}
+					CivilHub.org zastrzega sobie prawo do usunięcia konta użytkownika w chwili naruszenia 
+					regulaminu oraz polityki prywatności.
+					{% endblocktrans %}</p>
+
+					<p>&sect 10. 
+					{% blocktrans %}
+					CivilHub.org zastrzega sobie prawo do dowolnej modyfikacji świadczonych usług, a o
+					zmianach poinformuje użytkowników na własnym blogu i regulaminie, jeżeli zmiany miałyby 
+					wpływ na treść niniejszego regulaminu. 
+					{% endblocktrans %}</p>
+
+					<h3><li>III {% trans "Rejestracja i Konto" %}</li></h3>
+
+					<p>&sect 11. 
+					{% blocktrans %}
+					Rejestracja polega na wypełnieniu formularza dostępnego na stronie internetowej 
+					CivilHub.org
+					{% endblocktrans %}</p>
+
+					<p>11.1 
+					{% blocktrans %}
+					Użytkownik akceptując regulamin podczas rejestracji oświadcza iż zapoznał i zgadza sie z 
+					jego treścią oraz potwierdza autentycznośc danych podanych podczas rejestracji.
+					{% endblocktrans %}</p>
+
+					<p>&sect 12. 
+					{% blocktrans %}
+					Poprawne przeprowadzanie rejestracji użytkownika jest możliwe tylko i wyłącznie poprzez 
+					podanie następujących danych: nazwa użytkownika, imię, nazwisko, adres e-mai i hasło. W 
+					przypadku usunięcia tych danych użytkownik traci możliwość korzystania z usług.
+					{% endblocktrans %}</p>
+
+					<p>&sect 13. 
+					{% blocktrans %}
+					W przypadku stwierdzenia podania nieprawdziwych danych przez użytkownika 
+					administrator ma prawo zablokować lub usunąć konta.
+					{% endblocktrans %}</p>
+
+					<p>&sect 14. 
+					{% blocktrans %}
+					W przypadku zablokowania konta użytkownik nie ma prawa utworzyć kolejnego bez 
+					zezwolenia administratora CivilHub.org 
+					{% endblocktrans %}</p>
+
+					<p>&sect 15. 
+					{% blocktrans %}
+					Użytkownik może utworzyć tylko jedno konto osobiste.
+					{% endblocktrans %}</p>
+
+					<p>&sect 16. 
+					{% blocktrans %}
+					Zabronione jest udostępnianie swojego konta innym osobą.
+					{% endblocktrans %}</p>
+
+					<p>&sect 17. 
+					{% blocktrans %}
+					Zabronione jest korzystanie z kont należących do innych użytkowników.
+					{% endblocktrans %}</p>
+
+					<p>&sect 18. 
+					{% blocktrans %}
+					Zabronione jest tworzenie konta dla innej osoby bez jej pozwolenia.
+					{% endblocktrans %}</p>
+
+					<p>&sect 19. 
+					{% blocktrans %}
+					Użytkownik jest zobowiązany dbać o rzetelność i aktualność swoich danych.
+					{% endblocktrans %}</p>
+
+					<p>&sect 20. 
+					{% blocktrans %}
+					Użytkownik tworząc konto może dodać do profilu zdjęcie pod warunkiem że przedstawia 
+					jego osobą oraz nie przedstawia treści wuglarnych.
+					{% endblocktrans %}</p>
+
+					<p>20.1 {% blocktrans %}
+					Administrator CivilHub.org zastrzega sobie prawo do usunięcia zdjecią użytkownika bez 
+					jego powiadomienia jeśli uzna, że jest ono niewłaściwe.
+					{% endblocktrans %}</p>
+
+					<p>20.2 {% blocktrans %}
+					Uporczywe dodawanie zdjęć o niewłaściwej tematyce będzie skutkować usunięciem konta 
+					użytkownika.
+					{% endblocktrans %}</p>
+
+					<p>20.3 {% blocktrans %}
+					Zabronione jest udostępnianie nieautoryzowanych komunikatów komercyjnych np. spamu
+					 w CivilHub.org
+					{% endblocktrans %}</p>
+
+					<h3><li>IV {% trans "Odpowiedzialność i Bezpieczeństwo" %}</li></h3>
+
+					<p>&sect 21. 
+					{% blocktrans %}
+					CivilHub.org nie ponosi odpowiedzialności za treść i formę materiałów i informacji 
+					umieszczonych w CiviliHub.org przez użytkowników. 
+					{% endblocktrans %}</p>
+
+					<p>&sect 22. 
+					{% blocktrans %}
+					Zabronione jest publikowanie na CivilHub.org treści lub wykonywanie jakichkolwiek 
+					czynności, które naruszają lub łamią prawa innej osoby, albo są w inny sposób sprzeczne z 
+					prawem.
+					{% endblocktrans %}</p>
+
+					<p>&sect 23. 
+					{% blocktrans %}
+					CivilHub.org zastrzega sobie prawo do usunięcia dowolnej treści lub informacji podanej 
+					przez użytkownika jeśli będzie ona sprzeczna z poniższym regulaminem.
+					{% endblocktrans %}</p>
+
+					<p>&sect 24.  
+					{% blocktrans %}
+					CivilHub.org nie ponosi odpowiedzialności za treści wysyłane w wiadomościach pomiędzy 
+					użytkownikami
+					{% endblocktrans %}</p>
+
+					<p>&sect 25. 
+					{% blocktrans %}
+					Użytkownik ponosi pełną odpowiedzialność za złamanie prawa oraz szkodę wywołaną jego 
+					działaniami w CivilHub.org.
+					{% endblocktrans %}</p>
+
+					<p>&sect 26. 
+					{% blocktrans %}
+					CivilHub.org nie ponosi odpowiedzialności za szkody powstałe w wyniku awarii i przerwy 
+					w funkcjonowaniu CivilHub.org.
+					{% endblocktrans %}</p>
+
+					<p>&sect 27. 
+					{% blocktrans %}
+					CivilHub.org nie udziela gwarancji prawidłowego działania CivilHub.org w całości lub w 
+					części.
+					{% endblocktrans %}</p>
+
+					<p>&sect 28. 
+					{% blocktrans %}
+					Zabrania się umieszczania i rozpowszechniania w CivilHub.org haseł komputerowych, 
+					kodów dostepu, treści obraźliwych, bezprawnych, nagannych moralnie lub naruszających 
+					powszechnie dobre obyczaje. 
+					{% endblocktrans %}</p>
+
+					<p>&sect 29. 
+					{% blocktrans %}
+					Zabronione jest wykonywanie jakichkolwiek czynności, które mogłyby przeciążyć, 
+					wyłączyć lub ograniczyć prawidłowe funkcjonowanie CivilHub.org 
+					{% endblocktrans %}</p>
+
+					<p>&sect 30. 
+					{% blocktrans %}
+					Zabronione jest wykorzystywanie CivilHub.org do celów niezgodnych z prawem, 
+					wprowadzających w błąd, złośliwych lub dyskryminujących.
+					{% endblocktrans %}</p>
+
+					<p>&sect 31. 
+					{% blocktrans %}
+					Zabronione jest publikowanie treści które promują nienawiść, zawieraja groźbę lub 
+					pornografię, zawierają elementy nagości a także drastyczną przemoc.
+					{% endblocktrans %}</p>
+
+		</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
