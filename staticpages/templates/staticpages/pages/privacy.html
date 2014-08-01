@@ -1,0 +1,133 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block title %}{% trans "Privacy" %}{% endblock %}
+
+{% block content %}
+
+<div class="static-page-content">
+	<h1 class="text-center">{% trans "Privacy Policy" %}</h1>
+	<div class="col-md-2"></div>
+	
+	<div class="col-md-8">
+		<div class="content">
+		<ul>
+			<h3><li>1. {% trans "Zasady podstawowe" %}</li></h3>
+				<p>{% blocktrans %}Niniejsza polityka prywatności dotyczy CivilHub.org oraz zarejestrowanych użytkowników i osoby odwiedzające portal. 
+				CivilHub.org zastrzega sobie prawo do wprowadzenia jakichkolwiek zmian i powiadomienia o nich użytkowników za pośrednictwem strony internetowej. 
+				W przypadku zastrzeżeń użytkownik ma prawo usunąć konto. Dalsze korzystania z CivilHub.org po wprowadzonych zmianach 
+				będzie oznaczało zaakceptowanie wprowadzonych zmian.{% endblocktrans %}</p>
+				
+				<p>{% blocktrans %}Misją CivilHub.org jest umożliwienie użytkownikom wymianę poglądów na temat działań, aktywności 
+				odbywających się w lokalnych społecznościach. Portal daje możliwość zaproponowania przez obywateli 
+				dowolnych idei dotyczących zmian w otaczającej nas społeczności, oraz przekształcania tych idei w
+				konkrentne działania.{% endblocktrans %}</p>
+				
+				<p>{% blocktrans %}Jednym z naszych głównych celów jest podtrzymywanie zaufania użytkownika do portalu i organizacji, 
+				dlatego sami przestrzegamy zasady ochrony prywatności użytkowników. Dane osobowe użytkowników 
+				są chronione i bez jego zgody nie udostępniane osobą trzecim, firmą lub żadnym innym organizacją 
+				rządowym lub poza rządowym. Wyjątkiem jest wymóg prawny, nakaz sądowy lub inna procedura prawna 
+				obowiązująca na terenie Rzeczypospolitej Polskiej. Administratorem danych CivilHub.org jest 
+				Aperto Sp. z.o.o. z siedzibą na ulicy Jasnej 10, 00-013 Warszawa o numerze KRS: 0000444048, 
+				NIP: 5272692210, REGON: 146623535.{% endblocktrans %}</p>
+			
+			<h3><li>2. {% trans "Gromadzenie informacji" %}</li></h3>
+				<h4><li>2.1 {% trans "Rejestracja" %}</li></h4>
+					<p>{% blocktrans %}
+					Rejestracja konta polega na wypełnieniu formularza rejestracyjnego dostępnego na stronie głównej lub
+					podstronie z rejestracją na CivilHub.org. Prawidłowo przeprowadzony proces rejestracji wiąże się z 
+					podaniem prawdziwych danych użytkownika (nazwa użytkownika, imię, nazwisko, adres e-mail, hasło) 
+					oraz przeczytaniem i zaakceptowaniem regulaminu i polityki prywatności. W przypadku stwierdzenia 
+					przez administratora podania nieprawidłowych danych użytkownika, ma on prawo zablokować lub 
+					usunąć konto. Uzytkownikiem CivilHub.org może być tylko i wyłącznie osoba fizyczna która ukończyła 
+					13 rok życia. Po uzupełnieniu formularza rejestracyjnego użytkownik otrzyma na podany adres e-
+					mailowy link aktywacyjny po kliknięciu w który nastąpi pełna aktywacja konta.
+					{% endblocktrans %}</p>
+				
+				<h4><li>2.2 {% trans "Profil" %}</li></h4>
+					<p>{% blocktrans %}
+					Po utworzeniu konta użytkownik może dodać zdjęcia profilowe oraz szczegółowe informacje które będą 
+					widoczne dla wszystkich użytkowników portalu. Nie należy podawać informacji których użytkownik nie 
+					chce udostępniać publicznie. Kompletny profil umożliwi szybsze i łatwiejsze odnalezienie użytkownika 
+					w CivilHub.org.
+					{% endblocktrans %}</p>
+					
+				<h4><li>2.3 {% trans "Pliki cookie" %}</li></h4>
+					<p>{% blocktrans %}
+					CivilHub.org korzysta z plików cookie, aby poprawić jakość usług, wzmocnić bezpieczeństwo oraz w
+					przyszłości dostarczyć reklamy, sprofilowane dla użytkownika. Odwiedzając CivilHub.org użytkownik 
+					wyraża zgodę na umieszczenie plików cookie i sygnałów nawigacyjnych w swojej wyszukiwarce zgodnie 
+					z niniejszą Polityką ochrony prywatności.
+					{% endblocktrans %}</p>	
+					
+				<h4><li>2.4 {% trans "Wyszukiwanie" %}</li></h4>
+					<p>{% blocktrans %}
+					Każdy użytkownik ma możliwość wyszukania informacji o innych członkach portalu, grupach, 
+					inicjatywach, lokalizacjach, pomysłach oraz dyskusjach prowadzonych w portalu.
+					{% endblocktrans %}</p>	
+					
+				<h4><li>2.5 {% trans "Komunikacja użytkownika" %}</li></h4>
+					<p>{% blocktrans %}
+					CivilHub.org nie bierze odpowiedzialności za wysyłane treści między użytkownikami. Zastrzegamy
+					sobie możliwość blokowania użytkowników wysyłających niechciane wiadomości (SPAM) do innych 
+					użytkowników portalu.
+					{% endblocktrans %}</p>
+		
+			<h3><li>3. {% trans "Prawa i obowiązki użytkownika" %}</li></h3>
+				<h4><li>3.1 {% trans "Prawo do zmiany informacji oraz usunięcie konta." %}</li></h4>
+					<p>{% blocktrans %}
+					Każdy zarejestrowany użytkownik posiada pełne prawo do modyfkacji, zmiany, korekty lub całkowitego
+					usunięcia konta bez podania przyczyny. Istnieje również możliwość usunięcia konta przez administratora 
+					na prośbę użytkownika lub gdy użytkownik nie przestrzega zasad podanych w Regulaminie oraz Polityce 
+					Prywatności. W przypadku zamknięcia konta dane użytkownika zostaną usunięte w przeciągu 72 godzin. 
+					Publiczny profil użytkownika może pokazać się w wynikach wyszukiwania do czasu odświeżenia 
+					pamięci podręcznej wyszukiwarek.
+					{% endblocktrans %}</p>
+				
+				<h4><li>3.2 {% trans "Zasady przechowywania danych" %}</li></h4>
+					<p>{% blocktrans %}
+					Informacje podane przez użytkownika są przechowywane w chwili gdy konto jest aktywne lub jeśli jest 
+					to niezbędne. CivilHub.org może przechowywać dane użytkownika po usunięciu konta oraz je udostępnić 
+					jeśli są one niezbędne do rozwiązania zobowiązań prawnych,, wymogów prawnych , rozwiązania sporów 
+					lub wyegzekwowania Polityki ochrony prywatności. Okres przechowywania danych o użytkowników 
+					zależy od wymogów prawnych.
+					{% endblocktrans %}</p>
+				
+				<h4><li>3.3 {% trans "Obowiązki użytkownika" %}</li></h4>
+					<p>{% blocktrans %}
+					Użytkownik powinien przestrzegać zasad i warunków zapisanych w regulaminie i polityce prywatności. 
+					Dotyczy to również praw własności intelektualnej, praw autorskich i znaków towarowych. 
+					Użytkownik ma obowiązek zachować poufność podanego przez siebie hasła.
+					Publikowanie informacji uważanych za obraźliwe, agresywne, rasistowskie które mogą naruszać cel, 
+					misję oraz społeczność użytkowników jest zakazane.
+					Nie przestrzeganie przez użytkownika wyżej wymienionych zasad mogą prowadzić do usunięcia, 
+					zawieszenia lub zablokowania użytkownika.
+					{% endblocktrans %}</p>
+				
+				
+			<h3><li>4. {% trans "Ważne informacje" %}</li></h4>
+				<h4><li>4.1 {% trans "Wiek minimalny" %}</li></h4>
+					<p>{% blocktrans %}
+					Jak określono w regulaminie, aby korzystać z CivilHub.org osoba fizyczna na terenie RP musi ukończyć
+					13 rok życia. Wiek minimalny do korzystania z portalu może być inny w zależności od lokalnego prawa 
+					obowiązujego w kraju z którego użytkownik łączy się z portalem.
+					{% endblocktrans %}</p>
+				
+				<h4><li>4.2 {% trans "Bezpieczeństwo" %}</li></h4>
+					<p>{% blocktrans %}
+					Portal CivilHub.org wszystkie dane za wyjątkiem haseł przechowuje jako czysty tekst w bazie danych,
+					utrzymywanej na serwerach własnych lub dzierżawionych. 
+					Dane wrażliwe w postaci haseł, są zaszyfrowane, uniemożliwiając przez to ich odczytywanie.
+					{% endblocktrans %}</p>
+					
+				<h4><li>4.3 {% trans "Zmiany w polityce prywatności" %}</li></h4>
+					<p>{% blocktrans %}
+					CivilHub.org zobowiązuje się w przypadku wprowadzenia zmian w Polityce prywatności do
+					niezwłocznego poinformowania wszystkich użytkoników poprzez wstawienie informacji na stronie 
+					głównej portalu w stopce portalu będzie widoczna data ostatniej zmiany w Polityce Prywatności.
+					{% endblocktrans %}</p>
+		</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
