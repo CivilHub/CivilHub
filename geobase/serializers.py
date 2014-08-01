@@ -10,7 +10,5 @@ class CountrySerializer(serializers.ModelSerializer):
     Dla aplikacji mobilnej raczej bardziej przydatne będą natywne funkcje
     geolokacji, ale dla porządku to też puszczam przez REST.
     """
-    language = serializers.PrimaryKeyRelatedField(many=True)
-
     class Meta:
         model = Country

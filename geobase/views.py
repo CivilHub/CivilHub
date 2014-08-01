@@ -6,7 +6,7 @@ from django.utils.translation import gettext as _
 from django.contrib.gis.geoip import GeoIP
 from ipware.ip import get_ip
 from rest_framework import serializers, permissions, viewsets
-from .models import LanguageCode, Country
+from .models import Country
 from .serializers import CountrySerializer
 
 
@@ -16,6 +16,15 @@ class IndexView(View):
     informację o języku i lokalizacji użytkownika przechowywane w sesji w celu
     łatwiejszego podglądu.
     """
+    def find_user_country(self):
+        """ Find Country object matching user's geolocation country code. """
+        code = GeoIP().country_code(get_id(self.request))
+        if code:
+            try:
+                country = Country.objects.get(code=code)
+            except Country.DoesNotExist:
+                country = None
+
     def get(self, request):
         g = GeoIP()
         ip = get_ip(request)

@@ -101,13 +101,9 @@ function ($, CivilMap) {
 
     })();
     
-    console.log($('#map'));
-    
-    $(document).ready(function () {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: new google.maps.LatLng(52.0, 23.0)
-        });
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: {{ zoom }},
+        center: new google.maps.LatLng({{ latitude }}, {{ longitude }})
     });
     
     $(document).trigger('load');

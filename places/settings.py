@@ -49,8 +49,6 @@ INSTALLED_APPS = (
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
-    # https://github.com/ottoyiu/django-cors-headers/
-    'corsheaders',
     # http://niwibe.github.io/djmail/
     'djmail',
     # https://django-modeltranslation.readthedocs.org/en/latest/
@@ -125,6 +123,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # odkomentować na produkcji - wyświetlanie błędów w social_auth
     #'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 

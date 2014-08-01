@@ -5,31 +5,21 @@ from locations.models import Location
 
 class Country(models.Model):
     """
-    Podstawowy model na potrzeby geolokacji - przechowuje informacje wiążące
-    kod języka przeglądarki z konkretnym krajem i parametrami wykorzystywanymi
-    później przez mapę (w celu wycentrowania mapy pod konkretnego użytkownika
-    i wyświetlenia miejsc, które szczególnie mogą go zainteresować).
+    Podstawowy model na potrzeby geolokacji i dumpowania danych dla mapy
+    do plików. Zasada działania jest prosta - dane dla mapy zostaną podzielone
+    na kraje, a pliki odpowiadające odpowiednim typom zawartości z zapisanymi
+    danymi o położeniu znajdą się w katalogu `data` aplikacji.
     
-    Model ten można (a nawet należy) połączyć z odpowiednią lokacją z bazy
-    aplikacji 'locations'.
+    Model przechowuje kod kraju, który powinien odpowiadać kodom zwracanym
+    przez GeoIP. Na tej podstawie możemy połączyć fizyczną lokalizację
+    użytkownika z miejscami, które mogłyby być dla niego interesujące.
     """
+    code = models.CharField(max_length=4)
     name = models.CharField(max_length=64)
     latitude = models.FloatField()
     longitude = models.FloatField()
     zoom = models.IntegerField()
-    location = models.OneToOneField(Location, blank=True, null=True)
+    location = models.OneToOneField(Location)
 
     def __unicode__(self):
         return self.name
-
-
-class LanguageCode(models.Model):
-    """
-    Prosty model przechowujący kod języka i jego przynależność do kraju. W ten
-    sposób będziemy mogli odwoływać się do kodów/krajów dzięki relacji.
-    """
-    code = models.CharField(max_length=10)
-    country = models.ForeignKey(Country, related_name='language')
-
-    def __unicode__(self):
-        return self.code

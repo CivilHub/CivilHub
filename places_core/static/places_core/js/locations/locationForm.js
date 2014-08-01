@@ -5,10 +5,10 @@
 define(['jquery',
         'underscore',
         'backbone',
-        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false',
+        'mapinput',
+        'async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false',
         'js/editor/customCKEditor',
-        'bootstrap-fileinput',
-        'mapinput'],
+        'bootstrap-fileinput'],
 
 function ($, _, Backbone) {
     

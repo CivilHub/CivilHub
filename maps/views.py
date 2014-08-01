@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 from django.views.generic import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from django.contrib.gis.geoip import GeoIP
+from ipware.ip import get_ip
 from places_core.helpers import truncatesmart, truncatehtml
 from locations.models import Location
 from blog.models import News
@@ -179,10 +181,13 @@ def index(request):
     This view only displays template. Places and other markers
     are loaded via AJAX and THEN map is created.
     """
+    lat, lon = GeoIP().lat_lon(get_ip(request)) or (0,0)
     return render_to_response('maps/index.html', {
         'title': _("Map"),
         'user': request.user,
-        'appname': 'main-map',
+        'latitude': lat,
+        'longitude': lon,
+        'zoom': 4,
     })
 
 
