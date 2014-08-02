@@ -41,35 +41,45 @@ class Location(models.Model):
         super(Location, self).save(*args, **kwargs)
 
 
-    def get_parent_chain(self, parents=None):
+    def get_parent_chain(self, parents=None, response='JSON'):
         """
-        Take all parent location in 'chain' of name - url pairs.
+        Take all parent location in 'chain' of name - url pairs. `response` is
+        faked parameter made because of backwards compatibility. If provided
+        as 'QUERYSET', function will return Django queryset, not dictionary.
         """
         if parents == None:
             parents = []
         if self.parent:
-            parents.append({
-                'name': self.parent.name,
-                'url' : self.parent.get_absolute_url(),
-            })
+            if response == 'JSON':
+                parents.append({
+                    'name': self.parent.name,
+                    'url' : self.parent.get_absolute_url(),
+                })
+            else:
+                parents.append(self.parent)
             if self.parent.parent:
-                self.parent.get_parent_chain(parents)
+                self.parent.get_parent_chain(parents, response)
         return reversed(parents)
 
 
-    def get_ancestor_chain(self, ancestors=None):
+    def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """
-        Get all sublocations and return dictionary of name - url pairs.
+        Get all sublocations and return dictionary of name - url pairs. The 
+        reason of `response` argument is the same as in get_parent_chain
+        method.
         """
         if ancestors == None:
             ancestors = []
         for a in self.location_set.all():
-            ancestors.append({
-                'name': a.name,
-                'url' : a.get_absolute_url(),
-            })
+            if response == 'JSON':
+                ancestors.append({
+                    'name': a.name,
+                    'url' : a.get_absolute_url(),
+                })
+            else:
+                ancestors.append(a)
             if a.location_set.count() > 0:
-                a.get_ancestor_chain(ancestors)
+                a.get_ancestor_chain(ancestors, response)
         return ancestors
 
 

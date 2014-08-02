@@ -7,6 +7,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('pointers', views.MapPointerAPIViewSet, 'pointers')
 router.register('objects', views.MapObjectAPIViewSet, 'objects')
+router.register('data', views.MapDataViewSet, 'data')
 
 
 urlpatterns = patterns('',

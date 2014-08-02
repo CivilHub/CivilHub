@@ -37,11 +37,17 @@ class IndexView(View):
 
 class CountryAPIViewSet(viewsets.ModelViewSet):
     """
-    Ten widok odpowiada za przekazywanie informacji o lokalizacji użytkownika
-    na podstawie kodu języka (language code) przechowywanego w sesji. Wykorzys-
-    tanie tego typu geolokacji nie wydaje się dobrym pomysłem dla apki mobilnej,
-    OS-y mają swoje własne systemy namierzania i lepiej z nich skorzystać.
+    Tutaj kojarzymy kod państwa z GeoIP z naszym modelem lokalizacji. Model
+    przechowuje informacje o startowej lokalizacji i powiększeniu mapy etc.
+    Domyślnie prezentowana jest lista wszystkich państw w bazie. Umożliwia
+    wyszukiwanie na podstawie country code (np. ?code=pl).
     """
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
+
+    def get_queryset(self):
+        code = self.request.QUERY_PARAMS.get('code') or None
+        if code:
+            return Country.objects.filter(code=code.upper())
+        return Country.objects.all()

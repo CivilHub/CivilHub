@@ -357,3 +357,8 @@ SOUTH_MIGRATION_MODULES = {
 GEOIP_PATH = os.path.join(BASE_DIR, 'geobase', 'data')
 GEOIP_COUNTRY = 'GeoIP.dat'
 GEOIP_CITY = 'GeoLiteCity.dat'
+
+# Custom module settings
+#-------------------------------------------------------------------------------
+COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
+DEFAULT_COUNTRY_CODE = 'PL'

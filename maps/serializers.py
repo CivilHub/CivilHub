@@ -13,7 +13,7 @@ class MapPointerSerializer(serializers.ModelSerializer):
         model = MapPointer
 
 
-class MapObjecSerializer(serializers.ModelSerializer):
+class MapObjectSerializer(serializers.ModelSerializer):
     """
     This serializer takes map pointer and related object and presents
     data in fixed format to display in map dialog.

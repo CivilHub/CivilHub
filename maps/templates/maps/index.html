@@ -102,10 +102,12 @@ function ($, CivilMap) {
     })();
     
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: {{ zoom }},
-        center: new google.maps.LatLng({{ latitude }}, {{ longitude }})
+        zoom: parseInt({{ zoom }}, 10),
+        center: new google.maps.LatLng(parseFloat({{ latitude }}), parseFloat({{ longitude }}))
     });
-    
+    alert("Latitude: {{ latitude }}");
+    alert("Longitude: {{ longitude }}");
+    alert("Zoom: {{ zoom }}");
     $(document).trigger('load');
     
 });

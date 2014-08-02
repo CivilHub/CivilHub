@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
 from json import dumps
+from django.conf import settings
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import ugettext as _
@@ -12,15 +13,17 @@ from django.db import transaction
 from django.contrib.gis.geoip import GeoIP
 from ipware.ip import get_ip
 from places_core.helpers import truncatesmart, truncatehtml
+from geobase.storage import CountryJSONStorage
 from locations.models import Location
 from blog.models import News
+from geobase.models import Country
 from models import MapPointer
 import forms
 # REST API
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest import serializers
-from .serializers import MapPointerSerializer, MapObjecSerializer
+from .serializers import MapPointerSerializer, MapObjectSerializer
 
 
 class MapObjectAPIViewSet(viewsets.ViewSet):
@@ -33,7 +36,7 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
 
     def list(self, request):
         pointers = MapPointer.objects.all()
-        serializer = MapObjecSerializer(pointers, many=True)
+        serializer = MapObjectSerializer(pointers, many=True)
         return Response(serializer.data)
 
 
@@ -50,6 +53,26 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     serializer_class = MapPointerSerializer
     paginate_by = 10
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class MapDataViewSet(viewsets.ViewSet):
+    """
+    Prosty widok który umożliwia pobieranie danych mapy z wcześniej przygotowa-
+    nych plików JSON. Tym sposobem unikamy dodatkowych zapytań podczas wczyty-
+    wania mapy. Cała struktura danych podzielona jest w oparciu o podstawowe
+    lokalizacje, czyli państwa. Przekazanie kodu państwa jako parametru w za-
+    pytaniu GET zwróci listę punktów powiązanych z danym państwem, np:
+    `?code=us`
+    Ten widok umożliwia tylko zapytania typu GET.
+    """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def list(self, request):
+        s = CountryJSONStorage()
+        code = request.QUERY_PARAMS.get('code')
+        if code:
+            return Response(s.import_data(Country.objects.get(code=code.upper()).pk))
+        return Response(s.import_data())
 
 
 @require_GET
@@ -181,13 +204,14 @@ def index(request):
     This view only displays template. Places and other markers
     are loaded via AJAX and THEN map is created.
     """
-    lat, lon = GeoIP().lat_lon(get_ip(request)) or (0,0)
+    code = GeoIP().country_code(get_ip(request)) or settings.DEFAULT_COUNTRY_CODE
+    country = Country.objects.get(code=code)
     return render_to_response('maps/index.html', {
         'title': _("Map"),
         'user': request.user,
-        'latitude': lat,
-        'longitude': lon,
-        'zoom': 4,
+        'latitude': country.latitude,
+        'longitude': country.longitude,
+        'zoom': country.zoom,
     })
 
 

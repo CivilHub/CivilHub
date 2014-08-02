@@ -75,3 +75,19 @@ def cleanup_register_demands(forced=False):
         if delta_t > timedelta(days=1) or forced:
             demand.user.delete()
             demand.delete()
+
+
+#
+# Geobase tasks
+# ---------------
+#
+@task(name='tasks.dump_map_data')
+def dump_map_data():
+    """
+    Run this task once a day to dump map pointers and locations that may be
+    displayed on map. This way we can load them from file without server 
+    requests.
+    """
+    from geobase.storage import CountryJSONStorage
+    c = CountryJSONStorage()
+    c.dump_data()
