@@ -10,9 +10,7 @@ function ($, _, Backbone) {
     
     "use strict";
     
-    var MapModel = Backbone.Model.extend({
-        
-    });
+    var MapModel = Backbone.Model.extend({});
     
     return MapModel;
 });

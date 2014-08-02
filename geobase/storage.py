@@ -41,11 +41,11 @@ class CountryJSONStorage(object):
 
     def load_file_(self, country_pk):
         """
-        Metoda odczytująca plik JSON i zwracająca zserializowaną listę obiektów.
+        Metoda odczytująca plik JSON i zwracająca zserializowaną listę obiektów
+        w formacie JSON.
         """
         f = open(os.path.join(self.path, str(country_pk), 'markers.json'))
-        serializer = MapPointerSerializer(json.loads(f.read()), many=True)
-        return serializer.data
+        return json.loads(f.read())
 
     def get_queryset(self, country_pk=None):
         """

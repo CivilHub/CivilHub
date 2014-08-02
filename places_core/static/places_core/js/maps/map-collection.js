@@ -12,6 +12,7 @@ function ($, _, Backbone, MapModel) {
     "use strict";
     
     var MapCollection = Backbone.Collection.extend({
+        
         model: MapModel
     });
     

@@ -101,13 +101,25 @@ function ($, CivilMap) {
 
     })();
     
+    window.CONTENT_TYPES = {
+    {% for type in content_types %}
+        {{ type.pk }}: {
+            app_label: "{{ type.app_label }}",
+            model: "{{ type.model }}"
+        },
+    {% endfor %}
+    };
+    console.log(window.CONTENT_TYPES);
+    
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: parseInt({{ zoom }}, 10),
         center: new google.maps.LatLng(parseFloat({{ latitude }}), parseFloat({{ longitude }}))
     });
-    alert("Latitude: {{ latitude }}");
-    alert("Longitude: {{ longitude }}");
-    alert("Zoom: {{ zoom }}");
+    
+    $.get('/api-maps/data/?code={{ code }}', function (resp) {
+        var app = new CivilMap(map, resp);
+    });
+    
     $(document).trigger('load');
     
 });

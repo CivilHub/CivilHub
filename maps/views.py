@@ -31,12 +31,23 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     This viewset is made only for GET requests. It presents entire
     list of all map objects created by users in proper format. They
     are then used to populate main map view with map pointers.
+    
+    Możliwe jest wyszukiwanie konkretnych obiektów w/g ID oraz typu obiektu,
+    do którego odwołuje się marker. Należy w tym celu podać w parametrach GET
+    typ zawartości oraz ID obiektu, np:
+    ?content_type=23&id=2
     """
     queryset = MapPointer.objects.all()
 
     def list(self, request):
         pointers = MapPointer.objects.all()
         serializer = MapObjectSerializer(pointers, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, ct=None):
+        #~ ct = ContentType.objects.get(pk=ct)
+        #~ serializer = MapObjectSerializer(ct.get_object_for_this_type(pk=pk))
+        serializer = MapObjectSerializer(MapPointer.objects.latest('pk'))
         return Response(serializer.data)
 
 
@@ -212,6 +223,8 @@ def index(request):
         'latitude': country.latitude,
         'longitude': country.longitude,
         'zoom': country.zoom,
+        'code': code,
+        'content_types': ContentType.objects.all(),
     })
 
 

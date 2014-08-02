@@ -7,7 +7,8 @@ define(['jquery',
         'underscore',
         'backbone',
         'js/maps/map-collection',
-        'js/maps/map-object'],
+        'js/maps/map-object',
+        'js/maps/markerclusterer'],
 
 function ($, _, Backbone, MapCollection, MapObject) {
     
@@ -15,8 +16,30 @@ function ($, _, Backbone, MapCollection, MapObject) {
     
     var CivilMap = Backbone.View.extend({
         
-        initialize: function () {
-            this.map = new google.maps.Map(document.getElementById('map'));
+        el: '#map',
+        
+        initialize: function (map, markers) {
+            this.map = map;
+            this.markers = [];
+            this.collection = new MapCollection(markers);
+            this.collection.each(function (item) {
+                var markerView = new MapObject({
+                    model: item
+                });
+                this.markers.push(markerView.marker);
+            }, this);
+            this.cluster = new MarkerClusterer(this.map, this.markers, {
+                maxZoom: 10,
+                gridSize: 30,
+                styles: [{
+                    url: window.STATIC_URL + '/images/people35.png',
+                    height: 35,
+                    width: 35,
+                    anchor: [16, 0],
+                    textColor: '#ff00ff',
+                    textSize: 10
+                }]
+            });
         }
     });
     
