@@ -7,6 +7,7 @@ import os, json
 from django.conf import settings
 from maps.serializers import MapPointerSerializer
 from maps.models import MapPointer
+from locations.serializers import MapLocationSerializer
 from .models import Country
 
 
@@ -45,6 +46,27 @@ class CountryJSONStorage(object):
         w formacie JSON.
         """
         f = open(os.path.join(self.path, str(country_pk), 'markers.json'))
+        return json.loads(f.read())
+
+    def save_locations_(self, data, country_pk):
+        """
+        Zapisujemy sub-lokalizacje dla danego kraju, podobnie, jak robimy to
+        z markerami. Dla lokalizacji zrobimy jednak osobny plik.
+        """
+        filepath = os.path.join(self.path, str(country_pk))
+        if not os.path.exists(filepath):
+            os.makedirs(filepath)
+        f = open(os.path.join(filepath, 'locations.json'), 'w')
+        f.write(json.dumps(data))
+        f.close()
+
+    def load_locations_(self, country_pk):
+        """
+        Podobnie jak w przypadku load_file_, ta metoda zwraca zawartość pliku
+        JSON z zaznaczonymi lokacjami, które mają swoje miejsce na mapie (tzn
+        posiadają określoną długość i szerokość geograficzną.
+        """
+        f = open(os.path.join(self.path, str(country_pk), 'locations.json'))
         return json.loads(f.read())
 
     def get_queryset(self, country_pk=None):
@@ -86,18 +108,27 @@ class CountryJSONStorage(object):
         for country in Country.objects.all():
             markers = self.get_markers(country.pk)
             serializer = MapPointerSerializer(markers, many=True)
-            print serializer.data
             self.save_file_(serializer.data, country.pk)
+            place_markers = []
+            for location in country.location.get_ancestor_chain(response='QUERYSET'):
+                if location.latitude and location.longitude:
+                    place_markers.append(location)
+            serializer = MapLocationSerializer(place_markers)
+            self.save_locations_(serializer.data, country.pk)
 
     def import_data(self, country_pk=None):
         """
         Funkcja umożliwiająca import znaczników z plików do postaci rozpoznawalnej
         przez serializery. Umożliwia to wyświetlenie danych na mapie.
         """
-        if country_pk:
-            return self.load_file_(country_pk)
-            
         markers = []
+        
+        if country_pk:
+            markers += self.load_locations_(country_pk)
+            markers += self.load_file_(country_pk)
+
         for country in Country.objects.all():
-            markers.append(self.load_file_(country.pk))
+            markers += self.load_locations_(country.pk)
+            markers += self.load_file_(country.pk)
+
         return markers

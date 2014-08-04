@@ -35,19 +35,18 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     Możliwe jest wyszukiwanie konkretnych obiektów w/g ID oraz typu obiektu,
     do którego odwołuje się marker. Należy w tym celu podać w parametrach GET
     typ zawartości oraz ID obiektu, np:
-    ?content_type=23&id=2
+    ?ct=23&pk=1
     """
     queryset = MapPointer.objects.all()
 
     def list(self, request):
-        pointers = MapPointer.objects.all()
+        ct = request.QUERY_PARAMS.get('ct')
+        pk = request.QUERY_PARAMS.get('pk')
+        if ct and pk:
+            pointers = MapPointer.objects.filter(content_type_id=ct).filter(object_pk=pk)
+        else:
+            pointers = MapPointer.objects.all()
         serializer = MapObjectSerializer(pointers, many=True)
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None, ct=None):
-        #~ ct = ContentType.objects.get(pk=ct)
-        #~ serializer = MapObjectSerializer(ct.get_object_for_this_type(pk=pk))
-        serializer = MapObjectSerializer(MapPointer.objects.latest('pk'))
         return Response(serializer.data)
 
 
@@ -90,6 +89,9 @@ class MapDataViewSet(viewsets.ViewSet):
 def get_pointers(request):
     """
     This view actually returns map markers to place on Google Map.
+    
+    DEPRECATED: w chwili obecnej korzystamy z powyższych funkcji i ta prawdo-
+    podobnie nie będzie już potrzebna.
     """
     locations = []
     pointers  = []

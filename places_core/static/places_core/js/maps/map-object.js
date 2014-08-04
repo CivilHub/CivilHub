@@ -25,14 +25,34 @@ function ($, _, Backbone) {
                     + '.png'
             });
             google.maps.event.addListener(this.marker, 'click', function () {
-                console.log(self.model.get('latitude'));
                 self.getData();
             });
         },
         
         getData: function () {
-            $.get('/api-maps/objects/'+this.model.get('id')+'/', function (resp) {
-                console.log(resp);
+            var self = this,
+                isLocation = window.CONTENT_TYPES[self.model.get('content_type')].model === 'location',
+                ct = self.model.get('content_type'),
+                url = isLocation ? '/api-locations/locations/' + this.model.get('id') + '/'
+                                 : '/api-maps/objects/?ct='+ct+'&pk='+this.model.get('object_pk');
+            $.get(url, function (m) {
+                m = isLocation ? m : m[0].content_object;
+                var contentString = window.mapDialogTpl({
+                    url: m.url,
+                    type: m.type,
+                    title: m.title,
+                    desc: m.desc,
+                    date: m.date,
+                    img: m.img,
+                    user: m.user,
+                    profile: m.profile
+                });
+                
+                var infoWindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                
+                infoWindow.open(self.map, self.marker);
             });
         }
     });

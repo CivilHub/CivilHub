@@ -29,7 +29,6 @@
         <script type="text/javascript">
             var signInCallback = function (result) {
                 if (result['error']) {
-                    //alert('An error happened:', result['error']);
                     console.log('An error happened:', result['error']);
                 } else {
                     $('#code').attr('value', result['code']);

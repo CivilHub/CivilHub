@@ -109,7 +109,8 @@ function ($, CivilMap) {
         },
     {% endfor %}
     };
-    console.log(window.CONTENT_TYPES);
+    
+    window.mapDialogTpl = _.template($('#map-dialog-tpl').html());
     
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: parseInt({{ zoom }}, 10),
@@ -119,6 +120,10 @@ function ($, CivilMap) {
     $.get('/api-maps/data/?code={{ code }}', function (resp) {
         var app = new CivilMap(map, resp);
     });
+    
+    //~ $.get('/api-maps/pointers/', function (resp) {
+        //~ var app = new CivilMap(map, resp.results);
+    //~ });
     
     $(document).trigger('load');
     

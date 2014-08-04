@@ -22,12 +22,15 @@ function ($, _, Backbone, MapCollection, MapObject) {
             this.map = map;
             this.markers = [];
             this.collection = new MapCollection(markers);
+            
             this.collection.each(function (item) {
                 var markerView = new MapObject({
                     model: item
                 });
+                markerView.map = this.map;
                 this.markers.push(markerView.marker);
             }, this);
+            
             this.cluster = new MarkerClusterer(this.map, this.markers, {
                 maxZoom: 10,
                 gridSize: 30,
