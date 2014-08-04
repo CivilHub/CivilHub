@@ -172,8 +172,11 @@
 
 /* Pagination - custom paginator */
 .pagination {
+	display: table;
+	margin: 20px auto 0 auto;
     text-align: center;
-    margin: 0px auto;
+	font-size: 12px;
+	
     a {
         margin: 0px 2px 0px 0px;
         padding: 2px;
@@ -185,5 +188,21 @@
             background-color: #adadad;
         }
     }
+	
+	> li {
+	display: inline; // Remove list-style and block-level defaults
+		> a,
+		> span {
+		  position: relative;
+		  float: left; // Collapse white-space
+		  padding: @padding-base-vertical @padding-base-horizontal;
+		  line-height: @line-height-base;
+		  text-decoration: none;
+		  color: @pagination-color;
+		  background-color: @pagination-bg;
+		  border: 1px solid @pagination-border;
+		  margin-left: -3px;
+		}
+	}
 }
 /* // Pagination */

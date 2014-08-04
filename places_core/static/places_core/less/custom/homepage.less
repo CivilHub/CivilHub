@@ -8,7 +8,11 @@ body {
 }
 
 .signup-view-background {
-	background: url("/static/places_core/img/civilhome.jpg") no-repeat fixed center center / cover #fff;
+	background: url(/static/places_core/img/civilhome.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	padding-bottom: 200px;
     padding-top: 100px;
 	margin-top: -5px;
@@ -24,11 +28,10 @@ body {
 		
 	.narrow {
 		margin-left: 15%;
-    margin-right: 0;
+		margin-right: 0;
 	}
 	
 	.half {
-		width: 50%;
 		float:left;		
 		
 		.start-text {
@@ -81,6 +84,7 @@ body {
 			a {
 				color: #fff;
 				font-weight: bold;
+				text-decoration: none;
 			}
 		}
 		.long {
@@ -120,7 +124,6 @@ body {
 			padding-right: 14px;
 			
 			border: 0;
-			border-radius: 5px;
 			margin-bottom: 10px;
 
 		}
@@ -144,7 +147,11 @@ body {
 	text-align: center;
 	
 	.line {
-		background: url("/static/places_core/img/line.jpg") no-repeat scroll center center / 1196px 20px #fff;
+		background: url("/static/places_core/img/line.jpg") no-repeat center center;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
 	}
 	
 	.row {
@@ -164,9 +171,7 @@ body {
 	.why-table {
 		margin: 0 15%;
 		
-		.no-top {
-			margin-top: 0;
-		}
+		.top20 { margin-top: 20px; }
 	}
 	
 	.proud-table {
@@ -174,11 +179,9 @@ body {
 		text-align: left;
 		
 		.left-img {
-			float: right;
-			height: 24px;
-			margin-right: -18px;
-			margin-top: 11px;
+			margin-right: 20px;
 			width: 24px;
+			margin-left: -44px;
 		}
 		
 		.row-part {
@@ -221,7 +224,11 @@ body {
 
 .map-view {
 
-	background: url("/static/places_core/img/usamap.jpg") no-repeat fixed center center / cover #fff;
+	background: url("/static/places_core/img/usamap.jpg") no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
     padding-top: 547px;
     
 	img {

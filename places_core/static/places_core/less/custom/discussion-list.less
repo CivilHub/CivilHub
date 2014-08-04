@@ -51,11 +51,14 @@
     padding-top: 7px;
     padding-bottom: 6px;
     .excerpt {
-      text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
       a {
         color: @link-color;
         font-size: 15px;
         line-height: 21px;
+		overflow: hidden;
       }
     }
       
@@ -125,9 +128,7 @@
     .entry-meta {
       margin: 10px 0px 10px 0px;
       padding: 0px 15px 0px 15px;
-      a {
-        font-weight: bold;
-      }
+	  
     }
     .entry-content {
       padding: 0px 15px 0px 15px;

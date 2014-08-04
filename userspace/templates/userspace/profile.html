@@ -115,7 +115,7 @@
         
         <div class="col-sm-3 user-data">
             <div class="profile-page-avatar">
-                <img src="{{ profile.avatar.url }}" alt="{{ cuser.username }}" />
+                <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
             </div>
             <p class="profile-page-details">
                 {{ cuser.get_full_name }}
@@ -144,7 +144,7 @@
                 <div class="row user-action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
-                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.username }}" class="inline-user-avatar" />
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
                         <p>{{ action.actor.profile.rank_pts }}</p>
                     </div>
                     
@@ -191,7 +191,15 @@
                         </div>
                         <div class="clear">&nbsp;</div>
                         <div class="entry-footer">
-                            {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
+						<br /><br /><br /><br />
+                            {% trans "Share" %}:
+							<a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org">
+								<span class="fa fa-facebook">&nbsp;</span>
+							</a>
+							 
+							<a href="https://twitter.com/home?status=http://civilhub.org">
+								<span class="fa fa-twitter">&nbsp;</span>
+							</a>
                         </div>
                     </div><!-- // .entry-meta-col -->
                     
@@ -204,7 +212,7 @@
     
     <script type="text/template" id="action-template">
         <div class="col-xs-2 entry-avatar-col">
-            <img src="<%= actor.avatar %>" alt="<%= actor.username %>" class="inline-user-avatar" />
+            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="inline-user-avatar" />
             <p><%= actor.rank_pts %></p>
         </div>
         
@@ -228,7 +236,14 @@
             <div class="entry-body"><%= description %></div>
             <div class="clear">&nbsp;</div>
             <div class="entry-footer">
-                {% trans "Share" %}: <span class="fa fa-facebook">&nbsp;</span><span class="fa fa-twitter">&nbsp;</span>
+                {% trans "Share" %}: 
+				<% if (!_.isEmpty(object.url)) { %>
+						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= object.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
+						<a href="https://twitter.com/home?status=<%= object.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
+				<% } else if (!_.isEmpty(target.url)) { %>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=<%= target.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
+					<a href="https://twitter.com/home?status=<%= target.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
+				<% } %>
             </div>
         </div><!-- // .entry-meta-col -->
     </script>

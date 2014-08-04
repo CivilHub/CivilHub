@@ -122,7 +122,9 @@ urlpatterns = patterns('',
     url(r'^mission/', PageView.as_view(page='mission')),
     url(r'^team/', PageView.as_view(page='team')),
     url(r'^values/', PageView.as_view(page='values')),
-    url(r'^credo/', PageView.as_view(page='credo')),
+    url(r'^creed/', PageView.as_view(page='creed')),
+    url(r'^support/', PageView.as_view(page='support')),
+    url(r'^feature/', PageView.as_view(page='feature')),
     
     # Default URL - Nie wstawiać nic poniżej!!!
     url(r'^$', PageView.as_view(page='home')),

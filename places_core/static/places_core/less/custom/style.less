@@ -19,13 +19,13 @@
 html {
   
   min-height: 100%;
-  background: #fafafa;
+  background: #fbfbfb;
   
 }
 
 body {
   padding-top: 50px;
-  background: #fafafa;
+  background: #fbfbfb;
 }
 .custom-booklike {
   text-align:justify;
@@ -135,12 +135,19 @@ body {
   text-align: center;
   min-width: 65px;
   .news-user-avatar {
-    width: 60px;
-    height: 60px;
-    margin: 25px auto 0px auto;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+	.entry-avatar-col .news-user-avatar {
+		width: 60px; 
+		height: 60px; 
+		border-radius: 50%;
+		-moz-border-radius: 50%;
+		-webkit-border-radius: 50%;
+		float: left; 
+		margin-right: 30px; 
+		margin-bottom: 6px; 
+		margin-top: 3px; 
+		padding: 4px; 
+		border: 1px solid #eee;
+	}
   }
 }
 /*-------Alert messages-------*/
