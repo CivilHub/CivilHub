@@ -7,6 +7,7 @@ import os, json
 from django.conf import settings
 from maps.serializers import MapPointerSerializer
 from maps.models import MapPointer
+from locations.models import Location
 from locations.serializers import MapLocationSerializer
 from .models import Country
 
@@ -39,6 +40,7 @@ class CountryJSONStorage(object):
         f = open(os.path.join(filepath, 'markers.json'), 'w')
         f.write(json.dumps(data))
         f.close()
+        print "File saved: ", os.path.join(filepath, 'markers.json')
 
     def load_file_(self, country_pk):
         """
@@ -59,6 +61,7 @@ class CountryJSONStorage(object):
         f = open(os.path.join(filepath, 'locations.json'), 'w')
         f.write(json.dumps(data))
         f.close()
+        print "File saved: ", os.path.join(filepath, 'locations.json')
 
     def load_locations_(self, country_pk):
         """
@@ -69,51 +72,39 @@ class CountryJSONStorage(object):
         f = open(os.path.join(self.path, str(country_pk), 'locations.json'))
         return json.loads(f.read())
 
-    def get_queryset(self, country_pk=None):
+    def get_markers(self, country):
         """
-        Funkcja, która wykonuje faktyczne zapytanie do bazy. Parametr `country`
-        jest opcjonalny i oznacza ID kraju, który nas interesuje. Jeżeli nie
-        zostanie podany, wybrane będą wszystkie kraje.
-        """
-        if country_pk:
-            map_pointers = []
-            country = Country.objects.get(pk=country_pk)
-            for map_pointer in MapPointer.objects.all():
-                if map_pointer.content_object.location == country.location:
-                    map_pointers.append(map_pointer)
-                if map_pointer.content_object.location in country.location.get_ancestor_chain(response='QUERYSET'):
-                    map_pointers.append(map_pointer)
-            return map_pointers
-        else:
-            return MapPointer.objects.all()
-
-    def get_markers(self, country_pk):
-        """
-        Funkcja "zbiera" wszystkie markery dla danego kraju (country_pk).
+        Funkcja "zbiera" wszystkie markery dla danego kraju (country).
         """
         map_pointers = []
-        country = Country.objects.get(pk=country_pk)
         for map_pointer in MapPointer.objects.all():
-            if map_pointer.content_object.location == country.location:
-                map_pointers.append(map_pointer)
-            if map_pointer.content_object.location in country.location.get_ancestor_chain(response='QUERYSET'):
+            print map_pointer
+            if map_pointer.content_object.location.country_code == country.code:
                 map_pointers.append(map_pointer)
         return map_pointers
 
-    def dump_data(self):
+    def dump_data(self, country_code=None):
         """
         Funkcja, która faktycznie zarządza zrzucaniem zawartości bazy do pliku.
         Domyślnie nadpisywane są wszystkie pliki i foldery.
+        
+        Podając country_code (np, US, PL etc.) dumpujemy tylko dane z lokaliza-
+        cji zawartych w konkretnym kraju.
+        
+        FIXME: przez ciągłe powtarzanie i pętlowanie wydajność tej funkcji jest
+        poniżej krytyki.
         """
-        for country in Country.objects.all():
-            markers = self.get_markers(country.pk)
+        if country_code:
+            queryset = Country.objects.filter(code=country_code)
+        else:
+            queryset = Country.objects.all()
+
+        for country in queryset:
+            markers = self.get_markers(country)
             serializer = MapPointerSerializer(markers, many=True)
             self.save_file_(serializer.data, country.pk)
-            place_markers = []
-            for location in country.location.get_ancestor_chain(response='QUERYSET'):
-                if location.latitude and location.longitude:
-                    place_markers.append(location)
-            serializer = MapLocationSerializer(place_markers)
+            locations = Location.objects.filter(country_code=country.code)
+            serializer = MapLocationSerializer(locations, many=True)
             self.save_locations_(serializer.data, country.pk)
 
     def import_data(self, country_pk=None):

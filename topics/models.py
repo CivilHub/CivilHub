@@ -25,8 +25,8 @@ class Discussion(models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
-    question = models.CharField(max_length=256, unique=True)
-    slug     = models.SlugField(max_length=256, unique=True)
+    question = models.CharField(max_length=255, unique=True)
+    slug     = models.SlugField(max_length=255, unique=True)
     intro    = models.TextField()
     creator  = models.ForeignKey(User)
     status   = models.BooleanField(default=True)

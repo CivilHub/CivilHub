@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
     'civmail',  # Newsletter i obsługa maili
+    'import_export',
 )
 
 
@@ -142,9 +143,24 @@ MESSAGE_TAGS = {
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
+    #~ 'default': {
+        #~ 'ENGINE': 'django.db.backends.sqlite3',
+        #~ 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #~ }
+    #~ 'default': {
+        #~ 'ENGINE': 'django.db.backends.mysql', 
+        #~ 'NAME': 'civilhub',
+        #~ 'USER': 'grzegorz',
+        #~ 'PASSWORD': '',
+        #~ 'HOST': '10.0.0.200',   # Or an IP Address that your DB is hosted on
+        #~ 'PORT': '3306',
+    #~ }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'places',                      
+        'USER': 'places',
+        'PASSWORD': '987xyz',
+        'HOST': '188.226.176.9' # civilhub.org
     }
 }
 

@@ -24,6 +24,7 @@ class Location(models.Model):
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
+    country_code = models.CharField(max_length=2)
     image     = models.ImageField(
         upload_to = 'img/locations/',
         default = 'img/locations/nowhere.jpg',
