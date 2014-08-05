@@ -12,6 +12,17 @@ from locations.serializers import MapLocationSerializer
 from .models import Country
 
 
+def country_codes():
+    """
+    Funkcja zwracająca nazwy państw w języku angielskim połączone z ich kodami
+    ISO. Dane zczytywane są z pliku JSON i zwracane w formie listy słowników.
+    """
+    f = open(os.path.join(settings.BASE_DIR, 'geobase/data/codes.json'))
+    codes = f.read()
+    f.close()
+    return json.loads(codes)
+
+
 class CountryJSONStorage(object):
     """
     Klasa umożliwiająca import/export znaczników na mapie do postaci JSON-a

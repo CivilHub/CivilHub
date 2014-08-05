@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+import debug_toolbar
 from staticpages.views import PageView
 admin.autodiscover()
 # include action hooks globally
@@ -59,6 +60,7 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
+    url(r'^debug/', include(debug_toolbar.urls)),
     # Countries and geolocation
     url(r'^geobase/', include('geobase.urls', namespace='geobase')),
     # user account

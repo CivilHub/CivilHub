@@ -217,6 +217,7 @@ def index(request):
     This view only displays template. Places and other markers
     are loaded via AJAX and THEN map is created.
     """
+    from geobase.storage import country_codes
     code = GeoIP().country_code(get_ip(request)) or settings.DEFAULT_COUNTRY_CODE
     country = Country.objects.get(code=code)
     return render_to_response('maps/index.html', {
@@ -227,6 +228,7 @@ def index(request):
         'zoom': country.zoom,
         'code': code,
         'content_types': ContentType.objects.all(),
+        'country_codes': country_codes(),
     })
 
 

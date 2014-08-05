@@ -106,6 +106,36 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
             }
             
             this.createCluster(mlist);
+        },
+        
+        refreshMap: function (countryCode) {
+            var self = this;
+            $.get('/api-maps/data/?code=' + countryCode, function (markers) {
+                self.collection = new MapCollection(markers);
+                self.render();
+            }).fail(function (err) {
+                console.log(err)
+            });
+        },
+        
+        // Metoda pozwalająca użytkownikom przełączać widok mapy na poszczególne
+        // kraje.
+        // TODO - preloader podczas ładowania nowej lokacji.
+        changeCountry: function (countryCode) {
+            var self = this;
+            $.get('/api-geo/countries/?code=' + countryCode, function (resp) {
+                resp = resp[0];
+                self.map = new google.maps.Map(document.getElementById('map'), {
+                    center: new google.maps.LatLng(
+                        parseFloat(resp.latitude),
+                        parseFloat(resp.longitude)
+                    ),
+                    zoom: resp.zoom
+                });
+                self.refreshMap(countryCode);
+            }).fail(function (err) {
+                console.log(err);
+            });
         }
     });
     

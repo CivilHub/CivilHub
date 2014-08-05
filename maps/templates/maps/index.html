@@ -10,7 +10,21 @@
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
-{% block extra_styles %}{% endblock %}
+{% block extra_styles %}
+
+    {% comment %}
+    
+        Przypomnijcie mi, żebym to do lessów wrzucił!!!
+        
+    {% endcomment %}
+    <style>
+    #civ-map-controller {
+        z-index: 5000;
+        position: absolute;
+    }
+    </style>
+    
+{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
@@ -144,6 +158,10 @@ function ($, CivilMap) {
         }
     );
     
+    $('#country-nav-form-country').on('change', function () {
+        app.changeCountry($(this).val());
+    });
+    
     $(document).trigger('load');
     
 });
@@ -159,7 +177,7 @@ function ($, CivilMap) {
     </a>
     {% endif %}
 </div>
-<nav id="map-options-panel" role="navigation">
+<nav class="civ-map-controller" id="map-options-panel" role="navigation">
     <ul>
         <li>{% trans "Places" %} <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /></li>
         <li>{% trans "Ideas" %} <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /></li>
@@ -167,6 +185,16 @@ function ($, CivilMap) {
         <li>{% trans "Discussions" %} <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /></li>
         <li>{% trans "News" %}<input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
     </ul>
+</nav>
+
+<nav class="civ-map-controller" id="country-nav-panel" role="navigation">
+    <form id="country-nav-form">
+        <select name="country" id="country-nav-form-country" style="position:absolute;z-index:5000;">
+            {% for country_code in country_codes %}
+            <option value="{{ country_code.code }}"{% if country_code.code == code %} selected="selected"{% endif %}>{{ country_code.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
 </nav>
 
 <div id="map"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div>
