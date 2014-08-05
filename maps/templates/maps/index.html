@@ -104,10 +104,23 @@ function ($, CivilMap) {
     window.CONTENT_TYPES = {
     {% for type in content_types %}
         {{ type.pk }}: {
+            content_type: "{{ type.pk }}",
             app_label: "{{ type.app_label }}",
             model: "{{ type.model }}"
         },
     {% endfor %}
+    };
+    
+    window.getFilterTypes = function () {
+        var $filters = $('#map-options-panel').find('[type="checkbox"]');
+        var contentTypes = [];
+        $filters.each(function () {
+            if ($(this).is(':checked')) {
+                contentTypes.push(_.findWhere(CONTENT_TYPES, 
+                    {model:$(this).attr('data-target')}).content_type);
+            }
+        });
+        return contentTypes;
     };
     
     window.mapDialogTpl = _.template($('#map-dialog-tpl').html());
@@ -129,9 +142,9 @@ function ($, CivilMap) {
     //~ });
     
     $('#map-options-panel').find('[type="checkbox"]').on('change', function () {
-        window.app.filter();
+        window.app.filter(getFilterTypes());
         // Do segregowania wyników:
-        console.log(_.findWhere(CONTENT_TYPES, {model:'location'})); 
+        //console.log(_.findWhere(CONTENT_TYPES, {model:'location'})); 
     });
     
     $(document).trigger('load');

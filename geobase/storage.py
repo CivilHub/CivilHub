@@ -48,7 +48,10 @@ class CountryJSONStorage(object):
         w formacie JSON.
         """
         f = open(os.path.join(self.path, str(country_pk), 'markers.json'))
-        return json.loads(f.read())
+        data = f.read()
+        f.close()
+        markers = json.loads(data)
+        return markers
 
     def save_locations_(self, data, country_pk):
         """
@@ -70,7 +73,9 @@ class CountryJSONStorage(object):
         posiadają określoną długość i szerokość geograficzną.
         """
         f = open(os.path.join(self.path, str(country_pk), 'locations.json'))
-        return json.loads(f.read())
+        data = f.read()
+        locations = json.loads(data)
+        return locations
 
     def get_markers(self, country):
         """
@@ -90,9 +95,6 @@ class CountryJSONStorage(object):
         
         Podając country_code (np, US, PL etc.) dumpujemy tylko dane z lokaliza-
         cji zawartych w konkretnym kraju.
-        
-        FIXME: przez ciągłe powtarzanie i pętlowanie wydajność tej funkcji jest
-        poniżej krytyki.
         """
         if country_code:
             queryset = Country.objects.filter(code=country_code)
@@ -115,11 +117,21 @@ class CountryJSONStorage(object):
         markers = []
         
         if country_pk:
-            markers += self.load_locations_(country_pk)
-            markers += self.load_file_(country_pk)
+            locations = self.load_locations_(country_pk)
+            print locations
+            pointers  = self.load_file_(country_pk)
+            print pointers
+            markers = pointers + locations
+            print pointers[0] in markers
+            print len(markers)
+            print len(pointers)
+            print len(locations)
+            #~ markers += self.load_locations_(country_pk)
+            #~ markers += self.load_file_(country_pk)
 
         for country in Country.objects.all():
-            markers += self.load_locations_(country.pk)
-            markers += self.load_file_(country.pk)
+            #markers += self.load_locations_(country.pk)
+            #markers += self.load_file_(country.pk)
+            pass
 
         return markers
