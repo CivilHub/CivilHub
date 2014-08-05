@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import operator
+import operator, os, json
+from django.conf import settings
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -9,6 +10,20 @@ from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage
+
+
+def get_country_codes():
+    """
+    Funkcja, która odczytuje plik .json przechowujący kody państ przyporząd-
+    kowane do ich nazw i zwraca je w postaci listy.
+    """
+    f = open(os.path.join(settings.BASE_DIR, 'geobase/data/codes.json'))
+    data = json.loads(f.read())
+    f.close()
+    codes = []
+    for row in data:
+        codes.append((row['code'], row['name']))
+    return codes
 
 
 class Location(models.Model):
@@ -24,7 +39,8 @@ class Location(models.Model):
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
-    country_code = models.CharField(max_length=2)
+    country_code = models.CharField(max_length=2,
+                                    choices=get_country_codes())
     image     = models.ImageField(
         upload_to = 'img/locations/',
         default = 'img/locations/nowhere.jpg',

@@ -7,7 +7,7 @@ from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from blog.models import News
 from blog.models import Category as BlogCategory
-from locations.models import Location
+from locations.models import Location, get_country_codes
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
@@ -21,6 +21,12 @@ class LocationForm(forms.ModelForm):
         max_length = 64,
         label = _('Name'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+    country_code = forms.ChoiceField(
+        required = True,
+        label = _("Country code"),
+        choices = get_country_codes(),
+        widget = forms.Select(attrs={'class':'form-control'})
     )
     parent = forms.ModelChoiceField(
         required = False,
@@ -56,7 +62,7 @@ class LocationForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ('name', 'description', 'parent', 'population',
+        fields = ('name', 'description', 'country_code', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
 
 

@@ -50,33 +50,19 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
             this.markers.push(markerView.marker);
         },
         
-        // FIXME: refreshMarkers i render oryginalnie miały zapobiec powtarzaniu
-        // kodu przy filtrowaniu markerów. W tym momencie metoda `filter` w 
-        // ogóle z nich nie korzysta.
-        refreshMarkers: function () {
+        // Tworzy całą tablicę markerów w oparciu o dane z plików.
+        createMarkers: function () {
             this.collection.each(function (item) {
                 this.addMarker(item);
             }, this);
         },
         
-        // FIXME: j/w
-        render: function () {
-            
-            if (!_.isNull(this.cluster)) {
-                this.cluster.clearMarkers();
-            }
-            
-            this.refreshMarkers();
-            
-            console.log(this.markers.length);
-            var i = 0;
-            _.each(this.markers, function (m) {
-                console.log(m.content_type);
-                i++
-            }, this);
-            console.log(i);
-            
-            this.cluster = new MarkerClusterer(this.map, this.markers, {
+        // Metoda tworząca cluster z markerami. Faktycznie droga do wyświetlenia
+        // całej warstwy markerów.
+        // @param {array google.Marker} Tablica z markerami do wyświetlenia.
+        //
+        createCluster: function (markers) {
+            this.cluster = new MarkerClusterer(this.map, markers, {
                 maxZoom: 10,
                 gridSize: 30,
                 styles: [{
@@ -90,7 +76,21 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
             });
         },
         
-        // Metoda filtrująca markery w kolekcji.
+        // Inicjalizacja mapy - wyświetlenie podstawowego widoku.
+        render: function () {
+            
+            if (!_.isNull(this.cluster)) {
+                this.cluster.clearMarkers();
+            }
+            
+            this.createMarkers();
+            
+            this.createCluster(this.markers);
+        },
+        
+        // Metoda filtrująca markery w kolekcji. Reinicjalizuje kolekcję i wyś-
+        // wietla tylko markery, których content_type znajduje się w tablicy
+        // `filters`, np. app.filter([23,55]).
         filter: function (filters) {
             
             var mlist = [];
@@ -105,18 +105,7 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
                 this.cluster.clearMarkers();
             }
             
-            this.cluster = new MarkerClusterer(this.map, mlist, {
-                maxZoom: 10,
-                gridSize: 30,
-                styles: [{
-                    url: window.STATIC_URL + '/images/people35.png',
-                    height: 35,
-                    width: 35,
-                    anchor: [16, 0],
-                    textColor: '#ff00ff',
-                    textSize: 10
-                }]
-            });
+            this.createCluster(mlist);
         }
     });
     

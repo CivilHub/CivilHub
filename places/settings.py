@@ -97,7 +97,7 @@ INSTALLED_APPS = (
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
     'civmail',  # Newsletter i obsługa maili
-    'import_export',
+    #'import_export',
 )
 
 
@@ -377,4 +377,4 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 # Custom module settings
 #-------------------------------------------------------------------------------
 COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
-DEFAULT_COUNTRY_CODE = 'PL'
+DEFAULT_COUNTRY_CODE = 'US'

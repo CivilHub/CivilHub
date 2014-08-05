@@ -118,16 +118,8 @@ class CountryJSONStorage(object):
         
         if country_pk:
             locations = self.load_locations_(country_pk)
-            print locations
             pointers  = self.load_file_(country_pk)
-            print pointers
             markers = pointers + locations
-            print pointers[0] in markers
-            print len(markers)
-            print len(pointers)
-            print len(locations)
-            #~ markers += self.load_locations_(country_pk)
-            #~ markers += self.load_file_(country_pk)
 
         for country in Country.objects.all():
             #markers += self.load_locations_(country.pk)

@@ -85,8 +85,6 @@ function ($, CivilMap) {
             'z-index': 10
         });
 
-        //$panel.hide();
-
         $toggle // show/hide map options button.
             .tooltip({placement:'right'})
             .bind('click',
@@ -130,22 +128,21 @@ function ($, CivilMap) {
     
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: parseInt({{ zoom }}, 10),
-        center: new google.maps.LatLng(parseFloat({{ latitude }}), parseFloat({{ longitude }}))
+        center: new google.maps.LatLng(
+            parseFloat({{ latitude }}),
+            parseFloat({{ longitude }})
+        )
     });
     
     $.get('/api-maps/data/?code={{ code }}', function (resp) {
         window.app = new CivilMap(map, resp);
     });
     
-    //~ $.get('/api-maps/pointers/', function (resp) {
-        //~ var app = new CivilMap(map, resp.results);
-    //~ });
-    
-    $('#map-options-panel').find('[type="checkbox"]').on('change', function () {
-        window.app.filter(getFilterTypes());
-        // Do segregowania wyników:
-        //console.log(_.findWhere(CONTENT_TYPES, {model:'location'})); 
-    });
+    $('#map-options-panel').find('[type="checkbox"]').on('change',
+        function () {
+            window.app.filter(getFilterTypes());
+        }
+    );
     
     $(document).trigger('load');
     
