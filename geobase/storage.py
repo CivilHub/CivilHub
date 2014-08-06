@@ -99,10 +99,13 @@ class CountryJSONStorage(object):
                 map_pointers.append(map_pointer)
         return map_pointers
 
-    def dump_data(self, country_code=None):
+    def dump_data(self, country_code=None, dump_locations=True, dump_markers=True):
         """
         Funkcja, która faktycznie zarządza zrzucaniem zawartości bazy do pliku.
         Domyślnie nadpisywane są wszystkie pliki i foldery.
+        
+        Parametr `locations` mówi, czy dampowany ma zostać także plik z lokacja-
+        mi. Podobnie `markers` odpowiada za dumpowanie markerów.
         
         Podając country_code (np, US, PL etc.) dumpujemy tylko dane z lokaliza-
         cji zawartych w konkretnym kraju.
@@ -113,12 +116,14 @@ class CountryJSONStorage(object):
             queryset = Country.objects.all()
 
         for country in queryset:
-            markers = self.get_markers(country)
-            serializer = MapPointerSerializer(markers, many=True)
-            self.save_file_(serializer.data, country.pk)
-            locations = Location.objects.filter(country_code=country.code)
-            serializer = MapLocationSerializer(locations, many=True)
-            self.save_locations_(serializer.data, country.pk)
+            if dump_markers:
+                markers = self.get_markers(country)
+                serializer = MapPointerSerializer(markers, many=True)
+                self.save_file_(serializer.data, country.pk)
+            if dump_locations:
+                locations = Location.objects.filter(country_code=country.code)
+                serializer = MapLocationSerializer(locations, many=True)
+                self.save_locations_(serializer.data, country.pk)
 
     def import_data(self, country_pk=None):
         """

@@ -572,10 +572,13 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateLocationView, self).get_context_data(**kwargs)
         context['title'] = _('create new location')
-        context['appname'] = 'location-create'
         return context
 
     def form_valid(self, form):
+        if form.instance.latitude and form.instance.longitude:
+            from geobase.storage import CountryJSONStorage
+            cjs = CountryJSONStorage()
+            cjs.dump_data(form.instance.country_code, True, False)
         form.instance.creator = self.request.user
         return super(CreateLocationView, self).form_valid(form)
 

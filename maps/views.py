@@ -144,6 +144,7 @@ def save_pointer(request):
     
     TODO: this could be made simpler with REST framework.
     """
+    from geobase.storage import CountryJSONStorage
     ct = ContentType.objects.get(pk=request.POST.get('content_type'))
     pointer = MapPointer()
     pointer.object_pk = request.POST.get('object_pk')
@@ -157,6 +158,8 @@ def save_pointer(request):
             'message': "Pointer added",
             'level'  : 'success',
         }
+        cjs = CountryJSONStorage()
+        cjs.dump_data(pointer.content_object.location.country_code, False, True)
     except Exception as ex:
         context = {
             'success': False,

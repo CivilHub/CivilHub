@@ -5,6 +5,7 @@ from userspace import views
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
+router.register('socials', views.UserAuthAPIViewSet, 'socials')
 
 
 urlpatterns = patterns('',
