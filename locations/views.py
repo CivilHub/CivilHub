@@ -363,7 +363,6 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 })
             }
         return render(request, self.template_name, ctx)
-                
 
     def form_valid(self, form):
         obj = form.save(commit=False)
