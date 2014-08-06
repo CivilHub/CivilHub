@@ -21,6 +21,7 @@ from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe, require_POST
 from django.contrib.auth.decorators import login_required
+from social.apps.django_app.default.models import UserSocialAuth
 from actstream.models import model_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
@@ -32,8 +33,34 @@ from forms import *
 # REST api
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
+from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
-from .serializers import BookmarkSerializer
+from .serializers import BookmarkSerializer, UserAuthSerializer
+
+
+class UserAuthAPIViewSet(viewsets.ViewSet):
+    """
+    Tutaj wysyłamy nazwę providera oraz uid użytkownika social auth w celu
+    pobrania instancji użytkownika w systemie Django. Dane należy wysłać
+    getem, jeżeli użytkownik istnieje w systemie, zostaną zwrócone jego
+    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi 404. Przykład:
+    
+    ?provider=google-plus?id=tester@gmail.com
+    
+    TODO: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
+    """
+    queryset = User.objects.all()
+    serializer_class = UserAuthSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,)
+
+    def list(self, request):
+        provider = request.QUERY_PARAMS.get('provider')
+        uid = request.QUERY_PARAMS.get('uid')
+        if provider and uid:
+            user = UserSocialAuth.objects.get(provider=provider,uid=uid).user
+            serializer = UserAuthSerializer(user)
+            return Response(serializer.data)
+        return Response("Forbidden")
 
 
 class BookmarkAPIViewSet(viewsets.ModelViewSet):
