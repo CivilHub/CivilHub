@@ -382,7 +382,9 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
             )
             mp.save()
             mp = MapPointer.objects.latest('pk')
-            print mp
+            from geobase.storage import CountryJSONStorage
+            cjs = CountryJSONStorage()
+            cjs.dump_data(topic.location.country_code, False, True)
         super(LocationDiscussionCreate, self).form_valid(form)
         return redirect(reverse('locations:topic', 
             kwargs = {
