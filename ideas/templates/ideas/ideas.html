@@ -15,12 +15,13 @@
                 <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
                 <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" title="{% trans "Zły pomysł, jestem na NIE" %}"> <span class="fa fa-angle-down"></span></button>
             {% else %}
-				<!-- Dodanie parametrow GET aby powrocic do strony ideas -->
-				<form action="{% url 'user:login' %}" method="GET">
-					<input type="hidden" name="url" value="{{ request.path }}" />
-					<button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
-					<button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
-				</form>
+                <!-- Dodanie parametrow GET aby powrocic do strony ideas -->
+                <!-- GET w formie do logowania??? -->
+                <form action="{% url 'user:login' %}" method="post">
+                    <input type="hidden" name="url" value="{{ request.path }}" />
+                    <button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
+                    <button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
+                </form>
             {% endif %}
         </div>
         </div>

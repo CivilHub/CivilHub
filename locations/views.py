@@ -42,6 +42,8 @@ from places_core.helpers import TagFilter, process_background_image
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from geobase.models import Country
+from locations.serializers import MapLocationSerializer
 from .serializers import SimpleLocationSerializer
 
 
@@ -56,6 +58,38 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
 
+
+class LocationMapViewSet(viewsets.ModelViewSet):
+    """
+    Prosty serializer dla mapy. Przechowuje tylko podstawowe informacje o lo-
+    kalizacji, czyli id, długość oraz szerokość geograficzną i typ zawartości
+    (żeby sobie później ułatwić doczytywanie/segregowanie obiektów na mapie).
+    Tylko zapytania typu GET! Serializer niejako sztucznie dopasowuje infor-
+    macje o obiekcie na wzór obiektów z mapy (markerów), dając do dyspozycji
+    ten sam szkielet modelu do Backbone.
+    
+    Umożliwia wyszukiwanie na podstawie kodu kraju (country_code), np:
+    `?code=pl`
+    zwróci wszystkie lokalizacje w Polsce.
+    """
+    queryset = Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+    serializer_class = MapLocationSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        code = self.request.QUERY_PARAMS.get('code')
+        if code:
+            locations = []
+            parent_location = Country.objects.get(code=code.upper()).location
+            if parent_location.latitude and parent_location.longitude:
+                locations.append(parent_location)
+            queryset = Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+            for l in queryset:
+                if l in parent_location.get_ancestor_chain(response='QUERYSET'):
+                    locations.append(l)
+            return locations
+        else:
+            return Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
 
 class LocationNewsList(DetailView):
     """

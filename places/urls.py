@@ -59,6 +59,8 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
+    # Countries and geolocation
+    url(r'^geobase/', include('geobase.urls', namespace='geobase')),
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
@@ -120,7 +122,9 @@ urlpatterns = patterns('',
     url(r'^mission/', PageView.as_view(page='mission')),
     url(r'^team/', PageView.as_view(page='team')),
     url(r'^values/', PageView.as_view(page='values')),
-    url(r'^credo/', PageView.as_view(page='credo')),
+    url(r'^creed/', PageView.as_view(page='creed')),
+    url(r'^support/', PageView.as_view(page='support')),
+    url(r'^feature/', PageView.as_view(page='feature')),
     
     # Default URL - Nie wstawiać nic poniżej!!!
     url(r'^$', PageView.as_view(page='home')),
@@ -132,10 +136,16 @@ from ideas.urls import router as idea_router
 from topics.urls import router as discussion_router
 from blog.urls import router as blog_router
 from maps.urls import router as map_router
+from userspace.urls import router as user_router
+from places_core.urls import router as core_router
+from geobase.urls import router as geo_router
 urlpatterns += patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
     url(r'^api-discussions/', include(discussion_router.urls)),
     url(r'^api-blog/', include(blog_router.urls)),
     url(r'^api-maps/', include(map_router.urls)),
+    url(r'^api-userspace/', include(user_router.urls)),
+    url(r'^api-core/', include(core_router.urls)),
+    url(r'^api-geo/', include(geo_router.urls)),
 )

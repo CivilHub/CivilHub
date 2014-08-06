@@ -52,6 +52,7 @@
     require(['jquery',
              'js/ui/ui',
              'common',
+             'js/locations/follow',
              'js/userspace/background'],
 
     function($) {
@@ -72,7 +73,7 @@
     <li><i class="fa fa-map-marker"></i></li>
     {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-	<li><span class="breaker">></span></li>
+    <li><span class="breaker">></span></li>
     {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>

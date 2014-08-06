@@ -29,6 +29,41 @@ from helpers import UserActionStream
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
 from forms import *
+# REST api
+from rest_framework import viewsets
+from rest_framework import permissions as rest_permissions
+from rest.permissions import IsOwnerOrReadOnly
+from .serializers import BookmarkSerializer
+
+
+class BookmarkAPIViewSet(viewsets.ModelViewSet):
+    """
+    Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
+    z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
+    w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
+    konkretnym użytkownikiem o danym ID.
+    
+    Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
+    typu zawartości (content_type), oraz id konkretnego obiektu (object_id).
+    "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
+    """
+    queryset = Bookmark.objects.all()
+    serializer_class = BookmarkSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        pk = self.request.QUERY_PARAMS.get('pk', None)
+        if pk:
+            return Bookmark.objects.filter(user=User.objects.get(pk=pk))
+        else:
+            return Bookmark.objects.all()
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+        # To jest fake - możemy dodać key, jeżeli będziemy potrzebowali
+        # więcej "typów" zakładek.
+        obj.key = "main"
 
 
 class SetTwitterEmailView(FormView):

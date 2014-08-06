@@ -13,7 +13,7 @@ class MapPointerSerializer(serializers.ModelSerializer):
         model = MapPointer
 
 
-class MapObjecSerializer(serializers.ModelSerializer):
+class MapObjectSerializer(serializers.ModelSerializer):
     """
     This serializer takes map pointer and related object and presents
     data in fixed format to display in map dialog.
@@ -28,6 +28,7 @@ class MapObjecSerializer(serializers.ModelSerializer):
 
     def get_content_object(self, obj):
         tmpobj = {
+            'id': obj.content_object.pk,
             'title': obj.content_object.__unicode__(),
             'url': obj.content_object.get_absolute_url(),
             'img': obj.content_object.creator.profile.thumbnail_medium(),

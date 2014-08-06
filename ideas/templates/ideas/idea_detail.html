@@ -188,6 +188,9 @@
 
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             {% endif %}
+
+			{% include 'ideas/share_buttons.html' %}			
+			
         </div>
         <div class="col-sm-9">
 
@@ -196,7 +199,9 @@
                 <div class="entry-submenu">
                     <ul>
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+                        {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
+                        {% endif %}
                         <li>{% bookmark_form for idea %}</li>
                         <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
                     </ul>

@@ -10,7 +10,21 @@
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
-{% block extra_styles %}{% endblock %}
+{% block extra_styles %}
+
+    {% comment %}
+    
+        Przypomnijcie mi, żebym to do lessów wrzucił!!!
+        
+    {% endcomment %}
+    <style>
+    #civ-map-controller {
+        z-index: 5000;
+        position: absolute;
+    }
+    </style>
+    
+{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
@@ -28,6 +42,7 @@ require.config({
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
@@ -52,11 +67,100 @@ require.config({
         
         tagsinput: {
             deps: ['jquery']
-        },
+        }
     }
 });
 
-require(['jquery', 'common', 'js/maps/map'], function ($) {
+define('gmaps', ['async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'], function () {
+    return google.maps;
+});
+
+require(['jquery',
+         'js/maps/map',
+         'gmaps',
+         'common'],
+
+function ($, CivilMap) {
+    
+    "use strict";
+    
+    (function () {
+        var topAdjust = $('#navbar-top').height(),
+            $map      = $('#map'),
+            $toggle   = $('#map-filter-toggle'),
+            $panel    = $('#map-options-panel');
+
+        $map.css({
+            position : "absolute",
+            left     : 0,
+            top      : topAdjust,
+            width    : "100%",
+            height   : $(window).height() - topAdjust,
+            'z-index': 10
+        });
+
+        $toggle // show/hide map options button.
+            .tooltip({placement:'right'})
+            .bind('click',
+                function (evt) {
+                    evt.preventDefault();
+                    $panel.slideToggle('fast');
+                    $toggle.find('.fa')
+                        .toggleClass('fa-arrow-circle-down')
+                        .toggleClass('fa-arrow-circle-up');
+                }
+            );
+
+    })();
+    
+    window.CONTENT_TYPES = {
+    {% for type in content_types %}
+        {{ type.pk }}: {
+            content_type: "{{ type.pk }}",
+            app_label: "{{ type.app_label }}",
+            model: "{{ type.model }}"
+        },
+    {% endfor %}
+    };
+    
+    window.getFilterTypes = function () {
+        var $filters = $('#map-options-panel').find('[type="checkbox"]');
+        var contentTypes = [];
+        $filters.each(function () {
+            if ($(this).is(':checked')) {
+                contentTypes.push(_.findWhere(CONTENT_TYPES, 
+                    {model:$(this).attr('data-target')}).content_type);
+            }
+        });
+        return contentTypes;
+    };
+    
+    window.mapDialogTpl = _.template($('#map-dialog-tpl').html());
+    window.locDialogTpl = _.template($('#loc-dialog-tpl').html());
+    
+    window.app = {};
+    
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: parseInt({{ zoom }}, 10),
+        center: new google.maps.LatLng(
+            parseFloat({{ latitude }}),
+            parseFloat({{ longitude }})
+        )
+    });
+    
+    $.get('/api-maps/data/?code={{ code }}', function (resp) {
+        window.app = new CivilMap(map, resp);
+    });
+    
+    $('#map-options-panel').find('[type="checkbox"]').on('change',
+        function () {
+            window.app.filter(getFilterTypes());
+        }
+    );
+    
+    $('#country-nav-form-country').on('change', function () {
+        app.changeCountry($(this).val());
+    });
     
     $(document).trigger('load');
     
@@ -73,7 +177,7 @@ require(['jquery', 'common', 'js/maps/map'], function ($) {
     </a>
     {% endif %}
 </div>
-<nav id="map-options-panel" role="navigation">
+<nav class="civ-map-controller" id="map-options-panel" role="navigation">
     <ul>
         <li>{% trans "Places" %} <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /></li>
         <li>{% trans "Ideas" %} <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /></li>
@@ -81,6 +185,16 @@ require(['jquery', 'common', 'js/maps/map'], function ($) {
         <li>{% trans "Discussions" %} <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /></li>
         <li>{% trans "News" %}<input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
     </ul>
+</nav>
+
+<nav class="civ-map-controller" id="country-nav-panel" role="navigation">
+    <form id="country-nav-form">
+        <select name="country" id="country-nav-form-country" style="position:absolute;z-index:5000;">
+            {% for country_code in country_codes %}
+            <option value="{{ country_code.code }}"{% if country_code.code == code %} selected="selected"{% endif %}>{{ country_code.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
 </nav>
 
 <div id="map"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div>
@@ -117,6 +231,15 @@ require(['jquery', 'common', 'js/maps/map'], function ($) {
             <% } %>
             {% trans "by" %} <a href="<%= profile %>"><%= user %></a>
         </div>
+    </div>
+</script>
+
+{% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}
+
+<script type="text/template" id="loc-dialog-tpl">
+    <div class="col-sm-2"><img src="<%= img %>" alt="<%= slug %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
+    <div class="col-sm-10">
+        <h4><a href="/<%= slug %>/"><%= name %></a> ({% trans "location " %})</h4>
     </div>
 </script>
 

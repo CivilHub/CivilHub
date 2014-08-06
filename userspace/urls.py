@@ -2,6 +2,10 @@
 from django.conf.urls import patterns, url
 from userspace import views
 
+from rest_framework import routers
+router = routers.DefaultRouter()
+router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
+
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),

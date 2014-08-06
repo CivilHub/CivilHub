@@ -5,7 +5,7 @@
 define(['jquery',
         'ui',
         'bootbox',
-        '//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
+        'async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
 
 function ($, utils, ui, bootbox) {
     "use strict";

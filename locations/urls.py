@@ -11,6 +11,7 @@ from staticpages.views import PageView
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('locations', LocationAPIViewSet, 'locations')
+router.register('markers', LocationMapViewSet, 'markers')
 
 urlpatterns = patterns('',
     url(r'^places/', LocationListView.as_view(), name='index'),
