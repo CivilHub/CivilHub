@@ -17,7 +17,7 @@ function ($, _, Backbone, MapObjectView) {
         getData: function () {
             
             var self = this,
-                url = '/api-locations/locations/' + this.model.get('id') + '/';
+                url = '/api-locations/locations/' + this.model.get('object_pk') + '/';
                                  
             $.get(url, function (m) {
                 

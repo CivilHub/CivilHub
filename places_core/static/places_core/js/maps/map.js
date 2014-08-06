@@ -112,6 +112,7 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
             var self = this;
             $.get('/api-maps/data/?code=' + countryCode, function (markers) {
                 self.collection = new MapCollection(markers);
+                self.markers = [];
                 self.render();
             }).fail(function (err) {
                 console.log(err)

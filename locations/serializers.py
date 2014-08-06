@@ -18,16 +18,22 @@ class MapLocationSerializer(serializers.ModelSerializer):
     `?code=pl`
     zwróci wszystkie lokalizacje w Polsce.
     """
-    id = serializers.Field(source='pk')
     content_type = serializers.SerializerMethodField('get_content_type')
-    object_pk = serializers.Field(source='pk')
+    object_pk = serializers.SerializerMethodField('get_object_pk')
+
+    def get_object_pk(self, obj):
+        """
+        Funkcja konwertuje pk obiektu na postać ciągu znaków dla potrzeb
+        front-endowych aplikacji.
+        """
+        return str(obj.pk)
 
     def get_content_type(self, obj):
         return ContentType.objects.get_for_model(Location).pk
 
     class Meta:
         model = Location
-        fields = ('id', 'latitude', 'longitude', 'content_type', 'object_pk',)
+        fields = ('latitude', 'longitude', 'content_type', 'object_pk',)
 
 
 class SimpleLocationSerializer(serializers.ModelSerializer):

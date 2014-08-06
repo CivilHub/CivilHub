@@ -11,6 +11,7 @@ class MapPointerSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = MapPointer
+        exclude = ('id',)
 
 
 class MapObjectSerializer(serializers.ModelSerializer):
