@@ -219,7 +219,10 @@ def index(request):
     """
     from geobase.storage import country_codes
     code = GeoIP().country_code(get_ip(request)) or settings.DEFAULT_COUNTRY_CODE
-    country = Country.objects.get(code=code)
+    try:
+        country = Country.objects.get(code=code)
+    except Country.DoesNotExist:
+        country = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE)
     return render_to_response('maps/index.html', {
         'title': _("Map"),
         'user': request.user,
