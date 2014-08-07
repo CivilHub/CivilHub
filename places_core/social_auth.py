@@ -6,6 +6,20 @@ from social.pipeline.partial import partial
 from social.exceptions import AuthException
 
 
+def create_auth_token(strategy, details, user=None, social=None, *args, **kwargs):
+    """
+    Tworzenie tokenu uwierzytalniającego dla aplikacji mobilnej.
+    """
+    from rest_framework.authtoken.models import Token
+    token = None
+    if user:
+        try:
+            token = user.auth_token
+        except Token.DoesNotExist:
+            token = Token.objects.create(user=user)
+            token.save()
+
+
 def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
     """
     Funkcja sprawdza, czy użytkownik o adresie email pobranym od dostawcy
