@@ -131,6 +131,8 @@ urlpatterns = patterns('',
     url(r'^', include('locations.urls', namespace='locations')),
 )
 
+# Django Rest Framework
+# ------------------------------------------------------------------------------
 from locations.urls import router as location_router
 from ideas.urls import router as idea_router
 from topics.urls import router as discussion_router

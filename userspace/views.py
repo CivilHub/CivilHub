@@ -35,7 +35,24 @@ from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
-from .serializers import BookmarkSerializer, UserAuthSerializer
+from .serializers import BookmarkSerializer, UserAuthSerializer, UserSerializer
+
+
+class UserAPIViewSet(viewsets.ModelViewSet):
+    """
+    Zarządzanie listą użytkowników z poziomu aplikacji mobilnej. Widok zapewnia
+    wszystkie operacje CRUD na liście użytkowników.
+    
+    Tworzenie użytkownika:
+        Pola wymagane: username, first_name, last_name, password, email
+    
+    UWAGA: Ten widok nie korzysta z polityki uprawnień Django (bo nie ma takiej
+    fizycznej możliwośći). Trzeba UWAŻNIE przemyśleć implementację systemu w
+    środowisku produkcyjnym.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (rest_permissions.AllowAny,)
 
 
 class UserAuthAPIViewSet(viewsets.ViewSet):
