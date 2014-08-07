@@ -273,7 +273,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
     Intended to use with comment tree related to selected item
     """
     queryset = CustomComment.objects.all()
-    paginate_by = None
+    paginate_by = 10
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)

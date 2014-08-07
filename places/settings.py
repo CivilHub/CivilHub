@@ -213,15 +213,21 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
     'places_core.social_auth.create_user_profile',
+    'places_core.social_auth.update_user_social_profile',
 )
 
 # New Google+ login
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = '621695853095-7p2mrjthfvma0rq0loolpoocq6f94577.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'y4xJ9Vr18aQAkhyp8DDkaz5l'
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
+                                 'https://www.googleapis.com/auth/userinfo.email',
+                                 'https://www.googleapis.com/auth/userinfo.profile',
+                                 'https://www.googleapis.com/auth/plus.profile.emails.read',
+                                 'https://www.googleapis.com/auth/plus.me']
 
 SOCIAL_AUTH_FACEBOOK_KEY = '345201478966829'
 SOCIAL_AUTH_FACEBOOK_SECRET = '8581a70916d1946e76135d23c4ca271f'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_birthday']
 
 SOCIAL_AUTH_TWITTER_KEY = 'OMqEsrvkxHgMuwEs4FZWWkr4q'
 SOCIAL_AUTH_TWITTER_SECRET = 'SDlUX3bxzZdjF1quH3VtSDg34XAA8Are8pIU461kVLiRjHn5H8'

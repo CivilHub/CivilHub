@@ -437,7 +437,7 @@ def login(request):
     ctx = {
         'title': _('Login'),
         'form': f,
-        'plus_scope': ' '.join(GooglePlusAuth.DEFAULT_SCOPE),
+        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
         'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
     return render(request, 'userspace/login.html', ctx)

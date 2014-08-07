@@ -1,9 +1,35 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
+
+
+def obtain_user_social_profile(response):
+    """
+    Funkcja zwraca url profilu dla odpowiedniego social-backendu.
+    """
+    if 'link' in response: return response['link']
+    if 'url' in response: return response['url']
+    return u''
+
+
+def set_user_profile_birth_date(date_string):
+    """
+    Funkcja formatująca datę z ciągu JSON-a do natywnej pythonowej postaci.
+    Zwraca `datetime` obiekt albo None jeżeli nie może przekonwertować daty,
+    bo jest w złym formacie albo co.
+    """
+    from datetime import datetime
+    birth_date = None
+    month, day, year = [int(x) for x in date_string.split('/')]
+    try:
+        birth_date = datetime(year, month, day)
+    except Exception:
+        pass
+    return birth_date
 
 
 def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
@@ -37,6 +63,30 @@ def set_twitter_email(strategy, details, user=None, is_new=False, *args, **kwarg
             return strategy.redirect(reverse('user:twitter_email'))
 
 
+def update_user_social_profile(strategy, details, response, user, *args, **kwargs):
+    """
+    Funkcja sprawdza, czy w odpowiedzi serwera zawarty jest adres profilu do
+    któregokolwiek konta. Jeżeli tak, a w profilu użytkownika nie ma jeszcze
+    tej informacji, zostanie ona zapisana.
+    """
+    from userspace.models import UserProfile
+    changed = False
+    profile = UserProfile.objects.get(user=user)
+    if strategy.backend.name == 'facebook' and not profile.fb_url:
+        profile.fb_url = obtain_user_social_profile(response)
+        changed = True
+    elif strategy.backend.name == 'google-plus' and not profile.gplus_url:
+        profile.gplus_url = obtain_user_social_profile(response)
+        changed = True
+    if 'gender' in response and not profile.gender:
+        profile.gender = response['gender']
+        changed = True
+    if 'birthday' in response and not profile.birth_date:
+        profile.birth_date = set_user_profile_birth_date(response['birthday'])
+        changed = True
+    if changed: profile.save()
+
+
 def create_user_profile(strategy, details, response, user=None, *args, **kwargs):
     """
     Tworzenie tokenu uwierzytalniającego dla aplikacji mobilnej. Tutaj uzupełniamy
@@ -55,6 +105,8 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
         try:
             profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
-            print details
-            profile = UserProfile.objects.create(user = user)
+            profile = UserProfile(
+                user = user,
+            )
+            if 'gender' in response: profile.gender = response['gender']
             profile.save()
