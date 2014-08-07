@@ -209,10 +209,10 @@ SOCIAL_AUTH_PIPELINE = (
     'places_core.social_auth.set_twitter_email',
     'places_core.social_auth.validate_email',
     'social.pipeline.user.create_user',
-    'places_core.social_auth.create_auth_token',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social.pipeline.user.user_details',
+    'places_core.social_auth.create_user_profile',
 )
 
 # New Google+ login
@@ -256,6 +256,7 @@ ACTSTREAM_SETTINGS = {
 #-------------------------------------------------------------------------------
 # django rest framework
 REST_FRAMEWORK = {
+    'PAGINATE_BY': 10,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':

@@ -6,20 +6,6 @@ from social.pipeline.partial import partial
 from social.exceptions import AuthException
 
 
-def create_auth_token(strategy, details, user=None, social=None, *args, **kwargs):
-    """
-    Tworzenie tokenu uwierzytalniającego dla aplikacji mobilnej.
-    """
-    from rest_framework.authtoken.models import Token
-    token = None
-    if user:
-        try:
-            token = user.auth_token
-        except Token.DoesNotExist:
-            token = Token.objects.create(user=user)
-            token.save()
-
-
 def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
     """
     Funkcja sprawdza, czy użytkownik o adresie email pobranym od dostawcy
@@ -49,3 +35,26 @@ def set_twitter_email(strategy, details, user=None, is_new=False, *args, **kwarg
             details['email'] = email
         else:
             return strategy.redirect(reverse('user:twitter_email'))
+
+
+def create_user_profile(strategy, details, response, user=None, *args, **kwargs):
+    """
+    Tworzenie tokenu uwierzytalniającego dla aplikacji mobilnej. Tutaj uzupełniamy
+    także dodatkowe informacje do profilu użytkownika.
+    """
+    from rest_framework.authtoken.models import Token
+    from userspace.models import UserProfile
+    token = None
+    print response
+    if user:
+        try:
+            token = user.auth_token
+        except Token.DoesNotExist:
+            token = Token.objects.create(user=user)
+            token.save()
+        try:
+            profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            print details
+            profile = UserProfile.objects.create(user = user)
+            profile.save()
