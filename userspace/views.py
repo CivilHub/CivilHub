@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os
+import hashlib, datetime, random, string, os, json
 from json import dumps
 from PIL import Image
 from datetime import timedelta
@@ -26,7 +26,7 @@ from actstream.models import model_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
-from helpers import UserActionStream
+from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
 from forms import *
@@ -36,10 +36,11 @@ from rest_framework import permissions as rest_permissions
 from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
+from .managers import SocialAuthManager
 from .serializers import BookmarkSerializer, \
                           UserAuthSerializer, \
                           UserSerializer, \
-                          SocialAuthSerializer \
+                          SocialAuthSerializer
 
 
 class SocialApiView(rest_views.APIView):
@@ -63,6 +64,16 @@ class SocialApiView(rest_views.APIView):
         serializer = SocialAuthSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    def post(self, request):
+        from social.apps.django_app.utils import load_strategy
+        strategy = load_strategy()
+        uid = request.POST.get('uid')
+        provider = request.POST.get('provider')
+        details = json.loads(request.POST.get('response'))
+        manager = SocialAuthManager(provider, uid, details)
+        if manager.is_valid():
+            return Response(manager.cleaned_data)
+        return Response("An error occured - user validation failed")
 
 class UserAPIViewSet(viewsets.ModelViewSet):
     """

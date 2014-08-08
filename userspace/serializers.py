@@ -57,5 +57,5 @@ class UserSerializer(serializers.ModelSerializer):
         return super(UserSerializer, self).validate(attrs)
 
     def save_object(self, obj, **kwargs):
-        obj.set_password(obj.password)
+        if not obj.pk: obj.set_password(obj.password)
         obj.save(**kwargs)

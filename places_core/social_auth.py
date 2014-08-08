@@ -110,3 +110,4 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
             )
             if 'gender' in response: profile.gender = response['gender']
             profile.save()
+        return profile
