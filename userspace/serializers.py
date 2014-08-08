@@ -2,7 +2,17 @@
 from rest_framework import serializers
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+from social.apps.django_app.default.models import UserSocialAuth
 from bookmarks.models import Bookmark
+
+
+class SocialAuthSerializer(serializers.ModelSerializer):
+    """
+    Serializer dla kont social auth w systemie. Umożliwia tworzenie/edycję
+    oraz usuwanie kont powiązanych z portalami społecznościowymi.
+    """
+    class Meta:
+        model = UserSocialAuth
 
 
 class UserAuthSerializer(serializers.ModelSerializer):

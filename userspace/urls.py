@@ -2,8 +2,9 @@
 from django.conf.urls import patterns, url
 from userspace import views
 
-from rest_framework import routers
-router = routers.DefaultRouter()
+from rest import routers
+router = routers.HybridRouter()
+router.add_api_view('social_auths', url(r'^social_auths/$', views.SocialApiView.as_view(), name='social_auths'))
 router.register('users', views.UserAPIViewSet, 'users')
 router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
 router.register('socials', views.UserAuthAPIViewSet, 'socials')

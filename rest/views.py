@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import authentication, viewsets, permissions, renderers
+from rest_framework import views as rest_views
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest.serializers import *

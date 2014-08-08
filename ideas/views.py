@@ -31,6 +31,7 @@ from places_core.permissions import is_moderator
 # REST API
 from serializers import IdeaSimpleSerializer
 from rest_framework import permissions, viewsets
+from rest_framework.views import APIView
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 
 

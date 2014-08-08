@@ -33,9 +33,35 @@ from forms import *
 # REST api
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
+from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
-from .serializers import BookmarkSerializer, UserAuthSerializer, UserSerializer
+from .serializers import BookmarkSerializer, \
+                          UserAuthSerializer, \
+                          UserSerializer, \
+                          SocialAuthSerializer \
+
+
+class SocialApiView(rest_views.APIView):
+    """
+    Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
+    korzysta z backendu Python Social Auth w celu ułatwienia integracji.
+    Domyślnie prezentowana jest lista wszystkich kont.
+    
+    Logowanie/rejestracja przez API wymaga podania jednego z backendów:
+    `twitter`, `facebook`, `google-plus`, `linkedin`.
+    
+    Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
+    usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
+    sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
+    tworzy nowe.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        queryset = UserSocialAuth.objects.all()
+        serializer = SocialAuthSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -92,6 +118,7 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
     "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
     """
     queryset = Bookmark.objects.all()
+    paginate_by = None
     serializer_class = BookmarkSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
