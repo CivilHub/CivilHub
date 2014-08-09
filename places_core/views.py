@@ -24,6 +24,7 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = ContentType.objects.all()
     serializer_class = ContentTypeSerializer
+    paginate_by = None
 
     def get_queryset(self):
         app_label = self.request.QUERY_PARAMS.get('app_label', None)
