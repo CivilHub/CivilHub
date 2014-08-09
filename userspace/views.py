@@ -100,6 +100,8 @@ class UserAPIViewSet(viewsets.ModelViewSet):
 
 class UserAuthAPIViewSet(viewsets.ViewSet):
     """
+    Deprecated: Lepiej korzystać z interfejsu pod adresem `/api-userspace/social_auth/`
+    
     Tutaj wysyłamy nazwę providera oraz uid użytkownika social auth w celu
     pobrania instancji użytkownika w systemie Django. Dane należy wysłać
     getem, jeżeli użytkownik istnieje w systemie, zostaną zwrócone jego

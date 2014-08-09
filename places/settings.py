@@ -212,7 +212,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    'places_core.social_auth.create_user_profile',
+    #'places_core.social_auth.create_user_profile',
     'places_core.social_auth.update_user_social_profile',
 )
 
