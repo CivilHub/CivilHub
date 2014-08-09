@@ -81,6 +81,7 @@ class SocialApiView(rest_views.APIView):
             return Response({'user_id': manager.user.pk,
                               'auth_token': manager.user.auth_token.key})
 
+
 class UserAPIViewSet(viewsets.ModelViewSet):
     """
     Zarządzanie listą użytkowników z poziomu aplikacji mobilnej. Widok zapewnia
@@ -95,6 +96,7 @@ class UserAPIViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    paginate_by = None
     permission_classes = (rest_permissions.AllowAny,)
 
 
