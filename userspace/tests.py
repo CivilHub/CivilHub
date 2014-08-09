@@ -49,6 +49,7 @@ class UserSerializerTestCase(TestCase):
 
 
 from .managers import SocialAuthManager
+from .models import UserProfile
 from social.apps.django_app.default.models import UserSocialAuth
 from social.strategies.django_strategy import DjangoStrategy
 class SocialAuthManagerTestCase(TestCase):
@@ -102,3 +103,9 @@ class SocialAuthManagerTestCase(TestCase):
         self.assertIsNotNone(self.manager.user)
         self.assertIsNotNone(self.manager.social)
         self.assertTrue(isinstance(self.manager.social, UserSocialAuth))
+
+    def test_manager_creates_user_profile(self):
+        """ Check if user profile is created along with new user. """
+        manager_data = self.manager.is_valid()
+        self.assertIsNotNone(self.manager.user.profile)
+        self.assertTrue(isinstance(self.manager.user.profile, UserProfile))

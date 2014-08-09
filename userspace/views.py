@@ -55,7 +55,8 @@ class SocialApiView(rest_views.APIView):
     Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
     usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
     sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
-    tworzy nowe.
+    tworzy nowe. W odpowiedzi otrzymamy obiekt z id oraz tokenem uwierzytelnia-
+    jącym użytkownika.
     """
     permission_classes = (rest_permissions.AllowAny,)
 
@@ -70,10 +71,15 @@ class SocialApiView(rest_views.APIView):
         uid = request.POST.get('uid')
         provider = request.POST.get('provider')
         details = json.loads(request.POST.get('response'))
-        manager = SocialAuthManager(provider, uid, details)
-        if manager.is_valid():
-            return Response(manager.cleaned_data)
-        return Response("An error occured - user validation failed")
+        try:
+            social = UserSocialAuth.objects.get(provider=provider,uid=uid)
+            return Response({'user_id': social.user.pk,
+                              'auth_token': social.user.auth_token.key})
+        except UserSocialAuth.DoesNotExist:
+            manager = SocialAuthManager(provider, uid, details)
+            manager_data = manager.is_valid()
+            return Response({'user_id': manager.user.pk,
+                              'auth_token': manager.user.auth_token.key})
 
 class UserAPIViewSet(viewsets.ModelViewSet):
     """

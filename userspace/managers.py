@@ -47,6 +47,15 @@ class SocialAuthManager(object):
         except UserSocialAuth.DoesNotExist:
             self.social = None
 
+    #~ def social_user_(self):
+        #~ usrchk = social_user(self.strategy, self.uid, self.user)
+        #~ if isinstance(usrchk, dict):
+            #~ if 'social' in usrchk: self.social = usrchk['social']
+            #~ if 'user' in usrchk: self.user = usrchk['user']
+            #~ if 'is_new' in usrchk: self.is_new = usrchk['is_new']
+            #~ if 'new_assocaition' in usrchk:
+                #~ self.new_assoc = usrchk['new_assocation']
+
     def social_details_(self):
         self.details = social_details(self.strategy, self.data)['details']
 
@@ -74,20 +83,33 @@ class SocialAuthManager(object):
 
     def associate_user_(self):
         assoc = associate_user(self.strategy, self.uid, self.user, self.social)
-        self.new_assoc = assoc['new_association']
-        self.social = assoc['social']
+        if assoc:
+            self.new_assoc = assoc['new_association']
+            self.social = assoc['social']
+        else:
+            self.new_assoc = True
+            self.social = None
 
     def user_details_(self):
         user_details(self.strategy, self.details, {}, self.user)
 
+    def create_user_profile_(self):
+        create_user_profile(self.strategy, self.details, {}, self.user)
+
+    def update_user_social_profile_(self):
+        update_user_social_profile(self.strategy, self.details, {}, self.user)
+
     def is_valid(self):
         if not self.is_validated:
+            #self.social_user_()
             self.verify_()
             self.social_details_()
             self.validate_email_()
             self.get_username_()
             if not self.user: self.create_user_()
             self.associate_user_()
+            self.create_user_profile_()
+            self.update_user_social_profile_()
             self.cleaned_data = {
                 'provider': self.provider,
                 'uid': self.uid,
@@ -97,7 +119,7 @@ class SocialAuthManager(object):
                 'username': self.username,
             }
             # TEST!!!
-            self.cleanup_()
+            #self.cleanup_()
 
     def cleanup_(self):
         user = User.objects.get(username=self.user.username)
