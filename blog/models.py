@@ -24,6 +24,13 @@ class Category(models.Model):
     
     def get_absolute_url(self):
         return reverse('blog:category', kwargs={'slug':self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            slug_entry = self.name
+            chk = Category.objects.filter(slug=slugify(slug_entry))
+            if len(chk): slug_entry = slug_entry + "-" + str(len(chk))
+            self.slug = slugify(slug_entry)
     
     def __unicode__(self):
         return self.name

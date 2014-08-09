@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.core.urlresolvers import reverse
 from taggit.models import Tag
@@ -19,6 +20,28 @@ from userspace.models import Badge
 from gallery.models import LocationGalleryItem, UserGalleryItem
 from locations.models import Location
 from polls.models import Poll
+
+
+class TranslatedModelSerializer(serializers.ModelSerializer):
+    """
+    Serializer dla obiektów przerobionych przez django-modeltranslation.
+    """
+    def __init__(self, *args, **kwargs):
+        super(TranslatedModelSerializer, self).__init__(*args, **kwargs)
+        ct = ContentType.objects.get_for_model(self.Meta.model)
+        self.queryset = ct.get_all_objects_for_this_type()
+        self.fields = self.get_fields()
+
+    def get_fields(self):
+        from rest_framework.fields import ModelField
+        baned_idx = []
+        fields = super(TranslatedModelSerializer, self).get_fields()
+        for field, val in fields.iteritems():
+            if not get_language().replace('-','_') in field and \
+            isinstance(val, ModelField):
+                baned_idx.append(field)
+        for idx in baned_idx: del fields[idx]
+        return fields
 
 
 class MyActionsSerializer(serializers.Serializer):

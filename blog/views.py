@@ -25,7 +25,7 @@ from places_core.helpers import SimplePaginator, truncatehtml
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from .serializers import NewsSimpleSerializer
+from .serializers import NewsSimpleSerializer, NewsCategorySerializer
 
 
 class NewsAPIView(viewsets.ModelViewSet):
@@ -41,6 +41,15 @@ class NewsAPIView(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.creator = self.request.user
+
+
+class BlogCategoryAPIViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Category.objects.all()
+    serializer_class = NewsCategorySerializer
+    paginate_by = None
+    permission_classes = (rest_permissions.IsAdminUser,)
 
 
 class BasicNewsSerializer(object):
