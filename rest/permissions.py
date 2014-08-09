@@ -32,4 +32,7 @@ class IsModeratorOrReadOnly(permissions.BasePermission):
             return True
 
         # allow only for moderators
-        return obj.location in request.user.locations.all()
+        try:
+            return obj.location in request.user.locations.all()
+        except AttributeError:
+            return False
