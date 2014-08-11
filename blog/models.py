@@ -31,6 +31,7 @@ class Category(models.Model):
             chk = Category.objects.filter(slug=slugify(slug_entry))
             if len(chk): slug_entry = slug_entry + "-" + str(len(chk))
             self.slug = slugify(slug_entry)
+        super(Category, self).save(*args, **kwargs)
     
     def __unicode__(self):
         return self.name
