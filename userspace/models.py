@@ -27,12 +27,21 @@ class UserProfile(models.Model):
     Profil użytkownika.
     """
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
-    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
+    lang = models.CharField(
+        max_length = 7,
+        choices = settings.LANGUAGES,
+        default = settings.LANGUAGE_CODE
+    )
     description = models.TextField(blank=True, null=True)
     rank_pts  = models.IntegerField(blank=True, default=0)
     birth_date = models.DateTimeField(blank=True, null=True)
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
-    gender = models.CharField(max_length=10, blank=True, null=True)
+    gender = models.CharField(
+        max_length=2,
+        choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
+        blank=True,
+        null=True
+    )
     gplus_url = models.URLField(
         max_length=255,
         blank=True,

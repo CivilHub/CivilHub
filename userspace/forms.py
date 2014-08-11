@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -104,7 +105,12 @@ class LoginForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     """
     Edit user profile data (excluding picture upload)
-    """ 
+    """
+    lang = forms.ChoiceField(
+        label = _("Language"),
+        choices = settings.LANGUAGES,
+        widget = forms.Select(attrs={'class':'form-control'})
+    )
     first_name = forms.CharField(
         label = _("First name"),
         max_length = 64,
@@ -129,10 +135,26 @@ class UserProfileForm(forms.ModelForm):
         required = False,
         widget = forms.DateInput(format=('%d/%m/%Y'), attrs={'class':'form-control','id':'birth-date',})
     )
+    gender = forms.ChoiceField(
+        required = False,
+        choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
+        widget = forms.Select(attrs={'class':'form-control','id':'birth-date',})
+    )
+    gplus_url = forms.URLField(
+        label = _("Google+ profile url"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+    fb_url = forms.URLField(
+        label = _("Facebook profile url"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'description', 'birth_date')
+        fields = ('first_name', 'last_name', 'lang', 'gender', 'description',
+                  'birth_date', 'gplus_url', 'fb_url',)
 
 
 class PasswordResetForm(forms.Form):

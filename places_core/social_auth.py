@@ -16,6 +16,18 @@ def obtain_user_social_profile(response):
     return u''
 
 
+def obtain_user_gender(response):
+    """
+    Pobranie płci w odpowiednim formacie.
+    """
+    if not 'gender' in response:
+        return None
+    else:
+        if response['gender'] == 'female': return 'F'
+        elif response['gender'] == 'male': return 'M'
+    return 'U'
+
+
 def set_user_profile_birth_date(date_string):
     """
     Funkcja formatująca datę z ciągu JSON-a do natywnej pythonowej postaci.
@@ -79,7 +91,7 @@ def update_user_social_profile(strategy, details, response, user, *args, **kwarg
         profile.gplus_url = obtain_user_social_profile(response)
         changed = True
     if 'gender' in response and not profile.gender:
-        profile.gender = response['gender']
+        profile.gender = obtain_user_gender(response)
         changed = True
     if 'birthday' in response and not profile.birth_date:
         profile.birth_date = set_user_profile_birth_date(response['birthday'])
