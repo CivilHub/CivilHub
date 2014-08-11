@@ -43,6 +43,32 @@ from .serializers import BookmarkSerializer, \
                           SocialAuthSerializer
 
 
+class TestAPIView(rest_views.APIView):
+    """
+    Tutaj testujemy requesty i zapisujemy je do pliku.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def post(self, request):
+        from social.apps.django_app.utils import load_strategy
+        from base64 import b64decode
+        strategy = load_strategy()
+        uid = request.POST.get('uid')
+        provider = request.POST.get('provider')
+        details = b64decode(request.POST.get('response'))
+        content = str(provider) + '\n' + str(uid) + '\n' + str(details)
+        f_o = open(os.path.join(settings.BASE_DIR, 'fo.json'), 'w')
+        f_o.write(content)
+        f_o.close()
+        print provider
+        print request.QUERY_PARAMS.get('provider')
+        print uid
+        print request.QUERY_PARAMS.get('uid')
+        print details
+        print request.QUERY_PARAMS.get('details')
+        return Response("Data dumped")
+
+
 class SocialApiView(rest_views.APIView):
     """
     Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
@@ -71,7 +97,7 @@ class SocialApiView(rest_views.APIView):
         strategy = load_strategy()
         uid = request.POST.get('uid')
         provider = request.POST.get('provider')
-        details = json.loads(b64decode(request.POST.get('response')))
+        details = b64decode(request.POST.get('response'))
         try:
             social = UserSocialAuth.objects.get(provider=provider,uid=uid)
             return Response({'user_id': social.user.pk,

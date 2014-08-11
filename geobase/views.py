@@ -90,6 +90,6 @@ class GeolocationAPIView(rest_views.APIView):
             try:
                 country = Country.objects.get(code=code).pk
             except Country.DoesNotExist:
-                country = None
+                country = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE).pk
             return Response({'code':code,'country':country})
         return Response(_("Please provide an IP address"))
