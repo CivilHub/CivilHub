@@ -101,7 +101,7 @@ class LoginForm(forms.Form):
     )
 
 
-class UserProfileForm(forms.Form):
+class UserProfileForm(forms.ModelForm):
     """
     Edit user profile data (excluding picture upload)
     """ 
@@ -123,11 +123,11 @@ class UserProfileForm(forms.Form):
         required = False,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    birth_date = forms.CharField(
-        label = _("Birth date"),
-        max_length = 10,
+    birth_date = forms.DateField(
+        label = _("Birth date (d/m/Y)"),
+        input_formats = ['%d/%m/%Y'],
         required = False,
-        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date',})
+        widget = forms.DateInput(format=('%d/%m/%Y'), attrs={'class':'form-control','id':'birth-date',})
     )
 
     class Meta:

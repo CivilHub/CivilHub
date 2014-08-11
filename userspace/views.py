@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbid
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -67,10 +67,11 @@ class SocialApiView(rest_views.APIView):
 
     def post(self, request):
         from social.apps.django_app.utils import load_strategy
+        from base64 import b64decode
         strategy = load_strategy()
         uid = request.POST.get('uid')
         provider = request.POST.get('provider')
-        details = json.loads(request.POST.get('response'))
+        details = json.loads(b64decode(request.POST.get('response')))
         try:
             social = UserSocialAuth.objects.get(provider=provider,uid=uid)
             return Response({'user_id': social.user.pk,
@@ -177,9 +178,37 @@ class SetTwitterEmailView(FormView):
         return redirect(reverse('social:complete', kwargs={'backend':'twitter'}))
 
 
+class ProfileDetailView(UpdateView):
+    """ User profile settings. """
+    model = UserProfile
+    template_name = 'userspace/index.html'
+    context_object_name = 'profile'
+
+    def get_object(self):
+        try:
+            return self.request.user.profile
+        except UserProfile.DoesNotExist:
+            prof = UserProfile()
+            prof.user = user
+            prof.save()
+            return prof
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        context['title'] = self.object.user.get_full_name()
+        context['form'] = UserProfileForm(initial={
+            'first_name': self.object.user.first_name,
+            'last_name': self.object.user.last_name
+        }, instance=self.object)
+        context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
+        return context
+
+
 def index(request):
     """
     User profile / settings
+    
+    DEPRECATED: W tej chwili korzystamy z powyższej klasy ProfileDetailView
     """
     if not request.user.is_authenticated():
         return redirect('user:login')
