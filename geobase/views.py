@@ -8,9 +8,10 @@ from django.utils.translation import gettext as _
 from django.contrib.gis.geoip import GeoIP
 from ipware.ip import get_ip
 from rest_framework import serializers, permissions, viewsets
+from rest_framework import views as rest_views
 from rest_framework.response import Response
 from .models import Country
-from .serializers import CountrySerializer
+from .serializers import CountrySerializer, CountryCodeSerializer
 
 
 class IndexView(View):
@@ -47,6 +48,7 @@ class CountryAPIViewSet(viewsets.ModelViewSet):
     """
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+    paginate_by = None
     permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
 
     def get_queryset(self):
@@ -56,15 +58,38 @@ class CountryAPIViewSet(viewsets.ModelViewSet):
         return Country.objects.all()
 
 
-class CountryCodeAPIViewSet(viewsets.ViewSet):
+class CountryCodeAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Prosty widok umożliwiający pobranie listy wszystkich krajów (nazwy w języku
-    angielskim) wraz z ich dwuliterowymi kodami ISO.
+    Prosty widok umożliwiający pobranie listy wszystkich krajów wraz 
+    z ich dwuliterowymi kodami ISO.
     """
+    queryset = Country.objects.all()
+    serializer_class = CountryCodeSerializer
+    paginate_by = None
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    def list(self, request):
-        f = open(os.path.join(settings.BASE_DIR, 'geobase/data/codes.json'))
-        codes = f.read()
-        f.close()
-        return Response(json.loads(codes))
+
+class GeolocationAPIView(rest_views.APIView):
+    """
+    API Pozwalające sprawdzić lokalizację, w jakiej znajduje się użytkownik, na
+    podstawie jego adresu IP. Adres należy przesłać w parametrach zapytania
+    GET, np.:
+    
+    /api-geo/geoip/?ip=84.10.12.178
+    
+    W odpowiedzi otrzymamy obiekt z tzw. country code pobranym z bazy GEO IP oraz
+    ID odpowiadającego mu kraju lub `null` jeżeli takiego kraju nie ma w bazie.
+    Tylko zapytania GET/LIST! Widok bez paginacji.
+    """
+    permission_classes = (permissions.AllowAny,)
+    
+    def get(self, request):
+        ip = request.QUERY_PARAMS.get('ip')
+        if ip:
+            code = GeoIP().country(ip)['country_code']
+            try:
+                country = Country.objects.get(code=code).pk
+            except Country.DoesNotExist:
+                country = None
+            return Response({'code':code,'country':country})
+        return Response(_("Please provide an IP address"))

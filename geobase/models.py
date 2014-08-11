@@ -14,12 +14,11 @@ class Country(models.Model):
     przez GeoIP. Na tej podstawie możemy połączyć fizyczną lokalizację
     użytkownika z miejscami, które mogłyby być dla niego interesujące.
     """
-    code = models.CharField(max_length=4)
-    name = models.CharField(max_length=64)
+    code = models.CharField(max_length=2)
     latitude = models.FloatField()
     longitude = models.FloatField()
     zoom = models.IntegerField()
     location = models.OneToOneField(Location)
 
     def __unicode__(self):
-        return self.name
+        return self.code
