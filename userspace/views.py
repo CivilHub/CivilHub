@@ -6,7 +6,8 @@ from datetime import timedelta
 from django.utils import timezone
 from bookmarks.models import Bookmark
 from ipware.ip import get_ip
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, \
+                         HttpResponseForbidden, HttpResponseNotFound
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
@@ -43,32 +44,6 @@ from .serializers import BookmarkSerializer, \
                           SocialAuthSerializer
 
 
-class TestAPIView(rest_views.APIView):
-    """
-    Tutaj testujemy requesty i zapisujemy je do pliku.
-    """
-    permission_classes = (rest_permissions.AllowAny,)
-
-    def post(self, request):
-        from social.apps.django_app.utils import load_strategy
-        from base64 import b64decode
-        strategy = load_strategy()
-        uid = request.POST.get('uid')
-        provider = request.POST.get('provider')
-        details = b64decode(request.POST.get('response'))
-        content = str(provider) + '\n' + str(uid) + '\n' + str(details)
-        f_o = open(os.path.join(settings.BASE_DIR, 'fo.json'), 'w')
-        f_o.write(content)
-        f_o.close()
-        print provider
-        print request.QUERY_PARAMS.get('provider')
-        print uid
-        print request.QUERY_PARAMS.get('uid')
-        print details
-        print request.QUERY_PARAMS.get('details')
-        return Response("Data dumped")
-
-
 class SocialApiView(rest_views.APIView):
     """
     Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
@@ -77,6 +52,15 @@ class SocialApiView(rest_views.APIView):
     
     Logowanie/rejestracja przez API wymaga podania jednego z backendów:
     `twitter`, `facebook`, `google-plus`, `linkedin`.
+    
+    Przykładowe dane do zapytania (server_response to odpowiedzi od providera): 
+    
+    <pre><code>{
+        provider: 'facebook',
+        uid: '8777323423',
+        details: encodeURI(server_response_1),
+        response: encodeURI(server_response_2)
+    }</code></pre>
     
     Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
     usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
@@ -93,11 +77,11 @@ class SocialApiView(rest_views.APIView):
 
     def post(self, request):
         from social.apps.django_app.utils import load_strategy
-        from base64 import b64decode
+        from urllib2 import unquote
         strategy = load_strategy()
         uid = request.POST.get('uid')
         provider = request.POST.get('provider')
-        details = b64decode(request.POST.get('response'))
+        details = unquote(request.POST.get('response'))
         try:
             social = UserSocialAuth.objects.get(provider=provider,uid=uid)
             return Response({'user_id': social.user.pk,
@@ -114,11 +98,11 @@ class UserAPIViewSet(viewsets.ModelViewSet):
     Zarządzanie listą użytkowników z poziomu aplikacji mobilnej. Widok zapewnia
     wszystkie operacje CRUD na liście użytkowników.
     
-    Tworzenie użytkownika:
-        Pola wymagane: username, first_name, last_name, password, email
+    ### Tworzenie użytkownika:
+    Pola wymagane: *username*, *first_name*, *last_name*, *password*, *email*
     
-    UWAGA: Ten widok nie korzysta z polityki uprawnień Django (bo nie ma takiej
-    fizycznej możliwośći). Trzeba UWAŻNIE przemyśleć implementację systemu w
+    **UWAGA**: Ten widok nie korzysta z polityki uprawnień Django (bo nie ma takiej
+    fizycznej możliwośći). Trzeba **UWAŻNIE** przemyśleć implementację systemu w
     środowisku produkcyjnym.
     """
     queryset = User.objects.all()
@@ -129,16 +113,17 @@ class UserAPIViewSet(viewsets.ModelViewSet):
 
 class UserAuthAPIViewSet(viewsets.ViewSet):
     """
-    Deprecated: Lepiej korzystać z interfejsu pod adresem `/api-userspace/social_auth/`
+    *Deprecated*: Lepiej korzystać z interfejsu pod adresem `/api-userspace/social_auth/`
     
     Tutaj wysyłamy nazwę providera oraz uid użytkownika social auth w celu
     pobrania instancji użytkownika w systemie Django. Dane należy wysłać
     getem, jeżeli użytkownik istnieje w systemie, zostaną zwrócone jego
-    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi 404. Przykład:
+    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi "Forbidden". 
+    Przykład:
     
-    ?provider=google-plus?id=tester@gmail.com
+    ```/api-userspace/socials/?provider=google-plus?id=tester@gmail.com```
     
-    TODO: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
+    **TODO**: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
     """
     queryset = User.objects.all()
     serializer_class = UserAuthSerializer
@@ -159,10 +144,12 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
     Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
     z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
     w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
-    konkretnym użytkownikiem o danym ID.
+    konkretnym użytkownikiem o danym ID, np.:
+    
+    `/api-userspace/bookmarks/?pk=2`
     
     Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
-    typu zawartości (content_type), oraz id konkretnego obiektu (object_id).
+    typu zawartości (`content_type`), oraz id konkretnego obiektu (`object_id`).
     "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
     """
     queryset = Bookmark.objects.all()
@@ -214,8 +201,7 @@ class ProfileDetailView(UpdateView):
         try:
             return self.request.user.profile
         except UserProfile.DoesNotExist:
-            prof = UserProfile()
-            prof.user = user
+            prof = UserProfile.objects.create(user=user)
             prof.save()
             return prof
 
@@ -228,6 +214,11 @@ class ProfileDetailView(UpdateView):
         }, instance=self.object)
         context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
         return context
+
+    def get(self, request):
+        if  request.user.is_anonymous():
+            return HttpResponseNotFound()
+        return super(ProfileDetailView, self).get(request)
 
 
 def index(request):
@@ -733,3 +724,13 @@ def change_background(request):
         profile.background_image = process_background_image(request.FILES['background'], 'img/backgrounds')
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
+
+
+class TestAPIView(rest_views.APIView):
+    """
+    Tutaj testujemy requesty i zapisujemy je do pliku.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def post(self, request):
+        pass

@@ -96,6 +96,7 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
     from userspace.models import UserProfile
     token = None
     print response
+    print details
     if user:
         try:
             token = user.auth_token
