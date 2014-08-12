@@ -109,3 +109,101 @@ class SocialAuthManagerTestCase(TestCase):
         manager_data = self.manager.is_valid()
         self.assertIsNotNone(self.manager.user.profile)
         self.assertTrue(isinstance(self.manager.user.profile, UserProfile))
+
+
+from .serializers import SocialAuthenticationDataSerializer
+class SocialAuthenticationTestCase(TestCase):
+    """
+    Test case for social auth system made for mobile application.
+    """
+    def setUp(self):
+        self.data = {
+            "uid": "75345234345634",
+            "provider": "facebook",
+            "email": "jpocentek@gmail.com",
+            "username": "jpocentek",
+            "first_name": "Jakub",
+            "last_name": "Pocentek",
+            "fullname": "Jakub Pocentek",
+            "gender": "male",
+            "birthday": "29/12/1985",
+            "url": "http://www.facebook.com/users/75345234345634"
+        }
+
+    #~ def test_serializer_works(self):
+        #~ """ Sprawdzamy, czy serializer w ogóle się uruchomi. """
+        #~ serializer = SocialAuthenticationDataSerializer(self.data)
+        #~ print serializer.data
+        #~ for label, field in serializer.fields.iteritems():
+            #~ try:
+                #~ print label, serializer.data[label]
+            #~ except Exception as ex:
+                #~ print "ERROR", ex
+        #~ for e in serializer.errors: print e
+        #~ self.assertTrue(serializer.is_valid())
+
+    def test_serializer_with_empty_data(self):
+        """ Sprawdzamy, czy serializer filtruje puste (a wymagane) pola. """
+        serializer = SocialAuthenticationDataSerializer({})
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('uid' in serializer.errors)
+        self.assertTrue('provider' in serializer.errors)
+        self.assertTrue('email' in serializer.errors)
+        self.assertFalse('url' in serializer.errors)
+
+    def test_serializer_email_validation(self):
+        """ Sprawdzamy, czy adresy email są poprawnie walidowane. """
+        data = self.data
+        data['email'] = 'test'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('email' in serializer.errors)
+        data['email'] = 'test@gmailcom'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('email' in serializer.errors)
+        data['email'] = 'testgmail.com'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('email' in serializer.errors)
+        data['email'] = 'test@gmail.com'
+        serializer = SocialAuthenticationDataSerializer(data)
+        is_valid = serializer.is_valid()
+        self.assertFalse('email' in serializer.errors)
+
+    def test_serializer_provider_validation(self):
+        """ Sprawdzamy, czy serializer poprawnie waliduje nazwę dostawcy usługi. """
+        data = self.data
+        data['provider'] = 'test'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('provider' in serializer.errors)
+        data['provider'] = 'google-plus'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse('provider' in serializer.errors)
+
+    def test_serializer_gender_validation(self):
+        """ Sprawdzamy, czy serializer poprawnie waliduje nazwę dostawcy usługi. """
+        data = self.data
+        data['gender'] = 'test'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('gender' in serializer.errors)
+        data['gender'] = 'female'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse('gender' in serializer.errors)
+
+    def test_serializer_birthday_validation(self):
+        """ Sprawdzamy, czy serializer poprawnie rozpoznaje daty w formacie (dd/mm/yyyy). """
+        data = self.data
+        data['birthday'] = 'test'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('birthday' in serializer.errors)
+        data['birthday'] = '29-12-1985'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse(serializer.is_valid())
+        self.assertTrue('birthday' in serializer.errors)
+        data['birthday'] = '12/07/1998'
+        serializer = SocialAuthenticationDataSerializer(data)
+        self.assertFalse('birthday' in serializer.errors)

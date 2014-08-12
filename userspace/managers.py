@@ -13,6 +13,14 @@ from places_core.social_auth import validate_email, \
 from .helpers import random_password
 
 
+class UserDataManager(object):
+    """
+    Procesuje dane użytkownika z portali społecznościowych.
+    """
+    def get_uid(cls, data):
+        return data['uid']
+
+
 class SocialAuthManager(object):
     """
     Uzupełnienie Python Social Auth umożliwiające logowanie przez aplikację
@@ -24,6 +32,7 @@ class SocialAuthManager(object):
         self.provider = provider
         self.uid      = uid
         self.data     = data
+        self.response = response
         self.user     = None
         self.social   = None
         self.is_new   = True
@@ -46,15 +55,6 @@ class SocialAuthManager(object):
             self.is_new = False
         except UserSocialAuth.DoesNotExist:
             self.social = None
-
-    #~ def social_user_(self):
-        #~ usrchk = social_user(self.strategy, self.uid, self.user)
-        #~ if isinstance(usrchk, dict):
-            #~ if 'social' in usrchk: self.social = usrchk['social']
-            #~ if 'user' in usrchk: self.user = usrchk['user']
-            #~ if 'is_new' in usrchk: self.is_new = usrchk['is_new']
-            #~ if 'new_assocaition' in usrchk:
-                #~ self.new_assoc = usrchk['new_assocation']
 
     def social_details_(self):
         self.details = social_details(self.strategy, self.data)['details']
@@ -118,8 +118,6 @@ class SocialAuthManager(object):
                 'is_new': self.is_new,
                 'username': self.username,
             }
-            # TEST!!!
-            #self.cleanup_()
 
     def cleanup_(self):
         user = User.objects.get(username=self.user.username)

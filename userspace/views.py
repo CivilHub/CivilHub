@@ -41,7 +41,8 @@ from .managers import SocialAuthManager
 from .serializers import BookmarkSerializer, \
                           UserAuthSerializer, \
                           UserSerializer, \
-                          SocialAuthSerializer
+                          SocialAuthSerializer, \
+                          SocialAuthenticationDataSerializer
 
 
 class SocialApiView(rest_views.APIView):
@@ -77,21 +78,11 @@ class SocialApiView(rest_views.APIView):
 
     def post(self, request):
         from social.apps.django_app.utils import load_strategy
-        from urllib2 import unquote
         strategy = load_strategy()
-        uid = request.DATA.get('uid')
-        provider = request.DATA.get('provider')
-        details = json.loads(unquote(request.DATA.get('details')))
-        response = json.loads(unquote(request.DATA.get('response')))
-        try:
-            social = UserSocialAuth.objects.get(provider=provider,uid=uid)
-            return Response({'user_id': social.user.pk,
-                              'auth_token': social.user.auth_token.key})
-        except UserSocialAuth.DoesNotExist:
-            manager = SocialAuthManager(provider, uid, details)
-            manager_data = manager.is_valid()
-            return Response({'user_id': manager.user.pk,
-                              'auth_token': manager.user.auth_token.key})
+        serializer = SocialAuthenticationDataSerializer(request.DATA)
+        if serializer.is_valid():
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 class UserAPIViewSet(viewsets.ModelViewSet):
