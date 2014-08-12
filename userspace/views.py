@@ -79,10 +79,10 @@ class SocialApiView(rest_views.APIView):
         from social.apps.django_app.utils import load_strategy
         from urllib2 import unquote
         strategy = load_strategy()
-        uid = request.POST.get('uid')
-        provider = request.POST.get('provider')
-        details = unquote(request.POST.get('details'))
-        response = unquote(request.POST.get('response'))
+        uid = request.DATA.get('uid')
+        provider = request.DATA.get('provider')
+        details = json.loads(unquote(request.DATA.get('details')))
+        response = json.loads(unquote(request.DATA.get('response')))
         try:
             social = UserSocialAuth.objects.get(provider=provider,uid=uid)
             return Response({'user_id': social.user.pk,
@@ -138,6 +138,42 @@ class UserAuthAPIViewSet(viewsets.ViewSet):
             serializer = UserAuthSerializer(user)
             return Response(serializer.data)
         return Response("Forbidden")
+
+
+class CredentialCheckAPIView(rest_views.APIView):
+    """
+    Widok pozwalający w prosty sposób sprawdzić, czy podany adres email lub
+    nazwa użytkownika zostały już zarejestrowane w systemie. 
+    
+    #### Przykład zapytania o adres email:
+    
+    ```/api-userspace/credentials/?email=tester@test.pl```
+    
+    #### Przykład zapytania o nazwę użytkownika:
+    
+    ```/api-userspace/credentials/?uname=tester```
+    
+    W każdym przypadku otrzymujemy w odpowiedzi prosty obiekt z własnością 
+    `valid` ustawioną na `true` lub `false`.
+    """
+    queryset = User.objects.all()
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        email = request.QUERY_PARAMS.get('email')
+        uname = request.QUERY_PARAMS.get('uname')
+        valid = False
+        if email:
+            try:
+                usr = User.objects.get(email=email)
+            except User.DoesNotExist:
+                valid = True
+        elif uname:
+            try:
+                usr = User.objects.get(username=uname)
+            except User.DoesNotExist:
+                valid = True
+        return Response({'valid': valid})
 
 
 class BookmarkAPIViewSet(viewsets.ModelViewSet):
