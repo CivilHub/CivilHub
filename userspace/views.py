@@ -309,10 +309,7 @@ def register(request):
                     'title' : _("Registration"),
                     'errors': _("Selected username already exists. Please provide another one."),
                 }
-                if request.GET.get('homepage'):
-                    return render(request, 'staticpages/pages/home.html', ctx)
-                else:
-                    return render(request, 'userspace/register.html', ctx)
+                return render(request, 'staticpages/pages/home.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
 
@@ -358,18 +355,6 @@ def register(request):
             # Show confirmation
             return redirect('user:message_sent')
     
-        # form invalid - request made from Homepage
-        elif request.GET.get('homepage'):
-            ctx = {
-                'form': RegisterForm(initial={
-                    'username': request.POST.get('username'),
-                    'email':    request.POST.get('email')
-                }),
-                'title': _("Registration"),
-                'errors': f.errors,
-            }
-            return render(request, 'staticpages/pages/home.html', ctx)
-        # Form invalid
         else:
             ctx = {
                 'form': RegisterForm(initial={
@@ -379,14 +364,14 @@ def register(request):
                 'title': _("Registration"),
                 'errors': f.errors,
             }
-            return render(request, 'userspace/register.html', ctx)
+            return render(request, 'staticpages/pages/home.html', ctx)
 
     # Display registration form.
     ctx = {
         'form' : RegisterForm,
         'title': _("Registration"),
     }
-    return render(request, 'userspace/register.html', ctx)
+    return render(request, 'staticpages/pages/home.html', ctx)
 
 
 def confirm_registration(request):
