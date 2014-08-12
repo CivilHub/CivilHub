@@ -192,7 +192,7 @@ class SetTwitterEmailView(FormView):
         return redirect(reverse('social:complete', kwargs={'backend':'twitter'}))
 
 
-class ProfileDetailView(UpdateView):
+class ProfileUpdateView(UpdateView):
     """ User profile settings. """
     model = UserProfile
     template_name = 'userspace/index.html'
@@ -207,7 +207,7 @@ class ProfileDetailView(UpdateView):
             return prof
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileDetailView, self).get_context_data(**kwargs)
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
         context['title'] = self.object.user.get_full_name()
         context['form'] = UserProfileForm(initial={
             'first_name': self.object.user.first_name,
@@ -219,40 +219,42 @@ class ProfileDetailView(UpdateView):
     def get(self, request):
         if  request.user.is_anonymous():
             return HttpResponseNotFound()
-        return super(ProfileDetailView, self).get(request)
+        return super(ProfileUpdateView, self).get(request)
 
 
-def index(request):
+def save_settings(request):
     """
-    User profile / settings
-    
-    DEPRECATED: W tej chwili korzystamy z powyższej klasy ProfileDetailView
+    Save changes made by user in his/her profile
     """
-    if not request.user.is_authenticated():
-        return redirect('user:login')
-    user = User.objects.get(pk=request.user.id)
-    try:
-        prof = UserProfile.objects.get(user=user.id)
-    except:
-        prof = UserProfile()
-        prof.user = user
-        prof.save()
-        prof = UserProfile.objects.latest()
-    ctx = {
-        'user': user,
-        'profile': prof,
-        'appname': 'userarea',
-        'form': UserProfileForm(initial={
-                  'first_name': user.first_name,
-                  'last_name':  user.last_name,
-                  'email':      user.email,
-                  'description':prof.description,
-                  'birth_date': prof.birth_date,
-              }),
-        'avatar_form': AvatarUploadForm(),
-        'title': _('User Area'),
-    }
-    return render(request, 'userspace/index.html', ctx)
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.user.id)
+        prof = UserProfile.objects.get(user = user.id)
+        f = UserProfileForm(request.POST)
+        if f.is_valid():
+            user.first_name = f.cleaned_data['first_name']
+            user.last_name  = f.cleaned_data['last_name']
+            prof.birth_date = f.cleaned_data['birth_date']
+            prof.description= f.cleaned_data['description']
+            prof.gender = f.cleaned_data['gender']
+            prof.lang = f.cleaned_data['lang']
+            prof.gplus_url = f.cleaned_data['gplus_url']
+            prof.fb_url = f.cleaned_data['fb_url']
+            error = None
+            if error != None:
+                ctx = {
+                    'user': user,
+                    'profile': prof,
+                    'form': f,
+                    'avatar_form': AvatarUploadForm(),
+                    'errors': f.errors,
+                    'title': _('User Area'),
+                }
+                return render(request, 'userspace/index.html', ctx)
+            user.save()
+            prof.save()
+            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
+            return redirect('user:index')
+    return HttpResponse(_('Form invalid'))
 
     
 def profile(request, username):
@@ -561,37 +563,6 @@ def logout(request):
     """
     auth.logout(request)
     return redirect('user:login')
-
-
-def save_settings(request):
-    """
-    Save changes made by user in his/her profile
-    """
-    if request.method == 'POST':
-        user = User.objects.get(pk=request.user.id)
-        prof = UserProfile.objects.get(user = user.id)
-        f = UserProfileForm(request.POST)
-        if f.is_valid():
-            user.first_name = f.cleaned_data['first_name']
-            user.last_name  = f.cleaned_data['last_name']
-            prof.birth_date = f.cleaned_data['birth_date']
-            prof.description= f.cleaned_data['description']
-            error = None
-            if error != None:
-                ctx = {
-                    'user': user,
-                    'profile': prof,
-                    'form': f,
-                    'avatar_form': AvatarUploadForm(),
-                    'errors': f.errors,
-                    'title': _('User Area'),
-                }
-                return render(request, 'userspace/index.html', ctx)
-            user.save()
-            prof.save()
-            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-            return redirect('user:index')
-    return HttpResponse(_('Form invalid'))
 
 
 def chpass(request):

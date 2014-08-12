@@ -5,15 +5,13 @@ from userspace import views
 from rest import routers
 router = routers.HybridRouter()
 router.add_api_view('social_auths', url(r'^social_auths/$', views.SocialApiView.as_view(), name='social_auths'))
-#router.add_api_view('social_auths', url(r'^social_auths/$', views.TestAPIView.as_view(), name='social_auths'))
 router.register('users', views.UserAPIViewSet, 'users')
 router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
 router.register('socials', views.UserAuthAPIViewSet, 'socials')
 
 
 urlpatterns = patterns('',
-    #url(r'^$', views.index, name='index'),
-    url(r'^$', views.ProfileDetailView.as_view(), name='index'),
+    url(r'^$', views.ProfileUpdateView.as_view(), name='index'),
     url(r'confirm-register/', views.confirm_registration, name='message_sent'),
     url(r'twitter-email/', views.SetTwitterEmailView.as_view(), name='twitter_email'),
     url(r'test/', views.test_view, name='test'),
