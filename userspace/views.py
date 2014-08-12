@@ -81,7 +81,8 @@ class SocialApiView(rest_views.APIView):
         strategy = load_strategy()
         uid = request.POST.get('uid')
         provider = request.POST.get('provider')
-        details = unquote(request.POST.get('response'))
+        details = unquote(request.POST.get('details'))
+        response = unquote(request.POST.get('response'))
         try:
             social = UserSocialAuth.objects.get(provider=provider,uid=uid)
             return Response({'user_id': social.user.pk,

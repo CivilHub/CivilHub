@@ -129,16 +129,15 @@ class UserProfileForm(forms.ModelForm):
         required = False,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
-    birth_date = forms.DateField(
-        label = _("Birth date (d/m/Y)"),
-        input_formats = ['%d/%m/%Y'],
+    birth_date = forms.CharField(
+        label = _("Birth date (dd/mm/YYYY)"),
         required = False,
-        widget = forms.DateInput(format=('%d/%m/%Y'), attrs={'class':'form-control','id':'birth-date',})
+        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date','readonly':'readonly'})
     )
     gender = forms.ChoiceField(
         required = False,
         choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
-        widget = forms.Select(attrs={'class':'form-control','id':'birth-date',})
+        widget = forms.Select(attrs={'class':'form-control','id':'gender'})
     )
     gplus_url = forms.URLField(
         label = _("Google+ profile url"),
