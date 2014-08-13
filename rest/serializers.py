@@ -53,7 +53,6 @@ class MyActionsSerializer(serializers.Serializer):
     timestamp = serializers.Field(source='timesince')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
-    #object_ct = serializers.Field(source='action_object_content_type.model')
     object_ct = serializers.SerializerMethodField('get_verbose_name')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
