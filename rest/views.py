@@ -127,6 +127,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    paginate_by = None
 
 
 class SimpleNewsViewSet(viewsets.ViewSet):

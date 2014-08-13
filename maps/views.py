@@ -234,7 +234,7 @@ def index(request):
         'zoom': country.zoom,
         'code': code,
         'content_types': ContentType.objects.all(),
-        'country_codes': country_codes(),
+        'countries': Country.objects.all(),
     })
 
 

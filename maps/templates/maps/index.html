@@ -190,8 +190,8 @@ function ($, CivilMap) {
 <nav class="civ-map-controller" id="country-nav-panel" role="navigation">
     <form id="country-nav-form">
         <select name="country" id="country-nav-form-country" style="position:absolute;z-index:5000;">
-            {% for country_code in country_codes %}
-            <option value="{{ country_code.code }}"{% if country_code.code == code %} selected="selected"{% endif %}>{{ country_code.name }}</option>
+            {% for country in countries %}
+            <option value="{{ country.code }}"{% if country.code == code %} selected="selected"{% endif %}>{{ country.location.name }}</option>
             {% endfor %}
         </select>
     </form>
