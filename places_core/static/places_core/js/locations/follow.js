@@ -16,7 +16,7 @@ function ($) {
         var $btn = $(this);
         $.ajax({
             type: 'POST',
-            url: 'locations/add_follower/' + $btn.attr('data-location-id'),
+            url: '/locations/add_follower/' + $btn.attr('data-location-id'),
             data: {
                 csrfmiddlewaretoken: getCookie('csrftoken')
             },
@@ -25,9 +25,9 @@ function ($) {
                 if (resp.success === true) {
                     message.success(resp.message);
                     $btn.fadeOut('fast', function () {
-                        $btn.removeClass('btn-follow-location btn-success')
-                            .addClass('btn-unfollow-location btn-danger')
-                            .text('Stop following')
+                        $btn.removeClass('btn-follow-location')
+                            .addClass('btn-unfollow-location')
+                            .text(gettext('You are following'))
                             .fadeIn('fast');
                     });
                 } else {
@@ -44,7 +44,7 @@ function ($) {
         var $btn = $(this);
         $.ajax({
             type: 'POST',
-            url: 'locations/remove_follower/' + $btn.attr('data-location-id'),
+            url: '/locations/remove_follower/' + $btn.attr('data-location-id'),
             data: {
                 csrfmiddlewaretoken: getCookie('csrftoken')
             },
@@ -52,9 +52,9 @@ function ($) {
                 resp = JSON.parse(resp);
                 if (resp.success === true) {
                     $btn.fadeOut('fast', function () {
-                        $btn.removeClass('btn-unfollow-location btn-danger')
-                            .addClass('btn-follow-location btn-success')
-                            .text('Follow')
+                        $btn.removeClass('btn-unfollow-location')
+                            .addClass('btn-follow-location')
+                            .text(gettext('Follow'))
                             .fadeIn('fast');
                     });
                     resp.success(resp.message);

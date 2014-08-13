@@ -51,7 +51,8 @@
              'common',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/comments/commentlist'], function ($) {
+             'js/comments/commentlist',
+			 'js/locations/follow'], function ($, ui) {
         
         "use strict";
         
@@ -89,8 +90,8 @@
 
     {% include 'maps/pointer-modal-form.html' %}
 
-    <div class="col-sm-9 main-content">
-        <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+    <div class="col-sm-8 main-content">
+        <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
                 <li>{% bookmark_form for poll %}</li>
@@ -119,6 +120,8 @@
         {% endif %}
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

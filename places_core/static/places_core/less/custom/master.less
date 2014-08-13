@@ -25,6 +25,7 @@
 @import "footer.less";
 @import "blog.less";
 @import "staticpages.less";
+@import "sublocations.less";
 
 /* General classes to use in entire project */
 .custom-centered {
@@ -49,9 +50,16 @@
 
 /* List entries menu - e.g. news list or ideas list */
 .submenu-toggle {
-    cursor: pointer;
-    display: inline-block;
-    float: right;
+	cursor: pointer;
+	display: inline-block;
+	margin-top: -20px;
+	margin-right: -15px;
+	float: right;
+	width: 47px;
+	background: url(/static/places_core/img/settings-line.png);
+	height: 48px;
+	background-size: 47px 48px;
+	background-repeat: no-repeat;
 }
 
 .entry-submenu {

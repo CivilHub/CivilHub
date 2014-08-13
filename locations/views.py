@@ -413,8 +413,8 @@ class SublocationList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SublocationList, self).get_context_data(**kwargs)
-        sublocations = self.object.get_ancestor_chain()
-        max_per_page = 25
+        sublocations = self.object.location_set.all()
+        max_per_page = 32
         paginator    = Paginator(sublocations, max_per_page)
         context      = {}
         page         = self.request.GET.get('page')
@@ -426,7 +426,7 @@ class SublocationList(DetailView):
         except EmptyPage:
             context['sublocations'] = paginator.page(paginator.num_pages)
 
-        if len(context['sublocations']) <= max_per_page:
+        if paginator.num_pages <= max_per_page:
             context['navigation'] = False
         else:
             context['navigation'] = True
@@ -447,6 +447,24 @@ class LocationFollowersList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
+        
+        followers = self.object.users.all()
+        max_per_page = 36
+        paginator    = Paginator(followers, max_per_page)
+        page         = self.request.GET.get('page')
+
+        try:
+            context['followers'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['followers'] = paginator.page(1)
+        except EmptyPage:
+            context['followers'] = paginator.page(paginator.num_pages)
+
+        if paginator.num_pages <= max_per_page:
+            context['navigation'] = False
+        else:
+            context['navigation'] = True
+            
         context['title'] = self.object.name + ', ' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()

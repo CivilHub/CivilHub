@@ -17,6 +17,7 @@
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
             tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
             common: 'js/common',
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
@@ -63,9 +64,11 @@
 
     require(['jquery',
              'js/locations/newsForm',
-             'common'],
+			 'ui',
+             'common',
+			 'js/locations/follow'],
 
-    function ($, NewsForm) {
+    function ($, NewsForm, ui) {
         
         var form = new NewsForm();
         
@@ -89,7 +92,9 @@
         </form>
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     {% if user.is_authenticated %}
         {% include 'gallery/media-uploader.html' %}

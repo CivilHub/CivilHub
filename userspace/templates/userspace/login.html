@@ -1,5 +1,6 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
+{% block header %} {% endblock %}
 {% block content %}
 <div class="login-page">
     
@@ -38,7 +39,7 @@
             };
         </script>
         
-        <div id="signinButton">
+       <!-- <div id="signinButton">
             <span class="g-signin" data-scope="{{ plus_scope }}"
                                    data-clientid="{{ plus_id }}"
                                    data-redirecturi="{% url 'user:passet' %}"
@@ -52,23 +53,7 @@
             {% csrf_token %}
             <input id="at" type="hidden" name="access_token" value="" />
             <input id="code" type="hidden" name="code" value="" />
-        </form>
-    
-    {% comment %}
-    
-        End test
-        
-    {% endcomment %}
-    
-    {% comment %}
-    
-        Testujemy Twitter Auth i LinkedIn login
-        
-    {% endcomment %}
-    
-        <a href="{% url 'social:begin' 'twitter' %}"><img src="google.jpg"></a>
-        
-        <a href="{% url 'social:begin' 'linkedin' %}"><img src="google.jpg"></a>
+        </form> -->
     
     {% comment %}
     
@@ -80,39 +65,35 @@
         <h1 class="login-form-header">{% trans "Sign In" %}</h1>
         <div class="login-form-body">
             <div class="login-social row">
-                <div class="login-facebook col-sm-4">
-                    <a href="{% url 'social:begin' 'facebook' %}"><img src="facebook.jpg"></a>
-                </div>
-                <div class="login-twitter col-sm-4">
-                    <a href="#"><img src="twitter.jpg"></a>
-                </div>
-                <div class="login-google col-sm-4">
-                    <a href="{% url 'social:begin' 'google' %}"><img src="google.jpg"></a>
-                </div>
+
+                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
+					
+				<button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+					
+				<button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+						
+				<button type="button" class="google-button" onClick="location.href='{% url 'social:begin' 'google' %}'">{% trans "Connect with Google+" %}</button>
+                    
             </div>
             <form action="" method="post">
                 <div class="input-section row">
-                    <div class="col-sm-12">
-                                    
-                                    {{ form.errors }}
-                                    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
-                                        {% csrf_token %}
-                                        {{ form }}
-                                        <div class="submit-section row">
-                                            <div>
-                                                
-                                                <a href="{% url 'user:passreset' %}"> {% trans "Forgot password" %}</a>
-                                            </div>
-                                            <div>
-                                                <input type="submit" value="{% trans "Login" %}">
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <a href="{% url 'user:register' %}">Don't have account?</a>
-                                </div>
-                            </div>
+                    {{ form.errors }}
+                    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
+                        {% csrf_token %}
+                        <input class="form-control" id="username" maxlength="32" name="email" placeholder="Email" type="email">
+                        <input class="form-control" id="password" maxlength="64" name="password" placeholder="Password" type="password">
+                        <div class="remember-me">
+                            <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
+                        </div>
+                        <div class="submit-section row">
+                            <button type="submit" class="submit-button">{% trans "Login" %}</button>
+                        </div>
+                    </form>
+                    <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 
+                    <a href="{% url 'user:register' %}">{% trans "Don't have account" %}?</a>
+                </div>
                             
-                        </form>
+            </form>
                     </div>
                 </div>
             </div>

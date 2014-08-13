@@ -18,15 +18,27 @@
 
 html {
   
-  min-height: 100%;
+  height: 100%;
   background: #fbfbfb;
   
 }
 
 body {
+  height: 100%;
   padding-top: 50px;
   background: #fbfbfb;
 }
+
+/* Wrapper for page content to push down footer */
+.wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -150px;
+  /* Pad bottom by footer height */
+  padding: 0 0 150px;
+}
+
 .custom-booklike {
   text-align:justify;
   &:first-letter {

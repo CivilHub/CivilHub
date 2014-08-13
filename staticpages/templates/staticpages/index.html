@@ -78,13 +78,17 @@
 
 {% include 'places_core/navigation.html' %}
 
+<div class="wrap">
 {% block content %}
 
     {% comment %}Tutaj wchodzi kod pojedynczej statycznej strony.{% endcomment %}
 
 {% endblock %}
+</div>
 
+<div class="footer">
 {% include 'places_core/footer.html' %}
+</div>
 
 </body>
 </html>

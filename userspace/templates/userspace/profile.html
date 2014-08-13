@@ -1,6 +1,12 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %} 
 
+{% block meta %}
+<meta property="og:image" content="{{ profile.avatar.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta name="keywords" content="{{ cuser.get_full_name }}, {{ cuser.username }}">
+{% endblock %}
+
 {% block require_scripts %}
 
     <script>
@@ -65,13 +71,24 @@
 
 {% block header %}
 
-    <div class="location-logo" style="background-image:url({{ profile.background_image.url }})">
+    <div class="user-logo" style="background-image:url({{ profile.background_image.url }})">
         <div class="container">
-            {% if request.user == cuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
+            {% if request.user == cuser %}
+            <form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
                 {% csrf_token %}
                 <input type="file" name="background" id="background" />
             </form>
-            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
+            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button><br />{% endif %}
+            
+            <div class="user-info">
+                <div class="profile-page-avatar">
+                    <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
+                </div>
+                <div class="user-fullname">
+                    {{ cuser.get_full_name }}
+                </div>
+                <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
+            </div>
         </div>
     </div>
     <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
@@ -100,7 +117,7 @@
                         <div class="form-group">
                             <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
                         </div>
-                        <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+                        <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
                     </form>
 		</ul>
             </div>
@@ -111,17 +128,10 @@
 
 {% block content %}
 
-    <div class="user-activities col-sm-9">
+    <div class="user-activities col-sm-8">
         
         <div class="col-sm-3 user-data">
-            <div class="profile-page-avatar">
-                <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
-            </div>
-            <p class="profile-page-details">
-                {{ cuser.get_full_name }}
-                <br />
-                {{ profile.rank_pts }}
-            </p>
+
             {% if profile.badges %}
                 <ul class="user-badges-list">
                 {% for badge in profile.badges.all %}
@@ -238,11 +248,11 @@
             <div class="entry-footer">
                 {% trans "Share" %}: 
 				<% if (!_.isEmpty(object.url)) { %>
-						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= object.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
-						<a href="https://twitter.com/home?status=<%= object.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
+						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>" target="_blank"> <span class="fa fa-facebook">&nbsp;</span> </a>
+						<a href="https://twitter.com/home?status=<%= window.location.origin + object.url %>" target="_blank"> <span class="fa fa-twitter">&nbsp;</span> </a>
 				<% } else if (!_.isEmpty(target.url)) { %>
-					<a href="https://www.facebook.com/sharer/sharer.php?u=<%= target.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
-					<a href="https://twitter.com/home?status=<%= target.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
+					<a href="https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>" target="_blank"> <span class="fa fa-facebook">&nbsp;</span> </a>
+					<a href="https://twitter.com/home?status=<%= window.location.origin + target.url %>" target="_blank"> <span class="fa fa-twitter">&nbsp;</span> </a>
 				<% } %>
             </div>
         </div><!-- // .entry-meta-col -->

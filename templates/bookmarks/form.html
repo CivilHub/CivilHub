@@ -6,8 +6,8 @@
             {{ form }}
             {% with form.bookmark_exists as exists %}
                 {# another hidden input is created to handle javascript submit event #}
-                <a href="#" class="btn-add-bookmark"{% if exists %} style="display: none;"{% endif %}>{% trans "bookmark" %}</a>
-                <a href="#" class="btn-remove-bookmark"{% if not exists %} style="display: none;"{% endif %}>{% trans "remove bookmark" %}</a>
+                <a href="#" class="btn-add-bookmark"{% if exists %} style="display: none;"{% endif %}>{% trans "Bookmark" %}</a>
+                <a href="#" class="btn-remove-bookmark"{% if not exists %} style="display: none;"{% endif %}>{% trans "Remove bookmark" %}</a>
             {% endwith %}                
             <span class="error" style="display: none;">{% trans "Error during process" %}</span>
         </form>

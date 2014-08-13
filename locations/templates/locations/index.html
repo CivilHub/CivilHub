@@ -52,7 +52,7 @@
     require(['jquery',
              'js/ui/ui',
              'common',
-             'js/locations/follow',
+			 'js/locations/follow',
              'js/userspace/background'],
 
     function($) {
@@ -73,7 +73,7 @@
     <li><i class="fa fa-map-marker"></i></li>
     {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-    <li><span class="breaker">></span></li>
+	<li><span class="breaker">></span></li>
     {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
@@ -95,15 +95,28 @@
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container">
-        <h1 class="location-name-title">{{ location.name }}</h1>
         {% if request.user.is_superuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'locations:background' location.pk %}" method="post">
             {% csrf_token %}
             <input type="file" name="background" id="background" />
         </form>
-        <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
-        {% if user not in locations.users.all %}
-            <button class="btn btn-success btn-fallow-location">{% trans "Follow" %}</button>
+        <button class="btn btn-default change-background-btn" style="float:left;">{% trans "Change background image" %}</button>{% endif %}
+        {% if user not in location.users.all and user.is_authenticated %}
+            <!-- <button class="btn btn-success btn-follow-location">{% trans "Follow" %}</button> -->
         {% endif %}
+
+        <div class="title-container"> 
+			<div class="location-name-title">{{ location.name }}</div>
+			<div class="followers sprite-icon"><span class="ch-icon ch-followers"></span>{{ location.users.all|length }}</div>
+			
+        {% if user not in location.users.all and user.is_authenticated %}
+			<button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+        {% else %}
+			<button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+		{% endif %}
+			
+		</div>
+		
+
     </div>
 </div>
 <nav id="location-navbar" class="navbar navbar-default" role="navigation">

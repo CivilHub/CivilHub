@@ -117,7 +117,7 @@
 
 {% block content %}
 
-    <div class="col-sm-9">
+    <div class="col-sm-8">
         <form action="" method="post" role="form" id="poll-create-form">
             {% csrf_token %}
             {{ form }}
@@ -135,7 +135,9 @@
     
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     <script type="text/template" id="answer-entry-tpl">
         <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>

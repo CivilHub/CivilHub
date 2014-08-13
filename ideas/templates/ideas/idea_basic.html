@@ -5,14 +5,14 @@
         <div class="votes">{{ idea.get_votes }}</div>
         <div class="vote-controls">
             {% if user.is_authenticated %}
-                <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-                <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
+                <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+                <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
             {% else %}
 				<!-- Dodanie parametrow GET aby powrocic do strony ideas -->
 				<form action="{% url 'user:login' %}" method="GET">
 					<input type="hidden" name="url" value="{{ request.path }}" />
-					<button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
-					<button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
+					<button class="vote-btn" type="submit" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+					<button class="vote-btn" type="submit" title="{% trans "Bad Idea, Vote NO" %}" %}"><span class="fa fa-angle-down"></span></button>
 				</form>
             {% endif %}
         </div>

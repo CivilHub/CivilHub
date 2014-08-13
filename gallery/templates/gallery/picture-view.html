@@ -59,7 +59,7 @@
 
 {% block content %}
 
-    <div class="main-content col-sm-9">
+    <div class="main-content col-sm-8">
         <h1>{{ picture.name }}<span class="fa fa-cog submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
@@ -89,6 +89,8 @@
         {% include 'comments/commentlist.html' %}
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

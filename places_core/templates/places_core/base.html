@@ -9,12 +9,38 @@
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
+{% comment %}Miejsce na dodatkowe znaczniki meta, np. tagi{% endcomment %}
+{% block meta %} {% endblock %}
+
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
+<!-- Quantcast Tag -->
+<script type="text/javascript">
+var _qevents = _qevents || [];
 
+(function() {
+    var elem = document.createElement('script');
+    elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+    elem.async = true;
+    elem.type = "text/javascript";
+    var scpt = document.getElementsByTagName('script')[0];
+        scpt.parentNode.insertBefore(elem, scpt);
+    })();
+
+    _qevents.push({
+    qacct:"p-7RCQfhyaZy5kz"
+    });
+</script>
+
+<noscript>
+    <div style="display:none;">
+    <img src="//pixel.quantserve.com/pixel/p-7RCQfhyaZy5kz.gif" border="0" height="1" width="1" alt="Quantcast"/>
+    </div>
+</noscript>
+<!-- End Quantcast tag -->
 {% block require_scripts %}
 
     {% comment %}
@@ -84,14 +110,14 @@
 <meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
 </head>
 <body>
-    
+
     <div id="messages"></div>
 
 {% comment %}Main page navigation - top navbar{% endcomment %}
 {% include 'places_core/navigation.html' %}
 
 {% comment %}Page content begins here.{% endcomment %}
-<div class="main-page-content">
+<div class="main-page-content wrap">
     
     <div id="messages"></div>
     
@@ -110,27 +136,28 @@
     
     {% endblock %}
     
-    <div class="container">
+		<div class="container">
         
-        {% comment %}
-            W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
-            wyszukiwarki. Nadpisywany w szablonie każdego modułu.
-        {% endcomment %}
-        {% block topbar %}{% endblock %}
-        
-        {% comment %}Główna zawartość strony.{% endcomment %}
-        {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-        
-        {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
-        {% block sidebar %}{% endblock %}
-        
-        
-        
-    </div>
+			{% comment %}
+				W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
+				wyszukiwarki. Nadpisywany w szablonie każdego modułu.
+			{% endcomment %}
+			{% block topbar %}{% endblock %}
+			
+			{% comment %}Główna zawartość strony.{% endcomment %}
+			{% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+			
+			{% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
+			{% block sidebar %}{% endblock %}
 
-    {% include 'places_core/footer.html' %}
-
+		</div>  
+    
 </div>
+
+<div class="footer">
+    {% include 'places_core/footer.html' %}
+</div>
+
 
 {% comment %}
     Modal dla formularza 'abuse report'. Dostępny na każdej stronie.

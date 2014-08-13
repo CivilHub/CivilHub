@@ -45,9 +45,9 @@
         }
     });
 
-    require(['jquery', 'common', 'js/topics/discussion-list/discussions'],
+    require(['jquery', 'ui', 'common', 'js/topics/discussion-list/discussions', 'js/locations/follow'],
     
-    function ($) {
+    function ($, ui) {
         
         "use strict";
         
@@ -183,7 +183,9 @@
     
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />
 
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
 </div><!-- / .row -->
     

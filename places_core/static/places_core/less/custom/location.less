@@ -2,33 +2,55 @@
     
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+	text-align: center;
+	color: #fff;
 	
-    .location-name-title {
-    
-        .default-box-shadow;
-        color: #5b5b5b;
-        font-weight: 700;
-        min-width: 350px;
-        font-size: 24px;
-        line-height: 30px;
-        padding-top: 7px;
-        padding-bottom: 7px;
-        
-    }
-    
+	.title-container {
+		display: table;
+		margin: 0 auto;
+		margin: 50px auto 0 auto;
+		
+		.location-name-title {
+			min-width: 350px;
+			background-color: rgba(0,0,0,0.5);
+			font-weight: 700;
+			font-size: 36px;
+			margin-bottom: 8px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		
+		.followers {
+			display: inline-block;
+			height: 25px;
+			line-height: 25px;
+			vertical-align: middle;
+			width: 49%;
+			background-color: rgba(0,0,0,0.5);
+			float: left;
+		}
+		
+		.btn-follow-location {
+			height: 25px;
+			line-height: 25px;
+			width: 49%;
+			border: 0px;
+			padding: 0px;
+			float: right;
+			background-color: rgba(100,180,0,1);
+		}
+		
+		.btn-unfollow-location {
+			height: 25px;
+			line-height: 25px;
+			width: 49%;
+			border: 0px;
+			padding: 0px;
+			float: right;
+			background-color: rgba(0,0,0,0.5);
+		}
+
+	}
+  
 }
 
-@media all and (max-width: 768px) {
-    
-    .location-logo {
-    
-        .location-name-title {
-        
-            width: 100%;
-            min-width: 100px;
-            
-        }
-        
-    }
-    
-}

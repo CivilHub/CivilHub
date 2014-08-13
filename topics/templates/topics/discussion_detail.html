@@ -4,6 +4,14 @@
 
 {% block title %} {{ title }}, {{ location.name }} | CivilHub {% endblock %}
 
+{% block meta %} 
+<meta property="og:title" content="{{ title }}, {{ location.name }}"/>
+<meta property="og:image" content="{{ discussion.creator.profile.avatar.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:description" content="{{ discussion.question }}" />
+<meta name="keywords" content="{{ title }}, {{ location.name }}, {% for tag in discussion.tags.all %}{{ tag.name }}, {% endfor %}">
+{% endblock %}
+
 {% block require_scripts %}
 
     <script>
@@ -78,7 +86,8 @@
              'mapinput',
              'common',
              'js/maps/minimap',
-             'js/ui/bookmark-form'],
+             'js/ui/bookmark-form',
+			 'js/locations/follow'],
     
     function ($, ui, bootbox, AbuseWindow) {
         "use strict";
@@ -310,8 +319,7 @@
 
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
 
-    <div class="col-sm-9">
-        <div class="main-content">
+    <div class="col-sm-8 main-content">
         <div class="discussion-list-entry">
             <div class="custom-label-list">
                 <span class="fa fa-list custom-fa"> </span>
@@ -324,7 +332,7 @@
             </div>
         </div>
         <hr />
-        <h1>{{ title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+        <h1>{{ title }}&nbsp;<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
                 {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
@@ -339,7 +347,7 @@
         
         {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
 
-        {% trans "Tags" %}:{% for tag in discussion.tags.all %}<a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
+        {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a>,{% endfor %}
 
         
 
@@ -467,10 +475,12 @@
             
         {% endif %}
         
-        </div>
+       
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     <script type="text/template" id="reply-tpl">
         <div class="row">

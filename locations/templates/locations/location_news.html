@@ -22,6 +22,7 @@
             utils: 'js/utils/utils',
             common: 'js/common',
             bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
             list: 'js/topics/news-list/niew',
             moment: 'includes/momentjs/moment'
         },
@@ -54,7 +55,9 @@
 
     require(['jquery',
              'js/blog/news-list/blog',
-             'common'], function ($) {
+			 'ui',
+             'common',
+			 'js/locations/follow'], function ($, ui) {
         
         "use strict";
         
@@ -174,7 +177,7 @@
 {% endblock %}
 
 {% block sidebar %}
-
-    {% include 'locations/sidebar.html' %}
-
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
 {% endblock %}

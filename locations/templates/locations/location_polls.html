@@ -53,8 +53,10 @@
     });
 
     require(['jquery',
+			 'ui',
              'common',
-             'js/polls/poll-list/pollList'], function ($) {
+			 'js/locations/follow',
+             'js/polls/poll-list/pollList'], function ($, ui) {
         
         $(document).trigger('load');
         
@@ -155,7 +157,9 @@
         {% endif %}
         
     </div>
-
-    {% include 'locations/sidebar.html' %}
+    
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

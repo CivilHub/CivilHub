@@ -25,7 +25,9 @@
     {% endfor %}
     </ul>
 </div>
-{% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
 <button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button>
 <!-- Modal window -->
 <div id="modal" class="modal fade"></div>

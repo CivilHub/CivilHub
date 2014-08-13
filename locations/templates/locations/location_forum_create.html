@@ -17,6 +17,7 @@
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
             tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
             common: 'js/common',
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
@@ -65,9 +66,11 @@
 
     require(['jquery',
              'js/locations/discussionForm',
-             'common'],
+			 'ui',
+             'common',
+			 'js/locations/follow'],
 
-    function ($, DiscussionForm) {
+    function ($, DiscussionForm, ui) {
         
         var form = new DiscussionForm();
         
@@ -94,7 +97,9 @@
 
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
 
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     {% comment %}<script>
         require(['/static/places_core/js/locations/discussionForm.js'],

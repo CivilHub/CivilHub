@@ -6,9 +6,8 @@
     te.
 {% endcomment %}
 
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-        <h3 class="actions-label">{% trans "Actions" %}:</h3>
+    <div class="sidebar-right">
+        <h3 class="sidebar-label">{% trans "Actions" %}:</h3>
         <ul class="custom-sidebar-nav">  
             {% if user.is_authenticated %}                 
             {% if 'new_discussion' in links %}<li>
@@ -59,9 +58,26 @@
             </li>{% endif %}
             {% endif %}
         </ul>
-    </ul>
+		
+	<div class="clear"></div>
+	
+    <div class="followers-sidebar">
+    <h3 class="sidebar-label">{% trans "Most active users" %}:</h3>
+		<div class="followers-box">
+			{% for usr in location.users.all %}
+			<div class="follower">
+				<a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+				<img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+    </div>
+	
+	<div class="clear"></div>
 
     {% if tags %}
+	<h3 class="sidebar-label">{% trans "Tags" %}:</h3>
     <div class="tags">
         <ul>
         {% for tag, counter in tags %}
@@ -70,23 +86,9 @@
         </ul>
     </div>
     {% endif %}
-
-    <div class="sidebar-right">
-    <div class="followers-sidebar">
-    <h3 class="title">{% trans "Most active users" %}</h3>
-    <div class="followers-box">
-        {% for usr in location.users.all %}
-        <div class="follower">
-            <a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-            <img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
-        </a>
-        </div>
-     {% endfor %}
-<div class="clear"></div>
-     </div>
-     </div>
+	
     </div>
-</div>
+
 
 {% if user.is_authenticated %}
     {% comment %}

@@ -12,14 +12,14 @@
             <span class="icon-bar"></span>
         </button>
         <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.jpg' %}"></a>
-    <div class="navbar-top-search">
-        <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
-			<div class="form-group">
+		<div class="navbar-top-search">
+			<form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+				
 				<input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
 				<button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
-			</div>
-        </form>
-    </div>
+				
+			</form>
+		</div>
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
             

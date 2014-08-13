@@ -5,6 +5,14 @@
 
 {% block title %} {{ idea.name }}, {{ location.name }} | CivilHub {% endblock %}
 
+{% block meta %} 
+<meta property="og:title" content="{{ idea.name }}, {{ location.name }}"/>
+<meta property="og:image" content="{{ idea.creator.profile.avatar.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:description" content="{{ idea.description|striptags|slice:":100" }}..." />
+<meta name="keywords" content="{{ idea.name }}, {{ idea.location }}, {% for tag in idea.tags.all %}{{ tag.name }}, {% endfor %}">
+{% endblock %}
+
 {% block require_scripts %}
     
     <script>
@@ -67,7 +75,8 @@
              'common',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/comments/commentlist'],
+             'js/comments/commentlist',
+			 'js/locations/follow'],
 
     function ($, utils, ui, CounterWindow) {
         
@@ -151,7 +160,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="main-content col-sm-9">
+
+<div class="main-content col-sm-8">
     {% include 'maps/pointer-modal-form.html' %}
     <div class="row idea-entry">
         <div class="idea-votes col-sm-3">
@@ -159,14 +169,14 @@
                 <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
                 <div class="vote-controls">
                     {% if user.is_authenticated %}
-                    <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Popieram, jestem na TAK" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-                    <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Zły pomysł, jestem na NIE" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
+                    <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+                    <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
                     {% else %}
 						<!-- Dodanie parametrow GET aby powrocic do strony ideas -->
 						<form action="{% url 'user:login' %}" method="GET">
 							<input type="hidden" name="url" value="{{ request.path }}" />
-							<button class="vote-btn" type="submit" title="{% trans "Popieram, jestem na TAK" %}"><span class="fa fa-angle-up"></span></button>
-							<button class="vote-btn" type="submit" title="{% trans "Zły pomysł, jestem na NIE" %}" %}"><span class="fa fa-angle-down"></span></button>
+							<button class="vote-btn" type="submit" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+							<button class="vote-btn" type="submit" title="{% trans "Bad Idea, Vote NO" %}" %}"><span class="fa fa-angle-down"></span></button>
 						</form>
                     {% endif %}
                 </div>
@@ -189,13 +199,13 @@
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             {% endif %}
 
-			{% include 'ideas/share_buttons.html' %}			
+			{% include 'locations/share_buttons.html' %}			
 			
         </div>
         <div class="col-sm-9">
 
             <h3>
-                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a>&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h3>
+                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a>&nbsp;<span class="submenu-toggle"> </span></h3>
                 <div class="entry-submenu">
                     <ul>
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
@@ -206,9 +216,12 @@
                         <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
                     </ul>
                 </div>
-                <small>
-                    {% trans "Created by" %} <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
-                </small>
+                <div class="author-info">
+                    <small>
+                        <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="1" />     
+                        <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
+                    </small>
+                </div>
                 <div>{{ idea.description | safe }}</div>
     <p>{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
@@ -219,7 +232,7 @@
         {% if idea.category %}
                 <span class="fa fa-star"> </span>{% trans "Category" %}:
                     <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
-                {% endif %}
+        {% endif %}
     </p>
         <div>
             <p>
@@ -241,6 +254,8 @@
 
 {% include 'ideas/idea-votes.html' %}
 
-{% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

@@ -50,10 +50,13 @@
     });
 
     require(['jquery',
+			 'ui',
              'common',
+			 'js/locations/follow',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/comments/commentlist'], function ($) {
+             'js/comments/commentlist',
+			 'js/'], function ($, ui) {
         
         "use strict";
         
@@ -91,17 +94,36 @@
 
     {% include 'maps/pointer-modal-form.html' %}
 
-    <div class="col-sm-9">
-		<div class="blog-detail">
-			<div class="row">
+<div class="col-sm-8 main-content">
+	<div class="blog-detail">
+<div class="row">
+	
+		<div class="col-md-2">
+			<div class="entry-avatar-col">
+				<img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
+				{{ news.creator.profile.rank_pts }}
 			
+            {% include 'locations/share_buttons.html' %}
+            
+            </div>
+		</div>
+		
+		<!-- News -->
+		<div class="col-md-10">
+			<!-- News header -->
+			<div class="row news-header">
+				<!-- News title -->
 				<div class="col-md-11">
 					<h1>{{ title }}</h1>
+					<div class="news-meta">
+						<p>{% trans "Created by" %} <a href="{{ news.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span></a> {{ news.date_created }}</p>
+					</div>
 				</div>
-			
+				
+				<!-- News settings -->
 				<div class="col-md-1">
 				{% if user.is_authenticated %}
-				<h1><span class="fa fa-cog submenu-toggle"> </span></h1>
+				<h1><span class="submenu-toggle"></h1>
 				{% endif %}
 
 					<div class="entry-submenu">
@@ -120,44 +142,52 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- News content -->
+			<div class="row">
+				<article>
+					<div  class="news-contetn">{{ news.content | safe }}</div>
+				</article>
+				
+				<div class="comments-{{ news.pk }}"></div>
+				
+				<div class="sprite-icon">
+					<span class="ch-icon ch-tags"> </span>{% trans "Tags" %}:
+					{% for tag in news.tags.all %}
+						<a href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a>,&nbsp;
+					{% endfor %}
+				</div>
+				<br />
+				{% if news.category %}
+				<div class="sprite-icon">
+					<span class="ch-icon ch-category"></span>{% trans "Category" %}: <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}">{{ news.category }}</a>
+				</div>
+				{% endif %}
 
-            
-            {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
-            <hr />
-            <article>
-            
-                <div>{{ news.content | safe }}</div>
-            
-                <div class="comments-{{ news.pk }}"></div>
-                <div class="news-meta">
-                    <p>{% trans "Created by" %} <span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span> | {{ news.date_created }}</p>
+				
+			</div>
+			
+			<!-- News comments -->
+            <div class="row">
+                <input type="hidden" id="target-id" value="{{ news.pk }}" />
+                <input type="hidden" id="target-label" value="blog" />
+                <input type="hidden" id="target-type" value="{{ content_type }}" />
+                <input type="hidden" id="target-user" value="{{ user.username }}" />
+                <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+                <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+                <div class="sprite-icon"> 
+                <span class="ch-icon ch-comments"></span>{{ news.get_comment_count }} {% trans "Comments" %}: 
+                    <a class="comment-toggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a>
                 </div>
-                {% if news.category %}
-                <div>
-                    {% trans "Category" %}: <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}">{{ news.category }}</a>
-                </div>
-                {% endif %}
-                <div>
-                    {% trans "Tags" %}:
-                    {% for tag in news.tags.all %}
-                        <a href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a>,&nbsp;
-                    {% endfor %}
-                </div>
-            </article>
-            <input type="hidden" id="target-id" value="{{ news.pk }}" />
-            <input type="hidden" id="target-label" value="blog" />
-            <input type="hidden" id="target-type" value="{{ content_type }}" />
-            <input type="hidden" id="target-user" value="{{ user.username }}" />
-            <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-            <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-            <p>
-                Comments: <span class="badge comment-count">{{ news.get_comment_count }}</span>
-                <a class="comment-toggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a>
-            </p>
-            {% include 'comments/commentlist.html' %}
-    	</div>
+                {% include 'comments/commentlist.html' %}
+            </div>
+		</div>
+
+        </div>
+	</div>
+</div>
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
     </div>
-    
-    {% include 'locations/sidebar.html' %}
 
 {% endblock %}

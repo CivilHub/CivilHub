@@ -21,6 +21,7 @@
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
             tagsinput: 'includes/jquery/jquery.tagsinput',
+            ui: 'js/ui/ui',
             common: 'js/common',
             ckeditor: 'includes/ckeditor/ckeditor',
             dropzone: 'includes/dropzone/dropzone',
@@ -64,9 +65,11 @@
 
     require(['jquery',
              'js/locations/ideaForm',
-             'common'],
+			 'ui',
+             'common',
+			 'js/locations/follow'],
 
-    function ($, IdeaForm) {
+    function ($, IdeaForm, ui) {
         
         var form = new IdeaForm();
         
@@ -89,7 +92,9 @@
         </form>
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     {% include 'gallery/media-uploader.html' %}
     
