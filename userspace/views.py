@@ -316,6 +316,10 @@ def register(request):
     Register new user via django system.
     """
     from rest_framework.authtoken.models import Token
+    
+    if request.user.is_authenticated():
+        return redirect(reverse('user:profile', kwargs={'username':request.user.username}))
+    
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 

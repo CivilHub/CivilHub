@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView, HomeView
+from userspace.views import register
 admin.autodiscover()
 # include action hooks globally
 from places_core import actstreams
@@ -149,6 +150,8 @@ urlpatterns += patterns('',
     
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
-    url(r'^$', HomeView.as_view()),
+    #url(r'^$', HomeView.as_view()),
+    
+    url(r'^$', register),
     url(r'^', include('locations.urls', namespace='locations')),
 )
