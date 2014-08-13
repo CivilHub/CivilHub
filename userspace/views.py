@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os, json
+import hashlib, datetime, random, string, os, json, re
 from json import dumps
 from PIL import Image
 from datetime import timedelta
@@ -163,7 +163,7 @@ class CredentialCheckAPIView(rest_views.APIView):
         email = request.QUERY_PARAMS.get('email')
         uname = request.QUERY_PARAMS.get('uname')
         valid = False
-        if email:
+        if email and re.match(r'[^@]+@[^@]+\.[^@]+', email):
             try:
                 usr = User.objects.get(email=email)
             except User.DoesNotExist:

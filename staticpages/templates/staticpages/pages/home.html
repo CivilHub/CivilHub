@@ -31,7 +31,7 @@
     ], function ($) {
         $(document).ready(function () {
             $('#signup_button').on('click', function(){
-                $('#pl-register-form').validateRegisterForm('show');
+                $('#pl-register-form').validateRegisterForm();
             });
         });
     });
@@ -89,9 +89,6 @@
             {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.
             </p>
             </form>
-            <script type="text/javascript">
-                
-            </script>
             
         </div>
     </div>
