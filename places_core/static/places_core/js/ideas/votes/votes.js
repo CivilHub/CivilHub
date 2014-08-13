@@ -4,10 +4,9 @@
 // App to manage idea votes - vote up/down.
 require(['jquery',
          'underscore',
-         'utils',
-         'js/ui/ui'],
+         'utils'],
 
-function ($, _, utils, ui) {
+function ($, _, utils) {
     
     "use strict";
     
@@ -29,7 +28,7 @@ function ($, _, utils, ui) {
             callback = function (data) {
                 data = JSON.parse(data);
                 if (data.success === true) {
-                    ui.message.success(data.message);
+                    window.message.success(data.message);
                     $votes.html(data.votes);
                     if (!_.isNaN(votes)) {
                         $counter.text(++votes);
@@ -37,7 +36,7 @@ function ($, _, utils, ui) {
                         $counter.text(0);
                     }
                 } else {
-                    ui.message.warning(data.message);
+                    window.message.warning(data.message);
                 }
             };
 

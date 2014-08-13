@@ -499,7 +499,7 @@ function ($, _, Backbone, ui) {
     // Start Application.
     // -----------------------------------------------------------------------------
     $.get(url, function (resp) {
-        new commentlist.CommentlistView(resp);
+        new commentlist.CommentlistView(resp.results);
     });
     //
     // Bind show/hide comment controls event.

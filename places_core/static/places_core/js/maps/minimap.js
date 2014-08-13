@@ -3,13 +3,13 @@
 // ==========
 // Display minimap for different content types.
 define(['jquery',
-        'ui',
         'bootbox',
         'async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf-8jaTKMAJRcy9USx7YjA&sensor=false'],
 
-function ($, utils, ui, bootbox) {
+function ($, utils, bootbox) {
+    
     "use strict";
-    console.log(bootbox);
+    
     $.fn.minimap = function (markers) {
         return $(this).each(function () {
             var $this = $(this),
@@ -47,7 +47,7 @@ function ($, utils, ui, bootbox) {
                                 data: {pk: marker.pk},
                                 dataType: 'json',
                                 success: function (resp) {
-                                    ui.message.success(resp.message);
+                                    window.message.success(resp.message);
                                     m.setVisible(false);
                                 },
                                 error: function (err) {
