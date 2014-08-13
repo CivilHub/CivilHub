@@ -57,7 +57,8 @@ require(['jquery', 'bootstrap'], function ($) {
         for (var i = 0; i < errors.length; i++) {
             $input = $form.find('#' + errors[i].label);
             $form.find('#' + errors[i].label).popover({
-                content: errors[i].message
+                content: errors[i].message,
+                placement: 'left'
             });
             $input.popover('show');
         }
