@@ -13,14 +13,6 @@ from places_core.social_auth import validate_email, \
 from .helpers import random_password
 
 
-class UserDataManager(object):
-    """
-    Procesuje dane użytkownika z portali społecznościowych.
-    """
-    def get_uid(cls, data):
-        return data['uid']
-
-
 class SocialAuthManager(object):
     """
     Uzupełnienie Python Social Auth umożliwiające logowanie przez aplikację
@@ -32,7 +24,6 @@ class SocialAuthManager(object):
         self.provider = provider
         self.uid      = uid
         self.data     = data
-        self.response = response
         self.user     = None
         self.social   = None
         self.is_new   = True
