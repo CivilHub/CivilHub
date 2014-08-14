@@ -39,7 +39,7 @@
             };
         </script>
         
-       <!-- <div id="signinButton">
+       <div id="signinButton">
             <span class="g-signin" data-scope="{{ plus_scope }}"
                                    data-clientid="{{ plus_id }}"
                                    data-redirecturi="{% url 'user:passet' %}"
@@ -53,7 +53,7 @@
             {% csrf_token %}
             <input id="at" type="hidden" name="access_token" value="" />
             <input id="code" type="hidden" name="code" value="" />
-        </form> -->
+        </form>
     
     {% comment %}
     
@@ -67,12 +67,12 @@
             <div class="login-social row">
 
                 <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
-					
-				<button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
-					
-				<button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
-						
-				<button type="button" class="google-button" onClick="location.href='{% url 'social:begin' 'google' %}'">{% trans "Connect with Google+" %}</button>
+                    
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+                    
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                        
+                <button type="button" class="google-button" onClick="location.href='{% url 'social:begin' 'google' %}'">{% trans "Connect with Google+" %}</button>
                     
             </div>
             <form action="" method="post">
