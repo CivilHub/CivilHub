@@ -6,6 +6,8 @@
 
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/ideas/?pk={{ location.pk }}" />
 
+{% include 'places_core/paginator.html' %}
+
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3">
         <div class="vote-form">
@@ -64,14 +66,6 @@
     </div>
 </script>
 
-<script type="text/template" id="paginator-tpl">
-    <li class="first-page"><a>&laquo;</a></li>
-    <li class="prev-page"><a>{% trans "Previous" %}</a></li>
-    <% for (var i = 1; i <= totalPages; i++) { %>
-        <li class="page" data-index="<%= i %>"><a><%= i %></a></li>
-    <% } %>
-    <li class="next-page"><a>{% trans "Next" %}</a></li>
-    <li class="last-page"><a>&raquo;</a></li>
-</script>
+{% include 'places_core/paginator.html' %}
 
 {% include 'locations/category-form.html' %}

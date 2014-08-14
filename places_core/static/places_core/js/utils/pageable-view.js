@@ -1,23 +1,24 @@
 //
-// paginatorView.js
+// pageable-view.js
 // ================
-// Simple Backbone view to display navigation for PageableCollection.
+// Klasa do rozszerzenia przez wszystkie widoki korzystające z paginatora.
 //
 define(['jquery',
         'underscore',
-        'backbone'],
+        'backbone',
+        'utils'],
 
-function ($, _, Backbone) {
+function ($, _, Backbone, utils) {
     
     "use strict";
     
-    var PaginatorView = Backbone.View.extend({
+    var PageableView = Backbone.View.extend({
         
         tagName: 'div',
         
-        className: 'paginator',
+        className: 'backbone-collection-list',
         
-        template: _.template($('#paginator-tpl').html()),
+        template: _.template($('#pageable-view-tpl').html()),
         
         events: {
             'click .first-page': 'firstPage',
@@ -26,21 +27,13 @@ function ($, _, Backbone) {
             'click .prev-page': 'prevPage'
         },
         
-        initialize: function (collection) {
-            this.collection = collection;
-            this.listenTo(this.collection, 'sync', this.render);
-        },
-        
-        render: function () {
-            var self = this;
-            self.$el.empty();
-            if (this.collection.state.totalPages > 1) {
-                this.$el.html(this.template(this.collection.state));
-                this.$el.find('.page').on('click', function (e) {
-                    self.getPage($(this).attr('data-index'));
-                });
-            }
-            return this;
+        filter: function (page) {
+            var self = this,
+                filters = utils.getListOptions();
+
+            _.extend(this.collection.queryParams, filters);
+            
+            this.collection.fetch();
         },
         
         getPage: function (idx) {
@@ -75,8 +68,9 @@ function ($, _, Backbone) {
         setCounter: function () {
             this.$el.find('.current-page')
                 .text(this.collection.state.currentPage);
+            this.render();
         }
     });
     
-    return PaginatorView;
+    return PageableView;
 });

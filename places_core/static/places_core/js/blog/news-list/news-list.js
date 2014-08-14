@@ -13,6 +13,7 @@ define(['jquery',
         'moment'],
 
 function ($, _, Backbone, utils, PaginatorView) {
+    
     "use strict";
         
     var baseurl = $('#rest-api-url').val(),
@@ -65,8 +66,16 @@ function ($, _, Backbone, utils, PaginatorView) {
             
             url: baseurl,
             
-            parse: function (data) {
+            queryParams: {
+                totalRecords: 'count'
+            },
+            
+            parseRecords: function (data) {
                 return data.results;
+            },
+            
+            parseState: function (resp, queryParams, state, options) {
+                return {totalRecords: resp.count};
             }
         }),
 
@@ -78,13 +87,12 @@ function ($, _, Backbone, utils, PaginatorView) {
                 $.get(baseurl, function (resp) {
                     if (resp.count) {
                         self.collection = new NewsCollection(resp.results);
+                        self.collection.setPageSize(2);
                         self.render();
-                        self.paginator = new PaginatorView({
-                            count: resp.count,
-                            perPage: 2,
-                            targetCollection: self.collection
-                        });
-                        $(self.paginator.render().el).insertAfter(self.$el);
+                        self.paginator = new PaginatorView(self.collection);
+                        setTimeout(function () {
+                            $(self.paginator.render().el).insertAfter(self.$el);
+                        }, 500);
                     } else {
                         self.$el.append('<p class="alert alert-info">' + gettext("There are no entries yet") + '</p>');
                     }
@@ -109,14 +117,12 @@ function ($, _, Backbone, utils, PaginatorView) {
 
             filter: function (page) {
                 var that = this,
-                    filters = utils.getListOptions(),
-                    url = baseurl + '&' + utils.JSONtoUrl(filters);
-                this.collection.url = url;
-                this.collection.fetch({
-                    success: function () {
-                        that.paginator.trigger('urlChange')
-                    }
-                });
+                    filters = utils.getListOptions();
+                    
+                filters.page = 1;
+                _.extend(this.collection.queryParams, filters);
+                this.collection.fetch();
+                this.paginator.render();
             }
         });
     

@@ -1,64 +1,44 @@
 //
 // ideaList.js
 // ===========
-// Main list view.
+// Main list view. Dziedziczy z modelu 'PageableView'.
 define(['jquery',
         'underscore',
         'backbone',
-        'utils',
         'js/ideas/idea-list/ideaCollection',
         'js/ideas/idea-list/ideaView',
-        'js/ui/paginatorView'],
+        'js/utils/pageable-view'],
 
-function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
+function ($, _, Backbone, IdeaCollection, IdeaView, PageableView) {
     
     "use strict";
     
-    var baseurl = $('#rest-api-url').val();
-    
-    var IdeaList = Backbone.View.extend({
-        el: '#idea-list-view',
+    var IdeaList = PageableView.extend({
 
         initialize: function () {
-            var self = this;
-            $.get(baseurl, function (resp) {
-                if (resp.count) {
-                    self.collection = new IdeaCollection(resp.results);
-                    self.collection.setPageSize(2);
-                    self.render();
-                    self.paginator = new PaginatorView(self.collection);
-                    setTimeout(function () {
-                        $(self.paginator.render().el).insertAfter(self.$el);
-                    }, 500);
-                    window.testP = self.collection;
-                } else {
-                    self.$el.append('<p class="alert alert-info">' + gettext("There are no ideas yet") + '</p>');
-                }
-                self.listenTo(self.collection, 'sync', self.render);
-            });
+            this.collection = new IdeaCollection();
+            this.collection.setPageSize(2);
+            this.$el.appendTo('#idea-list-view');
+            this.listenTo(this.collection, 'sync', this.render);
         },
 
         render: function () {
+            var self = this;
             this.$el.empty();
+            this.$el.html(this.template(this.collection.state));
             this.collection.each(function (item) {
                 this.renderEntry(item);
             }, this);
+            this.$el.find('.page').on('click', function () {
+                self.getPage(parseInt($(this).attr('data-index'), 10));
+            });
         },
 
         renderEntry: function (item) {
             var itemView = new IdeaView({
                     model: item
                 });
-            $(itemView.render().el).appendTo(this.$el);
-        },
-
-        filter: function (page) {
-            var that = this,
-                filters = utils.getListOptions();
-                
-            filters.page = 1;
-            _.extend(this.collection.queryParams, filters);
-            this.collection.fetch();
+            $(itemView.render().el).prependTo(this.$el);
         }
     });
     

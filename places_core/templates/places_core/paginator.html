@@ -1,0 +1,22 @@
+{% load i18n %}
+
+{% comment %}
+
+    Szablon dla widoków list wykorzystujących paginację.
+
+{% endcomment %}
+
+<script type="text/template" id="pageable-view-tpl">
+    <p class="page-info">{% trans "Page" %} <span class="current-page"><%= currentPage %></span> {% trans "of" %} <%= totalPages %></p>
+    <% if (totalPages > 1) { %>
+        <ul class="pagination">
+            <li class="first-page"><a>&laquo;</a></li>
+            <li class="prev-page"><a>{% trans "Previous" %}</a></li>
+            <% for (var i = 1; i <= totalPages; i++) { %>
+                <li class="page" data-index="<%= i %>"><a><%= i %></a></li>
+            <% } %>
+            <li class="next-page"><a>{% trans "Next" %}</a></li>
+            <li class="last-page"><a>&raquo;</a></li>
+        </ul>
+    <% } %>
+</script>

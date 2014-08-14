@@ -15,6 +15,8 @@ function (Backbone, IdeaModel) {
         
         url: $('#rest-api-url').val(),
         
+        mode: 'server',
+        
         queryParams: {
             totalRecords: 'count'
         },
