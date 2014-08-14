@@ -236,9 +236,9 @@ class BasicIdeaView(View):
         elif status == 'True':
             queryset = queryset.filter(status=True)
 
-        if request.GET.get('category') and request.GET.get('category') != 'all':
-            category = Category.objects.get(pk=request.GET.get('category'))
-            queryset = queryset.filter(category=category)
+        category = request.QUERY_PARAMS.get('category')
+        if category: queryset = queryset.filter(category__pk=category)
+        print category
 
         time_delta = None
         time = request.GET.get('time')

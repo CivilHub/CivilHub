@@ -15,6 +15,10 @@ function (Backbone, IdeaModel) {
         
         url: $('#rest-api-url').val(),
         
+        queryParams: {
+            totalRecords: 'count'
+        },
+        
         parse: function (data) {
             return data.results;
         }

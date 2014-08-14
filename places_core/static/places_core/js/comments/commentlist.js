@@ -445,10 +445,8 @@ function ($, _, Backbone, ui) {
         },
         
         initialize: function (initialComments) {
-            console.log(initialComments);
             var _that = this;
             _that.collection = new commentlist.Commentlist(initialComments);
-            console.log(_that.collection);
             _that.render();
             _that.listenTo(_that.collection, 'add', _that.renderComment);
             _that.listenTo(_that.collection, 'reset', _that.reRender);

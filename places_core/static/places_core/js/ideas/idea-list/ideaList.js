@@ -23,13 +23,11 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
             $.get(baseurl, function (resp) {
                 if (resp.count) {
                     self.collection = new IdeaCollection(resp.results);
+                    self.collection.setPageSize(2);
                     self.render();
-                    self.paginator = new PaginatorView({
-                        count: resp.count,
-                        perPage: 2,
-                        targetCollection: self.collection
-                    });
+                    self.paginator = new PaginatorView(self.collection);
                     $(self.paginator.render().el).insertAfter(self.$el);
+                    window.testP = self.paginator;
                 } else {
                     self.$el.append('<p class="alert alert-info">' + gettext("There are no ideas yet") + '</p>');
                 }
@@ -53,10 +51,11 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
 
         filter: function (page) {
             var that = this,
-                filters = utils.getListOptions(),
-                url = baseurl + '&' + utils.JSONtoUrl(filters);
-            this.collection.url = url;
+                filters = utils.getListOptions();
+                
+            _.extend(this.collection.queryParams, filters);
             this.collection.fetch();
+            console.log(this.collection);
         }
     });
     

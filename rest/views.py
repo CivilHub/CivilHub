@@ -492,8 +492,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
 
         category_pk = self.request.QUERY_PARAMS.get('category')
         if category_pk and category_pk != 'all':
-            category = get_object_or_404(ForumCategory, pk=category_pk)
-            queryset = queryset.filter(category=category)
+            queryset = queryset.filter(category__pk=category_pk)
 
         status = self.request.QUERY_PARAMS.get('state')
         if status and status != 'all':
