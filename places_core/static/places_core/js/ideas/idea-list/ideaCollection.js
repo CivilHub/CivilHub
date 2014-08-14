@@ -19,8 +19,12 @@ function (Backbone, IdeaModel) {
             totalRecords: 'count'
         },
         
-        parse: function (data) {
+        parseRecords: function (data) {
             return data.results;
+        },
+        
+        parseState: function (resp, queryParams, state, options) {
+            return {totalRecords: resp.count};
         }
     });
     

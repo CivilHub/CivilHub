@@ -11,6 +11,7 @@ define(['jquery',
         'js/ui/paginatorView'],
 
 function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
+    
     "use strict";
     
     var baseurl = $('#rest-api-url').val();
@@ -26,8 +27,10 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
                     self.collection.setPageSize(2);
                     self.render();
                     self.paginator = new PaginatorView(self.collection);
-                    $(self.paginator.render().el).insertAfter(self.$el);
-                    window.testP = self.paginator;
+                    setTimeout(function () {
+                        $(self.paginator.render().el).insertAfter(self.$el);
+                    }, 500);
+                    window.testP = self.collection;
                 } else {
                     self.$el.append('<p class="alert alert-info">' + gettext("There are no ideas yet") + '</p>');
                 }
@@ -53,9 +56,9 @@ function ($, _, Backbone, utils, IdeaCollection, IdeaView, PaginatorView) {
             var that = this,
                 filters = utils.getListOptions();
                 
+            filters.page = 1;
             _.extend(this.collection.queryParams, filters);
             this.collection.fetch();
-            console.log(this.collection);
         }
     });
     

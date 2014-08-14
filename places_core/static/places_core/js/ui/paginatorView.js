@@ -2,14 +2,6 @@
 // paginatorView.js
 // ================
 // Simple Backbone view to display navigation for PageableCollection.
-// 
-// Inicjalizator klasy przyjmuje parametr w postaci obiektu zawierającego
-// opcje. Większość z nich jest wymagana, nie zdążyłem też wprowadzić
-// należytego wyłapywania błędów. Wymagane parametry to:
-//   - count:   Całkowita liczba rezultatów (count w odpowiedzi REST servera)
-//   - perPage: Ilość elementów na stronę, trzeba to wprowadzić ręcznie
-//   - targetCollection: Backbone's PageableCollection instance
-//   - data (optional) : Additional query params
 //
 define(['jquery',
         'underscore',
@@ -27,13 +19,48 @@ function ($, _, Backbone) {
         
         template: _.template($('#paginator-tpl').html()),
         
+        events: {
+            'click .first-page': 'firstPage',
+            'click .last-page': 'lastPage',
+            'click .next-page': 'nextPage',
+            'click .prev-page': 'prevPage'
+        },
+        
         initialize: function (collection) {
             this.collection = collection;
         },
         
         render: function () {
-            this.$el.html(this.template(this));
+            var self = this;
+            this.$el.html(this.template(this.collection.state));
+            this.$el.find('.page').on('click', function (e) {
+                self.getPage($(this).attr('data-index'));
+            });
             return this;
+        },
+        
+        getPage: function (idx) {
+            this.collection.getPage(parseInt(idx, 10));
+        },
+        
+        firstPage: function () {
+            this.collection.getFirstPage();
+        },
+        
+        lastPage: function () {
+            this.collection.getLastPage();
+        },
+        
+        nextPage: function () {
+            if (this.collection.hasNextPage()) {
+                this.collection.getNextPage();
+            }
+        },
+        
+        prevPage: function () {
+            if (this.collection.hasPreviousPage()) {
+                this.collection.getPreviousPage();
+            }
         }
     });
     
