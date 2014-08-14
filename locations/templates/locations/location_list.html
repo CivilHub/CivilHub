@@ -1,7 +1,69 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common',
+            vector: 'includes/vectormap/jquery-jvectormap-1.2.2.min',
+            worldmap: 'includes/vectormap/jquery-jvectormap-world-mill-en'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            vector: {
+                deps: ['jquery']
+            },
+            
+            worldmap: {
+                deps: ['vector']
+            }
+        }
+    });
+
+    require(['jquery', 'vector', 'worldmap', 'common'], function ($) {
+        
+        $('#vector-map').vectorMap();
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
+
 {% block content %}
+
+    <link rel="stylesheet" href="{% static 'places_core/includes/vectormap/jquery-jvectormap-1.2.2.css' %}" />
+
+    <div id="vector-map"></div>
 
     {% if locations %}
         <ul>
