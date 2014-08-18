@@ -17,7 +17,7 @@ function ($, _, Backbone, IdeaCollection, IdeaView, PageableView) {
 
         initialize: function () {
             this.collection = new IdeaCollection();
-            this.collection.setPageSize(2);
+            this.collection.setPageSize(window.pageSize);
             this.$el.appendTo('#idea-list-view');
             this.listenTo(this.collection, 'sync', this.render);
         },

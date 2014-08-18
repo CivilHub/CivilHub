@@ -15,8 +15,18 @@ function (Backbone) {
         
         url: $('#poll-api-url').val(),
         
-        parse: function (data) {
+        mode: 'server',
+        
+        queryParams: {
+            totalRecords: 'count'
+        },
+        
+        parseRecords: function (data) {
             return data.results;
+        },
+        
+        parseState: function (resp, queryParams, state, options) {
+            return {totalRecords: resp.count};
         }
     });
     

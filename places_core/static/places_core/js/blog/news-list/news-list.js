@@ -84,7 +84,7 @@ function ($, _, Backbone, utils, PageableView) {
 
             initialize: function () {
                 this.collection = new NewsCollection();
-                this.collection.setPageSize(2);
+                this.collection.setPageSize(window.pageSize);
                 this.$el.appendTo('#entries');
                 this.listenTo(this.collection, 'sync', this.render);
             },

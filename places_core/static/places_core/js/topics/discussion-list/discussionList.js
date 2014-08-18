@@ -5,12 +5,11 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'js/utils/utils',
         'js/topics/discussion-list/discussionEntry',
         'js/topics/discussion-list/discussionCollection',
         'js/utils/pageable-view'],
         
-function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection, PageableView) {
+function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
     
     "use strict";
     
@@ -18,7 +17,7 @@ function ($, _, Backbone, utils, DiscussionEntry, DiscussionCollection, Pageable
 
         initialize: function () {
             this.collection = new DiscussionCollection();
-            this.collection.setPageSize(2);
+            this.collection.setPageSize(window.pageSize);
             this.$el.appendTo('#discussions');
             this.listenTo(this.collection, 'sync', this.render);
         },

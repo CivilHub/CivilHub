@@ -7,6 +7,7 @@ define(['backbone',
         'paginator'],
 
 function (Backbone, DiscussionEntryModel) {
+    
     "use strict";
     
     var DiscussionCollection = Backbone.PageableCollection.extend({
