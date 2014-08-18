@@ -15,14 +15,29 @@
       font-weight: 400;
     }
   }
+    .author-info {
+        
+        margin-bottom: 10px;
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            margin-right: 5px;
+            padding: 3px;
+            border: 1px solid #eee; 
+        }
+    }
+
+
   .entry-submenu {
     display: none;
     position: absolute;
     z-index: 100;
     background-color: #ffffff;
 	top: 56px;
-	
-    
 	
 	> ul {
 		
@@ -92,4 +107,22 @@
 		
 	}
 }
+}
+
+#idea-list-view {
+    .idea-summary {
+    
+        a {
+            color: #666;
+        }
+        
+        a:hover {
+            color: #999;
+        }
+        
+        p {
+            text-align: justify;
+        }
+        
+    }
 }

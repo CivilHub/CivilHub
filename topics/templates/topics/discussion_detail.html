@@ -329,20 +329,23 @@
                 <span class="custom-label-entry">
                     <a href="{% url 'locations:ajaxlist' discussion.location.slug %}?meta=question&state=all&time=any&category={{ discussion.category.pk }}&text=false" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
                 </span>
+                <h4><span class="submenu-toggle"> </span></h4>
+                <div class="entry-submenu">
+                    <ul>
+                        {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+                        <li>{% bookmark_form for discussion %}</li>
+                        {% if user == discussion.creator %}
+                        <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
+                        <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
+
         </div>
         <hr />
-        <h1>{{ title }}&nbsp;<span class="submenu-toggle"> </span></h1>
-        <div class="entry-submenu">
-            <ul>
-                {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-                <li>{% bookmark_form for discussion %}</li>
-                {% if user == discussion.creator %}
-                <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
-                <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
-                {% endif %}
-            </ul>
-        </div>
+        <h1>{{ title }}&nbsp;</h1>
+
         <hr />
         
         {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
@@ -428,10 +431,6 @@
                 </div>
             </div>
         {% endfor %}
-        
-        <div class="current">
-            {% trans "Page" %} {{ replies.number }} {% trans "of" %} {{ replies.paginator.num_pages }}.
-        </div>
         
         <ul class="pagination">
             

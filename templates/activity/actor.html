@@ -1,17 +1,68 @@
 {% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %} 
 {% load activity_tags i18n %}
-{% block extra_head %}
-<script>
-$(function () {
-    $("#follow_button, #unfollow_button").click(function () {
-        $.post($(this).attr("href"), {});
-        $(this).parent().find("#follow_button, #unfollow_button").toggle();
-        return false
-    });
-});
-</script>
-{% endblock %}
 
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/userspace/background',
+             'js/userspace/actions/actions'],
+
+    function($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
 
 {% block title %}{% ifequal request.user actor %}Your feed{% else %}{{ actor }}{% endifequal %}{% endblock %}
 {% block content_title %}{% ifequal request.user actor %}Your feed{% else %}{{ actor }}{% endifequal %}{% endblock %}
@@ -27,15 +78,134 @@ $(function () {
 {% endifequal %}
 {% endblock %}
 
+{% block header %} {% endblock %}
+
 {% block content %}
 {% if request.user.is_authenticated %}
 {% comment %}<p><b><a href="{% actor_url request.user %}">{% trans "View my actions" %}</a></b></p>{% endcomment %}
 {% endif %}
-<ul>
-{% for action in action_list %}
-    <li>{% include 'activity/action.html' %}</li>
-{% empty %}
-{% trans "No actions yet" %}
-{% endfor %}
-</ul>
+
+<div class="container user-activities">
+
+    <div class="col-lg-5">
+        <div class="user-activity-stream">
+        
+            {% for action in action_list %}
+                <div class="row user-action-entry">
+                    
+                    <div class="col-xs-2 entry-avatar-col">
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
+                        {{ action.actor.profile.rank_pts }}
+                    </div>
+                    
+                    <div class="col-xs-10 entry-meta-col">
+                        <div class="entry-header">
+                            <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+                            {{ action.verb }}
+                            {% if action.action_object_content_type %}
+                                &nbsp;{{ action.action_object_content_type }}&nbsp;
+                            {% endif %}
+                            {% if action.action_object %}
+                                {% if action.action_object.get_absolute_url %}
+                                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.action_object }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if action.action_object and action.target %}to{% endif %}
+                            {% if action.target %}
+                                {% if action.target.get_absolute_url %}
+                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.target }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {{ action.timestamp|timesince }} {% trans "ago" %}
+                        </div>
+                        <div class="entry-body">
+                            {% if action.action_object_content_type.model == 'poll' %}
+                                {{ action.action_object.question | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'idea' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'news' %}
+                                {{ action.action_object.content | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'location' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                        </div>
+                        <div class="clear">&nbsp;</div>
+                        <div class="entry-footer">
+                            {% trans "Share" %}:
+                            <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=civilhub.org','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+							<a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=civilhub.org','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                        </div>
+                    </div><!-- // .entry-meta-col -->
+                    
+                </div><!-- // .user-action-entry -->
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="sidebar">
+            <div class="ambasador-image">
+                <h3>{% trans "Zostań ambasadorem" %}</h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 sidebar">
+        <div class="sidebar-label">{% trans "About me" %}</div>
+        <div class="sidebar-content">
+         
+        </div>
+    </div>
+</div>
+<!-- 
+<script type="text/template" id="action-template">
+    <div class="col-md-2 entry-avatar-col">
+        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="inline-user-avatar" />
+        <%= actor.rank_pts %>
+    </div>
+    
+    <div class="col-md-10 entry-meta-col">
+        <div class="entry-header">
+            <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+            <%= verb %>
+            <% if (!_.isEmpty(object_ct)) { %>
+                <%= object_ct %>
+                <% if (_.isEmpty(target_ct)) { %>
+                    <a href="<%= object.url %>"><%= object.name %></a>
+                <% } else { %>
+                    <a href="<%= object.url %>"><%= object.name %></a>
+                    {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+            <% } else if (!_.isEmpty(target_ct)) { %>
+                <a href="<%= target.url %>"><%= target.name %></a>
+            <% } %>
+            <%= timestamp %> {% trans "ago" %}
+        </div>
+        <div class="entry-body"><%= description %></div>
+        <div class="clear">&nbsp;</div>
+        <div class="entry-footer">
+            {% trans "Share" %}: 
+            <% if (!_.isEmpty(object.url)) { %>
+                    <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                    <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+            <% } else if (!_.isEmpty(target.url)) { %>
+                    <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                    <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+            <% } %>
+        </div>
+    </div>
+</script>-->
+
+
 {% endblock %}

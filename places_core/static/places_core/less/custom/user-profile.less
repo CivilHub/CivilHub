@@ -4,6 +4,90 @@
  * Styles for user profile/activity stream page.
  *
  */
+.user-logo {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+    color: #fff;
+    height: 250px;
+    
+    .btn-default {
+        float: left;
+    }
+}
+
+.ambasador-image {
+    background: url(/static/places_core/img/ambasador.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+    background-size: cover;
+    
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    width: 100%;
+    height: 200px;
+    
+    h3 {
+    margin-top: 0px;
+    padding: 10px;
+    padding-top: 30px;
+    font-weight: 300;
+    color: #fff;
+    text-shadow: 1px 1px 0px rgba(150, 150, 150, 1);
+    font-size: 32px !important;
+    }
+}
+
+.user-info {
+    display: table;
+    margin: 25px auto 0 auto;
+    
+    .profile-page-avatar {
+
+      img {
+        display: table;
+        margin: auto;
+        background: #fff;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        margin-bottom: 6px;
+        margin-top: 3px;
+        padding: 6px;
+        border: 1px solid #eee;
+      }
+    }
+    
+    .user-fullname {
+        min-width: 140px;
+        background-color: rgba(0,0,0,0.5);
+        font-weight: 600;
+        font-size: 15px;
+        height: 30px;
+        line-height: 30px;
+        line-height: 34px;
+        height: 34px;
+        margin-bottom: 8px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    
+    .btn-follow-user {
+        height: 25px;;
+        border: 0;
+        width: 115px;
+        background-color: #85BE00;
+    }
+}
+ 
 .user-activities {
 
   .user-data {
@@ -27,7 +111,7 @@
         margin-bottom: 3px;
       }
       &.user-following-list {
-        list-style-type: circle;
+        list-style-type: none;
         text-align: left;
         padding-left: 20px;
         margin-left: 15px;
@@ -36,29 +120,7 @@
         }
       }
     }
-    
-    .profile-page-avatar {
-      width: 160px;
-      height: 160px;
-      margin-left: 8px;
-      background-color: #ffffff;
-      border: 1px solid #adadad;
-      border-radius:         6px;
-      -moz-border-radius:    6px;
-      -webkit-border-radius: 6px;
-      -webkit-box-shadow: 1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-      -moz-box-shadow:    1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-      box-shadow:         1px 1px 5px 0px rgba(50, 50, 50, 0.75);
-      img {
-        width: 148px;
-        height: 148px;
-        margin: 3px 0px 0px 0px;
-        border-radius:         6px;
-        -moz-border-radius:    6px;
-        -webkit-border-radius: 6px;
-      }
-    }
-    
+
     .profile-page-details {
       margin-top: 20px;
     }
@@ -69,46 +131,99 @@
     
     &>* {
       position: relative;
-      top: -140px;
     }
   }
   
   .user-activity-stream {
-    .entry-avatar-col {
-      font-size: 9px;
-      img {
-		idth: 60px;
-		height: 60px;
-		border-radius: 50%;
-		-moz-border-radius: 50%;
-		-webkit-border-radius: 50%;
-		padding: 4px;
-		border: 1px solid #eee;
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 6px;
-		display: block;
-      }
-    }
-    
+  
+    padding-right: 0px;
+
     .user-action-entry {
-      font-size: 12px;
-      margin-top: 25px;
-      .entry-meta-col {
-        .entry-header {
-          margin-bottom: 7px;
-          a {
-            font-weight: bold;
-          }
+        .default-box-shadow;
+        font-size: 12px;
+        background: #fff;
+        border-radius: 5px;
+        border: 1px solid #dedede;
+        padding: 15px;
+        margin-bottom: 15px;
+    
+        .entry-avatar-col {
+        
+            font-size: 9px;
+            margin-top: 0px;
+			padding-left: 0px;
+            img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                -moz-border-radius: 50%;
+                -webkit-border-radius: 50%;
+                padding: 4px;
+                border: 1px solid #eee;
+                margin-bottom: 6px;
+            }
         }
-        .entry-body {
-      
+        
+        .entry-meta-col {
+		
+            min-height: 78px;
+			padding: 0px;
+            text-align: justify;
+			
+            .entry-header {
+                margin-bottom: 7px;   
+                
+                a {
+                    font-weight: bold;
+                }
+                
+                a:hover {
+                    text-decoration: none;
+                }
+            }
+            
+            .entry-body {
+                margin-bottom: 20px;
+            }
+            .entry-footer {
+                position: absolute;
+                bottom: 0;
+            }
+			
+			.vote-up,
+			.vote-down {
+				height: 30px;
+				width: 150px;
+				border-radius: 3px;
+				text-align: center;
+				line-height: 30px;
+				color: #fff;
+				font-size: 14px;
+				font-weight: 600;
+			}
+			
+			.vote-up {
+				background: -moz-linear-gradient(top,  #afeb4d 0%, #8ad111 100%); /* FF3.6+ */
+				background: -webkit-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* IE10+ */
+				background: linear-gradient(to bottom,  #afeb4d 0%,#8ad111 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afeb4d', endColorstr='#8ad111',GradientType=0 ); /* IE6-9 */
+				border: 1px solid #C5EF7F;
+			}
+			
+			.vote-down {
+				background: -moz-linear-gradient(top,  #ec5c73 0%, #f00924 100%); /* FF3.6+ */
+				background: -webkit-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* IE10+ */
+				background: linear-gradient(to bottom,  #ec5c73 0%,#f00924 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ec5c73', endColorstr='#f00924',GradientType=0 ); /* IE6-9 */
+
+				border: 1px solid #F38699;
+			}
         }
-        .entry-footer {
-      
-        }
-      }
+
     }
   }
   
@@ -119,4 +234,6 @@
     text-align: center;
     cursor: disabled;
   }
+  
+
 }

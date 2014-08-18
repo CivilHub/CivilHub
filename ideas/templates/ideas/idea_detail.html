@@ -176,12 +176,12 @@
                     <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
                     <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
                     {% else %}
-                        <!-- Dodanie parametrow GET aby powrocic do strony ideas -->
-                        <form action="{% url 'user:login' %}" method="GET">
-                            <input type="hidden" name="url" value="{{ request.path }}" />
-                            <button class="vote-btn" type="submit" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
-                            <button class="vote-btn" type="submit" title="{% trans "Bad Idea, Vote NO" %}" %}"><span class="fa fa-angle-down"></span></button>
-                        </form>
+						<!-- Dodanie parametrow GET aby powrocic do strony ideas -->
+						<form action="{% url 'user:login' %}" method="GET">
+							<input type="hidden" name="url" value="{{ request.path }}" />
+							<button class="vote-btn" type="submit" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+							<button class="vote-btn" type="submit" title="{% trans "Bad Idea, Vote NO" %}" %}"><span class="fa fa-angle-down"></span></button>
+						</form>
                     {% endif %}
                 </div>
             </div>
@@ -203,8 +203,8 @@
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
             {% endif %}
 
-            {% include 'locations/share_buttons.html' %}            
-            
+			{% include 'locations/share_buttons.html' %}			
+			
         </div>
         <div class="col-sm-9">
 

@@ -1,13 +1,44 @@
-{% load i18n %}{% if action.actor.get_absolute_url %}<a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
-{% else %}<a href="{{ action.actor_url }}">{{ action.actor }}</a>{% endif %}
-{{ action.verb }}
-{% if action.action_object %}
-    {% if action.action_object.get_absolute_url %}<a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-    {% else %}<a href="{{ action.target_url }}">{{ action.action_object }}</a>{% endif %}
-{% endif %}
-{% if action.action_object and action.target %}to{% endif %}
-{% if action.target %}
-    {% if action.target.get_absolute_url %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-    {% else %}<a href="{{ action.target_url }}">{{ action.target }}</a>{% endif %}
-{% endif %}
-{{ action.timestamp|timesince }} {% trans "ago" %}
+{% load i18n %}
+
+
+{% if action.actor.get_absolute_url %}
+    <div class="col-lg-2 entry-avatar-col">
+        <img src="{{ action.actor.profile.avatar }}" class="inline-user-avatar" alt="{{ action.actor.get_full_name }}"/>
+        {{ action.actor.rank_pts }}
+    </div>
+    <div class="col-lg-10 entry-meta-col">
+{% else %}
+    <div class="col-lg-12 entry-meta-col">
+        <a href="{{ action.actor_url }}">{{ action.actor }}</a>
+{% endif %}  
+    <div class="entry-header">
+        {% if action.actor.get_absolute_url %}<a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+        {% else %}<a href="{{ action.actor_url }}">{{ action.actor }}</a>{% endif %}
+        {{ action.verb }}
+        {% if action.action_object %}
+            {% if action.action_object.get_absolute_url %}<a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+            {% else %}<a href="{{ action.target_url }}">{{ action.action_object }}</a>{% endif %}
+        {% endif %}
+        {% if action.action_object and action.target %}to{% endif %}
+        {% if action.target %}
+            {% if action.target.get_absolute_url %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+            {% else %}<a href="{{ action.target_url }}">{{ action.target }}</a>{% endif %}
+        {% endif %}
+        {{ action.timestamp|timesince }} {% trans "ago" %}
+    </div>
+    
+    <div class="entry-body">
+    {% if action.action_object_content_type.model == 'idea' %}
+        {{ action.action_object.get_description }}
+    
+    {% elif action.action_object_content_type.model == 'poll' %}
+        {{ action.action_object.get_description }}
+        
+    {% endif %}
+    </div>
+            
+    <div class="clear">&nbsp;</div>
+    <div class="entry-footer">
+    
+    </div>
+</div>

@@ -71,7 +71,6 @@
                 <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
 
             {% if user.is_authenticated %}
-                <li><a href="{% url 'activities:actstream' %}">{% trans "Actions" %}</a></li>
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span>

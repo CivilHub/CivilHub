@@ -4,70 +4,45 @@
     
     
     .login-form {
-        
-        
-        width: 400px;
+        width: 362px;
         max-width: 100%;
         margin-left: auto;
         margin-right: auto;
-        
         background: #fff;
-        
-        border: 1px solid #6e8290;
+        border: 1px solid #dedede;
         border-radius: 5px;
-        margin-top: 120px;
+        margin-top: 20px;
+        margin-bottom: 60px;
         
         .login-form-header {
             
-            margin-top: 0px;
-            background: #758b9b;
-            border-bottom: 1px solid #586873;
-            -webkit-border-top-left-radius: 4px;
-            -webkit-border-top-right-radius: 4px;
+            margin-top: 0;
+            border-bottom: 1px solid #dedede;
             -moz-border-radius-topleft: 4px;
             -moz-border-radius-topright: 4px;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            
-            color: #fff;
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 22px;
             padding: 10px 20px;
-            
-            text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-            margin-bottom: 0px;
+            text-align: center;
+            margin-bottom: 0;
             
         }
         
         .login-social {
+            display: table;
+            margin: 25px 0 25px;
+            text-align: center;
             
-            padding: 0px 10px;
-            margin: 12px 0px;
-            
-            .login-facebook {
-                
-                text-align: left;
-                
+            button { 
+                margin: 5px;
             }
-            
-            .login-twitter {
-                
-                text-align: center;
-                
-            }
-            
-            .login-google {
-                
-                text-align: right;
-                
-            }
-            
+    
         }
         
         .input-section {
             
             margin: 18px 0px 10px 0px;
-            padding: 0px 10px;
+            padding: 0px 25px 15px; 
+            text-align: center;
             
             label {
                 
@@ -79,7 +54,7 @@
             }
             
             a {
-                
+                color: #878787;
                 position: relative;
                 top: -1px;
                 line-height: 22px;
@@ -100,50 +75,52 @@
             }
             
             input {
-                
+                background: #fff;
+                border-radius: 5px;
+                border: 1px solid #dedede;
+                font-size: 18px;
+                font-weight: 500;
+                color: #878787;
+                margin-bottom: 10px;
+                padding: 8px 12px;
                 width: 100%;
-                box-sizing: border-box;
-                border: 1px solid #cccccc;
-                border-radius: 4px;
-                outline: none;
-                line-height: 20px;
-                font-size: 12px;
-                padding: 6px 15px;
-                
-                &:focus {
-                    
-                    outline: none;
-                    
-                }
-                
             }
             
-            
+            .remember-me {
+                display: inline;
+                text-align: center;
+                
+                input {
+                    width: 30px;
+                    margin: 0; 
+                    vertical-align: middle;
+                }
+            }
         }
         
         .submit-section {
-            
-            margin: 0 0 20px 0;
-            padding: 0 10px;
+
+        margin: 25px 0 25px;
             
             a {
                 
                 line-height: 28px;
                 
             }
+
             
             input {
                 
                 border: 1px solid #1967a9;
                 color: #fff;
                 background: #23a2e3; /* Old browsers */
-            background: -moz-linear-gradient(top,  #23a2e3 0%, #1a82d9 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#23a2e3), color-stop(100%,#1a82d9)); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  #23a2e3 0%,#1a82d9 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23a2e3', endColorstr='#1a82d9',GradientType=0 ); /* IE6-9 */
+                background: -moz-linear-gradient(top,  #23a2e3 0%, #1a82d9 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#23a2e3), color-stop(100%,#1a82d9)); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top,  #23a2e3 0%,#1a82d9 100%); /* IE10+ */
+                background: linear-gradient(to bottom,  #23a2e3 0%,#1a82d9 100%); /* W3C */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23a2e3', endColorstr='#1a82d9',GradientType=0 ); /* IE6-9 */
                 border-radius: 5px;
                 line-height: 20px;
                 padding: 5px 10px;
@@ -177,49 +154,3 @@
     
 }
 
-@media all and (max-width: 768px) {
-    
-    .login-page {
-        
-        .login-form {
-            
-            margin-top: 20px;
-            
-            text-align: center;
-            
-            .login-social {
-                
-                .login-facebook,
-                .login-twitter,
-                .login-google {
-                
-                    margin-top: 5px;
-                    margin-bottom: 5px;
-                    text-align: center;
-                    
-                }
-                
-            }
-            
-            .submit-section {
-                
-                div {
-                    
-                    text-align: center;
-                    
-                }
-                
-                input[type=submit] {
-                    
-                    width: 100%;
-                    margin-top: 10px;
-                    
-                }
-                
-            }
-            
-        }
-        
-    }
-    
-}

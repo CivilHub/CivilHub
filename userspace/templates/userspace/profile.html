@@ -78,7 +78,8 @@
                 {% csrf_token %}
                 <input type="file" name="background" id="background" />
             </form>
-            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button><br />{% endif %}
+            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button><br />
+            {% endif %}
             
             <div class="user-info">
                 <div class="profile-page-avatar">
@@ -87,7 +88,9 @@
                 <div class="user-fullname">
                     {{ cuser.get_full_name }}
                 </div>
-                <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
+                {% if request.user != cuser %}
+                    <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -101,7 +104,7 @@
                   <span class="icon-bar"></span>
                 </button>
               </div>
-            <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+            <div class="row collapse navbar-collapse" id="bs-location-collapse-menu">
 		<ul class="nav navbar-nav navbar-nav-userspace">
                     <li><a href="#" class="list-controller userspace active" data-control="content" data-target=""><span class="ch-icon ch-content navbar-icon"></span>{% trans "Everything" %}</a></li>
                     <li><a href="#" class="list-controller userspace" data-control="content" data-target="news"><span class="ch-icon ch-blog navbar-icon"></span>{% trans "Blog" %}</a></li>
@@ -130,32 +133,41 @@
 
     <div class="user-activities col-sm-8">
         
-        <div class="col-sm-3 user-data">
-
-            {% if profile.badges %}
-                <ul class="user-badges-list">
-                {% for badge in profile.badges.all %}
-                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            {% if profile.followed_locations %}
-                <ul class="user-following-list">
-                {% for location in profile.followed_locations %}
-                    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
+        <div class="col-sm-5">
+            <div class="sidebar">
+                <div class="sidebar-label">{% trans "About me"%}</div>
+                <div class="sidebar-content">
+                    {{ profile.description }}
+                </div>
+                <div class="sidebar-label">{% trans "Places"%}</div>
+                <div class="sidebar-content">
+                    {% if profile.followed_locations %}
+                        <ul class="sprite-icon">
+                        {% for location in profile.followed_locations %}
+                            <li><span class="ch-icon ch-subspaces"></span><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <!--{% if profile.badges %}
+                        <ul class="user-badges-list">
+                        {% for badge in profile.badges.all %}
+                            <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+                        {% endfor %}
+                        </ul>
+                {% endif %} -->
+            </div>
         </div>
         
-        <div class="col-sm-9 main-content user-activity-stream">
+        <div class="col-sm-7 user-activity-stream">
             
             {% for action in stream %}<noscript>
                 <div class="row user-action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
                         <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
-                        <p>{{ action.actor.profile.rank_pts }}</p>
+                        {{ action.actor.profile.rank_pts }}
                     </div>
                     
                     <div class="col-xs-10 entry-meta-col">
@@ -201,13 +213,12 @@
                         </div>
                         <div class="clear">&nbsp;</div>
                         <div class="entry-footer">
-						<br /><br /><br /><br />
                             {% trans "Share" %}:
-							<a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org">
+							<a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org" target="Facebook">
 								<span class="fa fa-facebook">&nbsp;</span>
 							</a>
 							 
-							<a href="https://twitter.com/home?status=http://civilhub.org">
+							<a href="https://twitter.com/home?status=http://civilhub.org" target="Twitter">
 								<span class="fa fa-twitter">&nbsp;</span>
 							</a>
                         </div>
@@ -217,16 +228,16 @@
             </noscript>{% endfor %}
             
         </div><!-- // .user-activity-stream -->
-        
+
     </div><!-- // .user-activities -->
     
     <script type="text/template" id="action-template">
-        <div class="col-xs-2 entry-avatar-col">
+        <div class="col-md-2 entry-avatar-col">
             <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="inline-user-avatar" />
-            <p><%= actor.rank_pts %></p>
+            <%= actor.rank_pts %>
         </div>
         
-        <div class="col-xs-10 entry-meta-col">
+        <div class="col-md-10 entry-meta-col">
             <div class="entry-header">
                 <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
                 <%= verb %>
@@ -248,11 +259,11 @@
             <div class="entry-footer">
                 {% trans "Share" %}: 
 				<% if (!_.isEmpty(object.url)) { %>
-						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>" target="_blank"> <span class="fa fa-facebook">&nbsp;</span> </a>
-						<a href="https://twitter.com/home?status=<%= window.location.origin + object.url %>" target="_blank"> <span class="fa fa-twitter">&nbsp;</span> </a>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
 				<% } else if (!_.isEmpty(target.url)) { %>
-					<a href="https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>" target="_blank"> <span class="fa fa-facebook">&nbsp;</span> </a>
-					<a href="https://twitter.com/home?status=<%= window.location.origin + target.url %>" target="_blank"> <span class="fa fa-twitter">&nbsp;</span> </a>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
 				<% } %>
             </div>
         </div><!-- // .entry-meta-col -->
