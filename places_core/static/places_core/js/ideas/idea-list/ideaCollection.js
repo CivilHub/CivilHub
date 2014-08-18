@@ -7,6 +7,7 @@ define(['backbone',
         'paginator'],
 
 function (Backbone, IdeaModel) {
+    
     "use strict";
     
     var IdeaCollection = Backbone.PageableCollection.extend({

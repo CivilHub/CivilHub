@@ -15,6 +15,16 @@
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
+<style>
+    
+    {% comment %}
+        Przenieść to do styli - koniecznie! Reguły dla paginacji.
+    {% endcomment %}
+    
+    .pagination > li { cursor: pointer; }
+    
+</style>
+
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
 <!-- Quantcast Tag -->
@@ -136,21 +146,21 @@ var _qevents = _qevents || [];
     
     {% endblock %}
     
-		<div class="container">
+        <div class="container">
         
-			{% comment %}
-				W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
-				wyszukiwarki. Nadpisywany w szablonie każdego modułu.
-			{% endcomment %}
-			{% block topbar %}{% endblock %}
-			
-			{% comment %}Główna zawartość strony.{% endcomment %}
-			{% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-			
-			{% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
-			{% block sidebar %}{% endblock %}
+            {% comment %}
+                W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
+                wyszukiwarki. Nadpisywany w szablonie każdego modułu.
+            {% endcomment %}
+            {% block topbar %}{% endblock %}
+            
+            {% comment %}Główna zawartość strony.{% endcomment %}
+            {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+            
+            {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
+            {% block sidebar %}{% endblock %}
 
-		</div>  
+        </div>  
     
 </div>
 

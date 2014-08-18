@@ -8,11 +8,11 @@ define(['jquery',
         'underscore',
         'backbone',
         'utils', 
-        'js/ui/paginatorView',
+        'js/utils/pageable-view',
         'paginator',
         'moment'],
 
-function ($, _, Backbone, utils, PaginatorView) {
+function ($, _, Backbone, utils, PageableView) {
     
     "use strict";
         
@@ -21,6 +21,7 @@ function ($, _, Backbone, utils, PaginatorView) {
         NewsModel = Backbone.Model.extend({}),
 
         NewsView = Backbone.View.extend({
+            
             tagName: 'div',
 
             className: 'news-entry',
@@ -79,50 +80,32 @@ function ($, _, Backbone, utils, PaginatorView) {
             }
         }),
 
-        NewsList = Backbone.View.extend({
-            el: '#entries',
+        NewsList = PageableView.extend({
 
             initialize: function () {
-                var self = this;
-                $.get(baseurl, function (resp) {
-                    if (resp.count) {
-                        self.collection = new NewsCollection(resp.results);
-                        self.collection.setPageSize(2);
-                        self.render();
-                        self.paginator = new PaginatorView(self.collection);
-                        setTimeout(function () {
-                            $(self.paginator.render().el).insertAfter(self.$el);
-                        }, 500);
-                    } else {
-                        self.$el.append('<p class="alert alert-info">' + gettext("There are no entries yet") + '</p>');
-                    }
-                    self.listenTo(self.collection, 'sync', self.render);
-                });
+                this.collection = new NewsCollection();
+                this.collection.setPageSize(2);
+                this.$el.appendTo('#entries');
+                this.listenTo(this.collection, 'sync', this.render);
             },
 
-            render: function (current_page, total_pages) {
-                var that = this;
+            render: function () {
+                var self = this;
                 this.$el.empty();
+                this.$el.html(this.template(this.collection.state));
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);
+                this.$el.find('.page').on('click', function () {
+                    self.getPage(parseInt($(this).attr('data-index'), 10));
+                });
             },
 
             renderEntry: function (item) {
                 var itemView = new NewsView({
                         model: item
                     });
-                $(itemView.render().el).appendTo(this.$el);
-            },
-
-            filter: function (page) {
-                var that = this,
-                    filters = utils.getListOptions();
-                    
-                filters.page = 1;
-                _.extend(this.collection.queryParams, filters);
-                this.collection.fetch();
-                this.paginator.render();
+                $(itemView.render().el).insertBefore(this.$el.find('.page-info'));
             }
         });
     

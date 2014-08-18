@@ -38,7 +38,7 @@ function ($, _, Backbone, IdeaCollection, IdeaView, PageableView) {
             var itemView = new IdeaView({
                     model: item
                 });
-            $(itemView.render().el).prependTo(this.$el);
+            $(itemView.render().el).insertBefore(this.$el.find('.page-info'));
         }
     });
     

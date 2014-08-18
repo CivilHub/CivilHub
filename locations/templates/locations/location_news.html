@@ -55,9 +55,9 @@
 
     require(['jquery',
              'js/blog/news-list/blog',
-			 'ui',
+             'ui',
              'common',
-			 'js/locations/follow'], function ($, ui) {
+             'js/locations/follow'], function ($, ui) {
         
         "use strict";
         
@@ -108,9 +108,9 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-        	<li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
-        	<li class="navbar-text">{% trans "Stats" %}</li>
-        	<span class="bs-navbar-soon">(soon)</span>
+            <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+            <li class="navbar-text">{% trans "Stats" %}</li>
+            <span class="bs-navbar-soon">(soon)</span>
             </ul>
 
 
@@ -129,8 +129,6 @@
 {% block content %}
 
     <div class="col-sm-9 main-content">
-
-            {% comment %}<div id="entries" class="all-entries"></div>{% endcomment %}
 
         <div id="entries"></div>
 
@@ -172,7 +170,6 @@
         {% include 'blog/news_list.html' %}
 
     </div>
-
 
 {% endblock %}
 

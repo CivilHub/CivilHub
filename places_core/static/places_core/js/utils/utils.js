@@ -103,7 +103,7 @@ define(['jquery', 'underscore'], function ($, _) {
             txt = $field.val();
         
         if (_.isUndefined(txt) || txt.length <= 1) {
-            return ' ';
+            return false;
         }
         
         return txt;
@@ -118,7 +118,8 @@ define(['jquery', 'underscore'], function ($, _) {
         var $sel = $('.list-controller'),
             opts = {},
             optType = null,
-            optValue = null;
+            optValue = null,
+            haystack = utils.getSearchText();
         
         $sel.each(function () {
             var $this = $(this);
@@ -130,7 +131,9 @@ define(['jquery', 'underscore'], function ($, _) {
             }
         });
         
-        opts['haystack'] = utils.getSearchText();
+        if (haystack !== false) {
+            opts['haystack'] = utils.getSearchText();
+        }
         
         return opts;
     };
