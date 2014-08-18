@@ -275,7 +275,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
     Intended to use with comment tree related to selected item
     """
     queryset = CustomComment.objects.all()
-    paginate_by = 10
+    paginate_by = 2
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
@@ -283,7 +283,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
     def set_element_order(self):
         if self.request.GET.get('order'):
             return self.request.GET.get('order')
-        return 'submit_date'
+        return '-submit_date'
 
     def get_queryset(self):
         if self.request.GET.get('content-type'):
