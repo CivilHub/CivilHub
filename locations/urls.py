@@ -12,6 +12,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('locations', LocationAPIViewSet, 'locations')
 router.register('markers', LocationMapViewSet, 'markers')
+router.register('actions', LocationActionsRestViewSet, 'actions')
 
 urlpatterns = patterns('',
     url(r'^places/', LocationListView.as_view(), name='index'),

@@ -41,10 +41,12 @@ from places_core.helpers import TagFilter, process_background_image
 # REST views
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
+from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from geobase.models import Country
 from locations.serializers import MapLocationSerializer
 from .serializers import SimpleLocationSerializer
+from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
 class LocationAPIViewSet(viewsets.ModelViewSet):
@@ -57,6 +59,61 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
+
+
+class LocationActionsRestViewSet(viewsets.ViewSet):
+    """
+    Zwraca listę akcji powiązanych z miejscami. Wymagane jest podanie `pk`
+    docelowej lokalizacji. Dodatkowo możemy przefiltrować listę pod względem
+    typów zawartości obiektu (`action_object`), dodając parametr `ct` w 
+    zapytaniu (id typu zawartości). Wyniki prezentowane są dokładnie w takiej
+    samej formie jak dla actstreamów użytkowników.
+    
+    #### Przykład:
+    ```/api-locations/actions/?pk=2&ct=28```
+    
+    Widok tylko do odczytu. Jeżeli nie podamy `pk` żadnej lokalizacji, otrzymamy
+    w odpowiedzi pustą listę.
+    """
+    serializer_class = MyActionsSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+    
+    def get_queryset(self, pk=None, ct=None):
+        from actstream.models import model_stream
+        if not pk: return []
+        try:
+            location = Location.objects.get(pk=pk)
+        except Location.DoesNotExist:
+            return []
+        if ct:
+            stream = model_stream(location).filter(action_object_content_type_id=ct)
+        else:
+            stream = model_stream(location)
+        return stream
+        
+        
+    def list(self, request):
+        pk = request.QUERY_PARAMS.get('pk', None)
+        ct = request.QUERY_PARAMS.get('ct', None)
+        queryset = self.get_queryset(pk, ct)
+        
+        page = request.QUERY_PARAMS.get('page')
+        paginator = Paginator(queryset, 2)
+        try:
+            actions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            actions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            actions = paginator.page(paginator.num_pages)
+
+        serializer_context = {'request': request}
+        serializer = PaginatedActionSerializer(actions,
+                                             context=serializer_context)
+        return Response(serializer.data)
 
 
 class LocationMapViewSet(viewsets.ModelViewSet):
