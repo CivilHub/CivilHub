@@ -28,7 +28,6 @@ class LocationForm(forms.ModelForm):
         required = True,
         label = _("Country code"),
         queryset = Country.objects.all(),
-        #empty_label = None,
         initial = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE),
         widget = forms.Select(attrs={'class':'form-control'})
     )
