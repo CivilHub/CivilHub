@@ -13,6 +13,7 @@ router = routers.DefaultRouter()
 router.register('locations', LocationAPIViewSet, 'locations')
 router.register('markers', LocationMapViewSet, 'markers')
 router.register('actions', LocationActionsRestViewSet, 'actions')
+router.register('sublocations', SublocationAPIViewSet, 'sublocations')
 
 urlpatterns = patterns('',
     url(r'^places/', LocationListView.as_view(), name='index'),

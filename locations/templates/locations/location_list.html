@@ -1,6 +1,21 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block extra_styles %}
+<style>
+ul.list-column {
+    position: absolute;
+    z-index: 5000;
+    opacity: 0.7;
+    background-color: #000000;
+}
+ul.list-column li {
+    display: block;
+    width: 100%;
+}
+</style>
+{% endblock %}
+
 {% block require_scripts %}
 
     <script>
@@ -48,35 +63,54 @@
         }
     });
 
-    require(['jquery', 'vector', 'worldmap', 'common'], function ($) {
+    require(['jquery',
+             'js/locations/location-list/col-view',
+             'vector',
+             'worldmap',
+             'common'], 
+
+    function ($, ColView) {
         
         $('#vector-map').vectorMap({
-		map: 'world_mill_en', 
-		
-		backgroundColor: 'transparent',
-		
-		onRegionClick: function(event, code){
+            
+            map: 'world_mill_en', 
+            
+            backgroundColor: 'transparent',
+            
+            onRegionClick: function (event, code) {
+                var pos = {
+                    left: event.target.offsetLeft,
+                    top: event.target.offsetTop
+                };
+                // Sprawdzamy, czy kraj jest już w bazie. Jeżeli tak, otwieramy listę.
+                $.get('/api-geo/countries/?code=' + code, function (resp) {
+                    if (resp.length) {
+                        // Bezwzględnie koniecznie jako pierwszy argument podajemy
+                        // pustą tabelę - Backbone zawsze traktuje pierwszy argument
+                        // jako kolekcję, co tutaj prowadzi do błędów.
+                        var locationList = new ColView([], resp[0].location, pos);
+                    } else {
+                        // TODO: coś tu trzeba pokazać.
+                        alert("There is no such place");
+                    }
+                });
+            },
+            
+            regionStyle: {
+                initial: {
+                    fill: '#8D8D8D',
+                    "fill-opacity": 1,
+                    stroke: 'none',
+                    "stroke-width": 0,
+                    "stroke-opacity": 1
+                },
+                hover: {
+                    fill: '#0082FC',
+                    "fill-opacity": 0.8
+                }
+            }
 
-			//window.location.href='/warszawa/';
-  
-		},
-		
-		regionStyle: 
-		{
-		  initial: {
-			fill: '#8D8D8D',
-			"fill-opacity": 1,
-			stroke: 'none',
-			"stroke-width": 0,
-			"stroke-opacity": 1
-		  },
-		  hover: {
-			fill:	'#0082FC',
-			"fill-opacity": 0.8
-		  }
-		}
-
-	  });
+        });
         
         $(document).trigger('load');
         
@@ -88,99 +122,108 @@
 {% block header %}{% endblock %}
 {% block content %}
 <div class="location-list-page">
-	<h1 class="text-center">{% trans "Choose a country, which you love" %}</h1>
-		<div id="vector-map"></div>
+    <h1 class="text-center">{% trans "Choose a country, which you love" %}</h1>
+        <div id="vector-map"></div>
 
-		<h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
-		{% if locations %}
-		<div class="row location-list-stream">
-			<div class="col-lg-2"></div>
-			
-			<div class="col-lg-8 main-content location-list-stream">
-				{% comment %}
-					{% for location in locations %}
+        <h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
+        {% if locations %}
+        <div class="row location-list-stream">
+            <div class="col-lg-2"></div>
+            
+            <div class="col-lg-8 main-content location-list-stream">
+                {% comment %}
+                    {% for location in locations %}
 
-						<div class="col-lg-4">
-							<a href="{{ location.get_absolute_url }}">
-							<span class="country-entry"> {{ location.name }} </span></a>
-						</div>
-						
-					{% endfor %}
-				{% endcomment %}
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/polska">
-						<span>
-						<img src="{% static 'places_core/img/flags/Poland-Flag-48.png' %}" />Polska
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/united-states">
-						<span>
-						<img src="{% static 'places_core/img/flags/United-States-Flag-48.png' %}" />United States
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/finland">
-						<span>
-						<img src="{% static 'places_core/img/flags/Finland-Flag-48.png' %}" />Finland
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/portugal">
-						<span>
-						<img src="{% static 'places_core/img/flags/Portugal-Flag-48.png' %}" />Portugal
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/germany">
-						<span>
-						<img src="{% static 'places_core/img/flags/Germany-Flag-48.png' %}" />Germany
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/france">
-						<span>
-						<img src="{% static 'places_core/img/flags/France-Flag-48.png' %}" />France
-						</span>
-					</a>
-				</div>	
-				
-				<div class="col-lg-4 country-entry">
-					<a href="/united-kingdom">
-						<span>
-						<img src="{% static 'places_core/img/flags/United-Kingdom-flag-48.png' %}" />United Kingdom
-						</span>
-					</a>
-				</div>	
-				 
-				<div class="col-lg-4 country-entry">
-					<a href="/">
-						<span>
-						<img src="{% static 'places_core/img/flags/-Flag-48.png' %}" />
-						</span>
-					</a>
-				</div>
-
-				
-
-				
-				
-
-			</div>
-		</div>
-		{% endif %}
+                        <div class="col-lg-4">
+                            <a href="{{ location.get_absolute_url }}">
+                            <span class="country-entry"> {{ location.name }} </span></a>
+                        </div>
+                        
+                    {% endfor %}
+                {% endcomment %}
+                
+                {% comment %} WTF ??? 1990 się skończył. {% endcomment %}
+                <div class="col-lg-4 country-entry">
+                    <a href="/polska">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/Poland-Flag-48.png' %}" />Polska
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/united-states">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/United-States-Flag-48.png' %}" />United States
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/finland">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/Finland-Flag-48.png' %}" />Finland
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/portugal">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/Portugal-Flag-48.png' %}" />Portugal
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/germany">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/Germany-Flag-48.png' %}" />Germany
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/france">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/France-Flag-48.png' %}" />France
+                        </span>
+                    </a>
+                </div>  
+                
+                <div class="col-lg-4 country-entry">
+                    <a href="/united-kingdom">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/United-Kingdom-flag-48.png' %}" />United Kingdom
+                        </span>
+                    </a>
+                </div>  
+                 
+                <div class="col-lg-4 country-entry">
+                    <a href="/">
+                        <span>
+                        <img src="{% static 'places_core/img/flags/-Flag-48.png' %}" />
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
 </div>
+
+<script type="text/template" id="list-col-tpl">
+    <span class="close-col">{% trans "Close" %}</span>
+</script>
+
+<script type="text/template" id="location-entry-tpl">
+    <a href="/<%= slug %>"><%= name %></a>
+    <% if (followed) { %>
+        <span class="follow-entry" data-target="<%= id %>">{% trans "Follow" %}</span>
+    <% } else { %>
+        <span class="unfollow-entry" data-target="<%= id %>">{% trans "Stop following" %}</span>
+    <% } %>
+    <span class="expand-entry" data-target="<%= id %>">{% trans "Expand" %}</span>
+</script>
 
 {% endblock %}

@@ -43,3 +43,24 @@ class SimpleLocationSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Location
+
+
+class LocationListSerializer(serializers.ModelSerializer):
+    """
+    Prosty serializer do wyświetlenia w widokach listy, zawierający nazwę loka-
+    cji, odnośnik bezpośredni i podstawowe informacje.
+    """
+    id = serializers.Field(source='pk')
+    name = serializers.CharField(max_length=64)
+    slug = serializers.SlugField(max_length=64)
+    followed = serializers.SerializerMethodField('check_followed')
+
+    def check_followed(self, obj):
+        user = self.context['view'].request.user
+        if user.is_authenticated() and user in obj.users.all():
+            return True
+        return False
+
+    class Meta:
+        model = Location
+        fields = ('id', 'name', 'slug', 'followed',)

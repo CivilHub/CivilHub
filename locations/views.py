@@ -45,7 +45,7 @@ from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from geobase.models import Country
 from locations.serializers import MapLocationSerializer
-from .serializers import SimpleLocationSerializer
+from .serializers import SimpleLocationSerializer, LocationListSerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
@@ -147,6 +147,32 @@ class LocationMapViewSet(viewsets.ModelViewSet):
             return locations
         else:
             return Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+
+
+class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Prosty widok umożliwiający pobranie listy lokalizacji z podstawowymi informacjami.
+    Domyślnie prezentowana jest lista wszystkich lokalizacji. Do parametrów GET
+    możemy dodać `pk` lokalizacji, której bezpośrednie "dzieci" chcemy pobrać, np.:
+    
+    ```/api-locations/sublocations/pk=1```
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationListSerializer
+    permission_classes = (rest_permissions.AllowAny,)
+    paginate_by = None
+
+    def get_queryset(self):
+        pk = self.request.QUERY_PARAMS.get('pk', None)
+        if pk:
+            try:
+                location = Location.objects.get(pk=pk)
+                queryset = location.location_set.all()
+            except Location.DoesNotExist:
+                queryset = Location.objects.all()
+            return queryset
+        return Location.objects.all()
+
 
 class LocationNewsList(DetailView):
     """
