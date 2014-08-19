@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from taggit.forms import TagField
@@ -11,6 +12,7 @@ from locations.models import Location, get_country_codes
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
+from geobase.models import Country
 
 class LocationForm(forms.ModelForm):
     """
@@ -22,10 +24,12 @@ class LocationForm(forms.ModelForm):
         label = _('Name'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
-    country_code = forms.ChoiceField(
+    country_code = forms.ModelChoiceField(
         required = True,
         label = _("Country code"),
-        choices = get_country_codes(),
+        queryset = Country.objects.all(),
+        #empty_label = None,
+        initial = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE),
         widget = forms.Select(attrs={'class':'form-control'})
     )
     parent = forms.ModelChoiceField(
