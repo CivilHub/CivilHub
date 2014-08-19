@@ -107,8 +107,6 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
     from rest_framework.authtoken.models import Token
     from userspace.models import UserProfile
     token = None
-    print response
-    print details
     if user:
         try:
             token = user.auth_token
