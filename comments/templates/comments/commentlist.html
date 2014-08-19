@@ -18,11 +18,19 @@
         </form>
     </div>
     {% endif %}
-    <p>{% trans "Order by" %}: 
-        <a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a> | 
-        <a class="change-order-link" href="#" data-order="submit_date">{% trans "Newest" %}</a> |
-        <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Oldest" %}</a>
+    
+    <p>{% trans "Order by" %}:
+    {% comment %}
+    
+        UWAGA: filtry są "odwrotnie" (tzn. najwięcej głosów będzie `-votes`), bo elementy na stronie
+        są dodawane przez `prepend`.
+        
+    {% endcomment %}
+        <a class="change-order-link" href="#" data-order="-votes">{% trans "Most voted" %}</a> | 
+        <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
+        <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
     </p>
+    
 </div>
 
 <div id="comments"></div>
@@ -64,7 +72,8 @@
                 {% endcomment %}
                 
                 {% if user.is_authenticated %}| <a class="comment-reply" href="#">{% trans "Reply" %}</a> |{% endif %}
-                <a class="show-replies" href="#">({% trans "hide" %})</a>
+                
+                <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a>
                 </p>
                 <div class="comment-votes-detail">
                     <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>

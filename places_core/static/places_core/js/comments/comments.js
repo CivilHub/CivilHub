@@ -14,14 +14,6 @@ function ($, CommentList) {
     // Tworzymy listę komentarzy.
     var comments = new CommentList();
     
-    // Przycisk "Pokaż więcej" - wczytanie kolejnej strony komentarzy.
-    $('.comment-show-btn').on('click', function (e) {
-        e.preventDefault();
-        if (comments.collection.hasNextPage()) {
-            comments.collection.getNextPage();
-        }
-    });
-    
     // Pokaż/Ukryj komentarze
     $('.comment-toggle').on('click', function (e) {
         e.preventDefault();
@@ -34,5 +26,11 @@ function ($, CommentList) {
                 $('.comment-toggle').text(gettext('Hide comments'));
             });
         }
+    });
+    
+    // Sortuj komentarze w odpowiedniej kolejności
+    $('.change-order-link').on('click', function (e) {
+        e.preventDefault();
+        comments.filter($(this).attr('data-order'));
     });
 });

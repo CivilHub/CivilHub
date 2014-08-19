@@ -76,6 +76,7 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                 });
             }.bind(this));
             
+            // Edycja istniejącego komentarza
             if (this.$ctrls.find('.comment-edit').length > 0) {
                 this.$ctrls.find('.comment-edit').on('click', function (e) {
                     e.preventDefault();
@@ -93,7 +94,7 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
             var txt = this.model.get('comment');
             
             // Zastępujemy komentarz edytorem.
-            this.$el.find('.comment-content').empty().append($ed);
+            this.$el.find('.comment-content:first').empty().append($ed);
             // Uzupełniamy edytor starym komentarzem.
             $ed.find('#comment').val(this.model.get('comment'));
             
@@ -107,7 +108,7 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                 }, {patch: true}); // update przez PATCH
                 // Usuń edytor i pokaż zaktualizowany komentarz.
                 $ed.empty().remove();
-                this.$el.find('.comment-content')
+                this.$el.find('.comment-content:first')
                     .text(this.model.get('comment'));
             }.bind(this));
             

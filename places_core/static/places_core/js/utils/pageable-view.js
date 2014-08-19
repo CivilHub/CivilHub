@@ -73,12 +73,9 @@ function ($, _, Backbone) {
             'click .prev-page': 'prevPage'
         },
         
-        filter: function (page) {
-            var self = this,
-                filters = getListOptions();
-
+        filter: function () {
+            var filters = getListOptions();
             _.extend(this.collection.queryParams, filters);
-            
             this.collection.fetch();
         },
         

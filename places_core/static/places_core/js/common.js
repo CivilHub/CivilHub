@@ -38,7 +38,7 @@ function ($, _, Backbone) {
                 .hide().fadeIn('slow');
             
             $('#accept-button').click(function () {
-                document.cookie = "cookie_msg=true";
+                document.cookie = "cookie_msg=true; path=/";
                 $('#cookie-msg').fadeOut('slow', function() {
                     this.empty().remove();
                 });

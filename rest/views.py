@@ -281,8 +281,8 @@ class CommentsViewSet(viewsets.ModelViewSet):
                           IsOwnerOrReadOnly,)
 
     def set_element_order(self):
-        if self.request.GET.get('order'):
-            return self.request.GET.get('order')
+        if self.request.QUERY_PARAMS.get('filter'):
+            return self.request.QUERY_PARAMS.get('filter')
         return '-submit_date'
 
     def get_queryset(self):
