@@ -113,9 +113,9 @@ class MyActionsSerializer(serializers.Serializer):
                 return truncatehtml(obj.data['comment'], 140) + ' <a href="' + obj.data['comment_url'] + '">' + _("More") + '</a>'
             elif obj.verb == 'voted on':
                 if obj.data['vote']:
-                    return '<div class="vote-up"></div>'
+                    return '<div class="vote-up">' + _("Voted yes") + '</div>'
                 else:
-                    return '<div class="vote-down"></div>'
+                    return '<div class="vote-down">' + _("Voted no") + '</div>'
                 return obj.data['vote']
             elif ct.model == 'idea':
                 return truncatehtml(target.description, 140)

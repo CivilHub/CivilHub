@@ -13,7 +13,7 @@ function (_, Backbone) {
         
         tagName: 'div',
         
-        className: 'row user-action-entry',
+        className: 'row action-entry',
         
         template: _.template($('#action-template').html()),
         

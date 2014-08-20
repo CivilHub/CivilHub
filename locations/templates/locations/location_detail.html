@@ -3,32 +3,106 @@
 {% block title %} {{ location.name }} | CivilHub {% endblock %}
 {% block content %}
 <!-- Main content -->
-<div class="col-sm-9">
-    <h1>{{ location.name }} {% trans "summary" %}</h1>
-    <div>{{ location.description | safe }}</div>
-    
-    <h2>{% trans "Latest related actions" %}</h2>
-    <ul class="last-related-actions">
-    {% for action in actions %}
-        <li>
-            <a href="{% url 'user:profile' action.actor %}">{{ action.actor.get_full_name }}</a> {{ action.verb }}
-            {% if action.action_object_content_type %}
-                &nbsp;{{ action.action_object_content_type }}&nbsp;
-            {% endif %}
-            {% if action.action_object.get_absolute_url and action.action_object %}
-                <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-            {% endif %}
-            {% if not action.action_object_content_type %}
-                <a href="{% url 'locations:details' location.slug %}">{{ location.name | capfirst }}</a>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-</div>
-    <div class="col-sm-3">
-        {% include 'locations/sidebar.html' %}
+
+
+    <div class="col-lg-5">
+        <div class="activity-stream">
+        
+            {% for action in actions %}
+                <div class="row action-entry">
+                    
+                    <div class="col-xs-2 entry-avatar-col">
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
+                        {{ action.actor.profile.rank_pts }}
+                    </div>
+                    
+                    <div class="col-xs-10 entry-meta-col">
+                        <div class="entry-header">
+                            <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+                            {{ action.verb }}
+                            {% if action.action_object_content_type %}
+                                &nbsp;{{ action.action_object_content_type }}&nbsp;
+                            {% endif %}
+                            {% if action.action_object %}
+                                {% if action.action_object.get_absolute_url %}
+                                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.action_object }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {% if action.action_object and action.target %}to{% endif %}
+                            {% if action.target %}
+                                {% if action.target.get_absolute_url %}
+                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+                                {% else %}
+                                    <a href="{{ action.target_url }}">{{ action.target }}</a>
+                                {% endif %}
+                            {% endif %}
+                            {{ action.timestamp|timesince }} {% trans "ago" %}
+                        </div>
+                        <div class="entry-body">
+                            {% if action.action_object_content_type.model == 'poll' %}
+                                {{ action.action_object.question | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'idea' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'news' %}
+                                {{ action.action_object.content | safe | truncatewords_html:25 }}
+                            {% endif %}
+                            
+                            {% if action.action_object_content_type.model == 'location' %}
+                                {{ action.action_object.description | safe | truncatewords_html:25 }}
+                            {% endif %}
+                        </div>
+                        <div class="clear">&nbsp;</div>
+                        <div class="entry-footer">
+                            {% trans "Share" %}:
+                            <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=civilhub.org','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+							<a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=civilhub.org','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                        </div>
+                    </div><!-- // .entry-meta-col -->
+                    
+                </div><!-- // .user-action-entry -->
+            {% endfor %}
+        </div>
     </div>
-<button data-location-id="{{ location.id }}" class="btn btn-danger btn-unfollow-location">{% trans "Stop following" %}</button>
-<!-- Modal window -->
-<div id="modal" class="modal fade"></div>
+
+    <div class="col-lg-4">
+        <div class="sidebar">
+            <div class="ambasador-image">
+                <h3>{% trans "Zostań ambasadorem" %}</h3>
+            </div>
+            <div class="sidebar-label">{% trans "News" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Discussions" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Ideas" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Polls" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 sidebar">
+        <div class="sidebar-label">{% trans "About place" %}</div>
+        <div class="sidebar-content">
+            {{ location.description|striptags }}
+        </div>
+    </div>
+
 {% endblock %}

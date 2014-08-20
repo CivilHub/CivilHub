@@ -7,8 +7,8 @@
 {% endcomment %}
 
 <script type="text/template" id="pageable-view-tpl">
-    <p class="page-info">{% trans "Page" %} <span class="current-page"><%= currentPage %></span> {% trans "of" %} <%= totalPages %></p>
     <% if (totalPages > 1) { %>
+    <p class="page-info">{% trans "Page" %} <span class="current-page"><%= currentPage %></span> {% trans "of" %} <%= totalPages %></p>
         <ul class="pagination">
             <li class="first-page"><a>&laquo;</a></li>
             <li class="prev-page"><a>{% trans "Previous" %}</a></li>

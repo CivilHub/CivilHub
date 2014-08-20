@@ -131,13 +131,13 @@
 
 {% block content %}
 
-    <div class="user-activities col-sm-8">
+    <div class="col-sm-8">
         
         <div class="col-sm-5">
             <div class="sidebar">
                 <div class="sidebar-label">{% trans "About me"%}</div>
                 <div class="sidebar-content">
-                    {{ profile.description }}
+                    {{ profile.description|striptags }}
                 </div>
                 <div class="sidebar-label">{% trans "Places"%}</div>
                 <div class="sidebar-content">
@@ -160,10 +160,10 @@
             </div>
         </div>
         
-        <div class="col-sm-7 user-activity-stream">
+        <div class="col-sm-7 activity-stream">
             
             {% for action in stream %}<noscript>
-                <div class="row user-action-entry">
+                <div class="row action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
                         <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />

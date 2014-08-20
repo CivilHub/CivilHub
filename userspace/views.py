@@ -318,7 +318,7 @@ def register(request):
     from rest_framework.authtoken.models import Token
     
     if request.user.is_authenticated():
-        return redirect(reverse('user:profile', kwargs={'username':request.user.username}))
+        return redirect('/activity')
     
     if request.method == 'POST':
         f = RegisterForm(request.POST)
@@ -410,6 +410,8 @@ def register(request):
     ctx = {
         'form' : RegisterForm,
         'title': _("Registration"),
+        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
+        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
     return render(request, 'staticpages/pages/home.html', ctx)
 

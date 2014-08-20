@@ -19,7 +19,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
     
     var ActionList = Backbone.View.extend({
     
-        el: '.user-activity-stream',
+        el: '.activity-stream',
         
         nextPage: null,
         

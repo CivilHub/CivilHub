@@ -85,13 +85,13 @@
 {% comment %}<p><b><a href="{% actor_url request.user %}">{% trans "View my actions" %}</a></b></p>{% endcomment %}
 {% endif %}
 
-<div class="container user-activities">
+<div class="activities-page">
 
     <div class="col-lg-5">
-        <div class="user-activity-stream">
+        <div class="activity-stream">
         
             {% for action in action_list %}
-                <div class="row user-action-entry">
+                <div class="row action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
                         <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
@@ -157,6 +157,25 @@
             <div class="ambasador-image">
                 <h3>{% trans "Zostań ambasadorem" %}</h3>
             </div>
+            <div class="sidebar-label">{% trans "News" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Discussions" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Ideas" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
+            
+            <div class="sidebar-label">{% trans "Polls" %}</div>
+            <div class="sidebar-content">
+            
+            </div>
         </div>
     </div>
 
@@ -164,7 +183,7 @@
     <div class="col-lg-3 sidebar">
         <div class="sidebar-label">{% trans "About me" %}</div>
         <div class="sidebar-content">
-         
+            {{ actor.profile.description|striptags }}
         </div>
     </div>
 </div>
