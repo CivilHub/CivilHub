@@ -1,6 +1,9 @@
 //
 // col-view.js
 // ============
+// Widok pojedynczej kolumny powiązanej z jednym konkretnym miejscem. Tutaj
+// pokazujemy listę wszystkich lokalizacji "dziedziczących" z poprzednio wy-
+// branej (lub z wybranego kraju, jeżeli jest to pierwsza kolumna).
 
 define(['jquery',
         'underscore',
@@ -11,23 +14,6 @@ define(['jquery',
 function ($, _, Backbone, LocationCollection, LocationListView) {
     
     "use strict";
-    
-    jQuery.fn.animateAuto = function(prop, speed, callback){
-        var elem, height, width;
-        return this.each(function(i, el){
-            el = jQuery(el), elem = el.clone().css({"height":"auto","width":"auto"}).appendTo("body");
-            height = elem.css("height"),
-            width = elem.css("width"),
-            elem.remove();
-            
-            if(prop === "height")
-                el.animate({"height":height}, speed, callback);
-            else if(prop === "width")
-                el.animate({"width":width}, speed, callback);  
-            else if(prop === "both")
-                el.animate({"width":width,"height":height}, speed, callback);
-        });  
-    }
     
     var ColView = Backbone.View.extend({
         
@@ -43,6 +29,7 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         },
         
         initialize: function () {
+            // TODO: przechwytywanie błędów w przypadku podania złych argumentów.
             this.locationID = arguments[1];
             this.position = arguments[2];
             this.collection = new LocationCollection();
@@ -54,9 +41,9 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         
         render: function () {
             var self = this;
-            this.$el.appendTo('body');
+            this.$el.appendTo('body').css('display', 'none');
             if (this.collection.length >= 1) {
-                this.$el.html(this.template({})).animateAuto('width', 'fast');
+                this.$el.html(this.template({})).slideDown('fast');
                 this.$el.css({
                     left: self.position.left,
                     top: self.position.top
@@ -76,10 +63,13 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         
         expand: function (e) {
             e.preventDefault();
+            if (this.sublist !== undefined) {
+                return false;
+            }
             var id = $(e.currentTarget).attr('data-target');
             var pos = {
                 top: this.position.top,
-                left: this.position.left + this.$el.width()
+                left: this.position.left + this.$el.width() + 20
             };
             this.sublist = new ColView([], id, pos);
             this.sublist.parentView = this;
@@ -91,6 +81,11 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
             }.bind(this));
             if (this.sublist !== undefined) {
                 this.sublist.destroy();
+            }
+            if (this.parentView != undefined) {
+                delete this.parentView.sublist;
+            } else {
+                delete window.activeSublist;
             }
         }
     });

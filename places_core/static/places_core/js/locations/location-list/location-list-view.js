@@ -31,26 +31,26 @@ function ($, _, Backbone) {
         follow: function (e) {
             e.preventDefault();
             var targetID = $(e.currentTarget).attr('data-target');
+            var newTitle = gettext("Stop following");
             $.post('/add_follower/' + targetID + '/', 
                 {csrfmiddlewaretoken: getCookie('csrftoken')}, 
             function (resp) {
                 $(e.currentTarget)
-                    .addClass('unfollow-entry')
-                    .removeClass('follow-entry')
-                    .text(gettext("Stop following"));
+                    .addClass('unfollow-entry fa-eye-slash')
+                    .removeClass('follow-entry fa-eye');
             });
         },
         
         unfollow: function (e) {
             e.preventDefault();
             var targetID = $(e.currentTarget).attr('data-target');
+            var newTitle = gettext("Follow");
             $.post('/remove_follower/' + targetID + '/', 
                 {csrfmiddlewaretoken: getCookie('csrftoken')}, 
                 function (resp) {
                 $(e.currentTarget)
-                    .addClass('follow-entry')
-                    .removeClass('unfollow-entry')
-                    .text(gettext("Follow"));
+                    .addClass('follow-entry fa-eye')
+                    .removeClass('unfollow-entry fa-eye-slash');
             });
         }
     });

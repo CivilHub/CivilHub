@@ -43,9 +43,6 @@ function ($, _, Backbone) {
                     this.empty().remove();
                 });
             });
-                
-            
-           
         }
     })(jQuery);
     

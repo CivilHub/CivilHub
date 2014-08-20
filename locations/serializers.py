@@ -47,8 +47,8 @@ class SimpleLocationSerializer(serializers.ModelSerializer):
 
 class LocationListSerializer(serializers.ModelSerializer):
     """
-    Prosty serializer do wyświetlenia w widokach listy, zawierający nazwę loka-
-    cji, odnośnik bezpośredni i podstawowe informacje.
+    Serializer do wyświetlenia w widokach listy, zawierający nazwę lokacji, 
+    odnośnik bezpośredni i podstawowe informacje.
     """
     id = serializers.Field(source='pk')
     name = serializers.CharField(max_length=64)

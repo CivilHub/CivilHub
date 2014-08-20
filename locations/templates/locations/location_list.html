@@ -8,10 +8,27 @@ ul.list-column {
     z-index: 5000;
     opacity: 0.7;
     background-color: #000000;
+    margin: 0px;
+    padding-left: 20px;
 }
 ul.list-column li {
     display: block;
     width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+ul.list-column .close-col {
+    position: absolute;
+    left: 5px;
+    top: 2px;
+}
+ul.list-column .col-description {
+    display: inline-block;
+}
+ul.list-column .col-controls {
+    display: inline-block;
+    float: right;
+    margin-left: 10px;
 }
 </style>
 {% endblock %}
@@ -78,6 +95,12 @@ ul.list-column li {
             backgroundColor: 'transparent',
             
             onRegionClick: function (event, code) {
+                // Jeżeli jest już aktywna lista dla jakiegoś kraju, nie otwieraj
+                // nowego okna.
+                if (window.activeSublist !== undefined && window.activeSublist) {
+                    return false;
+                }
+                // Ustalamy pozycję pierwszej listy w lewym górnym rogu mapy.
                 var pos = {
                     left: event.target.offsetLeft,
                     top: event.target.offsetTop
@@ -89,6 +112,7 @@ ul.list-column li {
                         // pustą tabelę - Backbone zawsze traktuje pierwszy argument
                         // jako kolekcję, co tutaj prowadzi do błędów.
                         var locationList = new ColView([], resp[0].location, pos);
+                        window.activeSublist = true;
                     } else {
                         // TODO: coś tu trzeba pokazać.
                         alert("There is no such place");
@@ -120,7 +144,27 @@ ul.list-column li {
 {% endblock %}
 
 {% block header %}{% endblock %}
+
 {% block content %}
+
+
+<script type="text/template" id="list-col-tpl">
+    <a href="#" class="close-col"><span class="fa fa-times-circle-o">&nbsp;</span></a>
+</script>
+
+<script type="text/template" id="location-entry-tpl">
+    <span class="col-description"><a href="/<%= slug %>"><%= name %></a></span>
+    <span class="col-controls">
+        <% if (followed) { %>
+            <a href="#" title="{% trans "Stop following" %}" class="custom-tooltip"><span class="unfollow-entry fa fa-eye-slash" data-target="<%= id %>">&nbsp;</span></a>
+        <% } else { %>
+            <a href="#" title="{% trans "Follow" %}" class="custom-tooltip"><span class="follow-entry fa fa-eye" data-target="<%= id %>">&nbsp;</span></a>
+        <% } %>
+        <a href="#" title="{% trans "Expand" %}" class="custom-tooltip"><span class="expand-entry fa fa-play" data-target="<%= id %>">&nbsp;</span></a>
+    </span>
+</script>
+
+
 <div class="location-list-page">
     <h1 class="text-center">{% trans "Choose a country, which you love" %}</h1>
         <div id="vector-map"></div>
@@ -211,19 +255,5 @@ ul.list-column li {
         {% endif %}
 
 </div>
-
-<script type="text/template" id="list-col-tpl">
-    <span class="close-col">{% trans "Close" %}</span>
-</script>
-
-<script type="text/template" id="location-entry-tpl">
-    <a href="/<%= slug %>"><%= name %></a>
-    <% if (followed) { %>
-        <span class="follow-entry" data-target="<%= id %>">{% trans "Follow" %}</span>
-    <% } else { %>
-        <span class="unfollow-entry" data-target="<%= id %>">{% trans "Stop following" %}</span>
-    <% } %>
-    <span class="expand-entry" data-target="<%= id %>">{% trans "Expand" %}</span>
-</script>
 
 {% endblock %}
