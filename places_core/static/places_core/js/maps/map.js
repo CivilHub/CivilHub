@@ -64,15 +64,7 @@ function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
         createCluster: function (markers) {
             this.cluster = new MarkerClusterer(this.map, markers, {
                 maxZoom: 10,
-                gridSize: 30,
-                styles: [{
-                    url: window.STATIC_URL + '/images/people35.png',
-                    height: 35,
-                    width: 35,
-                    anchor: [16, 0],
-                    textColor: '#ff00ff',
-                    textSize: 10
-                }]
+                gridSize: 30
             });
         },
         
