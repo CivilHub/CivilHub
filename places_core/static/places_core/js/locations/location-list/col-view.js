@@ -19,7 +19,7 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         
         tagName: 'ul',
         
-        className: 'list-column',
+        className: 'list-column col-sm-3',
         
         template: _.template($('#list-col-tpl').html()),
         
@@ -28,10 +28,12 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
             'click .close-col': 'destroy'
         },
         
+        items: {}, // Placeholder dla viewsów powiązanych z modelami kolekcji.
+        
         initialize: function () {
             // TODO: przechwytywanie błędów w przypadku podania złych argumentów.
             this.locationID = arguments[1];
-            this.position = arguments[2];
+            this.tier = arguments[2];
             this.collection = new LocationCollection();
             this.collection.url = 
                 '/api-locations/sublocations/?pk=' + this.locationID;
@@ -41,38 +43,74 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         
         render: function () {
             var self = this;
-            this.$el.appendTo('body').css('display', 'none');
+            this.$el.appendTo('#list-placeholder > .placeholder-content');
             if (this.collection.length >= 1) {
-                this.$el.html(this.template({})).slideDown('fast');
-                this.$el.css({
-                    left: self.position.left,
-                    top: self.position.top
-                });
+                this.$el.html(this.template({tier: this.tier}));
                 this.collection.each(function (item) {
                     this.renderEntry(item);
                 }, this);
             }
+            this.$el.find('.search-entry').on('keyup', function (e) {
+                self.filter($(this).val());
+            });
         },
         
         renderEntry: function (item) {
             var entry = new LocationListView({
                 model: item
             });
-            $(entry.render().el).appendTo(this.$el);
+            var $el = $(entry.render().el);
+            entry.parentView = this;
+            this.items[item.get('id')] = entry;
+            $el.appendTo(this.$el);
+        },
+        
+        filter: function (s) {
+            var re = new RegExp(s, 'i');
+            var model = null;
+            _.each(this.items, function (item, idx) {
+                model = this.collection.get(idx);
+                // FIXME: kolekcje kilku widoków zdają się łączyć w jedną, co
+                // skutkuje sprawdzaniem nieistniejących indexów elementów.
+                if (model === undefined) return false;
+                if (!re.test(model.get('name'))) {
+                    item.hide();
+                } else {
+                    item.show();
+                }
+            }, this);
         },
         
         expand: function (e) {
             e.preventDefault();
+            // Jeżeli lista sub-lokacji jest już otwarta, nie otwieramy nowej.
             if (this.sublist !== undefined) {
                 return false;
             }
             var id = $(e.currentTarget).attr('data-target');
-            var pos = {
-                top: this.position.top,
-                left: this.position.left + this.$el.width() + 20
-            };
-            this.sublist = new ColView([], id, pos);
-            this.sublist.parentView = this;
+            this.items[id].details();
+            this.sublist = new ColView([], id, this.tier + 1);
+            this.listenTo(this.sublist.collection, 'sync', function () {
+                // Sprawdzamy, czy ten element ma jakieś inne zagnieżdżone
+                // lokacje. Jeżeli nie, kasujemy listę. Podobnie postępujemy
+                // w przypadku ostatniego zagnieżdżenia.
+                if (!this.sublist.collection.length > 0 || this.tier >= 3) {
+                    this.sublist.$el.empty().remove();
+                    delete this.sublist;
+                    this.$el.addClass('is-last-entry');
+                } else {
+                    this.sublist.parentView = this;
+                    this.$el.removeClass('is-last-entry');
+                }
+            });
+        },
+        
+        cleanDetails: function () {
+            _.each(this.items, function (item, index) {
+                if (this.collection.get(index) !== undefined) {
+                    item.hideDetails();
+                }
+            }, this);
         },
         
         destroy: function () {
@@ -83,9 +121,14 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
                 this.sublist.destroy();
             }
             if (this.parentView != undefined) {
+                // Sublista - usuń ją z indexu nadrzędnej
                 delete this.parentView.sublist;
+                // Ukryj detale poprzednich elementów
+                this.parentView.cleanDetails();
             } else {
-                delete window.activeSublist;
+                // Pierwsza, podstawowa lista. Emitujemy sygnał i zamykamy
+                // okno z przeglądarką lokalizacji.
+                this.trigger('destroyed');
             }
         }
     });

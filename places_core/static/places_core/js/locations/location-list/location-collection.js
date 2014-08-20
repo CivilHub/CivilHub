@@ -14,7 +14,6 @@ function ($, _, Backbone, LocationModel) {
     var LocationCollection = Backbone.Collection.extend({
         
         model: LocationModel
-        
     });
     
     return LocationCollection;

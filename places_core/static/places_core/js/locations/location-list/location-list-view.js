@@ -19,6 +19,7 @@ function ($, _, Backbone) {
         template: _.template($('#location-entry-tpl').html()),
         
         events: {
+            'click .hide-details': 'hideDetails',
             'click .follow-entry': 'follow',
             'click .unfollow-entry': 'unfollow'
         },
@@ -28,11 +29,32 @@ function ($, _, Backbone) {
             return this;
         },
         
+        hide: function () {
+            this.$el.css('display', 'none');
+            return this;
+        },
+        
+        show: function () {
+            this.$el.css('display', 'block');
+            return this;
+        },
+        
+        details: function () {
+            this.$el.find('.list-entry-details').fadeIn('slow');
+        },
+        
+        hideDetails: function () {
+            this.$el.find('.list-entry-details').fadeOut('slow');
+            if (this.parentView.sublist !== undefined) {
+                this.parentView.sublist.destroy();
+            }
+        },
+        
         follow: function (e) {
             e.preventDefault();
             var targetID = $(e.currentTarget).attr('data-target');
             var newTitle = gettext("Stop following");
-            $.post('/add_follower/' + targetID + '/', 
+            $.post('/add_follower/' + targetID + '/',
                 {csrfmiddlewaretoken: getCookie('csrftoken')}, 
             function (resp) {
                 $(e.currentTarget)

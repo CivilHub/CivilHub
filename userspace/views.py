@@ -572,8 +572,8 @@ def login(request):
                         for i in range (len(datas) - 5):
                             datas[i].delete()
                     return redirect('activities:actstream')
-        messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
-        return redirect(reverse('user:login'))
+        ctx = {'errors': _("Login credentials invalid")}
+        return render(request, 'userspace/login.html', ctx)
     f = LoginForm()
     ctx = {
         'title': _('Login'),
