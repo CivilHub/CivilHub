@@ -38,7 +38,9 @@ function ($, _, Backbone) {
                 .hide().fadeIn('slow');
             
             $('#accept-button').click(function () {
-                document.cookie = "cookie_msg=true; path=/";
+                var expiration_date = new Date();
+                expiration_date.setFullYear(expiration_date.getFullYear() + 1);
+                document.cookie = "cookie_msg=true; path=/; expires=" + expiration_date.toGMTString();
                 $('#cookie-msg').fadeOut('slow', function() {
                     this.empty().remove();
                 });
