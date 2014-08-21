@@ -761,7 +761,7 @@ class LocationContentFilter(View):
                 'title'   : _("Search by category"),
                 'location': location,
                 'items'   : items,
-                context['tags']: TagFilter(location).get_items()
+                'tags'    : TagFilter(location).get_items()
             })
 
 
