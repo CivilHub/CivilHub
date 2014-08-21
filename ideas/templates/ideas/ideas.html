@@ -50,13 +50,13 @@
             <% } %>
         </p>
         
-        <div class="idea-summary"><p><a href="<%= url %>"><%= description.substring(0,320) %>...</a> <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a> </p></div>
+        <div class="idea-summary acticle-content"><p><a href="<%= url %>"><%= description.substring(0,320) %>...</a> <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a> </p></div>
         <div class="clear">&nbsp;</div>
         <div>
             <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
             <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
             <% for (var i = 0; i < tags.length; i++) { %>
-                <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+                <a class="tag" href="<%= tags[i].url %>"><%= tags[i].name %></a> 
             <% } %>
             <% if (category_name) { %>
             <span class="fa fa-star"> </span>{% trans "Category" %}:

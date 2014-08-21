@@ -189,8 +189,8 @@ class PasswordRemindForm(forms.Form):
     Formularz dla użytkowników, którzy zapomnieli hasła.
     """
     email = forms.EmailField(
-        label = _("Email address"),
-        widget = forms.EmailInput(attrs={'class': 'form-control'})
+        label = '',
+        widget = forms.EmailInput(attrs={'class': 'form-control', 'placeHolder': _('Enter your email address')})
     )
 
 

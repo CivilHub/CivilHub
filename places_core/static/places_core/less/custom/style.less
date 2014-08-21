@@ -25,10 +25,17 @@ body {
   height: 100%;
   padding-top: 50px;
   background: #fbfbfb;
+
+  font-family: "Open Sans";
   
   a:hover {
     text-decoration: none;
   }
+  
+  h1 {
+    line-height: 40px;
+  }
+
 }
 
 /* Wrapper for page content to push down footer */
@@ -146,25 +153,29 @@ body {
   -webkit-border-radius: 3px;
 }
 .entry-avatar-col {
-  text-align: center;
-  min-width: 65px;
-  margin-top: 20px;
-  .news-user-avatar {
-	.entry-avatar-col .news-user-avatar {
-		width: 60px; 
-		height: 60px; 
-		border-radius: 50%;
-		-moz-border-radius: 50%;
-		-webkit-border-radius: 50%;
-		float: left; 
-		margin-right: 30px; 
-		margin-bottom: 6px; 
-		margin-top: 3px; 
-		padding: 4px; 
-		border: 1px solid #eee;
-	}
-  }
+
+    font-size: 9px;
+    text-align: center;
+    margin-top: 15px; 
+
 }
+   
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border: 1px solid #eee;
+    margin-bottom: 6px;
+   
+} 
+
+.user-avatar.mini {
+    width: 35px;
+    height: 35px;
+}
+
 /*-------Alert messages-------*/
 #alert-area {
   position: fixed;

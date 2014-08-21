@@ -102,7 +102,7 @@
         
         {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
         
-        <div>{{ poll.question | safe }}</div>
+        <div class="acticle-content">{{ poll.question | safe }}</div>
         
         {% if can_vote %}
         <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">

@@ -101,7 +101,7 @@
 		<div class="col-md-2">
 			<div class="entry-avatar-col">
 				<img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
-				{{ news.creator.profile.rank_pts }}
+				<br />{{ news.creator.profile.rank_pts }}
 			
             {% include 'locations/share_buttons.html' %}
             
@@ -116,7 +116,9 @@
 				<div class="col-md-11">
 					<h1>{{ title }}</h1>
 					<div class="news-meta">
-						<p>{% trans "Created by" %} <a href="{{ news.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span></a> {{ news.date_created }}</p>
+                        <small>
+                            {% trans "Created by" %} <a href="{{ news.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span></a> {{ news.date_created }}</p>
+                        </small>
 					</div>
 				</div>
 				
@@ -146,7 +148,7 @@
 			<!-- News content -->
 			<div class="row">
 				<article>
-					<div  class="news-contetn">{{ news.content | safe }}</div>
+					<div  class="acticle-content news-contetn">{{ news.content | safe }}</div>
 				</article>
 				
 				<div class="comments-{{ news.pk }}"></div>
@@ -154,7 +156,7 @@
 				<div class="sprite-icon">
 					<span class="ch-icon ch-tags"> </span>{% trans "Tags" %}:
 					{% for tag in news.tags.all %}
-						<a href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a>,&nbsp;
+						<a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a> 
 					{% endfor %}
 				</div>
 				<br />

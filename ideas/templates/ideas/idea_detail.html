@@ -208,8 +208,7 @@
         </div>
         <div class="col-sm-9">
 
-            <h3>
-                <a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a>&nbsp;<span class="submenu-toggle"> </span></h3>
+            <h1>{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
                 <div class="entry-submenu">
                     <ul>
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
@@ -222,11 +221,11 @@
                 </div>
                 <div class="author-info">
                     <small>
-                        <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ idea.creator.pk }}" />     
+                        <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar mini user-window-toggle" data-target="{{ idea.creator.pk }}" />     
                         <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
                     </small>
                 </div>
-                <div>{{ idea.description | safe }}</div>
+                <div class="acticle-content">{{ idea.description | safe }}</div>
     <p>{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
         <a class="tag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}" />{{ tag }}</a>  
