@@ -55,7 +55,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     """
     model = Location
     serializer_class = SimpleLocationSerializer
-    paginate_by = 50
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
@@ -99,7 +99,7 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 2)
+        paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
@@ -341,7 +341,7 @@ class LocationDiscussionsList(DetailView):
         location = super(LocationDiscussionsList, self).get_object()
         context  = super(LocationDiscussionsList, self).get_context_data(**kwargs)
         discussions = Discussion.objects.filter(location=location)
-        paginator   = Paginator(discussions, 50)
+        paginator   = Paginator(discussions, settings.LIST_PAGINATION_LIMIT)
         page = self.request.GET.get('page')
 
         try:
@@ -401,7 +401,7 @@ def ajax_discussion_list(request, slug):
     if meta:
         queryset = queryset.order_by(meta)
 
-    paginator = Paginator(queryset, 50)
+    paginator = Paginator(queryset, settings.LIST_PAGINATION_LIMIT)
 
     context = {}
 
@@ -497,7 +497,7 @@ class SublocationList(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SublocationList, self).get_context_data(**kwargs)
         sublocations = self.object.location_set.all()
-        max_per_page = 32
+        max_per_page = settings.LIST_PAGINATION_LIMIT
         paginator    = Paginator(sublocations, max_per_page)
         context      = {}
         page         = self.request.GET.get('page')
@@ -532,7 +532,7 @@ class LocationFollowersList(DetailView):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
         
         followers = self.object.users.all()
-        max_per_page = 36
+        max_per_page = settings.LIST_PAGINATION_LIMIT
         paginator    = Paginator(followers, max_per_page)
         page         = self.request.GET.get('page')
 

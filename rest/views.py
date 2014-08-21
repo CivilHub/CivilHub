@@ -70,7 +70,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 10)
+        paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
@@ -163,7 +163,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-    paginate_by = 5
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -222,7 +222,7 @@ class PollListViewSet(viewsets.ModelViewSet):
     """ Vieset to manage entire location's polls list. """
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
-    paginate_by = 5
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -275,7 +275,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
     Intended to use with comment tree related to selected item
     """
     queryset = CustomComment.objects.all()
-    paginate_by = 5
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
@@ -383,7 +383,7 @@ class ForumViewSet(viewsets.ModelViewSet):
     """ View for location's forum list. """
     queryset = Discussion.objects.all()
     serializer_class = DiscussionSerializer
-    paginate_by = 5
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -449,7 +449,7 @@ class DiscussionRepliesViewSet(viewsets.ModelViewSet):
     """
     queryset = Entry.objects.all()
     serializer_class = DiscussionReplySerializer
-    paginate_by = 5
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -474,7 +474,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
     """ Idea list viewset. """
     queryset = Idea.objects.all()
     serializer_class = IdeaSerializer
-    paginate_by = 5
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 

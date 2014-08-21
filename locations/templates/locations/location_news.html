@@ -1,5 +1,7 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
+
+{% load civil_tags %}
 
 {% block require_scripts %}
 
@@ -52,6 +54,9 @@
             },
         }
     });
+    
+    // Rozmiar strony dla paginatora.
+    window.pageSize = {% page_size %};
 
     require(['jquery',
              'js/blog/news-list/blog',
@@ -60,9 +65,6 @@
              'js/locations/follow'], function ($, ui) {
         
         "use strict";
-        
-        // Rozmiar strony dla paginatora.
-        window.pageSize = 2;
         
         $(document).trigger('load');
         
@@ -132,7 +134,7 @@
 {% block content %}
 
     <div class="col-sm-9 main-content">
-
+        
         <div id="entries"></div>
 
         <input type="hidden" name="location-id" id="location-id" value="{{ location.pk }}" />

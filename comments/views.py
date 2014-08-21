@@ -52,7 +52,7 @@ def get_comment_tree(request, object_id, app_label, model_label):
     """
     comments = get_related_comments(object_id, app_label, model_label)
     ctx = {'results': []}
-    paginator = Paginator(comments, 25)
+    paginator = Paginator(comments, setting.PAGE_PAGINATION_LIMIT)
     page = request.GET.get('page')
     try:
         comments = paginator.page(page)

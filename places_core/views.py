@@ -38,7 +38,7 @@ class SearchResultsAPIViewSet(viewsets.ViewSet):
             return []
 
     def list(self, request):
-        paginator = Paginator(self.get_queryset(), 20)
+        paginator = Paginator(self.get_queryset(), settings.LIST_PAGINATION_LIMIT)
         page = request.QUERY_PARAMS.get('page')
         try:
             results = paginator.page(page)

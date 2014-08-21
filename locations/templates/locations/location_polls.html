@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load i18n %}{% load staticfiles %}
+{% load i18n %}{% load staticfiles %}{% load civil_tags %}
 {% block title %} {{ location.name }}, {% trans "Polls" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 
@@ -51,6 +51,9 @@
             },
         }
     });
+    
+    // Rozmiar strony dla paginatora.
+    window.pageSize = {% page_size 'list' %};
 
     require(['jquery',
              'ui',
@@ -59,9 +62,6 @@
              'js/polls/poll-list/pollList'], function ($, ui) {
 
         "use strict";
-
-        // Rozmiar strony dla paginatora.
-        window.pageSize = 2;
         
         $(document).trigger('load');
         

@@ -16,6 +16,7 @@ function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
     var DiscussionList = PageableView.extend({
 
         initialize: function () {
+            var self = this;
             this.collection = new DiscussionCollection();
             this.collection.setPageSize(window.pageSize);
             this.$el.appendTo('#discussions');

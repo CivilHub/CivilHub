@@ -263,6 +263,8 @@ ACTSTREAM_SETTINGS = {
 # django rest framework
 REST_FRAMEWORK = {
     'PAGINATE_BY': 10,
+    'PAGINATE_BY_PARAM': 'per_page',
+    'MAX_PAGINATE_BY': 100,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -387,3 +389,9 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 #-------------------------------------------------------------------------------
 COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
 DEFAULT_COUNTRY_CODE = 'PL'
+# Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
+LIST_PAGINATION_LIMIT = 50
+# Limit paginatora dla innych widoków (lista pomysłów, blog etc.)
+PAGE_PAGINATION_LIMIT = 10
+# Limit paginatora dla actstreamu dla usera (w zamierzeniu dla wszystkich)
+STREAM_PAGINATOR_LIMIT = 50

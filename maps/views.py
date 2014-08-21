@@ -61,7 +61,7 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     """
     queryset = MapPointer.objects.all()
     serializer_class = MapPointerSerializer
-    paginate_by = 10
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
