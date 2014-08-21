@@ -1,12 +1,6 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block extra_styles %}
-<style>
-#list-placeholder{position:fixed;left:50%;top:50%;width:600px;height:400px;z-index:5000;margin-left:-300px;margin-top:-200px;padding:10px;background-color:#fff;border:1px solid #000;border-radius:10px;box-shadow:7px 7px 5px 0 rgba(50,50,50,.75)}#list-placeholder .placeholder-header{border-bottom:1px solid #000}#list-placeholder .placeholder-header .placeholder-close{float:right;font-size:10px;margin-right:10px;cursor:pointer}#list-placeholder .placeholder-content{height:80%}#list-placeholder .placeholder-content .list-column{height:100%;overflow-y:scroll;overflow-x:auto;list-style-type:none}#list-placeholder .placeholder-content .list-column .close-col{position:absolute;left:0;top:0}#list-placeholder .placeholder-content .list-column .list-entry-details{position:absolute;left:0;top:38px;width:100%;height:85%;background-color:#000}
-</style>
-{% endblock %}
-
 {% block require_scripts %}
 
     <script>
@@ -198,22 +192,22 @@
     <h1 class="text-center">{% trans "Choose a country, which you love" %}</h1>
         <div id="vector-map"></div>
 
-		<h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
-		
-		<div class="location-list-stream">
-			<div class="col-lg-2"></div>
-			
-			<div class="col-lg-8 main-content location-list-stream">
-				{% comment %}
-					{% for location in locations %}
+        <h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
+        
+        <div class="location-list-stream">
+            <div class="col-lg-2"></div>
+            
+            <div class="col-lg-8 main-content location-list-stream">
+                {% comment %}
+                    {% for location in locations %}
 
-						<div class="col-lg-4">
-							<a href="{{ location.get_absolute_url }}">
-							<span class="country-entry"> {{ location.name }} </span></a>
-						</div>
-						
-					{% endfor %}
-				{% endcomment %}
+                        <div class="col-lg-4">
+                            <a href="{{ location.get_absolute_url }}">
+                            <span class="country-entry"> {{ location.name }} </span></a>
+                        </div>
+                        
+                    {% endfor %}
+                {% endcomment %}
 
                 <div class="col-lg-4">
                     <div class="country-entry" data-code="PL">
@@ -227,55 +221,55 @@
                         <a href="/austria"><span>
                             <img src="{% static 'places_core/img/flags/Austria-Flag-48.png' %}" />{% trans "Austria" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/belgium"><span>
                             <img src="{% static 'places_core/img/flags/Belgium-Flag-48.png' %}" />{% trans "Belgium" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/brazil"><span>
                             <img src="{% static 'places_core/img/flags/Brazil-Flag-48.png' %}" />{% trans "Brazil" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/bulgaria"><span>
                             <img src="{% static 'places_core/img/flags/Bulgaria-Flag-48.png' %}" />{% trans "Bulgaria" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/canada"><span>
                             <img src="{% static 'places_core/img/flags/Canada-Flag-48.png' %}" />{% trans "Canada" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/china"><span>
                             <img src="{% static 'places_core/img/flags/China-Flag-48.png' %}" />{% trans "China" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/czech-republic"><span>
                             <img src="{% static 'places_core/img/flags/Czech-Republic-Flag-48.png' %}" />{% trans "Czech Republic" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/denmark"><span>
                             <img src="{% static 'places_core/img/flags/Denmark48.png' %}" />{% trans "Denmark" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/egypt"><span>
                             <img src="{% static 'places_core/img/flags/Egypt-Flag-48.png' %}" />{% trans "Egypt" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/finland"><span>
@@ -293,7 +287,7 @@
                         <a href="/greece"><span>
                             <img src="{% static 'places_core/img/flags/Greece-Flag-48.png' %}" />{% trans "Greece" %}
                         </span></a>
-                    </div>	
+                    </div>  
                 </div>
                 
                 <div class="col-lg-4">
@@ -301,80 +295,80 @@
                         <a href="/hungary"><span>
                             <img src="{% static 'places_core/img/flags/Hungary-Flag-48.png' %}" />{% trans "Hungary" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/india"><span>
                             <img src="{% static 'places_core/img/flags/India-Flag-48.png' %}" />{% trans "India" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/indonesia"><span>
                             <img src="{% static 'places_core/img/flags/Indonesia-Flag-48.png' %}" />{% trans "Indonesia" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/ireland"><span>
                             <img src="{% static 'places_core/img/flags/Ireland-Flag-48.png' %}" />{% trans "Ireland" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/israel"><span>
                             <img src="{% static 'places_core/img/flags/Israel-Flag-48.png' %}" />{% trans "Israel" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/italy"><span>
                             <img src="{% static 'places_core/img/flags/Italy-Flag-48.png' %}" />{% trans "Italy" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/japan"><span>
                             <img src="{% static 'places_core/img/flags/Japan-Flag-48.png' %}" />{% trans "Japan" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/liechtenstein"><span>
                             <img src="{% static 'places_core/img/flags/Liechtenstein-Flag-48.png' %}" />{% trans "Liechtenstein" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/mexico"><span>
                             <img src="{% static 'places_core/img/flags/Mexico-Flag-48.png' %}" />{% trans "Mexico" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/monaco"><span>
                             <img src="{% static 'places_core/img/flags/Monaco-Flag-48.png' %}" />{% trans "Monaco" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/netherlands"><span>
                             <img src="{% static 'places_core/img/flags/Netherlands-Flag-48.png' %}" />{% trans "Netherlands" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/new-zealand"><span>
                             <img src="{% static 'places_core/img/flags/New-Zealand48.png' %}" />{% trans "New Zealand" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/norway"><span>
                             <img src="{% static 'places_core/img/flags/Norway-Flag-48.png' %}" />{% trans "Norway" %}
                         </span></a>
-                    </div>	
-				</div>
+                    </div>  
+                </div>
                 
                 <div class="col-lg-4">
                     <div class="country-entry">
@@ -387,25 +381,25 @@
                         <a href="/portugal"><span>
                             <img src="{% static 'places_core/img/flags/Portugal-Flag-48.png' %}" />{% trans "Portugal" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/romania"><span>
                             <img src="{% static 'places_core/img/flags/Romania-Flag-48.png' %}" />{% trans "Romania" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/slovakia"><span>
                             <img src="{% static 'places_core/img/flags/Slovakia-Flag-48.png' %}" />{% trans "Slovakia" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/south-africa"><span>
                             <img src="{% static 'places_core/img/flags/South-Africa-Flag-48.png' %}" />{% trans "South Africa" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/spain"><span>
@@ -417,46 +411,46 @@
                         <a href="/sweden"><span>
                             <img src="{% static 'places_core/img/flags/Sweden-Flag-48.png' %}" />{% trans "Sweden" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/switzerland"><span>
                             <img src="{% static 'places_core/img/flags/Switzerland-Flag-48.png' %}" />{% trans "Switzerland" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/turkey"><span>
                             <img src="{% static 'places_core/img/flags/Turkey-Flag-48.png' %}" />{% trans "Turkey" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/ukraine"><span>
                             <img src="{% static 'places_core/img/flags/Ukraine-Flag-48.png' %}" />{% trans "Ukraine" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/united-arab-emirates"><span>
                             <img src="{% static 'places_core/img/flags/United-Arab-Emirates-48.png' %}" />{% trans "United Arab Emirates" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/united-kingdom"><span>
                             <img src="{% static 'places_core/img/flags/United-Kingdom-flag-48.png' %}" />{% trans "United Kingdom" %}
                         </span></a>
-                    </div>	
+                    </div>  
 
                     <div class="country-entry">
                         <a href="/united-states"><span>
                             <img src="{% static 'places_core/img/flags/United-States-Flag-48.png' %}" />{% trans "USA" %}
                         </span></a>
-                    </div>	
+                    </div>  
                 </div>
-			</div>
-		</div>
+            </div>
+        </div>
 
 
 </div>
