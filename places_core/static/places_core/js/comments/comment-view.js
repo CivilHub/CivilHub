@@ -88,10 +88,17 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
         },
         
         editComment: function () {
+            // Nie otwieramy edycji, jeżeli już jest uruchomiona!
+            if (this.nowEdited !== undefined) return false;
+            
             // Edytujemy istniejący komentarz. Templatka dla edycji i dodawania
             // jest inna!!!
             var $ed = $(_.template($('#comment-edit-template').html(), {}));
             var txt = this.model.get('comment');
+            
+            // Zaznaczamy komentarz jako aktualnie edytowany, żeby otwierać tylko
+            // jedno okienko edycji
+            this.nowEdited = true;
             
             // Zastępujemy komentarz edytorem.
             this.$el.find('.comment-content:first').empty().append($ed);
@@ -108,6 +115,7 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                 }, {patch: true}); // update przez PATCH
                 // Usuń edytor i pokaż zaktualizowany komentarz.
                 $ed.empty().remove();
+                delete this.nowEdited;
                 this.$el.find('.comment-content:first')
                     .text(this.model.get('comment'));
             }.bind(this));
@@ -116,6 +124,7 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
             $ed.find('.btn-cancel-comment').on('click', function (e) {
                 e.preventDefault();
                 $ed.empty().remove();
+                delete this.nowEdited;
                 this.$el.find('.comment-content:first').text(txt);
             }.bind(this));
         },
@@ -127,12 +136,20 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                 // Określamy listę, żeby nie dodawać odpowiedzi do odpowiedzi:
                 var $list = this.$el.find('.subcomments:first');
                 var comment = new CommentView({model:item});
+                comment.parentView = this.parentView;
                 // Dodajemy komentarze do przygotowanej listy
                 $(comment.render().el).appendTo($list);
             }, this);
         },
         
         replyComment: function () {
+            // Jak przy edycji upewniamy się że tylko jedno okienko jest otwarte
+            if (this.parentView.nowAnswered !== undefined) {
+                this.parentView.nowAnswered.$el.find('form').empty().remove();
+            }
+            // Oznaczamy komentarz jako "otwarty" do odpowiedzi.
+            this.parentView.nowAnswered = this;
+            
             // Odpowiedz na komentarz. Ta funkcja z pewnością może wyglądać lepiej.
             var $form = $(_.template($('#comment-form-template').html(), {}));
             // Musimy się upewnić, że dodajemy elementy do parenta, a nie któ-
@@ -160,6 +177,13 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                 // Kolejny paskudny element - to powinno być wywołane po dodaniu
                 // nowego elementu do kolekcji.
                 $(comment.render().el).appendTo($list);
+                delete this.parentView.nowAnswered;
+            }.bind(this));
+            // Anulowanie czynności - zamykamy okienko edycji
+            $form.find('.btn-cancel-comment').on('click', function (e) {
+                e.preventDefault();
+                $form.empty().remove();
+                delete this.parentView.nowAnswered;
             }.bind(this));
         },
         

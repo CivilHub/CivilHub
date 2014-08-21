@@ -2,6 +2,7 @@
 import json, datetime
 from dateutil.relativedelta import relativedelta
 from django.db import transaction
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _

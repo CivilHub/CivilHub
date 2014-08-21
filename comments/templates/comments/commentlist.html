@@ -1,6 +1,6 @@
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
-<input type="hidden" id="comment-page-size" value="2" />
+<input type="hidden" id="comment-page-size" value="{% page_size %}" />
 
 <div class="commentformarea">
     {% if user.is_authenticated %}
@@ -34,8 +34,6 @@
 </div>
 
 <div id="comments"></div>
-
-<div><button class="btn btn-success comment-show-btn">{% trans "Show more" %}</button></div>
 
 <script type="text/template" id="comment-template">
     <div class="row comment-row comment-entry-heading">
@@ -94,6 +92,7 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
+            <button class="btn btn-default btn-cancel-comment">{% trans "Cancel" %}</button>
         </div>
     </form>
 </script>

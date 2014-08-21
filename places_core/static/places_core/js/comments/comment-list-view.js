@@ -32,6 +32,9 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
         
         el: '#comments',
         
+        // Referencje do widoków komentarzy. Wspólnym kluczem jest ID modelu.
+        items: {}, 
+        
         initialize: function () {
             
             var self = this; // FIXME: pozbyć się tego
@@ -57,6 +60,9 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
                 e.preventDefault();
                 this.addComment();
             }.bind(this));
+            
+            // Usuwamy referencje widoków kiedy resetujemy kolekcję/wczytujemy nową
+            this.listenTo(this.collection, 'sync', this.cleanup);
         },
         
         render: function () {
@@ -66,10 +72,12 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
             }, this);
             // Off i on są tutaj konieczne ze względu na problemy z późniejszym
             // doczytywaniem listy.
-            $('.comment-show-btn').off('click');
-            $('.comment-show-btn').on('click', function (e) {
-                e.preventDefault();
-                this.nextPage();
+            // Enable lazy-loading on page scrolling
+            $(window).off('scroll');
+            $(window).scroll(function() {
+               if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                   this.nextPage();
+               }
             }.bind(this));
         },
         
@@ -77,7 +85,9 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
             // Funkcja dodaje komentarze na końcu listy, używana podczas inicja-
             // lizacji i resetowania kolekcji.
             var comment = new CommentView({model:item});
+            comment.parentView = this;
             $(comment.render().el).appendTo(this.$el);
+            this.items[item.get('id')] = comment;
         },
         
         prependComment: function (item) {
@@ -135,6 +145,11 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
                     }
                 });
             }
+        },
+        
+        cleanup: function () {
+            // Metoda "czyści" listę widoków powiązanych z modelami w kolekjci
+            this.items = {};
         }
     });
     
