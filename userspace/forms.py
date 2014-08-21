@@ -106,11 +106,6 @@ class UserProfileForm(forms.ModelForm):
     """
     Edit user profile data (excluding picture upload)
     """
-    lang = forms.ChoiceField(
-        label = _("Language"),
-        choices = settings.LANGUAGES,
-        widget = forms.Select(attrs={'class':'form-control'})
-    )
     first_name = forms.CharField(
         label = _("First name"),
         max_length = 64,
@@ -152,7 +147,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'lang', 'gender', 'description',
+        fields = ('first_name', 'last_name', 'gender', 'description',
                   'birth_date', 'gplus_url', 'fb_url',)
 
 
