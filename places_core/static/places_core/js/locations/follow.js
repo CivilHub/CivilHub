@@ -57,9 +57,9 @@ function ($) {
                             .text(gettext('Follow'))
                             .fadeIn('fast');
                     });
-                    resp.success(resp.message);
+                    message.success(resp.message);
                 } else {
-                    resp.alert(resp.message);
+                    message.alert(resp.message);
                 }
             }
         });
