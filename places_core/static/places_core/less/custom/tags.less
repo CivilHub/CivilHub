@@ -1,7 +1,7 @@
 /* Tag cloud */
 .tags ul{
-    margin:1em 0;
-    padding:.5em 10px;
+    margin: 0;
+    padding: 0px;
     text-align:left;
     }
 .tags li{
@@ -49,3 +49,52 @@
 .tags .tag5{background:#266ca2;}
     
 /* // Tag cloud */
+
+/* Single tag */
+
+
+.tag {
+    background: url(/static/places_core/img/tag/center.png) 16px 0 repeat-x;
+    background-size: 1px 30px;
+    line-height: 36px;
+    padding: 6px 4px 7px 4px;
+    position: relative;
+    margin-left: 18px;
+    margin-right: 8px;
+    color: #5e5e5e !important;
+    font-size: 12px;
+}
+
+.tag:before {
+    background: url(/static/places_core/img/tag/left.png) 0 0 no-repeat;
+    background-size: 18px;
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 16px;
+    top: 0;
+    right: 100%;
+}
+.tag:after {
+    background: url(/static/places_core/img/tag/right.png) 0 0 no-repeat;
+    background-size: 6px;
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 6px;
+    top: 0;
+    left: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

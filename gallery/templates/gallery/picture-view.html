@@ -60,7 +60,7 @@
 {% block content %}
 
     <div class="main-content col-sm-8">
-        <h1>{{ picture.name }}<span class="fa fa-cog submenu-toggle"> </span></h1>
+        <h1>{{ picture.name }}<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
                 {% if user.is_authenticated and user != picture.user %}

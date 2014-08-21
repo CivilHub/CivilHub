@@ -180,10 +180,12 @@
     </div>
 
 
-    <div class="col-lg-3 sidebar">
-        <div class="sidebar-label">{% trans "About me" %}</div>
-        <div class="sidebar-content">
-            {{ actor.profile.description|striptags }}
+    <div class="col-lg-3">
+        <div class="sidebar">
+            <div class="sidebar-label">{% trans "About me" %}</div>
+            <div class="sidebar-content">
+                {{ actor.profile.description|striptags }}
+            </div>
         </div>
     </div>
 </div>

@@ -122,11 +122,11 @@
 
 {% block content %}
 </div>
-<div class="container">
 
-<div class="row">
-    <div class="col-sm-9">
-        <div class="main-content">
+
+<div class="container">
+    <div class="col-sm-9 main-content">
+        
             <div class="discussion-list-entry">
                 <div class="custom-label-list">
                     <span class="fa fa-list custom-fa"> </span>
@@ -181,7 +181,7 @@
                 {% include 'topics/discussion-list.html' %}
                 
             </div>
-        </div>
+        
     </div>
     
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />

@@ -94,20 +94,24 @@
         
     {% endcomment %}
     
-    {% if errors %}<div class="alert alert-danger" style="margin:0px auto;">{{ errors }}</div>{% endif %}
-
-    <div class="login-form">
+    {% if errors %}
+    <div class="alert alert-danger fade in" style="margin:0px auto;">{{ errors }}
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    </div>
+    {% endif %}
+    
+    <div id="login-form-validate" class="login-form">
         <h1 class="login-form-header">{% trans "Sign In" %}</h1>
         <div class="login-form-body">
             <div class="login-social row">
 
                 <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
-                    
-                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
-                    
-                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
-                        
-                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
+					
+				<button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+					
+				<button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+						
+				<button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
                     
             </div>
             <form action="" method="post">
@@ -125,12 +129,12 @@
                         </div>
                     </form>
                     <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 
-                    <a href="{% url 'user:register' %}">{% trans "Don't have account" %}?</a>
+                    <a href="{% url 'user:register' %}">{% trans "Don't have account" %}</a>
                 </div>
                             
             </form>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

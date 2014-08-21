@@ -554,8 +554,8 @@ def login(request):
             try:
                 user = User.objects.get(email=f.cleaned_data['email'])
             except User.DoesNotExist as ex:
-                messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
-                return redirect(reverse('user:login'))
+                ctx = {'errors': _("Login credentials invalid")}
+                return render(request, 'userspace/login.html', ctx)
             username = user.username
             password = request.POST['password']
             user = auth.authenticate(username = username, password = password)
@@ -572,7 +572,10 @@ def login(request):
                         for i in range (len(datas) - 5):
                             datas[i].delete()
                     return redirect('activities:actstream')
-        ctx = {'errors': _("Login credentials invalid")}
+                else:
+                    ctx = {'errors': _("Your account has not been activated")}
+                    return render(request, 'userspace/login.html', ctx)
+        ctx = {'errors': _("Fields can not be empty")}
         return render(request, 'userspace/login.html', ctx)
     f = LoginForm()
     ctx = {

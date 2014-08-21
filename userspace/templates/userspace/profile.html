@@ -130,15 +130,15 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="col-sm-8">
         
-        <div class="col-sm-5">
-            <div class="sidebar">
+        <div class="col-lg-3">
+            <div class="sidebar" style="margin-right: 0px">
+            {% if profile.description %}
                 <div class="sidebar-label">{% trans "About me"%}</div>
                 <div class="sidebar-content">
                     {{ profile.description|striptags }}
                 </div>
+            {% endif %}
                 <div class="sidebar-label">{% trans "Places"%}</div>
                 <div class="sidebar-content">
                     {% if profile.followed_locations %}
@@ -160,8 +160,8 @@
             </div>
         </div>
         
-        <div class="col-sm-7 activity-stream">
-            
+        <div class="col-lg-5">
+            <div class=" activity-stream">
             {% for action in stream %}<noscript>
                 <div class="row action-entry">
                     
@@ -226,10 +226,10 @@
                     
                 </div><!-- // .user-action-entry -->
             </noscript>{% endfor %}
-            
+            </div>
         </div><!-- // .user-activity-stream -->
 
-    </div><!-- // .user-activities -->
+    <!-- // .user-activities -->
     
     <script type="text/template" id="action-template">
         <div class="col-md-2 entry-avatar-col">
