@@ -1,7 +1,9 @@
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
+{% comment %} ~~~~~~~~~~~~~ METADANE DO SKRYPTÓW  ~~~~~~~~~~~~ {% endcomment %}
 <input type="hidden" id="comment-page-size" value="{% page_size %}" />
 
+{% comment %} ~~~~~~~~~~ TWORZENIE NOWEGO KOMENTARZA  ~~~~~~~~ {% endcomment %}
 <div class="commentformarea">
     {% if user.is_authenticated %}
     <div class="col-sm-2">
@@ -18,7 +20,8 @@
         </form>
     </div>
     {% endif %}
-    
+ 
+{% comment %} ~~~~~~~~~~~~~~~~~~~~ FILTRY  ~~~~~~~~~~~~~~~~~~~ {% endcomment %}    
     <p>{% trans "Order by" %}:
     {% comment %}
     
@@ -33,8 +36,10 @@
     
 </div>
 
+{% comment %} ~~~~~~~~~~~~~~~~~~ KOMENTARZE  ~~~~~~~~~~~~~~~~~ {% endcomment %}
 <div id="comments"></div>
 
+{% comment %} ~~~~~~~~~~~~~~ SZABLON KOMENTARZA  ~~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-template">
     <div class="row comment-row comment-entry-heading">
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
@@ -84,19 +89,26 @@
     </div>
 </script>
 
+{% comment %} ~~~~~~~~~~~~~~ FORMA DO ODPOWIEDZI  ~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-form-template">
-    <form role="presentation" class="comment-form-body">
-        <div class="form-group">
-            <label for="comment" class="control-label">Comment</label>
-            <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
-            <button class="btn btn-default btn-cancel-comment">{% trans "Cancel" %}</button>
-        </div>
-    </form>
+    <div class="col-xs-1 comment-avatar-col">
+        <img src="{{ user.profile.thumbnail_medium }}" alt="{{ user.get_full_name }}" class="comment-author-avatar user-window-toggle" />
+    </div>
+    <div class="comment-main-col">
+        <form role="presentation" class="comment-form-body">
+            <div class="form-group">
+                <label for="comment" class="control-label">Comment</label>
+                <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
+                <button class="btn btn-default btn-cancel-comment">{% trans "Cancel" %}</button>
+            </div>
+        </form>
+    </div>
 </script>
 
+{% comment %} ~~~~~~~~~~~~~~~ FORMA DO EDYCJI  ~~~~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-edit-template">
     <form role="presentation" class="comment-form-body">
         <div class="form-group">
