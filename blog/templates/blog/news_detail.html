@@ -59,7 +59,8 @@
              'js/locations/follow',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/comments/comments'], 
+             'js/comments/comments',
+             'js/blog/category-creator'], 
              
     function ($, ui) {
         
@@ -196,5 +197,7 @@
     <div class="col-sm-4">
         {% include 'locations/sidebar.html' %}
     </div>
+    
+    {% include 'locations/category-form.html' %}
 
 {% endblock %}

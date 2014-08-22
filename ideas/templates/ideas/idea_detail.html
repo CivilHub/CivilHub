@@ -81,7 +81,8 @@
              'common',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/locations/follow'],
+             'js/locations/follow',
+             'js/ideas/category-creator'],
 
     function ($, utils, ui, CounterWindow) {
         
@@ -259,7 +260,9 @@
 </div>
 </div>
 
-{% include 'ideas/idea-votes.html' %}
+    {% include 'ideas/idea-votes.html' %}
+
+    {% include 'locations/category-form.html' %}
 
     <div class="col-sm-4">
         {% include 'locations/sidebar.html' %}

@@ -65,9 +65,10 @@
 
     require(['jquery',
              'js/locations/ideaForm',
-			 'ui',
+             'ui',
              'common',
-			 'js/locations/follow'],
+             'js/locations/follow',
+             'js/ideas/category-creator'],
 
     function ($, IdeaForm, ui) {
         
@@ -97,6 +98,8 @@
     </div>
     
     {% include 'gallery/media-uploader.html' %}
+    
+    {% include 'locations/category-form.html' %}
     
     <script>
     require(['/static/places_core/js/locations/ideaForm.js'],

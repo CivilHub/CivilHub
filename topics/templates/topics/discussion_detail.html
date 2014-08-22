@@ -87,9 +87,11 @@
              'common',
              'js/maps/minimap',
              'js/ui/bookmark-form',
-			 'js/locations/follow'],
+             'js/locations/follow',
+             'js/topics/category-creator'],
     
     function ($, ui, bootbox, AbuseWindow) {
+        
         "use strict";
         
         window.CIVIL_REPLY_URL = "{% url 'discussion:reply' discussion.slug %}";
@@ -525,5 +527,7 @@
             </div>
         </div>
     </script>
+    
+    {% include 'locations/category-form.html' %}
 
 {% endblock %}

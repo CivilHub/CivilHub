@@ -4,14 +4,13 @@
 // Create new category for different modules using modal form. This class's
 // main purpose is to be extended with url parameters pointing to REST api
 // for selected module's categories.
+
 define(['jquery',
         'underscore',
-        'backbone',
-        'js/utils/utils',
-        'js/ui/ui',
-        'bootstrap'],
+        'backbone',],
 
-function ($, _, Backbone, utils, ui) {
+function ($, _, Backbone) {
+    
     "use strict";
     
     var CategoryForm = Backbone.View.extend({
@@ -27,15 +26,9 @@ function ($, _, Backbone, utils, ui) {
         },
         
         initialize: function () {
+            // Konieczne ze względu na Django CSRF Protection
             $.ajaxSetup({
-                beforeSend: function(xhr, settings) {
-                    if (!utils.csrfSafeMethod(settings.type) && 
-                        utils.sameOrigin(settings.url)) {
-                            
-                        xhr.setRequestHeader("X-CSRFToken", 
-                            utils.getCookie('csrftoken'));
-                    }
-                }
+                headers: {'X-CSRFToken': getCookie('csrftoken')}
             });
             $(this.render().el).appendTo('body');
             this.$el.modal({show:false});
@@ -62,7 +55,7 @@ function ($, _, Backbone, utils, ui) {
                 data: data,
                 success: function (resp) {
                     context.close();
-                    ui.message.success(gettext("New category created"));
+                    message.success(gettext("New category created"));
                     if (typeof(callback) === 'function') {
                         callback.apply(context, resp);
                     }

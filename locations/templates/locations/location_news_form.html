@@ -64,9 +64,10 @@
 
     require(['jquery',
              'js/locations/newsForm',
-			 'ui',
+             'ui',
              'common',
-			 'js/locations/follow'],
+             'js/locations/follow',
+             'js/blog/category-creator'],
 
     function ($, NewsForm, ui) {
         
@@ -98,6 +99,9 @@
     
     {% if user.is_authenticated %}
         {% include 'gallery/media-uploader.html' %}
+        {% if user.is_superuser %}
+            {% include 'locations/category-form.html' %}
+        {% endif %}
     {% endif %}
     
 {% endblock %}

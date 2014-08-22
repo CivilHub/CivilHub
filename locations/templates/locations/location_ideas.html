@@ -60,7 +60,8 @@
              'common',
              'js/locations/follow',
              'js/ideas/idea-list/ideas',
-             'js/ideas/votes/votes'],
+             'js/ideas/votes/votes',
+             'js/ideas/category-creator'],
     
     function ($, utils, ui) {
         
@@ -119,7 +120,7 @@
             <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
 
-	<ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
         <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
         <li class="navbar-text">{% trans "Stats" %}</li>
         <span class="bs-navbar-soon">(soon)</span>
@@ -152,7 +153,7 @@
             {% endif %}
         </noscript>
 
-        {% include 'ideas/idea-category.html' %}
+        {% include 'locations/category-form.html' %}
         {% include 'ideas/idea-votes.html' %}
             
     </div>

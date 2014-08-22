@@ -392,6 +392,6 @@ DEFAULT_COUNTRY_CODE = 'PL'
 # Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
 LIST_PAGINATION_LIMIT = 50
 # Limit paginatora dla innych widoków (lista pomysłów, blog etc.)
-PAGE_PAGINATION_LIMIT = 10
+PAGE_PAGINATION_LIMIT = 5
 # Limit paginatora dla actstreamu dla usera (w zamierzeniu dla wszystkich)
-STREAM_PAGINATOR_LIMIT = 50
+STREAM_PAGINATOR_LIMIT = 25

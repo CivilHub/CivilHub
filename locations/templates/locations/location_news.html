@@ -60,7 +60,8 @@
              'js/blog/news-list/blog',
              'ui',
              'common',
-             'js/locations/follow'], 
+             'js/locations/follow',
+             'js/blog/category-creator'], 
              
     function ($, ui) {
 
@@ -173,6 +174,8 @@
         <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
 
         {% include 'blog/news_list.html' %}
+        
+        {% include 'locations/category-form.html' %}
 
     </div>
 
