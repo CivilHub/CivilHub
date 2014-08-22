@@ -14,6 +14,12 @@ from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
 from geobase.models import Country
 
+
+def get_country_names():
+    """ Funkcja zwracająca nazwy państw do przedstawienia w formularzu. """
+    return [(c.location.pk, c.location.name) for c in Country.objects.all()]
+
+
 class LocationForm(forms.ModelForm):
     """
     Edit/update/create location form
@@ -31,9 +37,9 @@ class LocationForm(forms.ModelForm):
         initial = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE),
         widget = forms.Select(attrs={'class':'form-control'})
     )
-    parent = forms.ModelChoiceField(
+    parent = forms.ChoiceField(
         required = False,
-        queryset = Location.objects.all(),
+        choices = get_country_names(),
         label = _('Parent'),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
