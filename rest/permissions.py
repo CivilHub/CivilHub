@@ -12,7 +12,10 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
             
         # Write permissions are only allowed to the owner of the snippet.
-        return obj.user == request.user
+        if hasattr(obj, 'user'):
+            return obj.user == request.user
+
+        return False
 
 
 class IsModeratorOrReadOnly(permissions.BasePermission):

@@ -52,6 +52,12 @@ from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 class LocationAPIViewSet(viewsets.ModelViewSet):
     """
     REST view for mobile app. Provides a way to manage and add new locations.
+    Możliwe jest wyszukanie konkretnego kraju na podstawie codu kraju (TYLKO
+    lokacji powiązanej z krajem). W tym celu dodajemy parametr `code`, np:
+    
+    ```/api-locations/locations/?code=pl```
+    
+    W wyniku otrzymamy wówczas pojedynczy obiekt lokacji (w tym przypadku Polska)
     """
     model = Location
     serializer_class = SimpleLocationSerializer
@@ -59,6 +65,15 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
+
+    def list(self, request):
+        code = request.QUERY_PARAMS.get('code', None)
+        print code
+        if code:
+            location = Location.objects.get(country__code=code.upper())
+            serializer = self.serializer_class(location)
+            return Response(serializer.data)
+        return super(LocationAPIViewSet, self).list(request)
 
 
 class LocationActionsRestViewSet(viewsets.ViewSet):

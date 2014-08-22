@@ -55,7 +55,7 @@ function ($, _, Backbone) {
                     $fake.insertAfter(this.$el.find('.fake-input:last'))
                         .addClass('form-control fake-input');
                         
-                    _.each(response, function (item, index) {
+                    _.each(response, function (item) {
                         $fake.append(_.template(optionTemplate, item));
                     });
                     
@@ -79,6 +79,7 @@ function ($, _, Backbone) {
                     $(this).data('clicks', 1);
                 }
             });
+            
             $input.focusout( function() {
                 $(this).data('clicks', 0);
             });
