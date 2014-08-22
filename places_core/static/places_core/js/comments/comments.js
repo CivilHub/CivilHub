@@ -14,6 +14,8 @@ function ($, CommentList) {
     // Tworzymy listę komentarzy.
     var comments = new CommentList();
     
+    window.test = comments;
+    
     // Pokaż/Ukryj komentarze
     $('.comment-toggle').on('click', function (e) {
         e.preventDefault();

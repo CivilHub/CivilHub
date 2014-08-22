@@ -47,10 +47,9 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
             // Wywołanie paginowalnej kolekcji, ustalenie liczby elementów na
             // jednej stronie i wyświetlenie pierwszej strony.
             this.collection = new CommentCollection();
-            this.collection
-                .setPageSize(parseInt($('#comment-page-size').val(), 10));
+            this.collection.state.pageSize = window.pageSize;
             this.collection.fetch({
-                success: function () {
+                success: function (collection, response, method) {
                     self.render();
                 }
             });
@@ -71,13 +70,12 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
                 this.renderComment(item);
             }, this);
             // Off i on są tutaj konieczne ze względu na problemy z późniejszym
-            // doczytywaniem listy.
-            // Enable lazy-loading on page scrolling
+            // doczytywaniem listy. Enable lazy-loading on page scrolling
             $(window).off('scroll');
             $(window).scroll(function() {
-               if($(window).scrollTop() + $(window).height() == $(document).height()) {
-                   this.nextPage();
-               }
+                if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                    this.nextPage();
+                }
             }.bind(this));
         },
         
@@ -116,35 +114,30 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
             var self = this; // FIXME: pozbyć się tego
             // Reset
             this.$el.empty();
-            this.collection.reset();
-            // Resetujemy aktualną stronę, aby uniknąć pobierania dalszych na
-            // samym początku.
-            this.collection.state.currentPage = 1;
             // Aplikujemy jeden z filtrów: `votes`, `submit_date`, `-submit_date`.
+            this.collection.state.currentPage = null;
             _.extend(this.collection.queryParams, {
                 filter: filter
-            });
-            // Pobieramy nową kolekcję i wyświetlamy elementy.
-            this.collection.fetch({
-                success: function () {self.render();}
             });
         },
         
         nextPage: function () {
-            // Pobranie następnej strony po kliknięciu przycisku 'więcej'
-            var self = this, // FIXME: pozbyć się tego
+            // Pobranie następnej strony po przewinięciu ekranu. Ta funkcja cza-
+            // sami rzuca błąd lub zwraca 404, ale nie należy się tym przejmować :)
+            // Backbone.pageableCollection ma jakiś błąd, który sprawia, że nie
+            // można polegać na funkcji hasNextPage.
+            var self = this,
                 model = null;
-            if (this.collection.hasNextPage()) {
-                this.collection.getNextPage({
-                    // Pobieramy nową stronę i wyświetlamy komentarze.
-                    success: function (collection, response, method) {
-                        _.each(response.results, function (item) {
-                            var model = new CommentModel(item);
-                            self.renderComment(model);
-                        });
-                    }
-                });
-            }
+            
+            this.collection.getNextPage({
+                // Pobieramy nową stronę i wyświetlamy komentarze.
+                success: function (collection, response, method) {
+                    _.each(response.results, function (item) {
+                        var model = new CommentModel(item);
+                        self.renderComment(model);
+                    });
+                }
+            });
         },
         
         cleanup: function () {

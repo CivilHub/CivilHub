@@ -1,6 +1,7 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
 {% load bookmarks_tags %}
+{% load civil_tags %}
 {% load i18n %}
 
 {% block title %} {{ idea.name }}, {{ location.name }} | CivilHub {% endblock %}
@@ -68,23 +69,23 @@
             }
         }
     });
+    
+    // Ilość komentarzy pobieranych "na raz"
+    window.commentListSize = {% page_size %};
 
     require(['jquery',
              'utils',
              'ui',
              'js/ideas/votes/counterWindow',
+             'js/comments/comments',
              'common',
              'js/maps/minimap',
              'js/maps/pointer',
-             'js/comments/comments',
              'js/locations/follow'],
 
     function ($, utils, ui, CounterWindow) {
         
         "use strict";
-        
-        // Ilość komentarzy pobieranych "na raz"
-        window.commentListSize = 2;
         
         $(document).delegate('.vote-btn', 'click', function () {
             var formData = {
@@ -243,13 +244,16 @@
                 <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
             </p>
         </div>
+        
         <input type="hidden" id="target-id" value="{{ idea.pk }}" />
         <input type="hidden" id="target-label" value="ideas" />
         <input type="hidden" id="target-type" value="{{ idea.content_type }}" />
         <input type="hidden" id="target-user" value="{{ user.username }}" />
         <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
         <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+        
         {% include 'comments/commentlist.html' %}
+        
     </div>
 
 </div>

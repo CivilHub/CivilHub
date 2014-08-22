@@ -272,7 +272,6 @@ def save_settings(request):
             prof.birth_date = f.cleaned_data['birth_date']
             prof.description= f.cleaned_data['description']
             prof.gender = f.cleaned_data['gender']
-            prof.lang = f.cleaned_data['lang']
             prof.gplus_url = f.cleaned_data['gplus_url']
             prof.fb_url = f.cleaned_data['fb_url']
             error = None

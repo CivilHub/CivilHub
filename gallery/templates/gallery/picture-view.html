@@ -16,6 +16,7 @@
             bootstrap: 'includes/bootstrap/bootstrap',
             underscore: 'includes/underscore/underscore',
             backbone: 'includes/backbone/backbone',
+            paginator: 'includes/backbone/backbone.paginator',
             bootbox: 'includes/bootstrap/bootbox',
             tagsinput: 'includes/jquery/jquery.tagsinput',
             ui: 'js/ui/ui',
@@ -46,11 +47,14 @@
     });
 
     require(['jquery',
-             'js/comments/commentlist',
+             'js/comments/comments',
              'common'],
 
     function ($) {
+        
         "use strict"
+        
+        $(document).trigger('load');
         
     });
     </script>
