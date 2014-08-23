@@ -9,25 +9,16 @@
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
-{% comment %}Miejsce na dodatkowe znaczniki meta, np. tagi{% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGI ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block meta %} {% endblock %}
 
-{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
 {% block extra_styles %}{% endblock %}
 
-<style>
-    
-    {% comment %}
-        Przenieść to do styli - koniecznie! Reguły dla paginacji.
-    {% endcomment %}
-    
-    .pagination > li { cursor: pointer; }
-    
-</style>
-
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script src="{% static 'places_core/includes/require/require.js' %}"></script>
+<script>window.STATIC_URL = "{% static 'places_core' %}";</script>
 
+{% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
 {% block require_scripts %}
 
     {% comment %}
@@ -36,58 +27,7 @@
         faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
     {% endcomment %}
     
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery', 'common'], function ($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
+    <script data-main="{% static 'places_core' %}/js/build/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
     
 {% endblock %}
 
@@ -124,21 +64,21 @@
     
     {% endblock %}
     
-		<div class="container">
+        <div class="container">
         
-			{% comment %}
-				W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
-				wyszukiwarki. Nadpisywany w szablonie każdego modułu.
-			{% endcomment %}
-			{% block topbar %}{% endblock %}
-			
-			{% comment %}Główna zawartość strony.{% endcomment %}
-			{% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-			
-			{% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
-			{% block sidebar %}{% endblock %}
+            {% comment %}
+                W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
+                wyszukiwarki. Nadpisywany w szablonie każdego modułu.
+            {% endcomment %}
+            {% block topbar %}{% endblock %}
+            
+            {% comment %}Główna zawartość strony.{% endcomment %}
+            {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+            
+            {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
+            {% block sidebar %}{% endblock %}
 
-		</div>  
+        </div>  
     
 </div>
 

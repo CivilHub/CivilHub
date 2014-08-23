@@ -1,68 +1,12 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
+
 {% block title %} {{ location.name }}, {% trans "Discussions" %} | CivilHub {% endblock %}
+
 {% block require_scripts %}
 
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            common: 'js/common',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-    
-    // Rozmiar strony dla paginatora.
-    window.pageSize = {% page_size 'list' %};
-
-    require(['jquery',
-             'ui',
-             'common',
-             'js/topics/discussion-list/discussions',
-             'js/locations/follow',
-             'js/topics/category-creator'],
-    
-    function ($, ui) {
-        
-        "use strict";
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
+    <script>window.pageSize = {% page_size 'list' %};</script>
+    <script data-main="{% static 'places_core' %}/js/build/forum/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 
 {% endblock %}
 

@@ -72,6 +72,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
         if code:
             location = Location.objects.get(country__code=code.upper())
             serializer = self.serializer_class(location)
+            serializer.data['followed'] = request.user in location.users.all()
             return Response(serializer.data)
         return super(LocationAPIViewSet, self).list(request)
 

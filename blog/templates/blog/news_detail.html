@@ -6,94 +6,25 @@
 
 {% block require_scripts %}
 
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            async: 'includes/require/async',
-            moment: 'includes/momentjs/moment',
-            mapinput: 'js/ui/jquery.mapinput'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            }
-        }
-    });
+<script>
+(function () {
+    "use strict";
     
-    // Rozmiar strony dla paginatora.
-    window.pageSize = {% page_size %};
-
-    require(['jquery',
-             'ui',
-             'common',
-             'js/locations/follow',
-             'js/maps/minimap',
-             'js/maps/pointer',
-             'js/comments/comments',
-             'js/blog/category-creator'], 
-             
-    function ($, ui) {
-        
-        "use strict";
-        
-        var runMinimap = function () {
-            
-            {% if map_markers %}
-                var minimapData = [];
-                {% for m in map_markers %}
-                minimapData.push({
-                    lat: '{{ m.latitude }}',
-                    lng: '{{ m.longitude }}',
-                    pk: '{{ m.pk }}'
-                });
-                {% endfor %}
-                $('#minimap').minimap(minimapData);
-                
-            {% else %}
-                return true;
-            {% endif %}
-        
-        };
-        
-        setTimeout(function () {
-            runMinimap();
-        }, 2000);
-        
-        $(document).trigger('load');
-        
+    var newsapp = {markers:[]}
+    
+    {% for m in map_markers %}
+    newsapp.markers.push({
+        lat: '{{ m.latitude }}',
+        lng: '{{ m.longitude }}',
+        pk: '{{ m.pk }}'
     });
-    </script>
-
+    {% endfor %}
+    
+    window.MARKERS = newsapp.markers;
+    window.pageSize = {% page_size %};
+})();
+</script>
+<script data-main="{% static 'places_core' %}/js/build/blog/details/news-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

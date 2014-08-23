@@ -3,65 +3,8 @@
 
 {% block require_scripts %}
 
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'js/ui/ui',
-             'common',
-			 'js/locations/follow',
-             'js/userspace/background'],
-
-    function($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+    <script data-main="{% static 'places_core' %}/js/build/locations/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+    
 {% endblock %}
 
 {% block header %}
@@ -73,7 +16,7 @@
     <li><i class="fa fa-map-marker"></i></li>
     {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-	<li><span class="breaker">></span></li>
+    <li><span class="breaker">></span></li>
     {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
@@ -105,17 +48,17 @@
         {% endif %}
 
         <div class="title-container"> 
-			<div class="location-name-title">{{ location.name }}</div>
-			<div class="followers sprite-icon"><span class="ch-icon ch-followers"></span>{{ location.users.all|length }}</div>
-			
+            <div class="location-name-title">{{ location.name }}</div>
+            <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span>{{ location.users.all|length }}</div>
+            
         {% if user not in location.users.all and user.is_authenticated %}
-			<button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
         {% else %}
-			<button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
-		{% endif %}
-			
-		</div>
-		
+            <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+        {% endif %}
+            
+        </div>
+        
 
     </div>
 </div>

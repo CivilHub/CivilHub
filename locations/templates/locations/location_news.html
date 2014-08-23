@@ -2,76 +2,8 @@
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            list: 'js/topics/news-list/niew',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-    
-    // Rozmiar strony dla paginatora.
-    window.pageSize = {% page_size %};
-
-    require(['jquery',
-             'js/blog/news-list/blog',
-             'ui',
-             'common',
-             'js/locations/follow',
-             'js/blog/category-creator'], 
-             
-    function ($, ui) {
-
-        "use strict";
-
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.pageSize = {% page_size %};</script>
+<script data-main="{% static 'places_core' %}/js/build/blog/list/news-list-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}

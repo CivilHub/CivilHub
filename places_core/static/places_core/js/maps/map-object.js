@@ -25,7 +25,7 @@ function ($, _, Backbone) {
             
             this.marker = new google.maps.Marker({
                 position: latLng,
-                icon: window.STATIC_URL + '/icons/marker-' + 
+                icon: window.MAP_STATIC_URL + '/icons/marker-' + 
                     window.CONTENT_TYPES[self.model.get('content_type')].model 
                     + '.png',
                 content_type: self.model.get('content_type')

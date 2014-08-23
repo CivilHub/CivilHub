@@ -10,7 +10,7 @@
 // przechwycony w przeglądarce, to nieprawidłowa nazwa użytkownika. Wówczas 
 // strona zostanie przeładowana i dopiero pojawi się informacja o błędzie.
 //
-require(['jquery', 'bootstrap'], function ($) {
+(function ($) {
     
     "use strict";
     
@@ -143,4 +143,4 @@ require(['jquery', 'bootstrap'], function ($) {
             $form.data('validator', v);
         });
     };
-});
+})(jQuery);

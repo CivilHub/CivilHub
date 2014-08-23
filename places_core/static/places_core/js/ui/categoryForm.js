@@ -7,7 +7,8 @@
 
 define(['jquery',
         'underscore',
-        'backbone',],
+        'backbone',
+        'js/utils/utils'],
 
 function ($, _, Backbone) {
     
