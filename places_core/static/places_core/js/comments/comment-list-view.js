@@ -97,6 +97,10 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
         
         addComment: function () {
             var self = this; // FIXME: pozbyć się tego
+            if ($('#comment').val().length <= 0) {
+                alert(gettext("Comment cannot be empty"));
+                return false;
+            }
             // Utworzenie nowego komentarza - z formularza pobierany jest sam
             // tekst, resztę dodają skrypty i server.
             this.collection.create({comment:$('#comment').val()}, {

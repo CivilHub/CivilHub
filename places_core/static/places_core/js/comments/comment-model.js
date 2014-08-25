@@ -27,6 +27,12 @@ function ($, _, Backbone, moment) {
             upvotes: 0,
             downvotes: 0,
             submit_date: moment().format()
+        },
+        
+        validate: function (attrs, options) {
+            if (attrs.comment === undefined || attrs.comment.len <= 0) {
+                return gettext("Comment cannot be empty");
+            }
         }
     });
     

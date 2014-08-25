@@ -8,7 +8,6 @@
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
         common: 'js/common',
         ckeditor: 'includes/ckeditor/ckeditor',
         dropzone: 'includes/dropzone/dropzone',

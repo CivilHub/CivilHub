@@ -145,7 +145,9 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
         replyComment: function () {
             // Jak przy edycji upewniamy się że tylko jedno okienko jest otwarte
             if (this.parentView.nowAnswered !== undefined) {
-                this.parentView.nowAnswered.$el.find('form').empty().remove();
+                if (this.parentView.nowAnswered === this) return false;
+                this.parentView.nowAnswered.$el.
+                    find('form, .comment-avatar-col').empty().remove();
             }
             // Oznaczamy komentarz jako "otwarty" do odpowiedzi.
             this.parentView.nowAnswered = this;
@@ -164,6 +166,11 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
                     comment: $form.find('textarea').val(),
                     parent: this.model.get('id')
                 });
+                // Nie dopuszczamy pustych komentarzy
+                if (model.get('comment').length <= 0) {
+                    alert(gettext("Comment cannot be empty"));
+                    return false;
+                }
                 // FIXME: model url przypisujemy ręcznie ze względu na problemy
                 // z kontrolowanie eventów na wewnętrznych elementach. Warto po-
                 // szukać lepszego rozwiązania i oddelegować te zadania kolekcji.
