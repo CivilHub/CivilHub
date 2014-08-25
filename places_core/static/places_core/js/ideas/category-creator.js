@@ -9,7 +9,7 @@ require(['jquery',
 function ($, CategoryForm) {
     
     "use strict";
-    
+    alert("Sparta");
     var IdeaCategoryForm = CategoryForm.extend({
         baseurl: '/rest/idea_categories/'
     });

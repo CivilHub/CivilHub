@@ -3,76 +3,7 @@
 
 {% block require_scripts %}
 
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 300,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            common: 'js/common',
-            ckeditor: 'includes/ckeditor/ckeditor',
-            dropzone: 'includes/dropzone/dropzone',
-            jqueryui: 'includes/jquery-ui/jquery-ui',
-            utils: 'js/utils/utils',
-            liquid: 'includes/jquery/imgLiquid'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            ckeditor: {
-                exports: 'CKEDITOR'
-            },
-            
-            jqueryui: {
-                deps: ['jquery']
-            },
-            
-            dropzone: {
-                deps: ['jquery'],
-                exports: 'Dropzone'
-            },
-            
-            liquid: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'js/userspace/profile/profileForm',
-             'common'],
-
-    function ($) {
-        "use strict";
-        
-        $('#id_avatar').on('change', function (e) {
-            $('#upload-avatar-form').submit();
-        });
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
+<script data-main="{% static 'places_core' %}/js/build/userspace/form/userspace-form-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 
 {% endblock %}
 

@@ -2,7 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-
+    <script src="{% static 'places_core' %}/includes/require/require.js"></script>
     <script>
     require.config({
         baseUrl: "{% static 'places_core' %}",
@@ -45,7 +45,7 @@
 
     require(['jquery',
              'js/gallery/mediaForm',
-			 'ui',
+             'ui',
              'common'],
 
     function ($, MediaForm, ui) {

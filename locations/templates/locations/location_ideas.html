@@ -2,76 +2,8 @@
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
 {% block title %} {{ location.name }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-    
-    // Rozmiar strony dla paginatora.
-    window.pageSize = {% page_size %};
-
-    require(['jquery',
-             'utils',
-             'ui',
-             'common',
-             'js/locations/follow',
-             'js/ideas/idea-list/ideas',
-             'js/ideas/votes/votes',
-             'js/ideas/category-creator'],
-    
-    function ($, utils, ui) {
-        
-        "use strict";
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.pageSize = {% page_size %};</script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/list/idea-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}
