@@ -91,7 +91,7 @@ urlpatterns += patterns('',
     # Google Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
-    #url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^news/', include('blog.urls', namespace='blog')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream

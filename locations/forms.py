@@ -73,6 +73,15 @@ class LocationForm(forms.ModelForm):
         fields = ('name', 'description', 'country_code', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
 
+    def clean(self):
+        cleaned_data = super(LocationForm, self).clean()
+        try:
+            location = Location.objects.get(pk=self.cleaned_data['parent'])
+        except Location.DoesNotExist:
+            self._errors['parent'] = (_("Selected location does not exist"))
+        self.cleaned_data['parent'] = location
+        return cleaned_data
+
 
 class IdeaLocationForm(forms.ModelForm):
     """
