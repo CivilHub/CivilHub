@@ -50,7 +50,7 @@ require(['jquery',
          'js/locations/follow',
          'js/topics/category-creator'],
 
-function ($, ui) {
+function ($) {
     
     "use strict";
     

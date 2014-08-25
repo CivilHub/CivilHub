@@ -1,5 +1,5 @@
 ({
-    baseUrl: "../../../",
+    baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
@@ -12,6 +12,25 @@
         common: 'js/common',
         moment: 'includes/momentjs/moment'
     },
-    name: "js/build/forum/main",
-    out: "main-built.js"
+    shim: {
+        underscore: {
+            deps: ['jquery'],
+            exports: '_'
+        },
+        
+        backbone: {
+            deps: ['underscore'],
+            exports: 'Backbone'
+        },
+        
+        bootstrap: {
+            deps: ['jquery']
+        },
+        
+        tagsinput: {
+            deps: ['jquery']
+        }
+    },
+    name: "js/build/forum/list/forum-list-main",
+    out: "forum-list-built.js"
 })
