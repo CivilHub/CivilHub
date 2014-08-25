@@ -40,6 +40,7 @@ from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image
 # REST views
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework import permissions as rest_permissions
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
@@ -47,6 +48,40 @@ from geobase.models import Country
 from locations.serializers import MapLocationSerializer
 from .serializers import SimpleLocationSerializer, LocationListSerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
+
+
+class LocationFollowAPIView(APIView):
+    """
+    Wyjście REST na funkcję obserwowania lokalizacji. Generalnie wysyłamy tutaj
+    POST z jednym parametrem - `pk` lokalizacji. Jeżeli użytkownik już obserwuje
+    tę lokalizację, zostanie usunięty z listy obserwatorów i vice-versa.
+    Za każdym razem w odpowiedzi otrzymujemy obiekt z wartością follow ustawioną
+    na `true` lub `false` w zależności od faktycznego stanu po zmianie,tzn. jeżeli
+    użytkownik zaczął obserwować lokalizację, otrzymamy coś takiego:
+    
+    ```{
+        follow: true
+    }```
+    """
+    permission_classes = (rest_permissions.IsAuthenticated,)
+
+    def post(self, request):
+        pk = request.DATA.get('pk', None)
+        user = request.user
+        context = {}
+        if pk:
+            location = get_object_or_404(Location, pk=pk)
+            if not user in location.users.all():
+                location.users.add(user)
+                location.save()
+                follow(user, location, actor_only = False)
+                context['follow'] = True
+            else:
+                location.users.remove(user)
+                location.save()
+                unfollow(user, location)
+                context['follow'] = False
+        return Response(context)
 
 
 class LocationAPIViewSet(viewsets.ModelViewSet):

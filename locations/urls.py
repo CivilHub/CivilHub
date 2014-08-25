@@ -8,12 +8,13 @@ from gallery.views import PlaceGalleryView, PlacePictureView
 from locations.views import *
 from staticpages.views import PageView
 
-from rest_framework import routers
-router = routers.DefaultRouter()
+from rest.routers import HybridRouter
+router = HybridRouter()
 router.register('locations', LocationAPIViewSet, 'locations')
 router.register('markers', LocationMapViewSet, 'markers')
 router.register('actions', LocationActionsRestViewSet, 'actions')
 router.register('sublocations', SublocationAPIViewSet, 'sublocations')
+router.add_api_view('follow', url(r'^follow/$', LocationFollowAPIView.as_view(), name='follow'))
 
 urlpatterns = patterns('',
     url(r'^places/', LocationListView.as_view(), name='index'),
