@@ -197,6 +197,28 @@ function ($, _, Backbone) {
         });
     });
     
+    // Scroll to top button
+    $(document).ready(function () {
+        $('.wrap').append('<a href="#top" id="scrollToTop" name="' + gettext('Scroll to top') + '"></a>');
+        var scrollButton = $('#scrollToTop');
+        if($(window).scrollTop()<300)
+            scrollButton.hide();
+            
+        scrollButton.click(function() {
+            $("html, body").animate({ scrollTop: 0 }, "slow");
+            return false;
+        });
+
+        $(window).scroll(function(){
+            if($(window).scrollTop()>300) {
+                $("#scrollToTop").fadeIn('slow');
+            } else {
+                $("#scrollToTop").fadeOut('slow');
+            }
+        });
+    });
+
+    
     // List of user's bookmarks to fetch.
     // -------------------------------------------------------------------------
     $(document).ready(function () {

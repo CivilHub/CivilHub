@@ -16,28 +16,34 @@
 
 <div class="row">
     <div class="col-sm-3">
-        <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
-        <form id="upload-avatar-form" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
-            {% csrf_token %}
-            {{ avatar_form }}
-        </form>
-        {% comment %}<p><button class="btn btn-primary avatar-toggle-btn">{% trans "Change avatar" %}</button></p>{% endcomment %}
-        <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
-        <p>{% trans "Points" %}: {{ profile.rank_pts }}</p>
-        <ul>
-        {% for badge in profile.badges.all %}
-            <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
-        {% endfor %}
-        </ul>
+        <div class=" sidebar">
+            <div class="sidebar-content">
+                <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
+                <form id="upload-avatar-form" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
+                    {% csrf_token %}
+                    {{ avatar_form }}
+                </form>
+                {% comment %}<p><button class="btn btn-primary avatar-toggle-btn">{% trans "Change avatar" %}</button></p>{% endcomment %}
+                <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
+                <p>{% trans "Points" %}: {{ profile.rank_pts }}</p>
+                <ul>
+                {% for badge in profile.badges.all %}
+                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="col-sm-9">
-        <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
-            {% csrf_token %}
-            {{ form }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
-            </div>
-        </form>
+        <div class="main-content">
+            <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
+                {% csrf_token %}
+                {{ form }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

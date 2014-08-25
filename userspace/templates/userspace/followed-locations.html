@@ -1,6 +1,6 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
-
+{% block header %}<center><h1>{% trans "My places" %}</h1></center>{% endblock %}
 {% block content %}
 <div class="container sublocations">
 	{% for l in profile.followed_locations %}

@@ -5,53 +5,115 @@
  */
 
 @fgcolor: #ADADAD;
-@bgcolor: #FFFFFF;
-@overlay: #000000;
-@border: 1px solid #000000;
-@shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+@bgcolor: #fff;
+@bordercolor: #c6c6c6;
+@overlay: rgba(50,50,50,0.75);
+@border: 1px solid @bordercolor;
+@shadow: 1px 1px 3px 0 rgba(50,50,50,0.5);
 
 #list-placeholder {
+
     position: fixed;
-    left: 50%;
     top: 50%;
-    width: 600px;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     height: 400px;
     z-index: 5000;
-    margin-left: -300px;
-    margin-top: -200px;
-    padding: 10px;
     background-color: @bgcolor;
     border: @border;
-    border-radius: 10px;
-    box-shadow: @shadow;
+    border-radius: 6px;
+    
     .placeholder-header {
         border-bottom: @border;
+        padding: 5px;
+        
+        h4 {
+            font-weight: 600;
+            margin-right: 30px;
+        }
+        
         .placeholder-close {
-            float: right;
-            font-size: 10px;
+            font-size: 14px;
+            color: #3c3c3c;
             margin-right: 10px;
             cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 10px;
+            margin-left: 15px;
+            
         }
     }
     .placeholder-content {
-        height: 80%;
+    
+        height: 348px;
+        
         .list-column {
-            height: 100%;
-            overflow-y: scroll;
+        
+            height: 350px;
+            width: 220px;
+            overflow-y: auto;
             overflow-x: auto;
             list-style-type: none;
+            padding: 10px;
+            
+            input[type=text] {
+                margin-bottom: 10px;
+                height: 26px;
+                padding: 0px 8px;
+            }
+            
+            .haystack-entry-form {
+                padding: 0px;
+            }
+            
+            li>span{
+                cursor: pointer; 
+            }
+            
             .close-col {
                 position: absolute;
-                left: 0px;
+                right: 0px;
                 top: 0px;
+                padding-left: 8px;
+                
+                .fa-times-circle-o {
+                    padding-top: 14px;
+                    font-size: 18px;
+                }
             }
+
             .list-entry-details {
                 position: absolute;
-                left: 0px;
-                top: 38px;
+                left: 0;
+                top: 46px;
                 width: 100%;
-                height: 85%;
-                background-color: @overlay;
+                height: 302px;
+                background-color: #FFF;
+                padding-left: 10px;
+                border-right: 1px solid @bordercolor;
+                border-bottom-left-radius: 6px;
+                
+                .fa-eye-slash,
+                .fa-times-circle-o,
+                .fa-play,
+                .fa-eye {
+                    text-shadow: 1px 1px 3px rgba(50,50,50,0.5);
+                    font-size: 24px;
+                    margin: 15px 5px 0px 15px;
+                }
+                
+                .hide-details {
+                    position: absolute;
+                    right: 10px;
+                    top: 0;
+                    margin-top: -45px;
+                }
+                
+                .custom-tooltip {
+                    font-size: 16px;
+                }
             }
         }
     }

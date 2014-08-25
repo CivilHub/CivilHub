@@ -1,5 +1,68 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}
+
+{% block require_scripts %}
+	<script src="{% static 'places_core' %}/includes/require/require.js"></script>
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery',
+             'common',
+             'js/userspace/background',
+             'js/userspace/actions/actions'],
+
+    function($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+
+{% endblock %}
+
 {% block title %} {{ location.name }} | CivilHub {% endblock %}
 {% block content %}
 <!-- Main content -->
@@ -9,6 +72,7 @@
         <div class="activity-stream">
         
             {% for action in actions %}
+            <noscript>
                 <div class="row action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
@@ -63,9 +127,10 @@
                             <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=civilhub.org','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
 							<a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=civilhub.org','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
                         </div>
-                    </div><!-- // .entry-meta-col -->
+                    </div>
                     
-                </div><!-- // .user-action-entry -->
+                </div>
+            </noscript>
             {% endfor %}
         </div>
     </div>
@@ -106,5 +171,46 @@
             </div>
         </div>
     </div>
+    
+    <script type="text/template" id="action-template">
+        <div class="col-md-2 entry-avatar-col">
+            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
+            <%= actor.rank_pts %>
+        </div>
+        
+        <div class="col-md-10 entry-meta-col">
+            <div class="entry-header">
+                <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+                <%= verb %>
+                <% if (!_.isEmpty(object_ct)) { %>
+                    <%= object_ct %>
+                    <% if (_.isEmpty(target_ct)) { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                    <% } else { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                        {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                    <% } %>
+                <% } else if (!_.isEmpty(target_ct)) { %>
+                    <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+                <%= timestamp %> {% trans "ago" %}
+            </div>
+            <div class="entry-body"><%= description %></div>
+            <div class="clear">&nbsp;</div>
+            <div class="entry-footer">
+                {% trans "Share" %}: 
+				<% if (!_.isEmpty(object.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+				<% } else if (!_.isEmpty(target.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+				<% } %>
+            </div>
+        </div><!-- // .entry-meta-col -->
+    </script>
+    
+    <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />
+   
 
 {% endblock %}

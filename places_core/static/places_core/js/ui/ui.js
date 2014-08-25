@@ -37,7 +37,7 @@ function ($, _, Backbone, bootbox) {
         
         render: function (msg, lvl) {
             this.$el.html(this.template({'message': msg}));
-            this.$el.addClass('alert-' + lvl);
+            this.$el.addClass('alert-' + lvl + ' fade out').fadeIn();
             this.setClock();
             return this;
         },
