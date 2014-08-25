@@ -98,14 +98,15 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
     def get_queryset(self, pk=None, ct=None):
         from actstream.models import model_stream
         if not pk: return []
+        content_type = ContentType.objects.get_for_model(Location).pk
+        stream = model_stream(Location).filter(target_content_type_id=content_type)
         try:
             location = Location.objects.get(pk=pk)
+            stream = stream.filter(target_object_id=location.pk)
         except Location.DoesNotExist:
             return []
         if ct:
-            stream = model_stream(location).filter(action_object_content_type_id=ct)
-        else:
-            stream = model_stream(location)
+            stream = stream.filter(action_object_content_type_id=ct)
         return stream
         
         
