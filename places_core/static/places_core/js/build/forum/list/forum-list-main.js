@@ -48,7 +48,8 @@ require(['jquery',
          'common',
          'js/topics/discussion-list/discussions',
          'js/locations/follow',
-         'js/topics/category-creator'],
+         'js/topics/category-creator',
+         'js/inviter/userinviter'],
 
 function ($) {
     

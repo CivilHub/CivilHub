@@ -13,6 +13,7 @@
         ckeditor: 'includes/ckeditor/ckeditor',
         dropzone: 'includes/dropzone/dropzone',
         jqueryui: 'includes/jquery-ui/jquery-ui'
+        
     },
     shim: {
         underscore: {
