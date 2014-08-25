@@ -148,6 +148,9 @@ urlpatterns += patterns('',
     url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
     
+    # Przykład wykorzystania formularza wyboru języka:
+    url(r'^test/', PageView.as_view(page='test')),
+    
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
     #url(r'^$', HomeView.as_view()),
