@@ -91,7 +91,7 @@ urlpatterns += patterns('',
     # Google Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
-    url(r'^blog/', include('blog.urls', namespace='blog')),
+    #url(r'^blog/', include('blog.urls', namespace='blog')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream
@@ -145,16 +145,17 @@ urlpatterns += patterns('',
     url(r'^team/', PageView.as_view(page='team')),
     url(r'^values/', PageView.as_view(page='values')),
     url(r'^creed/', PageView.as_view(page='creed')),
-    url(r'^support/', PageView.as_view(page='support')),
+    #url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
     
     # Przykład wykorzystania formularza wyboru języka:
-    url(r'^test/', PageView.as_view(page='test')),
+    #url(r'^test/', PageView.as_view(page='test')),
     
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
     #url(r'^$', HomeView.as_view()),
     
     url(r'^$', register),
+    url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
 )

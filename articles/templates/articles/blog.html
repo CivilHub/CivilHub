@@ -1,0 +1,11 @@
+{% extends 'places_core/base.html' %}
+{% load i18n %}{% load staticfiles %}
+
+{% block title %}{% trans "Articles" %}{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+        <div>{{ article.content | truncatewords:40 }}</div>
+    {% endfor %}
+{% endblock %}

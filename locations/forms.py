@@ -34,7 +34,6 @@ class LocationForm(forms.ModelForm):
         required = True,
         label = _("Country code"),
         queryset = Country.objects.all(),
-        initial = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE),
         widget = forms.Select(attrs={'class':'form-control'})
     )
     parent = forms.ChoiceField(

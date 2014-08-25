@@ -51,7 +51,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/', PlaceGalleryView.as_view(), name='gallery'),
     # Generic location views
-    url(r'create', CreateLocationView.as_view(), name='create'),
+    url(r'create/', CreateLocationView.as_view(), name='create'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
     # Ajaxy functions - follow/unfollow location actions

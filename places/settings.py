@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
     'civmail',  # Newsletter i obsługa maili
+    'articles', # Statyczne artykuły - support etc.
     #'import_export',
 )
 
@@ -250,7 +251,7 @@ ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
                'blog.news', 'polls.poll', 'comments.customcomment',
                'topics.discussion', 'userspace.userprofile', 'userspace.badge',
-               'gallery.locationgalleryitem', 'topics.entry'),
+               'gallery.locationgalleryitem', 'topics.entry', 'articles.article'),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
