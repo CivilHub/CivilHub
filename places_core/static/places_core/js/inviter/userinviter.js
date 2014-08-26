@@ -1,7 +1,8 @@
 //
 // userinviter.js
 // ==============
-// Allow registered user to invite others fro browsing content.
+// Allow registered user to invite others for browsing content.
+
 require(['jquery', 'tagsinput', 'bootstrap'],
 
 function ($) {
@@ -42,15 +43,13 @@ function ($) {
     $submit.bind('click', function (evt) {
         evt.preventDefault();
         $modal.modal('hide');
-        sendAjaxRequest('POST', apiUrl, {
-            data: {
-                'emails': $emails.val(),
-                'link': currentUrl,
-                'name': document.title
-            },
-            success: function (resp) {
-                display_alert(resp.message, resp.level);
-            }
+        $.post(apiUrl, {
+            'emails': $emails.val(),
+            'link': currentUrl,
+            'name': document.title,
+            'csrfmiddlewaretoken': getCookie('csrftoken')
+        }, function (resp) {
+            messages.success(resp.message, resp.level);
         });
     });
 });

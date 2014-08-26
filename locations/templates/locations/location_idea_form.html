@@ -6,79 +6,7 @@
 {% endcomment %}
 
 {% block require_scripts %}
-    <script src="{% static 'places_core' %}/includes/require/require.js"></script>
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 300,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            common: 'js/common',
-            ckeditor: 'includes/ckeditor/ckeditor',
-            dropzone: 'includes/dropzone/dropzone',
-            jqueryui: 'includes/jquery-ui/jquery-ui',
-            dropzone: 'includes/dropzone/dropzone'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-            
-            ckeditor: {
-                exports: 'CKEDITOR'
-            },
-            
-            jqueryui: {
-                deps: ['jquery']
-            },
-            
-            dropzone: {
-                deps: ['jquery'],
-                exports: 'Dropzone'
-            }
-        }
-    });
-
-    require(['jquery',
-             'js/locations/ideaForm',
-             'ui',
-             'common',
-             'js/locations/follow',
-             'js/ideas/category-creator'],
-
-    function ($, IdeaForm, ui) {
-        
-        var form = new IdeaForm();
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/ideas/create/idea-create-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -100,13 +28,5 @@
     {% include 'gallery/media-uploader.html' %}
     
     {% include 'locations/category-form.html' %}
-    
-    <script>
-    require(['/static/places_core/js/locations/ideaForm.js'],
-    function (IdeaForm) {
-        "use strict";
-        var form = new IdeaForm();
-    });
-    </script>
     
 {% endblock %}

@@ -199,21 +199,30 @@ function ($, _, Backbone) {
     
     // Scroll to top button
     $(document).ready(function () {
-        $('.wrap').append('<a href="#top" id="scrollToTop" name="' + gettext('Scroll to top') + '"></a>');
-        var scrollButton = $('#scrollToTop');
+        
+        var $scrollButton = $(document.createElement('a'));
+        
+        $scrollButton.attr({
+            'id': 'scrollToTop',
+            'href': '#top',
+            'name': gettext('Scroll to top')
+        });
+        
+        $('.wrap').append($scrollButton);
+        
         if($(window).scrollTop()<300)
-            scrollButton.hide();
+            $scrollButton.hide();
             
-        scrollButton.click(function() {
+        $scrollButton.click(function() {
             $("html, body").animate({ scrollTop: 0 }, "slow");
             return false;
         });
 
         $(window).scroll(function(){
             if($(window).scrollTop()>300) {
-                $("#scrollToTop").fadeIn('slow');
+                $scrollButton.fadeIn('slow');
             } else {
-                $("#scrollToTop").fadeOut('slow');
+                $scrollButton.fadeOut('slow');
             }
         });
     });
@@ -282,19 +291,19 @@ function ($, _, Backbone) {
         // User Backbone view
         // ------------------
         var UserView  = Backbone.View.extend({
-                tagName  : 'div',
-                className: 'user-popup-window',
-                template : _.template($('#user-popup-tpl').html()),
-                events: {
-                    'click .user-popup-close': 'close'
-                },
-                render: function () {
-                    this.$el.html(this.template(this.model.toJSON()));
-                    return this;
-                },
-                close: function () {
-                    this.$el.empty().remove();
-                }
+            tagName  : 'div',
+            className: 'user-popup-window',
+            template : _.template($('#user-popup-tpl').html()),
+            events: {
+                'click .user-popup-close': 'close'
+            },
+            render: function () {
+                this.$el.html(this.template(this.model.toJSON()));
+                return this;
+            },
+            close: function () {
+                this.$el.empty().remove();
+            }
         });
         // Backbone user collection
         // ------------------------

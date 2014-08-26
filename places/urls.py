@@ -69,6 +69,7 @@ from maps.urls import router as map_router
 from userspace.urls import router as user_router
 from places_core.urls import router as core_router
 from geobase.urls import router as geo_router
+from gallery.urls import router as gallery_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -78,6 +79,7 @@ urlpatterns = patterns('',
     url(r'^api-userspace/', include(user_router.urls)),
     url(r'^api-core/', include(core_router.urls)),
     url(r'^api-geo/', include(geo_router.urls)),
+    url(r'^api-gallery/', include(gallery_router.urls)),
 )
 
 urlpatterns += patterns('',

@@ -633,12 +633,16 @@ class GalleryItemSerializer(serializers.ModelSerializer):
 class UserMediaSerializer(serializers.ModelSerializer):
     """ Serializer for items in user gallery. """
     id = serializers.Field(source='pk')
-    picture_name = serializers.CharField()
+    picture_name = serializers.CharField(required=False)
     picture_url = serializers.Field(source='url')
     thumbnail = serializers.SerializerMethodField('get_thumbnail')
 
     def get_thumbnail(self, obj):
         return obj.get_thumbnail((128,128))
+
+    def pre_save(self, obj):
+        request = self.context.get('request', None)
+        self.user = request.user
 
     class Meta:
         model = UserGalleryItem

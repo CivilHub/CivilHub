@@ -2,6 +2,7 @@
 import os
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -18,7 +19,7 @@ class GalleryItem(models.Model):
         verbose_name = _("gallery item")
 
     user = models.ForeignKey(User)
-    picture_name  = models.CharField(max_length=256)
+    picture_name  = models.CharField(max_length=255, blank=True, default=u'')
     date_uploaded = models.DateTimeField(auto_now_add=True)
 
     def get_filepath(self):

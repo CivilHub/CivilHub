@@ -11,6 +11,7 @@ define(['jquery',
         'bootbox'],
 
 function ($, _, Backbone, bootbox) {
+    
     "use strict";
     
     var ui = ui || {};

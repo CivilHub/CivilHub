@@ -642,7 +642,7 @@ class MediaViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
 
     def list(self, request, *args, **kwargs):
-        queryset = UserGalleryItem.objects.filter(user=request.user.pk)
+        queryset = UserGalleryItem.objects.filter(user=request.user)
         serializer = UserMediaSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -654,6 +654,9 @@ class MediaViewSet(viewsets.ModelViewSet):
             'level'  : 'success',
             'message': _("Item deleted"),
         })
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
 
 
 class LocationBasicViewSet(viewsets.ModelViewSet):

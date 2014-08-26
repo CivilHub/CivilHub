@@ -2,27 +2,20 @@
 // discussionForm.js
 // =================
 //
-define(['jquery',
-        'underscore',
-        'backbone',
-        'js/editor/customCKEditor',
-        'tagsinput'],
 
-function ($, _, Backbone) {
+(function ($) {
     
     "use strict";
     
-    var IdeaForm = Backbone.View.extend({
+    $(document).ready(function () {
         
-        el: '#idea-create-form',
+        $('#id_description').redactor({
+            //plugins: ['advanced']
+        });
         
-        initialize: function () {
-            this.$el.find('#id_description').customCKEditor('custom');
-            this.$el.find('#id_tags').tagsInput({
-                autocomplete_url: '/rest/tags/'
-            });
-        }
+        $('#id_tags').tagsInput({
+            autocompleteUrl: '/rest/tags/'
+        });
     });
     
-    return IdeaForm;
-});
+})(jQuery);

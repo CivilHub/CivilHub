@@ -1,15 +1,22 @@
-({
-    baseUrl: "../../../../",
+//
+// Activity stream dla użytkownika
+//  => /templates/activity/actor.html
+//
+
+require.config({
+    baseUrl: window.STATIC_URL,
+    
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
+    waitSeconds: 200,
+    
     paths: {
         jquery: 'includes/jquery/jquery',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
         bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone',
+        bootbox: 'includes/bootstrap/bootbox',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -31,17 +38,21 @@
         },
         
         bootbox: {
-            deps: ['bootstrap']
-        },
-        
-        jqueryui: {
-            deps: ['jquery']
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {
             deps: ['jquery']
-        }
-    },
-    name: "js/build/ideas/create/idea-create-main",
-    out: "idea-create-built.js"
-})
+        },
+    }
+});
+
+require(['jquery',
+         'common'],
+
+function($) {
+    
+    $(document).trigger('load');
+    
+});

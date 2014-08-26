@@ -5,8 +5,7 @@
 // Edit user's profile.
 //
 require(['jquery',
-         'jqueryui',
-         'js/editor/customCKEditor'],
+         'jqueryui'],
 
 function ($) {
     "use strict";
@@ -19,5 +18,5 @@ function ($) {
         dateFormat: 'dd/mm/yy'
     });
     
-    $('#id_description').customCKEditor('custom');
+    //$('#id_description').customCKEditor('custom');
 });
