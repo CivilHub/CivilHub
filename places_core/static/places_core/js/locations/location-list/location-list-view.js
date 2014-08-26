@@ -58,8 +58,9 @@ function ($, _, Backbone) {
                 {csrfmiddlewaretoken: getCookie('csrftoken')}, 
             function (resp) {
                 $(e.currentTarget)
-                    .addClass('unfollow-entry fa-eye-slash')
-                    .removeClass('follow-entry fa-eye');
+                    .addClass('unfollow-entry btn-unfollow-location')
+                    .removeClass('follow-entry btn-follow-location')
+                    .text(newTitle);
             });
         },
         
@@ -71,8 +72,9 @@ function ($, _, Backbone) {
                 {csrfmiddlewaretoken: getCookie('csrftoken')}, 
                 function (resp) {
                 $(e.currentTarget)
-                    .addClass('follow-entry fa-eye')
-                    .removeClass('unfollow-entry fa-eye-slash');
+                    .addClass('follow-entry btn-follow-location')
+                    .removeClass('unfollow-entry btn-unfollow-location')
+                    .text(newTitle);
             });
         }
     });

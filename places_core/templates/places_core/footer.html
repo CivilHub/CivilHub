@@ -34,9 +34,49 @@
 		</div>
 	
 	</div>
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6 share-buttons">
+	<div class="row  share-buttons">
+		<div class="col-md-2">            
+            <div id="lang-selector">
+                <a>{% trans "Choose language" %}</a>
+                <div id="popover-lang-list" style="display: none">
+                    <div id="lang-list"> 
+                        <ul>
+                        <li>
+                        <a href="/country?country=US&amp;redirect=/">
+                          <img width="23" height="17" alt="United States" src="https://stripe.com/img/flags/us.png" >
+                          <span>United States</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="/country?country=CA&amp;redirect=/" class="selected">
+                          <img width="23" height="17" alt="Canada" src="https://stripe.com/img/flags/ca.png" data-hires="true" data-1x="https://stripe.com/img/flags/ca.png" data-2x="https://stripe.com/img/flags/ca@2x.png" data-3x="https://stripe.com/img/flags/ca@2x.png">
+                          <span>Canada</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="/country?country=GB&amp;redirect=/">
+                          <img width="23" height="17" alt="United Kingdom" src="https://stripe.com/img/flags/gb.png" data-hires="true" data-1x="https://stripe.com/img/flags/gb.png" data-2x="https://stripe.com/img/flags/gb@2x.png" data-3x="https://stripe.com/img/flags/gb@2x.png">
+                          <span>United Kingdom</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="/country?country=IE&amp;redirect=/">
+                          <img width="23" height="17" alt="Ireland" src="https://stripe.com/img/flags/ie.png" data-hires="true" data-1x="https://stripe.com/img/flags/ie.png" data-2x="https://stripe.com/img/flags/ie@2x.png" data-3x="https://stripe.com/img/flags/ie@2x.png">
+                          <span>Ireland</span>
+                        </a>
+                        </li>
+                        <li>
+                        <a href="/country?country=AU&amp;redirect=/">
+                          <img width="23" height="17" alt="Australia" src="https://stripe.com/img/flags/au.png" data-hires="true" data-1x="https://stripe.com/img/flags/au.png" data-2x="https://stripe.com/img/flags/au@2x.png" data-3x="https://stripe.com/img/flags/au@2x.png">
+                          <span>Australia</span>
+                        </a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="col-md-1"></div>
+		<div class="col-md-6">
 		
 
 		<!-- Twitter -->

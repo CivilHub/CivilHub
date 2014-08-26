@@ -31,6 +31,45 @@ body {
 		margin-right: 0;
 	}
 	
+    .notify {
+        
+        margin-top: 50px;
+        
+        form {
+        
+        
+        
+			margin-left: 60px;
+			margin-top: 12px;	
+			width: 700px;
+			height: 150px;
+			background: rgb(0, 0, 0);
+			background: rgba(0, 0, 0, .55);
+			border-radius: 5px;
+            padding: 30px 60px;
+            display: table;
+            margin: 0 auto;
+            
+            input {
+                height: 38px;
+                width: 100%;
+            } 
+            
+            p {
+                color: #fff;
+                font-weight: bold;
+                margin-top: 10px;
+                color: #fff;
+                font-size: 14px;
+                text-align: left;
+                margin-left: 0;
+                margin-top: 40px;
+                margin-bottom: 0px;
+                text-align: center;
+            }
+        }
+    }
+    
 	.half {
 		float:left;		
 		
@@ -51,6 +90,12 @@ body {
 			}	
 		}
 		
+        .before-start-text {
+            .start-text;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
 		form {
 			margin-left: 60px;
 			margin-top: 12px;	
@@ -156,7 +201,7 @@ body {
 	
 	.row {
 		float: left;
-		margin: 40px;
+		margin: 20px 40px;
 		img {
 			width: 64px;
 			height: 64px;
@@ -165,13 +210,16 @@ body {
 	}
 	h2 {
 		color: #454545;
-		font-size: 37px;
+        font-size: 36px;
+        font-weight: 300;
+        margin-top: 0;
 	}
 	
 	.why-table {
 		margin: 0 15%;
 		
-		.top20 { margin-top: 20px; }
+		.top20 { margin-top: 20px; }		
+		.top32 { margin-top: 32px; }
 	}
 	
 	.proud-table {
@@ -179,9 +227,9 @@ body {
 		text-align: left;
 		
 		.left-img {
-			margin-right: 20px;
+			margin-right: 10px;
 			width: 24px;
-			margin-left: -44px;
+			margin-left: -34px;
 		}
 		
 		.row-part {
@@ -190,7 +238,7 @@ body {
 		}
 			
 		h3 {
-			font-size: 35px;
+			font-size: 32px;
 			margin-left: 13%;
 		}
 		
@@ -224,12 +272,12 @@ body {
 
 .map-view {
 
-	background: url("/static/places_core/img/usamap.jpg") no-repeat center center fixed; 
+	background: url("/static/places_core/img/map.jpg") no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-    padding-top: 547px;
+    padding-top: 450px;
     
 	img {
 		height: 547px;
@@ -239,12 +287,20 @@ body {
 
 .access-view {
     margin: 0 15%;
-
+    margin-bottom: -1px;
+    
 	h3 {
 		color: #454545;
 		font-size: 35px;
 	}
 	
+    .img-mobile {
+        width: 226px;
+        height: 259px;
+        padding-top: -3px;
+        margin-left: 50px;
+    }
+    
 	.img-appstore {
 		height: 66px;
 		width: 191px;
@@ -258,4 +314,33 @@ body {
 		float: left;
 		padding: 10px;	
 	}
+}
+
+.navbar-home {
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #adadad;
+    background: rgba(255, 255, 255, 0.5);
+    height: 60px;
+    
+    .container {
+        padding: 0px;
+    }
+    
+    #logo {
+        padding: 15px 0px;
+        
+        img {
+		
+            height: 34px;
+            width: 191px;
+			
+        }
+    }
+    
+    .submit-button {
+        width: 100px;
+        margin: 15px 0px;
+        float: right;
+    }
 }

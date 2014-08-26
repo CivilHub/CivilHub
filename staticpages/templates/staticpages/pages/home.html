@@ -13,8 +13,40 @@
 
 {% comment %} First part with signup form. {% endcomment %}
 <div style="background: #fff;">
-    <div class="signup-view signup-view-background">
+    <div class="signup-view signup-view-background" style="height: 700px;">
         <h1 class="home-first"> People have the Power</h1>
+        
+        <div class="row" style="margin: 0">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 half">
+                <div class="before-start-text">
+                    <h2 style="font-size: 40px; font-weight: 300;">{% trans "CivilHub is a space,<br />where we can together change<br />the local environment for the better place" %}.</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin: 0">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="mc_embed_signup" class="notify">
+                    <form action="//civilhub.us9.list-manage.com/subscribe/post?u=6760a74c9b91ab265846a295d&amp;id=b37c46ef36" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="col-md-6">
+                            <input type="email" left" class="form-control" value="" name="EMAIL" id="mce-EMAIL" placeholder="{% trans "Your email address" %}" required>
+                        </div>
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_6760a74c9b91ab265846a295d_b37c46ef36" tabindex="-1" value=""></div>
+                        <div class="col-md-6">
+                            <input type="submit" value="{% trans "Notify me" %}" name="subscribe" id="mc-embedded-subscribe" class="submit-button">
+                        </div>
+                        <br />
+                        <p>{% trans "CivilHub starts: 1 october at 3.00 PM, CEST</br>Location: Atlantic Cinema, Warsaw, Chmielna Street, Poland" %}</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        {% comment %}
         <div class="narrow">
             <div class="col-md-6 half">
                 <div class="start-text">
@@ -100,6 +132,7 @@
             </form>
                 
         </div>
+        {% endcomment %}
     </div>
         <div class="clear"></div>
 </div>
@@ -108,7 +141,7 @@
 
     {% comment %} Second part - Why Should I use. {% endcomment %}
     <div class="why-view">
-        <h2>{% trans "We believe that people have the</br>Power to change our World." %}</h2>
+        <h2>{% trans "We believe that people have the</br>Power to <b>change our World</b>." %}</h2>
         <span><a href="#">Grzegorz Warzecha</a>, {% trans "CivilHub.org founder" %}</span>
     <div class="row">
         <div class="homepage-divider"> </div>
@@ -119,36 +152,36 @@
         <div class="clear"></div>
         </div>
         <div class="why-table">
-            <div class="col-md-4 top20">
+            <div class="col-md-4 top32">
                 <img src="{% static 'places_core/img/point.png' %}"></br>
             <b>{% trans "Find the Place, where you live" %}</b></br>
                 {% trans "We have more than 80 thousand places, but You can always create own for your housing, village." %}
             </div>
-            <div class="col-md-4 top20">
+            <div class="col-md-4 top32">
                 <img src="{% static 'places_core/img/collaboration.png' %}"></br>
             <b>{% trans "Collaborate with People !@#$%!." %}</b></br>
                 {% trans "Great collaboration starts with communication. We always want to know what happens near us." %}
             </div>
-            <div class="col-md-4 top20">
-                <img src="{% static 'places_core/img/idea.png' %}"></br>
+            <div class="col-md-4 top32">
+                <img src="{% static 'places_core/img/idea.png' %}" style="width: 39px;"></br>
             <b>{% trans "Share Your Ideas" %}</b></br>
-                {% trans "You and other people have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
+                {% trans "People have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
             </div>
 
-            <div class="col-md-4 top20">
+            <div class="col-md-4 top32">
                 <img src="{% static 'places_core/img/polls.png' %}"></br>
-            <b>{% trans "Wyrażaj swoją opinię" %}</b></br>
-                {% trans "Srawdzaj poprzez krótkie ankiety co myślą inni na dowolny temat. Miej wpływ na to co się dzieje." %}
+            <b>{% trans "Create local Polls" %}</b></br>
+                {% trans "Find out what others think about proposed changes. Crowd is always right." %}
             </div>
-            <div class="col-md-4 top20">
+            <div class="col-md-4 top32">
             <img src="{% static 'places_core/img/projects.png' %}"></br>
             <b>{% trans "Start local Projects" %}</b></br>
-                {% trans "Wdrażajmy pomysły w życie rozpoczynając wspólnie obywatelskie oddolne inicjatywy." %}
+                {% trans "Implements our ideas to life, starting with joint local civil initiatives. Together we can do all what we want." %}
             </div>
-            <div class="col-md-4 top20">
+            <div class="col-md-4 top32">
             <img src="{% static 'places_core/img/documents.png' %}"></br>
             <b>{% trans "Share Your Knowledge" %}</b></br>
-                {% trans "Razem wiemy więcej o miejscu w którym żyjemy. Dzielmy się tą wiedzą aby wspólnie czynić świat lepszym." %}
+                {% trans "Together we know more about the places where we live. Let us share this knowledge to make the world a better place." %}
             </div>
         </div>
     </div>
@@ -171,7 +204,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
                     <h4><img src="{% static 'places_core/img/free.png' %}" class="left-img" />{% trans "Everything is for free, always." %}</h4>
-                    {% trans "Korzystanie z funkcji portalu zawsze będzie darmowe. Najważniejsze abyś ty sam chciał" %}
+                    {% trans "We want everyone to use modern tools for collaboration in local communities. App must be free, modern and simple." %}
                 </div>
             </div>
             </br> </br>
@@ -179,15 +212,15 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
                     <h4><img src="{% static 'places_core/img/cloud.png' %}" class="left-img">{% trans "Dedicate pages for Your Place" %}</h4>
-                    {% trans "Korzystanie z funkcji portalu zawsze będzie darmowe. Korzystanie z funkcji portalu zawsze będzie dar" %}
+                    {% trans "Each location, city, district, neighborhood, village, may have their own dedicated place where co-create this place." %}
                 </div>
             </div>
             </br> </br>
             <div class="row-part">
                 <div class="col-md-2"></div>
                 <div class="col-md-10">
-                <h4><img src="{% static 'places_core/img/glass.png' %}" class="left-img" />{% trans "Wszystko jest jawne" %}</h4>
-                {% trans "Możesz zobaczyć, kto co kiedy pisał, bez potrzeby rejestracji przeglądać wszystkie treści portalu." %}
+                <h4><img src="{% static 'places_core/img/glass.png' %}" class="left-img" />{% trans "Public access for content" %}</h4>
+                {% trans "There is nothing to be ashamed of. Each activity on the site is publicly available. See what your neighbor think about your proposal." %}
                 </div>
             </div>
         </div>
@@ -212,26 +245,25 @@
     <div class="map-view">
     {% comment %}<img src="{% static 'places_core/img/map.jpg' %}">{% endcomment %}
     </div>
-    <div class="clear"></div>
+  
     
     <div class="homepage-divider"> </div>
 
     {% comment %} Fifth part with mobile access. {% endcomment %}
-    <div class="access-view">
-    <div class="col-md-3">
-Zdjecie
+    <div class="row access-view">
+    <div class="col-lg-4">
+        <img src="{% static 'places_core/img/mobile-bottom.jpg' %}" class="img-mobile left-img" />
     </div>
-    <div class="col-md-9">
+    <div class="col-lg-8">
         <h3>{% trans "Mobile access to all content from anywhere" %}</h3>
         <p>
-        {% trans 'W najbliższym czasie opublikujemy aplikacje mobilne, dzięki którym będziesz mógł korzystać z portalu ze swoich ulubionych urządzeń.' %}
+        {% trans 'Coming to work, or in your free time, directly from your phone you can decide whether you are for or against ideas, proposed by those around you.' %}
         </p>
         <img class="img-appstore img-left" src="{% static 'places_core/img/appstore.jpg' %}">
         <img class="img-googleplay img-left" src="{% static 'places_core/img/googleplay.jpg' %}">
     </div>
     </div>
     
-    <div class="clear"></div>
 </div>
 
 

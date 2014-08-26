@@ -107,7 +107,9 @@ class IdeaLocationForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField()
+    tags = TagField(
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Idea

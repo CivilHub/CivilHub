@@ -89,7 +89,7 @@
         <div class="custom-clear">&nbsp;</div>
         {% if user.is_authenticated %}
         <button class="btn btn-default media-form-toggle">Upload file</button>
-        <div id="media-form">
+        <div id="media-form" class="create-form">
             <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">

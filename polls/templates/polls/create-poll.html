@@ -9,20 +9,23 @@
 
 {% block content %}
 
-    <div class="col-sm-8">
-        <form action="" method="post" role="form" id="poll-create-form">
-            {% csrf_token %}
-            {{ form }}
-            <div id="poll-answer-form"></div>
-            <p>
-                <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
-                    <span class="fa fa-plus-circle"> </span>
-                </button>
-            </p>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-            </div>
-        </form>
+    <div class="col-sm-8 main-content">
+        <div class="create-form">
+            <h3>{% trans "Create poll in " %} {{ location.name }}</h3>
+            <form action="" method="post" role="form" id="poll-create-form">
+                {% csrf_token %}
+                {{ form }}
+                <div id="poll-answer-form"></div>
+                <p>
+                    <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
+                        <span class="fa fa-plus-circle"> </span>
+                    </button>
+                </p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
     
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}

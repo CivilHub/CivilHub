@@ -48,6 +48,33 @@ function ($, _, Backbone) {
         }
     })(jQuery);
     
+    $("#lang-selector").popover({
+        html : true, 
+        content: function() {
+          return $('#popover-lang-list').html();
+        },
+        
+        placement: "top"
+    });
+    /*$('#lang-selector').bind('click', function (evt) {
+        var $toggle     = $(this),
+            $submenu    = $toggle.find('ul');
+
+        if ($submenu.attr('data-opened') === undefined) {
+            $submenu
+                .slideDown('fast')
+                .attr('data-opened', true)
+                .offset({
+                    left: $toggle.offset().left,
+                    top:  $toggle.offset().top + $toggle.height() - $submenu.height()
+                });
+        } else {
+            $submenu
+                .slideUp('fast')
+                .removeAttr('data-opened');
+        }
+    });*/
+    
     //
     // Abuse reports
     // -------------------------------------------------------------------------

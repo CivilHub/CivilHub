@@ -17,6 +17,4 @@ function ($) {
         maxDate: 0,
         dateFormat: 'dd/mm/yy'
     });
-    
-    //$('#id_description').customCKEditor('custom');
 });

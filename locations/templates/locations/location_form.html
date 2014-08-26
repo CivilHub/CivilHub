@@ -9,16 +9,32 @@
 
 {% block content %}
 
-    {% if action and action == 'edit' %}
-        <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
-    {% else %}
-        <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
-    {% endif %}
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        </div>
-    </form>
+<div class="col-sm-3 top15">
+    <div class="sidebar left">
+        <div class="sidebar-label">{% trans "Rules" %}</div>
+        <div class="sidebar-content"></div>
+    </div>
+</div>
 
+<div class="col-sm-9 main-content top15">
+    <div class="create-form">
+        {% if action and action == 'edit' %}
+            <h3>{% trans "Edit location" %}</h3>
+            <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
+        {% else %}
+            <h3>{% trans "Create location" %}</h3>
+            <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
+        {% endif %}
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+        </form>
+        
+        {% include 'gallery/media-uploader.html' %}
+        
+    </div>
+    
+</div>
 {% endblock %}

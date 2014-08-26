@@ -36,7 +36,9 @@
 
 	.share-buttons {
 		margin-top: 30px;
-		
+        
+		.popover-content { padding: 10px 0px; }
+        
 		div {margin-left: 5px !important; margin-right: 5px !important;}
 		iframe {margin-left: 5px !important; margin-right: 5px !important;}
 		
@@ -45,5 +47,60 @@
 	.fb-like.fb_iframe_widget span{
 		vertical-align: baseline !important;
 	}
+    
+    #lang-selector {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    
+    #lang-list {
+        > ul {
+            list-style-type: none;
+            padding: 0px; 
+            margin: 0;
+            
+            img {
+                vertical-align: middle;
+                margin-right: 4px;
+                position: relative;
+                top: -1px;
+                width: 20px;
+                float: left;
+            }
+            
+            li {
+                display: block;
+                margin: 0;
+                
+                a {
+                    position: relative;
+                    display: block;
+                    line-height: 1em;
+                    padding: 8px 15px;
+                    color: #6f7c82;
+                    font-weight: 500;
+                    margin: 0px;
+                }
+            }
+            
+            li:hover {
+                color:#0083fb;
+                background: rgba(255,255,255,0.5);
+                background: #F4F4F4;
+            }
+            
+            :first-child {
+                border-top-left-radius: 3px;
+                border-top-right-radius: 3px;
+            }     
+            
+            :last-child {
+                border-bottom-left-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }
+
+        }
+    }
 
 }
