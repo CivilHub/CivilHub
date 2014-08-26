@@ -2,18 +2,19 @@
     baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
+        jqueryui: 'includes/jquery-ui/jquery-ui',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        ui: 'js/ui/ui',
-        common: 'js/common',
-        ckeditor: 'includes/ckeditor/ckeditor',
+        redactor: 'includes/redactor/redactor',
         dropzone: 'includes/dropzone/dropzone',
-        jqueryui: 'includes/jquery-ui/jquery-ui'
-        
+        ui: 'js/ui/ui',
+        utils: 'js/utils/utils',
+        common: 'js/common'
     },
+    
     shim: {
         underscore: {
             deps: ['jquery'],
@@ -30,23 +31,14 @@
         },
         
         bootbox: {
-            deps: ['bootstrap'],
-            exports: 'bootbox'
-        },
-        
-        tagsinput: {
-            deps: ['jquery']
-        },
-        
-        ckeditor: {
-            exports: 'CKEDITOR'
-        },
-        
-        dropzone: {
-            exports: 'Dropzone'
+            deps: ['bootstrap']
         },
         
         jqueryui: {
+            deps: ['jquery']
+        },
+        
+        tagsinput: {
             deps: ['jquery']
         }
     },
