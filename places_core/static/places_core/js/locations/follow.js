@@ -1,67 +1,47 @@
 //
 // follow.js
 // =========
-// Obsługa przycisków 'follow location' i 'stop following'.
 //
-require(['jquery'],
+// Obsługa przycisków 'follow location' i 'stop following'.
 
-function ($) {
+require(['jquery',
+         'ui'],
+
+function ($, ui) {
     
     "use strict";
-    //
-    // Follow location button
-    // ----------------------
-    //
-    $(document).on('click', '.btn-follow-location', function () {
-        var $btn = $(this);
-        $.ajax({
-            type: 'POST',
-            url: '/locations/add_follower/' + $btn.attr('data-location-id'),
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken')
-            },
-            success: function (resp) {
+
+    var sendFollowRequest = function (e) {
+        
+        var $button = $(e.currentTarget),
+        
+            follow = $button.hasClass('btn-follow-location'),
+        
+            url = (follow) ? '/locations/add_follower/{id}/'
+                           : '/locations/remove_follower/{id}/',
+                           
+            txt = (follow) ? gettext('You are following') : gettext('Follow');
+            
+        url = url.replace(/{id}/g, $button.attr('data-location-id'));
+
+        $.post(url, {csrfmiddlewaretoken: getCookie('csrftoken')},
+            function (resp) {
                 resp = JSON.parse(resp);
-                if (resp.success === true) {
-                    message.success(resp.message);
-                    $btn.fadeOut('fast', function () {
-                        $btn.removeClass('btn-follow-location')
-                            .addClass('btn-unfollow-location')
-                            .text(gettext('You are following'))
-                            .fadeIn('fast');
-                    });
+                if (resp.success) {
+                    ui.message.success(resp.message);
+                    $button
+                        .toggleClass('btn-follow-location')
+                        .toggleClass('btn-unfollow-location')
+                        .text(txt);
                 } else {
-                    display_alert(resp.message, 'danger');
+                    ui.message.alert(resp.message);
                 }
             }
-        });
-    });
-    //
-    // Unfollow location button
-    // ----------------------
-    //
-    $(document).on('click', '.btn-unfollow-location', function () {
-        var $btn = $(this);
-        $.ajax({
-            type: 'POST',
-            url: '/locations/remove_follower/' + $btn.attr('data-location-id'),
-            data: {
-                csrfmiddlewaretoken: getCookie('csrftoken')
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                if (resp.success === true) {
-                    $btn.fadeOut('fast', function () {
-                        $btn.removeClass('btn-unfollow-location')
-                            .addClass('btn-follow-location')
-                            .text(gettext('Follow'))
-                            .fadeIn('fast');
-                    });
-                    message.success(resp.message);
-                } else {
-                    message.alert(resp.message);
-                }
-            }
-        });
+        );
+    };
+    
+    $(document).ready(function () {
+        $('.btn-follow-location, .btn-unfollow-location')
+            .on('click', sendFollowRequest);
     });
 });

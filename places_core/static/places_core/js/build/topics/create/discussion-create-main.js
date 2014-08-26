@@ -1,7 +1,7 @@
 //
-// Formularz do tworzenia nowych lokalizacji.
+// Forma do tworzenia nowej dyskusji
 //
-//  => /templates/location/location_form.html
+//  => /templates/locations/location_forum_create.html
 //
 // -----------------------------------------------------------------------------
 
@@ -10,14 +10,16 @@ require.config({
     
     urlArgs: "bust=" + (new Date()).getTime(),
     
-    waitSeconds: 200,
+    waitSeconds: 300,
     
     paths: {
         async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
+        jqueryui: 'includes/jquery-ui/jquery-ui',
+        tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
+        'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         mapinput: 'js/ui/jquery.mapinput',
@@ -27,6 +29,15 @@ require.config({
     },
     
     shim: {
+        
+        jqueryui: {
+            deps: ['jquery']
+        },
+        
+        tagsinput: {
+            deps: ['jqueryui']
+        },
+        
         underscore: {
             deps: ['jquery'],
             exports: '_'
@@ -35,10 +46,6 @@ require.config({
         backbone: {
             deps: ['underscore'],
             exports: 'Backbone'
-        },
-        
-        mapinput: {
-            deps: ['jquery']
         },
         
         bootstrap: {
@@ -50,23 +57,26 @@ require.config({
             exports: 'bootbox'
         },
         
-        'bootstrap-fileinput': {
+        'bootstrap-switch': {
             deps: ['bootstrap']
         },
+        
+        mapinput: {
+            deps: ['jquery']
+        }
     }
 });
 
 require(['jquery',
-         'js/locations/location-form',
-         'common',],
+         'common',
+         'js/locations/follow',
+         'js/inviter/userinviter',
+         'js/topics/discussion-form',
+         'js/topics/category-creator'],
 
-function ($, LocationForm) {
+function ($) {
     
     "use strict";
-    
-    $(document).ready(function () {
-        var form = new LocationForm();
-    });
     
     $(document).trigger('load');
     

@@ -51,6 +51,13 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
     def create(self, request):
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
+
+        if not create_gallery(request.user.username):
+            return Response({
+                'success': False,
+                'message': _("Cannot create gallery"),
+                'level': 'danger',
+            })
         
         username = request.user.username    
         filepath = os.path.join(settings.MEDIA_ROOT, username)

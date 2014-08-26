@@ -115,7 +115,6 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
         },
         
         filter: function (filter) {
-            var self = this; // FIXME: pozbyć się tego
             // Reset
             this.$el.empty();
             // Aplikujemy jeden z filtrów: `votes`, `submit_date`, `-submit_date`.
