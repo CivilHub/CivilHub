@@ -20,10 +20,10 @@ require.config({
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         moment: 'includes/momentjs/moment',
+        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
-        common: 'js/common',
-        mapinput: 'js/ui/jquery.mapinput',
+        common: 'js/common'
     },
     
     shim: {
@@ -57,8 +57,6 @@ require.config({
 });
 
 require(['jquery',
-         'utils',
-         'ui',
          'js/ideas/votes/counterWindow',
          'common',
          'js/ideas/votes/votes',
@@ -69,7 +67,7 @@ require(['jquery',
          'js/locations/follow',
          'js/ideas/category-creator'],
 
-function ($, utils, ui, CounterWindow) {
+function ($, CounterWindow) {
     
     "use strict";
     
@@ -86,7 +84,7 @@ function ($, utils, ui, CounterWindow) {
     // Minimapa z markerami (jeżeli są jakieś)
     setTimeout(function () {
         if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(minimapData);
+            $('#minimap').minimap(window.MARKERS);
         }
     }, 2000);
     

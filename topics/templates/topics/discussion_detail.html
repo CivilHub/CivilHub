@@ -52,7 +52,7 @@
 
         <hr />
         
-        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        {% if map_markers %}<div id="minimap"></div>{% endif %}
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a> {% endfor %}
 

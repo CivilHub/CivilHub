@@ -7,11 +7,12 @@
 define(['jquery',
         'underscore',
         'backbone',
+        'utils',
         'js/comments/comment-collection',
         'js/comments/comment-view',
         'js/comments/comment-model'],
 
-function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
+function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
     
     "use strict";
     
@@ -41,7 +42,7 @@ function ($, _, Backbone, CommentCollection, CommentView, CommentModel) {
             
             // Konieczne ze względu na Django CSRF Protection
             $.ajaxSetup({
-                headers: {'X-CSRFToken': getCookie('csrftoken')}
+                headers: {'X-CSRFToken': utils.getCookie('csrftoken')}
             });
             
             // Wywołanie paginowalnej kolekcji, ustalenie liczby elementów na

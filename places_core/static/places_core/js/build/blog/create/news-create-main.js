@@ -2,9 +2,11 @@
 // Formularz tworzenia nowego wpisu na blog.
 //
 //  => /templates/locations/location_news_form.html
-// -----------------------------------------------------------------------------
+//
+// ------------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
@@ -50,7 +52,7 @@ require.config({
         },
         
         tagsinput: {
-            deps: ['jquery']
+            deps: ['jqueryui']
         }
     }
 });

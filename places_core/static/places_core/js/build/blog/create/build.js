@@ -39,7 +39,7 @@
         },
         
         tagsinput: {
-            deps: ['jquery']
+            deps: ['jqueryui']
         }
     },
     name: "js/build/blog/create/news-create-main",

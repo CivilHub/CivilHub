@@ -17,6 +17,7 @@ require.config({
         jqueryui: 'includes/jquery-ui/jquery-ui',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         ui: 'js/ui/ui',
@@ -43,15 +44,18 @@ require.config({
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         tagsinput: {
-            deps: ['jquery']
+            deps: ['jqueryui']
         }
     }
 });
 
 require(['jquery',
-         'underscore',
-         'bootstrap',
          'common',
          'js/locations/follow',
          'js/inviter/userinviter',

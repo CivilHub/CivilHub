@@ -17,7 +17,7 @@
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/build/ideas/details/idea-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/detail/idea-detail-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -54,7 +54,7 @@
                 </div>
                 <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
             </div>
-            {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+            {% if map_markers %}<div id="minimap"></div>{% endif %}
             {% if idea.creator == user or is_moderator %}
 
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>

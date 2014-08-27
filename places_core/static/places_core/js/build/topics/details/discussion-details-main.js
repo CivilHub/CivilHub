@@ -1,16 +1,20 @@
 //
 // Widok pojedynczej dyskusji
+//
 //  => /templates/topics/discussion_detail.html
 //
+// --------------------------------------------
 
 require.config({
-    baseUrl: "{% static 'places_core' %}",
+    
+    baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
     
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
@@ -18,14 +22,10 @@ require.config({
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
+        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
-        common: 'js/common',
-        async: 'includes/require/async',
-        ckeditor: 'includes/ckeditor/ckeditor',
-        dropzone: 'includes/dropzone/dropzone',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
-        mapinput: 'js/ui/jquery.mapinput'
+        common: 'js/common'
     },
     
     shim: {
@@ -53,19 +53,20 @@ require.config({
         },
         
         tagsinput: {
-            deps: ['jqueryui']
+            deps: ['jquery']
         }
     }
 });
 
 require(['jquery',
          'ui',
-         'js/topics/discussion/replyForm',
          'mapinput',
          'common',
          'js/maps/minimap',
          'js/ui/bookmark-form',
          'js/locations/follow',
+         'js/inviter/userinviter',
+         'js/topics/reply-form',
          'js/topics/category-creator'],
 
 function ($, ui) {
@@ -133,7 +134,7 @@ function ($, ui) {
     
     setTimeout(function () {
         if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(minimapData);
+            $('#minimap').minimap(window.MARKERS);
         }
     }, 2000);
     

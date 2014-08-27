@@ -23,6 +23,8 @@
                 <img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
                 <br />{{ news.creator.profile.rank_pts }}
             
+            {% if map_markers %}<div id="minimap"></div>{% endif %}
+            
             {% include 'locations/share_buttons.html' %}
             
             </div>

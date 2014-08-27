@@ -2,21 +2,25 @@
     baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
+        jqueryui: 'includes/jquery-ui/jquery-ui',
+        tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common',
-        ckeditor: 'includes/ckeditor/ckeditor',
-        dropzone: 'includes/dropzone/dropzone',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
-        tagsinput: 'includes/jquery/jquery.tagsinput'
     },
+    
     shim: {
         underscore: {
             deps: ['jquery'],
             exports: '_'
+        },
+        
+        jqueryui: {
+            deps: ['jquery']
         },
         
         backbone: {
@@ -28,21 +32,13 @@
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         tagsinput: {
-            deps: ['jquery']
-        },
-        
-        ckeditor: {
-            exports: 'CKEDITOR'
-        },
-        
-        dropzone: {
-            deps: ['jquery'],
-            exports: 'Dropzone'
-        },
-        
-        jqueryui: {
-            deps: ['jquery']
+            deps: ['jqueryui']
         }
     },
     name: "js/build/polls/create/poll-create-main",

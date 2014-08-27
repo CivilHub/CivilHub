@@ -8,10 +8,12 @@
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
-        common: 'js/common',
-        moment: 'includes/momentjs/moment'
+        utils: 'js/utils/utils',
+        common: 'js/common'
     },
+    
     shim: {
         underscore: {
             deps: ['jquery'],
@@ -27,10 +29,15 @@
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         tagsinput: {
             deps: ['jquery']
         }
     },
-    name: "js/build/forum/list/forum-list-main",
-    out: "forum-list-built.js"
+    name: "js/build/topics/list/discussion-list-main",
+    out: "discussion-list-built.js"
 })

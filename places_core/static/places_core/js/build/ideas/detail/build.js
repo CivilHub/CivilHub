@@ -1,15 +1,16 @@
 ({
     baseUrl: "../../../../",
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
-        bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
+        paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone',
+        bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
+        moment: 'includes/momentjs/moment',
+        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -31,17 +32,18 @@
         },
         
         bootbox: {
-            deps: ['bootstrap']
-        },
-        
-        jqueryui: {
-            deps: ['jquery']
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {
-            deps: ['jqueryui']
+            deps: ['jquery']
+        },
+        
+        mapinput: {
+            deps: ['jquery']
         }
     },
-    name: "js/build/ideas/create/idea-create-main",
-    out: "idea-create-built.js"
+    name: "js/build/ideas/detail/idea-detail-main.js",
+    out: "idea-detail-built.js"
 })

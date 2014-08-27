@@ -17,9 +17,10 @@ require.config({
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
-        common: 'js/common',
-        moment: 'includes/momentjs/moment'
+        utils: 'js/utils/utils',
+        common: 'js/common'
     },
     
     shim: {
@@ -37,6 +38,11 @@ require.config({
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         tagsinput: {
             deps: ['jquery']
         }
@@ -44,11 +50,10 @@ require.config({
 });
 
 require(['jquery',
-         'ui',
          'common',
+         'js/topics/category-creator',
          'js/topics/discussion-list/discussions',
          'js/locations/follow',
-         'js/topics/category-creator',
          'js/inviter/userinviter'],
 
 function ($) {

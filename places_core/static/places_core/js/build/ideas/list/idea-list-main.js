@@ -1,9 +1,12 @@
 //
 // Lista idei
+//
 //  => /templates/locations/location_ideas.html
-// -----------------------------------------------------------------------------
+//
+// --------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
@@ -51,8 +54,6 @@ require.config({
 });
 
 require(['jquery',
-         'utils',
-         'ui',
          'common',
          'js/locations/follow',
          'js/ideas/idea-list/ideas',

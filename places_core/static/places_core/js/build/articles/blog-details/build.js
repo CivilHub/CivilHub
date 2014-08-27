@@ -2,14 +2,11 @@
     baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
         bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
-        redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone',
+        paginator: 'includes/backbone/backbone.paginator',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -28,20 +25,8 @@
         
         bootstrap: {
             deps: ['jquery']
-        },
-        
-        bootbox: {
-            deps: ['bootstrap']
-        },
-        
-        jqueryui: {
-            deps: ['jquery']
-        },
-        
-        tagsinput: {
-            deps: ['jqueryui']
         }
     },
-    name: "js/build/ideas/create/idea-create-main",
-    out: "idea-create-built.js"
+    name: "js/build/articles/blog-details/blog-details-main",
+    out: "blog-details-built.js"
 })

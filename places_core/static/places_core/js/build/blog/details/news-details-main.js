@@ -11,19 +11,19 @@ require.config({
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap',
+        tagsinput: 'includes/jquery/jquery.tagsinput',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
+        bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common',
-        async: 'includes/require/async',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
-        bootbox: 'includes/bootstrap/bootbox'
+        mapinput: 'js/ui/jquery.mapinput'
     },
     
     shim: {
@@ -41,6 +41,11 @@ require.config({
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         tagsinput: {
             deps: ['jquery']
         }
@@ -48,7 +53,6 @@ require.config({
 });
 
 require(['jquery',
-         'ui',
          'common',
          'js/locations/follow',
          'js/maps/minimap',
@@ -63,7 +67,7 @@ function ($) {
     
     setTimeout(function () {
         if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(minimapData);
+            $('#minimap').minimap(window.MARKERS);
         }
     }, 2000);
     

@@ -1,9 +1,12 @@
 //
 // Lista wpisów na blogu
+//
 //  => /templates/locations/location_news.html
-// -----------------------------------------------------------------------------
+//
+// -------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
@@ -12,18 +15,16 @@ require.config({
     
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
+        bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
-        common: 'js/common',
-        bootbox: 'includes/bootstrap/bootbox',
-        ui: 'js/ui/ui',
-        list: 'js/topics/news-list/niew',
-        moment: 'includes/momentjs/moment'
+        common: 'js/common'
     },
     
     shim: {
@@ -48,17 +49,16 @@ require.config({
         
         tagsinput: {
             deps: ['jquery']
-        },
+        }
     }
 });
 
 require(['jquery',
-         'js/blog/news-list/blog',
-         'ui',
          'common',
          'js/locations/follow',
+         'js/inviter/userinviter',
          'js/blog/category-creator',
-         'js/inviter/userinviter'], 
+         'js/blog/news-list/blog'], 
          
 function ($) {
 

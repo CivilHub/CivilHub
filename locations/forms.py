@@ -124,12 +124,12 @@ class NewsLocationForm(forms.ModelForm):
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     content = forms.CharField(
-        required = False,
+        required = True,
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     category = forms.ModelChoiceField(
-        required = False,
+        required = True,
         queryset = BlogCategory.objects.all(),
         widget = forms.Select(attrs={'class': 'form-control'})
     )

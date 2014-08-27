@@ -14,7 +14,7 @@ pollapp.markers.push({
 });
 {% endfor %}
 </script>
-<script data-main="{% static 'places_core' %}/js/build/polls/details/poll-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/polls/details/poll-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -31,7 +31,7 @@ pollapp.markers.push({
         </div>
         <hr />
         
-        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        {% if map_markers %}<div id="minimap"></div>{% endif %}
         
         <div class="acticle-content">{{ poll.question | safe }}</div>
         

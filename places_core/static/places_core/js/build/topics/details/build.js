@@ -1,15 +1,15 @@
 ({
     baseUrl: "../../../../",
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
-        jqueryui: 'includes/jquery-ui/jquery-ui',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
+        paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone',
+        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -31,7 +31,8 @@
         },
         
         bootbox: {
-            deps: ['bootstrap']
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         jqueryui: {
@@ -39,9 +40,9 @@
         },
         
         tagsinput: {
-            deps: ['jqueryui']
+            deps: ['jquery']
         }
     },
-    name: "js/build/ideas/create/idea-create-main",
-    out: "idea-create-built.js"
+    name: "js/build/topics/details/discussion-details-main",
+    out: "discussion-details-built.js"
 })

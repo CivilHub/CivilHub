@@ -3,16 +3,17 @@
 // ==============
 //
 
-require(['jquery'],
+require(['jquery', 'bootstrap'],
 
 function ($) {
     
     "use strict";
     
     var editor = null,
+    
         reply  = window.CIVIL_REPLY_URL;
 
-    editor = $('#id_content').data('editor');
+    editor = $('#id_content');
 
     $('.entry-controls').find('a').tooltip();
 
@@ -28,17 +29,11 @@ function ($) {
     $('.quote-reply-link').on('click', function (evt) {
         var $entry = $(this).parents('.reply-entry'),
             quoteEntry = $entry.find('.user-window-toggle').text(),
-            quotedTxt = '<em>' + $entry.find('.entry-content').html() + '</em>',
-            range = editor.createRange();
+            quotedTxt = $entry.find('.entry-content').html();
+
         evt.preventDefault();
         $('#reply-form').attr('action', reply).slideDown('fast');
-        editor.setData('<h3>' + quoteEntry + ' wrotes:</h3>' + quotedTxt + '<p></p>');
-        try {
-            range.moveToElementEditablePosition(p);
-            range.select();
-        } catch (e) {
-            console.log(e);
-        }
+        editor.html(quoteEntry + ' wrotes: ' + quotedTxt);
     });
 
     // Edit existing entry
@@ -47,10 +42,10 @@ function ($) {
         var $entry = $(this).parents('.reply-entry'),
             content= $entry.find('.entry-content').html(),
             target = $(this).attr('href');
-        console.log(content);
+        
         e.preventDefault();
         $('#reply-form').attr('action', target).slideDown('fast', function () {
-            editor.setData(content);
+            editor.text(content);
             $('html, body')
                 .scrollTop($('#reply-form').position().top + 800);
         });

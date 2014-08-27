@@ -3,25 +3,26 @@
 // -----------------------------------------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
-    //urlArgs: "bust=" + (new Date()).getTime(),
+    urlArgs: "bust=" + (new Date()).getTime(),
     
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
-        async: 'includes/require/async',
         moment: 'includes/momentjs/moment',
         mapinput: 'js/ui/jquery.mapinput',
-        bootbox: 'includes/bootstrap/bootbox'
+        ui: 'js/ui/ui',
+        utils: 'js/utils/utils',
+        common: 'js/common'
     },
     
     shim: {
@@ -37,6 +38,11 @@ require.config({
         
         bootstrap: {
             deps: ['jquery']
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {

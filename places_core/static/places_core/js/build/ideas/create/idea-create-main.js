@@ -1,6 +1,8 @@
 //
 // Formularze tworzący nową ideę
+//
 //  => /templates/locations/location_idea_form.html
+//
 // ------------------------------------------------
 
 require.config({
@@ -50,7 +52,7 @@ require.config({
         },
         
         tagsinput: {
-            deps: ['jquery']
+            deps: ['jqueryui']
         }
     }
 });

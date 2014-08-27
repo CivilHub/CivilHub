@@ -24,25 +24,25 @@
     {% for usr in followers %}
         <div class="col-md-2 ">
             <div class="follower">
-				
+                
                 <div class="follower-header">
-				<a href="{% url 'user:profile' usr.username %}">
-					<div class="follower-background"><img alt="{{ usr.profile.background_image.url }}" src="{{ usr.profile.avatar.url }}"></div>
-					<div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
-					</a>
+                <a href="{% url 'user:profile' usr.username %}">
+                    <div class="follower-background"><img alt="{{ usr.profile.background_image.url }}" src="{{ usr.profile.avatar.url }}"></div>
+                    <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
+                    </a>
                 </div>
-				
-				<div class="follower-info">
+                
+                <div class="follower-info">
                     <p class="follower-name">
                         {{ usr.get_full_name }}
                     </p>
                     <div class="points">
                         <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
                     </div>
-				</div>
-				
+                </div>
+                
 
-				<button type="button" class="btn-follow-location" data-location-id=""> {% trans "Follow" %}</button>
+                <button type="button" class="btn-follow-location" data-location-id=""> {% trans "Follow" %}</button>
 
                 {% if is_moderator and user != usr %}
                 <p class="admin-extra-options">
@@ -56,19 +56,19 @@
 
 
 <ul class="pagination">
-	{% if followers.has_previous %}
-		<li><a href="?page=1">&laquo;</a></li>
-		<li><a href="?page={{ followers.previous_page_number }}">{% trans "previous" %}</a></li>
-	{% endif %}    
-	
-	{% for page in followers.paginator.page_range %}
-		<li{% if page == followers.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-	{% endfor %}
+    {% if followers.has_previous %}
+        <li><a href="?page=1">&laquo;</a></li>
+        <li><a href="?page={{ followers.previous_page_number }}">{% trans "previous" %}</a></li>
+    {% endif %}    
+    
+    {% for page in followers.paginator.page_range %}
+        <li{% if page == followers.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+    {% endfor %}
 
-	{% if followers.has_next %}
-		<li><a href="?page={{ followers.next_page_number }}">{% trans "next" %}</a></li>
-		<li><a href="?page={{ followers.paginator.num_pages }}">&raquo;</a></li>
-	{% endif %}
+    {% if followers.has_next %}
+        <li><a href="?page={{ followers.next_page_number }}">{% trans "next" %}</a></li>
+        <li><a href="?page={{ followers.paginator.num_pages }}">&raquo;</a></li>
+    {% endif %}
 </ul>
 
 </div>
@@ -107,8 +107,6 @@
 </div>
 <p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
 </script>
-
-<script>require(['/static/places_core/js/locations/badges.js'],function(){});</script>
 
 {% endif %}
 

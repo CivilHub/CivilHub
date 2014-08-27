@@ -1,8 +1,12 @@
 //
-// Defaultowe skrypty stosowane w przypadku kiedy widok nie deklaruje własnej
-// konfiguracji.
+// Szczegółowy widok artykułu
+//
+//  => /templates/articles/article.html
+//
+// --------------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
@@ -15,12 +19,10 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
-        bootbox: 'includes/bootstrap/bootbox',
+        moment: 'includes/momentjs/moment',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
-        common: 'js/common',
-        moment: 'includes/momentjs/moment'
+        common: 'js/common'
     },
     
     shim: {
@@ -36,16 +38,7 @@ require.config({
         
         bootstrap: {
             deps: ['jquery']
-        },
-        
-        bootbox: {
-            deps: ['bootstrap'],
-            exports: 'bootbox'
-        },
-        
-        tagsinput: {
-            deps: ['jquery']
-        },
+        }
     }
 });
 
