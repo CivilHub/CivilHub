@@ -2,62 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-    <script src="{% static 'places_core' %}/includes/require/require.js"></script>
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            bootbox: 'includes/bootstrap/bootbox',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'js/gallery/mediaForm',
-             'ui',
-             'common'],
-
-    function ($, MediaForm, ui) {
-        "use strict"
-        var form = new MediaForm();
-        $('.media-form-toggle').on('click', function (e) {
-            e.preventDefault();
-            form.toggle();
-        });
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/gallery/media-form/media-form-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

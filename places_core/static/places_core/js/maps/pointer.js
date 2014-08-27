@@ -1,13 +1,16 @@
 //
 // pointer.js
 // ==========
+//
 // Script to load when you want to use map pointer form.
+
 require(['jquery',
          'utils',
          'ui',
          'mapinput'],
 
 function ($, utils, ui) {
+    
     "use strict";
         
     $('.map-marker-toggle').bind('click', function (evt) {

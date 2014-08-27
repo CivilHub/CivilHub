@@ -2,15 +2,18 @@
 // votes.js
 // ========
 // App to manage idea votes - vote up/down.
+
 require(['jquery',
          'underscore',
-         'utils'],
+         'utils',
+         'ui'],
 
-function ($, _, utils) {
+function ($, _, utils, ui) {
     
     "use strict";
     
     $(document).delegate('.vote-btn', 'click', function () {
+        
         var formData = {
                 csrfmiddlewaretoken: utils.getCookie('csrftoken'),
                 idea: $(this).attr('data-target-id'),
@@ -28,7 +31,7 @@ function ($, _, utils) {
             callback = function (data) {
                 data = JSON.parse(data);
                 if (data.success === true) {
-                    window.message.success(data.message);
+                    ui.message.success(data.message);
                     $votes.html(data.votes);
                     if (!_.isNaN(votes)) {
                         $counter.text(++votes);
@@ -36,7 +39,7 @@ function ($, _, utils) {
                         $counter.text(0);
                     }
                 } else {
-                    window.message.warning(data.message);
+                    ui.message.warning(data.message);
                 }
             };
 

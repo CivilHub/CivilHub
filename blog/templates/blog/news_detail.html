@@ -5,25 +5,8 @@
 {% block title %} {{ news.title }}, {{ location.name }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
-
-<script>
-(function () {
-    "use strict";
-    
-    var newsapp = {markers:[]}
-    
-    {% for m in map_markers %}
-    newsapp.markers.push({
-        lat: '{{ m.latitude }}',
-        lng: '{{ m.longitude }}',
-        pk: '{{ m.pk }}'
-    });
-    {% endfor %}
-    
-    window.MARKERS = newsapp.markers;
-    window.pageSize = {% page_size %};
-})();
-</script>
+{% include 'maps/minimap.html' %}
+<script>window.pageSize = {% page_size %};</script>
 <script data-main="{% static 'places_core' %}/js/build/blog/details/news-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
