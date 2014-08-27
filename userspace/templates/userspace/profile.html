@@ -8,6 +8,8 @@
 {% endblock %}
 
 {% block require_scripts %}
+<script>window.API_URL = "{% url 'rest:my_actions-list' %}";</script>
+<script>window.USER_ID = "{{ cuser.pk }}";</script>
 <script data-main="{% static 'places_core' %}/js/build/userspace/profile/userspace-profile-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
@@ -47,7 +49,7 @@
                 </button>
               </div>
             <div class="row collapse navbar-collapse" id="bs-location-collapse-menu">
-		<ul class="nav navbar-nav navbar-nav-userspace">
+        <ul class="nav navbar-nav navbar-nav-userspace">
                     <li><a href="#" class="list-controller userspace active" data-control="content" data-target=""><span class="ch-icon ch-content navbar-icon"></span>{% trans "Everything" %}</a></li>
                     <li><a href="#" class="list-controller userspace" data-control="content" data-target="news"><span class="ch-icon ch-blog navbar-icon"></span>{% trans "Blog" %}</a></li>
                     <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion"><span class="ch-icon ch-discussions navbar-icon"></span>{% trans "Discussions" %}</a></li>
@@ -64,7 +66,7 @@
                         </div>
                         <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
                     </form>
-		</ul>
+        </ul>
             </div>
         </div>
     </nav>
@@ -156,13 +158,13 @@
                         <div class="clear">&nbsp;</div>
                         <div class="entry-footer">
                             {% trans "Share" %}:
-							<a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org" target="Facebook">
-								<span class="fa fa-facebook">&nbsp;</span>
-							</a>
-							 
-							<a href="https://twitter.com/home?status=http://civilhub.org" target="Twitter">
-								<span class="fa fa-twitter">&nbsp;</span>
-							</a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org" target="Facebook">
+                                <span class="fa fa-facebook">&nbsp;</span>
+                            </a>
+                             
+                            <a href="https://twitter.com/home?status=http://civilhub.org" target="Twitter">
+                                <span class="fa fa-twitter">&nbsp;</span>
+                            </a>
                         </div>
                     </div><!-- // .entry-meta-col -->
                     
@@ -200,19 +202,16 @@
             <div class="clear">&nbsp;</div>
             <div class="entry-footer">
                 {% trans "Share" %}: 
-				<% if (!_.isEmpty(object.url)) { %>
+                <% if (!_.isEmpty(object.url)) { %>
                         <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
                         <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-				<% } else if (!_.isEmpty(target.url)) { %>
+                <% } else if (!_.isEmpty(target.url)) { %>
                         <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
                         <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-				<% } %>
+                <% } %>
             </div>
         </div><!-- // .entry-meta-col -->
     </script>
-    
-    <input type="hidden" name="rest_api_url" id="rest-api-url" value="{% url 'rest:my_actions-list' %}" />
-    <input type="hidden" name="rest_api_usr" id="rest-api-usr" value="{{ cuser.pk }}" />
 
     {% include 'userspace/sidebar.html' %}
     

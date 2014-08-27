@@ -22,55 +22,7 @@
 {% endcomment %}
 
 {% block require_scripts %}
-    <script src="{% static 'places_core' %}/includes/require/require.js"></script>
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            common: 'js/common.js'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery', 'ui', 'common'], function ($, ui) {
-        
-        ui.message.success("Main application loaded");
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-    
+<script data-main="{% static 'places_core' %}/js/build/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}

@@ -156,13 +156,13 @@ DATABASES = {
         #~ 'HOST': '10.0.0.200',   # Or an IP Address that your DB is hosted on
         #~ 'PORT': '3306',
     #~ }
-     #'default': {
-     #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-     #    'NAME': 'places',                      
-     #    'USER': 'places',
-     #    'PASSWORD': '987xyz',
-     #    'HOST': '188.226.176.9' # civilhub.org
-     #}
+    #~ 'default': {
+        #~ 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #~ 'NAME': 'civilhub',                      
+        #~ 'USER': 'django',
+        #~ 'PASSWORD': 'django',
+        #~ 'HOST': '94.23.27.225',
+    #~ }
 }
 
 # Static files (CSS, JavaScript, Images)

@@ -3,19 +3,20 @@
 // =============
 //
 // Entire action list view.
-//
+
 define(['jquery',
         'underscore',
         'backbone',
-        'js/userspace/actions/actionCollection',
-        'js/userspace/actions/actionView'],
+        'js/actstream/actions/actionCollection',
+        'js/actstream/actions/actionView'],
 
 function ($, _, Backbone, ActionCollection, ActionView) {
+    
     "use strict";
     
-    var apiUrl = $('#rest-api-url').val();
+    var apiUrl  = window.API_URL;
     
-    var apiUser = $('#rest-api-usr').val();
+    var apiUser = window.USER_ID;
     
     var ActionList = Backbone.View.extend({
     
@@ -51,7 +52,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
                 this.collection = new ActionCollection(actions);
                 this.render();
                 this.listenTo(this.collection, 'add', this.renderItem);
-            }, this, {'user_id':apiUser});
+            }, this, {'pk':apiUser});
         },
         
         filter: function (content) {
@@ -76,7 +77,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
             if (_.isNull(page)) return false;
             this.$spinner.appendTo(this.$el).fadeIn('fast');
             var data = {
-                'user_id': apiUser,
+                'pk': apiUser,
                 'page': this.nextPage
             }
             if (this.filterContent) data.content = this.filterContent;

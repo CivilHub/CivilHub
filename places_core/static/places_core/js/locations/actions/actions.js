@@ -13,6 +13,8 @@ function ($, ActionList) {
     
     var actions = new ActionList();
     
+    window.test = actions;
+    
     // Check if there is a better way to handle external events.
     $('.list-controller').on('click', function (e) {
         e.preventDefault();

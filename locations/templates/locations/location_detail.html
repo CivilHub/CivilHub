@@ -2,65 +2,9 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-	<script src="{% static 'places_core' %}/includes/require/require.js"></script>
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'common',
-             'js/userspace/background',
-             'js/userspace/actions/actions'],
-
-    function($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.API_URL = "/api-locations/actions/";</script>
+<script>window.USER_ID = "{{ location.id }}";</script>
+<script data-main="{% static 'places_core' %}/js/build/locations/details/location-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block title %} {{ location.name }} | CivilHub {% endblock %}
@@ -125,7 +69,7 @@
                         <div class="entry-footer">
                             {% trans "Share" %}:
                             <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=civilhub.org','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
-							<a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=civilhub.org','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                            <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=civilhub.org','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
                         </div>
                     </div>
                     
@@ -199,13 +143,13 @@
             <div class="clear">&nbsp;</div>
             <div class="entry-footer">
                 {% trans "Share" %}: 
-				<% if (!_.isEmpty(object.url)) { %>
+                <% if (!_.isEmpty(object.url)) { %>
                         <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
                         <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-				<% } else if (!_.isEmpty(target.url)) { %>
+                <% } else if (!_.isEmpty(target.url)) { %>
                         <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
                         <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-				<% } %>
+                <% } %>
             </div>
         </div><!-- // .entry-meta-col -->
     </script>

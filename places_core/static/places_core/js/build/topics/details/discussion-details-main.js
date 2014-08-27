@@ -43,33 +43,23 @@ require.config({
             deps: ['jquery']
         },
         
-        tagsinput: {
-            deps: ['jquery']
-        },
-        
         bootbox: {
             deps: ['bootstrap'],
             exports: 'bootbox'
         },
         
-        ckeditor: {
-            exports: 'CKEDITOR'
-        },
-        
-        dropzone: {
-            deps: ['jquery'],
-            exports: 'Dropzone'
-        },
-        
         jqueryui: {
             deps: ['jquery']
+        },
+        
+        tagsinput: {
+            deps: ['jqueryui']
         }
     }
 });
 
 require(['jquery',
          'ui',
-         'bootbox',
          'js/topics/discussion/replyForm',
          'mapinput',
          'common',
@@ -78,7 +68,7 @@ require(['jquery',
          'js/locations/follow',
          'js/topics/category-creator'],
 
-function ($, ui, bootbox, AbuseWindow) {
+function ($, ui) {
     
     "use strict";
     

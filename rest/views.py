@@ -65,8 +65,8 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('gallery.locationgalleryitem')
         
     def list(self, request):
-        pk = request.QUERY_PARAMS.get('user_id') or None
-        ct = request.QUERY_PARAMS.get('content') or None        
+        pk = request.QUERY_PARAMS.get('pk') or None
+        ct = request.QUERY_PARAMS.get('ct') or None        
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')

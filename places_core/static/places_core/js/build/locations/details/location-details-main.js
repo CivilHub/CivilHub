@@ -1,6 +1,6 @@
 //
-// Defaultowe skrypty stosowane w przypadku kiedy widok nie deklaruje własnej
-// konfiguracji.
+//
+//
 
 require.config({
     
@@ -12,11 +12,11 @@ require.config({
     
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
+        bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
+        tagsinput: 'includes/jquery/jquery.tagsinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -48,8 +48,16 @@ require.config({
     }
 });
 
-require(['jquery', 'common'], function ($) {
+require(['jquery',
+         'js/locations/actions/actions',
+         'common',
+         'js/locations/follow',
+         'js/inviter/userinviter'],
+
+function($) {
     
+    "use strict";
+
     $(document).trigger('load');
     
 });

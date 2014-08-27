@@ -7,6 +7,7 @@
 define(['backbone'],
 
 function (Backbone) {
+    
     "use strict";
     
     var ActionModel = Backbone.Model.extend({
