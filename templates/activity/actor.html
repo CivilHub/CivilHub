@@ -3,7 +3,7 @@
 {% load activity_tags i18n %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/userspace/activity/userspace-activity-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/userspace/activity/userspace-activity-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block title %}{% ifequal request.user actor %}Your feed{% else %}{{ actor }}{% endifequal %}{% endblock %}

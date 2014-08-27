@@ -126,7 +126,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # odkomentować na produkcji - wyświetlanie błędów w social_auth
-    #'places_core.middleware.SocialAuthExceptionMiddleware',
+    'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -144,7 +144,7 @@ MESSAGE_TAGS = {
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
-	'default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'places',                      
         'USER': 'places',
@@ -275,7 +275,7 @@ REST_FRAMEWORK = {
 
 # CORS settings
 # IMPORTANT - Be sure to change this settings in production
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'content-type',
