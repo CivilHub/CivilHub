@@ -1,8 +1,12 @@
 //
+// Strona profilu użytkownika
 //
+//  => /templates/userspace/profile.html
 //
+// -------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),

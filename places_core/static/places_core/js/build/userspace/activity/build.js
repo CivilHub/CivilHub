@@ -36,6 +36,6 @@
             deps: ['jquery']
         },
     },
-    name: "js/build/userspace/profile/userspace-profile-main",
-    out: "userspace-profile-built.js"
+    name: "js/build/userspace/activity/userspace-activity-main",
+    out: "userspace-activity-built.js"
 })

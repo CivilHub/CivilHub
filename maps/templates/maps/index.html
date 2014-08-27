@@ -36,24 +36,17 @@
     };
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/build/maps/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/maps/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 
 {% include 'places_core/navigation.html' %}
 
 <div id="map-options-toggle">
 
-        <div id="map-filter-toggle" style="width: 100%" href="#" title="{% trans "Filters Map" %}">
-       
-        <div class="sprite-icon" style="width: 140px; float: left;"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
-        <div style="width: 10px; float: left;"><span style="float:right" class="fa fa-angle-down"></span></div>
-        </div>
-        
-    {% if user.is_authenticated %}
-        <!--<a id="map-follow-toggle" href="#"><span style="float:right" class="fa fa-circle-o"></span></a>
-        
-         <span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %} <span style="float:right" class="fa fa-angle-down"></span>
-        -->
-    {% endif %}
+    <div id="map-filter-toggle" style="width: 100%" href="#" title="{% trans "Filters Map" %}">
+   
+    <div class="sprite-icon" style="width: 140px; float: left;"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
+    <div style="width: 10px; float: left;"><span style="float:right" class="fa fa-angle-down"></span></div>
+    </div>
 </div>
 
 <div id="map-options-panel">

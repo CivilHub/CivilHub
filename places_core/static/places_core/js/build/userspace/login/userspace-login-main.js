@@ -15,14 +15,19 @@ require.config({
     
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap',
-        underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        common: 'js/common'
+        bootstrap: 'includes/bootstrap/bootstrap'
+    },
+    
+    shim: {
+        bootstrap: {
+            deps: ['jquery']
+        },
     }
 });
 
-require(['jquery', 'common'], function ($) {
+require(['jquery'],
+
+function ($) {
     
     "use strict";
     
