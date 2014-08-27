@@ -14,15 +14,3 @@
 </form>
 
 {% endblock %}
-
-{% block footer_scripts %}
-<script>
-(function ($) {
-    "use strict";
-    $('.cancel-btn').bind('click', function (e) {
-        e.preventDefault();
-        history.go(-1);
-    });
-})(jQuery);
-</script>
-{% endblock %}

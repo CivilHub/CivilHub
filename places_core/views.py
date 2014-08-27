@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import CreateView
 from django.contrib.contenttypes.models import ContentType
@@ -7,9 +8,47 @@ from django.shortcuts import render
 from .models import AbuseReport
 from .forms import AbuseReportForm
 # REST API
-from rest_framework import viewsets
+from urllib2 import unquote
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from rest_framework import permissions as rest_permissions
-from .serializers import ContentTypeSerializer
+from .serializers import ContentTypeSerializer, PaginatedSearchSerializer
+
+
+class SearchResultsAPIViewSet(viewsets.ViewSet):
+    """
+    Wyszukiwarka dla aplikacji mobilnej. Umożliwia sprawdzenie wyników wyszukiwania
+    przez podanie odpowiedniego hasła do wyszukania (oczywiście w formie url-friendly).
+    Zwraca listę znalezionych obiektów zawierającą pola `name`, `content_type`
+    oraz `object_pk`. System rozpoznaje frazy przepuszczone przez funkcje takie
+    jak `encodeURI`, `encodeURIComponent` albo `urlencode`.
+    
+    #### Przykład zapytania:
+    ```/api-core/search/?q=warszawa```
+    """
+    serializer_class = PaginatedSearchSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        from haystack.query import SearchQuerySet
+        try:
+            query_term = unquote(self.request.QUERY_PARAMS.get('q'))
+            return SearchQuerySet().filter(content_auto=query_term)
+        except Exception:
+            return []
+
+    def list(self, request):
+        paginator = Paginator(self.get_queryset(), settings.LIST_PAGINATION_LIMIT)
+        page = request.QUERY_PARAMS.get('page')
+        try:
+            results = paginator.page(page)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+        serializer = self.serializer_class(results,
+                                            context={'request': request})
+        return Response(serializer.data)
 
 
 class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
@@ -24,6 +63,7 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = ContentType.objects.all()
     serializer_class = ContentTypeSerializer
+    paginate_by = None
 
     def get_queryset(self):
         app_label = self.request.QUERY_PARAMS.get('app_label', None)

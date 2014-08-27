@@ -2,7 +2,8 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from staticpages.views import PageView
+from staticpages.views import PageView, HomeView
+from userspace.views import register
 admin.autodiscover()
 # include action hooks globally
 from places_core import actstreams
@@ -58,7 +59,30 @@ js_info_dict = {
     ),
 }
 
+# Django Rest Framework
+# ------------------------------------------------------------------------------
+from locations.urls import router as location_router
+from ideas.urls import router as idea_router
+from topics.urls import router as discussion_router
+from blog.urls import router as blog_router
+from maps.urls import router as map_router
+from userspace.urls import router as user_router
+from places_core.urls import router as core_router
+from geobase.urls import router as geo_router
+from gallery.urls import router as gallery_router
 urlpatterns = patterns('',
+    url(r'^api-ideas/', include(idea_router.urls)),
+    url(r'^api-locations/', include(location_router.urls)),
+    url(r'^api-discussions/', include(discussion_router.urls)),
+    url(r'^api-blog/', include(blog_router.urls)),
+    url(r'^api-maps/', include(map_router.urls)),
+    url(r'^api-userspace/', include(user_router.urls)),
+    url(r'^api-core/', include(core_router.urls)),
+    url(r'^api-geo/', include(geo_router.urls)),
+    url(r'^api-gallery/', include(gallery_router.urls)),
+)
+
+urlpatterns += patterns('',
     # Countries and geolocation
     url(r'^geobase/', include('geobase.urls', namespace='geobase')),
     # user account
@@ -69,7 +93,7 @@ urlpatterns = patterns('',
     # Google Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
-    url(r'^blog/', include('blog.urls', namespace='blog')),
+    url(r'^news/', include('blog.urls', namespace='blog')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream
@@ -123,29 +147,17 @@ urlpatterns = patterns('',
     url(r'^team/', PageView.as_view(page='team')),
     url(r'^values/', PageView.as_view(page='values')),
     url(r'^creed/', PageView.as_view(page='creed')),
-    url(r'^support/', PageView.as_view(page='support')),
+    #url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
     
+    # Przykład wykorzystania formularza wyboru języka:
+    #url(r'^test/', PageView.as_view(page='test')),
+    
     # Default URL - Nie wstawiać nic poniżej!!!
-    url(r'^$', PageView.as_view(page='home')),
+    #url(r'^$', PageView.as_view(page='home')),
+    #url(r'^$', HomeView.as_view()),
+    
+    url(r'^$', register),
+    url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
-)
-
-from locations.urls import router as location_router
-from ideas.urls import router as idea_router
-from topics.urls import router as discussion_router
-from blog.urls import router as blog_router
-from maps.urls import router as map_router
-from userspace.urls import router as user_router
-from places_core.urls import router as core_router
-from geobase.urls import router as geo_router
-urlpatterns += patterns('',
-    url(r'^api-ideas/', include(idea_router.urls)),
-    url(r'^api-locations/', include(location_router.urls)),
-    url(r'^api-discussions/', include(discussion_router.urls)),
-    url(r'^api-blog/', include(blog_router.urls)),
-    url(r'^api-maps/', include(map_router.urls)),
-    url(r'^api-userspace/', include(user_router.urls)),
-    url(r'^api-core/', include(core_router.urls)),
-    url(r'^api-geo/', include(geo_router.urls)),
 )

@@ -12,3 +12,12 @@ class CountrySerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Country
+
+
+class CountryCodeSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(max_length=2)
+    name = serializers.Field(source='location.name')
+
+    class Meta:
+        model = Country
+        fields = ('code', 'name',)

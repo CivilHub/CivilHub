@@ -1,71 +1,9 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 {% block title %} {{ location.name }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'utils',
-             'common',
-             'js/ideas/idea-list/ideas',
-             'js/ideas/votes/votes'],
-    
-    function ($, utils) {
-        
-        "use strict";
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.pageSize = {% page_size %};</script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/list/idea-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}
@@ -114,7 +52,7 @@
             <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
 
-	<ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
         <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
         <li class="navbar-text">{% trans "Stats" %}</li>
         <span class="bs-navbar-soon">(soon)</span>
@@ -147,13 +85,15 @@
             {% endif %}
         </noscript>
 
-        {% include 'ideas/idea-category.html' %}
+        {% include 'locations/category-form.html' %}
         {% include 'ideas/idea-votes.html' %}
             
     </div>
 
-    {% include 'locations/sidebar.html' %}
-
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
+</div>
 {% endblock %}
 
 {% block footer_scripts %}

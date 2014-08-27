@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-import os, time
+import os, time, hashlib
 from itertools import chain
 from uuid import uuid4 as uuid
 from actstream.models import Action, user_stream
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
@@ -12,6 +13,15 @@ from models import UserProfile
 
 
 AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+
+
+def random_password():
+    """
+    Funkcja tworzy losowy ciąg znaków zakodowany w MD5 (32 znaki).
+    """
+    salt = hashlib.md5()
+    salt.update(settings.SECRET_KEY + str(datetime.now().time))
+    return salt.hexdigest()
 
 
 def delete_thumbnails(imgfile):

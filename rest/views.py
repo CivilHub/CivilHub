@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import authentication, viewsets, permissions, renderers
+from rest_framework import views as rest_views
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest.serializers import *
@@ -64,12 +65,12 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('gallery.locationgalleryitem')
         
     def list(self, request):
-        pk = request.QUERY_PARAMS.get('user_id') or None
-        ct = request.QUERY_PARAMS.get('content') or None        
+        pk = request.QUERY_PARAMS.get('pk') or None
+        ct = request.QUERY_PARAMS.get('ct') or None        
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 10)
+        paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
@@ -126,6 +127,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    paginate_by = None
 
 
 class SimpleNewsViewSet(viewsets.ViewSet):
@@ -161,7 +163,7 @@ class NewsViewSet(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-    paginate_by = 2
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -220,7 +222,7 @@ class PollListViewSet(viewsets.ModelViewSet):
     """ Vieset to manage entire location's polls list. """
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
-    paginate_by = 2
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -273,15 +275,15 @@ class CommentsViewSet(viewsets.ModelViewSet):
     Intended to use with comment tree related to selected item
     """
     queryset = CustomComment.objects.all()
-    paginate_by = None
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
     def set_element_order(self):
-        if self.request.GET.get('order'):
-            return self.request.GET.get('order')
-        return 'submit_date'
+        if self.request.QUERY_PARAMS.get('filter'):
+            return self.request.QUERY_PARAMS.get('filter')
+        return '-submit_date'
 
     def get_queryset(self):
         if self.request.GET.get('content-type'):
@@ -381,7 +383,7 @@ class ForumViewSet(viewsets.ModelViewSet):
     """ View for location's forum list. """
     queryset = Discussion.objects.all()
     serializer_class = DiscussionSerializer
-    paginate_by = 2
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -447,7 +449,7 @@ class DiscussionRepliesViewSet(viewsets.ModelViewSet):
     """
     queryset = Entry.objects.all()
     serializer_class = DiscussionReplySerializer
-    paginate_by = 2
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -472,7 +474,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
     """ Idea list viewset. """
     queryset = Idea.objects.all()
     serializer_class = IdeaSerializer
-    paginate_by = 2
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
 
@@ -490,8 +492,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
 
         category_pk = self.request.QUERY_PARAMS.get('category')
         if category_pk and category_pk != 'all':
-            category = get_object_or_404(ForumCategory, pk=category_pk)
-            queryset = queryset.filter(category=category)
+            queryset = queryset.filter(category__pk=category_pk)
 
         status = self.request.QUERY_PARAMS.get('state')
         if status and status != 'all':
@@ -641,7 +642,7 @@ class MediaViewSet(viewsets.ModelViewSet):
     permission_classes = (IsOwnerOrReadOnly,)
 
     def list(self, request, *args, **kwargs):
-        queryset = UserGalleryItem.objects.filter(user=request.user.pk)
+        queryset = UserGalleryItem.objects.filter(user=request.user)
         serializer = UserMediaSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -653,6 +654,9 @@ class MediaViewSet(viewsets.ModelViewSet):
             'level'  : 'success',
             'message': _("Item deleted"),
         })
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
 
 
 class LocationBasicViewSet(viewsets.ModelViewSet):

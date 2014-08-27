@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <div class="col-sm-9">
+    <div class="col-sm-8">
         {% if action == 'update' %}
             <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
         {% else %}
@@ -25,16 +25,10 @@
         </form>
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     {% include 'gallery/media-uploader.html' %}
-    
-    <script>
-    require(['/static/places_core/js/locations/ideaForm.js'],
-    function (IdeaForm) {
-        "use strict";
-        var form = new IdeaForm();
-    });
-    </script>
     
 {% endblock %}

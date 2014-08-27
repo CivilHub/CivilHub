@@ -2,6 +2,7 @@
 import json, datetime
 from dateutil.relativedelta import relativedelta
 from django.db import transaction
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
@@ -179,7 +180,7 @@ class DiscussionListView(View):
         topics = self.get_queryset(request, topics)
         for topic in topics:
             context['results'].append(BasicDiscussionSerializer(topic).data)
-        paginator = SimplePaginator(context['results'], 50)
+        paginator = SimplePaginator(context['results'], settings.LIST_PAGINATION_LIMIT)
         if request.GET.get('page'):
             page = request.GET.get('page')
         else:
@@ -201,7 +202,7 @@ class DiscussionDetailView(DetailView):
         topic = super(DiscussionDetailView, self).get_object()
         context = super(DiscussionDetailView, self).get_context_data(**kwargs)
         replies = Entry.objects.filter(discussion=topic)
-        paginator = Paginator(replies, 2)
+        paginator = Paginator(replies, settings.PAGE_PAGINATION_LIMIT)
         page = self.request.GET.get('page')
         moderator = is_moderator(self.request.user, topic.location)
         try:

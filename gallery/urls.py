@@ -3,6 +3,10 @@ from django.conf import settings
 from django.conf.urls import patterns, url
 from .views import *
 
+from rest.routers import HybridRouter
+router = HybridRouter()
+router.register(r'usermedia', UserGalleryAPIViewSet, 'usermedia')
+
 
 urlpatterns = patterns('',
     # Wordpress-like media uploader

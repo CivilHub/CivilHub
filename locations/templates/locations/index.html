@@ -2,66 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'js/ui/ui',
-             'common',
-             'js/locations/follow',
-             'js/userspace/background'],
-
-    function($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/locations/default/default-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -95,15 +36,28 @@
 </nav>
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container">
-        <h1 class="location-name-title">{{ location.name }}</h1>
         {% if request.user.is_superuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'locations:background' location.pk %}" method="post">
             {% csrf_token %}
             <input type="file" name="background" id="background" />
         </form>
-        <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
-        {% if user not in locations.users.all %}
-            <button class="btn btn-success btn-fallow-location">{% trans "Follow" %}</button>
+        <button class="btn btn-default change-background-btn" style="float:left;">{% trans "Change background image" %}</button>{% endif %}
+        {% if user not in location.users.all and user.is_authenticated %}
+            <!-- <button class="btn btn-success btn-follow-location">{% trans "Follow" %}</button> -->
         {% endif %}
+
+        <div class="title-container"> 
+            <div class="location-name-title">{{ location.name }}</div>
+            <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span>{{ location.users.all|length }}</div>
+            
+        {% if user not in location.users.all and user.is_authenticated %}
+            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+        {% else %}
+            <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+        {% endif %}
+            
+        </div>
+        
+
     </div>
 </div>
 <nav id="location-navbar" class="navbar navbar-default" role="navigation">

@@ -6,10 +6,9 @@
     te.
 {% endcomment %}
 
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-        <h3 class="actions-label">{% trans "Actions" %}:</h3>
-        <ul class="custom-sidebar-nav">  
+    <div class="sidebar">
+        <div class="sidebar-label">{% trans "Actions" %}:</div>
+        <ul class="sidebar-content custom-sidebar-nav">  
             {% if user.is_authenticated %}                 
             {% if 'new_discussion' in links %}<li>
                 <a href="{% url 'locations:new_topic' location.slug %}">
@@ -59,34 +58,36 @@
             </li>{% endif %}
             {% endif %}
         </ul>
-    </ul>
+	
+    <div class="followers-sidebar">
+        <div class="sidebar-label">{% trans "Most active users" %}:</div>
+		<div class="sidebar-content followers-box">
+			{% for usr in location.users.all %}
+			<div class="follower">
+				<a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+				<img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
+				</a>
+			</div>
+			{% endfor %}
+		</div>
+    </div>
+	
+	<div class="clear"></div>
 
     {% if tags %}
-    <div class="tags">
+	<div class="sidebar-label">{% trans "Tags" %}:</div>
+    <div class="sidebar-content tags">
         <ul>
         {% for tag, counter in tags %}
             <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
         {% endfor %}
         </ul>
     </div>
-    {% endif %}
 
-    <div class="sidebar-right">
-    <div class="followers-sidebar">
-    <h3 class="title">{% trans "Most active users" %}</h3>
-    <div class="followers-box">
-        {% for usr in location.users.all %}
-        <div class="follower">
-            <a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-            <img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
-        </a>
-        </div>
-     {% endfor %}
-<div class="clear"></div>
-     </div>
-     </div>
+    {% endif %}
+	
     </div>
-</div>
+
 
 {% if user.is_authenticated %}
     {% comment %}

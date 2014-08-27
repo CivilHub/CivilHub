@@ -2,6 +2,7 @@
 import os
 from django.db import models
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -26,11 +27,33 @@ class UserProfile(models.Model):
     Profil użytkownika.
     """
     user = AutoOneToOneField(User, primary_key=True, related_name='profile')
-    lang = models.CharField(max_length=10, default=settings.LANGUAGE_CODE)
+    lang = models.CharField(
+        max_length = 7,
+        choices = settings.LANGUAGES,
+        default = settings.LANGUAGE_CODE
+    )
     description = models.TextField(blank=True, null=True)
-    birth_date  = models.CharField(max_length=10, blank=True)
     rank_pts  = models.IntegerField(blank=True, default=0)
+    birth_date = models.CharField(max_length=10, blank=True, null=True)
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
+    gender = models.CharField(
+        max_length=1,
+        choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
+        blank=True,
+        null=True
+    )
+    gplus_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name=_("Google+ profile url")
+    )
+    fb_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name = _("Facebook profile url")
+    )
     avatar = models.ImageField(
         upload_to = "img/avatars/",
         default = 'img/avatars/anonymous.png',

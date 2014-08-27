@@ -2,61 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            bootbox: 'includes/bootstrap/bootbox',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'js/gallery/mediaForm',
-             'common'],
-
-    function ($, MediaForm) {
-        "use strict"
-        var form = new MediaForm();
-        $('.media-form-toggle').on('click', function (e) {
-            e.preventDefault();
-            form.toggle();
-        });
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/gallery/media-form/media-form-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -65,7 +11,7 @@
     <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
     <script>Shadowbox.init();</script>
 
-    <div class="col-sm-9">
+    <div class="col-sm-8">
         <div id="gallery">
             {% for file in files %}
             <div class="col-sm-6 col-md-4 file-entry">
@@ -88,7 +34,7 @@
         <div class="custom-clear">&nbsp;</div>
         {% if user.is_authenticated %}
         <button class="btn btn-default media-form-toggle">Upload file</button>
-        <div id="media-form">
+        <div id="media-form" class="create-form">
             <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
@@ -109,6 +55,8 @@
         {% endif %}
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

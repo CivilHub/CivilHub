@@ -6,6 +6,7 @@ from views import *
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('entries', NewsAPIView, 'entries')
+router.register('categories', BlogCategoryAPIViewSet, 'categories')
 
 urlpatterns = patterns('',
     # Get single news entry in JSON format

@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-import hashlib, datetime, random, string, os
+import hashlib, datetime, random, string, os, json, re
 from json import dumps
 from PIL import Image
 from datetime import timedelta
 from django.utils import timezone
 from bookmarks.models import Bookmark
 from ipware.ip import get_ip
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseBadRequest, \
+                         HttpResponseForbidden, HttpResponseNotFound
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -26,28 +27,104 @@ from actstream.models import model_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
-from helpers import UserActionStream
+from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
 from forms import *
 # REST api
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
+from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
-from .serializers import BookmarkSerializer, UserAuthSerializer
+from .managers import SocialAuthManager
+from .serializers import BookmarkSerializer, \
+                          UserAuthSerializer, \
+                          UserSerializer, \
+                          SocialAuthSerializer
+
+
+class SocialApiView(rest_views.APIView):
+    """
+    Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
+    korzysta z backendu Python Social Auth w celu ułatwienia integracji.
+    Domyślnie prezentowana jest lista wszystkich kont.
+    
+    Logowanie/rejestracja przez API wymaga podania jednego z backendów:
+    `twitter`, `facebook`, `google-plus`, `linkedin`.
+    
+    Przykładowe dane do zapytania (server_response to odpowiedzi od providera): 
+    
+    <pre><code>{
+        provider: 'facebook',
+        uid: '8777323423',
+        details: encodeURI(server_response_1),
+        response: encodeURI(server_response_2)
+    }</code></pre>
+    
+    Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
+    usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
+    sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
+    tworzy nowe. W odpowiedzi otrzymamy obiekt z id oraz tokenem uwierzytelnia-
+    jącym użytkownika.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        queryset = UserSocialAuth.objects.all()
+        serializer = SocialAuthSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        from social.apps.django_app.utils import load_strategy
+        from urllib2 import unquote
+        strategy = load_strategy()
+        uid = request.DATA.get('uid')
+        provider = request.DATA.get('provider')
+        details = json.loads(unquote(request.DATA.get('details')))
+        response = json.loads(unquote(request.DATA.get('response')))
+        try:
+            social = UserSocialAuth.objects.get(provider=provider,uid=uid)
+            return Response({'user_id': social.user.pk,
+                              'auth_token': social.user.auth_token.key})
+        except UserSocialAuth.DoesNotExist:
+            manager = SocialAuthManager(provider, uid, details)
+            manager_data = manager.is_valid()
+            return Response({'user_id': manager.user.pk,
+                              'auth_token': manager.user.auth_token.key})
+
+
+class UserAPIViewSet(viewsets.ModelViewSet):
+    """
+    Zarządzanie listą użytkowników z poziomu aplikacji mobilnej. Widok zapewnia
+    wszystkie operacje CRUD na liście użytkowników.
+    
+    ### Tworzenie użytkownika:
+    Pola wymagane: *username*, *first_name*, *last_name*, *password*, *email*
+    
+    **UWAGA**: Ten widok nie korzysta z polityki uprawnień Django (bo nie ma takiej
+    fizycznej możliwośći). Trzeba **UWAŻNIE** przemyśleć implementację systemu w
+    środowisku produkcyjnym.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    paginate_by = None
+    permission_classes = (rest_permissions.AllowAny,)
 
 
 class UserAuthAPIViewSet(viewsets.ViewSet):
     """
+    *Deprecated*: Lepiej korzystać z interfejsu pod adresem `/api-userspace/social_auth/`
+    
     Tutaj wysyłamy nazwę providera oraz uid użytkownika social auth w celu
     pobrania instancji użytkownika w systemie Django. Dane należy wysłać
     getem, jeżeli użytkownik istnieje w systemie, zostaną zwrócone jego
-    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi 404. Przykład:
+    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi "Forbidden". 
+    Przykład:
     
-    ?provider=google-plus?id=tester@gmail.com
+    ```/api-userspace/socials/?provider=google-plus?id=tester@gmail.com```
     
-    TODO: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
+    **TODO**: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
     """
     queryset = User.objects.all()
     serializer_class = UserAuthSerializer
@@ -63,18 +140,57 @@ class UserAuthAPIViewSet(viewsets.ViewSet):
         return Response("Forbidden")
 
 
+class CredentialCheckAPIView(rest_views.APIView):
+    """
+    Widok pozwalający w prosty sposób sprawdzić, czy podany adres email lub
+    nazwa użytkownika zostały już zarejestrowane w systemie. 
+    
+    #### Przykład zapytania o adres email:
+    
+    ```/api-userspace/credentials/?email=tester@test.pl```
+    
+    #### Przykład zapytania o nazwę użytkownika:
+    
+    ```/api-userspace/credentials/?uname=tester```
+    
+    W każdym przypadku otrzymujemy w odpowiedzi prosty obiekt z własnością 
+    `valid` ustawioną na `true` lub `false`.
+    """
+    queryset = User.objects.all()
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        email = request.QUERY_PARAMS.get('email')
+        uname = request.QUERY_PARAMS.get('uname')
+        valid = False
+        if email and re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            try:
+                usr = User.objects.get(email=email)
+            except User.DoesNotExist:
+                valid = True
+        elif uname:
+            try:
+                usr = User.objects.get(username=uname)
+            except User.DoesNotExist:
+                valid = True
+        return Response({'valid': valid})
+
+
 class BookmarkAPIViewSet(viewsets.ModelViewSet):
     """
     Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
     z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
     w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
-    konkretnym użytkownikiem o danym ID.
+    konkretnym użytkownikiem o danym ID, np.:
+    
+    `/api-userspace/bookmarks/?pk=2`
     
     Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
-    typu zawartości (content_type), oraz id konkretnego obiektu (object_id).
+    typu zawartości (`content_type`), oraz id konkretnego obiektu (`object_id`).
     "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
     """
     queryset = Bookmark.objects.all()
+    paginate_by = None
     serializer_class = BookmarkSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
@@ -112,35 +228,68 @@ class SetTwitterEmailView(FormView):
         return redirect(reverse('social:complete', kwargs={'backend':'twitter'}))
 
 
-def index(request):
+class ProfileUpdateView(UpdateView):
+    """ User profile settings. """
+    model = UserProfile
+    template_name = 'userspace/index.html'
+    context_object_name = 'profile'
+
+    def get_object(self):
+        try:
+            return self.request.user.profile
+        except UserProfile.DoesNotExist:
+            prof = UserProfile.objects.create(user=user)
+            prof.save()
+            return prof
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        context['title'] = self.object.user.get_full_name()
+        context['form'] = UserProfileForm(initial={
+            'first_name': self.object.user.first_name,
+            'last_name': self.object.user.last_name
+        }, instance=self.object)
+        context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
+        return context
+
+    def get(self, request):
+        if  request.user.is_anonymous():
+            return HttpResponseNotFound()
+        return super(ProfileUpdateView, self).get(request)
+
+
+def save_settings(request):
     """
-    User profile / settings
+    Save changes made by user in his/her profile
     """
-    if not request.user.is_authenticated():
-        return redirect('user:login')
-    user = User.objects.get(pk=request.user.id)
-    try:
-        prof = UserProfile.objects.get(user=user.id)
-    except:
-        prof = UserProfile()
-        prof.user = user
-        prof.save()
-        prof = UserProfile.objects.latest()
-    ctx = {
-        'user': user,
-        'profile': prof,
-        'appname': 'userarea',
-        'form': UserProfileForm(initial={
-                  'first_name': user.first_name,
-                  'last_name':  user.last_name,
-                  'email':      user.email,
-                  'description':prof.description,
-                  'birth_date': prof.birth_date,
-              }),
-        'avatar_form': AvatarUploadForm(),
-        'title': _('User Area'),
-    }
-    return render(request, 'userspace/index.html', ctx)
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.user.id)
+        prof = UserProfile.objects.get(user = user.id)
+        f = UserProfileForm(request.POST)
+        if f.is_valid():
+            user.first_name = f.cleaned_data['first_name']
+            user.last_name  = f.cleaned_data['last_name']
+            prof.birth_date = f.cleaned_data['birth_date']
+            prof.description= f.cleaned_data['description']
+            prof.gender = f.cleaned_data['gender']
+            prof.gplus_url = f.cleaned_data['gplus_url']
+            prof.fb_url = f.cleaned_data['fb_url']
+            error = None
+            if error != None:
+                ctx = {
+                    'user': user,
+                    'profile': prof,
+                    'form': f,
+                    'avatar_form': AvatarUploadForm(),
+                    'errors': f.errors,
+                    'title': _('User Area'),
+                }
+                return render(request, 'userspace/index.html', ctx)
+            user.save()
+            prof.save()
+            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
+            return redirect('user:index')
+    return HttpResponse(_('Form invalid'))
 
     
 def profile(request, username):
@@ -166,6 +315,10 @@ def register(request):
     Register new user via django system.
     """
     from rest_framework.authtoken.models import Token
+    
+    if request.user.is_authenticated():
+        return redirect('/activity')
+    
     if request.method == 'POST':
         f = RegisterForm(request.POST)
 
@@ -195,10 +348,7 @@ def register(request):
                     'title' : _("Registration"),
                     'errors': _("Selected username already exists. Please provide another one."),
                 }
-                if request.GET.get('homepage'):
-                    return render(request, 'staticpages/pages/home.html', ctx)
-                else:
-                    return render(request, 'userspace/register.html', ctx)
+                return render(request, 'staticpages/pages/home.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
 
@@ -244,18 +394,6 @@ def register(request):
             # Show confirmation
             return redirect('user:message_sent')
     
-        # form invalid - request made from Homepage
-        elif request.GET.get('homepage'):
-            ctx = {
-                'form': RegisterForm(initial={
-                    'username': request.POST.get('username'),
-                    'email':    request.POST.get('email')
-                }),
-                'title': _("Registration"),
-                'errors': f.errors,
-            }
-            return render(request, 'staticpages/pages/home.html', ctx)
-        # Form invalid
         else:
             ctx = {
                 'form': RegisterForm(initial={
@@ -265,14 +403,16 @@ def register(request):
                 'title': _("Registration"),
                 'errors': f.errors,
             }
-            return render(request, 'userspace/register.html', ctx)
+            return render(request, 'staticpages/pages/home.html', ctx)
 
     # Display registration form.
     ctx = {
         'form' : RegisterForm,
         'title': _("Registration"),
+        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
+        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
-    return render(request, 'userspace/register.html', ctx)
+    return render(request, 'staticpages/pages/home.html', ctx)
 
 
 def confirm_registration(request):
@@ -413,8 +553,8 @@ def login(request):
             try:
                 user = User.objects.get(email=f.cleaned_data['email'])
             except User.DoesNotExist as ex:
-                messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
-                return redirect(reverse('user:login'))
+                ctx = {'errors': _("Login credentials invalid")}
+                return render(request, 'userspace/login.html', ctx)
             username = user.username
             password = request.POST['password']
             user = auth.authenticate(username = username, password = password)
@@ -431,13 +571,16 @@ def login(request):
                         for i in range (len(datas) - 5):
                             datas[i].delete()
                     return redirect('activities:actstream')
-        messages.add_message(request, messages.ERROR, _('Login credentials invalid.'))
-        return redirect(reverse('user:login'))
+                else:
+                    ctx = {'errors': _("Your account has not been activated")}
+                    return render(request, 'userspace/login.html', ctx)
+        ctx = {'errors': _("Fields can not be empty")}
+        return render(request, 'userspace/login.html', ctx)
     f = LoginForm()
     ctx = {
         'title': _('Login'),
         'form': f,
-        'plus_scope': ' '.join(GooglePlusAuth.DEFAULT_SCOPE),
+        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
         'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
     return render(request, 'userspace/login.html', ctx)
@@ -449,37 +592,6 @@ def logout(request):
     """
     auth.logout(request)
     return redirect('user:login')
-
-
-def save_settings(request):
-    """
-    Save changes made by user in his/her profile
-    """
-    if request.method == 'POST':
-        user = User.objects.get(pk=request.user.id)
-        prof = UserProfile.objects.get(user = user.id)
-        f = UserProfileForm(request.POST)
-        if f.is_valid():
-            user.first_name = f.cleaned_data['first_name']
-            user.last_name  = f.cleaned_data['last_name']
-            prof.birth_date = f.cleaned_data['birth_date']
-            prof.description= f.cleaned_data['description']
-            error = None
-            if error != None:
-                ctx = {
-                    'user': user,
-                    'profile': prof,
-                    'form': f,
-                    'avatar_form': AvatarUploadForm(),
-                    'errors': f.errors,
-                    'title': _('User Area'),
-                }
-                return render(request, 'userspace/index.html', ctx)
-            user.save()
-            prof.save()
-            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-            return redirect('user:index')
-    return HttpResponse(_('Form invalid'))
 
 
 def chpass(request):
@@ -613,3 +725,13 @@ def change_background(request):
         profile.background_image = process_background_image(request.FILES['background'], 'img/backgrounds')
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
+
+
+class TestAPIView(rest_views.APIView):
+    """
+    Tutaj testujemy requesty i zapisujemy je do pliku.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def post(self, request):
+        pass

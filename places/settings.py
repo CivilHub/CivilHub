@@ -97,6 +97,8 @@ INSTALLED_APPS = (
     'maps',     # Custom app for Google Maps
     'staticpages', # Statyczne strony
     'civmail',  # Newsletter i obsługa maili
+    'articles', # Statyczne artykuły - support etc.
+    #'import_export',
 )
 
 
@@ -200,12 +202,19 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.create_user',
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
+    'social.pipeline.user.user_details',
+    'places_core.social_auth.create_user_profile',
+    'places_core.social_auth.update_user_social_profile',
 )
 
 # New Google+ login
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = '621695853095-7p2mrjthfvma0rq0loolpoocq6f94577.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'y4xJ9Vr18aQAkhyp8DDkaz5l'
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
+                                 'https://www.googleapis.com/auth/userinfo.email',
+                                 'https://www.googleapis.com/auth/userinfo.profile',
+                                 'https://www.googleapis.com/auth/plus.profile.emails.read',
+                                 'https://www.googleapis.com/auth/plus.me']
 
 SOCIAL_AUTH_FACEBOOK_KEY = '345109858975991'
 SOCIAL_AUTH_FACEBOOK_SECRET = '685c46b205d4aa87deee26826b1ca958'
@@ -232,7 +241,7 @@ ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
                'blog.news', 'polls.poll', 'comments.customcomment',
                'topics.discussion', 'userspace.userprofile', 'userspace.badge',
-               'gallery.locationgalleryitem', 'topics.entry'),
+               'gallery.locationgalleryitem', 'topics.entry', 'articles.article'),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
@@ -244,6 +253,9 @@ ACTSTREAM_SETTINGS = {
 #-------------------------------------------------------------------------------
 # django rest framework
 REST_FRAMEWORK = {
+    'PAGINATE_BY': 10,
+    'PAGINATE_BY_PARAM': 'per_page',
+    'MAX_PAGINATE_BY': 100,
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
@@ -292,6 +304,11 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
+LANGUAGES = (
+    ('en', 'English'),
+    ('pl', 'Polski'),
+)
+
 
 # Email settings
 #-------------------------------------------------------------------------------
@@ -338,7 +355,7 @@ THUMB_SIZES = [
 IMAGE_MAX_SIZE = (1024,1024)
 
 # Maximum size for location and profile pages background images
-BACKGROUND_IMAGE_SIZE = 2080
+BACKGROUND_IMAGE_SIZE = 2880
 
 # Settings for user avatar pictures
 AVATAR_SIZE = (128, 128)
@@ -346,6 +363,7 @@ AVATAR_THUMBNAIL_SIZES = [
     (30, 30),
     (60, 60),
     (90, 90),
+    (120, 120),
 ]
 
 
@@ -367,3 +385,9 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 #-------------------------------------------------------------------------------
 COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
 DEFAULT_COUNTRY_CODE = 'US'
+# Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
+LIST_PAGINATION_LIMIT = 50
+# Limit paginatora dla innych widoków (lista pomysłów, blog etc.)
+PAGE_PAGINATION_LIMIT = 5
+# Limit paginatora dla actstreamu dla usera (w zamierzeniu dla wszystkich)
+STREAM_PAGINATOR_LIMIT = 25

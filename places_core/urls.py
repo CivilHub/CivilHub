@@ -6,6 +6,7 @@ from places_core import views
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('content_types', views.ContentTypeAPIViewSet, 'content_types')
+router.register('search', views.SearchResultsAPIViewSet, 'search')
 
 
 urlpatterns = patterns('',

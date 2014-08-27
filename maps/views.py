@@ -61,7 +61,7 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     """
     queryset = MapPointer.objects.all()
     serializer_class = MapPointerSerializer
-    paginate_by = 10
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
@@ -234,7 +234,7 @@ def index(request):
         'zoom': country.zoom,
         'code': code,
         'content_types': ContentType.objects.all(),
-        'country_codes': country_codes(),
+        'countries': Country.objects.all(),
     })
 
 

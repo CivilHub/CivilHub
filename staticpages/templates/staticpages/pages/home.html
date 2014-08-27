@@ -3,67 +3,136 @@
 
 {% block title %}{% trans "Homepage" %}{% endblock %}
 
+{% block require_scripts %}
+
+<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+
+{% endblock %}
+
 {% block content %}
 
 {% comment %} First part with signup form. {% endcomment %}
 <div style="background: #fff;">
-    <div class="signup-view signup-view-background">
-    	<h1 class="home-first"> People have the Power</h1>
-    	<div class="narrow">
-			<div class="col-md-6 half">
-				<div class="start-text">
-					<h2>{% trans "Build your Place,</br>better, together, now!" %}</h2>
-					<p>{% trans "Collaborate to build, improve</br> our local communities." %}</p>
-					</br>
-					<p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
-				</div>
-			</div>
-		
-			{{ errors }}
-			
-			<div class="col-md-6 half">
-				<form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
-				{% csrf_token %}
-				<input type="hidden" name="frontpage" value="true">
-				<input id="username" class="long" type="text" name="username" placeholder="{% trans "Your username" %}">
-				<div>
-				 <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
-				 <input id="surname" class="short" type="text" name="last_name" placeholder="{% trans "Surname" %}">
-				</div>
-				<input id="email" class="long" type="text" name="email" placeholder="{% trans "Your email" %}">
-				<input id="pass1" class="long" type="password" name="password" placeholder="{% trans "Create a password" %}">
-				<input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
-				<div>
-
-				<button type="button" class="short social-button social-button-left" style="background: url({% static 'places_core/img/fb-connect.png' %}) no-repeat; 
-					background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'facebook' %}'">{% trans "Connect with Facebook" %}</button>
-					
-				<button type="button" class="short social-button" style="background: url({% static 'places_core/img/tw-connect.png' %}) no-repeat; 
-					background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
-					
-				<button type="button" class="short social-button social-button-left" style="background: url({% static 'places_core/img/lin-connect.png' %}) no-repeat; 
-					background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
-						
-				<button type="button" class="short social-button" style="background: url({% static 'places_core/img/gp-connect.png' %}) no-repeat; 
-					background-size: 100% auto;" onClick="location.href='{% url 'social:begin' 'google' %}'">{% trans "Connect with Google+" %}</button>
+    <div class="signup-view signup-view-background" style="height: 700px;">
+        <h1 class="home-first"> People have the Power</h1>
+        
+        <div class="row" style="margin: 0">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 half">
+                <div class="before-start-text">
+                    <h2 style="font-size: 40px; font-weight: 300;">{% trans "CivilHub is a space,<br />where we can together change<br />the local environment for the better place" %}.</h2>
+                </div>
             </div>
-            <button id="signup_button" type="button" class="long signup-button">{% trans "Sign up" %}</button>
+        </div>
+
+        <div class="row" style="margin: 0">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="mc_embed_signup" class="notify">
+                    <form action="//civilhub.us9.list-manage.com/subscribe/post?u=6760a74c9b91ab265846a295d&amp;id=b37c46ef36" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="col-md-6">
+                            <input type="email" left" class="form-control" value="" name="EMAIL" id="mce-EMAIL" placeholder="{% trans "Your email address" %}" required>
+                        </div>
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_6760a74c9b91ab265846a295d_b37c46ef36" tabindex="-1" value=""></div>
+                        <div class="col-md-6">
+                            <input type="submit" value="{% trans "Notify me" %}" name="subscribe" id="mc-embedded-subscribe" class="submit-button">
+                        </div>
+                        <br />
+                        <p>{% trans "CivilHub starts: 1 october at 3.00 PM, CEST</br>Location: Atlantic Cinema, Warsaw, Chmielna Street, Poland" %}</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+        {% comment %}
+        <div class="narrow">
+            <div class="col-md-6 half">
+                <div class="start-text">
+                    <h2>{% trans "Build your Place,</br>better, together, now!" %}</h2>
+                    <p>{% trans "Collaborate to build, improve</br> our local communities." %}</p>
+                    </br>
+                    <p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
+                </div>
+            </div>
+        
+            {{ errors }}
+            
+            <div class="col-md-6 half">
+
+              <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+                <script type="text/javascript">
+                    (function () {
+                        var po = document.createElement('script');
+                        po.type = 'text/javascript';
+                        po.async = true;
+                        po.src = 'https://plus.google.com/js/client:plusone.js?onload=render';
+                        var s = document.getElementsByTagName('script')[0];
+                        s.parentNode.insertBefore(po, s);
+                    })();
+                  
+                    var signInCallback = function (result) {
+                        if (result['error']) {
+                            console.log('An error happened:', result['error']);
+                        } else {
+                            $('#code').attr('value', result['code']);
+                            $('#at').attr('value', result['access_token']);
+                            $('#google-plus').submit();
+                        }
+                    };
+                  
+                    function render() {
+                        gapi.signin.render('googleplus', {
+                            'scope': '{{ plus_scope }}',
+                            'clientid': '{{ plus_id }}',
+                            'redirecturi': '{% url 'user:passet' %}',
+                            'accesstype': 'offline',
+                            'cookiepolicy': 'single_host_origin',
+                            'callback': 'signInCallback'
+                        });
+                    };
+                    
+                </script>
+            
+                <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
+                {% csrf_token %}
+                <input id="username" class="long" type="text" name="username" placeholder="{% trans "Your username" %}">
+                <div>
+                 <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
+                 <input id="surname" class="short" type="text" name="last_name" placeholder="{% trans "Surname" %}">
+                </div>
+                <input id="email" class="long" type="text" name="email" placeholder="{% trans "Your email" %}">
+                <input id="pass1" class="long" type="password" name="password" placeholder="{% trans "Create a password" %}">
+                <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+                <div>
+  
+                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
+                    
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+                    
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                        
+                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
+                    
+            </div>
+            <button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
             </br>
 
             <p class="terms">
             {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.
             </p>
+            
             </form>
-			<script type="text/javascript">
-				$('#signup_button').on('click', function(){
-
-						  
-							$('#pl-register-form').popover('show'); 
-	
-				});
-			</script>
-			
+            
+            <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+                {% csrf_token %}
+                <input id="at" type="hidden" name="access_token" value="" />
+                <input id="code" type="hidden" name="code" value="" />
+            </form>
+                
         </div>
+        {% endcomment %}
     </div>
         <div class="clear"></div>
 </div>
@@ -72,93 +141,93 @@
 
     {% comment %} Second part - Why Should I use. {% endcomment %}
     <div class="why-view">
-        <h2>{% trans "We believe that people have the</br>Power to change our World." %}</h2>
+        <h2>{% trans "We believe that people have the</br>Power to <b>change our World</b>." %}</h2>
         <span><a href="#">Grzegorz Warzecha</a>, {% trans "CivilHub.org founder" %}</span>
-	<div class="row">
-		<div class="homepage-divider"> </div>
+    <div class="row">
+        <div class="homepage-divider"> </div>
         <h2>{% trans "Why Should I Use CivilHub?" %}</h2>
         <span class="subheader">{% trans "Powerful features to make your Place more collaborative." %}</span></br>
         <div class="line">
-    	    </br>
-	    <div class="clear"></div>
+            </br>
+        <div class="clear"></div>
         </div>
         <div class="why-table">
-			<div class="col-md-4 top20">
-				<img src="{% static 'places_core/img/point.png' %}"></br>
-			<b>{% trans "Find the Place, where you live" %}</b></br>
-				{% trans "We have more than 80 thousand places, but You can always create own for your housing, village." %}
-			</div>
-			<div class="col-md-4 top20">
-				<img src="{% static 'places_core/img/collaboration.png' %}"></br>
-			<b>{% trans "Collaborate with People !@#$%!." %}</b></br>
-				{% trans "Great collaboration starts with communication. We always want to know what happens near us." %}
-			</div>
-			<div class="col-md-4 top20">
-				<img src="{% static 'places_core/img/idea.png' %}"></br>
-			<b>{% trans "Share Your Ideas" %}</b></br>
-				{% trans "You and other people have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
-			</div>
+            <div class="col-md-4 top32">
+                <img src="{% static 'places_core/img/point.png' %}"></br>
+            <b>{% trans "Find the Place, where you live" %}</b></br>
+                {% trans "We have more than 80 thousand places, but You can always create own for your housing, village." %}
+            </div>
+            <div class="col-md-4 top32">
+                <img src="{% static 'places_core/img/collaboration.png' %}"></br>
+            <b>{% trans "Collaborate with People !@#$%!." %}</b></br>
+                {% trans "Great collaboration starts with communication. We always want to know what happens near us." %}
+            </div>
+            <div class="col-md-4 top32">
+                <img src="{% static 'places_core/img/idea.png' %}" style="width: 39px;"></br>
+            <b>{% trans "Share Your Ideas" %}</b></br>
+                {% trans "People have knowledge, what we should change in our community. Don't be a fool, tell what You think." %}
+            </div>
 
-			<div class="col-md-4 top20">
-				<img src="{% static 'places_core/img/polls.png' %}"></br>
-			<b>{% trans "Wyrażaj swoją opinię" %}</b></br>
-				{% trans "Srawdzaj poprzez krótkie ankiety co myślą inni na dowolny temat. Miej wpływ na to co się dzieje." %}
-			</div>
-			<div class="col-md-4 top20">
-			<img src="{% static 'places_core/img/projects.png' %}"></br>
-			<b>{% trans "Start local Projects" %}</b></br>
-				{% trans "Wdrażajmy pomysły w życie rozpoczynając wspólnie obywatelskie oddolne inicjatywy." %}
-			</div>
-			<div class="col-md-4 top20">
-			<img src="{% static 'places_core/img/documents.png' %}"></br>
-			<b>{% trans "Share Your Knowledge" %}</b></br>
-				{% trans "Razem wiemy więcej o miejscu w którym żyjemy. Dzielmy się tą wiedzą aby wspólnie czynić świat lepszym." %}
-			</div>
+            <div class="col-md-4 top32">
+                <img src="{% static 'places_core/img/polls.png' %}"></br>
+            <b>{% trans "Create local Polls" %}</b></br>
+                {% trans "Find out what others think about proposed changes. Crowd is always right." %}
+            </div>
+            <div class="col-md-4 top32">
+            <img src="{% static 'places_core/img/projects.png' %}"></br>
+            <b>{% trans "Start local Projects" %}</b></br>
+                {% trans "Implements our ideas to life, starting with joint local civil initiatives. Together we can do all what we want." %}
+            </div>
+            <div class="col-md-4 top32">
+            <img src="{% static 'places_core/img/documents.png' %}"></br>
+            <b>{% trans "Share Your Knowledge" %}</b></br>
+                {% trans "Together we know more about the places where we live. Let us share this knowledge to make the world a better place." %}
+            </div>
         </div>
     </div>
         <div class="clear"></div>
         <div class="homepage-divider"> </div>
 
-	{% comment %} Third part with example pageview. {% endcomment %}
+    {% comment %} Third part with example pageview. {% endcomment %}
 
         <h2>{% trans "Be proud of the Place, where You live" %}</h2>
         <span class="subheader">{% trans "Stay connected with People who live next to You." %}</span></br>
         <div class="line">
-    	    </br>
-	    <div class="clear"></div>
+            </br>
+        <div class="clear"></div>
         </div>
 
         <div class="proud-table">
-	    <div class="col-md-6 left-part">
-	        <h3>{% trans "Take the local social participation to the next level" %}</h3>
-	        <div class="row-part">
-				<div class="col-md-2"></div>
-	    	    <div class="col-md-10">
-					<h4><img src="{% static 'places_core/img/free.png' %}" class="left-img" />{% trans "Everything is for free, always." %}</h4>
-					{% trans "Korzystanie z funkcji portalu zawsze będzie darmowe. Najważniejsze abyś ty sam chciał" %}
-	    	    </div>
-	        </div>
-	        </br> </br>
-	        <div class="row-part">
-				<div class="col-md-2"></div>
-	    	    <div class="col-md-10">
-	    	        <h4><img src="{% static 'places_core/img/cloud.png' %}" class="left-img">{% trans "Dedicate pages for Your Place" %}</h4>
-					{% trans "Korzystanie z funkcji portalu zawsze będzie darmowe. Korzystanie z funkcji portalu zawsze będzie dar" %}
-				</div>
-	        </div>
-	        </br> </br>
-	        <div class="row-part">
-				<div class="col-md-2"></div>
-	    	    <div class="col-md-10">
-				<h4><img src="{% static 'places_core/img/glass.png' %}" class="left-img" />{% trans "Wszystko jest jawne" %}</h4>
-		        {% trans "Możesz zobaczyć, kto co kiedy pisał, bez potrzeby rejestracji przeglądać wszystkie treści portalu." %}
-				</div>
-	        </div>
-	    </div>
-	    <div class="col-md-6 right-part">
-	        <img class="pageview" src="{% static 'places_core/img/pageview.jpg' %}">
-			<div class="clear"></div>
-	    </div>
+        <div class="col-md-6 left-part">
+            <h3>{% trans "Take the local social participation to the next level" %}</h3>
+            <div class="row-part">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <h4><img src="{% static 'places_core/img/free.png' %}" class="left-img" />{% trans "Everything is for free, always." %}</h4>
+                    {% trans "We want everyone to use modern tools for collaboration in local communities. App must be free, modern and simple." %}
+                </div>
+            </div>
+            </br> </br>
+            <div class="row-part">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    <h4><img src="{% static 'places_core/img/cloud.png' %}" class="left-img">{% trans "Dedicate pages for Your Place" %}</h4>
+                    {% trans "Each location, city, district, neighborhood, village, may have their own dedicated place where co-create this place." %}
+                </div>
+            </div>
+            </br> </br>
+            <div class="row-part">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                <h4><img src="{% static 'places_core/img/glass.png' %}" class="left-img" />{% trans "Public access for content" %}</h4>
+                {% trans "There is nothing to be ashamed of. Each activity on the site is publicly available. See what your neighbor think about your proposal." %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 right-part">
+            <img class="pageview" src="{% static 'places_core/img/pageview.jpg' %}">
+            <div class="clear"></div>
+        </div>
         </div>
     </div>
     <div class="clear"></div>
@@ -166,36 +235,35 @@
 
     {% comment %} Fourth part with map. {% endcomment %}
     <div class="why-view">
-	<h2>{% trans "Everything what you do, you can point it on the Map" %}</h2>
+    <h2>{% trans "Everything what you do, you can point it on the Map" %}</h2>
         <span class="subheader">{% trans "Ideas, Discussions, Polls pointed in specific places." %}</span></br>
         <div class="line">
-    	    </br>
-	    <div class="clear"></div>
+            </br>
+        <div class="clear"></div>
         </div>
     </div>
     <div class="map-view">
-	{% comment %}<img src="{% static 'places_core/img/map.jpg' %}">{% endcomment %}
+    {% comment %}<img src="{% static 'places_core/img/map.jpg' %}">{% endcomment %}
     </div>
-    <div class="clear"></div>
+  
     
     <div class="homepage-divider"> </div>
 
     {% comment %} Fifth part with mobile access. {% endcomment %}
-    <div class="access-view">
-	<div class="col-md-3">
-Zdjecie
-	</div>
-	<div class="col-md-9">
-	    <h3>{% trans "Mobile access to all content from anywhere" %}</h3>
-	    <p>
-		{% trans 'W najbliższym czasie opublikujemy aplikacje mobilne, dzięki którym będziesz mógł korzystać z portalu ze swoich ulubionych urządzeń.' %}
-	    </p>
-	    <img class="img-appstore img-left" src="{% static 'places_core/img/appstore.jpg' %}">
-	    <img class="img-googleplay img-left" src="{% static 'places_core/img/googleplay.jpg' %}">
-	</div>
+    <div class="row access-view">
+    <div class="col-lg-4">
+        <img src="{% static 'places_core/img/mobile-bottom.jpg' %}" class="img-mobile left-img" />
+    </div>
+    <div class="col-lg-8">
+        <h3>{% trans "Mobile access to all content from anywhere" %}</h3>
+        <p>
+        {% trans 'Coming to work, or in your free time, directly from your phone you can decide whether you are for or against ideas, proposed by those around you.' %}
+        </p>
+        <img class="img-appstore img-left" src="{% static 'places_core/img/appstore.jpg' %}">
+        <img class="img-googleplay img-left" src="{% static 'places_core/img/googleplay.jpg' %}">
+    </div>
     </div>
     
-    <div class="clear"></div>
 </div>
 
 

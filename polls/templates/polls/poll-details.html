@@ -2,95 +2,27 @@
 {% load staticfiles %}
 {% load bookmarks_tags %} {% load i18n %}
 {% block title %} {{ poll.title }}, {{ location.name }} | CivilHub {% endblock %}
+
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            async: 'includes/require/async',
-            moment: 'includes/momentjs/moment',
-            mapinput: 'js/ui/jquery.mapinput'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'common',
-             'js/maps/minimap',
-             'js/maps/pointer',
-             'js/comments/commentlist'], function ($) {
-        
-        "use strict";
-        
-        var runMinimap = function () {
-            
-            {% if map_markers %}
-                var minimapData = [];
-                {% for m in map_markers %}
-                minimapData.push({
-                    lat: '{{ m.latitude }}',
-                    lng: '{{ m.longitude }}',
-                    pk: '{{ m.pk }}'
-                });
-                {% endfor %}
-                $('#minimap').minimap(minimapData);
-                
-            {% else %}
-                return true;
-            {% endif %}
-        
-        };
-        
-        setTimeout(function () {
-            runMinimap();
-        }, 2000);
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>
+var pollapp = {markers:[]};
+{% for m in map_markers %}
+pollapp.markers.push({
+    lat: '{{ m.latitude }}',
+    lng: '{{ m.longitude }}',
+    pk: '{{ m.pk }}'
+});
+{% endfor %}
+</script>
+<script data-main="{% static 'places_core' %}/js/build/polls/details/poll-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
 
     {% include 'maps/pointer-modal-form.html' %}
 
-    <div class="col-sm-9 main-content">
-        <h1>{{ poll.title }}&nbsp;<span class="fa fa-cog submenu-toggle"> </span></h1>
+    <div class="col-sm-8 main-content">
+        <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
                 <li>{% bookmark_form for poll %}</li>
@@ -99,9 +31,9 @@
         </div>
         <hr />
         
-        {% if map_markers %}{% include 'maps/minimap.html' %}{% endif %}
+        {% if map_markers %}<div id="minimap"></div>{% endif %}
         
-        <div>{{ poll.question | safe }}</div>
+        <div class="acticle-content">{{ poll.question | safe }}</div>
         
         {% if can_vote %}
         <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
@@ -117,8 +49,11 @@
             <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
         </p>
         {% endif %}
+        
     </div>
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
 
 {% endblock %}

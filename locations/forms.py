@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from taggit.forms import TagField
@@ -11,6 +12,13 @@ from locations.models import Location, get_country_codes
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
+from geobase.models import Country
+
+
+def get_country_names():
+    """ Funkcja zwracająca nazwy państw do przedstawienia w formularzu. """
+    return [(c.location.pk, c.location.name) for c in Country.objects.all()]
+
 
 class LocationForm(forms.ModelForm):
     """
@@ -22,15 +30,15 @@ class LocationForm(forms.ModelForm):
         label = _('Name'),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
-    country_code = forms.ChoiceField(
+    country_code = forms.ModelChoiceField(
         required = True,
         label = _("Country code"),
-        choices = get_country_codes(),
+        queryset = Country.objects.all(),
         widget = forms.Select(attrs={'class':'form-control'})
     )
-    parent = forms.ModelChoiceField(
+    parent = forms.ChoiceField(
         required = False,
-        queryset = Location.objects.all(),
+        choices = get_country_names(),
         label = _('Parent'),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
@@ -65,6 +73,15 @@ class LocationForm(forms.ModelForm):
         fields = ('name', 'description', 'country_code', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
 
+    def clean(self):
+        cleaned_data = super(LocationForm, self).clean()
+        try:
+            location = Location.objects.get(pk=self.cleaned_data['parent'])
+        except Location.DoesNotExist:
+            self._errors['parent'] = (_("Selected location does not exist"))
+        self.cleaned_data['parent'] = location
+        return cleaned_data
+
 
 class IdeaLocationForm(forms.ModelForm):
     """
@@ -90,7 +107,9 @@ class IdeaLocationForm(forms.ModelForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField()
+    tags = TagField(
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Idea
@@ -105,12 +124,12 @@ class NewsLocationForm(forms.ModelForm):
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     content = forms.CharField(
-        required = False,
+        required = True,
         max_length = 10248,
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     category = forms.ModelChoiceField(
-        required = False,
+        required = True,
         queryset = BlogCategory.objects.all(),
         widget = forms.Select(attrs={'class': 'form-control'})
     )

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.core.urlresolvers import reverse
 from taggit.models import Tag
@@ -21,6 +22,28 @@ from locations.models import Location
 from polls.models import Poll
 
 
+class TranslatedModelSerializer(serializers.ModelSerializer):
+    """
+    Serializer dla obiektów przerobionych przez django-modeltranslation.
+    """
+    def __init__(self, *args, **kwargs):
+        super(TranslatedModelSerializer, self).__init__(*args, **kwargs)
+        ct = ContentType.objects.get_for_model(self.Meta.model)
+        self.queryset = ct.get_all_objects_for_this_type()
+        self.fields = self.get_fields()
+
+    def get_fields(self):
+        from rest_framework.fields import ModelField
+        baned_idx = []
+        fields = super(TranslatedModelSerializer, self).get_fields()
+        for field, val in fields.iteritems():
+            if not get_language().replace('-','_') in field and \
+            isinstance(val, ModelField):
+                baned_idx.append(field)
+        for idx in baned_idx: del fields[idx]
+        return fields
+
+
 class MyActionsSerializer(serializers.Serializer):
     """
     Serializer for user activity stream.
@@ -30,7 +53,6 @@ class MyActionsSerializer(serializers.Serializer):
     timestamp = serializers.Field(source='timesince')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
-    #object_ct = serializers.Field(source='action_object_content_type.model')
     object_ct = serializers.SerializerMethodField('get_verbose_name')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
@@ -91,9 +113,9 @@ class MyActionsSerializer(serializers.Serializer):
                 return truncatehtml(obj.data['comment'], 140) + ' <a href="' + obj.data['comment_url'] + '">' + _("More") + '</a>'
             elif obj.verb == 'voted on':
                 if obj.data['vote']:
-                    return obj.actor.first_name + ' ' + _("like this") + '.'
+                    return '<div class="vote-up">' + _("Voted yes") + '</div>'
                 else:
-                    return obj.actor.first_name + ' ' + _("don't like this") + '.'
+                    return '<div class="vote-down">' + _("Voted no") + '</div>'
                 return obj.data['vote']
             elif ct.model == 'idea':
                 return truncatehtml(target.description, 140)
@@ -611,12 +633,16 @@ class GalleryItemSerializer(serializers.ModelSerializer):
 class UserMediaSerializer(serializers.ModelSerializer):
     """ Serializer for items in user gallery. """
     id = serializers.Field(source='pk')
-    picture_name = serializers.CharField()
+    picture_name = serializers.CharField(required=False)
     picture_url = serializers.Field(source='url')
     thumbnail = serializers.SerializerMethodField('get_thumbnail')
 
     def get_thumbnail(self, obj):
         return obj.get_thumbnail((128,128))
+
+    def pre_save(self, obj):
+        request = self.context.get('request', None)
+        self.user = request.user
 
     class Meta:
         model = UserGalleryItem

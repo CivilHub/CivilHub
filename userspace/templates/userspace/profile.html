@@ -1,77 +1,41 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %} 
 
+{% block meta %}
+<meta property="og:image" content="{{ profile.avatar.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta name="keywords" content="{{ cuser.get_full_name }}, {{ cuser.username }}">
+{% endblock %}
+
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'common',
-             'js/userspace/background',
-             'js/userspace/actions/actions'],
-
-    function($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.API_URL = "{% url 'rest:my_actions-list' %}";</script>
+<script>window.USER_ID = "{{ cuser.pk }}";</script>
+<script data-main="{% static 'places_core' %}/js/build/userspace/profile/userspace-profile-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block header %}
 
-    <div class="location-logo" style="background-image:url({{ profile.background_image.url }})">
+    <div class="user-logo" style="background-image:url({{ profile.background_image.url }})">
         <div class="container">
-            {% if request.user == cuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
+            {% if request.user == cuser %}
+            <form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
                 {% csrf_token %}
                 <input type="file" name="background" id="background" />
             </form>
-            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button>{% endif %}
+            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button><br />
+            {% endif %}
+            
+            <div class="user-info">
+                <div class="profile-page-avatar">
+                    <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
+                </div>
+                <div class="user-fullname">
+                    {{ cuser.get_full_name }}
+                </div>
+                {% if request.user != cuser %}
+                    <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
+                {% endif %}
+            </div>
         </div>
     </div>
     <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
@@ -84,8 +48,8 @@
                   <span class="icon-bar"></span>
                 </button>
               </div>
-            <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
-		<ul class="nav navbar-nav navbar-nav-userspace">
+            <div class="row collapse navbar-collapse" id="bs-location-collapse-menu">
+        <ul class="nav navbar-nav navbar-nav-userspace">
                     <li><a href="#" class="list-controller userspace active" data-control="content" data-target=""><span class="ch-icon ch-content navbar-icon"></span>{% trans "Everything" %}</a></li>
                     <li><a href="#" class="list-controller userspace" data-control="content" data-target="news"><span class="ch-icon ch-blog navbar-icon"></span>{% trans "Blog" %}</a></li>
                     <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion"><span class="ch-icon ch-discussions navbar-icon"></span>{% trans "Discussions" %}</a></li>
@@ -100,9 +64,9 @@
                         <div class="form-group">
                             <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
                         </div>
-                        <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+                        <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
                     </form>
-		</ul>
+        </ul>
             </div>
         </div>
     </nav>
@@ -110,42 +74,44 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="user-activities col-sm-9">
         
-        <div class="col-sm-3 user-data">
-            <div class="profile-page-avatar">
-                <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
+        <div class="col-lg-3">
+            <div class="sidebar" style="margin-right: 0px">
+            {% if profile.description %}
+                <div class="sidebar-label">{% trans "About me"%}</div>
+                <div class="sidebar-content">
+                    {{ profile.description|striptags }}
+                </div>
+            {% endif %}
+                <div class="sidebar-label">{% trans "Places"%}</div>
+                <div class="sidebar-content">
+                    {% if profile.followed_locations %}
+                        <ul class="sprite-icon">
+                        {% for location in profile.followed_locations %}
+                            <li><span class="ch-icon ch-subspaces"></span><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <!--{% if profile.badges %}
+                        <ul class="user-badges-list">
+                        {% for badge in profile.badges.all %}
+                            <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+                        {% endfor %}
+                        </ul>
+                {% endif %} -->
             </div>
-            <p class="profile-page-details">
-                {{ cuser.get_full_name }}
-                <br />
-                {{ profile.rank_pts }}
-            </p>
-            {% if profile.badges %}
-                <ul class="user-badges-list">
-                {% for badge in profile.badges.all %}
-                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-            {% if profile.followed_locations %}
-                <ul class="user-following-list">
-                {% for location in profile.followed_locations %}
-                    <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-                {% endfor %}
-                </ul>
-            {% endif %}
         </div>
         
-        <div class="col-sm-9 main-content user-activity-stream">
-            
+        <div class="col-lg-5">
+            <div class=" activity-stream">
             {% for action in stream %}<noscript>
-                <div class="row user-action-entry">
+                <div class="row action-entry">
                     
                     <div class="col-xs-2 entry-avatar-col">
-                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="inline-user-avatar" />
-                        <p>{{ action.actor.profile.rank_pts }}</p>
+                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="user-avatar" />
+                        {{ action.actor.profile.rank_pts }}
                     </div>
                     
                     <div class="col-xs-10 entry-meta-col">
@@ -191,32 +157,31 @@
                         </div>
                         <div class="clear">&nbsp;</div>
                         <div class="entry-footer">
-						<br /><br /><br /><br />
                             {% trans "Share" %}:
-							<a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org">
-								<span class="fa fa-facebook">&nbsp;</span>
-							</a>
-							 
-							<a href="https://twitter.com/home?status=http://civilhub.org">
-								<span class="fa fa-twitter">&nbsp;</span>
-							</a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org" target="Facebook">
+                                <span class="fa fa-facebook">&nbsp;</span>
+                            </a>
+                             
+                            <a href="https://twitter.com/home?status=http://civilhub.org" target="Twitter">
+                                <span class="fa fa-twitter">&nbsp;</span>
+                            </a>
                         </div>
                     </div><!-- // .entry-meta-col -->
                     
                 </div><!-- // .user-action-entry -->
             </noscript>{% endfor %}
-            
+            </div>
         </div><!-- // .user-activity-stream -->
-        
-    </div><!-- // .user-activities -->
+
+    <!-- // .user-activities -->
     
     <script type="text/template" id="action-template">
-        <div class="col-xs-2 entry-avatar-col">
-            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="inline-user-avatar" />
-            <p><%= actor.rank_pts %></p>
+        <div class="col-md-2 entry-avatar-col">
+            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
+            <%= actor.rank_pts %>
         </div>
         
-        <div class="col-xs-10 entry-meta-col">
+        <div class="col-md-10 entry-meta-col">
             <div class="entry-header">
                 <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
                 <%= verb %>
@@ -237,19 +202,16 @@
             <div class="clear">&nbsp;</div>
             <div class="entry-footer">
                 {% trans "Share" %}: 
-				<% if (!_.isEmpty(object.url)) { %>
-						<a href="https://www.facebook.com/sharer/sharer.php?u=<%= object.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
-						<a href="https://twitter.com/home?status=<%= object.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
-				<% } else if (!_.isEmpty(target.url)) { %>
-					<a href="https://www.facebook.com/sharer/sharer.php?u=<%= target.url %>"> <span class="fa fa-facebook">&nbsp;</span> </a>
-					<a href="https://twitter.com/home?status=<%= target.url %>"> <span class="fa fa-twitter">&nbsp;</span> </a>
-				<% } %>
+                <% if (!_.isEmpty(object.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                <% } else if (!_.isEmpty(target.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                <% } %>
             </div>
         </div><!-- // .entry-meta-col -->
     </script>
-    
-    <input type="hidden" name="rest_api_url" id="rest-api-url" value="{% url 'rest:my_actions-list' %}" />
-    <input type="hidden" name="rest_api_usr" id="rest-api-usr" value="{{ cuser.pk }}" />
 
     {% include 'userspace/sidebar.html' %}
     

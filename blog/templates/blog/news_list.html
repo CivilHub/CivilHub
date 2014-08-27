@@ -2,14 +2,14 @@
 
 <script type="text/template" id="news-entry-tpl">
 <div class="row">
-    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= user_full_name %>" class="news-user-avatar" /></div>
+    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= user_full_name %>" class="user-avatar user-window-toggle" /></div>
     <div class="col-xs-11">
         <h3><a href="<%= slug %>"><%= title %></a></h3>
         <p>
             {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <span class="date-created"><%= date_created %></span>.
             <% if (edited) { %>- {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.<% } %>
         </p>
-        <p class="custom-booklike"><%= content %></p>
+        <p class="custom-booklike acticle-content"><%= content %></p>
         <div class="clear">&nbsp;</div>
         <a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
         <div class="row">
@@ -18,7 +18,7 @@
             </p>
             <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
             <% for (var i = 0; i < tags.length; i++) { %>
-                <a href="<%= tags[i].url %>"><%= tags[i].name %></a>, 
+                <a class="tag" href="<%= tags[i].url %>"><%= tags[i].name %></a> 
             <% } %> 
             </p>
         </div>
@@ -30,5 +30,7 @@
     </div>
 </div>
 </script>
+
+{% include 'places_core/paginator.html' %}
 
 {% include 'locations/category-form.html' %}

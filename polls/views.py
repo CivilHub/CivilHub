@@ -120,7 +120,7 @@ class BasicPollView(View):
             for poll in polls:
                 ctx['results'].append(BasicPollSerializer(poll).data)
 
-            paginator = SimplePaginator(ctx['results'], 50)
+            paginator = SimplePaginator(ctx['results'], settings.LIST_PAGINATION_LIMIT)
             page = request.GET.get('page') if request.GET.get('page') else 1
             ctx['current_page'] = page
             ctx['total_pages'] = paginator.count()

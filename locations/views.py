@@ -40,23 +40,132 @@ from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image
 # REST views
 from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework import permissions as rest_permissions
+from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from geobase.models import Country
 from locations.serializers import MapLocationSerializer
-from .serializers import SimpleLocationSerializer
+from .serializers import SimpleLocationSerializer, LocationListSerializer
+from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
+
+
+class LocationFollowAPIView(APIView):
+    """
+    Wyjście REST na funkcję obserwowania lokalizacji. Generalnie wysyłamy tutaj
+    POST z jednym parametrem - `pk` lokalizacji. Jeżeli użytkownik już obserwuje
+    tę lokalizację, zostanie usunięty z listy obserwatorów i vice-versa.
+    Za każdym razem w odpowiedzi otrzymujemy obiekt z wartością follow ustawioną
+    na `true` lub `false` w zależności od faktycznego stanu po zmianie,tzn. jeżeli
+    użytkownik zaczął obserwować lokalizację, otrzymamy coś takiego:
+    
+    ```{
+        follow: true
+    }```
+    """
+    permission_classes = (rest_permissions.IsAuthenticated,)
+
+    def post(self, request):
+        pk = request.DATA.get('pk', None)
+        user = request.user
+        context = {}
+        if pk:
+            location = get_object_or_404(Location, pk=pk)
+            if not user in location.users.all():
+                location.users.add(user)
+                location.save()
+                follow(user, location, actor_only = False)
+                context['follow'] = True
+            else:
+                location.users.remove(user)
+                location.save()
+                unfollow(user, location)
+                context['follow'] = False
+        return Response(context)
 
 
 class LocationAPIViewSet(viewsets.ModelViewSet):
     """
     REST view for mobile app. Provides a way to manage and add new locations.
+    Możliwe jest wyszukanie konkretnego kraju na podstawie codu kraju (TYLKO
+    lokacji powiązanej z krajem). W tym celu dodajemy parametr `code`, np:
+    
+    ```/api-locations/locations/?code=pl```
+    
+    W wyniku otrzymamy wówczas pojedynczy obiekt lokacji (w tym przypadku Polska)
     """
     model = Location
     serializer_class = SimpleLocationSerializer
-    paginate_by = 25
+    paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
+
+    def list(self, request):
+        code = request.QUERY_PARAMS.get('code', None)
+        print code
+        if code:
+            location = Location.objects.get(country__code=code.upper())
+            serializer = self.serializer_class(location)
+            serializer.data['followed'] = request.user in location.users.all()
+            return Response(serializer.data)
+        return super(LocationAPIViewSet, self).list(request)
+
+
+class LocationActionsRestViewSet(viewsets.ViewSet):
+    """
+    Zwraca listę akcji powiązanych z miejscami. Wymagane jest podanie `pk`
+    docelowej lokalizacji. Dodatkowo możemy przefiltrować listę pod względem
+    typów zawartości obiektu (`action_object`), dodając parametr `ct` w 
+    zapytaniu (id typu zawartości). Wyniki prezentowane są dokładnie w takiej
+    samej formie jak dla actstreamów użytkowników.
+    
+    #### Przykład:
+    ```/api-locations/actions/?pk=2&ct=28```
+    
+    Widok tylko do odczytu. Jeżeli nie podamy `pk` żadnej lokalizacji, otrzymamy
+    w odpowiedzi pustą listę.
+    """
+    serializer_class = MyActionsSerializer
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly,)
+    
+    def get_queryset(self, pk=None, ct=None):
+        from actstream.models import model_stream
+        if not pk: return []
+        content_type = ContentType.objects.get_for_model(Location).pk
+        stream = model_stream(Location).filter(target_content_type_id=content_type)
+        try:
+            location = Location.objects.get(pk=pk)
+            stream = stream.filter(target_object_id=location.pk)
+        except Location.DoesNotExist:
+            return []
+        if ct:
+            stream = stream.filter(action_object_content_type_id=ct)
+        return stream
+        
+        
+    def list(self, request):
+        pk = request.QUERY_PARAMS.get('pk', None)
+        ct = request.QUERY_PARAMS.get('ct', None)
+        queryset = self.get_queryset(pk, ct)
+        
+        page = request.QUERY_PARAMS.get('page')
+        paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
+        try:
+            actions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            actions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            actions = paginator.page(paginator.num_pages)
+
+        serializer_context = {'request': request}
+        serializer = PaginatedActionSerializer(actions,
+                                             context=serializer_context)
+        return Response(serializer.data)
 
 
 class LocationMapViewSet(viewsets.ModelViewSet):
@@ -90,6 +199,32 @@ class LocationMapViewSet(viewsets.ModelViewSet):
             return locations
         else:
             return Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+
+
+class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Prosty widok umożliwiający pobranie listy lokalizacji z podstawowymi informacjami.
+    Domyślnie prezentowana jest lista wszystkich lokalizacji. Do parametrów GET
+    możemy dodać `pk` lokalizacji, której bezpośrednie "dzieci" chcemy pobrać, np.:
+    
+    ```/api-locations/sublocations/pk=1```
+    """
+    queryset = Location.objects.all()
+    serializer_class = LocationListSerializer
+    permission_classes = (rest_permissions.AllowAny,)
+    paginate_by = None
+
+    def get_queryset(self):
+        pk = self.request.QUERY_PARAMS.get('pk', None)
+        if pk:
+            try:
+                location = Location.objects.get(pk=pk)
+                queryset = location.location_set.all()
+            except Location.DoesNotExist:
+                queryset = Location.objects.all()
+            return queryset
+        return Location.objects.all()
+
 
 class LocationNewsList(DetailView):
     """
@@ -258,7 +393,7 @@ class LocationDiscussionsList(DetailView):
         location = super(LocationDiscussionsList, self).get_object()
         context  = super(LocationDiscussionsList, self).get_context_data(**kwargs)
         discussions = Discussion.objects.filter(location=location)
-        paginator   = Paginator(discussions, 50)
+        paginator   = Paginator(discussions, settings.LIST_PAGINATION_LIMIT)
         page = self.request.GET.get('page')
 
         try:
@@ -318,7 +453,7 @@ def ajax_discussion_list(request, slug):
     if meta:
         queryset = queryset.order_by(meta)
 
-    paginator = Paginator(queryset, 50)
+    paginator = Paginator(queryset, settings.LIST_PAGINATION_LIMIT)
 
     context = {}
 
@@ -363,7 +498,6 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 })
             }
         return render(request, self.template_name, ctx)
-                
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -382,7 +516,9 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
             )
             mp.save()
             mp = MapPointer.objects.latest('pk')
-            print mp
+            from geobase.storage import CountryJSONStorage
+            cjs = CountryJSONStorage()
+            cjs.dump_data(topic.location.country_code, False, True)
         super(LocationDiscussionCreate, self).form_valid(form)
         return redirect(reverse('locations:topic', 
             kwargs = {
@@ -412,8 +548,8 @@ class SublocationList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(SublocationList, self).get_context_data(**kwargs)
-        sublocations = self.object.get_ancestor_chain()
-        max_per_page = 25
+        sublocations = self.object.location_set.all()
+        max_per_page = settings.LIST_PAGINATION_LIMIT
         paginator    = Paginator(sublocations, max_per_page)
         context      = {}
         page         = self.request.GET.get('page')
@@ -425,7 +561,7 @@ class SublocationList(DetailView):
         except EmptyPage:
             context['sublocations'] = paginator.page(paginator.num_pages)
 
-        if len(context['sublocations']) <= max_per_page:
+        if paginator.num_pages <= max_per_page:
             context['navigation'] = False
         else:
             context['navigation'] = True
@@ -446,6 +582,24 @@ class LocationFollowersList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
+        
+        followers = self.object.users.all()
+        max_per_page = settings.LIST_PAGINATION_LIMIT
+        paginator    = Paginator(followers, max_per_page)
+        page         = self.request.GET.get('page')
+
+        try:
+            context['followers'] = paginator.page(page)
+        except PageNotAnInteger:
+            context['followers'] = paginator.page(1)
+        except EmptyPage:
+            context['followers'] = paginator.page(paginator.num_pages)
+
+        if paginator.num_pages <= max_per_page:
+            context['navigation'] = False
+        else:
+            context['navigation'] = True
+            
         context['title'] = self.object.name + ', ' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
@@ -659,7 +813,7 @@ class LocationContentFilter(View):
                 'title'   : _("Search by category"),
                 'location': location,
                 'items'   : items,
-                context['tags']: TagFilter(location).get_items()
+                'tags'    : TagFilter(location).get_items()
             })
 
 

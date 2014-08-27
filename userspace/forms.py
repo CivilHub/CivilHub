@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -101,10 +102,10 @@ class LoginForm(forms.Form):
     )
 
 
-class UserProfileForm(forms.Form):
+class UserProfileForm(forms.ModelForm):
     """
     Edit user profile data (excluding picture upload)
-    """ 
+    """
     first_name = forms.CharField(
         label = _("First name"),
         max_length = 64,
@@ -124,15 +125,30 @@ class UserProfileForm(forms.Form):
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     birth_date = forms.CharField(
-        label = _("Birth date"),
-        max_length = 10,
+        label = _("Birth date (dd/mm/YYYY)"),
         required = False,
-        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date',})
+        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date','readonly':'readonly'})
+    )
+    gender = forms.ChoiceField(
+        required = False,
+        choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
+        widget = forms.Select(attrs={'class':'form-control','id':'gender'})
+    )
+    gplus_url = forms.URLField(
+        label = _("Google+ profile url"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+    fb_url = forms.URLField(
+        label = _("Facebook profile url"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'description', 'birth_date')
+        fields = ('first_name', 'last_name', 'gender', 'description',
+                  'birth_date', 'gplus_url', 'fb_url',)
 
 
 class PasswordResetForm(forms.Form):
@@ -173,8 +189,8 @@ class PasswordRemindForm(forms.Form):
     Formularz dla użytkowników, którzy zapomnieli hasła.
     """
     email = forms.EmailField(
-        label = _("Email address"),
-        widget = forms.EmailInput(attrs={'class': 'form-control'})
+        label = '',
+        widget = forms.EmailInput(attrs={'class': 'form-control', 'placeHolder': _('Enter your email address')})
     )
 
 

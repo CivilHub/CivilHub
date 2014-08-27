@@ -2,140 +2,35 @@
 {% load staticfiles %} {% load i18n %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            ckeditor: 'includes/ckeditor/ckeditor',
-            dropzone: 'includes/dropzone/dropzone',
-            jqueryui: 'includes/jquery-ui/jquery-ui',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-            
-            ckeditor: {
-                exports: 'CKEDITOR'
-            },
-            
-            dropzone: {
-                deps: ['jquery'],
-                exports: 'Dropzone'
-            },
-            
-            jqueryui: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery',
-             'underscore',
-             'bootstrap',
-             'tagsinput',
-             'js/editor/customCKEditor',
-             'common'],
-
-    function ($, _) {
-        
-        "use strict";
-        
-        $('#id_question').customCKEditor('custom');
-        $('#id_title').focus();
-        $('#id_tags').tagsInput({
-            autocomplete_url: '/rest/tags/',
-        });
-        function ActiveAnswer (id) {
-            return {
-                id: id,
-                $el: $('<div class="answer-entry"></div>'),
-                tpl: _.template($('#answer-entry-tpl').html()),
-                render: function () {
-                    var _that = this;
-                    _that.$el.html(_that.tpl({id: id}));
-                    _that.$el.find('.delete-entry-btn').on('click', function (evt) {
-                        evt.preventDefault();
-                        _that.$el.fadeOut('slow', function () {
-                            _that.$el.empty().remove();
-                        });
-                    });
-                    return _that.$el;
-                }
-            }
-        }
-        function createAnswer () {
-            var id = $('.answer-entry').length + 1,
-                a = new ActiveAnswer(id);
-            $('#poll-answer-form').append(a.render());
-        }
-        $('.add-answer-btn').tooltip().bind('click', function (evt) {
-            evt.preventDefault();
-            createAnswer();
-        });
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/polls/create/poll-create-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
 
-    <div class="col-sm-9">
-        <form action="" method="post" role="form" id="poll-create-form">
-            {% csrf_token %}
-            {{ form }}
-            <div id="poll-answer-form"></div>
-            <p>
-                <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
-                    <span class="fa fa-plus-circle"> </span>
-                </button>
-            </p>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-            </div>
-        </form>
+    <div class="col-sm-8 main-content">
+        <div class="create-form">
+            <h3>{% trans "Create poll in " %} {{ location.name }}</h3>
+            <form action="" method="post" role="form" id="poll-create-form">
+                {% csrf_token %}
+                {{ form }}
+                <div id="poll-answer-form"></div>
+                <p>
+                    <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
+                        <span class="fa fa-plus-circle"> </span>
+                    </button>
+                </p>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
     
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
     
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-4">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
     <script type="text/template" id="answer-entry-tpl">
         <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>

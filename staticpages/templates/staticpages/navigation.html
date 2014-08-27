@@ -1,0 +1,15 @@
+{% load staticfiles %} {% load i18n %}
+{% comment %}
+    This is main top navigation panel to include in other templates.
+{% endcomment %}
+<nav id="home-navbar-top"class="navbar-home navbar-top-border" role="navigation">
+    <div class="container">
+        <div class="col-sm-10">
+            <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"></a>
+        </div>
+        
+        <div class="col-sm-2">
+            <button type="button" class="submit-button">{% trans "Login" %}</button>
+        </div>
+    </div>
+</nav>

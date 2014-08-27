@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.utils.translation import gettext as _
-from .models import News
+from rest.serializers import TranslatedModelSerializer
+from .models import Category, News
+
+
+class NewsCategorySerializer(TranslatedModelSerializer):
+    """
+    Prosty serializer dla kategorii newsów w blogu.
+    """
+    class Meta:
+        model = Category
+        exclude = ('slug',)
 
 
 class NewsSimpleSerializer(serializers.ModelSerializer):

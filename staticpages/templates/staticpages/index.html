@@ -13,78 +13,29 @@
 {% block extra_styles %}{% endblock %}
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script src="{% static 'places_core/includes/require/require.js' %}"></script>
+<script>window.STATIC_URL = "{% static 'places_core' %}"</script>
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery', 'utils', 'common'], function ($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-    
+<script data-main="{% static 'places_core' %}/js/build/staticpages/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 </head>
 
-<body>
+<body style="padding-top: 0;">
 
-{% include 'places_core/navigation.html' %}
+{% include 'staticpages/navigation.html' %}
 
+<div class="wrap">
 {% block content %}
 
     {% comment %}Tutaj wchodzi kod pojedynczej statycznej strony.{% endcomment %}
 
 {% endblock %}
+</div>
 
 {% include 'places_core/footer.html' %}
+
+<script type="text/javascript" src="{% static 'places_core/includes/retina/retina.min.js' %}"></script>
 
 </body>
 </html>

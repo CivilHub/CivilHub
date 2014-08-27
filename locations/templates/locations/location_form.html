@@ -4,99 +4,37 @@
 {% block title %}{% trans "Create location" %}{% endblock %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            dropzone: 'includes/dropzone/dropzone',
-            mapinput: 'js/ui/jquery.mapinput',
-            ckeditor: 'includes/ckeditor/ckeditor',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            'async': 'includes/require/async',
-            'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
-            'jqueryui': 'includes/jquery-ui/jquery-ui'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-            
-            dropzone: {
-                exports: 'Dropzone'
-            },
-            
-            ckeditor: {
-                exports: 'CKEDITOR'
-            },
-            
-            'bootstrap-fileinput': {
-                deps: ['bootstrap']
-            },
-            
-            'jquery-ui': {
-                deps: ['jquery']
-            }
-        }
-    });
-
-    require(['jquery', 'js/locations/locationForm', 'common'], function ($, DiscussionForm) {
-        
-        var form = new DiscussionForm();
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script data-main="{% static 'places_core' %}/js/build/locations/create/location-create-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
 
-    {% if action and action == 'edit' %}
-        <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
-    {% else %}
-        <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
-    {% endif %}
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-        </div>
-    </form>
-    {% include 'gallery/media-uploader.html' %}
+<div class="col-sm-3 top15">
+    <div class="sidebar left">
+        <div class="sidebar-label">{% trans "Rules" %}</div>
+        <div class="sidebar-content"></div>
+    </div>
+</div>
 
+<div class="col-sm-9 main-content top15">
+    <div class="create-form">
+        {% if action and action == 'edit' %}
+            <h3>{% trans "Edit location" %}</h3>
+            <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
+        {% else %}
+            <h3>{% trans "Create location" %}</h3>
+            <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
+        {% endif %}
+            {% csrf_token %}
+            {{ form }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            </div>
+        </form>
+        
+        {% include 'gallery/media-uploader.html' %}
+        
+    </div>
+    
+</div>
 {% endblock %}

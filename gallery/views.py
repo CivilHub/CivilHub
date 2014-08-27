@@ -20,6 +20,94 @@ from comments.models import CustomComment
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter
 from .models import LocationGalleryItem, UserGalleryItem
+from .serializers import UserMediaSerializer
+
+from rest.permissions import IsOwnerOrReadOnly
+from rest_framework import viewsets
+from rest_framework.response import Response
+
+
+class UserGalleryAPIViewSet(viewsets.ModelViewSet):
+    """
+    Wyjście dla galerii użytkownika. W tym wypadku serializer stosowany jest
+    tylko jako read only. Widok sam dba o utworzenie elementu w bazie danych
+    i przygotowanie wszystkich miniaturek. Zalogowany użytkownik może tutaj
+    przejrzeć swoją galerię. Anonimowi użytkownicy nie mają praw do tego widoku
+    i dostaną w odpowiedzi 403.
+    """
+    queryset = UserGalleryItem.objects.all()
+    serializer_class = UserMediaSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+
+    def list(self, request):
+        if request.user.is_authenticated():
+            queryset = self.queryset.filter(user=request.user)
+            serializer = self.serializer_class(queryset, many=True,
+                                                context={'request':request})
+            return Response(serializer.data)
+        else:
+            return HttpResponseForbidden()
+
+    def create(self, request):
+        if not request.user.is_authenticated():
+            return HttpResponseForbidden()
+
+        if not create_gallery(request.user.username):
+            return Response({
+                'success': False,
+                'message': _("Cannot create gallery"),
+                'level': 'danger',
+            })
+        
+        username = request.user.username    
+        filepath = os.path.join(settings.MEDIA_ROOT, username)
+        image = Image.open(request.FILES.get('file'))
+        filename = gallery_item_name()
+        width, height = image.size
+        if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
+            image.thumbnail(settings.IMAGE_MAX_SIZE)
+        image.save(os.path.join(filepath, filename), "JPEG")
+        create_gallery_thumbnail(username, filename)
+        
+        item = UserGalleryItem(
+            user = request.user,
+            picture_name = filename,
+        )
+        item.save()
+        
+        serializer = self.serializer_class(item, context={'request':request})
+        
+        return Response({
+            'success': True,
+            'message': _("File uploaded"),
+            'level': 'success',
+            'item': serializer.data,
+        })
+
+    def delete(self, request, pk=None):
+        if not pk:
+            return Response({
+                'success': False,
+                'level': 'danger',
+                'message': _("No item ID provided")
+            })
+
+        item = get_object_or_404(UserGallerItem, pk=pk)
+        
+        try:
+            item.delete()
+        except Exception as ex:
+            return Response({
+                'success': False,
+                'level': 'danger',
+                'message': str(ex),
+            })
+
+        return Response({
+                'success': True,
+                'level': 'success',
+                'message': _("Item deleted")
+            })
 
 
 def create_gallery(gallery_name):
@@ -158,6 +246,8 @@ class UserGalleryView(GalleryView):
                 'thumb': picture.get_thumbnail((128,128)),
                 'href': picture.url(),
             })
+        if request.is_ajax():
+            return HttpResponse(json.dumps(context['files']))
         return render(request, 'gallery/user-gallery.html', context)
 
     def post(self, request):

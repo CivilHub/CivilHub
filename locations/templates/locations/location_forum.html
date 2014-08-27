@@ -1,60 +1,12 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
+
 {% block title %} {{ location.name }}, {% trans "Discussions" %} | CivilHub {% endblock %}
+
 {% block require_scripts %}
 
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            common: 'js/common',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery', 'common', 'js/topics/discussion-list/discussions'],
-    
-    function ($) {
-        
-        "use strict";
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
+    <script>window.pageSize = {% page_size 'list' %};</script>
+    <script data-main="{% static 'places_core' %}/js/build/topics/list/discussion-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 
 {% endblock %}
 
@@ -101,7 +53,7 @@
             <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
         </ul>
 
-	<ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
         <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
         <li class="navbar-text">{% trans "Stats" %}</li>
         <span class="bs-navbar-soon">(soon)</span>
@@ -119,11 +71,11 @@
 
 {% block content %}
 </div>
-<div class="container">
 
-<div class="row">
-    <div class="col-sm-9">
-        <div class="main-content">
+
+<div class="container">
+    <div class="col-sm-9 main-content">
+        
             <div class="discussion-list-entry">
                 <div class="custom-label-list">
                     <span class="fa fa-list custom-fa"> </span>
@@ -178,12 +130,14 @@
                 {% include 'topics/discussion-list.html' %}
                 
             </div>
-        </div>
+        
     </div>
     
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />
 
-    {% include 'locations/sidebar.html' %}
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
     
 </div><!-- / .row -->
     

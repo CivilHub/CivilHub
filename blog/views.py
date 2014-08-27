@@ -3,6 +3,7 @@ import json, datetime
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
@@ -25,7 +26,7 @@ from places_core.helpers import SimplePaginator, truncatehtml
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from .serializers import NewsSimpleSerializer
+from .serializers import NewsSimpleSerializer, NewsCategorySerializer
 
 
 class NewsAPIView(viewsets.ModelViewSet):
@@ -34,13 +35,22 @@ class NewsAPIView(viewsets.ModelViewSet):
     """
     queryset = News.objects.all()
     serializer_class = NewsSimpleSerializer
-    paginate_by = 10
+    paginate_by = settings.PAGE_PAGINATION_LIMIT
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsModeratorOrReadOnly,
                           IsOwnerOrReadOnly,)
 
     def pre_save(self, obj):
         obj.creator = self.request.user
+
+
+class BlogCategoryAPIViewSet(viewsets.ModelViewSet):
+    """
+    """
+    queryset = Category.objects.all()
+    serializer_class = NewsCategorySerializer
+    paginate_by = None
+    permission_classes = (rest_permissions.IsAdminUser,)
 
 
 class BasicNewsSerializer(object):
@@ -160,7 +170,7 @@ class BasicBlogView(View):
             for news in news_list:
                 ctx['results'].append(BasicNewsSerializer(news).data)
 
-            paginator = SimplePaginator(ctx['results'], 15)
+            paginator = SimplePaginator(ctx['results'], settings.PAGE_PAGINATION_LIMIT)
             page = request.GET.get('page') if request.GET.get('page') else 1
             ctx['current_page'] = page
             ctx['total_pages'] = paginator.count()

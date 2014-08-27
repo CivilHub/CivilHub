@@ -1,0 +1,98 @@
+{% load staticfiles %}{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
+<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+
+{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
+{% block extra_styles %}{% endblock %}
+
+<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
+<script src="{% static 'places_core/includes/require/require.js' %}"></script>
+
+{% block require_scripts %}
+
+    <script>
+    require.config({
+        baseUrl: "{% static 'places_core' %}",
+        
+        urlArgs: "bust=" + (new Date()).getTime(),
+        
+        waitSeconds: 200,
+        
+        paths: {
+            jquery: 'includes/jquery/jquery',
+            bootstrap: 'includes/bootstrap/bootstrap',
+            underscore: 'includes/underscore/underscore',
+            backbone: 'includes/backbone/backbone',
+            tagsinput: 'includes/jquery/jquery.tagsinput',
+            bootbox: 'includes/bootstrap/bootbox',
+            ui: 'js/ui/ui',
+            utils: 'js/utils/utils',
+            common: 'js/common'
+        },
+        
+        shim: {
+            underscore: {
+                deps: ['jquery'],
+                exports: '_'
+            },
+            
+            backbone: {
+                deps: ['underscore'],
+                exports: 'Backbone'
+            },
+            
+            bootstrap: {
+                deps: ['jquery']
+            },
+            
+            bootbox: {
+                deps: ['bootstrap'],
+                exports: 'bootbox'
+            },
+            
+            tagsinput: {
+                deps: ['jquery']
+            },
+        }
+    });
+
+    require(['jquery', 'utils', 'common'], function ($) {
+        
+        $(document).trigger('load');
+        
+    });
+    </script>
+    
+{% endblock %}
+
+</head>
+
+<body style="padding: 0;">
+
+<div class="not-found-page">
+
+    <div class="not-found-content">
+        <div class="not-found-info">
+            <h1>{% trans "404 Page" %}</h1>
+            <h2>{% trans "We lost something" %}... </h2>
+        </div>
+        
+        <div class="back-to-home">
+            <div class="logo"> <img src="/static/places_core/img/logo-footer.png" /> </div>
+            <input type="button" class="submit-button" onclick="location.href='/'" value="{% trans 'Back to Home Page' %}">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+    

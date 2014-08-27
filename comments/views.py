@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import CustomComment, CommentVote
 
 
@@ -50,10 +51,23 @@ def get_comment_tree(request, object_id, app_label, model_label):
     Get complete comment tree for designated target
     """
     comments = get_related_comments(object_id, app_label, model_label)
-    ctx = []
+    ctx = {'results': []}
+    paginator = Paginator(comments, setting.PAGE_PAGINATION_LIMIT)
+    page = request.GET.get('page')
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        comments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        comments = paginator.page(paginator.num_pages)
+
+    ctx['next'] = str(int(page)+1) if page < paginator.num_pages else None
+    ctx['prev'] = str(int(page)-1) if page > 1 else None
     
     for comment in comments:
-        ctx.append({
+        ctx['results'].append({
             'comment': comment.comment,
             'submit_date': comment.submit_date.strftime('%Y-%m-%d %H:%M'),
             'author': comment.user.username,

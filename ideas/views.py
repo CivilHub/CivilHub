@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 # Use generic django views
 from django.views.generic import View, DetailView
@@ -29,14 +30,21 @@ from comments.models import CustomComment
 # Custom permissions
 from places_core.permissions import is_moderator
 # REST API
-from serializers import IdeaSimpleSerializer
+from serializers import IdeaSimpleSerializer, IdeaVoteSerializer
 from rest_framework import permissions, viewsets
+from rest_framework.views import APIView
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 
 
 class IdeaAPIViewSet(viewsets.ModelViewSet):
     """
-    Simple ViewSet for mobile API.
+    Zarządzanie listą pomysłów. Domyślnie widok prezentuje listę wszystkich
+    pomysłów.
+    
+    Tworzenie idei (pola wymagane):
+        name        string, max_length=64
+        description string/html, max_length=20480
+        location    int, Location object pk
     """
     model = Idea
     serializer_class = IdeaSimpleSerializer
@@ -47,6 +55,41 @@ class IdeaAPIViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.creator = self.request.user
+
+
+class IdeaVoteAPIViewSet(viewsets.ModelViewSet):
+    """
+    Widok dla głosów na idee. Domyślnie prezentuje listę wszystkich głosów.
+    Możliwe jest filtrowanie wyników na podstawie ID użytkownika oraz ID idei,
+    poprzez wprowadzenie odpowiednich parametrów w zapytaniu, np.:
+    
+        `/api-ideas/votes/?user=1&idea=3`
+    
+    Tworzenie idei (pola obowiązkowe):
+        user (int)     pk użytkownika
+        idea (int)     pk idei
+        vote (boolean) Vote up/down
+        
+    Widok nie obsługuje paginacji.
+    """
+    model = Vote
+    paginate_by = None
+    serializer_class = IdeaVoteSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsModeratorOrReadOnly,)
+
+    def get_queryset(self):
+        queryset = Vote.objects.all()
+        user = self.request.QUERY_PARAMS.get('user')
+        idea = self.request.QUERY_PARAMS.get('idea')
+        try:
+            if idea:
+                queryset = queryset.filter(idea=Idea.objects.get(pk=idea))
+            if user:
+                queryset = queryset.filter(user=User.objects.get(pk=user))
+        except Exception:
+            queryset = []
+        return queryset
 
 
 def get_votes(idea):
@@ -193,9 +236,9 @@ class BasicIdeaView(View):
         elif status == 'True':
             queryset = queryset.filter(status=True)
 
-        if request.GET.get('category') and request.GET.get('category') != 'all':
-            category = Category.objects.get(pk=request.GET.get('category'))
-            queryset = queryset.filter(category=category)
+        category = request.QUERY_PARAMS.get('category')
+        if category: queryset = queryset.filter(category__pk=category)
+        print category
 
         time_delta = None
         time = request.GET.get('time')

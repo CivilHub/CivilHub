@@ -1,68 +1,9 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
 {% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            paginator: 'includes/backbone/backbone.paginator',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common',
-            bootbox: 'includes/bootstrap/bootbox',
-            list: 'js/topics/news-list/niew',
-            moment: 'includes/momentjs/moment'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery',
-             'js/blog/news-list/blog',
-             'common'], function ($) {
-        
-        "use strict";
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-
+<script>window.pageSize = {% page_size %};</script>
+<script data-main="{% static 'places_core' %}/js/build/blog/list/news-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}
@@ -105,9 +46,9 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-        	<li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
-        	<li class="navbar-text">{% trans "Stats" %}</li>
-        	<span class="bs-navbar-soon">(soon)</span>
+            <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+            <li class="navbar-text">{% trans "Stats" %}</li>
+            <span class="bs-navbar-soon">(soon)</span>
             </ul>
 
 
@@ -126,8 +67,6 @@
 {% block content %}
 
     <div class="col-sm-9 main-content">
-
-            {% comment %}<div id="entries" class="all-entries"></div>{% endcomment %}
 
         <div id="entries"></div>
 
@@ -167,14 +106,15 @@
         <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
 
         {% include 'blog/news_list.html' %}
+        
+        {% include 'locations/category-form.html' %}
 
     </div>
-
 
 {% endblock %}
 
 {% block sidebar %}
-
-    {% include 'locations/sidebar.html' %}
-
+    <div class="col-sm-3">
+        {% include 'locations/sidebar.html' %}
+    </div>
 {% endblock %}

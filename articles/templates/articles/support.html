@@ -1,0 +1,8 @@
+{% extends 'places_core/base.html' %}
+{% load i18n %}{% load staticfiles %}
+
+{% block content %}
+    {% for article in articles %}
+        <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+    {% endfor %}
+{% endblock %}
