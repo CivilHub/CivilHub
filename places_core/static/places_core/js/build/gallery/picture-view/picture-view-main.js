@@ -14,6 +14,7 @@ require.config({
         jquery: 'includes/jquery/jquery',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
@@ -36,6 +37,11 @@ require.config({
         
         bootstrap: {
             deps: ['jquery']
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {

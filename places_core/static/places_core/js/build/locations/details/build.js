@@ -1,21 +1,12 @@
-//
-// Domyślne skrtypty dla podstron lokalizacji => /templates/locations/index.html
-// -----------------------------------------------------------------------------
-
-require.config({
-    baseUrl: window.STATIC_URL,
-    
-    urlArgs: "bust=" + (new Date()).getTime(),
-    
-    waitSeconds: 200,
-    
+({
+    baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
+        bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
+        tagsinput: 'includes/jquery/jquery.tagsinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -44,17 +35,7 @@ require.config({
         tagsinput: {
             deps: ['jquery']
         },
-    }
-});
-
-require(['jquery',
-         'js/ui/ui',
-         'common',
-         'js/locations/follow',
-         'js/userspace/background'],
-
-function($) {
-    
-    $(document).trigger('load');
-    
-});
+    },
+    name: "js/build/locations/details/location-details-main",
+    out: "location-details-built.js"
+})

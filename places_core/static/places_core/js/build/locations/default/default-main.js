@@ -1,16 +1,21 @@
-({
-    baseUrl: "../../../../",
+//
+// Domyślne skrtypty dla podstron lokalizacji => /templates/locations/index.html
+// -----------------------------------------------------------------------------
+
+require.config({
+    baseUrl: window.STATIC_URL,
+    
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
+    waitSeconds: 200,
+    
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
+        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -39,11 +44,16 @@
         tagsinput: {
             deps: ['jquery']
         },
-        
-        mapinput: {
-            deps: ['jquery']
-        }
-    },
-    name: "js/build/ideas/detail/idea-detail-main",
-    out: "idea-detail-built.js"
-})
+    }
+});
+
+require(['jquery',
+         'common',
+         'js/locations/follow',
+         'js/userspace/background'],
+
+function($) {
+    
+    $(document).trigger('load');
+    
+});

@@ -16,6 +16,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         ui: 'js/ui/ui',
         common: 'js/common'
     },
@@ -33,6 +34,11 @@ require.config({
         
         bootstrap: {
             deps: ['jquery']
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {

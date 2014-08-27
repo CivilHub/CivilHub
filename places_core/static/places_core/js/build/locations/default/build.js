@@ -1,16 +1,12 @@
 ({
     baseUrl: "../../../../",
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
+        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
         ui: 'js/ui/ui',
         utils: 'js/utils/utils',
         common: 'js/common'
@@ -39,11 +35,7 @@
         tagsinput: {
             deps: ['jquery']
         },
-        
-        mapinput: {
-            deps: ['jquery']
-        }
     },
-    name: "js/build/ideas/detail/idea-detail-main",
-    out: "idea-detail-built.js"
+    name: "js/build/locations/default/default-main",
+    out: "default-built.js"
 })
