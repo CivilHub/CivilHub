@@ -3,9 +3,7 @@
 // ================
 //
 
-define(['jquery',
-        'underscore',
-        'backbone',
+require(['jquery',
         'mapinput',
         'bootstrap-fileinput'],
 
@@ -15,6 +13,19 @@ function ($, _, Backbone) {
     
     var optionTemplate = '<option value="<%= id %>"><%= name %></option>';
     
+    $(document).ready(function () {
+        var $form = $('#new-location-form');
+        $form.find('[type="file"]').bootstrapFileInput();
+        $form.find('#id_latitude').before('<div id="map"></div>');
+        $form.find('#id_latitude, #id_longitude').css('display', 'none');
+        $form.find('#map').mapinput({
+                latField: '#id_latitude',
+                lngField: '#id_longitude',
+                width: 640,
+                height: 480
+            });
+    });
+    /*
     var LocationForm = Backbone.View.extend({
         
         el:  "#new-location-form",
@@ -83,5 +94,5 @@ function ($, _, Backbone) {
         }
     });
     
-    return LocationForm;
+    return LocationForm;*/
 });

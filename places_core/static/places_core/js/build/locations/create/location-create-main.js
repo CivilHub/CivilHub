@@ -64,9 +64,9 @@ function ($, LocationForm) {
     
     "use strict";
     
-    $(document).ready(function () {
-        var form = new LocationForm();
-    });
+    //~ $(document).ready(function () {
+        //~ var form = new LocationForm();
+    //~ });
     
     $(document).trigger('load');
     
