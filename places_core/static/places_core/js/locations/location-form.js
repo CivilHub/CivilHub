@@ -4,17 +4,29 @@
 //
 
 require(['jquery',
+        'underscore',
         'mapinput',
         'bootstrap-fileinput'],
 
-function ($, _, Backbone) {
+function ($) {
     
     "use strict";
     
+    var inputTemplate = '<label>&nbsp</label><select class="form-control \
+                        fake-input"></select>';
+    
     var optionTemplate = '<option value="<%= id %>"><%= name %></option>';
     
+    var ActiveInput = function () {
+        this.$el = $(_.template(inputTemplate, {}));
+    };
+    
     $(document).ready(function () {
-        var $form = $('#new-location-form');
+        
+        var $form = $('#new-location-form'),
+            $real = $form.find('#id_parent'),
+            $input = new ActiveInput();
+        
         $form.find('[type="file"]').bootstrapFileInput();
         $form.find('#id_latitude').before('<div id="map"></div>');
         $form.find('#id_latitude, #id_longitude').css('display', 'none');
@@ -24,6 +36,8 @@ function ($, _, Backbone) {
                 width: 640,
                 height: 480
             });
+            
+        $real.replaceWith('<input type="text" id="id_parent" style="display:none" />');
     });
     /*
     var LocationForm = Backbone.View.extend({
