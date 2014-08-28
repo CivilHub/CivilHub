@@ -117,8 +117,6 @@ urlpatterns += patterns('',
     url(r'^polls/', include('polls.urls', namespace='polls')),
     # Static pages
     url(r'^pages/', include('staticpages.urls', namespace='pages')),
-    # http://django-generic-bookmarks.readthedocs.org/en/latest
-    (r'^bookmarks/', include('bookmarks.urls', namespace='bookmarks')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,

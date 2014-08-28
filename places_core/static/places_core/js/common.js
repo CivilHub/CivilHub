@@ -9,7 +9,8 @@ define(['jquery',
         'backbone',
         'ui',
         'utils',
-        'bootstrap'],
+        'bootstrap',
+        'js/common/language'],
 
 function ($, _, Backbone, ui, utils) {
     
@@ -31,15 +32,6 @@ function ($, _, Backbone, ui, utils) {
             });
         }
     })(jQuery);
-    
-    $("#lang-selector").popover({
-        html : true, 
-        content: function() {
-          return $('#popover-lang-list').html();
-        },
-        
-        placement: "top"
-    });
     
     //
     // Tag Cloud

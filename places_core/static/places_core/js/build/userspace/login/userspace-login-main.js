@@ -25,7 +25,8 @@ require.config({
     }
 });
 
-require(['jquery'],
+require(['jquery',
+         'js/common/language'],
 
 function ($) {
     

@@ -23,15 +23,12 @@ require.config({
 });
 
 require(['jquery',
-         'bootstrap'],
+         'bootstrap',
+         'js/common/language'],
 
 function ($) {
     
     "use strict";
-    
-    //~ $(document).ready(function () {
-        //~ $('#pl-register-form').registerFormValidator();
-    //~ });
     
     $(document).trigger('load');
 });
