@@ -5,6 +5,7 @@ from ideas.views import *
 from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('idea', IdeaAPIViewSet, 'ideas')
+router.register('categories', IdeaCategoryAPIViewSet, 'categories')
 router.register('votes', IdeaVoteAPIViewSet, 'votes')
 
 urlpatterns = patterns('',
