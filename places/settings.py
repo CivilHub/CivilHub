@@ -57,8 +57,6 @@ INSTALLED_APPS = (
     'haystack',
     # https://github.com/praekelt/django-recaptcha
     #'captcha',
-    # http://django-generic-bookmarks.readthedocs.org/en/latest
-    'bookmarks',
     # https://github.com/SmileyChris/easy-thumbnails
     'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
@@ -147,6 +145,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ATOMIC_REQUESTS': False,
     }
     #~ 'default': {
         #~ 'ENGINE': 'django.db.backends.mysql', 

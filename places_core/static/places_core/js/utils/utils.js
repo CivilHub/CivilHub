@@ -143,5 +143,13 @@ function ($, _) {
         return opts;
     };
     
+    // isMobile
+    // --------
+    // Metoda sprawdza, czy użytkownik korzsta z urządzenia mobilnego.
+    
+    utils.isMobile = function () {
+        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
     return utils;
 });

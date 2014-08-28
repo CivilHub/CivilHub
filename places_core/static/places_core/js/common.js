@@ -7,32 +7,16 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'bootstrap',
-        'js/ui/bookmark-form'],
+        'ui',
+        'utils',
+        'bootstrap'],
 
-function ($, _, Backbone) {
+function ($, _, Backbone, ui, utils) {
     
-    "use strict";
-    
-    window.getCookie = function (name) {
-        "use strict";
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    };    
+    "use strict";    
     
     (function($) {
-        if(!getCookie('cookie_msg')) {
+        if(!utils.getCookie('cookie_msg')) {
         
             $('#cookie-msg').prepend('<div class="alert fade in fade out">' + gettext('Pliki cookie pomagają nam udostępniać nasze usługi. Korzystając z tych usług, zgadzasz się na użycie plików cookie') + '.' + '<a class="btn" href="/cookies">' + gettext("Polityka cookies") + '</a><a id="accept-button" class="btn" data-dismiss="alert">OK</a></div>')
                 .hide().fadeIn('slow');
@@ -55,108 +39,6 @@ function ($, _, Backbone) {
         },
         
         placement: "top"
-    });
-    /*$('#lang-selector').bind('click', function (evt) {
-        var $toggle     = $(this),
-            $submenu    = $toggle.find('ul');
-
-        if ($submenu.attr('data-opened') === undefined) {
-            $submenu
-                .slideDown('fast')
-                .attr('data-opened', true)
-                .offset({
-                    left: $toggle.offset().left,
-                    top:  $toggle.offset().top + $toggle.height() - $submenu.height()
-                });
-        } else {
-            $submenu
-                .slideUp('fast')
-                .removeAttr('data-opened');
-        }
-    });*/
-    
-    //
-    // Abuse reports
-    // -------------------------------------------------------------------------
-    
-    var AbuseModel = Backbone.Model.extend({
-        defaults: {
-            comment: "",
-            content_type: 0,
-            content_label: "",
-            object_pk: 0,
-            csrfmiddlewaretoken: getCookie('csrftoken')
-        }
-    });
-    
-    var AbuseWindow = Backbone.View.extend({
-        
-        tagName: 'div',
-        
-        className: 'modal fade',
-        
-        template: _.template($('#abuse-window-tpl').html()),
-        
-        events: {
-            'click .submit-btn': 'sendReport'
-        },
-        
-        initialize: function (data) {
-            this.model = new AbuseModel(data);
-            this.render();
-            this.$el.modal({show:false});
-        },
-        
-        render: function () {
-            var self = this;
-            this.$el.html(this.template(this.model.toJSON()));
-            this.$form = this.$el.find('form:first');
-            this.$el.on('hidden.bs.modal', function () {
-                self.destroy();
-            });
-        },
-        
-        open: function () {
-            this.$el.modal('show');
-        },
-        
-        close: function () {
-            this.$el.modal('hide');
-        },
-        
-        destroy: function () {
-            this.$el.empty().remove();
-        },
-        
-        sendReport: function () {
-            $.ajax({
-                type: 'POST',
-                url: '/rest/reports/',
-                data: this.$form.serializeArray(),
-                success: function (resp) {
-                    console.log(resp);
-                    message.success(gettext("Report sent"));
-                },
-                error: function (err) {
-                    console.log(err);
-                    message.alert(gettext("An error occured"));
-                }
-            });
-            this.close();
-        }
-    });
-    
-    //
-    // Handle abuse reports for regular content on single view page.
-    //
-    $(document).delegate('.report-abuse-link', 'click', function (e) {
-        e.preventDefault();
-        var reportWindow = new AbuseWindow({
-            content_type: $('#target-type').val(),
-            content_label: $('#target-label').val(),
-            object_pk: $('#target-id').val()
-        });
-        reportWindow.open();
     });
     
     //
@@ -211,20 +93,38 @@ function ($, _, Backbone) {
     $('.custom-tooltip-bottom').tooltip({
         placement: 'bottom'
     });
+    
     // Bookmarks
-    $(document).ready(function () {
-        $('.bookmarks_form').bookmarkForm({
-            onSubmit: function (created) {
-                if (created) {
-                    message.success(gettext("Bookmark created"));
-                } else {
-                    message.warning(gettext("Bookmark deleted"));
-                }
-            }
-        });
-    });
+    // -------------------------------------------------------------------------
+    
+    $(document).delegate('.btn-add-bookmark, .btn-remove-bookmark', 'click',
+    
+        function (e) {
+            e.preventDefault();
+            
+            var $button = $(e.currentTarget),
+                text = '',
+                msg = '',
+                data = {
+                    content_type: $button.attr('data-ct'),
+                    object_id: $button.attr('data-id')
+                };
+                
+            $.post('/api-userspace/bookmarks/', data, function (created) {
+                text = (created) ? "Remove bookmark" : "Bookmark";
+                msg = (created) ? "Bookmark added" : "Bookmark removed";
+                $button
+                    .toggleClass('btn-add-bookmark')
+                    .toggleClass('btn-remove-bookmark')
+                    .text(gettext(text));
+                ui.message.success(msg);
+            });
+        }
+    );
     
     // Scroll to top button
+    // -------------------------------------------------------------------------
+    
     $(document).ready(function () {
         
         var $scrollButton = $(document.createElement('a'));
@@ -276,8 +176,10 @@ function ($, _, Backbone) {
         });
     });
     
+    //
     // Submenus for content entries.
     // -------------------------------------------------------------------------
+    
     $('.submenu-toggle').bind('click', function (evt) {
         var $toggle     = $(this),
             $entryTitle = $toggle.parent(),
@@ -303,7 +205,7 @@ function ($, _, Backbone) {
     // Żeby wywołać okienko z informacjami, wystarczy do dowolnego linku 
     // związanego z użytkownikiem dodać parametr data-target równy 'pk' danego
     // użytkownika oraz klasę 'user-window-toggle'.
-    //
+    
     (function () {
             // Timeout for popup window to open/close.
         var timeout = null,

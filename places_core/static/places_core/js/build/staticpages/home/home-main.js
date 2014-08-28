@@ -3,6 +3,7 @@
 // -----------------------------------------------------------------------------
 
 require.config({
+    
     baseUrl: window.STATIC_URL,
     
     urlArgs: "bust=" + (new Date()).getTime(),
@@ -22,14 +23,15 @@ require.config({
 });
 
 require(['jquery',
-         'bootstrap',
-         'js/ui/validate'],
+         'bootstrap'],
 
 function ($) {
     
     "use strict";
     
-    $(document).ready(function () {
-        $('#pl-register-form').registerFormValidator();
-    });
+    //~ $(document).ready(function () {
+        //~ $('#pl-register-form').registerFormValidator();
+    //~ });
+    
+    $(document).trigger('load');
 });

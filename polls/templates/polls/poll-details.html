@@ -1,6 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
-{% load bookmarks_tags %} {% load i18n %}
+{% load civil_tags %} {% load i18n %}
 {% block title %} {{ poll.title }}, {{ location.name }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
@@ -25,7 +25,7 @@ pollapp.markers.push({
         <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
-                <li>{% bookmark_form for poll %}</li>
+                <li>{% bookmark_form poll user %}</li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
             </ul>
         </div>

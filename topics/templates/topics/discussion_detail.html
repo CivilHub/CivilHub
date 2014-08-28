@@ -1,6 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
-{% load bookmarks_tags %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
 {% block title %} {{ title }}, {{ location.name }} | CivilHub {% endblock %}
 
@@ -37,7 +36,7 @@
                 <div class="entry-submenu">
                     <ul>
                         {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-                        <li>{% bookmark_form for discussion %}</li>
+                        <li>{% bookmark_form discussion user %}</li>
                         {% if user == discussion.creator %}
                         <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
                         <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>

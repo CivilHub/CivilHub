@@ -1,6 +1,5 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
-{% load bookmarks_tags %}
 {% load civil_tags %}
 {% load i18n %}
 
@@ -72,7 +71,7 @@
                         {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
                         {% endif %}
-                        <li>{% bookmark_form for idea %}</li>
+                        <li>{% bookmark_form idea user %}</li>
                         <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
                     </ul>
                 </div>

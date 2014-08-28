@@ -111,6 +111,14 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return super(LocationAPIViewSet, self).list(request)
 
+    def retrieve(self, request, pk=None):
+        if request.user.is_anonymous():
+            return super(LocationAPIViewSet, self).retrieve(request, pk)
+        location = Location.objects.get(pk=pk)
+        serializer = self.serializer_class(location)
+        serializer.data['followed'] = request.user in location.users.all()
+        return Response(serializer.data)
+
 
 class LocationActionsRestViewSet(viewsets.ViewSet):
     """

@@ -4,7 +4,6 @@ from json import dumps
 from PIL import Image
 from datetime import timedelta
 from django.utils import timezone
-from bookmarks.models import Bookmark
 from ipware.ip import get_ip
 from django.http import HttpResponse, HttpResponseBadRequest, \
                          HttpResponseForbidden, HttpResponseNotFound
@@ -30,6 +29,7 @@ from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
+from .models import Bookmark
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -202,11 +202,23 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
         else:
             return Bookmark.objects.all()
 
-    def pre_save(self, obj):
-        obj.user = self.request.user
-        # To jest fake - możemy dodać key, jeżeli będziemy potrzebowali
-        # więcej "typów" zakładek.
-        obj.key = "main"
+    def create(self, request):
+        ct = request.DATA.get('content_type', None)
+        id = request.DATA.get('object_id', None)
+        content_type = ContentType.objects.get(pk=ct)
+        try:
+            bookmark = Bookmark.objects.get(content_type = content_type, 
+                                         object_id = id,
+                                         user = request.user)
+            bookmark.delete()
+            return Response(False)
+        except Bookmark.DoesNotExist:
+            bookmark = Bookmark.objects.create(
+                content_type = content_type,
+                object_id = id,
+                user = request.user)
+            bookmark.save()
+            return Response(True)
 
 
 class SetTwitterEmailView(FormView):

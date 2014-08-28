@@ -10,8 +10,6 @@ from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
 from places_core.helpers import truncatehtml
-# Generic bookmarks
-from bookmarks.handlers import library
 
 
 class Category(models.Model):
@@ -62,11 +60,9 @@ class News(models.Model):
             self.edited = True
         else:
             to_slug_entry = self.title
-            try:
-                chk = News.objects.filter(title=self.title)
+            chk = News.objects.filter(title=self.title)
+            if len(chk):
                 to_slug_entry = self.title + '-' + str(len(chk))
-            except News.DoesNotExist:
-                pass
             self.slug = slugify(to_slug_entry)
         super(News, self).save(*args, **kwargs)
     
@@ -91,8 +87,4 @@ class News(models.Model):
     
     def __unicode__(self):
         return self.title
-
-
-# Allow users to bookmark content
-library.register(News)
     

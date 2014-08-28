@@ -6,7 +6,6 @@ from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
-from bookmarks.handlers import library
 from places_core.helpers import truncatehtml
 
 
@@ -111,7 +110,3 @@ class EntryVote(models.Model):
 
     def __unicode__(self):
         return self.vote
-
-
-# Allow users to bookmark content
-library.register(Discussion)

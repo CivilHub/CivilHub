@@ -100,7 +100,7 @@
 {% comment %}Szablon dla okienka dialogowego Google Maps{% endcomment %}
 
 <script type="text/template" id="map-dialog-tpl">
-    <div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
+    <div class="hook"><div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
     <div class="col-sm-10">
         <h4><a href="<%= url %>"><%= title %></a> (<%= type %>)</h4>
         <div><%= desc %></div>
@@ -111,7 +111,7 @@
             <% } %>
             {% trans "by" %} <a href="<%= profile %>"><%= user %></a>
         </div>
-    </div>
+    </div></div>
 </script>
 
 {% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}

@@ -5,6 +5,8 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage
 from locations.models import Location
@@ -150,3 +152,20 @@ class LoginData(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
     address = models.IPAddressField()
+
+
+class Bookmark(models.Model):
+    """
+    Zastępujemy django-generic-bookmarks własnym modelem. Powyższy moduł ma
+    zbyt wiele dziu i wad, które praktycznie uniemożliwiają jego funkcjonowanie.
+    """
+    # Content-object field
+    content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
+    object_id = models.TextField(_('object ID'))
+    content_object = generic.GenericForeignKey(ct_field="content_type", fk_field="object_id")
+    
+    user = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __unicode__(self):
+        return self.content_object.__unicode__()
