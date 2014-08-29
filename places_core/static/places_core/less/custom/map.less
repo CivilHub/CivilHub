@@ -14,6 +14,24 @@
     font-size: 14px;
     padding: 10px;
     z-index: 5000;
+    
+    #map-filter-toggle {
+        width: 100%;
+    }
+    
+    .angle-icon-toggle {
+        width: 10px;
+        float: left;
+        cursor: pointer;
+        .fa-angle-down {
+            float: right;
+        }
+    }
+    
+    .sprite-icon {
+        width: 140px;
+        float: left;
+    }
 }
 
 #map-options-panel {
@@ -42,14 +60,15 @@
     ul {
         margin: 0px;
         padding: 0px;
-        padding-top: 5px;
         list-style-type: none;
-        
         li {
-          input {
-            float: left;
-            margin-right: 10px;
-          }
+            vertical-align: middle;
+            margin-top: 5px;
+            input {
+                vertical-align: middle;
+                margin-right: 5px;
+                margin-top: -4px;
+            }
         }
     }
     #country-nav-panel {
@@ -59,7 +78,13 @@
     #country-nav-form-country {
         width: 100%;
     }
+    
+    .controls-divider {
+        width: 100%;
+        border-bottom: 1px solid #c6c6c6;
+    }
 }
+
 @discussioncolor: rgb(18, 127, 69);
 @pollscolor: rgb(240, 160, 3);
 @placecolor: rgb(1, 131, 251);
@@ -71,33 +96,29 @@
 @ideaimage: url(/static/places_core/img/map-dialog/polls.png);
 @newsimage: url(/static/places_core/img/map-dialog/polls.png);
 
-.gm-style {
-    > :first-child > :last-child > :last-child > :first-child > :first-child {
-        display: none !important;
-    }
-    > :first-child > :last-child > :last-child > :first-child > :last-child {
-        display: none !important;
-    }
-
-}
-
 .gm-style-iw {
-    height: 100% !important;
-    width: 100% !important;
     left: 0px !important;
-    top: 30px !important;
+    top: 0px !important;
+    width: 100% !important;
+    height: 100% !important;
     
     > div {
+        display: block;
         width:100% !important;
         height: 100% !important;
+        overflow: hidden !important;
     }
 }
 
 .map-dialog {
-    max-width: 450px;
-    min-width: 350px;
+    /*max-width: 450px;*/
+    min-width: 420px;
+    width: 100%;
     height: 100px;
-    overflow: hidden;
+    
+    h1, h2, h3, h4, p { 
+        margin: 0px !important;
+    }
     
     .type { 
         position: relative;
@@ -113,14 +134,15 @@
             position: absolute;
             bottom: 0;
             left: 50%;
+            padding-bottom: 10px;
             transform: translate(-50%, 0);
         }
     }
     
     .btn {
             height: 25px;
-			border: 0px;
-			padding: 0px 10px;
+            border: 0px;
+            padding: 0px 10px;
             font-size: 14px;
             border-radius: 3px;
             color: #FFF;
@@ -130,8 +152,8 @@
     }
     
     .btn.unfollow-location {
-			background-color: rgba(0,0,0,0.5);
-	}
+            background-color: rgba(0,0,0,0.5);
+    }
     
     &.discussion {
         .type {
@@ -182,13 +204,21 @@
         .description {
             height: 100%;
             padding: 0 5px;
+            h4 {
+                padding-top: 10px;
+                padding-bottom: 5px;
+            }
+            p {
+                padding-top: 5px;
+            }
         }
         
         .author {
             float: left;
-            height: 100px;
             margin: 0 10px;
             padding-top: 10px;
+            display: block;
+            height: 100%;
             
             img {
                 width: 25px;
@@ -199,9 +229,29 @@
     }
     
     .go-to {
-        width: 10%;
+        width: 40px;
         height: 100%;
         float: right;
+        a {
+            height: 100%;
+            width: 100%;
+            display: block;
+            position: relative;
+            color: #fff;
+            overflow: hidden;
+            .fa {
+                position: absolute;
+                left: 0px;
+                top: 50%;
+                font-size: 30px;
+                overflow: hidden;
+                display: block;
+                height: 30px;
+                width: 20px;
+                margin-top: -10px;
+                margin-left: 10px;
+            }
+        }
     }
 
 }

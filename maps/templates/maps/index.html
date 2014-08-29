@@ -42,10 +42,10 @@
 
 <div id="map-options-toggle">
 
-    <div id="map-filter-toggle" style="width: 100%" href="#" title="{% trans "Filters Map" %}">
+    <div id="map-filter-toggle" href="#" title="{% trans "Filters Map" %}">
    
-    <div class="sprite-icon" style="width: 140px; float: left;"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
-    <div style="width: 10px; float: left;"><span style="float:right" class="fa fa-angle-down"></span></div>
+    <div class="sprite-icon"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
+    <div class="angle-icon-toggle"><span class="fa fa-angle-down"></span></div>
     </div>
 </div>
 
@@ -62,16 +62,16 @@
             </form>
         </nav>
     </div>
-    <div style="width: 100%; border-bottom: 1px solid #c6c6c6;"></div>
+    <div class="controls-divider"></div>
     <div class="content">
     {% trans "Show" %}
         <nav class="civ-map-controller" role="navigation">
             <ul>
-                <li>{% trans "Places" %} <input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /></li>
-                <li>{% trans "Ideas" %} <input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /></li>
-                <li>{% trans "Polls" %} <input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /></li>
-                <li>{% trans "Discussions" %} <input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /></li>
-                <li>{% trans "News" %} <input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /></li>
+                <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /> {% trans "Places" %}</li>
+                <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /> {% trans "Ideas" %}</li>
+                <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /> {% trans "Polls" %}</li>
+                <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /> {% trans "Discussions" %}</li>
+                <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /> {% trans "News" %}</li>
             </ul>
         </nav>
     </div>
@@ -115,9 +115,9 @@
             <%= desc %>
         </div>
     </div>
-    <a href="<%= url %>"><div class="go-to">
-        <i class="fa fa-arrow-right"></i>
-    </div></a>
+    <div class="go-to">
+        <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
+    </div>
 </div>
 </script>
 {% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}
@@ -135,14 +135,14 @@
         
         <div class="description">
             <h4><a href="/<%= slug %>/"><%= name %></a></h4>
-            {% trans "Followers" %}: <%= followers %>
+            <p>{% trans "Followers" %}: <%= followers %></p>
             <p><% if(followed) { %> {% trans "You are following this place" %}
                <% }else{ %>{% trans "You are not following this place" %} <% } %></p>
         </div>
     </div>
     
     <div class="go-to">
-    
+        <a href="/<%= slug %>/"><span class="fa fa-chevron-right">&nbsp;</span></a>
     </div>
 </div>
 </script>

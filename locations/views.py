@@ -703,6 +703,19 @@ class LocationListView(ListView):
         return context
 
 
+def get_latest(location, item_type):
+    """ Get latest item from location set. """
+    if item_type == 'blog':
+        lset = location.news_set.all()
+    elif item_type == 'ideas':
+        lset = location.idea_set.all()
+    elif item_type == 'topics':
+        lset = location.discussion_set.all()
+    elif item_type == 'polls':
+        lset = location.poll_set.all()
+    return lset.order_by('-date_created')[:5]
+
+
 class LocationDetailView(DetailView):
     """
     Detailed location view
@@ -717,9 +730,11 @@ class LocationDetailView(DetailView):
         actions = actions.filter(target_object_id=location.pk)
         context['title'] = location.name
         context['actions'] = actions
-        context['links'] = links['summary']
-        context['appname'] = 'location'
         context['tags'] = TagFilter(self.object).get_items()
+        context['blog'] = get_latest(location, 'blog')
+        context['ideas'] = get_latest(location, 'ideas')
+        context['topics'] = get_latest(location, 'topics')
+        context['polls'] = get_latest(location, 'polls')
         return context
 
 

@@ -44,7 +44,8 @@ function ($, _, Backbone) {
         
         showInfo: function (contentString, map, marker) {
             var infoWindow = new google.maps.InfoWindow({
-                    content: contentString
+                    content: contentString,
+                    maxWidth: '420px'
                 });
             
             infoWindow.open(map, marker);
