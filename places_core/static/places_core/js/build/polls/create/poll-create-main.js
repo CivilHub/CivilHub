@@ -19,10 +19,7 @@ require.config({
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
@@ -56,7 +53,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/locations/follow',
          'js/inviter/userinviter',
          'js/polls/poll-form/create-poll'],

@@ -21,11 +21,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        tagsinput: 'includes/jquery/jquery.tagsinput'
     },
     
     shim: {
@@ -59,9 +55,9 @@ require.config({
 });
 
 require(['jquery',
-         'ui',
-         'mapinput',
-         'common',
+         'js/ui/ui',
+         'js/ui/mapinput',
+         'js/common',
          'js/maps/minimap',
          'js/ui/bookmark-form',
          'js/locations/follow',

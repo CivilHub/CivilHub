@@ -7,7 +7,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'utils', 
+        'js/utils/utils', 
         'js/utils/pageable-view',
         'paginator',
         'moment'],

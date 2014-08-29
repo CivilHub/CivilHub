@@ -5,7 +5,7 @@
 // Obsługa przycisków 'follow location' i 'stop following'.
 
 require(['jquery',
-         'ui'],
+         'js/ui/ui'],
 
 function ($, ui) {
     

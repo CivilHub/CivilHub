@@ -9,7 +9,7 @@
 // -----------------------------------------------------------------------------
 
 require(['jquery',
-         'mapinput',
+         'js/ui/mapinput',
          'bootstrap-switch'],
 
 function ($) {

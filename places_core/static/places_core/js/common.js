@@ -7,8 +7,8 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'ui',
-        'utils',
+        'js/ui/ui',
+        'js/utils/utils',
         'bootstrap',
         'js/common/language'],
 

@@ -5,9 +5,9 @@
 // Script to load when you want to use map pointer form.
 
 require(['jquery',
-         'utils',
-         'ui',
-         'mapinput'],
+         'js/utils/utils',
+         'js/ui/ui',
+         'js/ui/mapinput'],
 
 function ($, utils, ui) {
     

@@ -19,11 +19,7 @@ require.config({
         paginator: 'includes/backbone/backbone.paginator',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
-        mapinput: 'js/ui/jquery.mapinput'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {
@@ -53,7 +49,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/locations/follow',
          'js/maps/minimap',
          'js/maps/pointer',

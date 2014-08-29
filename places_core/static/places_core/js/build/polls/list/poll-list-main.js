@@ -18,9 +18,6 @@ require.config({
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
         moment: 'includes/momentjs/moment'
     },
     
@@ -51,8 +48,8 @@ require.config({
 });
 
 require(['jquery',
-         'ui',
-         'common',
+         'js/ui/ui',
+         'js/common',
          'js/locations/follow',
          'js/polls/poll-list/pollList',
          'js/inviter/userinviter'],

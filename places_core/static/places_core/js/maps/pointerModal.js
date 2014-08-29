@@ -5,7 +5,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'mapinput'],
+        'js/ui/mapinput'],
 
 function ($, _, Backbone) {
     "use strict";

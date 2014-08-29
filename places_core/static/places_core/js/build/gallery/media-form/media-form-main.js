@@ -16,9 +16,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox',
-        ui: 'js/ui/ui',
-        common: 'js/common'
+        bootbox: 'includes/bootstrap/bootbox'
     },
     
     shim: {
@@ -48,7 +46,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/locations/follow',
          'js/inviter/userinviter'],
 

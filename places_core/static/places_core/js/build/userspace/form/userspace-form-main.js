@@ -16,7 +16,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
-        common: 'js/common',
+        bootbox: 'includes/bootstrap/bootbox'
     },
     
     shim: {
@@ -34,6 +34,11 @@ require.config({
             deps: ['jquery']
         },
         
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        },
+        
         jqueryui: {
             deps: ['jquery']
         }
@@ -42,7 +47,7 @@ require.config({
 
 require(['jquery', 
          'jqueryui',
-         'common'],
+         'js/common'],
 
 function ($) {
     

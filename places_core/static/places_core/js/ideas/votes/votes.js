@@ -5,8 +5,8 @@
 
 require(['jquery',
          'underscore',
-         'utils',
-         'ui'],
+         'js/utils/utils',
+         'js/ui/ui'],
 
 function ($, _, utils, ui) {
     

@@ -22,10 +22,7 @@ require.config({
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        dropzone: 'includes/dropzone/dropzone'
     },
     
     shim: {
@@ -59,7 +56,7 @@ require.config({
 
 require(['jquery',
          'jqueryui',
-         'common',
+         'js/common',
          'js/editor/plugins/uploader',
          'js/locations/follow',
          'js/inviter/userinviter',

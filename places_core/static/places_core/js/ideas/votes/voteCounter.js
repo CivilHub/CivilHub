@@ -5,8 +5,8 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'utils',
-        'ui',
+        'js/utils/utils',
+        'js/ui/ui',
         'bootstrap'],
 
 function ($, _, Backbone, utils, ui) {

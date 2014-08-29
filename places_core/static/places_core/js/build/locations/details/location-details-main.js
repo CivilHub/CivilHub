@@ -16,10 +16,7 @@ require.config({
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        tagsinput: 'includes/jquery/jquery.tagsinput'
     },
     
     shim: {
@@ -50,7 +47,7 @@ require.config({
 
 require(['jquery',
          'js/locations/actions/actions',
-         'common',
+         'js/common',
          'js/locations/follow',
          'js/inviter/userinviter'],
 

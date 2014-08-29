@@ -19,11 +19,7 @@ require.config({
         bootbox: 'includes/bootstrap/bootbox',
         'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
@@ -58,15 +54,15 @@ require.config({
 
 require(['jquery',
          'js/locations/location-form',
-         'common',],
+         'js/common'],
 
 function ($, LocationForm) {
     
     "use strict";
     
-    //~ $(document).ready(function () {
-        //~ var form = new LocationForm();
-    //~ });
+    $(document).ready(function () {
+        var form = new LocationForm();
+    });
     
     $(document).trigger('load');
     

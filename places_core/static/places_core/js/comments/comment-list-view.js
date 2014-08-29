@@ -7,7 +7,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'utils',
+        'js/utils/utils',
         'js/comments/comment-collection',
         'js/comments/comment-view',
         'js/comments/comment-model'],

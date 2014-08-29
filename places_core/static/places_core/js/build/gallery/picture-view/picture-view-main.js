@@ -51,7 +51,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/locations/follow',
          'js/inviter/userinviter',
          'js/comments/comments'],

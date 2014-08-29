@@ -19,11 +19,7 @@ require.config({
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {
@@ -58,7 +54,7 @@ require.config({
 
 require(['jquery',
          'js/ideas/votes/counterWindow',
-         'common',
+         'js/common',
          'js/ideas/votes/votes',
          'js/comments/comments',
          'js/maps/minimap',

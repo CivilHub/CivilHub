@@ -19,10 +19,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        moment: 'includes/momentjs/moment',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {
@@ -43,7 +40,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/comments/comments'],
 
 function ($) {

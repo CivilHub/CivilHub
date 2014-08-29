@@ -19,10 +19,7 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        bootbox: 'includes/bootstrap/bootbox',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        bootbox: 'includes/bootstrap/bootbox'
     },
     
     shim: {
@@ -52,7 +49,7 @@ require.config({
 });
 
 require(['jquery',
-         'common',
+         'js/common',
          'js/userspace/background',
          'js/userspace/actions/actions'],
 

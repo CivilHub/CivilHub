@@ -14,8 +14,7 @@ require.config({
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        common: 'js/common'
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
@@ -44,9 +43,9 @@ define('gmaps', ['async!//maps.googleapis.com/maps/api/js?keyAIzaSyD9xJ_hO0PSwdf
 });
 
 require(['jquery',
-         'js/maps/map',
          'gmaps',
-         'common'],
+         'js/maps/map',
+         'js/common'],
 
 function ($, CivilMap) {
     

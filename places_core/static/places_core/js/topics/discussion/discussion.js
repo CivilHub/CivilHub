@@ -5,10 +5,10 @@
 //
 define(['jquery',
         'backbone',
-        'ui',
+        'js/ui/ui',
         'js/topics/discussion/replyListView',
         'bootstrap',
-        'common'],
+        'js/common'],
 
 function ($, Backbone, ui, ReplyListView) {
     "use strict";
