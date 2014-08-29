@@ -100,7 +100,59 @@
 {% comment %}Szablon dla okienka dialogowego Google Maps{% endcomment %}
 
 <script type="text/template" id="map-dialog-tpl">
-    <div class="hook"><div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
+<div class="map-dialog <%= window.CONTENT_TYPES[content_type].model %>">
+    <div class="type">
+        <p><%= type %></p>
+    </div>
+    
+    <div class="content">        
+        <div class="author">
+            <img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" />
+        </div>
+        
+        <div class="description">
+            <h4><a href="<%= url %>"><%= title %></a></h4>
+            <%= desc %>
+        </div>
+    </div>
+    <a href="<%= url %>"><div class="go-to">
+        <i class="fa fa-arrow-right"></i>
+    </div></a>
+</div>
+</script>
+{% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}
+
+<script type="text/template" id="loc-dialog-tpl">
+<div class="map-dialog place">
+    <div class="type">
+        <p>{% trans "Place" %}</p>
+    </div>
+    
+    <div class="content">
+        <div class="author">
+            
+        </div>
+        
+        <div class="description">
+            <h4><a href="/<%= slug %>/"><%= name %></a></h4>
+            {% trans "Followers" %}: <%= followers %>
+            <p><% if(followed) { %> {% trans "You are following this place" %}
+               <% }else{ %>{% trans "You are not following this place" %} <% } %></p>
+        </div>
+    </div>
+    
+    <div class="go-to">
+    
+    </div>
+</div>
+</script>
+
+<div style="display:none;">{% include 'places_core/footer.html' %}</div>
+
+</body>
+</html>
+{% comment %}   
+<div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
     <div class="col-sm-10">
         <h4><a href="<%= url %>"><%= title %></a> (<%= type %>)</h4>
         <div><%= desc %></div>
@@ -111,19 +163,5 @@
             <% } %>
             {% trans "by" %} <a href="<%= profile %>"><%= user %></a>
         </div>
-    </div></div>
-</script>
-
-{% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}
-
-<script type="text/template" id="loc-dialog-tpl">
-    <div class="col-sm-2"><img src="<%= img %>" alt="<%= slug %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
-    <div class="col-sm-10">
-        <h4><a href="/<%= slug %>/"><%= name %></a> ({% trans "location " %})</h4>
     </div>
-</script>
-
-<div style="display:none;">{% include 'places_core/footer.html' %}</div>
-
-</body>
-</html>
+{% endcomment %}

@@ -20,7 +20,7 @@ function ($, _, Backbone, ui, utils) {
     (function($) {
         if(!utils.getCookie('cookie_msg')) {
         
-            $('#cookie-msg').prepend('<div class="alert fade in fade out">' + gettext('Pliki cookie pomagają nam udostępniać nasze usługi. Korzystając z tych usług, zgadzasz się na użycie plików cookie') + '.' + '<a class="btn" href="/cookies">' + gettext("Polityka cookies") + '</a><a id="accept-button" class="btn" data-dismiss="alert">OK</a></div>')
+            $('#cookie-msg').prepend('<div class="alert fade in fade out">' + gettext('Cookies help us to deliver our services. By using our services, you agree to our use of cookies') + '.' + '<a class="btn" href="/cookies">' + gettext("Polityka cookies") + '</a><a id="accept-button" class="btn" data-dismiss="alert">OK</a></div>')
                 .hide().fadeIn('slow');
             
             $('#accept-button').click(function () {

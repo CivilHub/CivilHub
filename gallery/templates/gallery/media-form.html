@@ -12,28 +12,8 @@
     <script>Shadowbox.init();</script>
 
     <div class="col-sm-8">
-        <div id="gallery">
-            {% for file in files %}
-            <div class="col-sm-6 col-md-4 file-entry">
-                <div class="thumbnail">
-                    <a class="gallery-item" href="{{ file.href }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb }}" alt="{{ file.name }}"></a>
-                    <div class="caption">
-                        <h3><a href="{% url 'locations:picture' slug=location.slug pk=file.pk %}">{{ file.name }}</a></h3>
-                        <p>{{ file.desc }}</p>
-                        {% if user.is_superuser %}
-                        <p class="item-controllers">
-                            <button class="btn btn-primary edit-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Edit" %}</button> 
-                            <button class="btn btn-danger delete-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Delete" %}</button>
-                        </p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="custom-clear">&nbsp;</div>
-        {% if user.is_authenticated %}
-        <button class="btn btn-default media-form-toggle">Upload file</button>
+            {% if user.is_authenticated %}
+        <button style="left: -90px; position: absolute;" class="btn btn-default media-form-toggle">Upload file</button>
         <div id="media-form" class="create-form">
             <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -53,6 +33,27 @@
             </form>
         </div>
         {% endif %}
+        <div id="gallery">
+            {% for file in files %}
+            <div class="col-sm-6 col-md-4 file-entry">
+                <div class="thumbnail">
+                    <a class="gallery-item" href="{{ file.href }}" rel="shadowbox[{{ location.slug }}]"><img class="top15" src="{{ file.thumb }}" alt="{{ file.name }}"></a>
+                    <div class="caption">
+                        <h3><a href="{% url 'locations:picture' slug=location.slug pk=file.pk %}">{{ file.name }}</a></h3>
+                        <p>{{ file.desc|slice:":255" }}...</p>
+                        {% if user.is_superuser %}
+                        <p class="item-controllers">
+                            <button class="btn btn-primary edit-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Edit" %}</button> 
+                            <button class="btn btn-danger delete-item-btn item-control-btn" data-target="{{ file.pk }}" role="button">{% trans "Delete" %}</button>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="custom-clear">&nbsp;</div>
     </div>
     
     <div class="col-sm-4">

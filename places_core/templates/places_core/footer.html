@@ -10,11 +10,19 @@
 	<div class="row">
 	
 		<div class="col-md-5 left-side">
+{% comment %}
 			<a href="/privacy">{% trans "Privacy Policy" %}</a>
 			<a href="/terms">{% trans "Terms of Use" %}</a>
 			<a href="/cookies">{% trans "Cookies" %}</a>
 			<a href="/press">{% trans "Press" %}</a>
 			<a href="/jobs">{% trans "Jobs" %}</a>
+{% endcomment %}
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Privacy Policy" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Terms of Use" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Cookies" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Press" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Jobs" %}</a>
+
 		</div>
 	
 
@@ -24,59 +32,69 @@
 	
 	
 		<div class="col-md-5 right-side">
-
+{% comment %}
 			<a href="/feature">{% trans "Feature" %}</a>
 			<a href="/support">{% trans "Support" %}</a>
 			<a href="#">{% trans "Blog" %}</a>
 			<a href="/creed">{% trans "Creed" %}</a>
 			<a href="/about">{% trans "About Us" %}</a>
 			<a href="/contact">{% trans "Contact" %}</a>
+{% endcomment %}
+
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Feature" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Support" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Blog" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Creed" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "About Us" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "CivilHub starts: 1 Oct at 3.00 PM" %}">{% trans "Contact" %}</a>
+
 		</div>
 	
 	</div>
 	<div class="row  share-buttons">
-		<div class="col-md-2">            
+		<div class="col-md-3">            
             <div id="lang-selector">
-                <a>{% trans "Choose language" %}</a>
-                <div id="popover-lang-list" style="display: none">
-                    <div id="lang-list"> 
-                        <ul>
-                        <li>
-                        <a href="/country?country=US&amp;redirect=/">
-                          <img width="23" height="17" alt="United States" src="https://stripe.com/img/flags/us.png" >
-                          <span>United States</span>
-                        </a>
-                        </li>
-                        <li>
-                        <a href="/country?country=CA&amp;redirect=/" class="selected">
-                          <img width="23" height="17" alt="Canada" src="https://stripe.com/img/flags/ca.png" data-hires="true" data-1x="https://stripe.com/img/flags/ca.png" data-2x="https://stripe.com/img/flags/ca@2x.png" data-3x="https://stripe.com/img/flags/ca@2x.png">
-                          <span>Canada</span>
-                        </a>
-                        </li>
-                        <li>
-                        <a href="/country?country=GB&amp;redirect=/">
-                          <img width="23" height="17" alt="United Kingdom" src="https://stripe.com/img/flags/gb.png" data-hires="true" data-1x="https://stripe.com/img/flags/gb.png" data-2x="https://stripe.com/img/flags/gb@2x.png" data-3x="https://stripe.com/img/flags/gb@2x.png">
-                          <span>United Kingdom</span>
-                        </a>
-                        </li>
-                        <li>
-                        <a href="/country?country=IE&amp;redirect=/">
-                          <img width="23" height="17" alt="Ireland" src="https://stripe.com/img/flags/ie.png" data-hires="true" data-1x="https://stripe.com/img/flags/ie.png" data-2x="https://stripe.com/img/flags/ie@2x.png" data-3x="https://stripe.com/img/flags/ie@2x.png">
-                          <span>Ireland</span>
-                        </a>
-                        </li>
-                        <li>
-                        <a href="/country?country=AU&amp;redirect=/">
-                          <img width="23" height="17" alt="Australia" src="https://stripe.com/img/flags/au.png" data-hires="true" data-1x="https://stripe.com/img/flags/au.png" data-2x="https://stripe.com/img/flags/au@2x.png" data-3x="https://stripe.com/img/flags/au@2x.png">
-                          <span>Australia</span>
-                        </a>
+            {% get_current_language as LANG %}
+                <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
+                <div id="popover-lang-list" style="display: none"">
+
+                        <ul id="lang-list" data-current-lang="{{ LANG }}">
+                            <li data-code="en">
+                                <a href="#"><img alt="English" src="{% static 'places_core/img/lang/en.png' %}"><span>English</span></a>
+                            </li>
+                            <li data-code="pl">
+                                <a href="#"><img alt="Polski" src="{% static 'places_core/img/lang/pl.png' %}"><span>Polski</span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="Deutsch" src="{% static 'places_core/img/lang/de.png' %}"><span>Deutsch <span class="soon">(soon)</span></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="Français" src="{% static 'places_core/img/lang/fr.png' %}"><span>Français <span class="soon">(soon)</span></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="Español" src="{% static 'places_core/img/lang/es.png' %}"><span>Español <span class="soon">(soon)</span></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="Português" src="{% static 'places_core/img/lang/pt.png' %}"><span>Português <span class="soon">(soon)</span></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="Italiano" src="{% static 'places_core/img/lang/it.png' %}"><span>Italiano <span class="soon">(soon)</span></span></a>
+                            </li>
+                            <li>
+                                <a href="#"><img alt="České" src="{% static 'places_core/img/lang/cz.png' %}"><span>České <span class="soon">(soon)</span></span></a>
+                            </li>
+
                         </ul>
-                    </div>
+
                 </div>
+                
+                <form id="lang-form" action="/i18n/setlang/" method="post">
+                    {% csrf_token %}
+                    <input name="language" type="hidden" value="" />
+                </form>
             </div>
-            </div>
-        <div class="col-md-1"></div>
-		<div class="col-md-6">
+        </div>
+		<div class="col-md-8">
 		
 
 		<!-- Twitter -->

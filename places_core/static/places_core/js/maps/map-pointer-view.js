@@ -18,11 +18,18 @@ function ($, _, Backbone, MapObjectView) {
             var self = this,
                 ct = this.model.get('content_type'),
                 url = '/api-maps/objects/?ct='+ct+
-                      '&pk='+this.model.get('object_pk');
+                      '&pk='+this.model.get('object_pk'),
+                ct = this.model.get('content_type');
                                  
             $.get(url, function (m) {
                 
-                m = m[0].content_object;
+                try {
+                    m = m[0].content_object;
+                } catch (e) {
+                    console.log(e);
+                    alert("Object not found");
+                    return false;
+                }
                 
                 var contentString = window.mapDialogTpl({
                         url: m.url,
@@ -32,7 +39,8 @@ function ($, _, Backbone, MapObjectView) {
                         date: m.date,
                         img: m.img,
                         user: m.user,
-                        profile: m.profile
+                        profile: m.profile,
+                        content_type: ct
                     });
                     
                 self.showInfo(contentString, self.map, self.marker);

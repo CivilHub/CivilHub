@@ -17,6 +17,10 @@ function ($, _, Backbone) {
         initialize: function () {
             
             var self = this;
+            var markerUrl = window.MAP_STATIC_URL + '/icons/marker-' + 
+                    window.CONTENT_TYPES[self.model.get('content_type')].model;
+                
+                markerUrl += (window.devicePixelRatio > 1.5) ? '@2x.png' : '.png';
             
             var latLng = new google.maps.LatLng(
                 this.model.get('latitude'),
@@ -25,9 +29,7 @@ function ($, _, Backbone) {
             
             this.marker = new google.maps.Marker({
                 position: latLng,
-                icon: window.MAP_STATIC_URL + '/icons/marker-' + 
-                    window.CONTENT_TYPES[self.model.get('content_type')].model 
-                    + '.png',
+                icon: markerUrl,
                 content_type: self.model.get('content_type')
             });
             

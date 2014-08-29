@@ -16,14 +16,7 @@
 {% block header %}
 
     <div class="user-logo" style="background-image:url({{ profile.background_image.url }})">
-        <div class="container">
-            {% if request.user == cuser %}
-            <form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
-                {% csrf_token %}
-                <input type="file" name="background" id="background" />
-            </form>
-            <button class="btn btn-default change-background-btn">{% trans "Change background image" %}</button><br />
-            {% endif %}
+        <div class="container" style="height: 100%; position: relative;">
             
             <div class="user-info">
                 <div class="profile-page-avatar">
@@ -36,6 +29,14 @@
                     <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
                 {% endif %}
             </div>
+            
+            {% if request.user == cuser %}
+                <form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
+                    {% csrf_token %}
+                    <input type="file" name="background" id="background" />
+                </form>
+                <button class="change-background-btn">{% trans "Change background image" %}</button><br />
+            {% endif %}
         </div>
     </div>
     <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
@@ -76,7 +77,7 @@
 {% block content %}
         
         <div class="col-lg-3">
-            <div class="sidebar" style="margin-right: 0px">
+            <div class="sidebar left">
             {% if profile.description %}
                 <div class="sidebar-label">{% trans "About me"%}</div>
                 <div class="sidebar-content">

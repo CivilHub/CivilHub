@@ -32,6 +32,7 @@
                 <span class="custom-label-entry">
                     <a href="{% url 'locations:ajaxlist' discussion.location.slug %}?meta=question&state=all&time=any&category={{ discussion.category.pk }}&text=false" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
                 </span>
+                {% if user.is_authenticated %}
                 <h4><span class="submenu-toggle"> </span></h4>
                 <div class="entry-submenu">
                     <ul>
@@ -43,6 +44,7 @@
                         {% endif %}
                     </ul>
                 </div>
+                {% endif %}
             </div>
 
         </div>
@@ -61,7 +63,7 @@
             <div class="row">
                 <div class="blobfish-left">&nbsp;</div>
                 <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                    <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="news-user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
+                    <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
                     <p class="custom-centered">{{ discussion.creator.profile.rank_pts }}</p>
                 </div>
                 <div class="col-xs-11 discussion-entry-content">
@@ -93,7 +95,7 @@
                 <div class="row">
                     <div class="blobfish-left">&nbsp;</div>
                     <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                        <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="news-user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
+                        <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
                         <p class="custom-centered">{{ entry.creator.profile.rank_pts }}</p>
                     </div>
                     <div class="col-xs-11 discussion-entry-content">
@@ -186,7 +188,7 @@
         <div class="row">
             <div class="blobfish-left">&nbsp;</div>
             <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="news-user-avatar user-window-toggle" data-target="<%= creator_id %>" />
+                <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar user-window-toggle" data-target="<%= creator_id %>" />
                 <p class="custom-centered"></p>
             </div>
             <div class="col-xs-11 discussion-entry-content">

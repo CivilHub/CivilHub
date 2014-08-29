@@ -27,7 +27,7 @@
     input[type=checkbox] {
         width: 8%;
         margin-right: 80%;
-        margin-left: 0;
+        margin-left: 10px;
     }
     
     textarea { resize: vertical; }
@@ -43,8 +43,13 @@
     label[for=id_longitude] {
         display: none;
     }
-    
+    #map {
+        width: 88%;
+        margin-left: 12%;
+        padding: 15px 0;
+    }
     #google-map-canvas {
+        width: 100%;
         display: table;
         margin: 0 auto;
     }
@@ -64,5 +69,9 @@
         border: 1px solid #407DCD;
         text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.75);
         
+    }
+    
+    .file-input-wrapper {
+        margin-left: 2%;
     }
 }

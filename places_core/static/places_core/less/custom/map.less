@@ -60,3 +60,149 @@
         width: 100%;
     }
 }
+@discussioncolor: rgb(18, 127, 69);
+@pollscolor: rgb(240, 160, 3);
+@placecolor: rgb(1, 131, 251);
+@ideacolor: rgb(99, 159, 37);
+@newscolor: rgb(56, 66, 187);
+@discussionimage: url(/static/places_core/img/map-dialog/polls.png);
+@pollimage: url(/static/places_core/img/map-dialog/polls.png);
+@placeimage: url(/static/places_core/img/map-dialog/polls.png);
+@ideaimage: url(/static/places_core/img/map-dialog/polls.png);
+@newsimage: url(/static/places_core/img/map-dialog/polls.png);
+
+.gm-style {
+    > :first-child > :last-child > :last-child > :first-child > :first-child {
+        display: none !important;
+    }
+    > :first-child > :last-child > :last-child > :first-child > :last-child {
+        display: none !important;
+    }
+
+}
+
+.gm-style-iw {
+    height: 100% !important;
+    width: 100% !important;
+    left: 0px !important;
+    top: 30px !important;
+    
+    > div {
+        width:100% !important;
+        height: 100% !important;
+    }
+}
+
+.map-dialog {
+    max-width: 450px;
+    min-width: 350px;
+    height: 100px;
+    overflow: hidden;
+    
+    .type { 
+        position: relative;
+        float: left;
+        width: 20%;
+        height: 100%;
+        padding: 10px;
+        color: #fff;
+        background-repeat: no-repeat;
+        background-position: center 10px;
+        
+        p {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+    }
+    
+    .btn {
+            height: 25px;
+			border: 0px;
+			padding: 0px 10px;
+            font-size: 14px;
+            border-radius: 3px;
+            color: #FFF;
+    }
+    .btn.follow-location {
+        background-color: @greencolor;
+    }
+    
+    .btn.unfollow-location {
+			background-color: rgba(0,0,0,0.5);
+	}
+    
+    &.discussion {
+        .type {
+            background-image: @discussionimage;
+            background-color: @discussioncolor;
+        }
+        .go-to { background: @discussioncolor; }
+    }  
+    
+    &.poll {
+        .type {
+            background-image: @pollimage;
+            background-color: @pollscolor;
+        }
+        .go-to { background: @pollscolor; }
+    }  
+    
+    &.place {
+        .type {
+            background-image: @placeimage;
+            background-color: @placecolor;
+        }
+        .go-to { background: @placecolor; }
+    }   
+    
+    &.idea {
+        .type {
+            background-image: @ideaimage;
+            background-color: @ideacolor;
+        }
+        .go-to { background: @ideacolor; }
+    }   
+    
+    &.news {
+        .type {
+            background-image: @newsimage;
+            background-color: @newscolor;
+        }
+        .go-to { background: @newscolor; }
+    }
+    
+    .content {
+        float: left;
+        width: 70%;
+        height: 100%;
+        background-color: #fff;
+        
+        .description {
+            height: 100%;
+            padding: 0 5px;
+        }
+        
+        .author {
+            float: left;
+            height: 100px;
+            margin: 0 10px;
+            padding-top: 10px;
+            
+            img {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+            }
+        }
+    }
+    
+    .go-to {
+        width: 10%;
+        height: 100%;
+        float: right;
+    }
+
+}
+

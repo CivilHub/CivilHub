@@ -385,7 +385,22 @@ body {
     border: 1px solid #000
 }
 .answer-entry {
-    border: 1px solid #000
+    border: 1px solid @bordercolor;
+    border-radius: 3px;
+    padding: 20px 15px;
+    margin-bottom: 15px;
+    
+    input[type=text] {
+        width: 78%;
+    }
+    
+    button {
+        float: right;
+    }
+    
+    label {
+        width: 12%;
+    }
 }
 .discussion-list .news-user-avatar {
     margin: 0 !important

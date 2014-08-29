@@ -22,9 +22,12 @@ function ($, _, Backbone, MapObjectView) {
             $.get(url, function (m) {
                 
                 var contentString = window.locDialogTpl({
+                        id: m.id,
                         name: m.name,
                         img: m.image,
-                        slug: m.slug
+                        slug: m.slug,
+                        followers: m.users.length,
+                        followed: m.followed
                     });
                     
                 self.showInfo(contentString, self.map, self.marker);
