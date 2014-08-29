@@ -40,6 +40,10 @@ function ($) {
             po.src = 'https://plus.google.com/js/client:plusone.js?onload=render';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(po, s);
+            $('#googleplus').on('click', function (e) {
+                e.preventDefault();
+                signInCallback();
+            });
         })();
       
         var signInCallback = function (result) {
