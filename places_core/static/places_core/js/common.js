@@ -10,7 +10,8 @@ define(['jquery',
         'js/ui/ui',
         'js/utils/utils',
         'bootstrap',
-        'js/common/language'],
+        'js/common/language',
+        'js/common/bookmarks'],
 
 function ($, _, Backbone, ui, utils) {
     
@@ -85,34 +86,6 @@ function ($, _, Backbone, ui, utils) {
     $('.custom-tooltip-bottom').tooltip({
         placement: 'bottom'
     });
-    
-    // Bookmarks
-    // -------------------------------------------------------------------------
-    
-    $(document).delegate('.btn-add-bookmark, .btn-remove-bookmark', 'click',
-    
-        function (e) {
-            e.preventDefault();
-            
-            var $button = $(e.currentTarget),
-                text = '',
-                msg = '',
-                data = {
-                    content_type: $button.attr('data-ct'),
-                    object_id: $button.attr('data-id')
-                };
-                
-            $.post('/api-userspace/bookmarks/', data, function (created) {
-                text = (created) ? "Remove bookmark" : "Bookmark";
-                msg = (created) ? "Bookmark added" : "Bookmark removed";
-                $button
-                    .toggleClass('btn-add-bookmark')
-                    .toggleClass('btn-remove-bookmark')
-                    .text(gettext(text));
-                ui.message.success(msg);
-            });
-        }
-    );
     
     // Scroll to top button
     // -------------------------------------------------------------------------
