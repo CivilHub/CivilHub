@@ -4,6 +4,7 @@ from uuid import uuid4
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 
+
 class OverwriteStorage(FileSystemStorage):
 
     def get_available_name(self, name):
@@ -23,6 +24,19 @@ class OverwriteStorage(FileSystemStorage):
                     this.MyImageFieldName.delete()
             except: pass
             super(MyModelName, self).save(*args, **kwargs)
+        """
+        # If the filename already exists, remove it as if it was
+        # a true file system
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+
+
+class ReplaceStorage(FileSystemStorage):
+
+    def get_available_name(self, name):
+        """
+		Storage for backgrund images.
         """
         # If the filename already exists, remove it as if it was
         # a true file system

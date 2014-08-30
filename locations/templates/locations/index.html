@@ -48,7 +48,7 @@
             
         </div>
         
-        {% if user.is_superuser or is_moderator and background_form %}
+        {% if background_form and user.is_superuser or is_moderator %}
             <form id="location-background-form" method="post" action="{% url 'locations:background' location.pk %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ background_form }}

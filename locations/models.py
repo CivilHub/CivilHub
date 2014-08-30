@@ -11,7 +11,7 @@ from django.template.defaultfilters import slugify
 from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
-from places_core.storage import OverwriteStorage
+from places_core.storage import OverwriteStorage, ReplaceStorage
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image
 
@@ -53,7 +53,7 @@ class Location(models.Model):
     image     = models.ImageField(
         upload_to = get_upload_path,
         default = 'img/locations/nowhere.jpg',
-        storage = OverwriteStorage()
+        storage = ReplaceStorage()
     )
 
     def save(self, *args, **kwargs):
