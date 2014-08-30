@@ -4,7 +4,7 @@
 {% block require_scripts %}
 <script>window.API_URL = "/api-locations/actions/";</script>
 <script>window.USER_ID = "{{ location.id }}";</script>
-<script data-main="{% static 'places_core' %}/js/build/locations/details/location-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/locations/details/location-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block title %} {{ location.name }} | CivilHub {% endblock %}
@@ -78,7 +78,7 @@
             {% endfor %}
         </div>
     </div>
-
+    
     <div class="col-lg-4">
         <div class="sidebar">
             <div class="ambasador-image">
@@ -86,22 +86,30 @@
             </div>
             <div class="sidebar-label">{% trans "News" %}</div>
             <div class="sidebar-content">
-            
+            {% for n in blog %}
+                <a href="{{ n.get_absolute_url }}">{{ n.title }}</a>
+            {% endfor %}
             </div>
             
             <div class="sidebar-label">{% trans "Discussions" %}</div>
             <div class="sidebar-content">
-            
+            {% for t in topics %}
+                <a href="{{ t.get_absolute_url }}">{{ t.question }}</a>
+            {% endfor %}
             </div>
             
             <div class="sidebar-label">{% trans "Ideas" %}</div>
             <div class="sidebar-content">
-            
+            {% for i in ideas %}
+                <a href="{{ i.get_absolute_url }}">{{ i.name }}</a>
+            {% endfor %}
             </div>
             
             <div class="sidebar-label">{% trans "Polls" %}</div>
             <div class="sidebar-content">
-            
+            {% for p in polls %}
+                <a href="{{ p.get_absolute_url }}">{{ p.title }}</a>
+            {% endfor %}
             </div>
         </div>
     </div>

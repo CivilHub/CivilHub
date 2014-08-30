@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
 from django.utils.translation import gettext as _
+from rest.serializers import TranslatedModelSerializer
 from .models import Category, Discussion, Entry
+
+
+class ForumCategorySerializer(TranslatedModelSerializer):
+    """ """
+    class Meta:
+        model = Category
 
 
 class ForumCategorySimpleSerializer(serializers.ModelSerializer):

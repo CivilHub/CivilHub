@@ -111,6 +111,14 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return super(LocationAPIViewSet, self).list(request)
 
+    def retrieve(self, request, pk=None):
+        if request.user.is_anonymous():
+            return super(LocationAPIViewSet, self).retrieve(request, pk)
+        location = Location.objects.get(pk=pk)
+        serializer = self.serializer_class(location)
+        serializer.data['followed'] = request.user in location.users.all()
+        return Response(serializer.data)
+
 
 class LocationActionsRestViewSet(viewsets.ViewSet):
     """
@@ -695,6 +703,19 @@ class LocationListView(ListView):
         return context
 
 
+def get_latest(location, item_type):
+    """ Get latest item from location set. """
+    if item_type == 'blog':
+        lset = location.news_set.all()
+    elif item_type == 'ideas':
+        lset = location.idea_set.all()
+    elif item_type == 'topics':
+        lset = location.discussion_set.all()
+    elif item_type == 'polls':
+        lset = location.poll_set.all()
+    return lset.order_by('-date_created')[:5]
+
+
 class LocationDetailView(DetailView):
     """
     Detailed location view
@@ -709,9 +730,12 @@ class LocationDetailView(DetailView):
         actions = actions.filter(target_object_id=location.pk)
         context['title'] = location.name
         context['actions'] = actions
-        context['links'] = links['summary']
-        context['appname'] = 'location'
         context['tags'] = TagFilter(self.object).get_items()
+        context['blog'] = get_latest(location, 'blog')
+        context['ideas'] = get_latest(location, 'ideas')
+        context['topics'] = get_latest(location, 'topics')
+        context['polls'] = get_latest(location, 'polls')
+        context['background_form'] = BackgroundForm()
         return context
 
 
@@ -725,6 +749,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateLocationView, self).get_context_data(**kwargs)
+        context['countries'] = Country.objects.all()
         context['title'] = _('create new location')
         return context
 
@@ -933,11 +958,6 @@ def change_background(request, pk):
     user = request.user
     if not user.is_superuser and not location in user.mod_areas.all():
         return HttpResponseForbidden()
-    img = process_background_image(request.FILES['background'], 'img/locations')
-    try:
-        os.unlink(location.image.path)
-    except Exception:
-        pass
-    location.image = img
+    location.image = request.FILES['image']
     location.save()
     return redirect(request.META['HTTP_REFERER'])

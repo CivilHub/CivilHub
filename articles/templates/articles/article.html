@@ -2,19 +2,13 @@
 {% load i18n %}{% load staticfiles %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/articles/blog-details/blog-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/articles/blog-details/blog-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
     <h1>{{ article.title }}</h1>
-    <div>{{ article.content }}</div>
-    
-    <input type="hidden" id="target-id" value="{{ article.pk }}" />
-    <input type="hidden" id="target-label" value="articles" />
-    <input type="hidden" id="target-type" value="{{ content_type }}" />
-    <input type="hidden" id="target-user" value="{{ user.username }}" />
-    <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-    <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+    <div>{{ article.content | safe }}</div>
+   
     
     {% include 'comments/commentlist.html' %}
     

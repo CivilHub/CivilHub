@@ -4,7 +4,13 @@
 {% block title %}{% trans "Create location" %}{% endblock %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/locations/create/location-create-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script>
+window.COUNTRIES = [];
+{% for c in countries %}
+window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
+{% endfor %}
+</script>
+<script data-main="{% static 'places_core' %}/js/build/locations/create/location-create-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

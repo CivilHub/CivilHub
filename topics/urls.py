@@ -7,6 +7,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('topic', ForumTopicAPIViewSet, 'topic')
 router.register('entry', ForumEntryAPIViewSet, 'entry')
+router.register('categories', ForumCategoryAPIViewSet, 'categories')
 
 urlpatterns = patterns('',
     url('^delete/', delete_topic, name='delete'),

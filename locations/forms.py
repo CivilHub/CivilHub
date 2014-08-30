@@ -15,9 +15,16 @@ from haystack.forms import SearchForm
 from geobase.models import Country
 
 
-def get_country_names():
-    """ Funkcja zwracająca nazwy państw do przedstawienia w formularzu. """
-    return [(c.location.pk, c.location.name) for c in Country.objects.all()]
+class BackgroundForm(forms.ModelForm):
+    """ Prosty formularz do zmiany obrazka tła. """
+    image = forms.ImageField(
+        label = '',
+        widget = forms.FileInput(attrs={'title': _('Change background')})
+    )
+
+    class Meta:
+        model = Location
+        fields = ('image',)
 
 
 class LocationForm(forms.ModelForm):
@@ -36,10 +43,10 @@ class LocationForm(forms.ModelForm):
         queryset = Country.objects.all(),
         widget = forms.Select(attrs={'class':'form-control'})
     )
-    parent = forms.ChoiceField(
+    parent = forms.ModelChoiceField(
         required = False,
-        choices = get_country_names(),
-        label = _('Parent'),
+        queryset = Location.objects.all(),
+        label = '', # pusta labelka, formę i tak wypełnia Javascript
         widget = forms.Select(attrs={'class': 'form-control'})
     )
     description = forms.CharField(
@@ -72,15 +79,6 @@ class LocationForm(forms.ModelForm):
         model = Location
         fields = ('name', 'description', 'country_code', 'parent', 'population',
                   'latitude', 'longitude', 'image',)
-
-    def clean(self):
-        cleaned_data = super(LocationForm, self).clean()
-        try:
-            location = Location.objects.get(pk=self.cleaned_data['parent'])
-        except Location.DoesNotExist:
-            self._errors['parent'] = (_("Selected location does not exist"))
-        self.cleaned_data['parent'] = location
-        return cleaned_data
 
 
 class IdeaLocationForm(forms.ModelForm):

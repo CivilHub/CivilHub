@@ -29,8 +29,19 @@ from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 # REST API
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from serializers import ForumCategorySimpleSerializer, ForumTopicSimpleSerializer, ForumEntrySimpleSerializer
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
+                              IsSuperuserOrReadOnly
+from serializers import ForumCategorySimpleSerializer, \
+                         ForumTopicSimpleSerializer, ForumEntrySimpleSerializer, \
+                         ForumCategorySerializer
+
+
+class ForumCategoryAPIViewSet(viewsets.ModelViewSet):
+    """ Kategorie na forum. """
+    queryset = Category.objects.all()
+    paginate_by = None
+    serializer_class = ForumCategorySerializer
+    permission_classes = (IsSuperuserOrReadOnly,)
 
 
 class ForumTopicAPIViewSet(viewsets.ModelViewSet):

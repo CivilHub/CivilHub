@@ -30,10 +30,20 @@ from comments.models import CustomComment
 # Custom permissions
 from places_core.permissions import is_moderator
 # REST API
-from serializers import IdeaSimpleSerializer, IdeaVoteSerializer
+from serializers import IdeaSimpleSerializer, IdeaVoteSerializer, \
+                         IdeaCategorySerializer
 from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
+                              IsSuperuserOrReadOnly
+
+
+class IdeaCategoryAPIViewSet(viewsets.ModelViewSet):
+    """ """
+    queryset = Category.objects.all()
+    serializer_class = IdeaCategorySerializer
+    paginate_by = None
+    permission_classes = (IsSuperuserOrReadOnly,)
 
 
 class IdeaAPIViewSet(viewsets.ModelViewSet):

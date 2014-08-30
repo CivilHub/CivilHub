@@ -3,7 +3,11 @@ from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns('',
-    url(r'^top-level-article/', views.TopLevelArticleView.as_view(article_slug='top-level-article'), name='top-level-article'),
+    url(r'^tester/', views.TopLevelArticleView.as_view(article_slug='tester'), name='tester'),
+    url(r'^contact/', views.TopLevelArticleView.as_view(article_slug='contact'), name='contact'),
+    url(r'^cookies/', views.TopLevelArticleView.as_view(article_slug='cookies'), name='cookies'),
+    url(r'^privacy/', views.TopLevelArticleView.as_view(article_slug='privacy'), name='privacy'),
+    url(r'^terms/', views.TopLevelArticleView.as_view(article_slug='terms'), name='terms'),
     url(r'^blog/(?P<slug>[\w-]+)/', views.BlogEntryView.as_view(), name='blog_entry'),
     url(r'^blog/', views.BlogListView.as_view(), name='blog'),
     url(r'^support/(?P<slug>[\w-]+)/', views.SupportEntryView.as_view(), name='support_entry'),

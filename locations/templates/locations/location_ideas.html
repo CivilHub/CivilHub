@@ -3,7 +3,7 @@
 {% block title %} {{ location.name }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/build/ideas/list/idea-list-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/list/idea-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}
@@ -69,20 +69,16 @@
 {% endblock %}
 
 {% block content %}
-<div>
+
+{% if ideas %}
     <div class="col-sm-9 main-content">
         
         <div id="idea-list-view"></div>
         
         <noscript>
-            {% if ideas %}
             {% for idea in ideas %}
                 {% include 'ideas/idea_basic.html' %}
             {% endfor %}
-            
-            {% else %}
-                <p class="alert alert-info">{% trans "There are no ideas yet" %}.</p>
-            {% endif %}
         </noscript>
 
         {% include 'locations/category-form.html' %}
@@ -90,10 +86,25 @@
             
     </div>
 
+{% else %}
+	<div class="col-sm-9 no-entries">
+		<img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+		<h2>
+			{% trans "We didn't find any ideas" %} {% trans "in" %} {{ location.name }}.<br /> 
+			{% trans "Please" %}
+			{% if user.is_authenticated %}
+				<a href="{% url 'locations:new_idea' location.slug %}" >
+			{% else %}
+				<a href="/users/login" >
+			{% endif %}{% trans "add first idea" %}</a>.
+		</h2>
+	</div>
+{% endif %}
+
     <div class="col-sm-3">
         {% include 'locations/sidebar.html' %}
     </div>
-</div>
+
 {% endblock %}
 
 {% block footer_scripts %}

@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from locations.models import Location
 from taggit.managers import TaggableManager
-# Generic bookmarks
-from bookmarks.handlers import library
 from places_core.helpers import truncatehtml
 
 
@@ -67,7 +65,3 @@ class AnswerSet(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
     answers = models.ManyToManyField(Answer, related_name='answers', blank=True)
-
-
-# Allow users to bookmark content
-library.register(Poll)

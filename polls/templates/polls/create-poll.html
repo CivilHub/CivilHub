@@ -13,6 +13,7 @@
             <form action="" method="post" role="form" id="poll-create-form">
                 {% csrf_token %}
                 {{ form }}
+                <h4>{% trans "Add answers" %}:</h4>
                 <div id="poll-answer-form"></div>
                 <p>
                     <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
@@ -34,7 +35,7 @@
     
     <script type="text/template" id="answer-entry-tpl">
         <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>
-        <div class="form-group">
+        <div>
             <label for="answer-txt-<%= id %>" class="control-label">{% trans "Answer text" %}</label>
             <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
         </div>

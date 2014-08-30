@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
 from social.apps.django_app.default.models import UserSocialAuth
-from bookmarks.models import Bookmark
+from .models import Bookmark
 
 
 PROVIDERS = ('facebook','google-plus','linkedin','twitter')
@@ -91,8 +91,6 @@ class BookmarkSerializer(serializers.ModelSerializer):
     """
     Serializer dla zakładek użytkownika.
     """
-    key = serializers.CharField(max_length=16, required=False)
-    
     class Meta:
         model = Bookmark
 

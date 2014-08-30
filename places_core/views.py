@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.views.generic.edit import CreateView
 from django.contrib.contenttypes.models import ContentType

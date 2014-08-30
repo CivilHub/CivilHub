@@ -1,6 +1,5 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
-{% load bookmarks_tags %}
 {% load civil_tags %}
 {% load i18n %}
 
@@ -17,7 +16,7 @@
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/build/ideas/detail/idea-detail-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/detail/idea-detail-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -72,7 +71,7 @@
                         {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
                         {% endif %}
-                        <li>{% bookmark_form for idea %}</li>
+                        <li>{% bookmark_form idea user %}</li>
                         <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
                     </ul>
                 </div>

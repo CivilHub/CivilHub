@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-from django.db import models
+from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -10,7 +10,6 @@ from django.contrib.contenttypes.models import ContentType
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
-from bookmarks.handlers import library
 from places_core.helpers import truncatehtml
 
 
@@ -71,11 +70,21 @@ class Idea(models.Model):
         
     def get_description(self):
         return truncatehtml(self.description, 100)
-    
+
+    @transaction.autocommit
+    def delete(self):
+        """
+        Customowa metoda do usuwania jest najwyraźniej niezbędna we wszystkich
+        modelach korzystających z django-taggit. Powodem jest błąd w pluginie,
+        który powoduje błędy transakcji.
+        """
+        with transaction.autocommit():
+            super(Idea, self).delete()
+
     def __unicode__(self):
         return self.name
 
-    
+
 class Vote(models.Model):
     """
     Users can vote up or down on ideas
@@ -86,8 +95,4 @@ class Vote(models.Model):
     date_voted = models.DateTimeField(auto_now=True)
     
     def __unicode__(self):
-        return self.vote
-
-
-# Allow users to bookmark idea
-library.register(Idea)
+        return self.user.username

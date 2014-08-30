@@ -25,7 +25,8 @@ from places_core.helpers import SimplePaginator, truncatehtml
 # Mobile API
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
+from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
+                              IsSuperuserOrReadOnly
 from .serializers import NewsSimpleSerializer, NewsCategorySerializer
 
 
@@ -50,7 +51,7 @@ class BlogCategoryAPIViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = NewsCategorySerializer
     paginate_by = None
-    permission_classes = (rest_permissions.IsAdminUser,)
+    permission_classes = (IsSuperuserOrReadOnly,)
 
 
 class BasicNewsSerializer(object):

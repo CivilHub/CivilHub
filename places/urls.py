@@ -117,8 +117,6 @@ urlpatterns += patterns('',
     url(r'^polls/', include('polls.urls', namespace='polls')),
     # Static pages
     url(r'^pages/', include('staticpages.urls', namespace='pages')),
-    # http://django-generic-bookmarks.readthedocs.org/en/latest
-    (r'^bookmarks/', include('bookmarks.urls', namespace='bookmarks')),
     # media
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
@@ -137,10 +135,10 @@ urlpatterns += patterns('',
     # dodawać kolejne.
     url(r'^home/', PageView.as_view(page='home')),
     url(r'^about/', PageView.as_view(page='about')),
-    url(r'^privacy/', PageView.as_view(page='privacy')),
-    url(r'^terms/', PageView.as_view(page='terms')),
-    url(r'^cookies/', PageView.as_view(page='cookies')),
-    url(r'^contact/', PageView.as_view(page='contact')),
+    #url(r'^privacy/', PageView.as_view(page='privacy')),
+    #url(r'^terms/', PageView.as_view(page='terms')),
+    #url(r'^cookies/', PageView.as_view(page='cookies')),
+    #url(r'^contact/', PageView.as_view(page='contact')),
     url(r'^jobs/', PageView.as_view(page='jobs')),
     url(r'^press/', PageView.as_view(page='press')),
     url(r'^mission/', PageView.as_view(page='mission')),
