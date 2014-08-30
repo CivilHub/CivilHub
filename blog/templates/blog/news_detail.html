@@ -7,7 +7,7 @@
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/build/blog/details/news-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/blog/details/news-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

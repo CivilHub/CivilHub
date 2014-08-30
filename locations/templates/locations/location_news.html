@@ -3,7 +3,7 @@
 
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/build/blog/list/news-list-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/blog/list/news-list-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}
@@ -105,24 +105,24 @@
         </script>
         
         <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
-	
-			{% include 'blog/news_list.html' %}
-			{% include 'locations/category-form.html' %}
+    
+            {% include 'blog/news_list.html' %}
+            {% include 'locations/category-form.html' %}
     </div>
     
 {% else %}
-	<div class="col-sm-9 no-entries">
-		<img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
-		<h2>
-			{% trans "We didn't find any news" %} {% trans "in" %} {{ location.name }}.<br /> 
-			{% trans "Please" %}
-			{% if user.is_authenticated %}
-				<a href="{% url 'locations:news_create' location.slug %}" >
-			{% else %}
-				<a href="/users/login" >
-			{% endif %}{% trans "add first news" %}</a>.
-		</h2>
-	</div>
+    <div class="col-sm-9 no-entries">
+        <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+        <h2>
+            {% trans "We didn't find any news" %} {% trans "in" %} {{ location.name }}.<br /> 
+            {% trans "Please" %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'locations:news_create' location.slug %}" >
+            {% else %}
+                <a href="/users/login" >
+            {% endif %}{% trans "add first news" %}</a>.
+        </h2>
+    </div>
 {% endif %}
 
 
