@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import operator, os, json
+from uuid import uuid4
 from django.conf import settings
 from django.db import models
+from django.db.models.signals import post_delete, post_save
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -10,6 +12,8 @@ from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage
+from gallery.image import resize_background_image, delete_background_image, \
+                           delete_image
 
 
 def get_country_codes():
@@ -24,6 +28,11 @@ def get_country_codes():
     for row in data:
         codes.append((row['code'], row['name']))
     return codes
+
+
+def get_upload_path(instance, filename):
+    name =  uuid4().hex + os.path.splitext(filename)[1]
+    return os.path.join(settings.MEDIA_ROOT, 'img/locations', name)
 
 
 class Location(models.Model):
@@ -42,21 +51,27 @@ class Location(models.Model):
     country_code = models.CharField(max_length=2,
                                     choices=get_country_codes())
     image     = models.ImageField(
-        upload_to = 'img/locations/',
+        upload_to = get_upload_path,
         default = 'img/locations/nowhere.jpg',
         storage = OverwriteStorage()
     )
 
-
     def save(self, *args, **kwargs):
+        # Generujemy odpowiedni slug
         if not self.pk:
             to_slug_entry = self.name
             chk = Location.objects.filter(slug=slugify(self.name))
             if len(chk) > 0:
                 to_slug_entry = self.name + '-' + str(len(chk))
             self.slug = slugify(to_slug_entry)
+        else:
+            # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
+            try:
+                orig = Location.objects.get(pk=self.pk)
+                if orig.image != self.image: delete_image(orig.image.path)
+            except Location.DoesNotExist:
+                pass
         super(Location, self).save(*args, **kwargs)
-
 
     def get_parent_chain(self, parents=None, response='JSON'):
         """
@@ -138,3 +153,7 @@ class Location(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+post_delete.connect(delete_background_image, sender=Location)
+post_save.connect(resize_background_image, sender=Location)

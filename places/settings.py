@@ -364,7 +364,7 @@ THUMB_SIZES = [
 IMAGE_MAX_SIZE = (1024,1024)
 
 # Maximum size for location and profile pages background images
-BACKGROUND_IMAGE_SIZE = 2880
+BACKGROUND_IMAGE_SIZE = (1920, 300)
 
 # Settings for user avatar pictures
 AVATAR_SIZE = (128, 128)

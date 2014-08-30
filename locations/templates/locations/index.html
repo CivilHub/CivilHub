@@ -48,14 +48,14 @@
             
         </div>
         
-        {% if request.user.is_superuser %}<form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'locations:background' location.pk %}" method="post">
-            {% csrf_token %}
-            <input type="file" name="background" id="background" />
-        </form>
-        <button class="change-background-btn">{% trans "Change background image" %}</button>{% endif %}
-        {% if user not in location.users.all and user.is_authenticated %}
-            <!-- <button class="btn btn-success btn-follow-location">{% trans "Follow" %}</button> -->
+        {% if user.is_superuser or is_moderator and background_form %}
+            <form id="location-background-form" method="post" action="{% url 'locations:background' location.pk %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ background_form }}
+            </form>
+            <button class="change-background-btn">{% trans "Change background image" %}</button>
         {% endif %}
+        
     </div>
 </div>
 <nav id="location-navbar" class="navbar navbar-default" role="navigation">

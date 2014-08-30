@@ -735,6 +735,7 @@ class LocationDetailView(DetailView):
         context['ideas'] = get_latest(location, 'ideas')
         context['topics'] = get_latest(location, 'topics')
         context['polls'] = get_latest(location, 'polls')
+        context['background_form'] = BackgroundForm()
         return context
 
 
@@ -957,11 +958,6 @@ def change_background(request, pk):
     user = request.user
     if not user.is_superuser and not location in user.mod_areas.all():
         return HttpResponseForbidden()
-    img = process_background_image(request.FILES['background'], 'img/locations')
-    try:
-        os.unlink(location.image.path)
-    except Exception:
-        pass
-    location.image = img
+    location.image = request.FILES['image']
     location.save()
     return redirect(request.META['HTTP_REFERER'])

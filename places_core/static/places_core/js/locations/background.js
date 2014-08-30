@@ -2,19 +2,21 @@
 // background.js
 // =============
 //
-require(['jquery'],
+require(['jquery',
+         'fileinput'],
 
 function ($) {
     
     "use strict";
     
-    $('#user-background-form').hide();
-    
-    $('#background').on('change', function (e) {
-        $('#user-background-form').submit();
-    });
-    
-    $('.change-background-btn').on('click', function (e) {
-        $('#background').trigger('click');
+    $(document).ready(function () {
+
+        $('#id_image').on('change', function (e) {
+            $('#location-background-form').submit();
+        });
+        
+        $('.change-background-btn').on('click', function (e) {
+            $('#id_image').trigger('click');
+        });
     });
 });

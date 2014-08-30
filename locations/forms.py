@@ -15,6 +15,18 @@ from haystack.forms import SearchForm
 from geobase.models import Country
 
 
+class BackgroundForm(forms.ModelForm):
+    """ Prosty formularz do zmiany obrazka tła. """
+    image = forms.ImageField(
+        label = '',
+        widget = forms.FileInput(attrs={'title': _('Change background')})
+    )
+
+    class Meta:
+        model = Location
+        fields = ('image',)
+
+
 class LocationForm(forms.ModelForm):
     """
     Edit/update/create location form
