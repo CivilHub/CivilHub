@@ -7,9 +7,6 @@
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
         plot: 'includes/jqplot/jquery.jqplot',
         'dateAxisRenderer': 'includes/jqplot/plugins/jqplot.dateAxisRenderer',
         'canvasTextRenderer':'includes/jqplot/plugins/jqplot.canvasTextRenderer',
@@ -18,6 +15,7 @@
         'barRenderer': 'includes/jqplot/plugins/jqplot.barRenderer'
         
     },
+    
     shim: {
         underscore: {
             deps: ['jquery'],

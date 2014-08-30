@@ -8,11 +8,7 @@
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {

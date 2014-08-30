@@ -8,10 +8,7 @@
         bootbox: 'includes/bootstrap/bootbox',
         paginator: 'includes/backbone/backbone.paginator',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        moment: 'includes/momentjs/moment',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {

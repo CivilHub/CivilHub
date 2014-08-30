@@ -50,6 +50,7 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
                     this.renderEntry(item);
                 }, this);
             }
+            this.$el.addClass('tab-offset-' + this.tier);
             this.$el.find('.search-entry').on('keyup', function (e) {
                 self.filter($(this).val());
             });

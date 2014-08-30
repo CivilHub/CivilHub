@@ -9,11 +9,7 @@
         bootbox: 'includes/bootstrap/bootbox',
         'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {

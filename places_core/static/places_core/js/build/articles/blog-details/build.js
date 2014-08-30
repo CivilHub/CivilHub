@@ -3,13 +3,11 @@
     paths: {
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        moment: 'includes/momentjs/moment',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {
@@ -25,6 +23,11 @@
         
         bootstrap: {
             deps: ['jquery']
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         }
     },
     name: "js/build/articles/blog-details/blog-details-main",

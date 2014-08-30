@@ -7,9 +7,7 @@
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        fileinput: 'includes/bootstrap/bootstrap.file-input'
     },
     
     shim: {
@@ -30,6 +28,10 @@
         bootbox: {
             deps: ['bootstrap'],
             exports: 'bootbox'
+        },
+        
+        fileinput: {
+            deps: ['bootstrap']
         },
         
         tagsinput: {

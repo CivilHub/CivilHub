@@ -9,11 +9,7 @@
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        moment: 'includes/momentjs/moment'
     },
     
     shim: {

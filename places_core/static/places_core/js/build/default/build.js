@@ -1,15 +1,12 @@
 ({
-    baseUrl: "../../../../",
+    baseUrl: "../../../",
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
+        bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        paginator: 'includes/backbone/backbone.paginator',
-        bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment'
+        tagsinput: 'includes/jquery/jquery.tagsinput',
+        bootbox: 'includes/bootstrap/bootbox'
     },
     
     shim: {
@@ -34,8 +31,8 @@
         
         tagsinput: {
             deps: ['jquery']
-        }
+        },
     },
-    name: "js/build/blog/details/news-details-main",
-    out: "news-details-built.js"
+    name: "js/build/default/main",
+    out: "built.js"
 })

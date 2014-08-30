@@ -8,11 +8,7 @@
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         paginator: 'includes/backbone/backbone.paginator',
-        tagsinput: 'includes/jquery/jquery.tagsinput',
-        mapinput: 'js/ui/jquery.mapinput',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        tagsinput: 'includes/jquery/jquery.tagsinput'
     },
     
     shim: {

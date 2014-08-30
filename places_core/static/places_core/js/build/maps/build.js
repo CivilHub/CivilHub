@@ -6,7 +6,7 @@
         bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        common: 'js/common'
+        bootbox: 'includes/bootstrap/bootbox'
     },
     
     shim: {
@@ -22,6 +22,11 @@
         
         bootstrap: {
             deps: ['jquery']
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         },
         
         tagsinput: {

@@ -7,10 +7,7 @@
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         vector: 'includes/vectormap/jquery-jvectormap-1.2.2.min',
-        worldmap: 'includes/vectormap/jquery-jvectormap-world-mill-en',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common'
+        worldmap: 'includes/vectormap/jquery-jvectormap-world-mill-en'
     },
     
     shim: {

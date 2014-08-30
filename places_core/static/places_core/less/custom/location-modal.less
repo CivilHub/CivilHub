@@ -167,11 +167,10 @@
             }
 
             .list-entry-details {
-                position: absolute;
-                left: 0;
-                top: 45px;
-                width: 100%;
-                height: 314px;
+                position: fixed;
+                top: 39px;
+                width: 299px;
+                height: 360px;
                 background-color: #F3F3F3;
                 padding-left: 10px;
                 padding: 10px;
@@ -193,12 +192,35 @@
                 .hide-details {
                     position: absolute;
                     right: 5px;
-                    top: 0;
+                    top: 40px;
                     margin-top: -33px;
                 }
                 
                 .custom-tooltip {
                     font-size: 16px;
+                }
+            }
+            
+            &.tab-offset-1 {
+                .list-entry-details {
+                    left: 0px;
+                    width: 299px;
+                    border-bottom-left-radius: 6px;
+                }
+            }
+            
+            &.tab-offset-2 {
+                .list-entry-details {
+                    width: 300px;
+                    left: 300px;
+                }
+            }
+            
+            &.tab-offset-3 {
+                .list-entry-details {
+                    left: 599px;
+                    width: 300px;
+                    border-bottom-right-radius: 6px;
                 }
             }
             
@@ -212,26 +234,26 @@
     }
     
         
-		.btn-follow-location,
-		.btn-unfollow-location,
+        .btn-follow-location,
+        .btn-unfollow-location,
         .btn-goto {
-			height: 25px;
-			border: 0px;
-			padding: 0px 10px;
+            height: 25px;
+            border: 0px;
+            padding: 0px 10px;
             font-size: 14px;
             border-radius: 3px;
-		}
+        }
         
         .btn-follow-location {
-			background-color: @greencolor;
+            background-color: @greencolor;
         }
         
         .btn-unfollow-location {
-			background-color: rgba(0,0,0,0.5);
-		}
+            background-color: rgba(0,0,0,0.5);
+        }
         
         .btn-goto {
-			background-color: @bluecolor;
+            background-color: @bluecolor;
         }
 }
 

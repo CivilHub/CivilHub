@@ -7,10 +7,7 @@
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone',
-        ui: 'js/ui/ui',
-        utils: 'js/utils/utils',
-        common: 'js/common',
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
