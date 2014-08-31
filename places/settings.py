@@ -144,7 +144,7 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'civilhub',                      
+        'NAME': 'civilhub2',                      
         'USER': 'django',
         'PASSWORD': 'civilian14!a',
         'HOST': '172.17.0.4',
