@@ -1,6 +1,7 @@
 ({
     baseUrl: "../../../../",
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap'
     },
