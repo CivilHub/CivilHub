@@ -146,7 +146,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'civilhub',                      
         'USER': 'django',
-        'PASSWORD': 'django',
+        'PASSWORD': 'civilian14!a',
         'HOST': '172.17.0.4',
 	'PORT': 5432,
     }
@@ -390,3 +390,7 @@ LIST_PAGINATION_LIMIT = 50
 PAGE_PAGINATION_LIMIT = 5
 # Limit paginatora dla actstreamu dla usera (w zamierzeniu dla wszystkich)
 STREAM_PAGINATOR_LIMIT = 25
+
+RAVEN_CONFIG = {
+    'dsn': 'https://bf265529465747a3b571d206b31f8bdd:070be6ed13684671b317e6a9ce053679@app.getsentry.com/29087',
+}
