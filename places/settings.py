@@ -154,9 +154,9 @@ DATABASES = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL   = 'http://civilhub.org:8080/static/'
-STATIC_ROOT  = '/html/static/'
-MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
+STATIC_URL   = '/static/'
+STATIC_ROOT  = '../static/'
+MEDIA_ROOT   = '../media/'
 MEDIA_URL    = '/media/'
 
 # Haystack - search engine
