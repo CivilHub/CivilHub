@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-
+        {% comment %}
         <div class="row" style="margin: 0">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        
+        {% endcomment %}
 
         <div class="container" style="padding-top: 50px">
             <div class="col-md-7 half">
@@ -77,7 +77,7 @@
                     
                 <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
                         
-                <div id="gSignInWrapper"><button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button></div>
+                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
                     
             </div>
             <button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>

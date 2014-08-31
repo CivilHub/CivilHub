@@ -247,6 +247,8 @@ class LocationNewsList(DetailView):
         context['title'] = self.object.name + ', ' + _("News")
         context['links'] = links['news']
         context['tags'] = TagFilter(self.object).get_items()
+        if len(News.objects.filter(location=self.object)) > 0:
+            context['news'] = True
         return context
 
 

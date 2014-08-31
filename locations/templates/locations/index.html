@@ -48,12 +48,14 @@
             
         </div>
         
-        {% if background_form and user.is_superuser or is_moderator %}
+        {% if background_form %}
+            {% if user.is_superuser or is_moderator %}
             <form id="location-background-form" method="post" action="{% url 'locations:background' location.pk %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ background_form }}
             </form>
             <button class="change-background-btn">{% trans "Change background image" %}</button>
+            {% endif %}
         {% endif %}
         
     </div>

@@ -2,10 +2,15 @@
     baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap'
+        bootstrap: 'includes/bootstrap/bootstrap',
+        validate: 'js/ui/validate'
     },
     
     shim: {
+        validate: {
+            deps: ['jquery']
+        },
+        
         bootstrap: {
             deps: ['jquery']
         }

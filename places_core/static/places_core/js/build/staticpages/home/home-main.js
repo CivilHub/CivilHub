@@ -12,10 +12,15 @@ require.config({
     
     paths: {
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap'
+        bootstrap: 'includes/bootstrap/bootstrap',
+        validate: 'js/ui/validate'
     },
     
     shim: {
+        validate: {
+            deps: ['jquery']
+        },
+        
         bootstrap: {
             deps: ['jquery']
         }
@@ -24,11 +29,14 @@ require.config({
 
 require(['jquery',
          'bootstrap',
+         'validate',
          'js/common/language'],
 
 function ($) {
     
     "use strict";
+    
+    $('#pl-register-form').registerFormValidator();
     
     $(document).trigger('load');
 });
