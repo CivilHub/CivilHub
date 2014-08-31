@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'civmail',  # Newsletter i obsługa maili
     'articles', # Statyczne artykuły - support etc.
     #'import_export',
+    'raven.contrib.django.raven_compat',
 )
 
 
