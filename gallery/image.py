@@ -7,8 +7,9 @@ from django.conf import settings
 def resize_image(image):
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
     width, height = image.getdata().size
-    if max_w > width: ratio = float(max_w)/float(width)
-    else: ratio = float(width)/float(max_w)
+    #if max_w > width: ratio = float(max_w)/float(width)
+    #else: ratio = float(width)/float(max_w)
+    ratio = float(max_w)/float(width)
     return image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
 
 
@@ -49,11 +50,13 @@ def resize_background_image(sender, instance, created, **kwargs):
     image = resize_image(image)
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
     width, height = image.getdata().size
+    start_y = 0
+    stop_y = height
     if height > max_h:
         start_y = int(float(height-max_h)/2)
         stop_y = start_y + max_h
-        box = (0, start_y, max_w, stop_y)
-        image = image.crop(box)
+    box = (0, start_y, max_w, stop_y)
+    image = image.crop(box)
     image.save(fieldname.path, 'JPEG')
 
 
