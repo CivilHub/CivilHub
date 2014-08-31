@@ -72,8 +72,8 @@
 {% block content %}
 </div>
 
-{% if discussions %}
 <div class="container">
+    {% if discussions %}
     <div class="col-sm-9 main-content">
         
             <div class="discussion-list-entry">
@@ -130,12 +130,12 @@
                 {% include 'topics/discussion-list.html' %}
                 
             </div>
-        
+            
     </div>
     
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />
 
-{% else %}
+    {% else %}
     <div class="col-sm-9 no-entries">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
@@ -148,12 +148,12 @@
             {% endif %}{% trans "add first discussion" %}</a>.
         </h2>
     </div>
-{% endif %}
+    {% endif %}
 
     <div class="col-sm-3">
         {% include 'locations/sidebar.html' %}
     </div>
     
-</div><!-- / .row -->
+</div><!-- / .container -->
     
 {% endblock %}

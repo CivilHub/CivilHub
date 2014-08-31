@@ -20,7 +20,7 @@
 	{% for sublocation in sublocations %}
 	<div class="col-lg-3">
         <div class="sublocation" style="width: 270px;">
-			<img src="{{ location.image.url }}"  style="width: 270px; height: 150px;" />
+			<img src="{{ sublocation.image.url }}"  style="width: 270px; height: 150px;" />
 			<div class="sublocation-contetn">
 				<a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
 			</div>
