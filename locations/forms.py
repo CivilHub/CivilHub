@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.util import ErrorList
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
@@ -43,17 +44,15 @@ class LocationForm(forms.ModelForm):
         queryset = Country.objects.all(),
         widget = forms.Select(attrs={'class':'form-control'})
     )
-    parent = forms.ModelChoiceField(
-        required = False,
-        queryset = Location.objects.all(),
-        label = '', # pusta labelka, formę i tak wypełnia Javascript
-        widget = forms.Select(attrs={'class': 'form-control'})
-    )
     description = forms.CharField(
         required = False,
         max_length = 10000,
         label = _('Description'),
         widget = forms.Textarea(attrs={'class': 'form-control'})
+    )
+    parent = forms.IntegerField(
+        label = '',
+        widget = forms.TextInput()
     )
     latitude = forms.FloatField(
         required = False,
@@ -74,6 +73,17 @@ class LocationForm(forms.ModelForm):
         required = False,
         label = _('Image')
     )
+    
+    def clean(self):
+        try:
+            parent = Location.objects.get(pk=self.cleaned_data['parent'])
+            self.cleaned_data['parent'] = parent
+        except LocationDoesNotExist:
+            msg = _("Selected location does not exist")
+            self._errors['parent'] = ErrorList([msg])
+            del self.cleaned_data['parent']
+        
+        return self.cleaned_data
 
     class Meta:
         model = Location
