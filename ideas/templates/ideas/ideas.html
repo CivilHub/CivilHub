@@ -54,10 +54,6 @@
         <div class="clear">&nbsp;</div>
         <div>
             <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
-            <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
-            <% for (var i = 0; i < tags.length; i++) { %>
-                <a class="tag" href="<%= tags[i].url %>"><%= tags[i].name %></a> 
-            <% } %>
             <% if (category_name) { %>
             <span class="fa fa-star"> </span>{% trans "Category" %}:
                 <a href="<%= category_url %>"><%= category_name %></a>

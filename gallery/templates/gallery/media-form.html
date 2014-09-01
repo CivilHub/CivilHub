@@ -12,8 +12,7 @@
     <script>Shadowbox.init();</script>
 
     <div class="col-sm-8">
-            {% if user.is_authenticated %}
-        <button style="left: -90px; position: absolute;" class="btn btn-default media-form-toggle">Upload file</button>
+        {% if user.is_authenticated %}
         <div id="media-form" class="create-form">
             <form role="form" action="{% url 'locations:gallery' location.slug %}" class="form-hidden" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -34,8 +33,9 @@
         </div>
         {% endif %}
 
-{% if files %}
-
+    {% if files %}
+        
+        <button style="left: -90px; position: absolute;" class="btn btn-default media-form-toggle">Upload file</button>
         <div id="gallery">
             {% for file in files %}
             <div class="col-sm-6 col-md-4 file-entry">
@@ -56,19 +56,19 @@
             {% endfor %}
         </div>
         
-{% else %}
-	<div class="col-sm-12 no-entries">
-		<img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
-		<h2>
-			{% trans "We didn't find any photos" %} {% trans "in" %} {{ location.name }}.<br /> 
-			{% trans "Please" %}
-			{% if user.is_authenticated %}
-				<a class="media-form-toggle" href="#" >
-			{% else %}
-				<a href="/users/login" >
-			{% endif %}{% trans "add first photo" %}</a>.
-		</h2>
-	</div>
+    {% else %}
+    <div class="col-sm-12 no-entries">
+        <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+        <h2>
+            {% trans "We didn't find any photos" %} {% trans "in" %} {{ location.name }}.<br /> 
+            {% trans "Please" %}
+            {% if user.is_authenticated %}
+                <a class="media-form-toggle" href="#" >
+            {% else %}
+                <a href="/users/login" >
+            {% endif %}{% trans "add first photo" %}</a>.
+        </h2>
+    </div>
 {% endif %}
 
         <div class="custom-clear">&nbsp;</div>

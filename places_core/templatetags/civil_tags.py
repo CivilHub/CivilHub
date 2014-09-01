@@ -22,6 +22,8 @@ def page_size(pg_type=None):
 def bookmark_form(instance=None, user=None):
     
     if not instance or not user: return ''
+
+    if user.is_anonymous(): return ''
     
     ct = ContentType.objects.get_for_model(instance).pk
     pk = instance.pk
