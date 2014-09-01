@@ -10,7 +10,7 @@
 {% block require_scripts %}
 <script>window.API_URL = "{% url 'rest:my_actions-list' %}";</script>
 <script>window.USER_ID = "{{ cuser.pk }}";</script>
-<script data-main="{% static 'places_core' %}/js/build/userspace/profile/userspace-profile-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/userspace/profile/userspace-profile-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block header %}

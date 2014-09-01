@@ -58,7 +58,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
         filter: function (content) {
             this.filterContent = content || false;
             var data = {};
-            data.user_id = apiUser;
+            data.pk = apiUser;
             if (this.filterContent) data.content = this.filterContent;
             this.initCollection(function (actions, next) {
                 this.setPage(next);
