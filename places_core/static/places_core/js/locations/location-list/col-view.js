@@ -90,6 +90,7 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
             }
             var id = $(e.currentTarget).attr('data-target');
             this.items[id].details();
+            this.$el.scrollTop(0); // Hack dla google-chrome
             this.sublist = new ColView([], id, this.tier + 1);
             this.listenTo(this.sublist.collection, 'sync', function () {
                 // Sprawdzamy, czy ten element ma jakieś inne zagnieżdżone
