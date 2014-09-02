@@ -13,7 +13,7 @@
 <div style="background: #fff;">
     <div class="signup-view signup-view-background">
         <h1 class="home-first"> People Have the Power</h1>
-        
+        {% comment %}
         <div class="row" style="margin: 0">
             <div class="col-md-2"></div>
             <div class="col-md-8 half">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        {% comment %}
+        
         <div class="row" style="margin: 0">
             <div class="col-md-3"></div>
             <div class="col-md-6">
@@ -48,10 +48,7 @@
         <div class="container" style="padding-top: 50px">
             <div class="col-md-7 half">
                 <div class="start-text">
-                    <h2>{% trans "Build your Place,</br>better, together, now!" %}</h2>
-                    <p>{% trans "Collaborate to build, improve</br> our local communities." %}</p>
-                    </br>
-                    <p>{% trans "Sign up, find your place where you live,</br>or create your own. Take action." %}</p>
+                    <h2>{% trans "CivilHub is a space,<br />where we can act together change<br />to make our local environment a better place" %}.</h2>
                 </div>
             </div>
         
@@ -124,7 +121,7 @@
             </div>
             <div class="col-md-4 top32">
                 <img src="{% static 'places_core/img/collaboration.png' %}"></br>
-            <b>{% trans "Collaborate with people who" %}</b></br>
+            <b>{% trans "Collaborate with people" %}</b></br>
                 {% trans "Great collaboration starts with communication. We always want to know what's happening near us." %}
             </div>
             <div class="col-md-4 top32">
