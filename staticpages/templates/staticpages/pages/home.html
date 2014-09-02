@@ -4,6 +4,12 @@
 {% block title %}{% trans "Homepage" %}{% endblock %}
 
 {% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+    scope: '{{ plus_scope }}',
+    id: '{{ plus_id }}'
+}
+</script>
 <script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
