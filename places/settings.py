@@ -98,6 +98,7 @@ INSTALLED_APPS = (
     'articles', # Statyczne artykuły - support etc.
     #'import_export',
     'raven.contrib.django.raven_compat',
+    'analytical',
 )
 
 
@@ -125,7 +126,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # odkomentować na produkcji - wyświetlanie błędów w social_auth
-    #'places_core.middleware.SocialAuthExceptionMiddleware',
+    'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -149,7 +150,7 @@ DATABASES = {
         'USER': 'django',
         'PASSWORD': 'civilian14!a',
         'HOST': '172.17.0.4',
-	'PORT': 5432,
+		'PORT': 5432,
     }
 }
 
@@ -396,3 +397,41 @@ STREAM_PAGINATOR_LIMIT = 25
 RAVEN_CONFIG = {
     'dsn': 'https://bf265529465747a3b571d206b31f8bdd:070be6ed13684671b317e6a9ce053679@app.getsentry.com/29087',
 }
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+
+#Analitical
+# CHARTBEAT_USER_ID = '12345'
+
+# CLICKMAP_TRACKER_CODE = '12345678....912'
+
+CLICKY_SITE_ID = '100769640'
+
+# CRAZY_EGG_ACCOUNT_NUMBER = '12345678'
+
+# GAUGES_SITE_ID = '0123456789abcdef0123456789abcdef'
+
+# HUBSPOT_PORTAL_ID = '1234'
+# HUBSPOT_DOMAIN = 'somedomain.web101.hubspot.com'
+
+# INTERCOM_APP_ID = '0123456789abcdef0123456789abcdef01234567'
+
+# KISS_INSIGHTS_ACCOUNT_NUMBER = '12345'
+# KISS_INSIGHTS_SITE_CODE = 'abc'
+
+# KISS_METRICS_API_KEY = '0123456789abcdef0123456789abcdef01234567'
+
+# MIXPANEL_API_TOKEN = '0123456789abcdef0123456789abcdef'
+
+# OLARK_SITE_ID = '1234-567-89-0123'
+
+# OPTIMIZELY_ACCOUNT_NUMBER = '1234567'
+
+# PERFORMABLE_API_KEY = '123abc'
+
+# PIWIK_DOMAIN_PATH = 'your.piwik.server/optional/path'
+# PIWIK_SITE_ID = '123'
+
+# REINVIGORATE_TRACKING_ID = '12345-abcdefghij'
+
+# WOOPRA_DOMAIN = 'abcde.com'

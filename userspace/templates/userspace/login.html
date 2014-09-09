@@ -35,13 +35,13 @@ window.GOOGLE_DATA = {
         <div class="login-form-body">
             <div class="login-social row">
 
-                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
+                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'" onClick="ga('send', 'event', 'facebook-login', 'click', 'facebook-login');">Connect with Facebook</button>
                     
-                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-login', 'click', 'twitter-login');">{% trans "Connect with Twitter" %}</button>
                     
-                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'" onClick="ga('send', 'event', 'linkedin-login', 'click', 'linkedin-login');">{% trans "Connect with Linkedin" %}</button>
                         
-                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
+                <button id="googleplus" type="button" class="google-button" onClick="ga('send', 'event', 'googleplus-login', 'click', 'googleplus-login');">{% trans "Connect with Google+" %}</button>
                     
             </div>
             <form action="" method="post">
@@ -55,7 +55,7 @@ window.GOOGLE_DATA = {
                             <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
                         </div>
                         <div class="submit-section row">
-                            <button type="submit" class="submit-button">{% trans "Login" %}</button>
+                            <button type="submit" class="submit-button" onClick="ga('send', 'event', 'login-form', 'click', 'login-form');">{% trans "Login" %}</button>
                         </div>
                     </form>
                     <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 

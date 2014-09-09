@@ -59,28 +59,28 @@
 
                         <ul id="lang-list" data-current-lang="{{ LANG }}">
                             <li data-code="en">
-                                <a href="#"><img alt="English" src="{% static 'places_core/img/lang/en.png' %}"><span>English</span></a>
+                                <a href="#"><img alt="English" src="{% static 'places_core/img/lang/en.png' %} onClick="ga('send', 'event', 'language-EN', 'click', 'language-EN');""><span>English</span></a>
                             </li>
                             <li data-code="pl">
-                                <a href="#"><img alt="Polski" src="{% static 'places_core/img/lang/pl.png' %}"><span>Polski</span></a>
+                                <a href="#"><img alt="Polski" src="{% static 'places_core/img/lang/pl.png' %} onClick="ga('send', 'event', 'language-PL', 'click', 'language-PL');""><span>Polski</span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="Deutsch" src="{% static 'places_core/img/lang/de.png' %}"><span>Deutsch <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="Deutsch" src="{% static 'places_core/img/lang/de.png' %}"><span>Deutsch <span class="soon" onClick="ga('send', 'event', 'language-DE', 'click', 'language-DE');">(soon)</span></span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="Français" src="{% static 'places_core/img/lang/fr.png' %}"><span>Français <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="Français" src="{% static 'places_core/img/lang/fr.png' %}"><span>Français <span class="soon" onClick="ga('send', 'event', 'language-FR', 'click', 'language-FR');">(soon)</span></span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="Español" src="{% static 'places_core/img/lang/es.png' %}"><span>Español <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="Español" src="{% static 'places_core/img/lang/es.png' %}"><span>Español <span class="soon" onClick="ga('send', 'event', 'language-ES', 'click', 'language-ES');">(soon)</span></span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="Português" src="{% static 'places_core/img/lang/pt.png' %}"><span>Português <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="Português" src="{% static 'places_core/img/lang/pt.png' %}"><span>Português <span class="soon" onClick="ga('send', 'event', 'language-PR', 'click', 'language-PR');">(soon)</span></span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="Italiano" src="{% static 'places_core/img/lang/it.png' %}"><span>Italiano <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="Italiano" src="{% static 'places_core/img/lang/it.png' %}"><span>Italiano <span class="soon" onClick="ga('send', 'event', 'language-IT', 'click', 'language-IT');">(soon)</span></span></a>
                             </li>
                             <li>
-                                <a href="#"><img alt="České" src="{% static 'places_core/img/lang/cz.png' %}"><span>České <span class="soon">(soon)</span></span></a>
+                                <a href="#"><img alt="České" src="{% static 'places_core/img/lang/cz.png' %}"><span>České <span class="soon" onClick="ga('send', 'event', 'language-CZ', 'click', 'language-CZ');">(soon)</span></span></a>
                             </li>
 
                         </ul>
@@ -151,5 +151,44 @@
 		</div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</script>
+
+	{% comment %}Google Analytics code{% endcomment %}
+			<script>
+				  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+				  ga('create', 'UA-51512403-1', 'auto');
+				  ga('require', 'linkid', 'linkid.js');
+				  ga('send', 'pageview');
+				  {% if user.is_authenticated %}
+				  ga(‘set’, ‘&uid’, {{ user.get_username }});
+				  {% else %}
+				  {% endif %}
+			 </script>
+
+{% comment %}Quantcast{% endcomment %}
+<script type="text/javascript">
+var _qevents = _qevents || [];
+
+(function() {
+    var elem = document.createElement('script');
+    elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+    elem.async = true;
+    elem.type = "text/javascript";
+    var scpt = document.getElementsByTagName('script')[0];
+        scpt.parentNode.insertBefore(elem, scpt);
+    })();
+
+    _qevents.push({
+    qacct:"p-7RCQfhyaZy5kz"
+    });
+</script>
+<noscript>
+    <div style="display:none;">
+    <img src="//pixel.quantserve.com/pixel/p-7RCQfhyaZy5kz.gif" border="0" height="1" width="1" alt="Quantcast"/>
+    </div>
+</noscript>
 
 </div>

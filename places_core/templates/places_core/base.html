@@ -1,8 +1,19 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles %} {% load i18n %}{% load analytical %}
 <!DOCTYPE html>
-<html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
+{% analytical_head_top %}
 <meta charset="utf-8">
+<meta property="og:title" content="CivilHub" />
+<meta property="og:type" content="community" />
+<meta property="og:url" content="https://civilhub.org" />
+<meta property="og:image" content="{% static 'places_core/favicons/favicon-196x196.png' %}" />
+<meta property="og:site_name" content="CivilHub" />
+<meta property="fb:app_id" content="345109858975991" />
+<meta name="description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
 <title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.ico' %}" />
@@ -33,6 +44,8 @@
 
 {% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
 {% block extra_scripts %}{% endblock %}
+{% comment %} Google Analytics code {% endcomment %}
+<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
 <link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
 <link rel="apple-touch-icon" sizes="57x57" href="{% static 'places_core/favicons/apple-touch-icon-57x57.png' %}">
 <link rel="apple-touch-icon" sizes="114x114" href="{% static 'places_core/favicons/apple-touch-icon-114x114.png' %}">
@@ -51,8 +64,11 @@
 <meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
 <meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
 
+{% analytical_head_bottom %}
 </head>
 <body>
+
+	{% analytical_body_top %}
 
     <div id="messages"></div>
     <div id="cookie-msg"></div>
@@ -157,29 +173,7 @@
 
 {% comment %}<script type="text/javascript" src="{% static 'places_core/includes/retina/retina.min.js' %}"></script> {% endcomment %}
 
-<!-- Quantcast Tag -->
-<script type="text/javascript">
-var _qevents = _qevents || [];
 
-(function() {
-    var elem = document.createElement('script');
-    elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
-    elem.async = true;
-    elem.type = "text/javascript";
-    var scpt = document.getElementsByTagName('script')[0];
-        scpt.parentNode.insertBefore(elem, scpt);
-    })();
-
-    _qevents.push({
-    qacct:"p-7RCQfhyaZy5kz"
-    });
-</script>
-<noscript>
-    <div style="display:none;">
-    <img src="//pixel.quantserve.com/pixel/p-7RCQfhyaZy5kz.gif" border="0" height="1" width="1" alt="Quantcast"/>
-    </div>
-</noscript>
-<!-- End Quantcast tag -->
-
+{% analytical_body_bottom %}
 </body>
 </html>

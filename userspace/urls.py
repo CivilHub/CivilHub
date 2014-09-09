@@ -4,11 +4,11 @@ from userspace import views
 
 from rest import routers
 router = routers.HybridRouter()
-router.add_api_view('social_auths', url(r'^social_auths/$', views.SocialApiView.as_view(), name='social_auths'))
-router.add_api_view('credentials', url(r'^credentials/$', views.CredentialCheckAPIView.as_view(), name='credentials'))
-router.register('users', views.UserAPIViewSet, 'users')
+#router.add_api_view('social_auths', url(r'^social_auths/$', views.SocialApiView.as_view(), name='social_auths'))
+#router.add_api_view('credentials', url(r'^credentials/$', views.CredentialCheckAPIView.as_view(), name='credentials'))
+#router.register('users', views.UserAPIViewSet, 'users')
 router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
-router.register('socials', views.UserAuthAPIViewSet, 'socials')
+#router.register('socials', views.UserAuthAPIViewSet, 'socials')
 
 
 urlpatterns = patterns('',
