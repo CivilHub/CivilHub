@@ -7,13 +7,8 @@
 
 {% block content %}
 <div>
-    <p>{% blocktrans %}
-        Dziękujemy za rejestrację w serwisie.
-    {% endblocktrans %}</p>
-    <p>{% blocktrans %}
-        Możesz się teraz zalogować korzystając z hasła oraz adresu
-        email, które podałeś podczas rejestracji.
-    {% endblocktrans %}</p>
+    <p>{% blocktrans %}Thank You for register in CivilHub.{% endblocktrans %}</p>
+    <p>{% blocktrans %}You can now, login using email adres that you give during registration{% endblocktrans %}</p>
     <p><a href="{% url 'user:login' %}">{% trans "Login" %}</a></p>
 </div>
 {% endblock %}
