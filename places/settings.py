@@ -145,23 +145,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ATOMIC_REQUESTS': False,
     }
-    #~ 'default': {
-        #~ 'ENGINE': 'django.db.backends.mysql', 
-        #~ 'NAME': 'civilhub',
-        #~ 'USER': 'grzegorz',
-        #~ 'PASSWORD': '',
-        #~ 'HOST': '10.0.0.200',   # Or an IP Address that your DB is hosted on
-        #~ 'PORT': '3306',
-    #~ }
-    #~ 'default': {
-        #~ 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        #~ 'NAME': 'civilhub',                      
-        #~ 'USER': 'django',
-        #~ 'PASSWORD': 'django',
-        #~ 'HOST': '94.23.27.225',
-    #~ }
 }
 
 # Static files (CSS, JavaScript, Images)
