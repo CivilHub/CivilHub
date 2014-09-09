@@ -107,7 +107,6 @@
         <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
     
             {% include 'blog/news_list.html' %}
-            {% include 'locations/category-form.html' %}
     </div>
     
 {% else %}
@@ -125,6 +124,7 @@
     </div>
 {% endif %}
 
+    {% include 'locations/category-form.html' %}
 
 {% endblock %}
 

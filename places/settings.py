@@ -188,7 +188,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/activity/'
 # Custom setting - dla użytkowników Twittera
 SOCIAL_AUTH_SET_TWITTER_EMAIL_URL = '/user/twitter_email/'
 SOCIAL_AUTH_PIPELINE = (
@@ -320,6 +320,7 @@ EMAIL_HOST_PASSWORD = 'test11'
 EMAIL_USE_TLS       = True
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
+DEFAULT_FROM_EMAIL = 'noreply@civilhub.org'
 
 # Email settings for testing purposes
 #EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"

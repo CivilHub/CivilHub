@@ -1,7 +1,7 @@
 {% extends 'staticpages/index.html' %}
 {% load staticfiles %}{% load i18n %}
 
-{% block title %}{% trans "Homepage" %}{% endblock %}
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
 {% block require_scripts %}
 <script>
@@ -10,7 +10,7 @@ window.GOOGLE_DATA = {
     id: '{{ plus_id }}'
 }
 </script>
-<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,12 +19,12 @@ window.GOOGLE_DATA = {
 <div style="background: #fff;">
     <div class="signup-view signup-view-background">
         <h1 class="home-first"> People Have the Power</h1>
-        {% comment %}
+        
         <div class="row" style="margin: 0">
             <div class="col-md-2"></div>
             <div class="col-md-8 half">
                 <div class="before-start-text">
-                    <h2 style="font-size: 40px; font-weight: 300;">{% trans "CivilHub is a space,<br />where we can act together change<br />to make our local environment a better place" %}.</h2>
+                    <h2 style="font-size: 40px; font-weight: 300;">{% trans "CivilHub is a space,<br />where we can act together<br />to make our local environment a better place" %}.</h2>
                 </div>
             </div>
         </div>
@@ -40,21 +40,21 @@ window.GOOGLE_DATA = {
                         <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
                         <div style="position: absolute; left: -5000px;"><input type="text" name="b_6760a74c9b91ab265846a295d_b37c46ef36" tabindex="-1" value=""></div>
                         <div class="col-md-6">
-                            <input type="submit" value="{% trans "Notify me" %}" name="subscribe" id="mc-embedded-subscribe" class="submit-button">
+                            <input type="submit" value="{% trans "Notify me" %}" name="subscribe" id="mc-embedded-subscribe" class="submit-button" onClick="ga('send', 'event', 'newsletter', 'subscribe', 'zapisnewsletter');">
                         </div>
-                        <p>{% trans "CivilHub starts: 1 October at 3.00 PM, CEST</br>Location: Muranów, Władysława Andersa 5, POLAND" %}</p>
+                        <p>{% trans "We will notify you when we launch website" %}</p>
                         </div>
                     </form>
                 
                 </div>
             </div>
         </div>
-        {% endcomment %}
-
+        
+{% comment %}
         <div class="container" style="padding-top: 50px">
             <div class="col-md-7 half">
                 <div class="start-text">
-                    <h2>{% trans "CivilHub is a space,<br />where we can act together change<br />to make our local environment a better place" %}.</h2>
+                    <h2>{% trans "CivilHub is a space,<br />where we can act together<br />to make our local environment a better place" %}.</h2>
                 </div>
             </div>
         
@@ -74,16 +74,16 @@ window.GOOGLE_DATA = {
                 <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
                 <div>
   
-                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'">Connect with Facebook</button>
+                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');">Connect with Facebook</button>
                     
-                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');">{% trans "Connect with Twitter" %}</button>
                     
-                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');">{% trans "Connect with Linkedin" %}</button>
                         
-                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
+                <button id="googleplus" type="button" class="google-button" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');">{% trans "Connect with Google+" %}</button>
                     
             </div>
-            <button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
+            <button id="signup_button" type="submit" class="long signup-button"  onClick="ga('send', 'event', 'register-form-home', 'click', 'register-form-home');">{% trans "Sign up" %}</button>
             </br>
 
             <p class="terms">
@@ -99,6 +99,7 @@ window.GOOGLE_DATA = {
             </form>
                 
         </div>
+        {% endcomment %}
        
     </div>
     
@@ -110,7 +111,7 @@ window.GOOGLE_DATA = {
     {% comment %} Second part - Why Should I use. {% endcomment %}
     <div class="why-view">
         <h2>{% trans "We believe that people have the</br>power to <b>change the World</b>." %}</h2>
-        <span><a href="#">Grzegorz Warzecha</a>, {% trans "founder CivilHub.org" %}</span>
+        <span><a href="https://www.facebook.com/gwarzecha" target="_blank"><img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/c5.0.50.50/p50x50/1383743_10151786926899735_150711915_n.jpg?oh=3689c63ec18bb22214436414365c541b&oe=5493C6E3&__gda__=1418740830_f70d37db3bd040f125cedfdd7c22d8e1" style="height: 19px; margin-top:-4px; margin-right:10px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;" onClick="ga('send', 'event', 'checkgwfacebook', 'click', 'checkgwfacebook');">Grzegorz Warzecha</a>, {% trans "founder CivilHub.org" %}</span>
     <div class="row">
         <div class="homepage-divider"> </div>
         <h2>{% trans "Why Should I Use CivilHub?" %}</h2>

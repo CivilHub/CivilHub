@@ -1,0 +1,119 @@
+{% extends 'staticpages/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
+{% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+    scope: '{{ plus_scope }}',
+    id: '{{ plus_id }}'
+}
+</script>
+<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endblock %}
+
+{% block content %}
+
+{% comment %} First part with signup form. {% endcomment %}
+<div style="background: #fff;">
+    <div class="signup-view signup-view-background">
+        <h1 class="home-first"> People Have the Power</h1>
+        
+        <div class="row" style="margin: 0">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 half">
+                <div class="before-start-text">
+                    <h2 style="font-size: 40px; font-weight: 300;">{% trans "CivilHub is a space,<br />where we can act together<br />to make our local environment a better place" %}.</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row" style="margin: 0">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div id="mc_embed_signup" class="notify">
+                    <form action="//civilhub.us9.list-manage.com/subscribe/post?u=6760a74c9b91ab265846a295d&amp;id=b37c46ef36" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                     <div class="col-md-6">
+                            <input type="email" left" class="form-control" value="" name="EMAIL" id="mce-EMAIL" placeholder="{% trans 'Your email address' %}" required>
+                        </div>
+                        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                        <div style="position: absolute; left: -5000px;"><input type="text" name="b_6760a74c9b91ab265846a295d_b37c46ef36" tabindex="-1" value=""></div>
+                        <div class="col-md-6">
+                            <input type="submit" value="{% trans "Notify me" %}" name="subscribe" id="mc-embedded-subscribe" class="submit-button" onClick="ga('send', 'event', 'newsletter', 'subscribe', 'zapisnewsletter');">
+                        </div>
+                        <p>{% trans "We will notify you when we launch website" %}</p>
+                        </div>
+                    </form>
+                
+                </div>
+            </div>
+        </div>
+        
+{% comment %}
+        <div class="container" style="padding-top: 50px">
+            <div class="col-md-7 half">
+                <div class="start-text">
+                    <h2>{% trans "CivilHub is a space,<br />where we can act together<br />to make our local environment a better place" %}.</h2>
+                </div>
+            </div>
+        
+            {{ errors }}
+            
+            <div class="col-md-5 half">
+            
+                <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
+                {% csrf_token %}
+                <input id="username" class="long" type="text" name="username" placeholder="{% trans "Your username" %}">
+                <div>
+                 <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
+                 <input id="surname" class="short" type="text" name="last_name" placeholder="{% trans "Surname" %}">
+                </div>
+                <input id="email" class="long" type="text" name="email" placeholder="{% trans "Your email" %}">
+                <input id="pass1" class="long" type="password" name="password" placeholder="{% trans "Create a password" %}">
+                <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+                <div>
+  
+                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');">Connect with Facebook</button>
+                    
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');">{% trans "Connect with Twitter" %}</button>
+                    
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');">{% trans "Connect with Linkedin" %}</button>
+                        
+                <button id="googleplus" type="button" class="google-button" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');">{% trans "Connect with Google+" %}</button>
+                    
+            </div>
+            <button id="signup_button" type="submit" class="long signup-button"  onClick="ga('send', 'event', 'register-form-home', 'click', 'register-form-home');">{% trans "Sign up" %}</button>
+            </br>
+
+            <p class="terms">
+            {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.
+            </p>
+            
+            </form>
+            
+            <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+                {% csrf_token %}
+                <input id="at" type="hidden" name="access_token" value="" />
+                <input id="code" type="hidden" name="code" value="" />
+            </form>
+                
+        </div>
+        {% endcomment %}
+       
+    </div>
+    
+        <div class="clear"></div>
+</div>
+  
+
+
+
+{% comment %}
+    <ul>
+    {% for page in pages %}
+        <li><a href="{{ page.url }}">{{ page.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endcomment %}
+{% endblock %}

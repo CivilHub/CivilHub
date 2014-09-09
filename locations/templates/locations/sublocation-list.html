@@ -13,43 +13,43 @@
 {% block content %}
 <div class="container sublocations">
 
-	<h1>{% trans "Sublocations" %}</h1>
-	<h2>{% blocktrans %}List of all sublocations that are inside current location.{% endblocktrans %}<br/>
-		{% blocktrans %}Act not only globally, but also on local community like small city, blocks of flats or estates.{% endblocktrans %}</h2>
+    <h1>{% trans "Sublocations" %}</h1>
+    <h2>{% blocktrans %}List of all sublocations that are inside current location.{% endblocktrans %}<br/>
+        {% blocktrans %}Act not only globally, but also on local community like small city, blocks of flats or estates.{% endblocktrans %}</h2>
     
-	{% for sublocation in sublocations %}
-	<div class="col-lg-3">
+    {% for sublocation in sublocations %}
+    <div class="col-lg-3">
         <div class="sublocation" style="width: 270px;">
-			<img src="{{ sublocation.image.url }}"  style="width: 270px; height: 150px;" />
-			<div class="sublocation-contetn">
-				<a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
-			</div>
-			{% if user not in sublocation.users.all and user.is_authenticated %}
-				<button type="button" class="btn-follow-location" data-location-id="{{ sublocation.pk }}">{% trans "Follow" %}</button>
-			{% else %}
-				<button type="button" class="btn-unfollow-location" data-location-id="{{ sublocation.pk }}">{% trans "You are following" %}</button>
-			{% endif %}
-			<div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
-		</div>
-	</div>
+            <img src="{{ sublocation.image.url }}"  style="width: 270px; height: 150px;" />
+            <div class="sublocation-contetn">
+                <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
+            </div>
+            {% if user not in sublocation.users.all and user.is_authenticated %}
+                <button type="button" class="btn-follow-location" data-location-id="{{ sublocation.pk }}">{% trans "Follow" %}</button>
+            {% else %}
+                <button type="button" class="btn-unfollow-location" data-location-id="{{ sublocation.pk }}">{% trans "You are following" %}</button>
+            {% endif %}
+            <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
+        </div>
+    </div>
     {% endfor %}
-	
+    
 </div>
 
 <ul class="pagination">
-	{% if sublocations.has_previous %}
-		<li><a href="?page=1">&laquo;</a></li>
-		<li><a href="?page={{ sublocations.previous_page_number }}">{% trans "previous" %}</a></li>
-	{% endif %}    
-	
-	{% for page in sublocations.paginator.page_range %}
-		<li{% if page == sublocations.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-	{% endfor %}
+    {% if sublocations.has_previous %}
+        <li><a href="?page=1">&laquo;</a></li>
+        <li><a href="?page={{ sublocations.previous_page_number }}">{% trans "previous" %}</a></li>
+    {% endif %}    
+    
+    {% for page in sublocations.paginator.page_range %}
+        <li{% if page == sublocations.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+    {% endfor %}
 
-	{% if sublocations.has_next %}
-		<li><a href="?page={{ sublocations.next_page_number }}">{% trans "next" %}</a></li>
-		<li><a href="?page={{ sublocations.paginator.num_pages }}">&raquo;</a></li>
-	{% endif %}
+    {% if sublocations.has_next %}
+        <li><a href="?page={{ sublocations.next_page_number }}">{% trans "next" %}</a></li>
+        <li><a href="?page={{ sublocations.paginator.num_pages }}">&raquo;</a></li>
+    {% endif %}
 </ul>
 
 {% endblock %}
