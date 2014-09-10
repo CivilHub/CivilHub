@@ -181,6 +181,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
+SOCIAL_AUTH_UID_LENGTH = 255
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/activity/'
 # Custom setting - dla użytkowników Twittera
 SOCIAL_AUTH_SET_TWITTER_EMAIL_URL = '/user/twitter_email/'

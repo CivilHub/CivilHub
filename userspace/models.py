@@ -39,7 +39,7 @@ class UserProfile(models.Model):
     )
     description = models.TextField(blank=True, null=True)
     rank_pts  = models.IntegerField(blank=True, default=0)
-    birth_date = models.CharField(max_length=10, blank=True, null=True)
+    birth_date = models.CharField(max_length=20, blank=True, null=True)
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
     gender = models.CharField(
         max_length=1,

@@ -108,16 +108,13 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
     from userspace.models import UserProfile
     token = None
     if user:
-        try:
-            token = user.auth_token
+        try: token = user.auth_token
         except Token.DoesNotExist:
             token = Token.objects.create(user=user)
             token.save()
-        try:
-            profile = UserProfile.objects.get(user=user)
+        try: profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
-            profile = UserProfile(
-                user = user,
-            )
-            if 'gender' in response: profile.gender = response['gender']
+            profile = UserProfile(user = user)
+            if 'gender' in response:
+                profile.gender = obtain_user_gender(response)
             profile.save()
