@@ -27,7 +27,7 @@
                 
                 <div class="follower-header">
                 <a href="{% url 'user:profile' usr.username %}">
-                    <div class="follower-background"><img alt="{{ usr.profile.background_image.url }}" src="{{ usr.profile.avatar.url }}"></div>
+                    <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.background_image.url }}"></div>
                     <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
                     </a>
                 </div>
