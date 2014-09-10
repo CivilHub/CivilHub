@@ -126,7 +126,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # odkomentować na produkcji - wyświetlanie błędów w social_auth
-    'places_core.middleware.SocialAuthExceptionMiddleware',
+    #'places_core.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -189,6 +189,7 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
+SOCIAL_AUTH_UID_LENGTH = 255
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/activity/'
 # Custom setting - dla użytkowników Twittera
 SOCIAL_AUTH_SET_TWITTER_EMAIL_URL = '/user/twitter_email/'
