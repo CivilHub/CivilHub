@@ -10,7 +10,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, \
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, TemplateView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,14 +21,19 @@ from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe, require_POST
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
-from actstream.models import model_stream
+from actstream.models import model_stream, user_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
+from blog.models import News
+from ideas.models import Idea
+from polls.models import Poll
+from topics.models import Discussion
 from .models import Bookmark
 from forms import *
 # REST api
@@ -37,6 +42,7 @@ from rest_framework import permissions as rest_permissions
 from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
+from rest.serializers import PaginatedActionSerializer
 from .managers import SocialAuthManager
 from .serializers import BookmarkSerializer, \
                           UserAuthSerializer, \
@@ -176,6 +182,33 @@ class CredentialCheckAPIView(rest_views.APIView):
         return Response({'valid': valid})
 
 
+class ActivityAPIViewSet(rest_views.APIView):
+    """
+    Zastępstwo dla standardowego widoku `django-activity-stream`. Prezentuje
+    tzw. feed użytkownika, który jest aktualnie zalogowany. Jeżeli użytkownik
+    jest anonimowy, dostanie w odpowiedzi 404.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        if request.user.is_anonymous(): return HttpResponseNotFound()
+        actstream = user_stream(request.user)
+        page = request.QUERY_PARAMS.get('page')
+        paginator = Paginator(actstream, settings.STREAM_PAGINATOR_LIMIT)
+        try:
+            actions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            actions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            actions = paginator.page(paginator.num_pages)
+        serializer = PaginatedActionSerializer(actions,
+                                               context={'request': request})
+        return Response(serializer.data)
+
+
 class BookmarkAPIViewSet(viewsets.ModelViewSet):
     """
     Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
@@ -219,6 +252,37 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
                 user = request.user)
             bookmark.save()
             return Response(True)
+
+
+class UserActivityView(TemplateView):
+    """ """
+    template_name = 'userspace/activity.html'
+
+    def get_latest(self, actstream, item_type):
+        """ Get latest items of selected type from user activity stream. """
+        if item_type   == 'blog':
+            ct = ContentType.objects.get_for_model(News).pk
+        elif item_type == 'ideas':
+            ct = ContentType.objects.get_for_model(Idea).pk
+        elif item_type == 'topics':
+            ct = ContentType.objects.get_for_model(Discussion).pk
+        elif item_type == 'polls':
+            ct = ContentType.objects.get_for_model(Poll).pk
+        raw_set = actstream.filter(action_object_content_type_id=ct).order_by('-timestamp')[:5]
+        return [x.action_object for x in raw_set]
+
+    def get_context_data(self, **kwargs):
+        context = super(UserActivityView, self).get_context_data(**kwargs)
+        actstream = user_stream(self.request.user)
+        context['blog']   = self.get_latest(actstream, 'blog')
+        context['ideas']  = self.get_latest(actstream, 'ideas')
+        context['topics'] = self.get_latest(actstream, 'topics')
+        context['polls']  = self.get_latest(actstream, 'polls')
+        return context
+
+    def get(self, request):
+        if request.user.is_anonymous(): return HttpResponseNotFound()
+        return super(UserActivityView, self).get(request)
 
 
 class SetTwitterEmailView(FormView):
