@@ -143,3 +143,27 @@ class CountryJSONStorage(object):
             pass
 
         return markers
+
+
+# Sygnały obsługujące tworzenie/usuwanie markerów dla różnych obiektów.
+# ---------------------------------------------------------------------
+
+def dump_location_markers(sender, instance, created, **kwargs):
+    """
+    Funkcja zapisująca markery dla lokalizacji w kraju, do którego należy nowo
+    utworzona/wyedytowana lokalizacja (sender). Funkcja nie sprawdza, czy sender
+    faktycznie jest instancją modelu Location.
+    """
+    if not instance.latitude or not instance.longitude: return False
+    cjs = CountryJSONStorage()
+    cjs.dump_data(instance.country_code, True, False)
+
+
+def dump_object_markers(sender, instance, created, **kwargs):
+    """
+    Funkcja zrzuca do pliku wszystkie informacje o markerach w kraju odpowiada-
+    jącym nowo utworzonemu/wyedytowanemu markerowi. Należy przekazać instancję
+    obiektu MapPointer.
+    """
+    cjs = CountryJSONStorage()
+    cjs.dump_data(instance.content_object.location.country_code, False, True)

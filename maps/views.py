@@ -13,10 +13,10 @@ from django.db import transaction
 from django.contrib.gis.geoip import GeoIP
 from ipware.ip import get_ip
 from places_core.helpers import truncatesmart, truncatehtml
-from geobase.storage import CountryJSONStorage
 from locations.models import Location
 from blog.models import News
 from geobase.models import Country
+from geobase.storage import CountryJSONStorage
 from models import MapPointer
 import forms
 # REST API
@@ -144,7 +144,6 @@ def save_pointer(request):
     
     TODO: this could be made simpler with REST framework.
     """
-    from geobase.storage import CountryJSONStorage
     ct = ContentType.objects.get(pk=request.POST.get('content_type'))
     pointer = MapPointer()
     pointer.object_pk = request.POST.get('object_pk')
@@ -158,8 +157,6 @@ def save_pointer(request):
             'message': "Pointer added",
             'level'  : 'success',
         }
-        cjs = CountryJSONStorage()
-        cjs.dump_data(pointer.content_object.location.country_code, False, True)
     except Exception as ex:
         context = {
             'success': False,

@@ -524,12 +524,6 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
                 latitude = lat,
                 longitude = lon
             )
-            mp.save()
-            mp = MapPointer.objects.latest('pk')
-            from geobase.storage import CountryJSONStorage
-            cjs = CountryJSONStorage()
-            cjs.dump_data(topic.location.country_code, False, True)
-        super(LocationDiscussionCreate, self).form_valid(form)
         return redirect(reverse('locations:topic', 
             kwargs = {
                 'place_slug': topic.location.slug,
@@ -756,10 +750,6 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        if form.instance.latitude and form.instance.longitude:
-            from geobase.storage import CountryJSONStorage
-            cjs = CountryJSONStorage()
-            cjs.dump_data(form.instance.country_code, True, False)
         form.instance.creator = self.request.user
         return super(CreateLocationView, self).form_valid(form)
 
@@ -963,3 +953,11 @@ def change_background(request, pk):
     location.image = request.FILES['image']
     location.save()
     return redirect(request.META['HTTP_REFERER'])
+
+
+# Tworząc nową lokalizację, uaktualniamy plik z markerami.
+# --------------------------------------------------------
+
+from django.db.models.signals import post_save
+from geobase.storage import dump_location_markers
+post_save.connect(dump_location_markers, sender=Location)
