@@ -9,6 +9,7 @@ router = routers.HybridRouter()
 #router.register('users', views.UserAPIViewSet, 'users')
 router.register('bookmarks', views.BookmarkAPIViewSet, 'bookmarks')
 #router.register('socials', views.UserAuthAPIViewSet, 'socials')
+router.add_api_view('activity', url(r'activity/$', views.ActivityAPIViewSet.as_view(), name='activity'))
 
 
 urlpatterns = patterns('',

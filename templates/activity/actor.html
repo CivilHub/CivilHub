@@ -3,6 +3,8 @@
 {% load activity_tags i18n %}
 
 {% block require_scripts %}
+<script>window.API_URL = "/api-userspace/activity/";</script>
+<script>window.USER_ID = "{{ user.pk }}";</script>
 <script data-main="{% static 'places_core' %}/js/build/userspace/activity/userspace-activity-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
@@ -31,7 +33,7 @@
 
     <div class="col-lg-5">
         <div class="activity-stream">
-        
+            <noscript>
             {% for action in action_list %}
                 <div class="row action-entry">
                     
@@ -90,7 +92,7 @@
                     </div><!-- // .entry-meta-col -->
                     
                 </div><!-- // .user-action-entry -->
-            {% endfor %}
+            {% endfor %}</noscript>
         </div>
     </div>
 
@@ -131,44 +133,43 @@
         </div>
     </div>
 </div>
-<!-- 
-<script type="text/template" id="action-template">
-    <div class="col-md-2 entry-avatar-col">
-        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="inline-user-avatar" />
-        <%= actor.rank_pts %>
-    </div>
-    
-    <div class="col-md-10 entry-meta-col">
-        <div class="entry-header">
-            <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
-            <%= verb %>
-            <% if (!_.isEmpty(object_ct)) { %>
-                <%= object_ct %>
-                <% if (_.isEmpty(target_ct)) { %>
-                    <a href="<%= object.url %>"><%= object.name %></a>
-                <% } else { %>
-                    <a href="<%= object.url %>"><%= object.name %></a>
-                    {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
-                <% } %>
-            <% } else if (!_.isEmpty(target_ct)) { %>
-                <a href="<%= target.url %>"><%= target.name %></a>
-            <% } %>
-            <%= timestamp %> {% trans "ago" %}
-        </div>
-        <div class="entry-body"><%= description %></div>
-        <div class="clear">&nbsp;</div>
-        <div class="entry-footer">
-            {% trans "Share" %}: 
-            <% if (!_.isEmpty(object.url)) { %>
-                    <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
-                    <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-            <% } else if (!_.isEmpty(target.url)) { %>
-                    <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
-                    <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-            <% } %>
-        </div>
-    </div>
-</script>-->
 
+    <script type="text/template" id="action-template">
+        <div class="col-md-2 entry-avatar-col">
+            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
+            <%= actor.rank_pts %>
+        </div>
+        
+        <div class="col-md-10 entry-meta-col">
+            <div class="entry-header">
+                <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+                <%= verb %>
+                <% if (!_.isEmpty(object_ct)) { %>
+                    <%= object_ct %>
+                    <% if (_.isEmpty(target_ct)) { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                    <% } else { %>
+                        <a href="<%= object.url %>"><%= object.name %></a>
+                        {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                    <% } %>
+                <% } else if (!_.isEmpty(target_ct)) { %>
+                    <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+                <%= timestamp %> {% trans "ago" %}
+            </div>
+            <div class="entry-body"><%= description %></div>
+            <div class="clear">&nbsp;</div>
+            <div class="entry-footer">
+                {% trans "Share" %}: 
+                <% if (!_.isEmpty(object.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                <% } else if (!_.isEmpty(target.url)) { %>
+                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
+                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
+                <% } %>
+            </div>
+        </div><!-- // .entry-meta-col -->
+    </script>
 
 {% endblock %}

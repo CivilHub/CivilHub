@@ -21,8 +21,9 @@ from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe, require_POST
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
-from actstream.models import model_stream
+from actstream.models import model_stream, user_stream
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
@@ -37,6 +38,7 @@ from rest_framework import permissions as rest_permissions
 from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
+from rest.serializers import PaginatedActionSerializer
 from .managers import SocialAuthManager
 from .serializers import BookmarkSerializer, \
                           UserAuthSerializer, \
@@ -174,6 +176,33 @@ class CredentialCheckAPIView(rest_views.APIView):
             except User.DoesNotExist:
                 valid = True
         return Response({'valid': valid})
+
+
+class ActivityAPIViewSet(rest_views.APIView):
+    """
+    Zastępstwo dla standardowego widoku `django-activity-stream`. Prezentuje
+    tzw. feed użytkownika, który jest aktualnie zalogowany. Jeżeli użytkownik
+    jest anonimowy, dostanie w odpowiedzi 404.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        if request.user.is_anonymous(): return HttpResponseNotFound()
+        actstream = user_stream(request.user)
+        page = request.QUERY_PARAMS.get('page')
+        paginator = Paginator(actstream, settings.STREAM_PAGINATOR_LIMIT)
+        try:
+            actions = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            actions = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999),
+            # deliver last page of results.
+            actions = paginator.page(paginator.num_pages)
+        serializer = PaginatedActionSerializer(actions,
+                                               context={'request': request})
+        return Response(serializer.data)
 
 
 class BookmarkAPIViewSet(viewsets.ModelViewSet):
