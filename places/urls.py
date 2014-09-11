@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView, HomeView
-from userspace.views import register
+from userspace.views import register, UserActivityView
 admin.autodiscover()
 # include action hooks globally
 from places_core import actstreams
@@ -97,7 +97,8 @@ urlpatterns += patterns('',
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream
-    url(r'^activity/', include('actstream.urls', namespace='activities')),
+    #url(r'^activity/', include('actstream.urls', namespace='activities')),
+    url(r'^activity/', UserActivityView.as_view()),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
     # django-discussions (e.g. user messages)

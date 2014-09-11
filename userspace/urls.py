@@ -30,5 +30,6 @@ urlpatterns = patterns('',
     url(r'my_bookmarks/', views.my_bookmarks, name='my_bookmarks'),
     url(r'locations/(?P<pk>\d+)/', views.UserFollowedLocations.as_view(), name='locations'),
     url(r'background/', views.change_background, name='background'),
+    url(r'dashboard/', views.UserActivityView.as_view(), name='dashboard'),
     url(r'(?P<username>\w+)/$', views.profile, name='profile'),
 )
