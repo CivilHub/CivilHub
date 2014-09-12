@@ -31,11 +31,7 @@ def delete_thumbnails(imgfile):
     contains this filename.
     """
     imgfile = os.path.splitext(imgfile)[0]
-    print imgfile
-    print AVATAR_IMG_PATH
     for f in os.listdir(AVATAR_IMG_PATH):
-        print f
-        print imgfile in f
         if imgfile in f: os.unlink(os.path.join(AVATAR_IMG_PATH, f))
 
 

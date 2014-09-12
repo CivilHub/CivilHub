@@ -82,9 +82,12 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
-            orig = UserProfile.objects.get(pk=self.pk)
-            if not u'background.jpg' in orig.background_image.name:
-                os.unlink(orig.background_image.path)
+            try:
+                orig = UserProfile.objects.get(pk=self.pk)
+                if not u'background.jpg' in orig.background_image.name and orig.background_image != self.background_image:
+                    os.unlink(orig.background_image.path)
+            except UserProfile.DoesNotExist:
+                pass
         super(UserProfile, self).save(*args, **kwargs)
     
     def thumbnail_small(self):

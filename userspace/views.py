@@ -314,7 +314,7 @@ class ProfileUpdateView(UpdateView):
         try:
             return self.request.user.profile
         except UserProfile.DoesNotExist:
-            prof = UserProfile.objects.create(user=user)
+            prof = UserProfile.objects.create(user=self.request.user)
             prof.save()
             return prof
 
@@ -710,11 +710,12 @@ def upload_avatar(request):
         f = AvatarUploadForm(request.POST, request.FILES)
         if f.is_valid():
             user = UserProfile.objects.get(user=request.user.id)
-            try:
-                os.unlink(user.avatar.path)
-                delete_thumbnails(user.avatar.name.split('/')[-1:][0])
-            except Exception:
-                pass
+            if not u'anonymous' in user.avatar.name:
+                try:
+                    os.unlink(user.avatar.path)
+                    delete_thumbnails(user.avatar.name.split('/')[-1:][0])
+                except Exception:
+                    pass
             user.avatar = crop_avatar(request.FILES['avatar'])
             size = 30, 30
             path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
@@ -727,9 +728,6 @@ def upload_avatar(request):
             user.thumbnail = 'img/avatars/' + thumbname
             user.save()
             messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-    #~ return HttpResponse(dumps({
-        #~ 'avatar': user.avatar.url
-    #~ }));
     return redirect('user:index')
 
 
