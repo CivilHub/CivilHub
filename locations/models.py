@@ -112,9 +112,6 @@ class Location(models.Model):
                 a.get_ancestor_chain(ancestors, response)
         return ancestors
 
-    def get_country_name(self):
-        pass
-
     def count_users_actions(self, user):
         """
         Count actions related to this place performed

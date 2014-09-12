@@ -27,6 +27,7 @@
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
         </li>
+        {% if location.location_set.count %}
         <li class="last-element">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
             <ul class="dropdown-menu ancestors-menu">
@@ -35,6 +36,7 @@
                 {% endfor %}
             </ul>
         </li>
+        {% endif %}
     </ul>
     
 </div>
