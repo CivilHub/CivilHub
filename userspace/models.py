@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from uuid import uuid4
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.conf import settings
@@ -25,6 +26,10 @@ def thumbnail(imgname, size):
     file, ext = os.path.splitext(imgname.split('/')[-1:][0])
     pathname = os.path.join(settings.MEDIA_URL, '/'.join(imgname.split('/')[:-1]))
     return pathname + '/' + str(size) + 'x' + str(size) + '_' + file + ext
+
+
+def get_upload_path(instance, filename):
+    return 'img/backgrounds/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
 class UserProfile(models.Model):
@@ -70,19 +75,19 @@ class UserProfile(models.Model):
         storage = OverwriteStorage()
     )
     background_image = models.ImageField(
-        upload_to = "img/backgrounds/",
-        default = 'img/backgrounds/background.jpg',
-        storage = ReplaceStorage()
+        upload_to = get_upload_path,
+        default = 'img/backgrounds/background.jpg'
     )
     
     def save(self, *args, **kwargs):
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
-        try:
-            orig = UserProfile.objects.get(pk=self.pk)
-            if orig.background_image != self.background_image:
-                delete_image(orig.background_image.path)
-        except UserProfile.DoesNotExist:
-            pass
+        if self.pk:
+            try:
+                orig = UserProfile.objects.get(pk=self.pk)
+                if not u'background.jpg' in orig.background_image.name and orig.background_image != self.background_image:
+                    os.unlink(orig.background_image.path)
+            except UserProfile.DoesNotExist:
+                pass
         super(UserProfile, self).save(*args, **kwargs)
     
     def thumbnail_small(self):

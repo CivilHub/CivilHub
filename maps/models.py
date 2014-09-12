@@ -33,4 +33,9 @@ class MapPointer(BaseAbstractMapPointer):
     objects = MapPointerManager()
 
     def __unicode__(self):
-        return "x".join([str(self.latitude), str(self.longitude)])
+        return u"x".join([str(self.latitude), str(self.longitude)])
+
+
+from geobase.storage import dump_object_markers
+models.signals.post_save.connect(dump_object_markers, sender=MapPointer)
+models.signals.post_delete.connect(dump_object_markers, sender=MapPointer)

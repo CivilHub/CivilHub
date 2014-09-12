@@ -31,8 +31,7 @@ def get_country_codes():
 
 
 def get_upload_path(instance, filename):
-    name =  uuid4().hex + os.path.splitext(filename)[1]
-    return os.path.join(settings.MEDIA_ROOT, 'img/locations', name)
+    return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
 class Location(models.Model):
@@ -52,8 +51,7 @@ class Location(models.Model):
                                     choices=get_country_codes())
     image     = models.ImageField(
         upload_to = get_upload_path,
-        default = 'img/locations/nowhere.jpg',
-        storage = ReplaceStorage()
+        default = 'img/locations/nowhere.jpg'
     )
 
     def save(self, *args, **kwargs):
@@ -68,7 +66,8 @@ class Location(models.Model):
             # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
             try:
                 orig = Location.objects.get(pk=self.pk)
-                if orig.image != self.image: delete_image(orig.image.path)
+                if not u'nowhere' in orig.image.name and orig.image != self.image:
+                    delete_image(orig.image.path)
             except Location.DoesNotExist:
                 pass
         super(Location, self).save(*args, **kwargs)

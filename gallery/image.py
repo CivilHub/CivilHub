@@ -42,11 +42,15 @@ def resize_background_image(sender, instance, created, **kwargs):
     takes model instance as argument and performs resizing and cropping.
     """
     fieldname = get_fieldname(instance)
-    
+
+    if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
+        return False
+
     try:
         image = Image.open(fieldname.path)
     except IOError:
         return False
+
     image = resize_image(image)
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
     width, height = image.getdata().size
@@ -65,6 +69,9 @@ def delete_background_image(sender, instance, **kwargs):
     Metoda usuwająca obraz tła dla modeli lokalizacji oraz profilu użytkownika.
     """
     fieldname = get_fieldname(instance)
+    
+    if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
+        return False
 
     if (os.path.isfile(fieldname.path)):
         os.unlink(fieldname.path)
