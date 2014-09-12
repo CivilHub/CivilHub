@@ -794,11 +794,7 @@ def change_background(request):
             profile = request.user.profile
         else:
             return HttpResponseForbidden()
-        try:
-            os.unlink(profile.background_image.path)
-        except Exception:
-            pass
-        profile.background_image = process_background_image(request.FILES['background'], 'img/backgrounds')
+        profile.background_image = request.FILES['background']
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
 
