@@ -92,7 +92,6 @@ class Location(models.Model):
                 self.parent.get_parent_chain(parents, response)
         return reversed(parents)
 
-
     def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """
         Get all sublocations and return dictionary of name - url pairs. The 
@@ -113,6 +112,8 @@ class Location(models.Model):
                 a.get_ancestor_chain(ancestors, response)
         return ancestors
 
+    def get_country_name(self):
+        pass
 
     def count_users_actions(self, user):
         """
@@ -129,7 +130,6 @@ class Location(models.Model):
         actions = actions.filter(target_object_id=self.pk)
         return actions.count()
 
-
     def most_active_followers(self, limit=10):
         """ Show the most active followers of current place. """
         tmp = []
@@ -142,7 +142,6 @@ class Location(models.Model):
         actions = reversed(tmp)
 
         return actions
-
 
     def get_absolute_url(self):
         return reverse('locations:details', kwargs={'slug':self.slug})
