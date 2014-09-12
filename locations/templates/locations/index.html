@@ -1,6 +1,14 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles %}{% load i18n %}
 
+{% block geometa %}{% if location.latitude and location.longitude %}
+<meta name="DC.title" content="{{ location.name }}" />
+<meta name="geo.region" content="{{ location.country_code }}" />
+<meta name="geo.placename" content="{{ location.name }}" />
+<meta name="geo.position" content="{{ location.latitude }};{{ location.longitude }}" />
+<meta name="ICBM" content="{{ location.latitude }}, {{ location.longitude }}" />
+{% endif %}{% endblock %}
+
 {% block require_scripts %}
 <script data-main="{% static 'places_core' %}/js/build/locations/default/default-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
@@ -19,7 +27,7 @@
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
         </li>
-        {% if location.get_ancestor_chain %}
+        {% if location.location_set.count %}
         <li class="last-element">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
             <ul class="dropdown-menu ancestors-menu">
