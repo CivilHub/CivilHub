@@ -159,7 +159,7 @@ def dump_location_markers(sender, instance, created, **kwargs):
     cjs.dump_data(instance.country_code, True, False)
 
 
-def dump_object_markers(sender, instance, created, **kwargs):
+def dump_object_markers(sender, instance, **kwargs):
     """
     Funkcja zrzuca do pliku wszystkie informacje o markerach w kraju odpowiada-
     jącym nowo utworzonemu/wyedytowanemu markerowi. Należy przekazać instancję

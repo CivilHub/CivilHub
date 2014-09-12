@@ -42,12 +42,10 @@ function ($, bootbox) {
                                 beforeSend: function (xhr, settings) {
                                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                                 },
-                                type: 'POST',
-                                url: '/maps/remove/',
-                                data: {pk: marker.pk},
-                                dataType: 'json',
+                                type: 'DELETE',
+                                url: '/api-maps/pointers/'+marker.pk,
                                 success: function (resp) {
-                                    window.message.success(resp.message);
+                                    window.message.success(gettext('Marker deleted'));
                                     m.setVisible(false);
                                 },
                                 error: function (err) {

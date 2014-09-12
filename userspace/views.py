@@ -646,7 +646,7 @@ def login(request):
                     if len(datas) > 5:
                         for i in range (len(datas) - 5):
                             datas[i].delete()
-                    return redirect('activities:actstream')
+                    return redirect('/activity/')
                 else:
                     ctx = {'errors': _("Your account has not been activated")}
                     return render(request, 'userspace/login.html', ctx)
