@@ -79,7 +79,7 @@ class UserProfile(models.Model):
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         try:
             orig = UserProfile.objects.get(pk=self.pk)
-            if orig.background_image != self.background_image:
+            if orig.background_image != self.background_image and not u'background' in orig.background_image.name:
                 delete_image(orig.background_image.path)
         except UserProfile.DoesNotExist:
             pass

@@ -36,10 +36,11 @@ class ReplaceStorage(FileSystemStorage):
 
     def get_available_name(self, name):
         """
-		Storage for backgrund images.
+        Storage for backgrund images.
         """
         # If the filename already exists, remove it as if it was
         # a true file system
-        if self.exists(name):
-            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        #~ if self.exists(name):
+            #~ os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        self.delete(name)
         return uuid4().hex + os.path.splitext(name)[1]
