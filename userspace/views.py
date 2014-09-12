@@ -646,6 +646,9 @@ def login(request):
                     if len(datas) > 5:
                         for i in range (len(datas) - 5):
                             datas[i].delete()
+                    elif len(datas) == 1:
+                        # Jeżeli użytkownik loguje się pierwszy raz, pokazujemy mu listę
+                        return redirect('locations:index')
                     return redirect('/activity/')
                 else:
                     ctx = {'errors': _("Your account has not been activated")}
