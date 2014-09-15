@@ -11,6 +11,7 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage, ReplaceStorage
+from places_core.helpers import sanitizeHtml
 from locations.models import Location
 from actstream.models import following
 from gallery.image import resize_background_image, delete_background_image, \
@@ -80,6 +81,7 @@ class UserProfile(models.Model):
     )
     
     def save(self, *args, **kwargs):
+        self.description = sanitizeHtml(self.description)
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
             try:

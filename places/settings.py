@@ -363,11 +363,18 @@ AVATAR_THUMBNAIL_SIZES = [
 
 
 # South database migrations schemes
-#-------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
+
+
+# Sanitize input/output
+# ------------------------------------------------------------------------------
+VALID_TAGS = ['p','i','strong','b','u','a','h1','h2','h3','pre','br','img',]
+VALID_ATTRS = ['href','src','width','height']
+URL_ATTRS = ['href','src']
 
 
 # GeoIP settings

@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
-from places_core.helpers import truncatehtml
+from places_core.helpers import truncatehtml, sanitizeHtml
 
 
 class Category(models.Model):
@@ -56,6 +56,7 @@ class News(models.Model):
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 
     def save(self, *args, **kwargs):
+        self.content = sanitizeHtml(self.content)
         if self.pk:
             self.edited = True
         else:

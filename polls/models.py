@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from locations.models import Location
 from taggit.managers import TaggableManager
-from places_core.helpers import truncatehtml
+from places_core.helpers import truncatehtml, sanitizeHtml
 
 
 class Poll(models.Model):
@@ -23,6 +23,7 @@ class Poll(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        self.question = sanitizeHtml(self.question)
         if not self.pk:
             to_slug_entry = self.title
             chk = Poll.objects.filter(title=self.title)
@@ -52,6 +53,10 @@ class Answer(models.Model):
     """
     answer = models.CharField(max_length=256)
     poll   = models.ForeignKey(Poll)
+
+    def save(self, *args, **kwargs):
+        self.answer = sanitizeHtml(self.answer)
+        super(Answer, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.answer

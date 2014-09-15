@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
+from places_core.helpers import sanitizeHtml
 
 
 class GalleryItem(models.Model):
@@ -91,6 +92,10 @@ class LocationGalleryItem(GalleryItem):
     
     class Meta:
         verbose_name = _("gallery item")
+
+    def save(self, *args, **kwargs):
+        self.description = sanitizeHtml(self.description)
+        super(LocationGalleryItem, self).save(*args, **kwargs)
 
     def url(self):
         """

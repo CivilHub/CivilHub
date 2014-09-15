@@ -4,6 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from userspace.models import UserProfile
+from places_core.helpers import sanitizeHtml
 
 
 class CustomComment(MPTTModel, Comment):
@@ -15,6 +16,10 @@ class CustomComment(MPTTModel, Comment):
     
     class MPTTMeta:
         order_insertion_by = ['submit_date']
+
+    def save(self, *args, **kwargs):
+        self.comment = sanitizeHtml(self.comment)
+        super(CustomComment, self).save(*args, **kwargs)
 
     def get_reply_comments(self):
         return len(CustomComment.objects.filter(parent=self))

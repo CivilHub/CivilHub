@@ -49,14 +49,14 @@
             </div>
 
         </div>
+        
         <hr />
+        
         <h1>{{ title }}&nbsp;</h1>
 
         <hr />
 
         {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a> {% endfor %}
-
-        
 
         <div class="reply-entry">
             <div class="row">
@@ -88,7 +88,6 @@
             </div>
         </div>
 
-        {% comment %}<noscript>{% endcomment %}
         {% for entry in replies %}
             <div class="reply-entry" id="reply-{{ entry.pk }}">
                 <div class="row">
@@ -151,9 +150,8 @@
                 <li><a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a></li>
                 <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
             {% endif %}
+            
         </ul>
-        
-        {% comment %}</noscript>{% endcomment %}
         
         <div id="replies"></div>
         
@@ -170,6 +168,10 @@
                 </div>
             </form>
             
+        {% elif user.is_anonymous and discussion.status %}
+        
+            <p class="alert alert-info">{% trans "You have to be logged in to post answers." %}</p>
+        
         {% else %}
         
             <p class="alert alert-info">{% trans "This topic is closed. You can't post answers." %}</p>

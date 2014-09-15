@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
-from places_core.helpers import truncatehtml
+from places_core.helpers import truncatehtml, sanitizeHtml
 
 
 class Category(models.Model):
@@ -36,6 +36,7 @@ class Discussion(models.Model):
     date_edited  = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        self.intro = sanitizeHtml(self.intro)
         if not self.slug:
             to_slug_entry = self.question
             chk = Discussion.objects.filter(question=self.question)
@@ -79,6 +80,7 @@ class Entry(MPTTModel):
         order_insertion_by = ['date_created']
 
     def save(self, *args, **kwargs):
+        self.content = sanitizeHtml(self.content)
         if self.pk is not None:
             self.is_edited = True
         super(Entry, self).save(*args, **kwargs)
