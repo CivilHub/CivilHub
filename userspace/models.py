@@ -81,7 +81,8 @@ class UserProfile(models.Model):
     )
     
     def save(self, *args, **kwargs):
-        self.description = sanitizeHtml(self.description)
+        if self.description:
+            self.description = sanitizeHtml(self.description)
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
             try:
