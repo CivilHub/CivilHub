@@ -54,16 +54,16 @@ require.config({
 
 require(['jquery',
          'js/ideas/votes/counterWindow',
+         'js/maps/minimap',
          'js/common',
          'js/ideas/votes/votes',
          'js/comments/comments',
-         'js/maps/minimap',
          'js/maps/pointer',
          'js/inviter/userinviter',
          'js/locations/follow',
          'js/ideas/category-creator'],
 
-function ($, CounterWindow) {
+function ($, CounterWindow, Minimap) {
     
     "use strict";
     
@@ -78,11 +78,13 @@ function ($, CounterWindow) {
     });
     
     // Minimapa z markerami (jeżeli są jakieś)
-    setTimeout(function () {
-        if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(window.MARKERS);
-        }
-    }, 2000);
+    $(document).ready(function () {
+        var minimap = new Minimap(window.MARKERS);
+        $('.minimap-toggle-button').on('click', function (e) {
+            e.preventDefault();
+            minimap.open();
+        });
+    });
     
     $(document).trigger('load');
     

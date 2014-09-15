@@ -49,23 +49,26 @@ require.config({
 });
 
 require(['jquery',
+         'js/maps/minimap',
          'js/common',
          'js/locations/follow',
-         'js/maps/minimap',
          'js/maps/pointer',
          'js/comments/comments',
          'js/blog/category-creator',
          'js/inviter/userinviter'], 
          
-function ($) {
+function ($, Minimap) {
     
     "use strict";
     
-    setTimeout(function () {
-        if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(window.MARKERS);
-        }
-    }, 2000);
+    // Minimapa z markerami (jeżeli są jakieś)
+    $(document).ready(function () {
+        var minimap = new Minimap(window.MARKERS);
+        $('.minimap-toggle-button').on('click', function (e) {
+            e.preventDefault();
+            minimap.open();
+        });
+    });
     
     $(document).trigger('load');
     

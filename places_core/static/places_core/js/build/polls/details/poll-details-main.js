@@ -48,28 +48,24 @@ require.config({
 });
 
 require(['jquery',
-         'js/common',
          'js/maps/minimap',
+         'js/common',
          'js/maps/pointer',
          'js/locations/follow',
          'js/inviter/userinviter'],
 
-function ($) {
+function ($, Minimap) {
     
     "use strict";
     
-    var runMinimap = function () {
-        
-        if (pollapp.markers.length > 0) {
-            $('#minimap').minimap(pollapp.markers);
-        }
-        
-        return false;
-    };
-    
-    setTimeout(function () {
-        runMinimap();
-    }, 2000);
+    // Minimapa z markerami (jeżeli są jakieś)
+    $(document).ready(function () {
+        var minimap = new Minimap(window.MARKERS);
+        $('.minimap-toggle-button').on('click', function (e) {
+            e.preventDefault();
+            minimap.open();
+        });
+    });
     
     $(document).trigger('load');
     

@@ -56,18 +56,26 @@ require.config({
 
 require(['jquery',
          'js/ui/ui',
+         'js/maps/minimap',
          'js/ui/mapinput',
          'js/common',
-         'js/maps/minimap',
          'js/ui/bookmark-form',
          'js/locations/follow',
          'js/inviter/userinviter',
          'js/topics/reply-form',
          'js/topics/category-creator'],
 
-function ($, ui) {
+function ($, ui, Minimap) {
     
     "use strict";
+    
+    $(document).ready(function () {
+        var minimap = new Minimap(window.MARKERS);
+        $('.minimap-toggle-button').on('click', function (e) {
+            e.preventDefault();
+            minimap.open();
+        });
+    });
     
     $('.map-marker-toggle').bind('click', function (evt) {
         evt.preventDefault();
@@ -127,12 +135,6 @@ function ($, ui) {
             $('.modal-backdrop').remove();
         });
     });
-    
-    setTimeout(function () {
-        if (window.MARKERS.length > 0) {
-            $('#minimap').minimap(window.MARKERS);
-        }
-    }, 2000);
     
     //
     // Save user's vote on server

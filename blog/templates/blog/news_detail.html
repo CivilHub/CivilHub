@@ -23,8 +23,6 @@
                 <img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
                 <br />{{ news.creator.profile.rank_pts }}
             
-            {% if map_markers %}<div id="minimap"></div>{% endif %}
-            
             {% include 'locations/share_buttons.html' %}
             
             </div>
@@ -52,6 +50,7 @@
 
                     <div class="entry-submenu">
                         <ul>
+                            {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                             <li>{% bookmark_form news user %}</li>
                             {% if user.is_authenticated and user != news.creator %}
                             <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='blog' model_label='news' object_pk=news.pk %}">
