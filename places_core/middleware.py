@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.http import HttpResponse
+from django.utils import translation
 from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from social import exceptions as social_exceptions
 
@@ -15,3 +17,13 @@ class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
             return HttpResponse("Social auth exception: %s" % exception)
         else:
             raise exception
+
+
+class SubdomainMiddleware(object):
+    """
+    Middleware, który ustawia język sesji w zależności od wybranej subdomeny.
+    """
+    def process_request(self, request):
+        code = request.META.get('HTTP_HOST', '').split('.')[0]
+        if code in [x[0] for x in settings.LANGUAGES]:
+            translation.activate(code)

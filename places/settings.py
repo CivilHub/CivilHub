@@ -119,10 +119,10 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'places_core.middleware.SubdomainMiddleware',
     # odkomentować na produkcji - wyświetlanie błędów w social_auth
     #'places_core.middleware.SocialAuthExceptionMiddleware',
 )
