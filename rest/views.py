@@ -66,7 +66,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         
     def list(self, request):
         pk = request.QUERY_PARAMS.get('pk') or None
-        ct = request.QUERY_PARAMS.get('ct') or None        
+        ct = request.QUERY_PARAMS.get('content') or None        
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')

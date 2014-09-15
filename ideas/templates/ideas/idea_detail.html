@@ -53,7 +53,7 @@
                 </div>
                 <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
             </div>
-            {% if map_markers %}<div id="minimap"></div>{% endif %}
+            
             {% if idea.creator == user or is_moderator %}
 
             <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
@@ -67,6 +67,7 @@
             <h1>{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
                 <div class="entry-submenu">
                     <ul>
+                        {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                         {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>

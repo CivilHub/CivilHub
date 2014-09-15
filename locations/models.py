@@ -53,6 +53,9 @@ class Location(models.Model):
         upload_to = get_upload_path,
         default = 'img/locations/nowhere.jpg'
     )
+    
+    class Meta:
+        ordering = ['name',]
 
     def save(self, *args, **kwargs):
         # Generujemy odpowiedni slug

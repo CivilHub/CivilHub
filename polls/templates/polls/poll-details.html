@@ -4,16 +4,7 @@
 {% block title %} {{ poll.title }}, {{ location.name }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
-<script>
-var pollapp = {markers:[]};
-{% for m in map_markers %}
-pollapp.markers.push({
-    lat: '{{ m.latitude }}',
-    lng: '{{ m.longitude }}',
-    pk: '{{ m.pk }}'
-});
-{% endfor %}
-</script>
+{% include 'maps/minimap.html' %}
 <script data-main="{% static 'places_core' %}/js/build/polls/details/poll-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
@@ -25,13 +16,13 @@ pollapp.markers.push({
         <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle"> </span></h1>
         <div class="entry-submenu">
             <ul>
+                {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                 <li>{% bookmark_form poll user %}</li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
             </ul>
         </div>
-        <hr />
         
-        {% if map_markers %}<div id="minimap"></div>{% endif %}
+        <hr />
         
         <div class="acticle-content">{{ poll.question | safe }}</div>
         
