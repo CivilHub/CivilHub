@@ -85,7 +85,7 @@ class UserProfile(models.Model):
             try:
                 orig = UserProfile.objects.get(pk=self.pk)
                 if not u'background.jpg' in orig.background_image.name and orig.background_image != self.background_image:
-                    os.unlink(orig.background_image.path)
+                    delete_image(orig.background_image.path)
             except UserProfile.DoesNotExist:
                 pass
         super(UserProfile, self).save(*args, **kwargs)
