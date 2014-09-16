@@ -10,13 +10,11 @@
     <div class="col-sm-9 main-content">
         <div class="create-form">
         <h3>{% trans "Write news in" %} {{ location.name }}</h3>
-            <form role="form" method="post" action="" id="news-create-form">
+            <form class="form-horizontal" role="form" method="post" action="" id="news-create-form">
                 {% csrf_token %}
-                {{ form }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Create news" %}</button>
-                    <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
-                </div>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Create news" %}</button>
+                <button type="button" class="btn btn-default cancel-btn">{% trans "Cancel" %}</button>
             </form>
         </div>
     </div>

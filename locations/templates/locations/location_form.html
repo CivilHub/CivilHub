@@ -26,16 +26,14 @@ window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
     <div class="create-form">
         {% if action and action == 'edit' %}
             <h3>{% trans "Edit location" %}</h3>
-            <form role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
+            <form class="form-horizontal" role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
         {% else %}
             <h3>{% trans "Create location" %}</h3>
-            <form role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
+            <form class="form-horizontal" role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
         {% endif %}
             {% csrf_token %}
-            {{ form }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-            </div>
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
         </form>
         
     </div>

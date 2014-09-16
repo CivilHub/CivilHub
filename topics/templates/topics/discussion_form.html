@@ -8,13 +8,15 @@
 {% block content %}
 
     <div class="col-sm-8">
-        <form role="form" action="" method="post" id="discussion-create-form">
-            {% csrf_token %}
-            {{ form }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-            </div>
-        </form>
+        <div class="create-form">
+            <form class="form-horizontal" role="form" action="" method="post" id="discussion-create-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
 
 {% endblock %}

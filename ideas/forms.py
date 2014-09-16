@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from ideas.models import Idea, Category
 from locations.models import Location
+from places_core.forms import BootstrapBaseForm
 
 
 class CategoryForm(forms.ModelForm):
@@ -27,7 +28,7 @@ class CategoryForm(forms.ModelForm):
         fields = ('name', 'description',)
 
 
-class IdeaForm(forms.ModelForm):
+class IdeaForm(forms.ModelForm, BootstrapBaseForm):
     """
     Edit/update/create idea form
     """

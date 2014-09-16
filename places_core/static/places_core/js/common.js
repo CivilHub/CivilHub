@@ -75,7 +75,7 @@ function ($, _, Backbone, ui, utils) {
     // Common simple scripts.
     // -------------------------------------------------------------------------
     // Errorlist custom styles.
-    $('.errorlist > li').addClass('alert alert-danger');
+    //$('.errorlist > li').addClass('alert alert-danger');
     // Cancel button for some forms which allow back one page.
     $('.cancel-btn').on('click', function () {
         history.go(-1);

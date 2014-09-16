@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from places_core.forms import BootstrapBaseForm
 from .models import UserProfile
 
 
@@ -102,7 +103,7 @@ class LoginForm(forms.Form):
     )
 
 
-class UserProfileForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
     """
     Edit user profile data (excluding picture upload)
     """
@@ -125,7 +126,7 @@ class UserProfileForm(forms.ModelForm):
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     birth_date = forms.CharField(
-        label = _("Birth date (dd/mm/YYYY)"),
+        label = _("Birth date"),
         required = False,
         widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date','readonly':'readonly'})
     )
@@ -135,12 +136,12 @@ class UserProfileForm(forms.ModelForm):
         widget = forms.Select(attrs={'class':'form-control','id':'gender'})
     )
     gplus_url = forms.URLField(
-        label = _("Google+ profile url"),
+        label = _("Google+"),
         required = False,
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     fb_url = forms.URLField(
-        label = _("Facebook profile url"),
+        label = _("Facebook"),
         required = False,
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )

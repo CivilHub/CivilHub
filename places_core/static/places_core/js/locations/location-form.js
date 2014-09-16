@@ -15,8 +15,8 @@ function ($, _, Backbone) {
     "use strict";
     
     // Templatka dla dodawanych elementów formularza
-    var inputTemplate = '<div class="fake-input"><label>&nbsp</label><select \
-                        class="form-control"></select></div>';
+    var inputTemplate = '<div class="fake-input"><select class="form-control">\
+                         </select></div>';
     
     // Templatka dla pojedynczej opcji w elemencie 'select' (lokalizacja)
     var optionTemplate = '<option value="<%= id %>"><%= name %></option>';

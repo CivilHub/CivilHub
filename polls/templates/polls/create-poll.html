@@ -10,9 +10,9 @@
     <div class="col-sm-8 main-content">
         <div class="create-form">
             <h3>{% trans "Create poll in " %} {{ location.name }}</h3>
-            <form action="" method="post" role="form" id="poll-create-form">
+            <form class="form-horizontal" action="" method="post" role="form" id="poll-create-form">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
                 <h4>{% trans "Add answers" %}:</h4>
                 <div id="poll-answer-form"></div>
                 <p>
@@ -20,9 +20,7 @@
                         <span class="fa fa-plus-circle"> </span>
                     </button>
                 </p>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
-                </div>
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
             </form>
         </div>
     </div>

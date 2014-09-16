@@ -8,25 +8,27 @@
 {% block title %}{{ title | capfirst }}{% endblock %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/ideas/create/idea-create-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/ideas/create/idea-create-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 
 {% block content %}
 
     <div class="col-sm-8">
-        {% if action == 'update' %}
-            <form role="form" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
-        {% else %}
-            <form role="form" method="post" action="{% url 'ideas:create' %}" id="idea-create-form">
-        {% endif %}
-        
-            {% csrf_token %}
-            {{ form }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-            </div>
-        </form>
+        <div class="create-form">
+            {% if action == 'update' %}
+                <form role="form" class="form-horizontal" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
+            {% else %}
+                <form role="form" class="form-horizontal" method="post" action="{% url 'ideas:create' %}" id="idea-create-form">
+            {% endif %}
+            
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                </div>
+            </form>
+        </div>
     </div>
     
     <div class="col-sm-4">
