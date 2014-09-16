@@ -1,15 +1,48 @@
 # -*- coding: utf-8 -*-
 import json, math, os, re
+from urlparse import urljoin
+from BeautifulSoup import BeautifulSoup, Comment
 from uuid import uuid4 as uuid
 from PIL import Image
 from operator import itemgetter
 from taggit.models import Tag
 from django.conf import settings
 from django.core.files import File
-from locations.models import Location
 
 tag_end_re = re.compile(r'(\w+)[^>]*>')
 entity_end_re = re.compile(r'(\w+;)')
+
+
+def sanitizeHtml(value, base_url=None):
+    """
+    Allow only whitelisted tags. I have changed this method slightly to allow
+    defining tag whitelist in project's settings module.
+    
+    @see: http://stackoverflow.com/questions/16861/sanitising-user-input-using-python/25136#25136
+    """
+    rjs = r'[\s]*(&#x.{1,7})?'.join(list('javascript:'))
+    rvb = r'[\s]*(&#x.{1,7})?'.join(list('vbscript:'))
+    re_scripts = re.compile('(%s)|(%s)' % (rjs, rvb), re.IGNORECASE)
+    validTags = settings.VALID_TAGS
+    validAttrs = settings.VALID_ATTRS
+    urlAttrs = settings.URL_ATTRS
+    soup = BeautifulSoup(value)
+    for comment in soup.findAll(text=lambda text: isinstance(text, Comment)):
+        # Get rid of comments
+        comment.extract()
+    for tag in soup.findAll(True):
+        if tag.name not in validTags:
+            tag.hidden = True
+        attrs = tag.attrs
+        tag.attrs = []
+        for attr, val in attrs:
+            if attr in validAttrs:
+                val = re_scripts.sub('', val) # Remove scripts (vbs & js)
+                if attr in urlAttrs:
+                    val = urljoin(base_url, val) # Calculate the absolute url
+                tag.attrs.append((attr, val))
+
+    return soup.renderContents().decode('utf8')
 
 
 def truncatesmart(value, limit=40):

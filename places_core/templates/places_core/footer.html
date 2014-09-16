@@ -7,51 +7,51 @@
 <div class="clear"></div>
 <div class="footer">
 <div class="container">
-    <div class="row">
-    
-        <div class="col-md-5 left-side">
+	<div class="row">
+	
+		<div class="col-md-5 left-side">
 {% comment %}
-            <a href="/privacy">{% trans "Privacy Policy" %}</a>
-            <a href="/terms">{% trans "Terms of Use" %}</a>
-            <a href="/cookies">{% trans "Cookies" %}</a>
-            <a href="/press">{% trans "Press" %}</a>
-            <a href="/jobs">{% trans "Jobs" %}</a>
+			<a href="/privacy">{% trans "Privacy Policy" %}</a>
+			<a href="/terms">{% trans "Terms of Use" %}</a>
+			<a href="/cookies">{% trans "Cookies" %}</a>
+			<a href="/press">{% trans "Press" %}</a>
+			<a href="/jobs">{% trans "Jobs" %}</a>
 {% endcomment %}
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Press" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Press" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
 
-        </div>
-    
+		</div>
+	
 
-        <div class="col-md-2">
-            <a href="/"><img src="{% static "places_core/img/logo-footer.png" %}" alt="CivilHub" /></a>
-        </div>
-    
-    
-        <div class="col-md-5 right-side">
+		<div class="col-md-2">
+			<a href="/"><img src="{% static "places_core/img/logo-footer.png" %}" alt="CivilHub" /></a>
+		</div>
+	
+	
+		<div class="col-md-5 right-side">
 {% comment %}
-            <a href="/feature">{% trans "Feature" %}</a>
-            <a href="/support">{% trans "Support" %}</a>
-            <a href="#">{% trans "Blog" %}</a>
-            <a href="/creed">{% trans "Creed" %}</a>
-            <a href="/about-us">{% trans "About Us" %}</a>
-            <a href="/contact">{% trans "Contact" %}</a>
+			<a href="/feature">{% trans "Feature" %}</a>
+			<a href="/support">{% trans "Support" %}</a>
+			<a href="#">{% trans "Blog" %}</a>
+			<a href="/creed">{% trans "Creed" %}</a>
+			<a href="/about-us">{% trans "About Us" %}</a>
+			<a href="/contact">{% trans "Contact" %}</a>
 {% endcomment %}
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Support" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Support" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
+			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
 
-        </div>
-    
-    </div>
-    <div class="row  share-buttons">
-        <div class="col-md-3">            
+		</div>
+	
+	</div>
+	<div class="row  share-buttons">
+		<div class="col-md-3">            
             <div id="lang-selector">
             {% get_current_language as LANG %}
                 <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
@@ -93,102 +93,63 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-8">
-        
+		<div class="col-md-8">
+		
 
-        <!-- Twitter -->
-            <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        
-        <!-- Facebook -->
-            <script>(function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-            <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-        
-        <!-- Google 1+ -->
-            <div class="g-plusone"></div>
-            <script type="text/javascript">
-              window.___gcfg = {lang: 'pl'};
+		<!-- Twitter -->
+			<a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		
+		<!-- Facebook -->
+			<script>(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));</script>
+			<div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+		
+		<!-- Google 1+ -->
+			<div class="g-plusone"></div>
+			<script type="text/javascript">
+			  window.___gcfg = {lang: 'pl'};
 
-              (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/platform.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-              })();
-            </script>
+			  (function() {
+				var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+				po.src = 'https://apis.google.com/js/platform.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+			  })();
+			</script>
 
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
-    {% comment %}<p class="custom-copyrights">Copyright&copy;2014</p> {% endcomment %}
+	{% comment %}<p class="custom-copyrights">Copyright&copy;2014</p> {% endcomment %}
 
-    <script type="text/template" id="abuse-window-tpl">
-        <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
-            <h4 class="modal-title">{% trans "Report abuse" %}</h4>
-          </div>
-          <div class="modal-body">
-            <form id="abuse-report-form" method="post" action="">
-              {% csrf_token %}
-              <input type="hidden" name="content_type" id="report-content-type" value="<%= content_type %>" />
-              <input type="hidden" name="content_label" id="report-content-label" value="<%= content_label %>" />
-              <input type="hidden" name="object_pk" id="report-object-pk" value="<%= object_pk %>" />
-              <label class="control-label">{% trans "Reason" %}</label>
-              <textarea cols="10" rows="5" name="comment" id="report-comment" class="form-control"></textarea>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-            <button type="button" class="btn btn-primary submit-btn">{% trans "Save changes" %}</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </script>
-
-    {% comment %}Google Analytics code{% endcomment %}
-            <script>
-                  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                  ga('create', 'UA-51512403-1', 'auto');
-                  ga('require', 'linkid', 'linkid.js');
-                  ga('send', 'pageview');
-                  {% if user.is_authenticated %}
-                  ga(‘set’, ‘&uid’, {{ user.get_username }});
-                  {% else %}
-                  {% endif %}
-             </script>
-
-{% comment %}Quantcast{% endcomment %}
-<script type="text/javascript">
-var _qevents = _qevents || [];
-
-(function() {
-    var elem = document.createElement('script');
-    elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
-    elem.async = true;
-    elem.type = "text/javascript";
-    var scpt = document.getElementsByTagName('script')[0];
-        scpt.parentNode.insertBefore(elem, scpt);
-    })();
-
-    _qevents.push({
-    qacct:"p-7RCQfhyaZy5kz"
-    });
-</script>
-<noscript>
-    <div style="display:none;">
-    <img src="//pixel.quantserve.com/pixel/p-7RCQfhyaZy5kz.gif" border="0" height="1" width="1" alt="Quantcast"/>
-    </div>
-</noscript>
+	<script type="text/template" id="abuse-window-tpl">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+			<h4 class="modal-title">{% trans "Report abuse" %}</h4>
+		  </div>
+		  <div class="modal-body">
+			<form id="abuse-report-form" method="post" action="">
+			  {% csrf_token %}
+			  <input type="hidden" name="content_type" id="report-content-type" value="<%= content_type %>" />
+			  <input type="hidden" name="content_label" id="report-content-label" value="<%= content_label %>" />
+			  <input type="hidden" name="object_pk" id="report-object-pk" value="<%= object_pk %>" />
+			  <label class="control-label">{% trans "Reason" %}</label>
+			  <textarea cols="10" rows="5" name="comment" id="report-comment" class="form-control"></textarea>
+			</form>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+			<button type="button" class="btn btn-primary submit-btn">{% trans "Save changes" %}</button>
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</script>
 
 </div>

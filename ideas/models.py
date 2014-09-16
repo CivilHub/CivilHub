@@ -5,12 +5,13 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
 from django.template.defaultfilters import slugify
 from django.contrib.contenttypes.models import ContentType
 from comments.models import CustomComment
 from locations.models import Location
 from taggit.managers import TaggableManager
-from places_core.helpers import truncatehtml
+from places_core.helpers import truncatehtml, sanitizeHtml
 
 
 class Category(models.Model):
@@ -54,6 +55,8 @@ class Idea(models.Model):
         return len(comments)
 
     def save(self, *args, **kwargs):
+        self.name = strip_tags(self.name)
+        self.description = sanitizeHtml(self.description)
         if not self.pk:
             to_slug_entry = self.name
             chk = Idea.objects.filter(name=self.name)

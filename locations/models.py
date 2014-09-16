@@ -12,6 +12,7 @@ from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
+from places_core.helpers import sanitizeHtml
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image
 
@@ -58,6 +59,7 @@ class Location(models.Model):
         ordering = ['name',]
 
     def save(self, *args, **kwargs):
+        self.description = sanitizeHtml(self.description)
         # Generujemy odpowiedni slug
         if not self.pk:
             to_slug_entry = self.name

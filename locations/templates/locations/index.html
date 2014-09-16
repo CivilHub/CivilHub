@@ -48,10 +48,10 @@
             <div class="location-name-title">{{ location.name }}</div>
             <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
             
-        {% if user not in location.users.all and user.is_authenticated %}
-            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
-        {% else %}
+        {% if user in location.users.all %}
             <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+        {% else %}
+            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
         {% endif %}
             
         </div>
