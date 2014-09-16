@@ -34,12 +34,10 @@
     </div>
     <div class="col-sm-9">
         <div class="main-content">
-            <form id="user-profile-form" method="post" action="{% url 'user:save_settings' %}">
+            <form id="user-profile-form" class="form-horizontal" method="post" action="{% url 'user:save_settings' %}">
                 {% csrf_token %}
-                {{ form }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
-                </div>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
             </form>
         </div>
     </div>

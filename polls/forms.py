@@ -3,10 +3,11 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from locations.models import Location
+from places_core.forms import BootstrapBaseForm
 from .models import Poll
 
 
-class PollForm(forms.ModelForm):
+class PollForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom poll form - we will bind it with scripts on client-side.
     """

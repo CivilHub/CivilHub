@@ -15,12 +15,10 @@
     
         <div class="create-form">
         <h3>{% trans "Write idea in" %} {{ location.name }}</h3>
-            <form role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
+            <form class="form-horizontal" role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
                 {% csrf_token %}
-                {{ form }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-                </div>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
             </form>
         </div>
         

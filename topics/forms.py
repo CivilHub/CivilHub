@@ -3,10 +3,11 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
 from taggit.forms import TagField
+from places_core.forms import BootstrapBaseForm
 from .models import Category, Entry, Discussion
 
 
-class DiscussionForm(forms.ModelForm):
+class DiscussionForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom form for Discussion - autocomplete value of location field.
     """

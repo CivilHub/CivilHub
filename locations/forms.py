@@ -14,6 +14,7 @@ from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
 from geobase.models import Country
+from places_core.forms import BootstrapBaseForm
 
 
 class BackgroundForm(forms.ModelForm):
@@ -28,7 +29,7 @@ class BackgroundForm(forms.ModelForm):
         fields = ('image',)
 
 
-class LocationForm(forms.ModelForm):
+class LocationForm(forms.ModelForm, BootstrapBaseForm):
     """
     Edit/update/create location form
     """
@@ -52,6 +53,7 @@ class LocationForm(forms.ModelForm):
     )
     parent = forms.IntegerField(
         label = '',
+        required = False,
         widget = forms.TextInput()
     )
     latitude = forms.FloatField(
@@ -75,10 +77,12 @@ class LocationForm(forms.ModelForm):
     )
     
     def clean(self):
+        cparent = self.cleaned_data.get('parent', None)
+        if cparent is None: return self.cleaned_data
         try:
-            parent = Location.objects.get(pk=self.cleaned_data['parent'])
+            parent = Location.objects.get(pk=cparent)
             self.cleaned_data['parent'] = parent
-        except LocationDoesNotExist:
+        except Location.DoesNotExist:
             msg = _("Selected location does not exist")
             self._errors['parent'] = ErrorList([msg])
             del self.cleaned_data['parent']
@@ -91,7 +95,7 @@ class LocationForm(forms.ModelForm):
                   'latitude', 'longitude', 'image',)
 
 
-class IdeaLocationForm(forms.ModelForm):
+class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom form for Idea - autocomplete value of location field.
     """
@@ -124,7 +128,7 @@ class IdeaLocationForm(forms.ModelForm):
         fields = ('name', 'description', 'location', 'tags', 'category',)
 
 
-class NewsLocationForm(forms.ModelForm):
+class NewsLocationForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom form for Idea - autocomplete value of location field.
     """
@@ -153,7 +157,7 @@ class NewsLocationForm(forms.ModelForm):
         fields = ('title', 'content', 'category', 'location', 'tags')
 
 
-class DiscussionLocationForm(forms.ModelForm):
+class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom form for Discussion - autocomplete value of location field.
     """
