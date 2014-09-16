@@ -13,6 +13,7 @@ function ($) {
     $(document).ready(function () {
         
         $('#id_content').redactor({
+            buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
             plugins: ['uploader']
         });
         

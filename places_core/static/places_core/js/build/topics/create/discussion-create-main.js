@@ -22,7 +22,9 @@ require.config({
         bootbox: 'includes/bootstrap/bootbox',
         'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone'
+        backbone: 'includes/backbone/backbone',
+        redactor: 'includes/redactor/redactor',
+        dropzone: 'includes/dropzone/dropzone'
     },
     
     shim: {
@@ -67,6 +69,7 @@ require.config({
 require(['jquery',
          'js/common',
          'js/locations/follow',
+         'js/editor/plugins/uploader',
          'js/inviter/userinviter',
          'js/topics/discussion-form',
          'js/topics/category-creator'],

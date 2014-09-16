@@ -372,8 +372,8 @@ SOUTH_MIGRATION_MODULES = {
 
 # Sanitize input/output
 # ------------------------------------------------------------------------------
-VALID_TAGS = ['p','i','strong','b','u','a','h2','h3','h4','pre','br','img',]
-VALID_ATTRS = ['href','src','width','height']
+VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr',]
+VALID_ATTRS = ['href','src','width','height','style']
 URL_ATTRS = ['href','src']
 
 

@@ -9,7 +9,9 @@
         bootbox: 'includes/bootstrap/bootbox',
         'bootstrap-switch': 'includes/bootstrap/bootstrap-switch',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone'
+        backbone: 'includes/backbone/backbone',
+        redactor: 'includes/redactor/redactor',
+        dropzone: 'includes/dropzone/dropzone'
     },
     
     shim: {

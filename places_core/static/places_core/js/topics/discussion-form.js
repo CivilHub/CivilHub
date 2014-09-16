@@ -9,6 +9,7 @@
 // -----------------------------------------------------------------------------
 
 require(['jquery',
+         'redactor',
          'js/ui/mapinput',
          'bootstrap-switch'],
 
@@ -20,6 +21,11 @@ function ($) {
         
         $('#id_tags').tagsInput({
             autocomplete_url: '/rest/tags/'
+        });
+        
+        $('#id_intro').redactor({
+            buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
+            plugins: ['uploader']
         });
         
         $('#id_latitude, #id_longitude')

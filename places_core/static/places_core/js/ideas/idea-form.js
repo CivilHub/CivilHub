@@ -16,6 +16,7 @@ function ($) {
     $(document).ready(function () {
         
         $('#id_description').redactor({
+            buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
             plugins: ['uploader']
         });
         
