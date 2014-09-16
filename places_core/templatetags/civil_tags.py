@@ -49,12 +49,12 @@ def hreflang(request):
     host = request.META.get('HTTP_HOST', '').split('.')
     protocol = 'https' if request.is_secure() else 'http'
     if len(host[0]) == 2: del(host[0])
-    host = '.'.join(host)
+    host = '.'.join(host) + request.path
     tags = ['<link rel="alternate" href="'+protocol+'://'+host+'" hreflang="x-default" />',]
     template = '<link rel="alternate" href="'+protocol+'://{% url %}" hreflang="{% lang %}" />'
     
     for l in settings.LANGUAGES:
-        url = '.'.join([l[0], host]) + request.path
+        url = '.'.join([l[0], host])
         tags.append(template.replace('{% url %}', url).replace('{% lang %}', l[0]))
     
     return "".join(tags)
