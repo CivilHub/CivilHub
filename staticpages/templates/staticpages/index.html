@@ -1,4 +1,4 @@
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,8 @@
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+
+{% hreflang request %}
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}

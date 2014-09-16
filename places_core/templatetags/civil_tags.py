@@ -37,3 +37,24 @@ def bookmark_form(instance=None, user=None):
         
     return '<a href="#" class="' + cls + '" data-ct="' + str(ct) + \
             '" data-id="' + str(pk) + '">' + text + '</a>'
+
+
+@register.simple_tag
+def hreflang(request):
+    """
+    Prosty tag wyświetląjący tagi 'hreflang' dla każdej podstrony i każdego
+    zarejestrowanego w systemie tłumaczenia. Jako parametr należy przekazać
+    aktualny url, który znajdzie się w znaczniku.
+    """
+    host = request.META.get('HTTP_HOST', '').split('.')
+    protocol = 'https' if request.is_secure() else 'http'
+    if len(host[0]) == 2: del(host[0])
+    host = '.'.join(host)
+    tags = ['<link rel="alternate" href="'+protocol+'://'+host+'" hreflang="x-default" />',]
+    template = '<link rel="alternate" href="'+protocol+'://{% url %}" hreflang="{% lang %}" />'
+    
+    for l in settings.LANGUAGES:
+        url = '.'.join([l[0], host]) + request.path
+        tags.append(template.replace('{% url %}', url).replace('{% lang %}', l[0]))
+    
+    return "".join(tags)
