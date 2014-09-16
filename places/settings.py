@@ -372,9 +372,9 @@ SOUTH_MIGRATION_MODULES = {
 
 # Sanitize input/output
 # ------------------------------------------------------------------------------
-VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr',]
-VALID_ATTRS = ['href','src','width','height','style']
-URL_ATTRS = ['href','src']
+VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr','ul','ol',]
+VALID_ATTRS = ['href','src','width','height','style','target',]
+URL_ATTRS = ['href','src',]
 
 
 # GeoIP settings
