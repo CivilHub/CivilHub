@@ -1,4 +1,4 @@
-{% load staticfiles %} {% load i18n %}{% load analytical %}
+{% load staticfiles %} {% load i18n %} {% load analytical %} {% load civil_tags %}
 <!DOCTYPE html>
 {% get_current_language as LANG %}
 <html lang="{{ LANG }}" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
@@ -19,6 +19,8 @@
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.ico' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+
+{% hreflang request %}
 
 {% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGI ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block meta %}{% endblock %}
