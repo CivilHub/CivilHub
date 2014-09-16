@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
 from django.template.defaultfilters import slugify
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
@@ -36,6 +37,7 @@ class Discussion(models.Model):
     date_edited  = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        self.question = strip_tags(self.question)
         self.intro = sanitizeHtml(self.intro)
         if not self.slug:
             to_slug_entry = self.question

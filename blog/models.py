@@ -56,6 +56,7 @@ class News(models.Model):
     tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
 
     def save(self, *args, **kwargs):
+        self.title = strip_tags(self.title)
         self.content = sanitizeHtml(self.content)
         if self.pk:
             self.edited = True

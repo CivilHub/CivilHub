@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from locations.models import Location
@@ -23,6 +24,7 @@ class Poll(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        self.title = strip_tags(self.title)
         self.question = sanitizeHtml(self.question)
         if not self.pk:
             to_slug_entry = self.title
@@ -55,7 +57,7 @@ class Answer(models.Model):
     poll   = models.ForeignKey(Poll)
 
     def save(self, *args, **kwargs):
-        self.answer = sanitizeHtml(self.answer)
+        self.answer = strip_tags(self.answer)
         super(Answer, self).save(*args, **kwargs)
 
     def __unicode__(self):

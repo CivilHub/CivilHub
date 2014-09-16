@@ -5,13 +5,13 @@ from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import strip_tags
 from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage, ReplaceStorage
-from places_core.helpers import sanitizeHtml
 from locations.models import Location
 from actstream.models import following
 from gallery.image import resize_background_image, delete_background_image, \
@@ -82,7 +82,7 @@ class UserProfile(models.Model):
     
     def save(self, *args, **kwargs):
         if self.description:
-            self.description = sanitizeHtml(self.description)
+            self.description = strip_tags(self.description)
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
             try:
@@ -149,8 +149,6 @@ class RegisterDemand(models.Model):
     """
     Model przechowujący dane użytkowników zgłaszających chęć rejestracji
     zanim konto zostanie aktywowane.
-    TODO: to trzeba później połączyć z cronem i wywalać żądania starsze niż
-    określona data.
     """
     activation_link = models.CharField(max_length=1024)
     ip_address    = models.IPAddressField()
