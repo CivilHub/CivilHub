@@ -12,14 +12,14 @@
             <span class="icon-bar"></span>
         </button>
         <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"></a>
-		<div class="navbar-top-search">
-			<form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
-				
-				<input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
-				<button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
-				
-			</form>
-		</div>
+        <div class="navbar-top-search">
+            <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                
+                <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
+                
+            </form>
+        </div>
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
             
@@ -82,7 +82,7 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-envelope"></span></a>
                 </li>
-		{% endcomment %}
+        {% endcomment %}
             </ul>
             {% endif %}
         </div>

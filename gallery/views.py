@@ -4,7 +4,7 @@ from PIL import Image
 from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
-from django.views.generic import View, DetailView
+from django.views.generic import View, DetailView, ListView, FormView, UpdateView
 from django.http import HttpResponse, Http404
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
@@ -20,12 +20,66 @@ from comments.models import CustomComment
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter
 from .models import LocationGalleryItem, UserGalleryItem
+from .forms import UserItemForm, SimpleItemForm
 from .serializers import UserMediaSerializer
 
 from rest.permissions import IsOwnerOrReadOnly
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+# Helper functions
+# ------------------------------------------------------------------------------
+
+def create_gallery(gallery_name):
+    """
+    Check if gallery folder exists and create new one if not.
+    """
+    filepath = os.path.join(settings.MEDIA_ROOT, gallery_name)
+    thumb_path = os.path.join(filepath, 'thumbs')
+    if not os.path.exists(filepath):
+        try:
+            os.makedirs(os.path.join(filepath, 'thumbs'))
+            return True
+        except IOError:
+            return False
+    return True
+
+
+def create_gallery_thumbnail(gallery, filename):
+    """
+    Create thumbnail for given image in selected gallery.
+    @param gallery  (string) Username or place slug
+    @param filename (string) Image filename
+    """
+    filepath = os.path.join(settings.MEDIA_ROOT, gallery)
+    thumb_path = filepath + '/thumbs/'
+
+    for w, h in settings.THUMB_SIZES:
+        size = w, h
+        thumbfile = str(w) + 'x' + str(h) + '_' + filename
+        thumbname = os.path.join(thumb_path + thumbfile)
+        try:
+            thumb = Image.open(filepath + '/' + filename)
+            thumb.thumbnail(size, Image.ANTIALIAS)
+            thumb.save(thumbname, 'JPEG')
+        except IOError:
+            return False
+    return True
+
+
+def gallery_item_name():
+    """
+    Creates name based on md5 sum of current date and time to avoid naming
+    conflicts in files.
+    """
+    rand = random.randint(0, 10000)
+    basename = hashlib.md5()
+    basename.update(str(datetime.now().time) + str(rand))
+    return basename.hexdigest() + '.jpg'
+
+
+# API views
+# ------------------------------------------------------------------------------
 
 class UserGalleryAPIViewSet(viewsets.ModelViewSet):
     """
@@ -110,52 +164,58 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
             })
 
 
-def create_gallery(gallery_name):
-    """
-    Check if gallery folder exists and create new one if not.
-    """
-    filepath = os.path.join(settings.MEDIA_ROOT, gallery_name)
-    thumb_path = os.path.join(filepath, 'thumbs')
-    if not os.path.exists(filepath):
-        try:
-            os.makedirs(os.path.join(filepath, 'thumbs'))
-            return True
-        except IOError:
-            return False
-    return True
+# Static views
+# ------------------------------------------------------------------------------
+
+class UserGalleryView(ListView):
+    """ Lista zdjęć w galerii użytkownika. """
+    queryset = UserGalleryItem.objects.all()
+    template_name = 'gallery/user-gallery.html'
+    context_object_name = 'files'
+
+    def get_queryset(self):
+        return UserGalleryItem.objects.filter(user=self.request.user)
 
 
-def create_gallery_thumbnail(gallery, filename):
-    """
-    Create thumbnail for given image in selected gallery.
-    @param gallery  (string) Username or place slug
-    @param filename (string) Image filename
-    """
-    filepath = os.path.join(settings.MEDIA_ROOT, gallery)
-    thumb_path = filepath + '/thumbs/'
+class UserGalleryCreateView(FormView):
+    """ Upload nowego zdjęcia do galerii przez formularz statyczny. """
+    form_class = UserItemForm
+    template_name = 'gallery/user-gallery-form.html'
 
-    for w, h in settings.THUMB_SIZES:
-        size = w, h
-        thumbfile = str(w) + 'x' + str(h) + '_' + filename
-        thumbname = os.path.join(thumb_path + thumbfile)
-        try:
-            thumb = Image.open(filepath + '/' + filename)
-            thumb.thumbnail(size, Image.ANTIALIAS)
-            thumb.save(thumbname, 'JPEG')
-        except IOError:
-            return False
-    return True
+    def form_valid(self, form, **kwargs):
+        create_gallery(self.request.user.username)
+        username = self.request.user.username    
+        filepath = os.path.join(settings.MEDIA_ROOT, username)
+        image = Image.open(form.cleaned_data['image'])
+        filename = gallery_item_name()
+        width, height = image.size
+        if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
+            image.thumbnail(settings.IMAGE_MAX_SIZE)
+        image.save(os.path.join(filepath, filename), "JPEG")
+        create_gallery_thumbnail(username, filename)
+        
+        item = UserGalleryItem(
+            user = self.request.user,
+            picture_name = filename,
+            name = form.cleaned_data['name'],
+            description = form.cleaned_data['description']
+        )
+        item.save()
+        return redirect(reverse('gallery:index'))
 
 
-def gallery_item_name():
-    """
-    Creates name based on md5 sum of current date and time to avoid naming
-    conflicts in files.
-    """
-    rand = random.randint(0, 10000)
-    basename = hashlib.md5()
-    basename.update(str(datetime.now().time) + str(rand))
-    return basename.hexdigest() + '.jpg'
+class UserGalleryUpdateView(UpdateView):
+    """ Edycja zdjęcia, które znajduje się już w galerii. """
+    model = UserGalleryItem
+    form_class = SimpleItemForm
+    template_name = 'gallery/user-gallery-form.html'
+    success_url = '/gallery/'
+
+    def get(self, request, pk=None, slug=None):
+        self.object = self.get_object()
+        if request.user != self.object.user:
+            return HttpResponseForbidden()
+        return super(UserGalleryUpdateView, self).get(request)
 
 
 class ImageView(View):
@@ -206,7 +266,10 @@ class GalleryView(View):
         if not create_gallery(username):
             raise IOError
         for filename, f in request.FILES.iteritems():
-            image = Image.open(f)
+            try:
+                image = Image.open(f)
+            except IOError:
+                return None
             filename = gallery_item_name()
             width, height = image.size
             if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
@@ -214,6 +277,7 @@ class GalleryView(View):
             image.save(os.path.join(filepath, filename), "JPEG")
             create_gallery_thumbnail(username, filename)
             return filename
+        return None
 
     def delete(self, request, filename, slug=None):
         username = slug if slug else request.user.username
@@ -229,44 +293,6 @@ class GalleryView(View):
             'message': _("File deleted"),
             'level': 'success'
         }))
-
-
-class UserGalleryView(GalleryView):
-    """
-    List and manage items uploaded by user.
-    """
-    def get(self, request):
-        context = {
-            'title': _("Media gallery"),
-            'files': [],
-        }
-        for picture in UserGalleryItem.objects.filter(user=request.user):
-            context['files'].append({
-                'pk': picture.pk,
-                'thumb': picture.get_thumbnail((128,128)),
-                'href': picture.url(),
-            })
-        if request.is_ajax():
-            return HttpResponse(json.dumps(context['files']))
-        return render(request, 'gallery/user-gallery.html', context)
-
-    def post(self, request):
-        filename = super(UserGalleryView, self).post(request)
-        try:
-            UserGalleryItem.objects.get(picture_name=filename)
-        except UserGalleryItem.DoesNotExist:
-            item = UserGalleryItem(
-                user = request.user,
-                picture_name = filename,
-            )
-            item.save()
-        if request.is_ajax():
-            return HttpResponse(json.dumps({
-                'success': True,
-                'message': _("File uploaded")
-            }))
-        else:
-            return redirect(reverse('gallery:index'))
 
 
 class PlaceGalleryView(GalleryView):

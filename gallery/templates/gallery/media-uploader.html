@@ -26,7 +26,7 @@
                     </ul>
                     <div id="tabs-1">
                         <input type="hidden" id="current-upload-path" value="{{ media_folder }}" />
-                        <form action="{% url 'gallery:index' %}" id="dropzone-input" enctype="multipart/form-data">
+                        <form action="" id="dropzone-input" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="fallback">
                                 <input name="file" type="file" multiple />

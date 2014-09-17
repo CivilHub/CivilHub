@@ -20,8 +20,10 @@ class GalleryItem(models.Model):
         verbose_name = _("gallery item")
 
     user = models.ForeignKey(User)
+    name = models.CharField(max_length=64, blank=True, null=True)
     picture_name  = models.CharField(max_length=255, blank=True, default=u'')
     date_uploaded = models.DateTimeField(auto_now_add=True)
+    description   = models.TextField(blank=True, null=True)
 
     def get_filepath(self):
         """
@@ -79,6 +81,12 @@ class UserGalleryItem(GalleryItem):
     def get_filepath(self):
         return str(os.path.join(settings.MEDIA_ROOT, str(self.user.username)))
 
+    def thumb_small(self):
+        return self.get_thumbnail((128,128))
+
+    def thumb_big(self):
+        return self.get_thumbnail((256,256))
+
 
 class LocationGalleryItem(GalleryItem):
     """
@@ -86,9 +94,7 @@ class LocationGalleryItem(GalleryItem):
     other way, here we just add some additional data for our pictures, like
     comment and name.
     """
-    name = models.CharField(max_length=64, blank=True, null=True)
     location = models.ForeignKey(Location, related_name='pictures')
-    description = models.TextField(blank=True, null=True)
     
     class Meta:
         verbose_name = _("gallery item")
