@@ -133,6 +133,8 @@ ROOT_URLCONF = 'places.urls'
 
 WSGI_APPLICATION = 'places.wsgi.application'
 
+SESSION_COOKIE_DOMAIN = '.civilhub.org'
+
 # Django messages framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 from django.contrib.messages import constants as messages
