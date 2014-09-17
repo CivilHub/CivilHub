@@ -325,6 +325,7 @@ class ProfileUpdateView(UpdateView):
             'first_name': self.object.user.first_name,
             'last_name': self.object.user.last_name
         }, instance=self.object)
+        context['passform'] = PasswordResetForm()
         context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
         return context
 

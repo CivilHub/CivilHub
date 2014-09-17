@@ -152,7 +152,7 @@ class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
                   'birth_date', 'gplus_url', 'fb_url',)
 
 
-class PasswordResetForm(forms.Form):
+class PasswordResetForm(forms.Form, BootstrapBaseForm):
     """
     Allow users to change their passwords
     """

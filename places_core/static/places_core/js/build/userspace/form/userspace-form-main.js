@@ -65,6 +65,16 @@ function ($) {
         dateFormat: 'dd/mm/yy'
     });
     
+    $('.simple-tabs-link').on('click', function (e) {
+        e.preventDefault();
+        var id = $(this).attr('data-target');
+        if ($('#'+id).hasClass('active')) {
+            return false;
+        }
+        $('.simple-tabs-tab').removeClass('active');
+        $('#'+id).addClass('active');
+    });
+    
     $(document).trigger('load');
     
 });
