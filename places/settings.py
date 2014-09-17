@@ -301,6 +301,12 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
+    ('es', 'Español'),
+    ('de', 'Niemiecki'),
+    ('pt', 'Português'),
+    ('fr', 'Français'),
+    ('it', 'Italiano'),
+    ('cz', 'Ceština'),
 )
 
 
