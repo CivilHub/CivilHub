@@ -22,7 +22,11 @@
                     {{ avatar_form }}
                 </form>
                 {% comment %}<p><button class="btn btn-primary avatar-toggle-btn">{% trans "Change avatar" %}</button></p>{% endcomment %}
-                <p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>
+                {% comment %}<p><a href="{% url 'user:chpass' %}">{% trans "Change password" %}</a></p>{% endcomment %}
+                <ul>
+                    <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
+                    <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
+                </ul>
                 <p>{% trans "Points" %}: {{ profile.rank_pts }}</p>
                 <ul>
                 {% for badge in profile.badges.all %}
@@ -34,11 +38,32 @@
     </div>
     <div class="col-sm-9">
         <div class="main-content">
-            <form id="user-profile-form" class="form-horizontal" method="post" action="{% url 'user:save_settings' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
-            </form>
+            <div class="simple-tabs" id="user-profile-tabs">
+                <div class="simple-tabs-tab active" id="tab-1">
+                    <form id="user-profile-form" class="form-horizontal" method="post" action="{% url 'user:save_settings' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="form-group">
+                            <div class="col-sm-2">&nbsp;</div>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="simple-tabs-tab" id="tab-2">
+                    <form id="user-password-form" class="form-horizontal" method="post" action="{% url 'user:chpass' %}">
+                        {% csrf_token %}
+                        {{ passform.as_p }}
+                        <div class="form-group">
+                            <div class="col-sm-2">&nbsp;</div>
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
