@@ -52,8 +52,9 @@ class LocationForm(forms.ModelForm, BootstrapBaseForm):
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     parent = forms.IntegerField(
-        label = '',
+        label = _('Parent'),
         required = False,
+        help_text = _("Choose parent location for your place. You can see which place is currently selected in grey box above."),
         widget = forms.TextInput()
     )
     latitude = forms.FloatField(

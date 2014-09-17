@@ -1,6 +1,15 @@
+/*
+ * create-form.less
+ *
+ * Style dla rozmaitych formularzy, wbrew pozorom nie tylko tworzących nowe
+ * elementy contentu.
+ */
 
 .create-form {
     
+    /*
+     * Ukrywamy elementy, które zastąpimy Google mapą.
+     */
     #id_latitude,
     #id_longitude,
     label[for=id_latitude],
@@ -8,6 +17,9 @@
         display: none;
     }  
     
+    /*
+     * TODO: to na pewno da się zdefiniować w samym Bootstrapie
+     */
     .btn[type=submit] {
         background: -webkit-linear-gradient(top,  #269fe4 0%,#1986d9 100%);
         background: linear-gradient(to bottom,  #269fe4 0%,#1986d9 100%);
@@ -16,7 +28,19 @@
         
     }
     
+    /* 
+     * Wyświetlanie błędów w alertach - bez tej reguły formularze będą się 
+     * rozpadać.
+     */
     .alert {
         clear: both;
+    }
+    
+    /*
+     * Element wyświetlający aktualnie wybraną miejscowość w formularzu tworzenia
+     * nowej lokalizacji.
+     */
+    .indicator {
+        margin-top: 15px;
     }
 }

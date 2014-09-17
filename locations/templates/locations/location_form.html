@@ -33,7 +33,12 @@ window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
         {% endif %}
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+            <div class="form-group">
+                <div class="col-sm-2">&nbsp;</div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">{% trans "Create new location" %}</button>
+                </div>
+            </div>
         </form>
         
     </div>

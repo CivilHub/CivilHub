@@ -23,7 +23,11 @@ function ($, _, Backbone) {
     
     // Templatka dla 'sztucznego' elementu input zastępującego oryginalny select
     var textTemplate = '<input type="text" name="parent" id="id_parent" value=\
-                        "<%= value %>" style="display:none;" />'
+                        "<%= value %>" style="display:none;" />';
+    
+    // Element wyświetlający aktualnie wybrane miejsce
+    var $indicator = $('<input type="text" />');
+    $indicator.attr('readonly', 'readonly').addClass('form-control indicator');
     
     //
     // Location form
@@ -64,9 +68,9 @@ function ($, _, Backbone) {
             
             // Przygotowujemy DOM i przypinamy eventy
             $('#id_parent').replaceWith(this.$realInput);
-            this.$indicator = $('<p class="form-control"></p>');
+            this.$indicator = $indicator;
             this.$fakeInput.insertAfter(this.$realInput);
-            this.$indicator.insertAfter(this.$realInput);
+            this.$indicator.insertAfter(this.$fakeInput);
             this.bindEvents(this.$fakeInput);
         },
         
@@ -84,7 +88,7 @@ function ($, _, Backbone) {
                 // Nie tworzymy nowego elementu, jeżeli lista jest już pusta
                 if (response.length > 0) {
                     
-                    $fake.insertAfter(this.$el.find('.fake-input:last'));
+                    $fake.insertBefore(this.$indicator);
                         
                     _.each(response, function (item) {
                         $fake.find('select')
@@ -115,7 +119,7 @@ function ($, _, Backbone) {
                     this.expand(value);
                     
                     this.$indicator
-                        .text($input.find('option:selected').text());
+                        .val($input.find('option:selected').text());
                         
                     $input.data('clicks', 0);
                     
