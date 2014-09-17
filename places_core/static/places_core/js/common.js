@@ -26,7 +26,7 @@ function ($, _, Backbone, ui, utils) {
             $('#accept-button').click(function () {
                 var expiration_date = new Date();
                 expiration_date.setFullYear(expiration_date.getFullYear() + 1);
-                document.cookie = "cookie_msg=true; path=/; expires=" + expiration_date.toGMTString();
+                document.cookie = "cookie_msg=true; path=/; domain=.civilhub.org; expires=" + expiration_date.toGMTString();
                 $('#cookie-msg').fadeOut('slow', function() {
                     this.empty().remove();
                 });
