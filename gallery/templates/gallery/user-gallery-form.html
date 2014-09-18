@@ -1,0 +1,19 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles %}{% load i18n %}
+
+{% block header %}<center><h1>{% trans "Gallery" %}</h1></center>{% endblock %}
+
+{% block content %}
+
+<form role="form" class="form-horizontal" action="" class="form-hidden" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-group">
+        <div class="col-sm-2">&nbsp;</div>
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary submit-btn">{% trans "Upload" %}</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

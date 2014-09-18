@@ -3,11 +3,12 @@ import os
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
-from places_core.helpers import sanitizeHtml
+from .image import crop_gallery_thumb, delete_cropped_thumb
 
 
 class GalleryItem(models.Model):
@@ -20,8 +21,10 @@ class GalleryItem(models.Model):
         verbose_name = _("gallery item")
 
     user = models.ForeignKey(User)
+    name = models.CharField(max_length=20, blank=True, null=True)
     picture_name  = models.CharField(max_length=255, blank=True, default=u'')
     date_uploaded = models.DateTimeField(auto_now_add=True)
+    description   = models.TextField(blank=True, null=True)
 
     def get_filepath(self):
         """
@@ -36,6 +39,11 @@ class GalleryItem(models.Model):
         """
         path = self.get_filepath()
         return os.path.join(path, self.picture_name)
+
+    def save(self, *args, **kwargs):
+        if self.description:
+            self.description = strip_tags(self.description)
+        super(GalleryItem, self).save(*args, **kwargs)
 
     def delete(self):
         filename = self.picture_name
@@ -79,6 +87,15 @@ class UserGalleryItem(GalleryItem):
     def get_filepath(self):
         return str(os.path.join(settings.MEDIA_ROOT, str(self.user.username)))
 
+    def thumb_small(self):
+        return self.get_thumbnail((128,128))
+
+    def thumb_big(self):
+        return self.get_thumbnail((256,256))
+
+    def thumb_cropped(self):
+        return settings.MEDIA_URL + self.user.username + '/cropped_' + self.picture_name
+
 
 class LocationGalleryItem(GalleryItem):
     """
@@ -86,16 +103,10 @@ class LocationGalleryItem(GalleryItem):
     other way, here we just add some additional data for our pictures, like
     comment and name.
     """
-    name = models.CharField(max_length=64, blank=True, null=True)
     location = models.ForeignKey(Location, related_name='pictures')
-    description = models.TextField(blank=True, null=True)
     
     class Meta:
         verbose_name = _("gallery item")
-
-    def save(self, *args, **kwargs):
-        self.description = sanitizeHtml(self.description)
-        super(LocationGalleryItem, self).save(*args, **kwargs)
 
     def url(self):
         """
@@ -124,3 +135,7 @@ class LocationGalleryItem(GalleryItem):
 
     def __unicode__(self):
         return self.name or self.picture_name
+
+
+models.signals.post_save.connect(crop_gallery_thumb, sender=UserGalleryItem)
+models.signals.post_delete.connect(delete_cropped_thumb, sender=UserGalleryItem)

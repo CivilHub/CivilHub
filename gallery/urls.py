@@ -11,6 +11,8 @@ router.register(r'usermedia', UserGalleryAPIViewSet, 'usermedia')
 urlpatterns = patterns('',
     # Wordpress-like media uploader
     url(r'^image/(?P<pk>\d+)/', ImageView.as_view(), name='image'),
-    url(r'^(?P<filename>.*\w+)', UserGalleryView.as_view(), name='gallery_delete'),
+    #url(r'^(?P<filename>.*\w+)', UserGalleryView.as_view(), name='gallery_delete'),
+    url(r'^update/(?P<pk>\d+)/', UserGalleryUpdateView.as_view(), name='update'),
+    url(r'^upload/', UserGalleryCreateView.as_view(), name='upload'),
     url(r'^$', UserGalleryView.as_view(), name='index'),
 )

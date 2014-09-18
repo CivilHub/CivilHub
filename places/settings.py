@@ -361,6 +361,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 THUMB_SIZES = [
     (30, 30),
     (128, 128),
+    (256, 256),
 ]
 # Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
 IMAGE_MAX_SIZE = (1024,1024)
