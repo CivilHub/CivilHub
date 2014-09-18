@@ -9,12 +9,16 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+<script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+<script>Shadowbox.init();</script>
+
 <div id="gallery" class="row">
 {% for file in files %}
     {% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}
         <div class="col-sm-3">
             <div class="thumbnail">
-                <img src="{{ file.thumb_cropped }}" alt="{{ file.name }}">
+                <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ user.username }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
                 <div class="caption">
                     <h3>{{ file.name }}</h3>
                     <p>{{ file.description|truncatewords:10 }}</p>

@@ -85,8 +85,7 @@ def delete_background_image(sender, instance, **kwargs):
 
 def crop_gallery_thumb(sender, instance, **kwargs):
     """
-    Przycinamy obraz galerii użytkownika, żeby pokazać go na głównej stronie
-    galerii.
+    Przycinamy obraz użytkownika, żeby pokazać go na głównej stronie galerii.
     """
     filename = 'cropped_' + instance.picture_name
     path = os.path.join(settings.MEDIA_ROOT, instance.user.username)
@@ -107,7 +106,9 @@ def crop_gallery_thumb(sender, instance, **kwargs):
         if new_width > max_w:
             start_x = int((float(new_width)-float(max_w))/2)
         if new_width < max_w:
-            x_factor = new_width
+            nratio = float(max_w)/float(new_width)
+            cw, ch = image.getdata().size
+            image = image.resize((max_w, int(float(ch)*nratio)), Image.ANTIALIAS)
         stop_x = start_x + x_factor
         box = (start_x, 0, stop_x, max_h)
     image = image.crop(box)
