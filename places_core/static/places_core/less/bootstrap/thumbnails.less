@@ -19,6 +19,8 @@
     &:extend(.img-responsive);
     margin-left: auto;
     margin-right: auto;
+    border-top-right-radius: @thumbnail-border-radius;
+    border-top-left-radius: @thumbnail-border-radius;
   }
 
   // Add a hover state for linked versions only
@@ -32,5 +34,8 @@
   .caption {
     padding: @thumbnail-caption-padding;
     color: @thumbnail-caption-color;
+    h3 {
+      margin-top: 0px;
+    }
   }
 }

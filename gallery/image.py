@@ -90,7 +90,7 @@ def crop_gallery_thumb(sender, instance, **kwargs):
     filename = 'cropped_' + instance.picture_name
     path = os.path.join(settings.MEDIA_ROOT, instance.user.username)
     image = Image.open(instance.get_filename())
-    max_w = 256
+    max_w = 270
     max_h = 170
     width, height = image.getdata().size
     if height > width:
