@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
 from places_core.helpers import sanitizeHtml
+from .image import crop_gallery_thumb, delete_cropped_thumb
 
 
 class GalleryItem(models.Model):
@@ -87,6 +88,9 @@ class UserGalleryItem(GalleryItem):
     def thumb_big(self):
         return self.get_thumbnail((256,256))
 
+    def thumb_cropped(self):
+        return settings.MEDIA_URL + self.user.username + '/cropped_' + self.picture_name
+
 
 class LocationGalleryItem(GalleryItem):
     """
@@ -130,3 +134,7 @@ class LocationGalleryItem(GalleryItem):
 
     def __unicode__(self):
         return self.name or self.picture_name
+
+
+models.signals.post_save.connect(crop_gallery_thumb, sender=UserGalleryItem)
+models.signals.post_delete.connect(delete_cropped_thumb, sender=UserGalleryItem)

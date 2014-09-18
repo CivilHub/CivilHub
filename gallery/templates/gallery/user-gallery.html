@@ -11,21 +11,21 @@
 
 <div id="gallery" class="row">
 {% for file in files %}
-    {% comment %}{% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}{% endcomment %}
+    {% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}
         <div class="col-sm-3">
             <div class="thumbnail">
-                <img src="{{ file.thumb_big }}" alt="{{ file.name }}">
+                <img src="{{ file.thumb_cropped }}" alt="{{ file.name }}">
                 <div class="caption">
                     <h3>{{ file.name }}</h3>
-                    <p>{{ file.description|truncatewords:20 }}</p>
+                    <p>{{ file.description|truncatewords:10 }}</p>
                     <p class="controls">
                         <a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>
-                        <a href="#">{% trans "Delete" %}</a>
+                        <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
                     </p>
                 </div>
             </div>
         </div>
-    {% comment %}{% if forloop.counter|divisibleby:4 %}</div>{% endif %}{% endcomment %}
+    {% if forloop.counter|divisibleby:4 %}</div>{% endif %}
 {% endfor %}
 </div>
 

@@ -5,15 +5,21 @@ from django.conf import settings
 
 
 def resize_image(image):
+    """
+    Funkcja przyjmuje obraz PIL jako argument i zwraca taki sam obiekt, ale ze
+    zmienionymi rozmiarami.
+    TODO: warto pomyśleć o dodaniu rozmiaru jako kolejnego argumentu.
+    """
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
     width, height = image.getdata().size
-    #if max_w > width: ratio = float(max_w)/float(width)
-    #else: ratio = float(width)/float(max_w)
     ratio = float(max_w)/float(width)
     return image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
 
 
 def delete_image(imagepath):
+    """
+    Prosta funkcja "wyciszająca" błędy podczas usuwania nieistniejących plików.
+    """
     try:
         os.unlink(imagepath)
     except OSError, IOError:
@@ -75,3 +81,43 @@ def delete_background_image(sender, instance, **kwargs):
 
     if (os.path.isfile(fieldname.path)):
         os.unlink(fieldname.path)
+
+
+def crop_gallery_thumb(sender, instance, **kwargs):
+    """
+    Przycinamy obraz galerii użytkownika, żeby pokazać go na głównej stronie
+    galerii.
+    """
+    filename = 'cropped_' + instance.picture_name
+    path = os.path.join(settings.MEDIA_ROOT, instance.user.username)
+    image = Image.open(instance.get_filename())
+    max_w = 256
+    max_h = 170
+    width, height = image.getdata().size
+    if height > width:
+        ratio = float(max_w)/float(width)
+        image = image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
+        box = (0, 0, max_w, max_h)
+    else:
+        ratio = float(max_h)/float(height)
+        new_width = int(width*ratio)
+        image = image.resize((new_width, max_h), Image.ANTIALIAS)
+        start_x = 0
+        x_factor = max_w
+        if new_width > max_w:
+            start_x = int((float(new_width)-float(max_w))/2)
+        if new_width < max_w:
+            x_factor = new_width
+        stop_x = start_x + x_factor
+        box = (start_x, 0, stop_x, max_h)
+    image = image.crop(box)
+    image.save(os.path.join(path, filename), 'JPEG')
+
+
+def delete_cropped_thumb(sender, instance, **kwargs):
+    """
+    Sygnał usuwający przycięty obrazek dla elementu galerii.
+    """
+    filename = 'cropped_' + instance.picture_name
+    filepath = os.path.join(settings.MEDIA_ROOT, instance.user.username, filename)
+    delete_image(filepath)

@@ -173,6 +173,11 @@ class UserGalleryView(ListView):
     template_name = 'gallery/user-gallery.html'
     context_object_name = 'files'
 
+    def get_context_data(self, **kwargs):
+        context = super(UserGalleryView, self).get_context_data(**kwargs)
+        context['title'] = _("Gallery")
+        return context
+
     def get_queryset(self):
         return UserGalleryItem.objects.filter(user=self.request.user)
 
@@ -181,6 +186,11 @@ class UserGalleryCreateView(FormView):
     """ Upload nowego zdjęcia do galerii przez formularz statyczny. """
     form_class = UserItemForm
     template_name = 'gallery/user-gallery-form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserGalleryCreateView, self).get_context_data(**kwargs)
+        context['title'] = _("Add pictures")
+        return context
 
     def form_valid(self, form, **kwargs):
         create_gallery(self.request.user.username)
@@ -210,6 +220,11 @@ class UserGalleryUpdateView(UpdateView):
     form_class = SimpleItemForm
     template_name = 'gallery/user-gallery-form.html'
     success_url = '/gallery/'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserGalleryUpdateView, self).get_context_data(**kwargs)
+        context['title'] = _("Edit picture data")
+        return context
 
     def get(self, request, pk=None, slug=None):
         self.object = self.get_object()

@@ -43,11 +43,31 @@ require.config({
 });
 
 require(['jquery',
+         'js/ui/ui',
          'js/common'],
 
-function ($) {
+function ($, ui) {
     
-    "use strict"
+    "use strict";
+    
+    function deletePicture (id) {
+        $.ajaxSetup({
+            headers: {'X-CSRFToken': getCookie('csrftoken')}
+        });
+        $.ajax({
+            type: 'DELETE',
+            url: '/api-gallery/usermedia/'+id+'/',
+            success: function () {
+                document.location.href = document.location.href;
+            }
+        });
+    };
+    
+    $('.control-delete').on('click', function (e) {
+        e.preventDefault();
+        var id = $(this).attr('data-target');
+        ui.confirmWindow(deletePicture, null, [id]);
+    });
     
     $(document).trigger('load');
 });
