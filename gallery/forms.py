@@ -2,7 +2,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from places_core.forms import BootstrapBaseForm
-from .models import UserGalleryItem
+from locations.models import Location
+from .models import UserGalleryItem, LocationGalleryItem
 
 
 class UserItemForm(forms.ModelForm, BootstrapBaseForm):
@@ -45,3 +46,32 @@ class SimpleItemForm(forms.ModelForm, BootstrapBaseForm):
     class Meta:
         model = UserGalleryItem
         fields = ('name', 'description',)
+
+
+class LocationItemForm(forms.ModelForm, BootstrapBaseForm):
+    """
+    Formularz dodawania zdjęć do galerii lokalizacji.
+    """
+    image = forms.ImageField(
+        label=u'',
+        required = True
+    )
+    name = forms.CharField(
+        required = False,
+        label = _("Name"),
+        widget = forms.TextInput(attrs={'class':'form-control'})
+    )
+    description = forms.CharField(
+        required = False,
+        label = _("Description"),
+        widget = forms.Textarea(attrs={'class':'form-control'})
+    )
+    location= forms.ModelChoiceField(
+        required = True,
+        queryset = Location.objects.all(),
+        widget = forms.HiddenInput()
+    )
+
+    class Meta:
+        model = LocationGalleryItem
+        fields = ('image', 'name', 'description', 'location',)

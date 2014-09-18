@@ -123,6 +123,9 @@ class LocationGalleryItem(GalleryItem):
         thumbname = str(size[0]) + 'x' + str(size[1]) + '_' + self.picture_name
         return settings.MEDIA_URL + self.location.slug + '/thumbs/' + thumbname
 
+    def thumb_cropped(self):
+        return settings.MEDIA_URL + self.location.slug + '/cropped_' + self.picture_name
+
     def get_filepath(self):
         return str(os.path.join(settings.MEDIA_ROOT, self.location.slug))
 
@@ -139,3 +142,5 @@ class LocationGalleryItem(GalleryItem):
 
 models.signals.post_save.connect(crop_gallery_thumb, sender=UserGalleryItem)
 models.signals.post_delete.connect(delete_cropped_thumb, sender=UserGalleryItem)
+models.signals.post_save.connect(crop_gallery_thumb, sender=LocationGalleryItem)
+models.signals.post_delete.connect(delete_cropped_thumb, sender=LocationGalleryItem)

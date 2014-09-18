@@ -2,37 +2,45 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core/js/build/gallery/user-gallery/user-gallery-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+
+    <script data-main="{% static 'places_core/js/build/gallery/user-gallery/user-gallery-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+
 {% endblock %}
 
-{% block header %}<center><h1>{% trans "Gallery" %}</h1></center>{% endblock %}
+
+{% block header %}
+
+    <center><h1>{% trans "Gallery" %}</h1></center>
+    
+{% endblock %}
+
 
 {% block content %}
 
-<link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
-<script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
-<script>Shadowbox.init();</script>
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+    <script>Shadowbox.init();</script>
 
-<div id="gallery">
-{% for file in files %}
-    {% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}
-        <div class="col-sm-3">
-            <div class="thumbnail">
-                <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ user.username }}]" title="<b>My Image</b><span>Desc</span>"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
-                <div class="caption">
-                    <h3>{{ file.name }}</h3>
-                    <p>{{ file.description|truncatewords:10 }}</p>
-                    <p class="controls">
-                        <a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>
-                        <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
-                    </p>
+    <div id="gallery">
+    {% for file in files %}
+        {% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}
+            <div class="col-sm-3">
+                <div class="thumbnail">
+                    <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ user.username }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
+                    <div class="caption">
+                        <h3>{{ file.name }}</h3>
+                        <p>{{ file.description|truncatewords:10 }}</p>
+                        <p class="controls">
+                            <a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>
+                            <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    {% if forloop.counter|divisibleby:4 %}</div>{% endif %}
-{% endfor %}
-</div>
+        {% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}
+    {% endfor %}
+    </div>
 
-<p><a href="{% url 'gallery:upload' %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
+    <p><a href="{% url 'gallery:upload' %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
 
 {% endblock %}

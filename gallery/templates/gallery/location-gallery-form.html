@@ -1,0 +1,28 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+
+{% block content %}
+
+    <div class="col-sm-8">
+
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" id="location-gallery-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-group">
+                <div class="col-sm-2">&nbsp;</div>
+                <div class="col-sm-10">
+                    <button class="btn btn-success submit-btn" type="submit">{% trans "Save" %}</button>
+                </div>
+            </div>
+        </form>
+    
+    </div>
+    
+    <div class="col-sm-4">
+        
+        {% include 'locations/sidebar.html' %}
+        
+    </div>
+
+{% endblock %}
