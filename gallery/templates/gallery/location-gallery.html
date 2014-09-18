@@ -1,0 +1,67 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles %}{% load i18n %}
+
+
+{% block require_scripts %}
+
+    <script data-main="{% static 'places_core/js/build/gallery/user-gallery/user-gallery-built.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+
+{% endblock %}
+
+
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+    <script>Shadowbox.init();</script>
+    
+    <div class="col-sm-8">
+    
+        {% if files %}
+        
+            {% for file in files %}
+                {% if forloop.counter0 == 0 or forloop.counter|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
+                    <div class="col-sm-4">
+                        <div class="thumbnail">
+                            <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
+                            <div class="caption">
+                                <h3>{{ file.name }}</h3>
+                                <p>{{ file.description|truncatewords:10 }}</p>
+                                {% if user.is_superuser or is_moderator %}<p class="controls">
+                                    {% comment %}<a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>{% endcomment %}
+                                    <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                </p>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% if forloop.counter|divisibleby:3 or forloop.counter == files.count %}</div>{% endif %}
+            {% endfor %}
+            
+            <p><a href="{% url 'locations:upload' location.slug %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
+        
+        {% else %}
+        
+            <div class="no-entries">
+                <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+                <h2>
+                    {% trans "We didn't find any photos" %} {% trans "in" %} {{ location.name }}.<br />
+                    {% trans "Please" %}
+                    {% if user.is_authenticated %}
+                        <a class="media-form-toggle" href="{% url 'locations:upload' location.slug %}" >
+                    {% else %}
+                        <a href="{% url 'user:login' %}">
+                    {% endif %}{% trans "add first photo" %}</a>.
+                </h2>
+            </div>
+        
+        {% endif %}
+    
+    </div>
+    
+    <div class="col-sm-4">
+        
+        {% include 'locations/sidebar.html' %}
+        
+    </div>
+
+{% endblock %}

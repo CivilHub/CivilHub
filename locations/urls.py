@@ -4,7 +4,8 @@ from ideas.views import IdeasDetailView
 from blog.views import NewsDetailView
 from topics.views import DiscussionDetailView
 from polls.views import PollDetails, PollResults
-from gallery.views import PlaceGalleryView, PlacePictureView
+from gallery.views import LocationGalleryView, PlacePictureView, \
+                           LocationGalleryCreateView
 from locations.views import *
 from staticpages.views import PageView
 
@@ -49,8 +50,9 @@ urlpatterns = patterns('',
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
     # Location media gallery
+    url(r'^(?P<slug>[\w-]+)/gallery/upload/', LocationGalleryCreateView.as_view(), name='upload'),
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
-    url(r'^(?P<slug>[\w-]+)/gallery/', PlaceGalleryView.as_view(), name='gallery'),
+    url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
     # Generic location views
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),

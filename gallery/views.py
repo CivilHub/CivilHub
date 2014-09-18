@@ -20,7 +20,7 @@ from comments.models import CustomComment
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter
 from .models import LocationGalleryItem, UserGalleryItem
-from .forms import UserItemForm, SimpleItemForm
+from .forms import UserItemForm, SimpleItemForm, LocationItemForm
 from .serializers import UserMediaSerializer
 
 from rest.permissions import IsOwnerOrReadOnly
@@ -164,7 +164,7 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
             })
 
 
-# Static views
+# Static views - user gallery
 # ------------------------------------------------------------------------------
 
 class UserGalleryView(ListView):
@@ -235,7 +235,7 @@ class UserGalleryUpdateView(UpdateView):
 
 class ImageView(View):
     """
-    Edit photos.
+    Edit photos. W tym momencie ten widok nie jest wykorzystywany.
     """
     def get(self, request, pk):
         username = request.user.username
@@ -268,99 +268,74 @@ class ImageView(View):
         return redirect(reverse('gallery:index'))
 
 
-class GalleryView(View):
-    """
-    Generic gallery view class.
-    """
-    class Meta:
-        abstract = True
+# Static views - location gallery
+# ------------------------------------------------------------------------------
 
-    def post(self, request, slug=None):
-        username = slug if slug else request.user.username
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        if not create_gallery(username):
-            raise IOError
-        for filename, f in request.FILES.iteritems():
-            try:
-                image = Image.open(f)
-            except IOError:
-                return None
-            filename = gallery_item_name()
-            width, height = image.size
-            if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
-                image.thumbnail(settings.IMAGE_MAX_SIZE)
-            image.save(os.path.join(filepath, filename), "JPEG")
-            create_gallery_thumbnail(username, filename)
-            return filename
-        return None
+class LocationGalleryView(ListView):
+    """ Główna strona galerii dla lokalizacji. """
+    queryset = LocationGalleryItem.objects.all()
+    template_name = 'gallery/location-gallery.html'
+    context_object_name = 'files'
 
-    def delete(self, request, filename, slug=None):
-        username = slug if slug else request.user.username
-        filepath = os.path.join(settings.MEDIA_ROOT, username)
-        thumbpath = filepath + '/thumbs/'
-        try:
-            os.remove(os.path.join(filepath, filename))
-            os.remove(os.path.join(thumbpath, filename))
-        except OSError:
-            pass
-        return HttpResponse(json.dumps({
-            'success': True,
-            'message': _("File deleted"),
-            'level': 'success'
-        }))
+    def get_current_location(self):
+        location = get_object_or_404(Location, slug=self.kwargs['slug'])
+        return location
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationGalleryView, self).get_context_data(**kwargs)
+        context['title'] = _("Gallery")
+        context['location'] = self.get_current_location()
+        context['links'] = links['gallery']
+        context['is_moderator'] = is_moderator(self.request.user, context['location'])
+        return context
+
+    def get_queryset(self):
+        location = self.get_current_location()
+        return LocationGalleryItem.objects.filter(location=location)
 
 
-class PlaceGalleryView(GalleryView):
+class LocationGalleryCreateView(FormView):
     """
-    List and manage items uploaded by user.
+    Dodawanie nowych zdjęć do galerii miejsca.
     """
-    def get(self, request, slug):
-        location = Location.objects.get(slug=slug)
-        context = {
-            'title': _("Media gallery"),
-            'files': [],
+    form_class = LocationItemForm
+    template_name = 'gallery/location-gallery-form.html'
+
+    def get_initial(self):
+        location = get_object_or_404(Location, slug=self.kwargs.get('slug'))
+        return {
             'location': location,
-            'links': links['gallery'],
-            'tags': TagFilter(location).get_items()
         }
-        for picture in location.pictures.all():
-            context['files'].append({
-                'pk': picture.pk,
-                'thumb': picture.get_thumbnail((128,128)),
-                'desc': picture.description,
-                'href': picture.url(),
-                'name': picture.name,
-            })
-        return render(request, 'gallery/media-form.html', context)
 
-    def post(self, request, slug):
-        filename = super(PlaceGalleryView, self).post(request, slug)
-        try:
-            LocationGalleryItem.objects.get(picture_name=filename)
-        except LocationGalleryItem.DoesNotExist:
-            prof = UserProfile.objects.get(user=request.user)
-            prof.rank_pts += 1
-            prof.save()
-            item = LocationGalleryItem(
-                user = prof.user,
-                location = Location.objects.get(slug=slug),
-                picture_name = filename,
-                name = request.POST.get('name') or '',
-                description = request.POST.get('description') or ''
-            )
-            item.save()
-            action.send(
-                request.user,
-                action_object = item,
-                target = item.location,
-                verb= _('uploaded')
-            )
-        if request.is_ajax():
-            return HttpResponse(json.dumps({
-                'success': True,
-                'message': _("File uploaded")
-            }))
-        return redirect(reverse('locations:gallery', kwargs={'slug':slug}))
+    def get_context_data(self, **kwargs):
+        context = super(LocationGalleryCreateView, self).get_context_data(**kwargs)
+        context['title'] = _("Add pictures")
+        context['location'] = Location.objects.get(slug=self.kwargs['slug'])
+        context['links'] = links['gallery']
+        return context
+
+    def form_valid(self, form, **kwargs):
+        location = form.cleaned_data['location']
+        username = location.slug
+        create_gallery(username)
+        filepath = os.path.join(settings.MEDIA_ROOT, username)
+        image = Image.open(form.cleaned_data['image'])
+        filename = gallery_item_name()
+        width, height = image.size
+        if width > settings.IMAGE_MAX_SIZE[0] or height > settings.IMAGE_MAX_SIZE[1]:
+            image.thumbnail(settings.IMAGE_MAX_SIZE)
+        image.save(os.path.join(filepath, filename), "JPEG")
+        create_gallery_thumbnail(username, filename)
+        
+        item = LocationGalleryItem(
+            user = self.request.user,
+            picture_name = filename,
+            name = form.cleaned_data['name'],
+            description = form.cleaned_data['description'],
+            location = location
+        )
+        item.save()
+        return redirect(reverse('locations:gallery', kwargs={'slug':location.slug}))
 
 
 class PlacePictureView(DetailView):

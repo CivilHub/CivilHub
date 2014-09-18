@@ -85,10 +85,13 @@ def delete_background_image(sender, instance, **kwargs):
 
 def crop_gallery_thumb(sender, instance, **kwargs):
     """
-    Przycinamy obraz użytkownika, żeby pokazać go na głównej stronie galerii.
+    Przycinamy obraz, żeby pokazać go na głównej stronie galerii.
     """
     filename = 'cropped_' + instance.picture_name
-    path = os.path.join(settings.MEDIA_ROOT, instance.user.username)
+    if hasattr(instance, 'location'):
+        path = os.path.join(settings.MEDIA_ROOT, instance.location.slug)
+    else:
+        path = os.path.join(settings.MEDIA_ROOT, instance.user.username)
     image = Image.open(instance.get_filename())
     max_w = 270
     max_h = 170
@@ -120,5 +123,8 @@ def delete_cropped_thumb(sender, instance, **kwargs):
     Sygnał usuwający przycięty obrazek dla elementu galerii.
     """
     filename = 'cropped_' + instance.picture_name
-    filepath = os.path.join(settings.MEDIA_ROOT, instance.user.username, filename)
+    if hasattr(instance, 'location'):
+        filepath = os.path.join(settings.MEDIA_ROOT, instance.location.slug, filename)
+    else:
+        filepath = os.path.join(settings.MEDIA_ROOT, instance.user.username, filename)
     delete_image(filepath)
