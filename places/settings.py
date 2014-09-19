@@ -355,6 +355,7 @@ THUMB_SIZES = [
 ]
 # Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
 IMAGE_MAX_SIZE = (1024,1024)
+GALLERY_THUMB_SIZE = (270,170)
 
 # Maximum size for location and profile pages background images
 BACKGROUND_IMAGE_SIZE = (1920, 300)
@@ -400,3 +401,7 @@ LIST_PAGINATION_LIMIT = 50
 PAGE_PAGINATION_LIMIT = 5
 # Limit paginatora dla actstreamu dla usera (w zamierzeniu dla wszystkich)
 STREAM_PAGINATOR_LIMIT = 25
+# Limit paginatora dla obrazów w galerii użytkownika
+USER_GALLERY_LIMIT = 12
+# Limit paginatora dla obrazów w galerii lokalizacji
+PLACE_GALLERY_LIMIT = 12

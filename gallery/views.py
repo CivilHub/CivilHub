@@ -172,6 +172,7 @@ class UserGalleryView(ListView):
     queryset = UserGalleryItem.objects.all()
     template_name = 'gallery/user-gallery.html'
     context_object_name = 'files'
+    paginate_by = settings.USER_GALLERY_LIMIT
 
     def get_context_data(self, **kwargs):
         context = super(UserGalleryView, self).get_context_data(**kwargs)
@@ -276,6 +277,7 @@ class LocationGalleryView(ListView):
     queryset = LocationGalleryItem.objects.all()
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'
+    paginate_by = settings.PLACE_GALLERY_LIMIT
 
     def get_current_location(self):
         location = get_object_or_404(Location, slug=self.kwargs['slug'])
@@ -336,6 +338,24 @@ class LocationGalleryCreateView(FormView):
         )
         item.save()
         return redirect(reverse('locations:gallery', kwargs={'slug':location.slug}))
+
+
+def location_gallery_delete(request, slug=None, pk=None):
+    """
+    Widok umożliwiający usuwanie obrazów z galerii. Parametr `pk` jest wymagany
+    i jego brak zaskutkuje błędem. Parametr `slug` jest tylko po to, żeby
+    wpasować widok w urlconf z aplikacji `locations`.
+    Prawo do usuwania obrazów mają tylko superadmini oraz moderatorzy lokalizacji.
+    """
+    item = get_object_or_404(LocationGalleryItem, pk=pk)
+    if request.user.is_superuser or is_moderator(request.user, item.location):
+        item.delete()
+        return redirect(
+            reverse('locations:gallery',
+            kwargs={'slug':item.location.slug})
+        )
+    else:
+        return HttpResponseForbidden()
 
 
 class PlacePictureView(DetailView):

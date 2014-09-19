@@ -23,7 +23,7 @@
 
     <div id="gallery">
     {% for file in files %}
-        {% if forloop.counter0 == 0 or forloop.counter|divisibleby:5 %}<div class="row gallery-row">{% endif %}
+        {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
             <div class="col-sm-3">
                 <div class="thumbnail">
                     <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ user.username }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
@@ -40,6 +40,24 @@
         {% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}
     {% endfor %}
     </div>
+    
+    {% if is_paginated %}<ul class="pagination">
+            
+        {% if page_obj.has_previous %}
+            <li><a href="?page=1">&laquo;</a></li>
+            <li><a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>
+        {% endif %}    
+        
+        {% for page in page_obj.paginator.page_range %}
+            <li{% if page == page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a></li>
+            <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+        {% endif %}
+        
+    </ul>{% endif %}
 
     <p><a href="{% url 'gallery:upload' %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
 

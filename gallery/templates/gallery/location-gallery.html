@@ -4,7 +4,7 @@
 
 {% block require_scripts %}
 
-    <script data-main="{% static 'places_core/js/build/gallery/user-gallery/user-gallery-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+    <script data-main="{% static 'places_core/js/build/gallery/location-gallery/location-gallery-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
 
 {% endblock %}
 
@@ -20,22 +20,40 @@
         {% if files %}
         
             {% for file in files %}
-                {% if forloop.counter0 == 0 or forloop.counter|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
+                {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row-fluid gallery-row">{% endif %}
                     <div class="col-sm-4">
                         <div class="thumbnail">
                             <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
                             <div class="caption">
                                 <h3>{{ file.name }}</h3>
-                                <p>{{ file.description|truncatewords:10 }}</p>
+                                <p>{{ file.description|truncatewords:5 }}</p>
                                 {% if user.is_superuser or is_moderator %}<p class="controls">
                                     {% comment %}<a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>{% endcomment %}
-                                    <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                    <a href="{% url 'locations:remove_picture' file.location.slug file.pk %}" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
                                 </p>{% endif %}
                             </div>
                         </div>
                     </div>
                 {% if forloop.counter|divisibleby:3 or forloop.counter == files.count %}</div>{% endif %}
             {% endfor %}
+            
+            {% if is_paginated %}<ul class="pagination">
+            
+                {% if page_obj.has_previous %}
+                    <li><a href="?page=1">&laquo;</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>
+                {% endif %}    
+                
+                {% for page in page_obj.paginator.page_range %}
+                    <li{% if page == page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+                {% endif %}
+                
+            </ul>{% endif %}
             
             <p><a href="{% url 'locations:upload' location.slug %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
         
