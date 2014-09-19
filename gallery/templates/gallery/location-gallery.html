@@ -4,38 +4,56 @@
 
 {% block require_scripts %}
 
-    <script data-main="{% static 'places_core/js/build/gallery/user-gallery/user-gallery-built.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+    <script data-main="{% static 'places_core/js/build/gallery/location-gallery/location-gallery-built.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
 
 {% endblock %}
 
 
 {% block content %}
-
-    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
-    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
-    <script>Shadowbox.init();</script>
     
     <div class="col-sm-8">
     
         {% if files %}
         
             {% for file in files %}
-                {% if forloop.counter0 == 0 or forloop.counter|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
+                {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row-fluid gallery-row">{% endif %}
                     <div class="col-sm-4">
                         <div class="thumbnail">
                             <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
                             <div class="caption">
-                                <h3>{{ file.name }}</h3>
-                                <p>{{ file.description|truncatewords:10 }}</p>
-                                {% if user.is_superuser or is_moderator %}<p class="controls">
-                                    {% comment %}<a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>{% endcomment %}
-                                    <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                <h3><a href="{% url 'locations:picture' location.slug file.pk %}">{{ file.name }}</a></h3>
+                                <p>{{ file.description|truncatewords:5 }}</p>
+                                {% if user.is_superuser or is_moderator or user == file.user %}<p class="controls">
+                                    <a href="{% url 'locations:gallery_update' location.slug file.pk %}">{% trans "Edit" %}</a>
+                                    {% if user.is_superuser or is_moderator %}
+                                        <a href="{% url 'locations:remove_picture' file.location.slug file.pk %}" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                    {% endif %}
                                 </p>{% endif %}
                             </div>
                         </div>
                     </div>
                 {% if forloop.counter|divisibleby:3 or forloop.counter == files.count %}</div>{% endif %}
             {% endfor %}
+            
+            {% if is_paginated %}<ul class="pagination">
+            
+                {% if page_obj.has_previous %}
+                    <li><a href="?page=1">&laquo;</a></li>
+                    <li><a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>
+                {% endif %}    
+                
+                {% for page in page_obj.paginator.page_range %}
+                    <li{% if page == page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a></li>
+                    <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+                {% endif %}
+                
+            </ul>{% endif %}
             
             <p><a href="{% url 'locations:upload' location.slug %}" class="btn btn-success btn-lg">{% trans "Dodaj pliki" %}</a></p>
         

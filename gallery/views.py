@@ -5,7 +5,7 @@ from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.views.generic import View, DetailView, ListView, FormView, UpdateView
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
@@ -172,6 +172,7 @@ class UserGalleryView(ListView):
     queryset = UserGalleryItem.objects.all()
     template_name = 'gallery/user-gallery.html'
     context_object_name = 'files'
+    paginate_by = settings.USER_GALLERY_LIMIT
 
     def get_context_data(self, **kwargs):
         context = super(UserGalleryView, self).get_context_data(**kwargs)
@@ -179,7 +180,13 @@ class UserGalleryView(ListView):
         return context
 
     def get_queryset(self):
-        return UserGalleryItem.objects.filter(user=self.request.user)
+        username = self.kwargs.get('username', None)
+        if username:
+            user = get_object_or_404(User, username=username)
+        else:
+            user = self.request.user
+
+        return UserGalleryItem.objects.filter(user=user)
 
 
 class UserGalleryCreateView(FormView):
@@ -276,6 +283,7 @@ class LocationGalleryView(ListView):
     queryset = LocationGalleryItem.objects.all()
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'
+    paginate_by = settings.PLACE_GALLERY_LIMIT
 
     def get_current_location(self):
         location = get_object_or_404(Location, slug=self.kwargs['slug'])
@@ -335,7 +343,52 @@ class LocationGalleryCreateView(FormView):
             location = location
         )
         item.save()
+        action.send(
+            self.request.user,
+            action_object = item,
+            target = item.location,
+            verb = _('uploaded')
+        )
+        self.request.user.profile.rank_pts += 2
+        self.request.user.profile.save()
         return redirect(reverse('locations:gallery', kwargs={'slug':location.slug}))
+
+
+class LocationGalleryUpdateView(UpdateView):
+    """ Edycja zdjęcia, które znajduje się już w galerii. """
+    model = LocationGalleryItem
+    form_class = SimpleItemForm
+    template_name = 'gallery/location-gallery-form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationGalleryUpdateView, self).get_context_data(**kwargs)
+        context['title'] = _("Edit picture data")
+        context['location'] = self.object.location
+        return context
+
+    def get(self, request, pk=None, slug=None):
+        self.object = self.get_object()
+        if not request.user.is_superuser and request.user != self.object.user:
+            return HttpResponseForbidden()
+        return super(LocationGalleryUpdateView, self).get(request)
+
+
+def location_gallery_delete(request, slug=None, pk=None):
+    """
+    Widok umożliwiający usuwanie obrazów z galerii. Parametr `pk` jest wymagany
+    i jego brak zaskutkuje błędem. Parametr `slug` jest tylko po to, żeby
+    wpasować widok w urlconf z aplikacji `locations`.
+    Prawo do usuwania obrazów mają tylko superadmini oraz moderatorzy lokalizacji.
+    """
+    item = get_object_or_404(LocationGalleryItem, pk=pk)
+    if request.user.is_superuser or is_moderator(request.user, item.location):
+        item.delete()
+        return redirect(
+            reverse('locations:gallery',
+            kwargs={'slug':item.location.slug})
+        )
+    else:
+        return HttpResponseForbidden()
 
 
 class PlacePictureView(DetailView):

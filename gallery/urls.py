@@ -14,5 +14,6 @@ urlpatterns = patterns('',
     #url(r'^(?P<filename>.*\w+)', UserGalleryView.as_view(), name='gallery_delete'),
     url(r'^update/(?P<pk>\d+)/', UserGalleryUpdateView.as_view(), name='update'),
     url(r'^upload/', UserGalleryCreateView.as_view(), name='upload'),
+    url(r'^(?P<username>[\w-]+)/', UserGalleryView.as_view(), name='user_gallery'),
     url(r'^$', UserGalleryView.as_view(), name='index'),
 )

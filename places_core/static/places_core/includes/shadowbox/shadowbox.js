@@ -60,7 +60,10 @@
     margin: 40,
 
     // A hook function that is called when closing.
-    onClose: shadowbox.K,
+    //onClose: shadowbox.K,
+    onClose: function () {
+        document.body.style.overflow = "auto";
+    },
 
     // A hook function that is called when a player is finished loading and
     // all display transitions are complete. Receives the player object as
@@ -68,7 +71,10 @@
     onDone: shadowbox.K,
 
     // A hook function that is called when opening.
-    onOpen: shadowbox.K,
+    //onOpen: shadowbox.K,
+    onOpen: function () {
+        document.body.style.overflow = "hidden";
+    },
 
     // A hook function that is called when a player is ready to be
     // displayed. Receives the player object as its only argument.
