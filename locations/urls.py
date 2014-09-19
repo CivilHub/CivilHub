@@ -5,7 +5,8 @@ from blog.views import NewsDetailView
 from topics.views import DiscussionDetailView
 from polls.views import PollDetails, PollResults
 from gallery.views import LocationGalleryView, PlacePictureView, \
-                           LocationGalleryCreateView, location_gallery_delete
+                           LocationGalleryCreateView, location_gallery_delete, \
+                           LocationGalleryUpdateView
 from locations.views import *
 from staticpages.views import PageView
 
@@ -51,6 +52,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
     # Location media gallery
     url(r'^(?P<slug>[\w-]+)/gallery/upload/', LocationGalleryCreateView.as_view(), name='upload'),
+    url(r'^(?P<slug>[\w-]+)/gallery/update/(?P<pk>\d+)/', LocationGalleryUpdateView.as_view(), name='gallery_update'),
     url(r'^(?P<slug>[\w-]+)/gallery/delete/(?P<pk>\d+)/', location_gallery_delete, name='remove_picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),

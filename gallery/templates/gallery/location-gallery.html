@@ -5,15 +5,13 @@
 {% block require_scripts %}
 
     <script data-main="{% static 'places_core/js/build/gallery/location-gallery/location-gallery-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
+    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
 
 {% endblock %}
 
 
 {% block content %}
-
-    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
-    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
-    <script>Shadowbox.init();</script>
     
     <div class="col-sm-8">
     
@@ -25,11 +23,13 @@
                         <div class="thumbnail">
                             <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ location.slug }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
                             <div class="caption">
-                                <h3>{{ file.name }}</h3>
+                                <h3><a href="{% url 'locations:picture' location.slug file.pk %}">{{ file.name }}</a></h3>
                                 <p>{{ file.description|truncatewords:5 }}</p>
-                                {% if user.is_superuser or is_moderator %}<p class="controls">
-                                    {% comment %}<a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>{% endcomment %}
-                                    <a href="{% url 'locations:remove_picture' file.location.slug file.pk %}" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                {% if user.is_superuser or is_moderator or user == file.user %}<p class="controls">
+                                    <a href="{% url 'locations:gallery_update' location.slug file.pk %}">{% trans "Edit" %}</a>
+                                    {% if user.is_superuser or is_moderator %}
+                                        <a href="{% url 'locations:remove_picture' file.location.slug file.pk %}" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+                                    {% endif %}
                                 </p>{% endif %}
                             </div>
                         </div>

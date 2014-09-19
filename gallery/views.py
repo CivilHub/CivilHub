@@ -5,7 +5,7 @@ from datetime import datetime
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.views.generic import View, DetailView, ListView, FormView, UpdateView
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
@@ -180,7 +180,13 @@ class UserGalleryView(ListView):
         return context
 
     def get_queryset(self):
-        return UserGalleryItem.objects.filter(user=self.request.user)
+        username = self.kwargs.get('username', None)
+        if username:
+            user = get_object_or_404(User, username=username)
+        else:
+            user = self.request.user
+
+        return UserGalleryItem.objects.filter(user=user)
 
 
 class UserGalleryCreateView(FormView):
@@ -337,7 +343,34 @@ class LocationGalleryCreateView(FormView):
             location = location
         )
         item.save()
+        action.send(
+            self.request.user,
+            action_object = item,
+            target = item.location,
+            verb = _('uploaded')
+        )
+        self.request.user.profile.rank_pts += 2
+        self.request.user.profile.save()
         return redirect(reverse('locations:gallery', kwargs={'slug':location.slug}))
+
+
+class LocationGalleryUpdateView(UpdateView):
+    """ Edycja zdjęcia, które znajduje się już w galerii. """
+    model = LocationGalleryItem
+    form_class = SimpleItemForm
+    template_name = 'gallery/location-gallery-form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationGalleryUpdateView, self).get_context_data(**kwargs)
+        context['title'] = _("Edit picture data")
+        context['location'] = self.object.location
+        return context
+
+    def get(self, request, pk=None, slug=None):
+        self.object = self.get_object()
+        if not request.user.is_superuser and request.user != self.object.user:
+            return HttpResponseForbidden()
+        return super(LocationGalleryUpdateView, self).get(request)
 
 
 def location_gallery_delete(request, slug=None, pk=None):
