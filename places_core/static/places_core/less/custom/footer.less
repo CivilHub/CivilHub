@@ -1,52 +1,90 @@
+
+@media (max-width: 768px) {
+
+    .footer {
+        width: 100%;
+        height: auto;
+        
+        .col-md-2 > a {
+            display: none;
+        }
+        
+        .left-side, .right-side {
+            text-align: center;
+        }
+        
+        .share-buttons {
+        
+            #lang-selector {
+                text-align: center;
+            }
+        }
+    }
+}
+
+
+@media (min-width: 768px) {
+
+    .footer {
+    
+        height: 150px;
+        
+        .left-side {
+            text-align: right;
+            padding-right: 0px;
+            
+            a {
+                margin-right: 12px;
+            }
+        }
+        
+        .right-side {
+            text-align: right;
+            padding-left: 0px;
+        
+            a {
+                margin-left: 12px;
+            }
+        }
+        
+        .share-buttons {
+            
+            #lang-selector {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+        }
+    }
+}
+
+
 .footer {
 
-	background: #fff;
-	height: 150px;
-	padding-top: 30px;
-	border-top: 1px solid #dedede;
+    background: #fff;
+    padding-top: 30px;
+    border-top: 1px solid #dedede;
 
-	a:hover {
-		text-decoration: none;
-	}
-	
-	.left-side {
-		text-align: right;
-		padding-right: 0px;
-        
-		a {
-			margin-right: 12px;
-		}
-	}
-	
-	.right-side {
-		text-align: left;
-		padding-left: 0px;
-        
-		a {
-			margin-left: 12px;
-		}
-	}
-	
-	img {
-		border: 0;
-		width: 115px;
-		display: table;
-		margin: 0 auto
-	}
+    a:hover {
+        text-decoration: none;
+    }
+    
+    img {
+        border: 0;
+        width: 115px;
+        display: table;
+        margin: 0 auto
+    }
 
-	.share-buttons {
-		margin-top: 30px;
+    .share-buttons {
+        margin-top: 30px;
+        .popover-content { padding: 10px 0px; }
+        iframe {margin-left: 5px !important; margin-right: 5px !important;}
         
-		.popover-content { padding: 10px 0px; }
-        
-		div {margin-left: 5px !important; margin-right: 5px !important;}
-		iframe {margin-left: 5px !important; margin-right: 5px !important;}
-		
-	}
-	
-	.fb-like.fb_iframe_widget span{
-		vertical-align: baseline !important;
-	}
+    }
+    
+    .fb-like.fb_iframe_widget span{
+        vertical-align: baseline !important;
+    }
     
     #lang-selector {
         position: relative;

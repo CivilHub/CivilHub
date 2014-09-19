@@ -5,23 +5,24 @@
 <nav id="navbar-top"class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
     <div class="container">
         <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
-            <span class="sr-only">{% trans "Toggle navigation" %}</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"></a>
-        <div class="navbar-top-search">
-            <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
-                
-                <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
-                <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
-                
-            </form>
-        </div>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
+                <span class="sr-only">{% trans "Toggle navigation" %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+            
+            <div class="navbar-top-search">
+                <form class="navbar-form navbar-right" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                    
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                    <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
+                    
+                </form>
+            </div>
             
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
