@@ -86,6 +86,9 @@ function ($, _, Backbone, ui, utils) {
     $('.custom-tooltip-bottom').tooltip({
         placement: 'bottom'
     });
+    $('.custom-tooltip-right').tooltip({
+        placement: 'right'
+    });
     
     // Scroll to top button
     // -------------------------------------------------------------------------
