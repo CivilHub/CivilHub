@@ -34,9 +34,13 @@ var signInCallback = function (result) {
     if (result['error']) {
         console.log('An error happened:', result['error']);
     } else {
+        console.log(result);
         $('#code').attr('value', result['code']);
         $('#at').attr('value', result['access_token']);
-        $('#google-plus').submit();
+        
+        alert(gapi.auth.getToken()); // from Google oAuth
+        
+        //$('#google-plus').submit();
     }
 };
 
