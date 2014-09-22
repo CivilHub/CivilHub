@@ -23,11 +23,8 @@
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
 
     <div class="col-sm-8 main-content">
-        {% if user.is_authenticated %}
-        
-        {% endif %}
         <div class="discussion-list-entry">
-            
+            {% if user.is_authenticated %}
             <span class="submenu-toggle"> </span>
             <div class="entry-submenu">
                 <ul>
@@ -40,7 +37,7 @@
                     {% endif %}
                 </ul>
             </div>
-            
+            {% endif %}
             <div class="custom-label-list">
                 <span class="fa fa-list custom-fa"> </span>
                 <span class="custom-label-entry custom-main-label-entry">
