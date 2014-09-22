@@ -41,41 +41,26 @@
                     <span class="ch-icon"> </span> {% trans "Add news" %}
                 </a>
             </li>{% endif %}
-            {% if 'news_category' in links %}{% if user.is_superuser or is_moderator %}<li>
-                <a href="{% url 'blog:newcategory' %}" class="btn-category-create">
-                    <span class="ch-icon"> </span> {% trans "Add news category" %}
-                </a>
-            </li>{% endif %}{% endif %}
-            {% if 'idea_category' in links and user.is_superuser %}<li>
-                <a href="{% url 'ideas:new_category' %}" class="new-category-btn">
-                    <span class="ch-icon"> </span> {% trans "New category" %}
-                </a>
-            </li>{% endif %}
-            {% if 'discussion_category' in links and user.is_superuser %}<li>
-                <a href="#" class="new-category-btn">
-                    <span class="ch-icon"> </span> {% trans "New forum category" %}
-                </a>
-            </li>{% endif %}
             {% endif %}
         </ul>
-	
+    
     <div class="followers-sidebar">
         <div class="sidebar-label">{% trans "Most active users" %}:</div>
-		<div class="sidebar-content followers-box">
-			{% for usr in location.users.all %}
-			<div class="follower">
-				<a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-				<img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
-				</a>
-			</div>
-			{% endfor %}
-		</div>
+        <div class="sidebar-content followers-box">
+            {% for usr in location.users.all %}
+            <div class="follower">
+                <a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+                <img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-	
-	<div class="clear"></div>
+    
+    <div class="clear"></div>
 
     {% if tags %}
-	<div class="sidebar-label">{% trans "Tags" %}:</div>
+    <div class="sidebar-label">{% trans "Tags" %}:</div>
     <div class="sidebar-content tags">
         <ul>
         {% for tag, counter in tags %}
@@ -85,7 +70,7 @@
     </div>
 
     {% endif %}
-	
+    
     </div>
 
 
