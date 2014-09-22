@@ -24,6 +24,20 @@
 
     <div class="col-sm-8 main-content">
         <div class="discussion-list-entry">
+            {% if user.is_authenticated %}
+            <span class="submenu-toggle"> </span>
+            <div class="entry-submenu">
+                <ul>
+                    {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
+                    {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+                    <li>{% bookmark_form discussion user %}</li>
+                    {% if user == discussion.creator %}
+                    <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
+                    <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
             <div class="custom-label-list">
                 <span class="fa fa-list custom-fa"> </span>
                 <span class="custom-label-entry custom-main-label-entry">
@@ -32,20 +46,6 @@
                 <span class="custom-label-entry">
                     <a href="{% url 'locations:ajaxlist' discussion.location.slug %}?meta=question&state=all&time=any&category={{ discussion.category.pk }}&text=false" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
                 </span>
-                {% if user.is_authenticated %}
-                <h4><span class="submenu-toggle"> </span></h4>
-                <div class="entry-submenu">
-                    <ul>
-                        {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
-                        {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-                        <li>{% bookmark_form discussion user %}</li>
-                        {% if user == discussion.creator %}
-                        <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
-                        <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-                {% endif %}
             </div>
 
         </div>
