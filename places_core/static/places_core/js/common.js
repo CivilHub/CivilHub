@@ -9,13 +9,38 @@ define(['jquery',
         'backbone',
         'js/ui/ui',
         'js/utils/utils',
+        'js/utils/abuse-report',
         'bootstrap',
         'js/common/language',
         'js/common/bookmarks'],
 
-function ($, _, Backbone, ui, utils) {
+function ($, _, Backbone, ui, utils, AbuseWindow) {
     
-    "use strict";    
+    "use strict";
+    
+    // Abuse reports
+    // -------------
+    
+    if ($('#abuse-modal-tpl').length > 0) {
+        (function () {
+            var win = null, $link = null;
+            $('.report-abuse-link').on('click', function (e) {
+                e.preventDefault();
+                $link = $(this);
+                if (_.isNull(win)) {
+                    win = new AbuseWindow({
+                        'id': $link.attr('data-id') || 0,
+                        'content': $link.attr('data-content') || '',
+                        'label': $link.attr('data-label') || ''
+                    });
+                }
+                win.open();
+            });
+        })();
+    };
+    
+    // Cookie warning message
+    // ----------------------
     
     (function($) {
         if(!utils.getCookie('cookie_msg')) {
@@ -28,7 +53,7 @@ function ($, _, Backbone, ui, utils) {
                 expiration_date.setFullYear(expiration_date.getFullYear() + 1);
                 document.cookie = "cookie_msg=true; path=/; domain=.civilhub.org; expires=" + expiration_date.toGMTString();
                 $('#cookie-msg').fadeOut('slow', function() {
-                    this.empty().remove();
+                    $(this).empty().remove();
                 });
             });
         }
