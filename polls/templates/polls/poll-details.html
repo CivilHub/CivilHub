@@ -15,13 +15,16 @@
     <div class="col-sm-8 main-content">
         <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle no-margin"> </span></h1>
         <div class="entry-submenu">
-            <ul>
+            <ul>{% with poll|content_type as ctype %}
                 {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                 <li>{% bookmark_form poll user %}</li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                 {% if user.is_authenticated and user != poll.creator %}
-                    <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with poll|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>
+                    <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>
                 {% endif %}
+                {% if user.is_superuser or is_moderator %}
+                    <li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>
+                {% endif %}{% endwith %}
             </ul>
         </div>
         
