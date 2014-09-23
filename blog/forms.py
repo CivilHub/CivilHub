@@ -4,9 +4,10 @@ from django.utils.translation import ugettext_lazy as _
 from taggit.forms import TagField
 from blog.models import Category, News
 from locations.models import Location
+from places_core.forms import BootstrapBaseForm
 
 
-class NewsForm(forms.ModelForm):
+class NewsForm(forms.ModelForm, BootstrapBaseForm):
     """
     Edit/update/create idea form
     """

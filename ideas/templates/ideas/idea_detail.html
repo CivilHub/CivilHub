@@ -73,7 +73,9 @@
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
                         {% endif %}
                         <li>{% bookmark_form idea user %}</li>
-                        <li><a class="report-abuse-link" href="{% url 'reports:report' app_label='ideas' model_label='idea' object_pk=idea.pk %}">{% trans "Report abuse" %}</a></li>
+                        {% if user.is_authenticated and user != idea.creator %}
+                            <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="author-info">

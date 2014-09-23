@@ -22,11 +22,6 @@ class DiscussionForm(forms.ModelForm, BootstrapBaseForm):
         queryset = Category.objects.all(),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
-    location = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.Select(attrs={'class': 'form-control'})
-    )
     status = forms.BooleanField(
         required = False,
         label = _('Status'),
@@ -35,7 +30,7 @@ class DiscussionForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location', 'status', 'tags')
+        fields = ('question', 'intro', 'category', 'status', 'tags')
 
 
 class ReplyForm(forms.ModelForm):

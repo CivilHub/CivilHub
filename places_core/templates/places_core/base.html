@@ -122,37 +122,7 @@
     {% include 'places_core/footer.html' %}
 
 
-
-{% comment %}
-    Modal dla formularza 'abuse report'. Dostępny na każdej stronie.
-{% comment %}
-
-{% if user.is_authenticated %}
-<script type="text/template" id="abuse-form-tpl">
-<div class="modal fade" id="abuse-form-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans "Report abuse" %}</h4>
-            </div>
-            <div class="modal-body">
-                <form role="presentation" method="post" action="" >
-                    <div class="form-group">
-                        <label for="category-description">{% trans "Reason" %}</label>
-                        <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                <button type="button" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-</script>
-{% endif %}
+{% if user.is_authenticated %}{% include 'places_core/abuse-window-modal.html' %}{% endif %}
 
 {% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}

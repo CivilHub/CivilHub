@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
 {% block require_scripts %}
 <script data-main="{% static 'places_core' %}/js/build/gallery/picture-view/picture-view-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
@@ -12,8 +12,7 @@
         <div class="entry-submenu">
             <ul>
                 {% if user.is_authenticated and user != picture.user %}
-                <li><a href="#" class="report-abuse-link">
-                    {% trans "Report abuse" %}</a></li>
+                    <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with picture|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ picture.pk }}">{% trans "Report abuse" %}</a></li>
                 {% endif %}
             </ul>
         </div>
