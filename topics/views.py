@@ -257,6 +257,7 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = obj.question
         context['subtitle'] = _('Edit this topic')
         context['location'] = obj.location
+        context['links'] = links['discussions']
         context['is_moderator'] = moderator
         return context
 

@@ -111,7 +111,7 @@
     Modal dla formularza 'abuse report'. Dostępny na każdej stronie.
 {% comment %}
 
-{% if user.is_authenticated %}
+{% comment %}
 <script type="text/template" id="abuse-form-tpl">
 <div class="modal fade" id="abuse-form-modal">
     <div class="modal-dialog">
@@ -136,7 +136,9 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 </script>
-{% endif %}
+{% endcomment %}
+
+{% if user.is_authenticated %}{% include 'places_core/abuse-window-modal.html' %}{% endif %}
 
 {% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}

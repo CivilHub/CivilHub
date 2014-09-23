@@ -58,3 +58,14 @@ def hreflang(request):
         tags.append(template.replace('{% url %}', url).replace('{% lang %}', l[0]))
     
     return "".join(tags)
+
+
+@register.filter
+def content_type(obj):
+    """
+    Get object's content type inside template. See:
+    https://djangosnippets.org/snippets/3015/
+    """
+    if not obj:
+        return False
+    return ContentType.objects.get_for_model(obj)
