@@ -208,7 +208,8 @@ SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
                                  'https://www.googleapis.com/auth/userinfo.email',
                                  'https://www.googleapis.com/auth/userinfo.profile',
                                  'https://www.googleapis.com/auth/plus.profile.emails.read',
-                                 'https://www.googleapis.com/auth/plus.me']
+                                 'https://www.googleapis.com/auth/plus.me',
+                                 'https://www.google.com/m8/feeds',]
 
 SOCIAL_AUTH_FACEBOOK_KEY = '345201478966829'
 SOCIAL_AUTH_FACEBOOK_SECRET = '8581a70916d1946e76135d23c4ca271f'

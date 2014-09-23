@@ -34,13 +34,11 @@ var signInCallback = function (result) {
     if (result['error']) {
         console.log('An error happened:', result['error']);
     } else {
-        console.log(result);
         $('#code').attr('value', result['code']);
         $('#at').attr('value', result['access_token']);
-        
-        alert(gapi.auth.getToken()); // from Google oAuth
-        
-        //$('#google-plus').submit();
+        $('#google-plus').submit();
+        var token = gapi.auth.getToken();
+        window.test = token;
     }
 };
 
