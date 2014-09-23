@@ -1,0 +1,25 @@
+{% extends 'locations/index.html' %}
+{% load staticfiles i18n civil_tags %}
+
+{% block content %}
+
+    <div class="col-sm-8 main-content">
+        <center>
+            <h2>{% trans "Are you sure you want to delete this item" %}?</h2>
+            <form id="content-delete-form" class="form-hidden" method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="content_type" value="{{ content_type }}" />
+                <input type="hidden" name="object_pk" value="{{ object_pk }}" />
+                <button type="button" class="btn btn-default btn-lg cancel-btn" onClick="javascript:history.go(-1);">{% trans "Cancel" %}</button>
+                <button type="submit" class="btn btn-danger btn-lg submit-btn">{% trans "Delete" %}</button>
+            </form>
+        </center>
+    </div>
+    
+    <div class="col-sm-4">
+        
+        {% include 'locations/sidebar.html' %}
+        
+    </div>
+
+{% endblock %}

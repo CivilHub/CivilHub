@@ -50,6 +50,8 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
+    # Delete content from location collections
+    url(r'^remove_content/(?P<content_type>\d+)/(?P<object_pk>\d+)/', LocationContentDelete.as_view(), name='remove_content'),
     # Location media gallery
     url(r'^(?P<slug>[\w-]+)/gallery/upload/', LocationGalleryCreateView.as_view(), name='upload'),
     url(r'^(?P<slug>[\w-]+)/gallery/update/(?P<pk>\d+)/', LocationGalleryUpdateView.as_view(), name='gallery_update'),

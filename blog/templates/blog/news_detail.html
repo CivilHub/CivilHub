@@ -49,18 +49,18 @@
                 {% endif %}
 
                     <div class="entry-submenu">
-                        <ul>
+                        <ul>{% with news|content_type as ctype %}
                             {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                             <li>{% bookmark_form news user %}</li>
                             {% if user.is_authenticated and user != news.creator %}
-                            <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with news|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ news.pk }}">
+                            <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ news.pk }}">
                                 {% trans "Report abuse" %}</a></li>
                             {% endif %}
                             {% if user.is_authenticated and user == news.creator or is_moderator %}
                             <li><a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a></li>
-                            <li><a href="">{% trans "Delete" %}</a></li>
+                            <li><a href="{% url 'locations:remove_content' ctype.pk news.pk %}">{% trans "Delete" %}</a></li>
                             <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-                            {% endif %}
+                            {% endif %}{% endwith %}
                         </ul>
                     </div>
                 </div>

@@ -27,17 +27,19 @@
             {% if user.is_authenticated %}
             <h1><span class="submenu-toggle"> </span></h1>
             <div class="entry-submenu">
-                <ul>
+                <ul>{% with discussion|content_type as ctype %}
                     {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
                     {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
                     <li>{% bookmark_form discussion user %}</li>
                     {% if user == discussion.creator %}
                     <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
-                    <li><a href="{% url 'discussion:remove' pk=discussion.pk %}">{% trans "Delete" %}</a></li>
+                    {% endif %}
+                    {% if user.is_superuser or is_moderator %}
+                    <li><a href="{% url 'locations:remove_content' ctype.pk discussion.pk %}">{% trans "Delete" %}</a></li>
                     {% endif %}
                     {% if user.is_authenticated and user != discussion.creator %}
                         <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">{% trans "Report abuse" %}</a></li>
-                    {% endif %}
+                    {% endif %}{% endwith %}
                 </ul>
             </div>
             {% endif %}

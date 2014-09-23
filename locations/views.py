@@ -834,6 +834,35 @@ class LocationContentFilter(View):
             })
 
 
+class LocationContentDelete(View):
+    """
+    Uniwersalny widok pozwalający administratorom oraz moderatorom usuwać treści
+    z "podlegajęcej" im lokalizacji.
+    """
+    http_method_names = [u'get', u'post',]
+    template_name = 'locations/content-remove.html'
+
+    def get(self, request, content_type=None, object_pk=None):
+        ct = ContentType.objects.get(pk=content_type)
+        self.object = ct.get_object_for_this_type(pk=object_pk)
+        context = {
+            'title': _("Confirm delete"),
+            'content_type': content_type,
+            'object_pk': object_pk,
+            'location': self.object.location,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, content_type, object_pk):
+        ct = ContentType.objects.get(pk=request.POST.get('content_type', None))
+        self.object = ct.get_object_for_this_type(pk=request.POST.get('object_pk', None))
+        if not request.user.is_superuser and not is_moderator(request.user, self.object.location):
+            return HttpResponseNotFound()
+        self.object.delete()
+        return redirect(reverse('locations:details',
+                         kwargs={'slug': self.object.location.slug}))
+
+
 class InviteUsersView(LoginRequiredMixin, View):
     """
     Widok z myślą o formularzu zapraszania innych użytkowników do 'śledzenia'
