@@ -35,25 +35,23 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
     name = forms.CharField(
         required = True,
         max_length = 64,
+        label = _("Name"),
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
     description = forms.CharField(
         required = False,
         max_length = 2048,
+        label = _("Description"),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
     category = forms.ModelChoiceField(
         required = False,
         queryset = Category.objects.all(),
+        label = _("Category"),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
-    location = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.Select(attrs={'class': 'form-control'})
-    )
-    tags = TagField()
+    tags = TagField(label=_("Tags"))
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'location', 'tags', 'category',)
+        fields = ('name', 'description', 'tags', 'category',)

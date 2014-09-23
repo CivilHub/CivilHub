@@ -14,18 +14,20 @@
 
 {% block content %}
 
-    <div class="col-sm-8">
+    <div class="col-sm-8 main-content">
         <div class="create-form">
             {% if action == 'update' %}
                 <form role="form" class="form-horizontal" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
             {% else %}
                 <form role="form" class="form-horizontal" method="post" action="{% url 'ideas:create' %}" id="idea-create-form">
             {% endif %}
-            
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                    <label class="control-label col-sm-2">&nbsp;</label>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+                    </div>
                 </div>
             </form>
         </div>
