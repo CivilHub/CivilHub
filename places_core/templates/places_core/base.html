@@ -104,9 +104,12 @@
 
 
     {% include 'places_core/footer.html' %}
+    
 
+{% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
 
 {% if user.is_authenticated %}{% include 'places_core/abuse-window-modal.html' %}{% endif %}
+{% include 'places_core/sublocation-dropdown.html' %}
 
 {% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
 {% block footer_scripts %}{% endblock %}
@@ -129,6 +132,7 @@
 </div>
 </script>
 
+{% comment %} ~~~~~~~~~~~~~~~~~~~~~ INTRO ~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% comment %}
 
     Pomocnik użytkownika - do zrobienia później
