@@ -67,8 +67,7 @@ function render() {
 
 require(['jquery',
          'async!https://apis.google.com/js/plusone.js',
-         'async!https://plus.google.com/js/client:plusone.js?onload=render',
-         'js/common/language'],
+         'async!https://plus.google.com/js/client:plusone.js?onload=render'],
 
 function ($) {
     

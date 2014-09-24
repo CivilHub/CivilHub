@@ -29,8 +29,7 @@ require.config({
 
 require(['jquery',
          'bootstrap',
-         'validate',
-         'js/common/language'],
+         'validate'],
 
 function ($) {
     
