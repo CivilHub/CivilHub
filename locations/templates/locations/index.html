@@ -19,33 +19,17 @@
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
     
     <ul class="nav navbar-nav">
-    <li><i class="fa fa-map-marker"></i></li>
-    {% for parent in location.get_parent_chain %}
+        <li><i class="fa fa-map-marker"></i></li>
+        {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-    <li><span class="breaker">></span></li>
-    {% endfor %}
+        <li><span class="breaker"><a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></span></li>
+        {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
         </li>
         {% if location.location_set.count %}
         <li class="last-element">
-            <a href="#" class="dropdown-toggle sublocation-dropdown-toggle" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
-            <ul class="dropdown-menu ancestors-menu">
-                <li class="dropdown-title">
-                    <h4>
-                        <span class="text-title">{% trans "Sublocations" %}</span>
-                        <span class="search-title">
-                            <form role="presentation" class="sublocation-search form-inline">
-                                <input type="text" class="sublocation-search-input" placeholder="Search..." />
-                            </form>
-                        </span>
-                        <a href="#"><span class="fa fa-search">&nbsp;</span></a>
-                    </h4>
-                </li>
-                {% for f in location.location_set.all %}
-                <li class="sublocation-list-entry"><a href="{{ f.get_absolute_url }}">{{ f.name }}</a></li>
-                {% endfor %}
-            </ul>
+            <a href="#" class="dropdown-toggle sublocation-menu-toggle" data-target="{{ location.pk }}" data-toggle="dropdown"><span class="fa fa-arrow-circle-right">&nbsp;</span></a>
         </li>
         {% endif %}
     </ul>
@@ -110,5 +94,20 @@
         </div>
     </div>
 </nav>
+
+<script type="text/template" id="ancestors-menu-tpl">
+    <li class="dropdown-title">
+        <h4>
+            <span class="text-title">{% trans "Sublocations" %}</span>
+            <a href="#"><span class="fa fa-search">&nbsp;</span></a>
+        </h4>
+        <span class="search-title">
+            <form role="presentation" class="sublocation-search form-inline">
+                <input type="text" class="sublocation-search-input" placeholder="Search..." />
+            </form>
+        </span>
+    </li>
+</script>
+
 {% endblock %}
 
