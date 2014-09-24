@@ -88,6 +88,7 @@ class Location(models.Model):
         if self.parent:
             if response == 'JSON':
                 parents.append({
+                    'pk'  : self.parent.pk,
                     'name': self.parent.name,
                     'url' : self.parent.get_absolute_url(),
                 })

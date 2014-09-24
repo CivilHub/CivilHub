@@ -1,0 +1,21 @@
+{% comment %}
+
+    Szablon wykorzystywany przez drop-down z sub-lokalizacjami w górnym pasku
+    nawigacji (w widoku lokalizacji, e.g. location.location_list.all).
+
+{% endcomment %}
+
+{% load i18n %}
+<script type="text/template" id="ancestors-menu-tpl">
+    <li class="dropdown-title">
+        <h4>
+            <span class="text-title">{% trans "Sublocations" %}</span>
+            <a href="#"><span class="fa fa-search">&nbsp;</span></a>
+        </h4>
+        <span class="search-title">
+            <form role="presentation" class="sublocation-search form-inline">
+                <input type="text" class="sublocation-search-input form-control" placeholder="Search..." />
+            </form>
+        </span>
+    </li>
+</script>
