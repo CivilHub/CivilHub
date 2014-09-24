@@ -10,14 +10,38 @@ define(['jquery',
         'js/ui/ui',
         'js/utils/utils',
         'js/utils/abuse-report',
-        'bootstrap',
         'js/locations/sublocations-popover',
+        'bootstrap',
         'js/common/language',
         'js/common/bookmarks'],
 
-function ($, _, Backbone, ui, utils, AbuseWindow) {
+function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     "use strict";
+    
+    // Drop-down z sub-lokalizacjami
+    // -----------------------------
+    
+    var dropdown = null; // Aktywne menu
+    
+    function clearDropdown () {
+        if (!_.isNull(dropdown)) {
+            dropdown.$el.empty().remove();
+        }
+    };
+    
+    $('.sublocation-menu-toggle').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        clearDropdown();
+        dropdown = new ListView({
+            toggle: $(this),
+            id: $(this).attr('data-target')
+        });
+        $('body').not('.ancestors-menu').one('click', function (e) {
+            clearDropdown();
+        });
+    });
     
     // Abuse reports
     // -------------

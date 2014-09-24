@@ -29,7 +29,7 @@
     
     li {
         
-      >a, >a.active {      
+      &>a, &>a {      
         border-right: none;
         font-weight: normal;
         font-size: 12px;
@@ -37,15 +37,22 @@
         padding: 10px 15px;
         color: #595959;
         text-shadow: none;
+        
+        .breaker {
+          
+          a {
+            padding-left: 0px;
+          }
+        }
       }
         
       &:not(:first-child) {
             
-        a, a.active {
+        &>a, &>a.active {
           padding-left: 20px;
         }
             
-        a.active {
+        &>a.active {
           color: #2889de;
         }
       }  
@@ -97,22 +104,18 @@
         float: right;
         line-height: 2em;
       }
+    }
+    
+    .search-title {
+      display: none;
       
-      .search-title {
-        display: none;
+      form {
+        width: 90%;
+        margin: 0px auto;
         
-        form {
-          width: 170px;
-          height: 2em;
-          float: left;
-          
-          input {
-            color: #000;
-            width: 100%;
-            height: 85%;
-            margin-top: 2%;
-            font-size: 12px;
-          }
+        input {
+          width: 100%;
+          margin-bottom: 5px;
         }
       }
     }
