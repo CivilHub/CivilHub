@@ -19,10 +19,10 @@
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
     
     <ul class="nav navbar-nav">
-        <li><i class="fa fa-map-marker"></i></li>
+        <li class="first-indicator"><a href="#"><span class="fa fa-map-marker">&nbsp;</span></a></li>
         {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-        <li><span class="breaker"><a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></span></li>
+        <li class="breaker"><a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></li>
         {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
