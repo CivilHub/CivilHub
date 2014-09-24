@@ -102,36 +102,28 @@ function ($, _, Backbone) {
         
         // Metoda, która 'przypina' eventy do sztucznego elementu 'select'.
         //
-        // @param $input { jQuery object } Element 'select'
+        // @param $input { jQuery object } Element z 'inputTemplate'
         
         bindEvents: function ($input) {
             // Ze względu na to, że większość przeglądarek nie obsługuje eventu
             // 'change' kiedy użytkownik wybiera już zaznaczoną opcję, musimy
             // tutaj posłużyć się małym 'hackiem'.
-            $input.click(function (e) {
-                
-                if ($input.data('clicks') == 1) {
-                    
-                    var value = $input.find('select').val();
-                    
-                    $input.nextAll('.fake-input').empty().remove();
-                    
-                    this.expand(value);
-                    
-                    this.$indicator
-                        .val($input.find('option:selected').text());
-                        
-                    $input.data('clicks', 0);
-                    
-                } else {
-                    
-                    $input.data('clicks', 1);
-                }
-            }.bind(this));
             
-            $input.focusout( function () {
-                $input.data('clicks', 0);
+            $input.find('select').on('click', function (e) {
+                $(this).value(null);
             });
+            
+            $input.find('select').on('change', function (e) {
+                var value = $input.find('select').val();
+                    
+                $input.nextAll('.fake-input').empty().remove();
+                
+                this.expand(value);
+                
+                this.$indicator
+                    .val($input.find('option:selected').text());
+                    
+            }.bind(this));
         }
     });
     
