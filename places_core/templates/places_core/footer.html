@@ -1,4 +1,4 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% comment %}
     Universal footer template. Made mainly to hold underscore templates.
@@ -51,46 +51,13 @@
     
     </div>
     <div class="row  share-buttons">
-        <div class="col-md-3">            
+        <div class="col-md-3">        
             <div id="lang-selector">
             {% get_current_language as LANG %}
                 <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
-                <div id="popover-lang-list" style="display: none"">
-
-                        <ul id="lang-list" data-current-lang="{{ LANG }}">
-                            <li data-code="en">
-                                <a href="#"><img alt="English" src="{% static 'places_core/img/lang/en.png' %}"><span>English</span></a>
-                            </li>
-                            <li data-code="pl">
-                                <a href="#"><img alt="Polski" src="{% static 'places_core/img/lang/pl.png' %}"><span>Polski</span></a>
-                            </li>
-                            <li data-code="de">
-                                <a href="#"><img alt="Deutsch" src="{% static 'places_core/img/lang/de.png' %}"><span>Deutsch</span></a>
-                            </li>
-                            <li data-code="fr">
-                                <a href="#"><img alt="Français" src="{% static 'places_core/img/lang/fr.png' %}"><span>Français</span></a>
-                            </li>
-                            <li data-code="es">
-                                <a href="#"><img alt="Español" src="{% static 'places_core/img/lang/es.png' %}"><span>Español</span></a>
-                            </li>
-                            <li data-code="pt">
-                                <a href="#"><img alt="Português" src="{% static 'places_core/img/lang/pt.png' %}"><span>Português <span class="soon">(soon)</span></span></a>
-                            </li>
-                            <li data-code="it">
-                                <a href="#"><img alt="Italiano" src="{% static 'places_core/img/lang/it.png' %}"><span>Italiano <span class="soon">(soon)</span></span></a>
-                            </li>
-                            <li data-code="cz">
-                                <a href="#"><img alt="České" src="{% static 'places_core/img/lang/cz.png' %}"><span>České <span class="soon">(soon)</span></span></a>
-                            </li>
-
-                        </ul>
-
+                <div id="popover-lang-list">
+                    <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
                 </div>
-                
-                <form id="lang-form" action="/i18n/setlang/" method="post">
-                    {% csrf_token %}
-                    <input name="language" type="hidden" value="" />
-                </form>
             </div>
         </div>
         <div class="col-md-8">

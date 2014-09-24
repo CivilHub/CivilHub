@@ -12,7 +12,6 @@ define(['jquery',
         'js/utils/abuse-report',
         'js/locations/sublocations-popover',
         'bootstrap',
-        'js/common/language',
         'js/common/bookmarks'],
 
 function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {

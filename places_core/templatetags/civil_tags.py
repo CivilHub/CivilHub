@@ -2,6 +2,7 @@
 from django.template import Library
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.utils.translation import get_language
 from django.contrib.contenttypes.models import ContentType
 from userspace.models import Bookmark
 
@@ -58,6 +59,34 @@ def hreflang(request):
         tags.append(template.replace('{% url %}', url).replace('{% lang %}', l[0]))
     
     return "".join(tags)
+
+
+@register.simple_tag
+def langlist(request):
+    """
+    Tag, który automatycznie wypełnia menu z wyborem języków odnośnikami do
+    wszystkich zarejestrowanych języków.
+    """
+    tags = ''
+    tpl = '<li data-code="{% code %}"{% active %}><a href="{% url %}"><img alt="{% name %}" src="{% src %}"><span>{% name %}</span></a></li>'
+    proto_src = settings.STATIC_URL + 'places_core/img/lang/{% code %}.png'
+    host = request.META.get('HTTP_HOST', '').split('.')
+    protocol = 'https' if request.is_secure() else 'http'
+    if len(host[0]) == 2: del(host[0])
+    
+    for l in settings.LANGUAGES:
+        addr = list(host)
+        addr.insert(0, l[0])
+        addr = '.'.join(addr)
+        addr = protocol + '://' + addr
+        active = ' class="selected"' if l[0] == get_language() else ''
+        src = proto_src.replace('{% code %}', l[0])
+        tags += tpl.replace('{% code %}', l[0]) \
+                   .replace('{% name %}', l[1]) \
+                   .replace('{% src %}', src) \
+                   .replace('{% active %}', active) \
+                   .replace('{% url %}', addr)
+    return tags
 
 
 @register.filter
