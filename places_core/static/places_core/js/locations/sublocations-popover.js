@@ -32,9 +32,17 @@ function ($, _, Backbone) {
         
         template: _.template('<a href="/<%= slug %>/"><%= name %></a>'),
         
+        events: {
+            'click a': 'redirect'
+        },
+        
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+        
+        redirect: function () {
+            document.location.href = '/' + this.model.get('slug') + '/';
         }
     });
     
@@ -101,6 +109,12 @@ function ($, _, Backbone) {
         
         toggleSearch: function () {
             this.$el.find('.search-title').toggle();
+        },
+        
+        destroy: function () {
+            this.collection = null;
+            this.$el.off();
+            this.$el.empty().remove();
         }
     });
     

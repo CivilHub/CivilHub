@@ -26,7 +26,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     function clearDropdown () {
         if (!_.isNull(dropdown)) {
-            dropdown.$el.empty().remove();
+            dropdown.destroy();
         }
     };
     

@@ -37,13 +37,6 @@
         padding: 10px 15px;
         color: #595959;
         text-shadow: none;
-        
-        .breaker {
-          
-          a {
-            padding-left: 0px;
-          }
-        }
       }
         
       &:not(:first-child) {
@@ -55,14 +48,40 @@
         &>a.active {
           color: #2889de;
         }
-      }  
-    }
-    
-    li.active {
-      color: #2889de;
-        
-      a {
+      } 
+      
+      &.first-indicator {
+        &>a, &>a.active {
+          display: block;
+          width: 100%;
+          height: 100%;
+          line-height: 35px;
+          padding: 0px 0px 0px 0px;
+          margin: 0px 0px 0px 0px;
+        }  
+      }
+      
+      &.breaker {
+        display: block;
+        height: 35px;
+        width: 30px;
+
+        &>a, &>a.active {
+          display: block;
+          width: 100%;
+          height: 100%;
+          padding: 0px;
+          line-height: 35px;
+          text-align: center;
+        }
+      }
+      
+      &.active {
         color: #2889de;
+        
+        a {
+          color: #2889de;
+        }
       }
     }
   }
