@@ -131,6 +131,7 @@ class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
         widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date','readonly':'readonly'})
     )
     gender = forms.ChoiceField(
+        label = _("Gender"),
         required = False,
         choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
         widget = forms.Select(attrs={'class':'form-control','id':'gender'})
