@@ -1,83 +1,148 @@
+/*
+ * location-navbar.less
+ * 
+ * Style dla pasków nawigacji w widoku lokalizacji.
+ */
+
+
+/* Pasek z sub-lokalizacjami */
+
 #location-chain-menu {
+  border-radius: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin-bottom: 0px;
+
+  .navbar-nav {
+    margin-left: -15px;
+    position: static;
     
-    border-radius: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    margin-bottom: 0px;
-    
-    .navbar-nav {
-        
-        margin-left: -15px;
-		position: relative;
-        
-        .dropdown-menu {
-                  
-          a,
-          a.active {
-            
-            color: #000;
-            
-          }
-          
+    .dropdown-menu {  
+      border-radius: 6px;
+      
+      li {
+        >a, >a.active {
+          color: #000;
         }
-        
-        li {
-            
-			
-			
-            a,
-            a.active {
-                
-                border-right: none;
-                font-weight: normal;
-                font-size: 12px;
-                line-height: 15px;
-                padding: 10px 15px;
-                color: #595959;
-                text-shadow: none;
-                
-            }
-			
-			
-            
-            &:not(:first-child) {
-                
-                a,
-                a.active {
-                    
-                    padding-left: 20px;
-                    
-                }
-                
-				a.active {
-				color: #2889de;
-				}
-				
-            }
-            
-        }
-		li.active {
-				color: #2889de;
-				a {
-					color: #2889de;
-				}
-		}
-        
+      }
     }
     
+    li {
+        
+      >a, >a.active {      
+        border-right: none;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 10px 15px;
+        color: #595959;
+        text-shadow: none;
+      }
+        
+      &:not(:first-child) {
+            
+        a, a.active {
+          padding-left: 20px;
+        }
+            
+        a.active {
+          color: #2889de;
+        }
+      }  
+    }
+    
+    li.active {
+      color: #2889de;
+        
+      a {
+        color: #2889de;
+      }
+    }
+  }
 }
 
-#location-navbar {
+
+/* Menu sub-lokalizacji */
+
+.ancestors-menu {
+  min-width: 250px;
+  max-height: 220px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  top: 150%;
+  margin-left: -10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-radius: 6px;
   
+  a, a:active, a:hover {
+    color: #fff;
+    font-size: 18px;
+    line-height: 2em;
+  }
+  
+  .dropdown-title {
+    background: #404040;
+    
+    h4 {
+      margin: 0px;
+      padding-left: 20px;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      line-height: 2em;
+      font-size: 18px;
+      
+      .fa {
+        float: right;
+        line-height: 2em;
+      }
+      
+      .search-title {
+        display: none;
+        
+        form {
+          width: 170px;
+          height: 2em;
+          float: left;
+          
+          input {
+            color: #000;
+            width: 100%;
+            height: 85%;
+            margin-top: 2%;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  
+  &:before {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    z-index: 1001;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #404040;
+    border-left: 7px solid transparent;
+    border-bottom-color: #404040;
+    content: '';
+  }
+}
+
+
+/* Dolny pasek nawigacji */
+
+#location-navbar {
   background: #f2f2f2;
   border-top: 1px solid #bdbdbd;
   border-bottom: 1px solid #bdbdbd;
   border-left: 0px;
   border-right: 0px;
   border-radius: 0px;
-  
   .default-box-shadow;
- 
   min-height: 35px;
   
   .navbar-nav {
@@ -85,41 +150,28 @@
     li {
       
       a {
-        
         font-size: 12px;
         line-height: 15px;
         padding: 10px 15px 10px 25px;
         position: relative;
-		
         
-        >span {
-            
-            position: absolute;
-            top: 5px;
-            left: 2px;
-            
+        >span {    
+          position: absolute;
+          top: 5px;
+          left: 2px;  
         }
-        
       }
       
       &:first-child {
         
         a {
-          
           padding-left: 15px;
           
-          >span.ch-icon {
-              
-              left: -10px;
-              
+          >span.ch-icon {   
+            left: -10px;  
           }
-          
         }
-        
       }
-      
     }
-    
   }
-  
 }

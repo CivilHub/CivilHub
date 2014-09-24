@@ -11,6 +11,7 @@ define(['jquery',
         'js/utils/utils',
         'js/utils/abuse-report',
         'bootstrap',
+        'js/locations/sublocations-popover',
         'js/common/language',
         'js/common/bookmarks'],
 
