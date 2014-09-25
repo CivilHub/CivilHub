@@ -18,6 +18,23 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     "use strict";
     
+    // Zmiana języka
+    // -------------
+    
+    $(document).ready(function () {
+        $('#lang-selector > a').popover({
+            html: true,
+            content: $('#popover-lang-list').html(),
+            placement: 'top'
+        });
+        
+        $('#lang-selector > a').on('shown.bs.popover', function () {
+            $('body').not('.popover').one('click', function () {
+                $('#lang-selector > a').popover('hide');
+            });
+        });
+    });
+    
     // Drop-down z sub-lokalizacjami
     // -----------------------------
     
@@ -123,8 +140,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     // Common simple scripts.
     // -------------------------------------------------------------------------
-    // Errorlist custom styles.
-    //$('.errorlist > li').addClass('alert alert-danger');
+    
     // Cancel button for some forms which allow back one page.
     $('.cancel-btn').on('click', function () {
         history.go(-1);

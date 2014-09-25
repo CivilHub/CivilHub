@@ -68,7 +68,11 @@ def langlist(request):
     wszystkich zarejestrowanych języków.
     """
     tags = ''
-    tpl = '<li data-code="{% code %}"{% active %}><a href="{% url %}"><img alt="{% name %}" src="{% src %}"><span>{% name %}</span></a></li>'
+    tpl = """<li data-code="{% code %}"{% active %}>
+                <a href="{% url %}" onClick="ga('send', 'event', 'language-{% CODE %}', 'click', 'language-{% CODE %}');">
+                    <img alt="{% name %}" src="{% src %}"><span>{% name %}</span>
+                </a>
+            </li>"""
     proto_src = settings.STATIC_URL + 'places_core/img/lang/{% code %}.png'
     host = request.META.get('HTTP_HOST', '').split('.')
     protocol = 'https' if request.is_secure() else 'http'
@@ -77,15 +81,15 @@ def langlist(request):
     for l in settings.LANGUAGES:
         addr = list(host)
         addr.insert(0, l[0])
-        addr = '.'.join(addr)
-        addr = protocol + '://' + addr
+        addr = protocol + '://' + ('.'.join(addr))
         active = ' class="selected"' if l[0] == get_language() else ''
         src = proto_src.replace('{% code %}', l[0])
         tags += tpl.replace('{% code %}', l[0]) \
                    .replace('{% name %}', l[1]) \
                    .replace('{% src %}', src) \
                    .replace('{% active %}', active) \
-                   .replace('{% url %}', addr)
+                   .replace('{% url %}', addr) \
+                   .replace('{% CODE %}', l[0].upper())
     return tags
 
 
