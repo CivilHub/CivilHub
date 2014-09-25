@@ -268,7 +268,9 @@ class UserActivityView(TemplateView):
             ct = ContentType.objects.get_for_model(Discussion).pk
         elif item_type == 'polls':
             ct = ContentType.objects.get_for_model(Poll).pk
-        raw_set = actstream.filter(action_object_content_type_id=ct).order_by('-timestamp')[:5]
+        raw_set = actstream.filter(action_object_content_type_id=ct) \
+                           .distinct('timestamp') \
+                           .order_by('-timestamp')[:5]
         return [x.action_object for x in raw_set]
 
     def get_context_data(self, **kwargs):
