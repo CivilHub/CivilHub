@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json, math, os, re
+import json, math, os, re, icu
 from urlparse import urljoin
 from BeautifulSoup import BeautifulSoup, Comment
 from uuid import uuid4 as uuid
@@ -137,6 +137,26 @@ def truncatehtml(string, length, ellipsis='...'):
         output.append(pending_close_tags[k])
 
     return "".join(output)
+
+
+def sort_by_locale(queryset, key, language):
+    """
+    Prosta funkcja, która korzysta z biblioteki PyICU do sortowania wyników
+    wyszukiwania alfabetycznie z uwzględnieniem znaków UTF konkretnego języka.
+    
+    Parametr `queryset` jest wymagany, może to być zarówno Django queryset jak
+    i zwykła pythonowa lista.
+    
+    Parametr `key` to funkcja, wq której będziemy sortować. 
+    
+    Parametr language również jest wymagany. To kod języka w standardzie ISO
+    (pl, en etc.) podany jako string.
+    """
+    code = language.lower() + '_' + language.upper() + '.' + 'UTF-8'
+    collator = icu.Collator.createInstance(icu.Locale(code))
+    q = list(queryset)
+    q.sort(key=key, cmp=collator.compare)
+    return q
 
 
 class SimplePaginator(object):

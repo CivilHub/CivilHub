@@ -95,6 +95,7 @@ class CountryJSONStorage(object):
         map_pointers = []
         for map_pointer in MapPointer.objects.all():
             print map_pointer
+            if map_pointer.content_object is None: continue
             if map_pointer.content_object.location.country_code == country.code:
                 map_pointers.append(map_pointer)
         return map_pointers
