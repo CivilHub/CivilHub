@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
+from django.utils.translation import get_language
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -33,6 +34,7 @@ from polls.models import Poll
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.models import AbuseReport
 from places_core.mixins import AtomicFreeTransactionMixin
+from places_core.helpers import sort_by_locale
 from actstream import action
 
 
@@ -201,7 +203,7 @@ class NewsViewSet(viewsets.ModelViewSet):
 
         sortby = self.request.QUERY_PARAMS.get('sortby')
         if sortby == 'title':
-            return newset.order_by('title')
+            return sort_by_locale(newset, lambda x: x.title, get_language())
         elif sortby == 'oldest':
             return newset.order_by('date_created')
         elif sortby == 'category':
@@ -254,8 +256,8 @@ class PollListViewSet(viewsets.ModelViewSet):
             newset = newset.filter(date_created__gte=time_delta)
 
         sortby = self.request.QUERY_PARAMS.get('sortby')
-        if sortby == 'title':
-            return newset.order_by('title')
+        if sortby == 'question':
+            return sort_by_locale(newset, lambda x: x.question, get_language())
         elif sortby == 'oldest':
             return newset.order_by('date_created')
         elif sortby == 'username':
@@ -425,8 +427,8 @@ class ForumViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(date_created__gte=time_delta)
 
         sortby = self.request.QUERY_PARAMS.get('sortby')
-        if sortby == 'title':
-            return queryset.order_by('question')
+        if sortby == 'question':
+            return sort_by_locale(queryset, lambda x: x.question, get_language())
         elif sortby == 'oldest':
             return queryset.order_by('date_created')
         elif sortby == 'category':
@@ -516,7 +518,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
 
         sortby = self.request.QUERY_PARAMS.get('sortby')
         if sortby == 'title':
-            return queryset.order_by('name')
+            return sort_by_locale(queryset, lambda x: x.name, get_language())
         elif sortby == 'oldest':
             return queryset.order_by('date_created')
         elif sortby == 'category':

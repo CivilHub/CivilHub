@@ -81,7 +81,7 @@ def langlist(request):
     for l in settings.LANGUAGES:
         addr = list(host)
         addr.insert(0, l[0])
-        addr = protocol + '://' + ('.'.join(addr))
+        addr = protocol + '://' + ('.'.join(addr)) + str(request.get_full_path())
         active = ' class="selected"' if l[0] == get_language() else ''
         src = proto_src.replace('{% code %}', l[0])
         tags += tpl.replace('{% code %}', l[0]) \

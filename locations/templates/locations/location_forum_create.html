@@ -14,9 +14,19 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <p style="text-align:center;">{% trans "If this discussion is about a specific location, you can mark it on the map" %}</p>
-                <input type="text" id="id_latitude" name="latitude" style="display: none;" />
-                <input type="text" id="id_longitude" name="longitude" style="display: none;" />
-                <button type="submit" class="btn btn-primary save-btn">{% trans "Save" %}</button>
+                <div class="form-group">
+                    <div class="control-label col-sm-2">&nbsp;</div>
+                    <div class="col-sm-10">
+                        <input type="text" id="id_latitude" name="latitude" style="display: none;" />
+                        <input type="text" id="id_longitude" name="longitude" style="display: none;" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-label col-sm-2">&nbsp;</div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary save-btn">{% trans "Save" %}</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView, HomeView
 from userspace.views import register, UserActivityView
+from places_core.views import FileServeView
 admin.autodiscover()
 # include action hooks globally
 from places_core import actstreams
@@ -130,6 +131,8 @@ urlpatterns += patterns('',
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    
+    url(r'^robots.txt$', FileServeView.as_view(filename='robots.txt')),
     
     # Static Pages
     # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można
