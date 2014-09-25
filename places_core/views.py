@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
+from django.http import HttpResponse, HttpResponseNotFound
 from django.utils.translation import ugettext as _
+from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import get_current_site
@@ -76,6 +78,22 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
             return ContentType.objects.filter(app_label=app_label, model=model)
         else:
             return ContentType.objects.all()
+
+
+class FileServeView(View):
+    """ Widok serwujący pliki statyczne. """
+    http_method_names = [u'get', u'head', u'options', u'trace']
+    filename = None
+
+    def get(self, request, filename=None):
+        if filename: self.filename = filename
+        try:
+            f = open(self.filename)
+            content = f.read()
+            f.close()
+        except IOError:
+            return HttpResponseNotFound()
+        return HttpResponse(content)
 
 
 class CreateAbuseReport(CreateView):

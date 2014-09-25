@@ -52,7 +52,7 @@ function ($, _, Backbone) {
     
     var ListView = Backbone.View.extend({
         
-        tagName: 'ul',
+        tagName: 'div',
         
         className: 'dropdown-menu ancestors-menu',
         
@@ -91,7 +91,7 @@ function ($, _, Backbone) {
         renderEntry: function (item) {
             var entry = new ListEntryView({model:item});
             var $el = $(entry.render().el);
-            $el.appendTo(this.$el);
+            $el.appendTo(this.$el.find('ul'));
             this.entries[item.id] = $el;
         },
         

@@ -27,7 +27,7 @@
       }
     }
     
-    li {
+    >li {
         
       &>a, &>a {      
         border-right: none;
@@ -93,22 +93,43 @@
 .ancestors-menu {
   min-width: 250px;
   max-height: 220px;
-  overflow-y: auto;
-  overflow-x: hidden;
   top: 150%;
   margin-left: -10px;
   padding-top: 0px;
   padding-bottom: 0px;
   border-radius: 6px;
   
+  ul {
+    height: 100%;
+    max-height: 139px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    
+    li {
+      a {
+        display: inline-block;
+      }
+      
+      &:hover {
+        background-color: #2889de;
+      }
+    }
+  }
+  
   a, a:active, a:hover {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 2em;
+    padding-left: 15px;
   }
   
   .dropdown-title {
     background: #404040;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     
     h4 {
       margin: 0px;
@@ -143,7 +164,7 @@
   &:before {
     position: absolute;
     top: -7px;
-    left: 9px;
+    left: 30px;
     z-index: 1001;
     display: inline-block;
     border-right: 7px solid transparent;
