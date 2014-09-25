@@ -702,13 +702,13 @@ class LocationListView(ListView):
 def get_latest(location, item_type):
     """ Get latest item from location set. """
     if item_type == 'blog':
-        lset = location.news_set.all()
+        lset = location.news_set.all().distinct()
     elif item_type == 'ideas':
-        lset = location.idea_set.all()
+        lset = location.idea_set.all().distinct()
     elif item_type == 'topics':
-        lset = location.discussion_set.all()
+        lset = location.discussion_set.all().distinct()
     elif item_type == 'polls':
-        lset = location.poll_set.all()
+        lset = location.poll_set.all().distinct()
     return lset.order_by('-date_created')[:5]
 
 
