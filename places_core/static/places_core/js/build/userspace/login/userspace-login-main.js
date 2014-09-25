@@ -16,13 +16,31 @@ require.config({
     paths: {
         async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
-        bootstrap: 'includes/bootstrap/bootstrap'
+        bootstrap: 'includes/bootstrap/bootstrap',
+        bootbox: 'includes/bootstrap/bootbox',
+        underscore: 'includes/underscore/underscore',
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
         bootstrap: {
             deps: ['jquery']
         },
+        
+        underscore: {
+            deps: ['jquery'],
+            exports: '_'
+        },
+        
+        backbone: {
+            deps: ['underscore'],
+            exports: 'Backbone'
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
+        }
     }
 });
 
@@ -66,6 +84,7 @@ function render() {
 // -----------------------------------------------------------------------------
 
 require(['jquery',
+         'js/common',
          'async!https://apis.google.com/js/plusone.js',
          'async!https://plus.google.com/js/client:plusone.js?onload=render'],
 

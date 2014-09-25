@@ -1,6 +1,7 @@
 //
 // validate.js
 // ===========
+//
 // Prosta walidacja dla formularza rejestracji. Skrypt sprawdza, czy wszystkie
 // pola są wypełnione (zakładamy, że wszystkie są wymagane), po czym wywołuje
 // po kolei walidację wszystkich pól, sprawdzając przy okazji dostępność adresu
@@ -10,7 +11,7 @@
 // przechwycony w przeglądarce, to nieprawidłowa nazwa użytkownika. Wówczas 
 // strona zostanie przeładowana i dopiero pojawi się informacja o błędzie.
 //
-(function ($) {
+require(['jquery'], function ($) {
     
     "use strict";
     
@@ -143,4 +144,4 @@
             $form.data('validator', v);
         });
     };
-})(jQuery);
+});

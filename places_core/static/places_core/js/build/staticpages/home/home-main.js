@@ -11,25 +11,40 @@ require.config({
     waitSeconds: 200,
     
     paths: {
+        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
-        validate: 'js/ui/validate'
+        bootbox: 'includes/bootstrap/bootbox',
+        underscore: 'includes/underscore/underscore',
+        backbone: 'includes/backbone/backbone'
     },
     
     shim: {
-        validate: {
+        bootstrap: {
             deps: ['jquery']
         },
         
-        bootstrap: {
-            deps: ['jquery']
+        underscore: {
+            deps: ['jquery'],
+            exports: '_'
+        },
+        
+        backbone: {
+            deps: ['underscore'],
+            exports: 'Backbone'
+        },
+        
+        bootbox: {
+            deps: ['bootstrap'],
+            exports: 'bootbox'
         }
     }
 });
 
 require(['jquery',
          'bootstrap',
-         'validate'],
+         'js/common',
+         'js/ui/validate'],
 
 function ($) {
     
