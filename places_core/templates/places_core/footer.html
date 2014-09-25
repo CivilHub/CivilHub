@@ -1,4 +1,4 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% comment %}
     Universal footer template. Made mainly to hold underscore templates.
@@ -10,19 +10,19 @@
 	<div class="row">
 	
 		<div class="col-md-5 left-side">
-{% comment %}
+
 			<a href="/privacy">{% trans "Privacy Policy" %}</a>
 			<a href="/terms">{% trans "Terms of Use" %}</a>
 			<a href="/cookies">{% trans "Cookies" %}</a>
 			<a href="/press">{% trans "Press" %}</a>
 			<a href="/jobs">{% trans "Jobs" %}</a>
-{% endcomment %}
+{% comment %}
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Press" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
-
+{% endcomment %}
 		</div>
 	
 
@@ -32,21 +32,21 @@
 	
 	
 		<div class="col-md-5 right-side">
-{% comment %}
+
 			<a href="/feature">{% trans "Feature" %}</a>
 			<a href="/support">{% trans "Support" %}</a>
 			<a href="#">{% trans "Blog" %}</a>
 			<a href="/creed">{% trans "Creed" %}</a>
 			<a href="/about-us">{% trans "About Us" %}</a>
 			<a href="/contact">{% trans "Contact" %}</a>
-{% endcomment %}
+{% comment %}
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Support" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
 			<a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
-
+{% endcomment %}
 		</div>
 	
 	</div>
@@ -55,42 +55,9 @@
             <div id="lang-selector">
             {% get_current_language as LANG %}
                 <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
-                <div id="popover-lang-list" style="display: none"">
-
-                        <ul id="lang-list" data-current-lang="{{ LANG }}">
-                            <li data-code="en">
-                                <a href="#"><img alt="English" src="{% static 'places_core/img/lang/en.png' %}" onClick="ga('send', 'event', 'language-EN', 'click', 'language-EN');"><span>English</span></a>
-                            </li>
-                            <li data-code="pl">
-                                <a href="#"><img alt="Polski" src="{% static 'places_core/img/lang/pl.png' %}" onClick="ga('send', 'event', 'language-PL', 'click', 'language-PL');"><span>Polski</span></a>
-                            </li>
-                            <li data-code="de">
-                                <a href="#"><img alt="Deutsch" src="{% static 'places_core/img/lang/de.png' %}"><span>Deutsch <span class="soon" onClick="ga('send', 'event', 'language-DE', 'click', 'language-DE');">(soon)</span></span></a>
-                            </li>
-                            <li data-code="fr">
-                                <a href="#"><img alt="Français" src="{% static 'places_core/img/lang/fr.png' %}"><span>Français <span class="soon" onClick="ga('send', 'event', 'language-FR', 'click', 'language-FR');">(soon)</span></span></a>
-                            </li>
-                            <li data-code="es">
-                                <a href="#"><img alt="Español" src="{% static 'places_core/img/lang/es.png' %}"><span>Español <span class="soon" onClick="ga('send', 'event', 'language-ES', 'click', 'language-ES');">(soon)</span></span></a>
-                            </li>
-                            <li data-code="pt">
-                                <a href="#"><img alt="Português" src="{% static 'places_core/img/lang/pt.png' %}"><span>Português <span class="soon" onClick="ga('send', 'event', 'language-PR', 'click', 'language-PR');">(soon)</span></span></a>
-                            </li>
-                            <li data-code="it">
-                                <a href="#"><img alt="Italiano" src="{% static 'places_core/img/lang/it.png' %}"><span>Italiano <span class="soon" onClick="ga('send', 'event', 'language-IT', 'click', 'language-IT');">(soon)</span></span></a>
-                            </li>
-                            <li data-code="cz">
-                                <a href="#"><img alt="České" src="{% static 'places_core/img/lang/cz.png' %}"><span>České <span class="soon" onClick="ga('send', 'event', 'language-CZ', 'click', 'language-CZ');">(soon)</span></span></a>
-                            </li>
-
-                        </ul>
-
+                <div id="popover-lang-list">
+                    <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
                 </div>
-                
-                <form id="lang-form" action="/i18n/setlang/" method="post">
-                    {% csrf_token %}
-                    <input name="language" type="hidden" value="" />
-                </form>
             </div>
         </div>
 		<div class="col-md-8">
