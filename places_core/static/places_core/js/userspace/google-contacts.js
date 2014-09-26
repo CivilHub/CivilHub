@@ -11,7 +11,7 @@ define(['jquery',
         'js/utils/utils',
         'js/ui/ui',
         'bootstrap',
-        'https://plus.google.com/js/client:plusone.js'],
+        'includes/google/client'],
 
 function ($, _, Bootstrap, utils, ui) {
     

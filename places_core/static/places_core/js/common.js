@@ -65,7 +65,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     if ($('#abuse-modal-tpl').length > 0) {
         (function () {
             var win = null, $link = null;
-            $('.report-abuse-link').on('click', function (e) {
+            $(document).delegate('.report-abuse-link', 'click', function (e) {
                 e.preventDefault();
                 $link = $(this);
                 if (_.isNull(win)) {
