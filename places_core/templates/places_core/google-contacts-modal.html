@@ -1,0 +1,27 @@
+{% load i18n %}
+
+<script type="text/template" id="google-contacts-tpl">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+        <h4 class="modal-title">{% trans "Invite your Google friends" %}!</h4>
+      </div>
+      <div class="modal-body">
+        <p><input type="checkbox" id="check-all-button" checked="checked" />{% trans "Check all" %}</p>
+        <form id="google-contacts-form">
+          {% csrf_token %}
+          <ul id="contact-list"></ul>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+        <button type="button" class="btn btn-primary submit-btn">{% trans "Send messages" %}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</script><!-- /.modal -->
+
+<script type="text/template" id="google-contacts-entry-tpl">
+  <input type="checkbox" name="emails" checked="checked" value="<%= address %>" /> <%= name %>
+</script>

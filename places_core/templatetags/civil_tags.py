@@ -4,9 +4,36 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.contrib.contenttypes.models import ContentType
+from social.apps.django_app.default.models import UserSocialAuth
 from userspace.models import Bookmark
 
 register = Library()
+
+
+@register.simple_tag
+def google_data(user=None):
+    """ Prosty tag przechowujący dane uwierzytelniające dla Google. """
+    if user is None or user.is_anonymous(): return ''
+    template = """<script>
+        window.GOOGLE_DATA = {
+            access_token: "{% token %}",
+            client_id: "{% key %}",
+            plus_scope: "{% scope %}",
+            plus_id: "{% key %}"
+        };
+    </script>"""
+    try:
+        us = UserSocialAuth.objects.get(user=user, provider='google-plus')
+        data = (
+            settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
+            us.extra_data['access_token'],
+            settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE,
+        )
+    except UserSocialAuth.DoesNotExist:
+        data = ('','','')
+    return template.replace('{% key %}', data[0]) \
+                    .replace('{% token %}', data[1]) \
+                    .replace('{% scope %}', ' '.join(data[2]))
 
 
 @register.simple_tag

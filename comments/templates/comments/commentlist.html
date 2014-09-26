@@ -52,7 +52,7 @@
                         <span class="fa fa-edit"> </span>
                     </a>
                 <% } else { %>
-                    <a class="report-abuse-link" href="/report/comments/customcomment/<%= id %>/" title="{% trans "Report abuse" %}" class="report-abuse-comment-link">
+                    <a class="report-abuse-link" href="#" data-id="<%= id %>" data-content="<%= ct %>" title="{% trans "Report abuse" %}" class="report-abuse-comment-link">
                         <span class="fa fa-exclamation-triangle"> </span>
                     </a>
                 <% } %>

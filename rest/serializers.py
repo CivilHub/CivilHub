@@ -360,12 +360,13 @@ class CommentSerializer(serializers.ModelSerializer):
     total_votes = serializers.Field(source='calculate_votes')
     upvotes = serializers.Field(source='get_upvotes')
     downvotes = serializers.Field(source='get_downvotes')
+    ct = serializers.SerializerMethodField('get_contenttype')
 
     class Meta:
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
                   'avatar', 'content_type', 'object_pk', 'replies',
-                  'total_votes', 'upvotes', 'downvotes', 'user_full_name',)
+                  'total_votes', 'upvotes', 'downvotes', 'user_full_name', 'ct',)
 
     def get_contenttype(self, obj):
         return ContentType.objects.get_for_model(CustomComment).pk
