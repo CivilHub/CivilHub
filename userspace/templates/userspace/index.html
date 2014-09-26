@@ -2,10 +2,6 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block require_scripts %}
-<script>
-window.GOOGLE_KEY="{{ google_data.key }}";
-window.GOOGLE_TOKEN="{{ google_data.token }}";
-</script>
 <script data-main="{% static 'places_core' %}/js/build/userspace/form/userspace-form-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 

@@ -330,16 +330,6 @@ class ProfileUpdateView(UpdateView):
         }, instance=self.object)
         context['passform'] = PasswordResetForm()
         context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
-
-        try:
-            us = UserSocialAuth.objects.get(user=self.object.user, provider='google-plus')
-            context['google_data'] = {
-                'token': us.extra_data['access_token'],
-                'key': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
-            }
-        except UserSocialAuth.DoesNotExist:
-            us = None
-
         return context
 
     def get(self, request):
