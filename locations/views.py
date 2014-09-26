@@ -37,7 +37,7 @@ from actstream.actions import follow, unfollow
 from actstream.models import Action
 # custom permissions
 from places_core.permissions import is_moderator
-from places_core.helpers import TagFilter, process_background_image
+from places_core.helpers import TagFilter, process_background_image, sort_by_locale
 # REST views
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -230,8 +230,10 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
                 queryset = location.location_set.all()
             except Location.DoesNotExist:
                 queryset = Location.objects.all()
-            return queryset
-        return Location.objects.all()
+            return sort_by_locale(queryset, lambda x: x.name,
+                                    translation.get_language())
+        return sort_by_locale(Location.objects.all(), lambda x: x.name,
+                                translation.get_language())
 
 
 class LocationNewsList(DetailView):
