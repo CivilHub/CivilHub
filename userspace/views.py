@@ -321,6 +321,7 @@ class ProfileUpdateView(UpdateView):
             return prof
 
     def get_context_data(self, **kwargs):
+        from social.apps.django_app.default.models import UserSocialAuth
         context = super(ProfileUpdateView, self).get_context_data(**kwargs)
         context['title'] = self.object.user.get_full_name()
         context['form'] = UserProfileForm(initial={
@@ -329,6 +330,16 @@ class ProfileUpdateView(UpdateView):
         }, instance=self.object)
         context['passform'] = PasswordResetForm()
         context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
+
+        try:
+            us = UserSocialAuth.objects.get(user=self.object.user, provider='google-plus')
+            context['google_data'] = {
+                'token': us.extra_data['access_token'],
+                'key': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
+            }
+        except UserSocialAuth.DoesNotExist:
+            us = None
+
         return context
 
     def get(self, request):

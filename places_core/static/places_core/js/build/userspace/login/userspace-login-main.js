@@ -55,8 +55,6 @@ var signInCallback = function (result) {
         $('#code').attr('value', result['code']);
         $('#at').attr('value', result['access_token']);
         $('#google-plus').submit();
-        //var token = gapi.auth.getToken();
-        //window.test = token;
     }
 };
 
