@@ -22,7 +22,7 @@
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script>window.STATIC_URL = "{% static 'places_core' %}";</script>
-{% google_data %}
+{% google_data user %}
 
 {% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
 {% block require_scripts %}
