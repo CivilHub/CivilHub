@@ -11,7 +11,6 @@ require.config({
     waitSeconds: 300,
     
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         jqueryui: 'includes/jquery-ui/jquery-ui',
         underscore: 'includes/underscore/underscore',
@@ -46,24 +45,9 @@ require.config({
     }
 });
 
-// Testujemy kontakty google+
-function testGoogle () {
-    $.ajax({
-        url: 'https://www.google.com/m8/feeds/contacts/default/full',
-        dataType: 'jsonp',
-        data: window.GOOGLE_DATA,
-        success: function(data) { 
-            console.log(data);
-            alert("Contacts fetched!");
-        }
-    });
-}
-
-require(['jquery', 
+require(['jquery',
          'jqueryui',
-         'js/common',
-         'async!https://apis.google.com/js/plusone.js',
-         'async!https://plus.google.com/js/client:plusone.js?onload=testGoogle'],
+         'js/common'],
 
 function ($) {
     

@@ -12,6 +12,7 @@ register = Library()
 
 @register.simple_tag
 def google_data(user=None):
+    """ Prosty tag przechowujący dane uwierzytelniające dla Google. """
     if user is None or user.is_anonymous(): return ''
     template = """<script>
         window.GOOGLE_DATA = {
@@ -29,7 +30,7 @@ def google_data(user=None):
             settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE,
         )
     except UserSocialAuth.DoesNotExist:
-        data = ('','')
+        data = ('','','')
     return template.replace('{% key %}', data[0]) \
                     .replace('{% token %}', data[1]) \
                     .replace('{% scope %}', ' '.join(data[2]))

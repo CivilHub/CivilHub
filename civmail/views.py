@@ -26,6 +26,7 @@ class InviteToContentView(LoginRequiredMixin, View):
     def post(self, request):
         """ Send emails. """
         emails = request.POST.get('emails').split(',')
+        print emails
         translation.activate(request.user.profile.lang)
         message = {
             'link': {

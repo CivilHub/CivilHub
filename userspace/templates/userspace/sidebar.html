@@ -2,7 +2,7 @@
 {% comment %}
     Widok dla sidebara, dołączany do templatki w ramach
     widoku profilu użytkownika. Widok ten widzi tylko zalogowany
-	użytkownik na stronie własnego profilu.
+    użytkownik na stronie własnego profilu.
 {% endcomment %}
 
 {% if user.is_authenticated and request.user == cuser %}   
@@ -13,13 +13,16 @@
         
         <div class="sidebar-label">{% trans "Actions" %}:</div>
             
-                <ul class="custom-sidebar-nav"> 
-                    <li><a href="{% url 'user:locations' user.pk %}"><span class="ch-icon ch-home"></span>{% trans "My Places" %}</a></li>
-                    <li><a href="{% url 'gallery:index' %}"><span class="ch-icon ch-photos"></span>{% trans "Media" %}</a></li>
-                    <li><a href="{% url 'user:index' %}"><span class="ch-icon ch-edit"></span>{% trans "Edit profile" %}</a></li>
-                </ul>
-           
+        <ul class="custom-sidebar-nav"> 
+            <li><a href="{% url 'user:locations' user.pk %}"><span class="ch-icon ch-home"></span>{% trans "My Places" %}</a></li>
+            <li><a href="{% url 'gallery:index' %}"><span class="ch-icon ch-photos"></span>{% trans "Media" %}</a></li>
+            <li><a href="{% url 'user:index' %}"><span class="ch-icon ch-edit"></span>{% trans "Edit profile" %}</a></li>
+            <li><a href="#" class="contacts-toggle"><span class="ch-icon ch-edit"></span>{% trans "Invite friends" %}</a></li>
+        </ul>
     </div>
+    
+    <div id="contacts"></div>
+    
 </div>
 
 {% endif %}
