@@ -48,15 +48,10 @@ require.config({
 
 // Testujemy kontakty google+
 function testGoogle () {
-    var token = {
-            access_token: window.GOOGLE_TOKEN,
-            client_id: window.GOOGLE_KEY
-        }
-
     $.ajax({
         url: 'https://www.google.com/m8/feeds/contacts/default/full',
         dataType: 'jsonp',
-        data: token,
+        data: window.GOOGLE_DATA,
         success: function(data) { 
             console.log(data);
             alert("Contacts fetched!");
