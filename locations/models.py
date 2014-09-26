@@ -8,11 +8,12 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
+from django.utils.translation import get_language
 from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
-from places_core.helpers import sanitizeHtml
+from places_core.helpers import sanitizeHtml, sort_by_locale
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image
 
@@ -35,6 +36,16 @@ def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
+class LocationLocaleManager(models.Manager):
+    """
+    Manager umożliwiający porządkowanie lokalizacji alfabetycznie z uwzględnieniem
+    lokalnych znaków utf-8.
+    """
+    def get_queryset(self):
+        return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
+                                lambda x: x.name, get_language())
+
+
 class Location(models.Model):
     """
     Basic location model
@@ -54,6 +65,9 @@ class Location(models.Model):
         upload_to = get_upload_path,
         default = 'img/locations/nowhere.jpg'
     )
+    
+    objects = models.Manager()
+    locale_sorted = LocationLocaleManager()
     
     class Meta:
         ordering = ['name',]
