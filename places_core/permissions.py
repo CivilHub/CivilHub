@@ -16,7 +16,7 @@ def is_moderator(user, location):
     if user.is_superuser:
         return True
 
-    if user.is_anonymous:
+    if user.is_anonymous():
         return False
 
     profile = UserProfile.objects.get(user = user)
