@@ -1,8 +1,10 @@
 //
 // background.js
 // =============
-//
-require(['jquery'],
+
+
+require(['jquery',
+         'js/ui/image-form'],
 
 function ($) {
     
@@ -16,5 +18,11 @@ function ($) {
     
     $('.change-background-btn').on('click', function (e) {
         $('#background').trigger('click');
+    });
+    
+    $(document).ready(function () {
+        var form = new ImageForm({
+            $el: $('#user-background-form')
+        });
     });
 });

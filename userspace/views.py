@@ -781,6 +781,31 @@ class UserFollowedLocations(DetailView):
         return ctx
 
 
+class UserBackgroundView(FormView):
+    """
+    Widok statyczny pozwalający użytkownikowi wybrać i przyciąć zdjęcie tła dla
+    swojego profilu.
+    """
+    template_name = 'userspace/background-form.html'
+    form_class = UserBackgroundForm
+
+    def form_valid(self, form):
+        from gallery.image import handle_tmp_image
+        box = (
+            form.cleaned_data['x'],
+            form.cleaned_data['y'],
+            form.cleaned_data['x2'],
+            form.cleaned_data['y2'],
+        )
+        image = Image.open(form.cleaned_data['image'])
+        image = image.crop(box)
+        profile = UserProfile.objects.get(user=self.request.user)
+        profile.background_image = handle_tmp_image(image)
+        profile.save()
+        return redirect(reverse('user:profile',
+                         kwargs={'username':self.request.user.username}))
+
+
 def test_view(request):
     """
     Do testowania różnych rzeczy.

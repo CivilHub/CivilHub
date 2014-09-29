@@ -1,7 +1,21 @@
 # -*- coding: utf-8 -*-
-import os, re
+import os, re, StringIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 from django.conf import settings
+
+
+def handle_tmp_image(image):
+    """
+    Funkcja, która pozwala 'obrabiać' zdjęcia zanim zostaną uploadowane i przekazane
+    do silnika Django. Wykorzystywana przy uploadzie zdjęć tla i avatarów do
+    tworzenia tymczasowych plików, które mogą być wykorzystane w ImageField
+    modelu Django.
+    """
+    img_io = StringIO.StringIO()
+    image.save(img_io, format='JPEG')
+    return InMemoryUploadedFile(img_io, None, 'foo.jpg', 'image/jpeg',
+                                    img_io.len, None)
 
 
 def resize_image(image):

@@ -52,7 +52,6 @@ require(['jquery',
          'underscore',
          'js/userspace/google-contacts',
          'js/common',
-         'js/userspace/background',
          'js/userspace/actions/actions'],
 
 function($, _, ContactListView) {

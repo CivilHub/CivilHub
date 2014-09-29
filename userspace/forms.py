@@ -8,6 +8,17 @@ from places_core.forms import BootstrapBaseForm
 from .models import UserProfile
 
 
+class UserBackgroundForm(forms.Form, BootstrapBaseForm):
+    """
+    Formularz pozwalający użytkownikom wybrać/przyciąć obraz tła dla profilu.
+    """
+    image = forms.ImageField()
+    x = forms.IntegerField(widget=forms.HiddenInput())
+    y = forms.IntegerField(widget=forms.HiddenInput())
+    x2 = forms.IntegerField(widget=forms.HiddenInput())
+    y2 = forms.IntegerField(widget=forms.HiddenInput())
+
+
 class RegisterForm(forms.Form):
     """
     Register new user

@@ -32,11 +32,7 @@
             </div>
             
             {% if request.user == cuser %}
-                <form id="user-background-form" style="display:none;" enctype="multipart/form-data" action="{% url 'user:background' %}" method="post">
-                    {% csrf_token %}
-                    <input type="file" name="background" id="background" />
-                </form>
-                <button class="change-background-btn">{% trans "Change background image" %}</button><br />
+                <button class="change-background-btn"><a href="{% url 'user:background' %}">{% trans "Change background image" %}</a></button><br />
             {% endif %}
         </div>
     </div>
