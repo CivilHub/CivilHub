@@ -733,6 +733,7 @@ class LocationDetailView(DetailView):
         context['ideas'] = get_latest(location, 'ideas')
         context['topics'] = get_latest(location, 'topics')
         context['polls'] = get_latest(location, 'polls')
+        context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['background_form'] = BackgroundForm()
         return context
 
@@ -979,7 +980,7 @@ def change_background(request, pk):
     """ Change place picture with single button. """
     location = Location.objects.get(pk=pk)
     user = request.user
-    if not user.is_superuser and not location in user.mod_areas.all():
+    if not user.is_superuser and not is_moderator(user, location):
         return HttpResponseForbidden()
     location.image = request.FILES['image']
     location.save()

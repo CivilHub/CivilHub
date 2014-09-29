@@ -23,7 +23,7 @@ from django.views.decorators.http import require_safe, require_POST
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
-from actstream.models import model_stream, user_stream
+from actstream.models import model_stream, user_stream, following
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
@@ -192,7 +192,10 @@ class ActivityAPIViewSet(rest_views.APIView):
 
     def get(self, request):
         if request.user.is_anonymous(): return HttpResponseNotFound()
-        actstream = user_stream(request.user)
+        if len(following(request.user)) > 0:
+            actstream = user_stream(request.user)
+        else:
+            actstream = []
         page = request.QUERY_PARAMS.get('page')
         paginator = Paginator(actstream, settings.STREAM_PAGINATOR_LIMIT)
         try:
@@ -275,11 +278,12 @@ class UserActivityView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(UserActivityView, self).get_context_data(**kwargs)
-        actstream = user_stream(self.request.user)
-        context['blog']   = self.get_latest(actstream, 'blog')
-        context['ideas']  = self.get_latest(actstream, 'ideas')
-        context['topics'] = self.get_latest(actstream, 'topics')
-        context['polls']  = self.get_latest(actstream, 'polls')
+        if len(following(self.request.user)) > 0:
+            actstream = user_stream(self.request.user)
+            context['blog']   = self.get_latest(actstream, 'blog')
+            context['ideas']  = self.get_latest(actstream, 'ideas')
+            context['topics'] = self.get_latest(actstream, 'topics')
+            context['polls']  = self.get_latest(actstream, 'polls')
         return context
 
     def get(self, request):
