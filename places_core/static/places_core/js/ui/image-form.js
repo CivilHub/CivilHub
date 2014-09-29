@@ -108,6 +108,7 @@ function ($, _) {
         $img.attr('src', imageData);
         $img.Jcrop({
             aspectRatio: self.opts.aspectRatio,
+            boxWidth: 1024,
             setSelect: calculateSelection({
                     width: $img.width(),
                     height: $img.height(),
