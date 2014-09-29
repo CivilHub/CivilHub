@@ -6,6 +6,17 @@ from locations.models import Location
 from .models import UserGalleryItem, LocationGalleryItem
 
 
+class BackgroundForm(forms.Form, BootstrapBaseForm):
+    """
+    Formularz pozwalający użytkownikom wybrać/przyciąć obraz tła dla profilu.
+    """
+    image = forms.ImageField()
+    x = forms.IntegerField(widget=forms.HiddenInput())
+    y = forms.IntegerField(widget=forms.HiddenInput())
+    x2 = forms.IntegerField(widget=forms.HiddenInput())
+    y2 = forms.IntegerField(widget=forms.HiddenInput())
+
+
 class UserItemForm(forms.ModelForm, BootstrapBaseForm):
     """
     Formularz dodawania/edycji obrazów w galerii użytkownika.

@@ -30,6 +30,7 @@ from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
+from gallery.forms import BackgroundForm
 from blog.models import News
 from ideas.models import Idea
 from polls.models import Poll
@@ -779,6 +780,31 @@ class UserFollowedLocations(DetailView):
         ctx = super(UserFollowedLocations, self).get_context_data()
         ctx['title'] = _("My places")
         return ctx
+
+
+class UserBackgroundView(FormView):
+    """
+    Widok statyczny pozwalający użytkownikowi wybrać i przyciąć zdjęcie tła dla
+    swojego profilu.
+    """
+    template_name = 'userspace/background-form.html'
+    form_class = BackgroundForm
+
+    def form_valid(self, form):
+        from gallery.image import handle_tmp_image
+        box = (
+            form.cleaned_data['x'],
+            form.cleaned_data['y'],
+            form.cleaned_data['x2'],
+            form.cleaned_data['y2'],
+        )
+        image = Image.open(form.cleaned_data['image'])
+        image = image.crop(box)
+        profile = UserProfile.objects.get(user=self.request.user)
+        profile.background_image = handle_tmp_image(image)
+        profile.save()
+        return redirect(reverse('user:profile',
+                         kwargs={'username':self.request.user.username}))
 
 
 def test_view(request):
