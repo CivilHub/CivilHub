@@ -9,7 +9,7 @@ from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -27,6 +27,7 @@ from polls.models import Poll, Answer
 from polls.forms import PollForm
 from civmail import messages as mails
 from maps.models import MapPointer
+from gallery.forms import BackgroundForm
 from forms import *
 from models import Location
 from .links import LINKS_MAP as links
@@ -734,8 +735,45 @@ class LocationDetailView(DetailView):
         context['topics'] = get_latest(location, 'topics')
         context['polls'] = get_latest(location, 'polls')
         context['is_moderator'] = is_moderator(self.request.user, self.object)
-        context['background_form'] = BackgroundForm()
         return context
+
+
+class LocationBackgroundView(FormView):
+    """
+    Formularz statyczny umożliwiający upload i przycinanie zdjęć tła dla
+    lokalizacji.
+    """
+    template_name = 'locations/background-form.html'
+    form_class = BackgroundForm
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationBackgroundView, self).get_context_data(**kwargs)
+        context['location'] = Location.objects.get(pk=self.kwargs.get('pk', None))
+        return context
+
+    def get(self, request, pk=None):
+        location = Location.objects.get(pk=pk)
+        user = request.user
+        if not user.is_superuser and not is_moderator(user, location):
+            return HttpResponseForbidden()
+        return super(LocationBackgroundView, self).get(request, pk)
+
+    def form_valid(self, form):
+        from PIL import Image
+        from gallery.image import handle_tmp_image
+        box = (
+            form.cleaned_data['x'],
+            form.cleaned_data['y'],
+            form.cleaned_data['x2'],
+            form.cleaned_data['y2'],
+        )
+        image = Image.open(form.cleaned_data['image'])
+        image = image.crop(box)
+        location = Location.objects.get(pk=self.kwargs.get('pk', None))
+        location.image = handle_tmp_image(image)
+        location.save()
+        return redirect(reverse('locations:details',
+                         kwargs={'slug': location.slug}))
 
 
 class CreateLocationView(LoginRequiredMixin, CreateView):

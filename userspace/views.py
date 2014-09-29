@@ -30,6 +30,7 @@ from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
+from gallery.forms import BackgroundForm
 from blog.models import News
 from ideas.models import Idea
 from polls.models import Poll
@@ -787,7 +788,7 @@ class UserBackgroundView(FormView):
     swojego profilu.
     """
     template_name = 'userspace/background-form.html'
-    form_class = UserBackgroundForm
+    form_class = BackgroundForm
 
     def form_valid(self, form):
         from gallery.image import handle_tmp_image
