@@ -55,7 +55,6 @@ require.config({
 });
 
 require(['jquery',
-         'jqueryui',
          'js/common',
          'js/editor/plugins/uploader',
          'js/locations/follow',

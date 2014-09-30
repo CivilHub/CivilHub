@@ -21,7 +21,7 @@ function ($) {
         });
         
         $('#id_tags').tagsInput({
-            autocompleteUrl: '/rest/tags/'
+            autocomplete_url: '/rest/tags/'
         });
     });
     
