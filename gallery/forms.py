@@ -10,7 +10,10 @@ class BackgroundForm(forms.Form, BootstrapBaseForm):
     """
     Formularz pozwalający użytkownikom wybrać/przyciąć obraz tła dla profilu.
     """
-    image = forms.ImageField()
+    image = forms.ImageField(
+        label = _("Image"),
+        widget = forms.FileInput(attrs={'title':_("Choose picture")})
+    )
     x = forms.IntegerField(widget=forms.HiddenInput())
     y = forms.IntegerField(widget=forms.HiddenInput())
     x2 = forms.IntegerField(widget=forms.HiddenInput())
