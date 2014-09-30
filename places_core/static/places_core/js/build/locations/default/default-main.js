@@ -46,8 +46,7 @@ require.config({
 
 require(['jquery',
          'js/common',
-         'js/locations/follow',
-         'js/userspace/background'],
+         'js/locations/follow'],
 
 function($) {
     

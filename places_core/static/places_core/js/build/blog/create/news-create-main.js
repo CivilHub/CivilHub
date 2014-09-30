@@ -55,13 +55,11 @@ require.config({
 });
 
 require(['jquery',
-         'jqueryui',
          'js/common',
          'js/editor/plugins/uploader',
          'js/locations/follow',
          'js/inviter/userinviter',
-         'js/blog/news-form',
-         'js/blog/category-creator'],
+         'js/blog/news-form'],
 
 function ($) {
     
