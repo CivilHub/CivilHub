@@ -12,10 +12,12 @@ class PollForm(forms.ModelForm, BootstrapBaseForm):
     Custom poll form - we will bind it with scripts on client-side.
     """
     title = forms.CharField(
+        label = _("Title"),
         required = True,
         widget = forms.TextInput(attrs={'class':'form-control'})
     )
     question = forms.CharField(
+        label = _("Question"),
         widget = forms.Textarea(attrs={'class':'form-control'})
     )
     location = forms.ModelChoiceField(
@@ -23,11 +25,10 @@ class PollForm(forms.ModelForm, BootstrapBaseForm):
         widget = forms.HiddenInput()
     )
     multiple = forms.BooleanField(
+        label = _("Multiple"),
         required = False
     )
-    tags = TagField(
-        required = False
-    )
+    tags = TagField(label=_("Tags"), required = False)
     
     class Meta:
         model = Poll
