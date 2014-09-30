@@ -13,7 +13,8 @@
 
 define(['jquery',
         'underscore',
-        'Jcrop'],
+        'Jcrop',
+        'file-input'],
 
 function ($, _) {
     
@@ -63,6 +64,8 @@ function ($, _) {
         this.$preview = $('<div id="img-preview"></div>');
         
         this.$input = this.$el.find('[type=file]:first');
+        
+        this.$input.bootstrapFileInput();
         
         this.jcrop = null;
         

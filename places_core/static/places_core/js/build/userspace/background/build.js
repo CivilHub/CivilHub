@@ -8,7 +8,8 @@
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
         color: 'includes/jquery/jquery.color',
-        Jcrop: 'includes/jquery/jquery.Jcrop'
+        Jcrop: 'includes/jquery/jquery.Jcrop',
+        'file-input': 'includes/bootstrap/bootstrap.file-input'
     },
     
     shim: {
@@ -41,6 +42,10 @@
         
         Jcrop: {
             deps: ['color']
+        },
+        
+        'file-input': {
+            deps: ['bootstrap']
         }
     },
     name: "js/build/userspace/background/userspace-background-main",

@@ -20,7 +20,8 @@ require.config({
         tagsinput: 'includes/jquery/jquery.tagsinput',
         bootbox: 'includes/bootstrap/bootbox',
         color: 'includes/jquery/jquery.color',
-        Jcrop: 'includes/jquery/jquery.Jcrop'
+        Jcrop: 'includes/jquery/jquery.Jcrop',
+        'file-input': 'includes/bootstrap/bootstrap.file-input'
     },
     
     shim: {
@@ -53,6 +54,10 @@ require.config({
         
         Jcrop: {
             deps: ['color']
+        },
+        
+        'file-input': {
+            deps: ['bootstrap']
         }
     }
 });
