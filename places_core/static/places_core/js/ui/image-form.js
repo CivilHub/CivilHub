@@ -23,7 +23,8 @@ function ($, _) {
     // -----------------------------------
     
     var defaults = {
-        orientation: 'landscape'
+        orientation: 'landscape',
+        maxWidth: 1024
     };
     
     // Oblicz rozmiar początkowej selekcji.
@@ -47,16 +48,22 @@ function ($, _) {
     // Główny obiekt formularza - inicjalizacja
     
     var ImageForm = function (options) {
+        
         this.opts = _.extend(defaults, options);
+        
         switch (this.opts.orientation) {
             case 'landscape':
                 this.opts.aspectRatio = 19/3;
                 break;
             default: this.opts.aspectRatio = 1/1;
         }
+        
         this.$el = this.opts.$el;
+        
         this.$preview = $('<div id="img-preview"></div>');
+        
         this.$input = this.$el.find('[type=file]:first');
+        
         this.jcrop = null;
         
         this.$preview.insertBefore(this.$el);
@@ -108,7 +115,7 @@ function ($, _) {
         $img.attr('src', imageData);
         $img.Jcrop({
             aspectRatio: self.opts.aspectRatio,
-            boxWidth: 1024,
+            boxWidth: self.opts.maxWidth,
             setSelect: calculateSelection({
                     width: $img.width(),
                     height: $img.height(),

@@ -16,7 +16,9 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox'
+        bootbox: 'includes/bootstrap/bootbox',
+        color: 'includes/jquery/jquery.color',
+        Jcrop: 'includes/jquery/jquery.Jcrop'
     },
     
     shim: {
@@ -41,20 +43,33 @@ require.config({
         
         jqueryui: {
             deps: ['jquery']
+        },
+        
+        color: {
+            deps: ['jquery']
+        },
+        
+        Jcrop: {
+            deps: ['jquery']
         }
     }
 });
 
 require(['jquery',
+         'js/ui/image-form',
          'jqueryui',
          'js/common'],
 
-function ($) {
+function ($, ImageForm) {
     
     "use strict";
     
-    $('#id_avatar').on('change', function (e) {
-        $('#upload-avatar-form').submit();
+    $(document).ready(function () {
+        var form = new ImageForm({
+            $el: $('#upload-avatar-form'),
+            orientation: 'portrait',
+            maxWidth: 800
+        });
     });
     
     $('#birth-date').datepicker({

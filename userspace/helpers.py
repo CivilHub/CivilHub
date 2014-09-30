@@ -62,8 +62,14 @@ def crop_avatar(imgfile):
     """
     Crop image avatr picture to make it fit into rectangular area. Returns
     Django File object.
+    
+    You can pass either python file instance or PIL image instance to this
+    function.
     """
-    img = Image.open(imgfile)
+    if str(type(imgfile)) == "<type 'instance'>":
+        img = imgfile
+    else:
+        img = Image.open(imgfile)
     pathname = 'img/avatars'
     dirname = os.path.join(settings.MEDIA_ROOT, pathname)
     imgname = str(uuid()) + str(len(os.listdir(dirname))) + '.png'

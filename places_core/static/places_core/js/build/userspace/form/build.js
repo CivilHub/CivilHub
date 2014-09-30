@@ -6,7 +6,9 @@
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
-        bootbox: 'includes/bootstrap/bootbox'
+        bootbox: 'includes/bootstrap/bootbox',
+        color: 'includes/jquery/jquery.color',
+        Jcrop: 'includes/jquery/jquery.Jcrop'
     },
     
     shim: {
@@ -30,6 +32,14 @@
         },
         
         jqueryui: {
+            deps: ['jquery']
+        },
+        
+        color: {
+            deps: ['jquery']
+        },
+        
+        Jcrop: {
             deps: ['jquery']
         }
     },

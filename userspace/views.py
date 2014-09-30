@@ -334,13 +334,56 @@ class ProfileUpdateView(UpdateView):
             'last_name': self.object.user.last_name
         }, instance=self.object)
         context['passform'] = PasswordResetForm()
-        context['avatar_form'] = AvatarUploadForm(initial={'avatar':self.object.avatar})
+        context['avatar_form'] = BackgroundForm()
         return context
 
     def get(self, request):
         if  request.user.is_anonymous():
             return HttpResponseNotFound()
         return super(ProfileUpdateView, self).get(request)
+
+
+@require_POST
+@login_required
+def upload_avatar(request):
+    """
+    Upload/change user avatar
+    """
+    from PIL import Image
+    from gallery.image import handle_tmp_image
+    from .helpers import crop_avatar, delete_thumbnails
+
+    form = BackgroundForm(request.POST, request.FILES)
+    if form.is_valid():
+        profile = UserProfile.objects.get(user=request.user)
+        box = (
+            form.cleaned_data['x'],
+            form.cleaned_data['y'],
+            form.cleaned_data['x2'],
+            form.cleaned_data['y2'],
+        )
+        image = Image.open(form.cleaned_data['image'])
+        image = image.crop(box)
+        
+        if not u'anonymous' in profile.avatar.name:
+            try:
+                os.unlink(profile.avatar.path)
+                delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
+            except Exception:
+                pass
+
+        profile.avatar = crop_avatar(image)
+        size = 30, 30
+        path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+        file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
+        thumbname = '30x30_' + file + ext
+        tmp = image.copy()
+        tmp.thumbnail(size, Image.ANTIALIAS)
+        tmp.save(os.path.join(path, thumbname))
+        profile.thumbnail = 'img/avatars/' + thumbname
+        profile.save()
+
+    return redirect(reverse('user:index'))
 
 
 def save_settings(request):
@@ -711,36 +754,6 @@ def chpass(request):
         'form': f,
     }
     return render(request, 'userspace/chpass.html', ctx)
-
-
-def upload_avatar(request):
-    """
-    Upload/change user avatar
-    """
-    from .helpers import crop_avatar, delete_thumbnails
-    if request.method == 'POST':
-        f = AvatarUploadForm(request.POST, request.FILES)
-        if f.is_valid():
-            user = UserProfile.objects.get(user=request.user.id)
-            if not u'anonymous' in user.avatar.name:
-                try:
-                    os.unlink(user.avatar.path)
-                    delete_thumbnails(user.avatar.name.split('/')[-1:][0])
-                except Exception:
-                    pass
-            user.avatar = crop_avatar(request.FILES['avatar'])
-            size = 30, 30
-            path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-            file, ext = os.path.splitext(user.avatar.name.split('/')[-1:][0])
-            thumbname = '30x30_' + file + ext
-            img = Image.open(user.avatar)
-            tmp = img.copy()
-            tmp.thumbnail(size, Image.ANTIALIAS)
-            tmp.save(os.path.join(path, thumbname))
-            user.thumbnail = 'img/avatars/' + thumbname
-            user.save()
-            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-    return redirect('user:index')
 
 
 @require_safe
