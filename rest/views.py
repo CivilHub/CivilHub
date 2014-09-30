@@ -93,8 +93,15 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
     """
     A simple ViewSet for viewing accounts.
     """
+    paginate_by = None
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+    def get_queryset(self):
+        search = self.request.QUERY_PARAMS.get('term', None)
+        if search is None:
+            return super(TagViewSet, self).get_queryset()
+        return Tag.objects.filter(name__icontains=search)
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
