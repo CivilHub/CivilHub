@@ -218,18 +218,31 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
             $entryTitle = $toggle.parent(),
             $submenu    = $entryTitle.next('.entry-submenu');
 
+        function openSubmenu () {
+            $submenu.slideDown('fast', function () {
+                $submenu.attr('data-opened', true)
+                    .offset({
+                        left: $toggle.offset().left,
+                        top:  $toggle.offset().top + $toggle.height()
+                    });
+                $('body').one('click', closeSubmenu);
+            });
+        }
+        
+        function closeSubmenu() {
+            $submenu.slideUp('fast', function () {
+                $submenu.removeAttr('data-opened');
+                $('body').off('click');
+                $toggle = undefined;
+                $submenu = undefined;
+                $entryTitle = undefined;
+            });
+        }
+
         if ($submenu.attr('data-opened') === undefined) {
-            $submenu
-                .slideDown('fast')
-                .attr('data-opened', true)
-                .offset({
-                    left: $toggle.offset().left - $(this).width(),
-                    top:  $toggle.offset().top + $toggle.height()
-                });
+            openSubmenu();
         } else {
-            $submenu
-                .slideUp('fast')
-                .removeAttr('data-opened');
+            closeSubmenu();
         }
     });
     
