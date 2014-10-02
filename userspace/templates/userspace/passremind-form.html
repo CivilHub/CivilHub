@@ -1,26 +1,28 @@
-{% extends 'places_core/base.html' %} {% load i18n %} 
-{% block header %} {% endblock %}
+{% extends 'places_core/base.html' %}
+{% load i18n %}
+
 {% block content %}
-{% block require_scripts %}&nbsp;{% endblock %}
-{% if errors %}
-    {% for error in errors %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% endfor %}
-{% endif %}
-<div id="messages"></div>
-<div class="login-page">
-    <div class="login-form">
-        <h1 class="login-form-header">{% trans "Reset password" %}</h1>
-        <div class="login-form-body">
-            <div class="input-section row">
-                <form role="form" action="" method="post">
-                    {{ form }}
-                    <div class="submit-section" style="margin-bottom: 0px">
-                        <button type="submit" class="submit-button">{% trans "Submit" %}</button>
-                    </div>
-                </form>
+
+    {% if errors %}
+        {% for error in errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+    <div id="messages"></div>
+    <div class="login-page">
+        <div class="login-form">
+            <h1 class="login-form-header">{% trans "Reset password" %}</h1>
+            <div class="login-form-body">
+                <div class="input-section row">
+                    <form role="form" action="" method="post">
+                        {{ form }}
+                        <div class="submit-section" style="margin-bottom: 0px">
+                            <button type="submit" class="submit-button">{% trans "Submit" %}</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 {% endblock %}
