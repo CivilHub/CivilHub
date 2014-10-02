@@ -105,16 +105,10 @@ function ($, _, Backbone) {
         // @param $input { jQuery object } Element z 'inputTemplate'
         
         bindEvents: function ($input) {
-            // Ze względu na to, że większość przeglądarek nie obsługuje eventu
-            // 'change' kiedy użytkownik wybiera już zaznaczoną opcję, musimy
-            // tutaj posłużyć się małym 'hackiem'.
-            
             $input.find('select').on('click', function (e) {
-                $(this).value(null);
-            });
-            
-            $input.find('select').on('change', function (e) {
-                var value = $input.find('select').val();
+                var $select = $input.find('select');
+                
+                var value = $select.find('option:selected').val();
                     
                 $input.nextAll('.fake-input').empty().remove();
                 
