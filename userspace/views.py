@@ -560,7 +560,10 @@ def activate(request, activation_link=None):
             'title': _('Sign Up'),
         }
         return render(request, 'userspace/register.html', ctx)
-    demand = RegisterDemand.objects.get(activation_link=activation_link)
+    try:
+        demand = RegisterDemand.objects.get(activation_link=activation_link)
+    except RegisterDemand.DoesNotExist:
+        return HttpResponse(_("Activation link invalid"))
     user = demand.user
     lang = demand.lang
     if user is not None:
