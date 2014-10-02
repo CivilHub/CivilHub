@@ -338,13 +338,13 @@ CACHES = {
 #-------------------------------------------------------------------------------
 # Email account settings
 EMAIL_HOST          = 'mail.civilhub-mail.org'
-EMAIL_PORT          = 25
+EMAIL_PORT          = 587
 EMAIL_HOST_USER     = 'noreply@civilhub-mail.org'
 EMAIL_HOST_PASSWORD = 'JATUnZCBr9WKEJg4w'
-EMAIL_USE_TLS       = True
+EMAIL_USE_TLS       = False
 # Enter real email address here in future
-EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub.org'
-DEFAULT_FROM_EMAIL = 'noreply@civilhub.org'
+EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
+DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
 
 # Email settings for testing purposes
 #EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
