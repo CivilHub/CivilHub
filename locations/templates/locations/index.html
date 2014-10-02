@@ -52,7 +52,7 @@
         </div>
         
         {% if user.is_superuser or is_moderator %}
-            <button class="change-background-btn"><a href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a></button>
+            <a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
         {% endif %}
         
     </div>
