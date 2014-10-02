@@ -9,9 +9,7 @@
         </div>
         
         <div class="col-sm-2">
-        	<a href="#">
-            <button type="button" class="submit-button">{% trans "Login" %}</button>
-            </a>
+            <a class="submit-button" href="{% url 'user:login' %}">{% trans "Login" %}</a>
         </div>
     </div>
 </nav>
