@@ -152,7 +152,7 @@ DATABASES = {
         'USER': 'django',
         'PASSWORD': 'civilian14!a',
         'HOST': '172.17.0.4',
-		'PORT': 5432,
+        'PORT': 5432,
     }
 }
 
@@ -337,13 +337,13 @@ CACHES = {
 # Email settings
 #-------------------------------------------------------------------------------
 # Email account settings
-EMAIL_HOST          = 'mail.composly.com'
-EMAIL_PORT          = 587
-EMAIL_HOST_USER     = 'test@composly.com'
-EMAIL_HOST_PASSWORD = 'test11'
+EMAIL_HOST          = 'mail.civilhub-mail.org'
+EMAIL_PORT          = 25
+EMAIL_HOST_USER     = 'noreply@civilhub-mail.org'
+EMAIL_HOST_PASSWORD = 'JATUnZCBr9WKEJg4w'
 EMAIL_USE_TLS       = True
 # Enter real email address here in future
-EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
+EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub.org'
 
 # Email settings for testing purposes
