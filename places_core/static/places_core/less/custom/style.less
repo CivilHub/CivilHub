@@ -328,14 +328,20 @@ body {
     text-shadow: 0 0 1px rgba(0,0,0,0.5);
 }
 
-.change-background-btn {
+.change-background-btn, .change-background-btn:active, .change-background-btn:hover {
+    display: block;
     min-width: 140px;
     background-color: rgba(0,0,0,0.5);
+    color: #fff;
     height: 34px;
-    padding-left: 30px;
-    padding-right: 30px;
-    border: 0px;
-    float: right; 
+    line-height: 34px;
+    text-align: center;
+    padding: 0px 30px;
+    position: absolute;
+    left: 0px;
+    top: 100%;
+    margin-top: -54px;
+    text-decoration: none;
 }
 
 @import "location-navbar.less";

@@ -32,7 +32,7 @@
             </div>
             
             {% if request.user == cuser %}
-                <button class="change-background-btn"><a href="{% url 'user:background' %}">{% trans "Change background image" %}</a></button><br />
+                <a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>
             {% endif %}
         </div>
     </div>

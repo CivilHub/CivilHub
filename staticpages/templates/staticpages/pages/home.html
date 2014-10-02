@@ -65,7 +65,7 @@ window.GOOGLE_DATA = {
             
                 <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
                 {% csrf_token %}
-                <input id="username" class="long" type="text" name="username" placeholder="{% trans "Your username" %}">
+                <input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}">
                 <div>
                  <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
                  <input id="surname" class="short" type="text" name="last_name" placeholder="{% trans "Surname" %}">
