@@ -15,63 +15,6 @@
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
-{% block require_scripts %}
-
-    <script>
-    require.config({
-        baseUrl: "{% static 'places_core' %}",
-        
-        urlArgs: "bust=" + (new Date()).getTime(),
-        
-        waitSeconds: 200,
-        
-        paths: {
-            jquery: 'includes/jquery/jquery',
-            bootstrap: 'includes/bootstrap/bootstrap',
-            underscore: 'includes/underscore/underscore',
-            backbone: 'includes/backbone/backbone',
-            tagsinput: 'includes/jquery/jquery.tagsinput',
-            bootbox: 'includes/bootstrap/bootbox',
-            ui: 'js/ui/ui',
-            utils: 'js/utils/utils',
-            common: 'js/common'
-        },
-        
-        shim: {
-            underscore: {
-                deps: ['jquery'],
-                exports: '_'
-            },
-            
-            backbone: {
-                deps: ['underscore'],
-                exports: 'Backbone'
-            },
-            
-            bootstrap: {
-                deps: ['jquery']
-            },
-            
-            bootbox: {
-                deps: ['bootstrap'],
-                exports: 'bootbox'
-            },
-            
-            tagsinput: {
-                deps: ['jquery']
-            },
-        }
-    });
-
-    require(['jquery', 'js/utils/utils', 'js/common'], function ($) {
-        
-        $(document).trigger('load');
-        
-    });
-    </script>
-    
-{% endblock %}
-
 </head>
 
 <body style="padding: 0;">
@@ -86,7 +29,8 @@
         
         <div class="back-to-home">
             <div class="logo"> <img src="/static/places_core/img/logo-footer.png" /> </div>
-            <input type="button" class="submit-button" onclick="location.href='/'" value="{% trans 'Back to Home Page' %}">
+            <p><input type="button" class="submit-button" onclick="location.href='/'" value="{% trans 'Back to Home Page' %}"></p>
+            <p>&nbsp;</p>
         </div>
     </div>
 </div>

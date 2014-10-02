@@ -159,6 +159,9 @@ urlpatterns += patterns('',
     #url(r'^$', PageView.as_view(page='home')),
     #url(r'^$', HomeView.as_view()),
     
+    # Tylko dla testów !!!
+    url(r'^sometestpage/', PageView.as_view(page='404')),
+    
     url(r'^$', register),
     url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
