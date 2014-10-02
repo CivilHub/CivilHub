@@ -93,6 +93,7 @@
         }
 
     }
+    
     .placeholder-content {
         height: 360px;
         border: 1px solid @bordercolor;
@@ -127,14 +128,12 @@
         ul:first-child {
             border-bottom-left-radius: 6px;
         }
-
             
         .list-column {
-        
             height: 360px;
             width: 299px;
-            overflow-y: auto;
-            overflow-x: auto;
+           overflow-y: auto;
+           overflow-x: auto;
             list-style-type: none;
             padding: 10px 0px;
             border-right: 1px solid @bordercolor;
@@ -177,9 +176,9 @@
                 text-align: center;
                 border-top: 1px solid @bordercolor;
                 
-                -webkit-box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
-                -moz-box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
-                box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
+               -webkit-box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
+               -moz-box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
+               box-shadow: inset 0 0 3px 1px rgba(0,0,0,0.1);
                 
                 .btn-follow-location,
                 .btn-unfollow-location,
@@ -233,28 +232,36 @@
         }
     }
     
+    .is-empty-list {
+        display: block;
+        font-size: 20px;
+        height: 100%;
+        width: 100%;
+        padding-top: 100px;
+        text-align: center;
+    }
         
-        .btn-follow-location,
-        .btn-unfollow-location,
-        .btn-goto {
-            height: 25px;
-            border: 0px;
-            padding: 0px 10px;
-            font-size: 14px;
-            border-radius: 3px;
-        }
-        
-        .btn-follow-location {
-            background-color: @greencolor;
-        }
-        
-        .btn-unfollow-location {
-            background-color: rgba(0,0,0,0.5);
-        }
-        
-        .btn-goto {
-            background-color: @bluecolor;
-        }
+    .btn-follow-location,
+    .btn-unfollow-location,
+    .btn-goto {
+        height: 25px;
+        border: 0px;
+        padding: 0px 10px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+    
+    .btn-follow-location {
+        background-color: @greencolor;
+    }
+    
+    .btn-unfollow-location {
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .btn-goto {
+        background-color: @bluecolor;
+    }
 }
 
 #no-place-dialog {

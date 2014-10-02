@@ -100,6 +100,7 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
                     this.sublist.$el.empty().remove();
                     delete this.sublist;
                     this.$el.addClass('is-last-entry');
+                    $($('#empty-tpl').html()).insertAfter(this.$el);
                 } else {
                     this.sublist.parentView = this;
                     this.$el.removeClass('is-last-entry');

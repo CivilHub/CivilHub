@@ -44,6 +44,7 @@ function ($, _, Backbone) {
         },
         
         hideDetails: function () {
+            $('.is-empty-list').empty().remove();
             this.$el.find('.list-entry-details').fadeOut('slow');
             if (this.parentView.sublist !== undefined) {
                 this.parentView.sublist.destroy();
