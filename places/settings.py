@@ -143,7 +143,7 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'places',                      
         'USER': 'places',
         'PASSWORD': '987xyz',

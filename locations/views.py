@@ -1023,11 +1023,3 @@ def change_background(request, pk):
     location.image = request.FILES['image']
     location.save()
     return redirect(request.META['HTTP_REFERER'])
-
-
-# Tworząc nową lokalizację, uaktualniamy plik z markerami.
-# --------------------------------------------------------
-
-from django.db.models.signals import post_save
-from geobase.storage import dump_location_markers
-post_save.connect(dump_location_markers, sender=Location)

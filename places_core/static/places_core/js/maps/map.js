@@ -1,136 +1,197 @@
 //
 // map.js
 // ======
-// Główny widok mapy.
 //
+// Główny obiekt obsługujący mapę.
+
 define(['jquery',
         'underscore',
-        'backbone',
-        'js/maps/map-collection',
-        'js/maps/map-location-view',
-        'js/maps/map-pointer-view',
-        'js/maps/markerclusterer'],
+        'leaflet'],
 
-function ($, _, Backbone, MapCollection, MapLocationView, MapPointerView) {
+function ($, _, L) {
     
     "use strict";
     
-    var CivilMap = Backbone.View.extend({
-        
-        el: '#map',
-        
-        cluster: null,
-        
-        initialize: function (map, markers) {
-            this.map = map;
-            this.markers = [];
-            this.collection = new MapCollection(markers);
-            this.render();
-        },
-        
-        // Metoda dodaje marker na podstawie pola `content_type` modelu odpowia-
-        // dającego ID danego typu zawartości. Markery podzielone są na dwie
-        // główne grupy: lokacje oraz pozostałe. Tutaj wywołujemy odpowiedni
-        // konstruktor.
-        addMarker: function (item) {
-            
-            var viewClassName;
-            
-            if (window.CONTENT_TYPES[item.get('content_type')].model === 'location') {
-                viewClassName = MapLocationView;
-            } else {
-                viewClassName = MapPointerView;
-            }
-            
-            var markerView = new viewClassName({
-                model: item
-            });
-            
-            markerView.map = this.map;
-            this.markers.push(markerView.marker);
-        },
-        
-        // Tworzy całą tablicę markerów w oparciu o dane z plików.
-        createMarkers: function () {
-            this.collection.each(function (item) {
-                this.addMarker(item);
-            }, this);
-        },
-        
-        // Metoda tworząca cluster z markerami. Faktycznie droga do wyświetlenia
-        // całej warstwy markerów.
-        // @param {array google.Marker} Tablica z markerami do wyświetlenia.
-        //
-        createCluster: function (markers) {
-            this.cluster = new MarkerClusterer(this.map, markers, {
-                maxZoom: 10,
-                gridSize: 30
-            });
-        },
-        
-        // Inicjalizacja mapy - wyświetlenie podstawowego widoku.
-        render: function () {
-            
-            if (!_.isNull(this.cluster)) {
-                this.cluster.clearMarkers();
-            }
-            
-            this.createMarkers();
-            
-            this.createCluster(this.markers);
-        },
-        
-        // Metoda filtrująca markery w kolekcji. Reinicjalizuje kolekcję i wyś-
-        // wietla tylko markery, których content_type znajduje się w tablicy
-        // `filters`, np. app.filter([23,55]).
-        filter: function (filters) {
-            
-            var mlist = [];
-            
-            _.each(filters, function (filter) {
-                filter = parseInt(filter, 10);
-                mlist = mlist.concat(_.where(this.markers, 
-                        {content_type:filter}));
-            }, this);
-            
-            if (!_.isNull(this.cluster)) {
-                this.cluster.clearMarkers();
-            }
-            
-            this.createCluster(mlist);
-        },
-        
-        refreshMap: function (countryCode) {
-            var self = this;
-            $.get('/api-maps/data/?code=' + countryCode, function (markers) {
-                self.collection = new MapCollection(markers);
-                self.markers = [];
-                self.render();
-            }).fail(function (err) {
-                console.log(err)
-            });
-        },
-        
-        // Metoda pozwalająca użytkownikom przełączać widok mapy na poszczególne
-        // kraje.
-        // TODO - preloader podczas ładowania nowej lokacji.
-        changeCountry: function (countryCode) {
-            var self = this;
-            $.get('/api-geo/countries/?code=' + countryCode, function (resp) {
-                resp = resp[0];
-                self.map = new google.maps.Map(document.getElementById('map'), {
-                    center: new google.maps.LatLng(
-                        parseFloat(resp.latitude),
-                        parseFloat(resp.longitude)
-                    ),
-                    zoom: resp.zoom
-                });
-                self.refreshMap(countryCode);
-            }).fail(function (err) {
-                console.log(err);
-            });
-        }
-    });
+    var icons = {}; // Ikony pobieramy ze skryptu w templatce
     
-    return CivilMap;
+    var defaults = {
+        elementID: 'map',
+        // Base url to get marker data
+        apiURL: '/api-maps/data/',
+        // URL to fetch info about specific object
+        infoURL: '/api-maps/objects/',
+        // Minimalne zbliżenie, przy jakim pokazujemy pojedyncze markery:
+        minZoom: 10,
+        maxZoom: 18, 
+        center: [0, 0],
+        attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    };
+    
+    // Main map constructor
+    //
+    // @param options { object } Simple object with options. See options for details.
+    
+    var Map = function (options) {
+        // Array to hold marker so we have some hooks to manipulate them
+        this.markers = [];
+        // Array of content types to fetch with every API request
+        this.filters = [];
+        this.opts = $.extend(defaults, options);
+        this.initialize();
+        this.map.on('zoomend dragend', function () {
+            this.fetchData();
+        }.bind(this));
+        // Fetch starting point if zoom is big enough
+        if (this.map.getZoom() >= this.opts.minZoom) {
+            this.fetchData();
+        }
+    };
+    
+    // Init map and create icon objects.
+    
+    Map.prototype.initialize = function () {
+        this.map = L.map(this.opts.elementID).setView(this.opts.center, 11);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: this.opts.attribution,
+            maxZoom: this.opts.maxZoom
+        }).addTo(this.map);
+        // Create icons for different marker types
+        _.each(CIVILAPP.icons, function (icon, key) {
+            icons[key] = L.icon(icon);
+        });
+    };
+    
+    // Get markers from server
+    
+    Map.prototype.fetchData = function () {
+        var mapData = {
+            zoom: this.map.getZoom(),
+            lat: this.map.getCenter().lat,
+            lng: this.map.getCenter().lng
+        };
+        if (!_.isEmpty(this.filters)) {
+            mapData.filters = this.filters.join(',');
+        }
+        if (mapData.zoom < this.opts.minZoom) {
+            this.clearMarkers();
+            return false;
+        }
+        $.get(this.opts.apiURL, mapData, function (response) {
+            this.updateMarkers(response);
+        }.bind(this));
+    };
+    
+    // Process server data and create new markers/delete old
+    //
+    // @param markers { array } Array with markers fetched from server
+    
+    Map.prototype.updateMarkers = function (markers) {
+        var indexes = [];
+        // Create new markers
+        _.each(markers, function (item, idx) {
+            this.addMarker(item);
+        }, this);
+        // Find markers that are no longer available
+        _.each(this.markers, function (marker) {
+            var chk = _.find(markers, function (m) {
+                var latlng = marker.getLatLng();
+                return latlng.lat === m.latitude && latlng.lng === m.longitude;
+            }, this);
+            if (_.isUndefined(chk)) {
+                indexes.push(marker);
+            }
+        }, this);
+        // Delete unwanted old markers
+        _.each(indexes, function (marker) {
+            this.map.removeLayer(marker);
+            this.markers.splice(this.markers.indexOf(marker), 1);
+        }, this);
+    };
+    
+    // Place new marker on map
+    //
+    // @param item { object } Marker object fetched from server
+    
+    Map.prototype.addMarker = function (item) {
+        var marker = L.marker([item.latitude, item.longitude], {
+            icon: icons[item.content_type]
+        });
+        var latlng = L.latLng(item.latitude, item.longitude);
+        
+        // Check if marker already exists
+        var chk = _.find(this.markers, function (marker) {
+            return marker.getLatLng().equals(latlng);
+        });
+        if (!_.isUndefined(chk)) return false;
+        
+        // Extra metadata to communicate with server
+        _.extend(marker, {meta:{ct:item.content_type,pk:item.object_pk}});
+        
+        this.map.addLayer(marker);
+        this.markers.push(marker);
+        
+        // Create popup and open it up when user clicks on marker.
+        marker.bindPopup();
+        marker.on('click', function () {
+            this.markerInfo(marker);
+        }.bind(this));
+    };
+    
+    // Delete single marker
+    // 
+    // @param idx { object L.marker } Marker object
+    
+    Map.prototype.deleteMarker = function (marker) {
+        this.markers.splice(this.markers.indexOf(marker), 1);
+        this.map.removeLayer(marker);
+    };
+    
+    // Clear entire marker collection
+    
+    Map.prototype.clearMarkers = function () {
+        _.each(this.markers, function (marker) {
+            this.map.removeLayer(marker);
+        }, this);
+        this.markers = [];
+    };
+    
+    // Method to open popup with detailed info about marker object.
+    //
+    // @param marker { L.marker } Single marker object
+    
+    Map.prototype.markerInfo = function (marker) {
+        $.get(this.opts.infoURL, marker.meta, function (response) {
+            var popup = marker.getPopup(),
+                model = CONTENT_TYPES[marker.meta.ct].model,
+                tpl = (model === 'location') ? '#loc-dialog-tpl' : '#map-dialog-tpl';
+            // We have to create different template for location objects
+            tpl = _.template($(tpl).html());
+            // Little hack for template - is it really necessary?
+            response[0].content_object.content_type = marker.meta.ct;
+            popup.setContent(tpl(response[0].content_object));
+            marker.openPopup();
+        }.bind(this));
+    };
+    
+    // Set filters to search only for markers related to selected content types
+    //
+    // @param filters { array/int } Single type id or array of id's
+
+    Map.prototype.setFilters = function (filters) {
+        if (filters === undefined) return false;
+        if (_.isNull(filters)) {
+            // Reset filters
+            this.filters = [];
+        } else if (_.isArray(filters)) {
+            // Array of filters
+            this.filters = filters;
+        } else {
+            // Single filter
+            this.filters = [filters];
+        }
+        this.fetchData();
+    };
+    
+    return Map;
+    
 });

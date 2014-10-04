@@ -50,11 +50,11 @@ function ($, utils, ui) {
                         xhr.setRequestHeader("X-CSRFToken", utils.getCookie('csrftoken'));
                     },
                     type: 'POST',
-                    url: $form.attr('action'),
+                    url: '/api-maps/pointers/',
                     data: formData,
                     dataType: 'json',
                     success: function (resp) {
-                        ui.message.success(resp.message);
+                        ui.message.success(gettext("Map pointer created"));
                     },
                     error: function (err) {
                         console.log(err);

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.db import models
+from django.contrib.gis.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -33,9 +33,4 @@ class MapPointer(BaseAbstractMapPointer):
     objects = MapPointerManager()
 
     def __unicode__(self):
-        return u"x".join([str(self.latitude), str(self.longitude)])
-
-
-from geobase.storage import dump_object_markers
-models.signals.post_save.connect(dump_object_markers, sender=MapPointer)
-models.signals.post_delete.connect(dump_object_markers, sender=MapPointer)
+        return "{},{}".format(self.latitude, self.longitude)

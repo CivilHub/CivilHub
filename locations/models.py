@@ -59,6 +59,7 @@ class Location(models.Model):
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
     country_code = models.CharField(max_length=2,
                                     choices=get_country_codes())
     image     = models.ImageField(
@@ -170,5 +171,7 @@ class Location(models.Model):
         return self.name
 
 
+from maps.signals import create_marker
 post_delete.connect(delete_background_image, sender=Location)
 post_save.connect(resize_background_image, sender=Location)
+post_save.connect(create_marker, sender=Location)
