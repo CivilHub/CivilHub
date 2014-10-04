@@ -1,12 +1,12 @@
 ({
     baseUrl: "../../../",
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
-        bootbox: 'includes/bootstrap/bootbox'
+        bootbox: 'includes/bootstrap/bootbox',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {
