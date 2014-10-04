@@ -46,7 +46,10 @@
     };
     
     window.CIVILAPP = {
-        position: {lat: {{ position.lat }}, lng: {{ position.lng }}},
+        position: {
+            lat: parseFloat(("{{ position.lat }}").replace(',', '.')),
+            lng: parseFloat(("{{ position.lng }}").replace(',', '.'))
+        },
         icons: { {% for type in content_types %}
             {% if type.model in icons %}'{{ type.pk }}': {
                 iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
