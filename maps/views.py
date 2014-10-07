@@ -117,3 +117,28 @@ class IndexView(TemplateView):
         context['position'] = {'lat': position[1], 'lng': position[0]}
         context['icons'] = ['location','idea','news','poll','discussion',]
         return context
+
+
+class PointerView(TemplateView):
+    """
+    On this map we are showing single content element with map pointers - e.g
+    single news or idea object which has latitude and longitude fields.
+    """
+    http_method_names = [u'get', u'head', u'options', u'trace']
+    template_name = 'maps/index.html'
+
+    def get_context_data(self, **kwargs):
+        ct = ContentType.objects.get(pk=self.kwargs.get('ct'))
+        obj = ct.get_object_for_this_type(pk=self.kwargs.get('pk'))
+        markers = MapPointer.objects.for_model(obj)
+        if len(markers) == 0: markers = [MapPointer(latitude=0,longitude=0),]
+        context = super(PointerView, self).get_context_data(**kwargs)
+        context['title'] = _("Map")
+        context['content_types'] = ContentType.objects.all()
+        context['position'] = {
+            'lat': markers[0].latitude,
+            'lng': markers[0].longitude
+        }
+        context['markers'] = markers
+        context['icons'] = ['location','idea','news','poll','discussion',]
+        return context

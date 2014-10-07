@@ -15,14 +15,20 @@ function ($, _, L) {
     var icons = {}; // Ikony pobieramy ze skryptu w templatce
     
     var defaults = {
+        // ID DOM elementu dla mapy
         elementID: 'map',
         // Base url to get marker data
         apiURL: '/api-maps/data/',
         // URL to fetch info about specific object
         infoURL: '/api-maps/objects/',
+        // Statyczny albo dynamiczny - wyświetlamy jeden obiekt albo główną mapę
+        mode: 'dynamic',
         // Minimalne zbliżenie, przy jakim pokazujemy pojedyncze markery:
         minZoom: 10,
-        maxZoom: 18, 
+        // Maksymalne możliwe zbliżenie - ze względu na openmaps
+        maxZoom: 18,
+        // Początkowe opcje mapy
+        startZoom: 10,
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
@@ -40,19 +46,22 @@ function ($, _, L) {
         this.location = null;
         this.opts = $.extend(defaults, options);
         this.initialize();
-        this.map.on('zoomend dragend', function () {
-            this.fetchData();
-        }.bind(this));
-        // Fetch starting point if zoom is big enough
-        if (this.map.getZoom() >= this.opts.minZoom) {
-            this.fetchData();
+        if (this.opts.mode === 'dynamic') {
+            this.map.on('zoomend dragend', function () {
+                this.fetchData();
+            }.bind(this));
+            // Fetch starting point if zoom is big enough
+            if (this.map.getZoom() >= this.opts.minZoom) {
+                this.fetchData();
+            }
         }
     };
     
     // Init map and create icon objects.
     
     Map.prototype.initialize = function () {
-        this.map = L.map(this.opts.elementID).setView(this.opts.center, 10);
+        this.map = L.map(this.opts.elementID)
+                    .setView(this.opts.center, this.opts.startZoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom

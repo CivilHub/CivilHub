@@ -12,4 +12,5 @@ router.add_api_view('data', url(r'^data/$', views.MapDataViewSet.as_view(), name
 
 urlpatterns = patterns('',
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^info/(?P<ct>\d+)/(?P<pk>\d+)/', views.PointerView.as_view(), name='info'),
 )
