@@ -139,7 +139,7 @@ function ($, _, L) {
         this.markers.push(marker);
         
         // Create popup and open it up when user clicks on marker.
-        marker.bindPopup();
+        //marker.bindPopup();
         marker.on('click', function () {
             this.markerInfo(marker);
         }.bind(this));
@@ -169,15 +169,20 @@ function ($, _, L) {
     
     Map.prototype.markerInfo = function (marker) {
         $.get(this.opts.infoURL, marker.meta, function (response) {
-            var popup = marker.getPopup(),
+            var popup = null,
                 model = CONTENT_TYPES[marker.meta.ct].model,
                 tpl = (model === 'location') ? '#loc-dialog-tpl' : '#map-dialog-tpl';
             // We have to create different template for location objects
             tpl = _.template($(tpl).html());
             // Little hack for template - is it really necessary?
             response[0].content_object.content_type = marker.meta.ct;
-            popup.setContent(tpl(response[0].content_object));
-            marker.openPopup();
+            popup = L.popup({
+                minWidth: 400,
+                maxWidth: 400
+            });
+            popup.setContent(tpl(response[0].content_object))
+                .setLatLng(marker.getLatLng())
+                .openOn(this.map);
         }.bind(this));
     };
     
