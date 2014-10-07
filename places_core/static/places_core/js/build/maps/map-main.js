@@ -89,14 +89,18 @@ function ($, CivilMap) {
         }
             
         return $(this).each(function () {
+            
             var $input = $(this);
             $ul.insertAfter($input);
+            
             $input.on('keyup', function () {
+                
                 if ($input.val().length === 0) {
                     app.setLocation(null);
                     app.fetchData();
                     return false;
                 }
+                
                 $.get('/api-locations/markers/', {term: $input.val()},
                     function (response) {
                         clearItems();
@@ -116,6 +120,7 @@ function ($, CivilMap) {
                     }
                 );
             });
+            
             $input.on('click', function () {
                 if ($ul.find('li').length >= 1) {
                     $ul.toggle();

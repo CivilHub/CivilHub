@@ -3,6 +3,7 @@ from django.contrib.gis.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from locations.models import Location
 from .managers import MapPointerManager
 
 
@@ -29,6 +30,7 @@ class MapPointer(BaseAbstractMapPointer):
     """
     latitude = models.FloatField()
     longitude = models.FloatField()
+    location = models.ForeignKey(Location, null=True, blank=True)
     # Manager
     objects = MapPointerManager()
 

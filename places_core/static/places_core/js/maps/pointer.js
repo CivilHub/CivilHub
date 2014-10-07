@@ -42,7 +42,8 @@ function ($, utils, ui) {
                     content_type: $('#id_content_type').val(),
                     object_pk   : $('#id_object_pk').val(),
                     latitude    : $('#id_latitude').val(),
-                    longitude   : $('#id_longitude').val()
+                    longitude   : $('#id_longitude').val(),
+                    location    : $('#current-location-pk').val()
                 }
                 
                 $.ajax({

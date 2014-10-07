@@ -53,7 +53,7 @@ function ($, _, L) {
     
     Map.prototype.initialize = function () {
         this.map = L.map(this.opts.elementID).setView(this.opts.center, 10);
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom
         }).addTo(this.map);

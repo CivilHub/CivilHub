@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.contrib.contenttypes.models import ContentType
-from django.shortcuts import get_object_or_404
 from locations.models import Location
 from .models import MapPointer
 
@@ -16,13 +14,13 @@ def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
     fetched.
     """
     f = float(factor)
-    
+
     if location is not None:
         l = Location.objects.get(pk=location)
         queryset = MapPointer.objects.for_location(l)
     else:
         queryset = MapPointer.objects.all()
-    
+
     queryset = queryset.filter(latitude__gt = float(lat) - f) \
                         .filter(latitude__lt  = float(lat) + f) \
                         .filter(longitude__gt = float(lng) - f) \
