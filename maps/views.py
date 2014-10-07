@@ -114,6 +114,6 @@ class IndexView(TemplateView):
         context['title'] = _("Map")
         context['content_types'] = ContentType.objects.all()
         position = GeoIP().coords(get_ip(self.request)) or ("52.1356", "21.0030")
-        context['position'] = {'lat': position[0], 'lng': position[1]}
+        context['position'] = {'lat': position[1], 'lng': position[0]}
         context['icons'] = ['location','idea','news','poll','discussion',]
         return context

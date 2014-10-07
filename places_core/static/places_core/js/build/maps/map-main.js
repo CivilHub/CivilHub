@@ -61,8 +61,6 @@ function ($, CivilMap) {
         elementID: 'main-map',
         center: [window.CIVILAPP.position.lat, window.CIVILAPP.position.lng]
     });
-    // DEBUG !!!!
-    window.test = app;
     
     // Get map content filters
     
