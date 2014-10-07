@@ -47,8 +47,8 @@
     
     window.CIVILAPP = {
         position: {
-            lat: parseFloat(("{{ position.lat }}").replace(',', '.')),
-            lng: parseFloat(("{{ position.lng }}").replace(',', '.'))
+            lat: ("{{ position.lat }}").replace(',', '.'),
+            lng: ("{{ position.lng }}").replace(',', '.')
         },
         icons: { {% for type in content_types %}
             {% if type.model in icons %}'{{ type.pk }}': {
@@ -75,14 +75,10 @@
 
 <div id="map-options-panel">
     <div class="content">
-    {% trans "Chose country" %}
+    {% trans "Choose place" %}
         <nav id="country-nav-panel" role="navigation" class="civ-map-controller">
             <form id="country-nav-form">
-                <select name="country" id="country-nav-form-country">
-                    {% for country in countries %}
-                    <option value="{{ country.code }}"{% if country.code == code %} selected="selected"{% endif %}>{{ country.location.name }}</option>
-                    {% endfor %}
-                </select>
+                <input type="text" id="select-location-field" placeholder="{% trans "Search" %}" />
             </form>
         </nav>
     </div>

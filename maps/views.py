@@ -79,16 +79,17 @@ class MapDataViewSet(APIView):
         lng  = self.request.QUERY_PARAMS.get('lng', None)
         zoom = self.request.QUERY_PARAMS.get('zoom', None)
         filters = self.request.QUERY_PARAMS.get('filters', None)
+        location = self.request.QUERY_PARAMS.get('location', None)
 
         if lat is not None and lng is not None and zoom is not None:
 
             if int(zoom) >= 10:
-                markers = filter_markers(lat, lng, 1.0, filters)
+                markers = filter_markers(lat, lng, 2.0, filters, location)
                 serializer = MapPointerSerializer(markers, many=True)
                 context = serializer.data
 
             elif int(zoom) > 3:
-                markers = filter_markers(lat, lng, 10, filters).count()
+                markers = filter_markers(lat, lng, 10, filters, location).count()
                 context = {'count': markers}
 
         else:

@@ -36,6 +36,8 @@ function ($, _, L) {
         this.markers = [];
         // Array of content types to fetch with every API request
         this.filters = [];
+        // Fetch only data related to this location
+        this.location = null;
         this.opts = $.extend(defaults, options);
         this.initialize();
         this.map.on('zoomend dragend', function () {
@@ -50,7 +52,7 @@ function ($, _, L) {
     // Init map and create icon objects.
     
     Map.prototype.initialize = function () {
-        this.map = L.map(this.opts.elementID).setView(this.opts.center, 11);
+        this.map = L.map(this.opts.elementID).setView(this.opts.center, 10);
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom
@@ -69,9 +71,15 @@ function ($, _, L) {
             lat: this.map.getCenter().lat,
             lng: this.map.getCenter().lng
         };
+        // Check for content type filters
         if (!_.isEmpty(this.filters)) {
             mapData.filters = this.filters.join(',');
         }
+        // Check for location filters
+        if (!_.isNull(this.location)) {
+            mapData.location = this.location;
+        }
+        // Clear markers on zoom-out
         if (mapData.zoom < this.opts.minZoom) {
             this.clearMarkers();
             return false;
@@ -175,7 +183,7 @@ function ($, _, L) {
     
     // Set filters to search only for markers related to selected content types
     //
-    // @param filters { array/int } Single type id or array of id's
+    // @param filters { array/int/null } Single type id or array of id's. Pass null to clear.
 
     Map.prototype.setFilters = function (filters) {
         if (filters === undefined) return false;
@@ -189,6 +197,20 @@ function ($, _, L) {
             // Single filter
             this.filters = [filters];
         }
+        this.fetchData();
+    };
+    
+    // Set filter to search only for objects related to selected location.
+    //
+    // @param location { int } Location's ID. null to reset.
+    
+    Map.prototype.setLocation = function (location) {
+        if (_.isNull(location)) {
+            this.location = null;
+            return true;
+        }
+        this.location = location.location;
+        this.map.setView([location.lat, location.lng], 10);
         this.fetchData();
     };
     
