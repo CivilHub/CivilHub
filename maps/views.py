@@ -25,7 +25,8 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     Możliwe jest wyszukiwanie konkretnych obiektów w/g ID oraz typu obiektu,
     do którego odwołuje się marker. Należy w tym celu podać w parametrach GET
     typ zawartości oraz ID obiektu, np:
-    ?ct=23&pk=1
+    
+    ```/api-maps/objects/?ct=23&pk=1```
     """
     queryset = MapPointer.objects.all()
 
@@ -103,44 +104,34 @@ class MapDataViewSet(APIView):
 
 class IndexView(TemplateView):
     """
-    This view only displays template. Places and other markers
-    are loaded via AJAX and THEN map is created.
+    This view only displays template. Places and other markers are loaded via 
+    AJAX and THEN map is created. This view serves for 2 purposes - it shows
+    main map and center it on user's position or it shows main map with some
+    marker highlighted when 'show on map' option is used for some content type.
     """
     http_method_names = [u'get', u'head', u'options', u'trace']
     template_name = 'maps/index.html'
 
     def get_context_data(self, **kwargs):
+        ct = self.kwargs.get('ct', None)
+        pk = self.kwargs.get('pk', None)
+        active_marker = None
         context = super(IndexView, self).get_context_data(**kwargs)
+
+        if pk and ct:
+            ctype = ContentType.objects.get(pk=ct)
+            obj = ctype.get_object_for_this_type(pk=pk)
+            active_marker = MapPointer.objects \
+                            .filter(object_pk=obj.pk,content_type=ct)[0]
+            context['active_marker'] = active_marker
+
+        if active_marker is not None:
+            position = (active_marker.longitude, active_marker.latitude,)
+        else:
+            position = GeoIP().coords(get_ip(self.request)) or ("21.0030", "52.1356")
+
         context['title'] = _("Map")
         context['content_types'] = ContentType.objects.all()
-        position = GeoIP().coords(get_ip(self.request)) or ("21.0030", "52.1356")
         context['position'] = {'lat': position[1], 'lng': position[0]}
-        context['icons'] = ['location','idea','news','poll','discussion',]
-        context['controls'] = True
-        return context
-
-
-class PointerView(TemplateView):
-    """
-    On this map we are showing single content element with map pointers - e.g
-    single news or idea object which has latitude and longitude fields.
-    """
-    http_method_names = [u'get', u'head', u'options', u'trace']
-    template_name = 'maps/index.html'
-
-    def get_context_data(self, **kwargs):
-        ct = ContentType.objects.get(pk=self.kwargs.get('ct'))
-        obj = ct.get_object_for_this_type(pk=self.kwargs.get('pk'))
-        markers = MapPointer.objects.for_model(obj)
-        if len(markers) == 0: markers = [MapPointer(latitude=0,longitude=0),]
-        context = super(PointerView, self).get_context_data(**kwargs)
-        context['title'] = _("Map")
-        context['content_types'] = ContentType.objects.all()
-        context['position'] = {
-            'lat': markers[0].latitude,
-            'lng': markers[0].longitude
-        }
-        context['object_pk'] = obj.pk
-        context['markers'] = markers
         context['icons'] = ['location','idea','news','poll','discussion',]
         return context

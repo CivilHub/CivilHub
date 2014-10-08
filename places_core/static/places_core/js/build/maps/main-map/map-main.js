@@ -108,6 +108,8 @@ function ($, CivilMap) {
     
     app.initialize();
     
+    window.test = app;
+    
     $(document).trigger('load');
     
 });

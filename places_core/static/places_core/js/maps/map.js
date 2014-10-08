@@ -21,15 +21,12 @@ function ($, _, L) {
         apiURL: '/api-maps/data/',
         // URL to fetch info about specific object
         infoURL: '/api-maps/objects/',
-        // Statyczny albo dynamiczny - wyświetlamy jeden obiekt albo główną mapę
-        mode: 'dynamic',
         // Minimalne zbliżenie, przy jakim pokazujemy pojedyncze markery:
         minZoom: 10,
         // Maksymalne możliwe zbliżenie - ze względu na openmaps
         maxZoom: 18,
         // Początkowe opcje mapy
         startZoom: 10,
-        markers: [],
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
@@ -47,18 +44,12 @@ function ($, _, L) {
         this.location = null;
         this.opts = $.extend(defaults, options);
         this.initialize();
-        if (this.opts.mode === 'dynamic') {
-            this.map.on('zoomend dragend', function () {
-                this.fetchData();
-            }.bind(this));
-            // Fetch starting point if zoom is big enough
-            if (this.map.getZoom() >= this.opts.minZoom) {
-                this.fetchData();
-            }
-        } else {
-            _.each(this.opts.markers, function (m) {
-                this.addMarker(m);
-            }, this);
+        this.map.on('zoomend dragend', function () {
+            this.fetchData();
+        }.bind(this));
+        // Fetch starting point if zoom is big enough
+        if (this.map.getZoom() >= this.opts.minZoom) {
+            this.fetchData();
         }
     };
     
@@ -75,6 +66,11 @@ function ($, _, L) {
         _.each(CIVILAPP.icons, function (icon, key) {
             icons[key] = L.icon(icon);
         });
+        // Mark active marker when 'show on map' option is used
+        if (!_.isUndefined(CIVILAPP.current)) {
+            var m = CIVILAPP.current;
+            this.activeMarker = L.marker([m.latitude, m.longitude]);
+        }
     };
     
     // Get markers from server
@@ -152,6 +148,15 @@ function ($, _, L) {
         this.map.addLayer(marker);
         this.markers.push(marker);
         
+        // Check if marker is selected when option 'show on map' is used, but
+        // only first time after map is loaded.
+        if (!_.isUndefined(this.activeMarker)) {
+            if (marker.getLatLng().equals(this.activeMarker.getLatLng())) {
+                this.markerInfo(marker);
+                delete this.activeMarker;
+            }
+        }
+        
         // Create popup and open it up when user clicks on marker.
         //marker.bindPopup();
         marker.on('click', function () {
@@ -191,10 +196,7 @@ function ($, _, L) {
             tpl = _.template($(tpl).html());
             // Little hack for template - is it really necessary?
             response[0].content_object.content_type = marker.meta.ct;
-            popup = L.popup({
-                minWidth: 400,
-                maxWidth: 400
-            });
+            popup = L.popup({minWidth: 500, maxWidth: 500});
             popup.setContent(tpl(response[0].content_object))
                 .setLatLng(marker.getLatLng())
                 .openOn(this.map);
