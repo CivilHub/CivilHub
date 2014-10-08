@@ -49,7 +49,6 @@ require.config({
 });
 
 require(['jquery',
-         'js/maps/minimap',
          'js/common',
          'js/locations/follow',
          'js/maps/pointer',
@@ -60,15 +59,6 @@ require(['jquery',
 function ($, Minimap) {
     
     "use strict";
-    
-    // Minimapa z markerami (jeżeli są jakieś)
-    $(document).ready(function () {
-        var minimap = new Minimap(window.MARKERS);
-        $('.minimap-toggle-button').on('click', function (e) {
-            e.preventDefault();
-            minimap.open();
-        });
-    });
     
     $(document).trigger('load');
     

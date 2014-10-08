@@ -54,7 +54,6 @@ require.config({
 
 require(['jquery',
          'js/ideas/votes/counterWindow',
-         'js/maps/minimap',
          'js/common',
          'js/ideas/votes/votes',
          'js/comments/comments',
@@ -75,15 +74,6 @@ function ($, CounterWindow, Minimap) {
             'ideaId': ideaId
         });
         var cc = new CW();
-    });
-    
-    // Minimapa z markerami (jeżeli są jakieś)
-    $(document).ready(function () {
-        var minimap = new Minimap(window.MARKERS);
-        $('.minimap-toggle-button').on('click', function (e) {
-            e.preventDefault();
-            minimap.open();
-        });
     });
     
     $(document).trigger('load');

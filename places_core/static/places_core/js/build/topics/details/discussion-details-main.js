@@ -56,7 +56,6 @@ require.config({
 
 require(['jquery',
          'js/ui/ui',
-         'js/maps/minimap',
          'js/maps/pointer',
          'js/ui/mapinput',
          'js/common',
@@ -69,14 +68,6 @@ require(['jquery',
 function ($, ui, Minimap) {
     
     "use strict";
-    
-    $(document).ready(function () {
-        var minimap = new Minimap(window.MARKERS);
-        $('.minimap-toggle-button').on('click', function (e) {
-            e.preventDefault();
-            minimap.open();
-        });
-    });
     
     //
     // Save user's vote on server
