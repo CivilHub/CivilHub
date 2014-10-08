@@ -28,6 +28,7 @@ function ($, _, L) {
         // Maksymalne możliwe zbliżenie - ze względu na openmaps
         maxZoom: 18,
         // Początkowe opcje mapy
+        markers: [],
         startZoom: 10,
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -54,6 +55,10 @@ function ($, _, L) {
             if (this.map.getZoom() >= this.opts.minZoom) {
                 this.fetchData();
             }
+        } else {
+            _.each(this.opts.markers, function (m) {
+                this.addMarker(m);
+            }, this);
         }
     };
     

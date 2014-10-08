@@ -1,5 +1,5 @@
 ({
-    baseUrl: "../../../",
+    baseUrl: "../../../../",
     paths: {
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
@@ -33,6 +33,6 @@
             deps: ['jquery']
         }
     },
-    name: "js/build/maps/map-main",
-    out: "map-built.js"
+    name: "js/build/maps/static-map/static-main",
+    out: "static-built.js"
 })

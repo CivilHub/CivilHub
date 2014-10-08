@@ -53,11 +53,6 @@
                 </div>
                 <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
             </div>
-            
-            {% if idea.creator == user or is_moderator %}
-
-            <p><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></p>
-            {% endif %}
 
             {% include 'locations/share_buttons.html' %}            
             
@@ -66,20 +61,22 @@
 
             <h1>{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
                 <div class="entry-submenu">
-                    <ul>
-                        {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
+                    <ul>{% with idea|content_type as ctype %}
+                        {% if map_markers %}
+                            <li><a href="{% url 'maps:info' ctype.pk idea.pk %}" target="_blank">{% trans "Show on map" %}</a></li>
+                        {% endif %}
                         <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                         {% if user.is_superuser or user == idea.creator or is_moderator %}
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
                         {% endif %}
                         {% if user.is_superuser or is_moderator %}
-                        <li>{% with idea|content_type as ctype %}<a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a>{% endwith %}</li>
+                        <li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>
                         {% endif %}
                         <li>{% bookmark_form idea user %}</li>
                         {% if user.is_authenticated and user != idea.creator %}
                             <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>
                         {% endif %}
-                    </ul>
+                    {% endwith %}</ul>
                 </div>
                 <div class="author-info">
                     <small>

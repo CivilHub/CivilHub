@@ -50,6 +50,15 @@
             lat: ("{{ position.lat }}").replace(',', '.'),
             lng: ("{{ position.lng }}").replace(',', '.')
         },
+        {% if markers %}
+        markers: [{% for m in markers %}
+            {
+                latitude: ("{{ m.latitude }}").replace(',', '.'),
+                longitude: ("{{ m.longitude }}").replace(',', '.'),
+                content_type: "{{ m.content_type.pk }}",
+                object_pk: "{{ object_pk }}"
+            },
+        {% endfor %}],{% endif %}
         icons: { {% for type in content_types %}
             {% if type.model in icons %}'{{ type.pk }}': {
                 iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
@@ -60,42 +69,50 @@
     
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/build/maps/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% if markers %}
+<script data-main="{% static 'places_core' %}/js/build/maps/static-map/static-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% else %}
+<script data-main="{% static 'places_core' %}/js/build/maps/main-map/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endif %}
 
 {% include 'places_core/navigation.html' %}
 
-<div id="map-options-toggle">
+{% if controls %}
 
-    <div id="map-filter-toggle" href="#" title="{% trans "Filters Map" %}">
-   
-    <div class="sprite-icon"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
-    <div class="angle-icon-toggle"><span class="fa fa-angle-down"></span></div>
-    </div>
-</div>
+    <div id="map-options-toggle">
 
-<div id="map-options-panel">
-    <div class="content">
-    {% trans "Choose place" %}
-        <nav id="country-nav-panel" role="navigation" class="civ-map-controller">
-            <form id="country-nav-form">
-                <input type="text" id="select-location-field" placeholder="{% trans "Search" %}" />
-            </form>
-        </nav>
+        <div id="map-filter-toggle" href="#" title="{% trans "Filters Map" %}">
+       
+        <div class="sprite-icon"><span class="ch-icon ch-subspaces"></span> {% trans "Filters Map" %}</div>
+        <div class="angle-icon-toggle"><span class="fa fa-angle-down"></span></div>
+        </div>
     </div>
-    <div class="controls-divider"></div>
-    <div class="content">
-    {% trans "Show" %}
-        <nav class="civ-map-controller" role="navigation">
-            <ul>
-                <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /> {% trans "Places" %}</li>
-                <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /> {% trans "Ideas" %}</li>
-                <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /> {% trans "Polls" %}</li>
-                <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /> {% trans "Discussions" %}</li>
-                <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /> {% trans "News" %}</li>
-            </ul>
-        </nav>
+
+    <div id="map-options-panel">
+        <div class="content">
+        {% trans "Choose place" %}
+            <nav id="country-nav-panel" role="navigation" class="civ-map-controller">
+                <form id="country-nav-form">
+                    <input type="text" id="select-location-field" placeholder="{% trans "Search" %}" />
+                </form>
+            </nav>
+        </div>
+        <div class="controls-divider"></div>
+        <div class="content">
+        {% trans "Show" %}
+            <nav class="civ-map-controller" role="navigation">
+                <ul>
+                    <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /> {% trans "Places" %}</li>
+                    <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /> {% trans "Ideas" %}</li>
+                    <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /> {% trans "Polls" %}</li>
+                    <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /> {% trans "Discussions" %}</li>
+                    <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /> {% trans "News" %}</li>
+                </ul>
+            </nav>
+        </div>
     </div>
-</div>
+    
+{% endif %}
 
 <div id="main-map"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div>
 

@@ -116,6 +116,7 @@ class IndexView(TemplateView):
         position = GeoIP().coords(get_ip(self.request)) or ("21.0030", "52.1356")
         context['position'] = {'lat': position[1], 'lng': position[0]}
         context['icons'] = ['location','idea','news','poll','discussion',]
+        context['controls'] = True
         return context
 
 
@@ -139,6 +140,7 @@ class PointerView(TemplateView):
             'lat': markers[0].latitude,
             'lng': markers[0].longitude
         }
+        context['object_pk'] = obj.pk
         context['markers'] = markers
         context['icons'] = ['location','idea','news','poll','discussion',]
         return context
