@@ -67,6 +67,7 @@ function ($, CivilMap) {
             elementID: 'main-map',
             mode: 'static',
             markers: window.CIVILAPP.markers,
+            startZoom: 7,
             center: [window.CIVILAPP.position.lat, window.CIVILAPP.position.lng]
         }),
     });

@@ -28,8 +28,8 @@ function ($, _, L) {
         // Maksymalne możliwe zbliżenie - ze względu na openmaps
         maxZoom: 18,
         // Początkowe opcje mapy
-        markers: [],
         startZoom: 10,
+        markers: [],
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };
