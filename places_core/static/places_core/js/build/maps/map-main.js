@@ -48,6 +48,7 @@ require.config({
 
 require(['jquery',
          'js/maps/map',
+         'js/maps/autocomplete',
          'bootstrap',
          'js/common/bookmarks'],
 
@@ -55,89 +56,57 @@ function ($, CivilMap) {
     
     "use strict";
     
-    // Create main map application
+    // Main application controller
     
-    var app = new CivilMap({
-        elementID: 'main-map',
-        center: [window.CIVILAPP.position.lat, window.CIVILAPP.position.lng]
-    });
+    var app = app || {};
     
-    // Get map content filters
-    
-    function getFilters () {
-        var filters = [], t = '', ct = null;
-        $('.map-filter-toggle').each(function () {
-            if ($(this).is(':checked')) {
-                t = $(this).attr('data-target');
-                ct = _.findWhere(window.CONTENT_TYPES, {model: t});
-                filters.push(ct.content_type);
-            }
-        });
-        return filters;
-    }
-    
-    // Simplified autocomplete functionality to search for places - it allows
-    // users to find and select single location to browse markers from.
-    
-    $.fn.autocomplete = function () {
-        var $ul = $('<ul class="custom-autocomplete"></ul>'),
-            tpl = '<li><a href="#" data-location="{id}" data-lat="{lat}" \
-                  data-lng="{lng}">{name}</a></li>';
+    _.extend(app, {
         
-        function clearItems () {
-            $ul.find('li').empty().remove();
+        // Create main map application
+        
+        application: new CivilMap({
+            elementID: 'main-map',
+            center: [window.CIVILAPP.position.lat, window.CIVILAPP.position.lng]
+        }),
+        
+        // Get map content filters
+        
+        getFilters: function getFilters () {
+            var filters = [], t = '', ct = null;
+            $('.map-filter-toggle').each(function () {
+                if ($(this).is(':checked')) {
+                    t = $(this).attr('data-target');
+                    ct = _.findWhere(window.CONTENT_TYPES, {model: t});
+                    filters.push(ct.content_type);
+                }
+            });
+            return filters;
+        },
+        
+        // Initialize all plugins
+        
+        initialize: function () {
+            $('.map-filter-toggle').change(function () {
+                this.application.setFilters(this.getFilters());
+            }.bind(this));
+            
+            $('.angle-icon-toggle').on('click', function () {
+                $('#map-options-panel').slideToggle('fast');
+            });
+            
+            $('#select-location-field').autocomplete({
+                onSelect: function (locationID) {
+                    app.application.setLocation(locationID);
+                },
+                onClear: function () {
+                    app.application.setLocation(null);
+                    app.application.fetchData();
+                }
+            });
         }
-            
-        return $(this).each(function () {
-            
-            var $input = $(this);
-            $ul.insertAfter($input);
-            
-            $input.on('keyup', function () {
-                
-                if ($input.val().length === 0) {
-                    app.setLocation(null);
-                    app.fetchData();
-                    return false;
-                }
-                
-                $.get('/api-locations/markers/', {term: $input.val()},
-                    function (response) {
-                        clearItems();
-                        $.each(response.results, function (idx, item) {
-                            var $li = $(tpl.replace(/{id}/g, item.id)
-                                           .replace(/{name}/g, item.name)
-                                           .replace(/{lat}/g, item.latitude)
-                                           .replace(/{lng}/g, item.longitude));
-                            $li.appendTo($ul);
-                            $li.find('a').on('click', function (e) {
-                                e.preventDefault();
-                                $input.val($(this).text());
-                                app.setLocation($(this).data());
-                                clearItems();
-                            });
-                        });
-                    }
-                );
-            });
-            
-            $input.on('click', function () {
-                if ($ul.find('li').length >= 1) {
-                    $ul.toggle();
-                }
-            });
-        });
-    };
-    
-    $('.map-filter-toggle').change(function () {
-        app.setFilters(getFilters());
     });
     
-    $('.angle-icon-toggle').on('click', function () {
-        $('#map-options-panel').slideToggle('fast');
-    });
-    
-    $('#select-location-field').autocomplete();
+    app.initialize();
     
     $(document).trigger('load');
     

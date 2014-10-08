@@ -156,7 +156,7 @@ function ($, _, L) {
     
     // Delete single marker
     // 
-    // @param idx { object L.marker } Marker object
+    // @param marker { object L.marker } Marker object
     
     Map.prototype.deleteMarker = function (marker) {
         this.markers.splice(this.markers.indexOf(marker), 1);
@@ -180,7 +180,8 @@ function ($, _, L) {
         $.get(this.opts.infoURL, marker.meta, function (response) {
             var popup = null,
                 model = CONTENT_TYPES[marker.meta.ct].model,
-                tpl = (model === 'location') ? '#loc-dialog-tpl' : '#map-dialog-tpl';
+                tpl = (model === 'location') ? '#loc-dialog-tpl'
+                                             : '#map-dialog-tpl';
             // We have to create different template for location objects
             tpl = _.template($(tpl).html());
             // Little hack for template - is it really necessary?
