@@ -11,14 +11,14 @@ require.config({
     waitSeconds: 200,
     
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         tagsinput: 'includes/jquery/jquery.tagsinput',
-        moment: 'includes/momentjs/moment'
+        moment: 'includes/momentjs/moment',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {

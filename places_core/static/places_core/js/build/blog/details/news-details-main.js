@@ -11,7 +11,6 @@ require.config({
     waitSeconds: 200,
     
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         tagsinput: 'includes/jquery/jquery.tagsinput',
         underscore: 'includes/underscore/underscore',
@@ -19,7 +18,8 @@ require.config({
         paginator: 'includes/backbone/backbone.paginator',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
-        moment: 'includes/momentjs/moment'
+        moment: 'includes/momentjs/moment',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {

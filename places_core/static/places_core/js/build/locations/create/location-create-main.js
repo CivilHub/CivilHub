@@ -13,13 +13,13 @@ require.config({
     waitSeconds: 200,
     
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         bootstrap: 'includes/bootstrap/bootstrap',
         bootbox: 'includes/bootstrap/bootbox',
         'bootstrap-fileinput': 'includes/bootstrap/bootstrap.file-input',
         underscore: 'includes/underscore/underscore',
-        backbone: 'includes/backbone/backbone'
+        backbone: 'includes/backbone/backbone',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {

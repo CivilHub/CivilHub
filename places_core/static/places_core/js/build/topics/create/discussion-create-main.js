@@ -14,7 +14,6 @@ require.config({
     waitSeconds: 300,
     
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         jqueryui: 'includes/jquery-ui/jquery-ui',
         tagsinput: 'includes/jquery/jquery.tagsinput',
@@ -24,7 +23,8 @@ require.config({
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone'
+        dropzone: 'includes/dropzone/dropzone',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {
@@ -71,8 +71,7 @@ require(['jquery',
          'js/locations/follow',
          'js/editor/plugins/uploader',
          'js/inviter/userinviter',
-         'js/topics/discussion-form',
-         'js/topics/category-creator'],
+         'js/topics/discussion-form'],
 
 function ($) {
     

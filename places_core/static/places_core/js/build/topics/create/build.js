@@ -1,7 +1,6 @@
 ({
     baseUrl: "../../../../",
     paths: {
-        async: 'includes/require/async',
         jquery: 'includes/jquery/jquery',
         jqueryui: 'includes/jquery-ui/jquery-ui',
         tagsinput: 'includes/jquery/jquery.tagsinput',
@@ -11,7 +10,8 @@
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         redactor: 'includes/redactor/redactor',
-        dropzone: 'includes/dropzone/dropzone'
+        dropzone: 'includes/dropzone/dropzone',
+        leaflet: 'includes/leaflet/leaflet'
     },
     
     shim: {
