@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.http import HttpResponse, HttpResponseForbidden
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -215,7 +216,12 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
         if pk:
             try:
                 location = Location.objects.get(pk=pk)
-                queryset = location.location_set.all()
+                cached_qs = cache.get(location.slug+'_sub', None)
+                if cached_qs is None or not settings.USE_CACHE:
+                    queryset = location.location_set.all()
+                    cache.set(location.slug+'_sub', queryset)
+                else:
+                    queryset = cached_qs
             except Location.DoesNotExist:
                 queryset = Location.objects.all()
             return sort_by_locale(queryset, lambda x: x.name,
@@ -237,8 +243,7 @@ class LocationNewsList(DetailView):
         context['title'] = self.object.name + ', ' + _("News")
         context['links'] = links['news']
         context['tags'] = TagFilter(self.object).get_items()
-        if len(News.objects.filter(location=self.object)) > 0:
-            context['news'] = True
+        context['news'] = True
         return context
 
 
@@ -326,13 +331,9 @@ class LocationIdeasList(DetailView):
     def get_context_data(self, **kwargs):
         context = super(LocationIdeasList, self).get_context_data(**kwargs)
         ideas = self.object.idea_set.all()
-        if self.request.GET.get('order'):
-            ideas = self.list_ideas(ideas, self.request.GET.get('order'))
-        if self.request.GET.get('filter'):
-            ideas = self.filter_ideas(ideas, self.request.GET.get('filter'))
         context['title'] = self.object.name + ', ' + _("Ideas") + " | CivilHub"
         context['form'] = IdeaCategoryForm()
-        context['ideas'] = ideas
+        context['ideas'] = True
         context['links'] = links['ideas']
         context['appname'] = 'idea-list'
         context['categories'] = IdeaCategory.objects.all()
@@ -392,17 +393,7 @@ class LocationDiscussionsList(DetailView):
     def get_context_data(self, **kwargs):
         location = super(LocationDiscussionsList, self).get_object()
         context  = super(LocationDiscussionsList, self).get_context_data(**kwargs)
-        discussions = Discussion.objects.filter(location=location)
-        paginator   = Paginator(discussions, settings.LIST_PAGINATION_LIMIT)
-        page = self.request.GET.get('page')
-
-        try:
-            context['discussions'] = paginator.page(page)
-        except PageNotAnInteger:
-            context['discussions'] = paginator.page(1)
-        except EmptyPage:
-            context['discussions'] = paginator.page(paginator.num_pages)
-
+        context['discussions'] = True
         context['title']        = location.name + ", " + _("Discussions") + " | CivilHub"
         context['categories']   = ForumCategory.objects.all()
         context['search_form']  = SearchDiscussionForm()

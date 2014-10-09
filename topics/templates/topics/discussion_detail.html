@@ -29,7 +29,7 @@
             <div class="entry-submenu">
                 <ul>{% with discussion|content_type as ctype %}
                     {% if map_markers %}
-                        <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}" target="_blank">{% trans "Show on map" %}</a></li>
+                        <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}">{% trans "Show on map" %}</a></li>
                     {% endif %}
                     {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
                     <li>{% bookmark_form discussion user %}</li>

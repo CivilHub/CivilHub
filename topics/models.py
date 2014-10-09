@@ -14,7 +14,7 @@ class Category(models.Model):
     """
     Basic categories for forum discussions
     """
-    name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64)
     description = models.TextField(blank=True, null=True, default="")
 
     def __unicode__(self):
@@ -25,7 +25,7 @@ class Discussion(models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
-    question = models.CharField(max_length=255, unique=True)
+    question = models.CharField(max_length=255)
     slug     = models.SlugField(max_length=255, unique=True)
     intro    = models.TextField()
     creator  = models.ForeignKey(User)

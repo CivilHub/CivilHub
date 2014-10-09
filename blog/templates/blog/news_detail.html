@@ -51,7 +51,7 @@
                     <div class="entry-submenu">
                         <ul>{% with news|content_type as ctype %}
                             {% if map_markers %}
-                                <li><a href="{% url 'maps:info' ctype.pk news.pk %}" target="_blank">{% trans "Show on map" %}</a></li>
+                                <li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>
                             {% endif %}
                             <li>{% bookmark_form news user %}</li>
                             {% if user.is_authenticated and user != news.creator %}

@@ -411,3 +411,7 @@ STREAM_PAGINATOR_LIMIT = 25
 USER_GALLERY_LIMIT = 12
 # Limit paginatora dla obrazów w galerii lokalizacji
 PLACE_GALLERY_LIMIT = 12
+
+# Customowe ustawienia dla redisa, wyłącza cache w widokach dla
+# wersji developerskiej.
+USE_CACHE = False

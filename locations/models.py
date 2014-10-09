@@ -80,7 +80,11 @@ class Location(models.Model):
             to_slug_entry = self.name
             chk = Location.objects.filter(slug=slugify(self.name))
             if len(chk) > 0:
-                to_slug_entry = self.name + '-' + str(len(chk))
+                mod = len(chk)
+                to_slug_entry = slugify(self.name + '-' + str(mod))
+                while Location.objects.filter(slug=to_slug_entry).count():
+                    mod += 1
+                    to_slug_entry = slugify(self.name + '-' + str(mod))
             self.slug = slugify(to_slug_entry)
         else:
             # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
@@ -132,6 +136,15 @@ class Location(models.Model):
             if a.location_set.count() > 0:
                 a.get_ancestor_chain(ancestors, response)
         return ancestors
+
+    def get_children_id_list(self, ids=None):
+        """ Returns all sublocations for this location. """
+        if ids == None: ids = []
+        for a in self.location_set.all():
+            ids.append(a.pk)
+            if a.location_set.count() > 0:
+                a.get_children_id_list(ids)
+        return ids
 
     def count_users_actions(self, user):
         """

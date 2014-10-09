@@ -17,7 +17,7 @@
         <div class="entry-submenu">
             <ul>{% with poll|content_type as ctype %}
                 {% if map_markers %}
-                    <li><a href="{% url 'maps:info' ctype.pk poll.pk %}" target="_blank">{% trans "Show on map" %}</a></li>
+                    <li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>
                 {% endif %}
                 <li>{% bookmark_form poll user %}</li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
