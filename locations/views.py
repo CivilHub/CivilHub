@@ -141,19 +141,23 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
                           IsOwnerOrReadOnly,)
     
     def get_queryset(self, pk=None, ct=None):
-        from actstream.models import model_stream
+        from actstream.models import Action, model_stream
         if not pk: return []
         content_type = ContentType.objects.get_for_model(Location).pk
         stream = model_stream(Location).filter(target_content_type_id=content_type)
         try:
             location = Location.objects.get(pk=pk)
-            stream = stream.filter(target_object_id=location.pk)
+            stream = model_stream(location)
+            ctid = ContentType.objects.get_for_model(Idea).pk
+            vote_actions = [a.pk for a in Action.objects.all() if \
+                            hasattr(a.action_object, 'location') and \
+                            a.action_object.location==location]
+            stream = stream | Action.objects.filter(pk__in=vote_actions)
         except Location.DoesNotExist:
             return []
         if ct:
             stream = stream.filter(action_object_content_type_id=ct)
         return stream
-        
         
     def list(self, request):
         pk = request.QUERY_PARAMS.get('pk', None)
