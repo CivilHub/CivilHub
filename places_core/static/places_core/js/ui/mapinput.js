@@ -25,7 +25,7 @@ function ($, L) {
             latField: '#latitude',
             lngField: '#longitude',
             attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-        }
+        };
         
         return $(this).each(function () {
             var $el = $(this),
@@ -45,6 +45,9 @@ function ($, L) {
                 attribution: opts.attribution,
                 maxZoom: opts.maxZoom
             }).addTo(map);
+            
+            L.Icon.Default.imagePath = 
+                    ([window.STATIC_URL, 'css', 'images']).join('/');
             
             map.on('click', function (e) {
                 if (marker !== null) map.removeLayer(marker);
