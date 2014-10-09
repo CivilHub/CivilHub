@@ -28,7 +28,8 @@ function ($, _, Backbone, bootbox) {
         
         className: 'alert',
         
-        template: _.template('<%= message %><button type="button" class="close" \
+        template: _.template('<span class="message-content"><%= message %> \
+            </span><button type="button" class="close" \
             data-dismiss="alert"><span aria-hidden="true">&times;</span> \
             <span class="sr-only">Close</span></button>'),
         
@@ -37,9 +38,14 @@ function ($, _, Backbone, bootbox) {
         },
         
         render: function (msg, lvl) {
+            var that = this;
             this.$el.html(this.template({'message': msg}));
-            this.$el.addClass('alert-' + lvl + ' fade out').fadeIn();
+            this.$el.addClass('alert-' + lvl + ' fade out animate').fadeIn();
             this.setClock();
+            setTimeout(function () {
+                that.$el.removeClass('animate');
+                that.$el.find('.message-content, .close').show(2200);
+            }, 1200);
             return this;
         },
         

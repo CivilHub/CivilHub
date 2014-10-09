@@ -110,7 +110,10 @@ class MyActionsSerializer(serializers.Serializer):
             ct = obj.action_object_content_type
             target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
             if obj.verb == 'commented':
-                return truncatehtml(obj.data['comment'], 140) + ' <a href="' + obj.data['comment_url'] + '">' + _("More") + '</a>'
+                return '{} <a href="{}">{}</a>'.format(
+                                        truncatehtml(obj.data['comment'], 140),
+                                        obj.data['comment_url'], 
+                                        _("More"))
             elif obj.verb == 'voted on':
                 if obj.data['vote']:
                     return '<div class="vote-{}"><a href="{}">{}</a></div>' \

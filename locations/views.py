@@ -147,7 +147,7 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         stream = model_stream(Location).filter(target_content_type_id=content_type)
         try:
             location = Location.objects.get(pk=pk)
-            stream = model_stream(location)
+            stream = stream.filter(target_object_id=location.pk)
             ctid = ContentType.objects.get_for_model(Idea).pk
             vote_actions = [a.pk for a in Action.objects.all() if \
                             hasattr(a.action_object, 'location') and \
