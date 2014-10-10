@@ -110,13 +110,17 @@ class MyActionsSerializer(serializers.Serializer):
             ct = obj.action_object_content_type
             target = ct.get_object_for_this_type(pk=obj.action_object_object_id)
             if obj.verb == 'commented':
-                return truncatehtml(obj.data['comment'], 140) + ' <a href="' + obj.data['comment_url'] + '">' + _("More") + '</a>'
+                return '{} <a href="{}">{}</a>'.format(
+                                        truncatehtml(obj.data['comment'], 140),
+                                        obj.data['comment_url'], 
+                                        _("More"))
             elif obj.verb == 'voted on':
                 if obj.data['vote']:
-                    return '<div class="vote-up">' + _("Voted yes") + '</div>'
+                    return '<div class="vote-{}"><a href="{}">{}</a></div>' \
+                        .format('up', target.get_absolute_url(), _("Voted yes"))
                 else:
-                    return '<div class="vote-down">' + _("Voted no") + '</div>'
-                return obj.data['vote']
+                    return '<div class="vote-{}"><a href="{}">{}</a></div>' \
+                        .format('down', target.get_absolute_url(), _("Voted no"))
             elif ct.model == 'idea':
                 return truncatehtml(target.description, 140)
             elif ct.model == 'location':
@@ -130,7 +134,8 @@ class MyActionsSerializer(serializers.Serializer):
             elif ct.model == 'entry':
                 return truncatehtml(target.content, 140)
             elif ct.model == 'locationgalleryitem':
-                return '<img src="' + target.get_thumbnail((128,128)) + '" />';
+                return '<a href="' + target.get_absolute_url() + '">' + \
+                    '<img src="' + target.get_thumbnail((256,256)) + '" /></a>'
             else:
                 return u''
         except Exception:
@@ -611,10 +616,11 @@ class GalleryItemSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
     name = serializers.CharField()
     description = serializers.CharField()
-    thumbnail = serializers.SerializerMethodField('item_thumbnail')
+    thumbnail = serializers.ImageField()
     picture = serializers.Field(source='url')
     url = serializers.Field(source='get_absolute_url')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
+    preview = serializers.SerializerMethodField('item_thumbnail')
 
     def get_comment_meta(self, obj):
         return {
@@ -623,7 +629,7 @@ class GalleryItemSerializer(serializers.ModelSerializer):
         }
 
     def item_thumbnail(self, obj):
-        return obj.get_thumbnail((128,128))
+        return obj.get_thumbnail((256,256))
 
     class Meta:
         model = LocationGalleryItem

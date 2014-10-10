@@ -21,6 +21,7 @@
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.ico' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
 
 {% hreflang request %}
 
@@ -46,7 +47,7 @@
         faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
     {% endcomment %}
     
-    <script data-main="{% static 'places_core' %}/js/build/locations/default/default-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+    <script data-main="{% static 'places_core' %}/js/build/default/built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
     
 {% endblock %}
 
@@ -76,7 +77,7 @@
 </head>
 <body>
 
-	{% analytical_body_top %}
+    {% analytical_body_top %}
 
     <div id="messages"></div>
     <div id="cookie-msg"></div>

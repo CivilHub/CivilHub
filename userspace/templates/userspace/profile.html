@@ -154,16 +154,7 @@
                             {% endif %}
                         </div>
                         <div class="clear">&nbsp;</div>
-                        <div class="entry-footer">
-                            {% trans "Share" %}:
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=http://civilhub.org" target="Facebook">
-                                <span class="fa fa-facebook">&nbsp;</span>
-                            </a>
-                             
-                            <a href="https://twitter.com/home?status=http://civilhub.org" target="Twitter">
-                                <span class="fa fa-twitter">&nbsp;</span>
-                            </a>
-                        </div>
+                        <div class="entry-footer"></div>
                     </div><!-- // .entry-meta-col -->
                     
                 </div><!-- // .user-action-entry -->
@@ -198,16 +189,7 @@
             </div>
             <div class="entry-body"><%= description %></div>
             <div class="clear">&nbsp;</div>
-            <div class="entry-footer">
-                {% trans "Share" %}: 
-                <% if (!_.isEmpty(object.url)) { %>
-                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + object.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
-                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + object.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-                <% } else if (!_.isEmpty(target.url)) { %>
-                        <a href="#" onClick="Facebook=window.open('https://www.facebook.com/sharer/sharer.php?u=<%= window.location.origin + target.url %>','Facebook','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-facebook">&nbsp;</span> </a>
-                        <a href="#" onClick="Twitter=window.open('https://twitter.com/home?status=<%= window.location.origin + target.url %>','Twitter','toolbar=no,directories=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=450'); return false;"><span class="fa fa-twitter">&nbsp;</span>  </a>
-                <% } %>
-            </div>
+            <div class="entry-footer"></div>
         </div><!-- // .entry-meta-col -->
     </script>
 

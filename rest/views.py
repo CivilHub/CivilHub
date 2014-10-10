@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework import authentication, viewsets, permissions, renderers
 from rest_framework import views as rest_views
@@ -180,7 +181,14 @@ class NewsViewSet(viewsets.ModelViewSet):
         if self.request.QUERY_PARAMS.get('pk'):
             pk = self.request.QUERY_PARAMS.get('pk')
             location = get_object_or_404(Location, pk=pk)
-            newset = News.objects.filter(location=location)
+            cached_qs = cache.get(location.slug + '_newset', None)
+            if cached_qs is None or not settings.USE_CACHE:
+                newset = News.objects \
+                    .filter(location__pk__in=location.get_children_id_list())
+                newset = newset | News.objects.filter(location=location)
+                cache.set(location.slug + '_newset', newset)
+            else:
+                newset = cached_qs
         else:
             newset = News.objects.all()
 
@@ -239,7 +247,14 @@ class PollListViewSet(viewsets.ModelViewSet):
         if self.request.QUERY_PARAMS.get('pk'):
             pk = self.request.QUERY_PARAMS.get('pk')
             location = get_object_or_404(Location, pk=pk)
-            newset = Poll.objects.filter(location=location)
+            cached_qs = cache.get(location.slug+'_polls', None)
+            if cached_qs is None or not settings.USE_CACHE:
+                newset = Poll.objects \
+                    .filter(location__pk__in=location.get_children_ids_list())
+                newset = newset | Poll.objects.filter(location=location)
+                cache.set(location.slug+'_polls', newset)
+            else:
+                newset = cached_qs
         else:
             newset = Poll.objects.all()
 
@@ -400,7 +415,14 @@ class ForumViewSet(viewsets.ModelViewSet):
         if self.request.QUERY_PARAMS.get('pk'):
             pk = self.request.QUERY_PARAMS.get('pk')
             location = get_object_or_404(Location, pk=pk)
-            queryset = Discussion.objects.filter(location=location)
+            cached_qs = cache.get(location.slug + '_forum', None)
+            if cached_qs is None or not settings.USE_CACHE:
+                queryset = Discussion.objects \
+                    .filter(location__pk__in=location.get_children_id_list())
+                queryset = queryset | Discussion.objects.filter(location=location)
+                cache.set(location.slug + '_forum', queryset)
+            else:
+                queryset = cached_qs
         else:
             queryset = Discussion.objects.all()
 
@@ -491,7 +513,14 @@ class IdeaListViewSet(viewsets.ModelViewSet):
         if self.request.QUERY_PARAMS.get('pk'):
             pk = self.request.QUERY_PARAMS.get('pk')
             location = get_object_or_404(Location, pk=pk)
-            queryset = Idea.objects.filter(location=location)
+            cached_qs = cache.get(location.slug + '_ideas', None)
+            if cached_qs is None or not settings.USE_CACHE:
+                queryset = Idea.objects \
+                    .filter(location__pk__in=location.get_children_id_list())
+                queryset = queryset | Idea.objects.filter(location=location)
+                cache.set(location.slug + '_ideas', queryset)
+            else:
+                queryset = cached_qs
         else:
             queryset = Idea.objects.all()
 

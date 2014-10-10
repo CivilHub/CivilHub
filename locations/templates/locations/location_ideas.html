@@ -75,11 +75,11 @@
         
         <div id="idea-list-view"></div>
         
-        <noscript>
+        {% comment %}<noscript>
             {% for idea in ideas %}
                 {% include 'ideas/idea_basic.html' %}
             {% endfor %}
-        </noscript>
+        </noscript>{% endcomment %}
 
         {% include 'locations/category-form.html' %}
         {% include 'ideas/idea-votes.html' %}

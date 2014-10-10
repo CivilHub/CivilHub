@@ -16,7 +16,9 @@
         <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle no-margin"> </span></h1>
         <div class="entry-submenu">
             <ul>{% with poll|content_type as ctype %}
-                {% if map_markers %}<li><a href="#" class="minimap-toggle-button">{% trans "Show on map" %}</a></li>{% endif %}
+                {% if map_markers %}
+                    <li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>
+                {% endif %}
                 <li>{% bookmark_form poll user %}</li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                 {% if user.is_authenticated and user != poll.creator %}

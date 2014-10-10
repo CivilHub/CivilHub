@@ -147,9 +147,9 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'civilhub2',                      
-        'USER': 'django',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'expose',                      
+        'USER': 'expose',
         'PASSWORD': 'civilian14!a',
         'HOST': '172.17.0.4',
         'PORT': 5432,
@@ -223,7 +223,7 @@ SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
 
 SOCIAL_AUTH_FACEBOOK_KEY = '345109858975991'
 SOCIAL_AUTH_FACEBOOK_SECRET = '685c46b205d4aa87deee26826b1ca958'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_birthday']
 
 SOCIAL_AUTH_TWITTER_KEY = 'OMqEsrvkxHgMuwEs4FZWWkr4q'
 SOCIAL_AUTH_TWITTER_SECRET = 'SDlUX3bxzZdjF1quH3VtSDg34XAA8Are8pIU461kVLiRjHn5H8'
@@ -429,6 +429,11 @@ STREAM_PAGINATOR_LIMIT = 25
 USER_GALLERY_LIMIT = 12
 # Limit paginatora dla obrazów w galerii lokalizacji
 PLACE_GALLERY_LIMIT = 12
+
+# Customowe ustawienia dla redisa, wyłącza cache w widokach dla
+# wersji developerskiej.
+USE_CACHE = True
+
 
 RAVEN_CONFIG = {
     'dsn': 'https://bf265529465747a3b571d206b31f8bdd:070be6ed13684671b317e6a9ce053679@app.getsentry.com/29087',

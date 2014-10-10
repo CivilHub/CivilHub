@@ -134,11 +134,9 @@ class CountryJSONStorage(object):
         markers = []
         
         if country_pk:
-            #locations = self.load_locations_(country_pk)
+            locations = self.load_locations_(country_pk)
             pointers  = self.load_file_(country_pk)
-            #markers = pointers + locations
-            # Temporary disable locations on map
-            markers = pointers
+            markers = pointers + locations
 
         for country in Country.objects.all():
             #markers += self.load_locations_(country.pk)

@@ -24,6 +24,7 @@
 <meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script>
 (function () {
@@ -43,16 +44,30 @@
         },
     {% endfor %}
     };
-
-    window.MAP_DATA = {
-        zoom: parseInt({{ zoom }}, 10),
-        lat: parseFloat({{ latitude }}),
-        lng: parseFloat({{ longitude }}),
-        url: '/api-maps/data/?code={{ code }}'
+    
+    window.CIVILAPP = {
+        {% if active_marker %}
+        current: {
+            latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
+            longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
+            object_pk: "{{ active_marker.content_object.pk }}",
+            content_type: "{{ active_marker.content_type.pk }}"
+        },{% endif %}
+        position: {
+            lat: ("{{ position.lat }}").replace(',', '.'),
+            lng: ("{{ position.lng }}").replace(',', '.')
+        },
+        icons: { {% for type in content_types %}
+            {% if type.model in icons %}'{{ type.pk }}': {
+                iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
+                iconSize: [32, 32]
+            },{% endif %}
+        {% endfor %} }
     };
+    
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/build/maps/map-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/maps/main-map/map-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 
 {% include 'places_core/navigation.html' %}
 
@@ -67,14 +82,10 @@
 
 <div id="map-options-panel">
     <div class="content">
-    {% trans "Chose country" %}
+    {% trans "Choose place" %}
         <nav id="country-nav-panel" role="navigation" class="civ-map-controller">
             <form id="country-nav-form">
-                <select name="country" id="country-nav-form-country">
-                    {% for country in countries %}
-                    <option value="{{ country.code }}"{% if country.code == code %} selected="selected"{% endif %}>{{ country.location.name }}</option>
-                    {% endfor %}
-                </select>
+                <input type="text" id="select-location-field" placeholder="{% trans "Search" %}" />
             </form>
         </nav>
     </div>
@@ -93,7 +104,11 @@
     </div>
 </div>
 
-<div id="map"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div>
+<div id="main-map"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div>
+
+
+
+{% comment %} Popup z informacją o użytkowniku. {% endcomment %}
 
 <script type="text/template" id="user-popup-tpl">
     <div class="user-popup-avatar">
@@ -113,7 +128,9 @@
     </div>
 </script>
 
-{% comment %}Szablon dla okienka dialogowego Google Maps{% endcomment %}
+
+
+{% comment %} Szablon dla okienka dialogowego. {% endcomment %}
 
 <script type="text/template" id="map-dialog-tpl">
 <div class="map-dialog <%= window.CONTENT_TYPES[content_type].model %>">
@@ -136,7 +153,10 @@
     </div>
 </div>
 </script>
-{% comment %}Szablon dla okienka dialogowego Google Maps dla lokalizacji{% endcomment %}
+
+
+
+{% comment %} Szablon dla okienka dialogowego dla lokalizacji {% endcomment %}
 
 <script type="text/template" id="loc-dialog-tpl">
 <div class="map-dialog place">
@@ -150,32 +170,18 @@
         </div>
         
         <div class="description">
-            <h4><a href="/<%= slug %>/"><%= name %></a></h4>
-            <p>{% trans "Followers" %}: <%= followers %></p>
+            <h4><a href="<%= url %>"><%= title %></a></h4>
+            {% comment %}<p>{% trans "Followers" %}: <%= followers %></p>
             <p><% if(followed) { %> {% trans "You are following this place" %}
-               <% }else{ %>{% trans "You are not following this place" %} <% } %></p>
+               <% }else{ %>{% trans "You are not following this place" %} <% } %></p>{% endcomment %}
         </div>
     </div>
     
     <div class="go-to">
-        <a href="/<%= slug %>/"><span class="fa fa-chevron-right">&nbsp;</span></a>
+        <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
     </div>
 </div>
 </script>
 
 </body>
 </html>
-{% comment %}   
-<div class="col-sm-2"><img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" style="max-width:100%;margin:10px auto 0px auto;" /></div>
-    <div class="col-sm-10">
-        <h4><a href="<%= url %>"><%= title %></a> (<%= type %>)</h4>
-        <div><%= desc %></div>
-        <div>
-            {% trans "Created" %}
-            <% if (date !== '') { %>
-                 <%= date %> {% trans "ago" %}
-            <% } %>
-            {% trans "by" %} <a href="<%= profile %>"><%= user %></a>
-        </div>
-    </div>
-{% endcomment %}

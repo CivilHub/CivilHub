@@ -89,44 +89,6 @@
                     {% endfor %}
                 </div>
 
-                <noscript>
-                    <div class="discussion-list custom-tablelike">
-                        {% if discussions %}
-                        {% for topic in discussions %}
-                        <div class="topic-list-entry custom-list-entry">
-                            <div class="row">
-                                <div class="col-sm-5 excerpt"><a href="{% url 'locations:topic' place_slug=topic.location.slug slug=topic.slug %}">{{ topic.question | truncatechars:45 }}</a></div>
-                                <div class="col-sm-2 category"><a href="#"><label class="label label-default">{{ topic.category }}</label></a></div>
-                                <div class="col-sm-5">
-                                    <span class="count">{{ topic.entry_set.count }}</span>
-                                    <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator }}" class="user-avatar-minithumb" />
-                                    <a href="{% url 'user:profile' topic.creator %}"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.get_full_name }}</span></a>
-                                    {{ topic.date_created | timesince }}
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                        <div class="pagination">
-                            <span class="step-links">
-                                {% if discussions.has_previous %}
-                                <a href="?page={{ discussions.previous_page_number }}">{% trans "previous" %}</a>
-                                {% endif %}
-
-                                <span class="current">
-                                    {% trans "Page" %} {{ discussions.number }} {% trans "of" %} {{ discussions.paginator.num_pages }}.
-                                </span>
-
-                                {% if discussions.has_next %}
-                                <a href="?page={{ discussions.next_page_number }}">{% trans "next" %}</a>
-                                {% endif %}
-                            </span>
-                        </div>
-                        {% else %}
-                        <p>{% trans "There are no discussions opened yet." %}</p>
-                        {% endif %}
-                    </div>
-                </noscript>
-                
                 {% include 'topics/discussion-list.html' %}
                 
             </div>
