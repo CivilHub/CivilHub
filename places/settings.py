@@ -143,6 +143,8 @@ MESSAGE_TAGS = {
     50: 'danger',
 }
 
+POSTGIS_VERSION = (2,1,3)
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
@@ -151,7 +153,7 @@ DATABASES = {
         'NAME': 'expose',                      
         'USER': 'expose',
         'PASSWORD': 'civilian14!a',
-        'HOST': '172.17.0.4',
+        'HOST': '172.17.0.36',
         'PORT': 5432,
     }
 }
