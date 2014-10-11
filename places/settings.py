@@ -75,6 +75,8 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     # django-activity-stream
     'actstream',
+    # https://github.com/django-pci/django-axes
+    'axes',
     #http://django-taggit.readthedocs.org/en/latest/
     'taggit',
     # geodjango
@@ -125,8 +127,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'places_core.middleware.SubdomainMiddleware',
-    # odkomentować na produkcji - wyświetlanie błędów w social_auth
-    #'places_core.middleware.SocialAuthExceptionMiddleware',
+    'axes.middleware.FailedLoginMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
