@@ -56,59 +56,85 @@ function ($, CivilMap) {
     
     "use strict";
     
-    // Main application controller
-    
-    var app = app || {};
-    
-    _.extend(app, {
+    function getCoords (success) {
         
-        // Create main map application
+        var callback = null;
         
-        application: new CivilMap({
-            elementID: 'main-map',
-            center: [window.CIVILAPP.position.lat, window.CIVILAPP.position.lng]
-        }),
-        
-        // Get map content filters
-        
-        getFilters: function getFilters () {
-            var filters = [], t = '', ct = null;
-            $('.map-filter-toggle').each(function () {
-                if ($(this).is(':checked')) {
-                    t = $(this).attr('data-target');
-                    ct = _.findWhere(window.CONTENT_TYPES, {model: t});
-                    filters.push(ct.content_type);
-                }
-            });
-            return filters;
-        },
-        
-        // Initialize all plugins
-        
-        initialize: function () {
-            $('.map-filter-toggle').change(function () {
-                this.application.setFilters(this.getFilters());
-            }.bind(this));
-            
-            $('.angle-icon-toggle').on('click', function () {
-                $('#map-options-panel').slideToggle('fast');
-            });
-            
-            $('#select-location-field').autocomplete({
-                onSelect: function (locationID) {
-                    app.application.setLocation(locationID);
-                },
-                onClear: function () {
-                    app.application.setLocation(null);
-                    app.application.fetchData();
-                }
-            });
+        if (success !== undefined && typeof(success) === 'function') {
+            callback = success;
+        } else {
+            callback = function (x, y) {console.log(x,y);};
         }
+        
+        var fallback = function () {
+            var x = window.CIVILAPP.position.lat;
+            var y = window.CIVILAPP.position.lng;
+            callback(x, y);
+        };
+        
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var x = position.coords.latitude;
+                var y = position.coords.longitude;
+                callback(x, y);
+            }, function () {
+                fallback();
+            });
+        } else {
+            fallback();
+        }
+    }
+    
+    getCoords(function (lat, lng) {
+        
+        var app = {
+        
+            // Create main map application
+            
+            application: new CivilMap({
+                elementID: 'main-map',
+                center: [lat, lng]
+            }),
+            
+            // Get map content filters
+            
+            getFilters: function getFilters () {
+                var filters = [], t = '', ct = null;
+                $('.map-filter-toggle').each(function () {
+                    if ($(this).is(':checked')) {
+                        t = $(this).attr('data-target');
+                        ct = _.findWhere(window.CONTENT_TYPES, {model: t});
+                        filters.push(ct.content_type);
+                    }
+                });
+                return filters;
+            },
+            
+            // Initialize all plugins
+            
+            initialize: function () {
+                $('.map-filter-toggle').change(function () {
+                    this.application.setFilters(this.getFilters());
+                }.bind(this));
+                
+                $('.angle-icon-toggle').on('click', function () {
+                    $('#map-options-panel').slideToggle('fast');
+                });
+                
+                $('#select-location-field').autocomplete({
+                    onSelect: function (locationID) {
+                        app.application.setLocation(locationID);
+                    },
+                    onClear: function () {
+                        app.application.setLocation(null);
+                        app.application.fetchData();
+                    }
+                });
+            }
+        };
+        
+        app.initialize();
     });
-    
-    app.initialize();
-    
-    window.test = app;
     
     $(document).trigger('load');
     
