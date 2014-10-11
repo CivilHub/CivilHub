@@ -153,7 +153,7 @@ DATABASES = {
         'NAME': 'expose',                      
         'USER': 'expose',
         'PASSWORD': 'civilian14!a',
-        'HOST': '172.17.0.36',
+        'HOST': '172.17.0.38',
         'PORT': 5432,
     }
 }
