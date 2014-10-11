@@ -192,7 +192,7 @@ class PasswordRemindForm(forms.Form):
     """
     email = forms.EmailField(
         label = '',
-        widget = forms.EmailInput(attrs={'class': 'form-control', 'placeHolder': _('Enter your email address')})
+        widget = forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _('Enter your email address'), 'autofocus': 'autofocus'})
     )
 
 
