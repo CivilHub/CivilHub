@@ -629,13 +629,6 @@ def pass_reset(request):
     ctx = {}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
-        
-        # talk to the reCAPTCHA service
-        #~ response = captcha.client.submit(
-            #~ request.POST.get('recaptcha_challenge_field'),
-            #~ request.POST.get('recaptcha_response_field'),
-            #~ settings.RECAPTCHA_PRIVATE_KEY,
-            #~ request.META['REMOTE_ADDR'],)
 
         if f.is_valid:
             try:
@@ -661,7 +654,6 @@ def pass_reset(request):
         else:
             ctx['errors'] = f.errors
 
-    ctx['title'] = _("Reset password")
     ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
 
