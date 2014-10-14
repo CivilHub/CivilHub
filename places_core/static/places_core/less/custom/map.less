@@ -101,13 +101,22 @@
         position: absolute;
         background-color: #fff;
         width: 90%;
-        border-left: 1px solid #adadad;
-        border-right: 1px solid #adadad;
-        border-bottom: 1px solid #adadad;
-        border-top: 1px solid transparent;
         max-height: 300px;
         overflow-x: hidden;
         overflow-y: auto;
+        
+        li {
+            width: 100%;
+            display: block;
+            margin: 0px;
+            padding: 5px;
+            border-left: 1px solid #adadad;
+            border-right: 1px solid #adadad;
+              
+            &:last-of-type {
+                border-bottom: 1px solid #adadad;
+            }
+        }
     }
 }
 

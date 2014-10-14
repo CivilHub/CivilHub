@@ -144,10 +144,10 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'places',                      
-        'USER': 'places',
+        'NAME': 'civilhub',                      
+        'USER': 'civilhub',
         'PASSWORD': '987xyz',
-        'HOST': 'localhost',
+        'HOST': 'postgis',
         'PORT': 5432,
     }
 }
