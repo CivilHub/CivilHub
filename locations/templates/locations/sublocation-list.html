@@ -12,7 +12,7 @@
     <div class="col-lg-3">
         <div class="sublocation">
             <img src="{{ sublocation.get_cropped_image }}" />
-            <div class="sublocation-contetn">
+            <div class="sublocation-content">
                 <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
             </div>
             {% if user not in sublocation.users.all and user.is_authenticated %}
