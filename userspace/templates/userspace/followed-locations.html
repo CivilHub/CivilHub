@@ -1,24 +1,26 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n %}
+
 {% block header %}<center><h1>{% trans "My places" %}</h1></center>{% endblock %}
+
 {% block content %}
 <div class="container sublocations">
-	{% for l in profile.followed_locations %}
-	<div class="col-lg-3">
-        <div class="sublocation" style="width: 270px;">
-			<img src="{{ location.image.url }}"  style="width: 270px; height: 150px;" />
-			<div class="sublocation-contetn">
-				<a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
-			</div>
+    {% for l in profile.followed_locations %}
+    <div class="col-lg-3">
+        <div class="sublocation">
+            <img src="{{ l.get_cropped_image }}" />
+            <div class="sublocation-content">
+                <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
+            </div>
             
-			{% if user not in l.users.all and user.is_authenticated %}
-				<button type="button" class="btn-follow-location" data-location-id="{{ l.pk }}">{% trans "Follow" %}</button>
-			{% else %}
-				<button type="button" class="btn-unfollow-location" data-location-id="{{ l.pk }}">{% trans "You are following" %}</button>
-			{% endif %}
+            {% if user not in l.users.all and user.is_authenticated %}
+                <button type="button" class="btn-follow-location" data-location-id="{{ l.pk }}">{% trans "Follow" %}</button>
+            {% else %}
+                <button type="button" class="btn-unfollow-location" data-location-id="{{ l.pk }}">{% trans "You are following" %}</button>
+            {% endif %}
                 <div class="followers">{{ l.users.count }}</div>
-		</div>
-	</div>
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
