@@ -15,7 +15,7 @@ from actstream.models import model_stream
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
 from gallery.image import resize_background_image, delete_background_image, \
-                           delete_image
+                           delete_image, rename_background_file
 
 
 def get_country_codes():
@@ -92,6 +92,7 @@ class Location(models.Model):
                 orig = Location.objects.get(pk=self.pk)
                 if not u'nowhere' in orig.image.name and orig.image != self.image:
                     delete_image(orig.image.path)
+                    delete_image(rename_background_file(orig.image.path))
             except Location.DoesNotExist:
                 pass
         super(Location, self).save(*args, **kwargs)
@@ -179,6 +180,10 @@ class Location(models.Model):
 
     def get_description(self):
         return self.description
+
+    def get_cropped_image(self):
+        """ Method to get cropped background for list views. """
+        return rename_background_file(self.image.url)
 
     def __unicode__(self):
         return self.name

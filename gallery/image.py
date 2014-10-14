@@ -5,6 +5,19 @@ from PIL import Image
 from django.conf import settings
 
 
+def rename_background_file(filepath, pref="s_"):
+    """
+    Funkcja przyjmuje absolutną ścieżkę systemową do pliku obrazu tła (głównie
+    z myślą o lokalizacjach i użytkownikach) i podstawia nazwę dla przyciętego
+    pliku (prefiks). Prefiks możemy sobie ustawić dowolnie, ale tylko "s_"
+    zadziała później w templatach.
+    
+    TODO: global cropped image prefix.
+    """
+    path, file = os.path.split(filepath)
+    return os.path.join(path, pref + file)
+
+
 def handle_tmp_image(image):
     """
     Funkcja, która pozwala 'obrabiać' zdjęcia zanim zostaną uploadowane i przekazane
@@ -56,6 +69,25 @@ def get_fieldname(instance):
     return fieldname
 
 
+def crop_background(image, pathname):
+    """
+    Crop background images and display them in thumbs. Both arguments are
+    required. Image is PIL image instance (resized and cropped to fit background
+    dimmensions) and pathname means upload path (excluding MEDIA_ROOT, e.g same
+    as in model's field declaration).
+    """
+    max_w, max_h  = (270,150)
+    width, height = image.getdata().size
+    new_width     = int(width * float(max_h)/float(height))
+    startx        = int((new_width - max_w) / 2)
+    
+    image = image.resize((new_width, max_h), Image.ANTIALIAS)
+    box = (startx, 0, startx + max_w, max_h)
+    image = image.crop(box)
+    path = os.path.join(settings.MEDIA_ROOT, rename_background_file(pathname))
+    image.save(path, 'JPEG')
+
+
 def resize_background_image(sender, instance, created, **kwargs):
     """
     Resize background image to fit for sizes defined in settings file. Method
@@ -82,6 +114,7 @@ def resize_background_image(sender, instance, created, **kwargs):
     box = (0, start_y, max_w, stop_y)
     image = image.crop(box)
     image.save(fieldname.path, 'JPEG')
+    crop_background(image, fieldname.name)
 
 
 def delete_background_image(sender, instance, **kwargs):
@@ -95,6 +128,13 @@ def delete_background_image(sender, instance, **kwargs):
 
     if (os.path.isfile(fieldname.path)):
         os.unlink(fieldname.path)
+
+    path, fname = os.path.splitext(fieldname.path)
+    fname = "s_" + str(fname)
+    fpath = os.path.join(path, fname)
+
+    if os.path.isfile(fpath):
+        os.unlink(fpath)
 
 
 def crop_gallery_thumb(sender, instance, **kwargs):
