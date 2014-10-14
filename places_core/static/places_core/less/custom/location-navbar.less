@@ -141,9 +141,14 @@
       line-height: 2em;
       font-size: 18px;
       
-      .fa {
+      a {
+        display: inline-block;
         float: right;
-        line-height: 2em;
+        padding: 3px 10px 0px 0px;
+        
+        &:active, &:hover, &:focus {
+          outline: 0;
+        }
       }
     }
     
