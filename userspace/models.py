@@ -17,7 +17,7 @@ from places_core.helpers import sort_by_locale
 from locations.models import Location
 from actstream.models import following
 from gallery.image import resize_background_image, delete_background_image, \
-                           delete_image
+                           delete_image, rename_background_file
 
 
 def thumbnail(imgname, size):
@@ -91,6 +91,7 @@ class UserProfile(models.Model):
                 orig = UserProfile.objects.get(pk=self.pk)
                 if not u'background.jpg' in orig.background_image.name and orig.background_image != self.background_image:
                     delete_image(orig.background_image.path)
+                    delete_image(rename_background_file(orig.background_image.path))
             except UserProfile.DoesNotExist:
                 pass
         super(UserProfile, self).save(*args, **kwargs)
@@ -113,10 +114,12 @@ class UserProfile(models.Model):
         return my_locations.order_by('users')[:limit]
 
     def followed_locations(self):
-        """
-        Metoda zwraca listę lokalizacji obserwowanych przez użytkownika.
-        """
+        """ Metoda zwraca listę lokalizacji obserwowanych przez użytkownika. """
         return sort_by_locale(following(self.user), lambda x: x.name, get_language())
+
+    def get_cropped_image(self):
+        """ Method to get cropped background for list views. """
+        return rename_background_file(self.background_image.url)
 
     def get_absolute_url(self):
         return reverse('user:profile', kwargs={'username': self.user.username})

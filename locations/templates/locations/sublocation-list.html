@@ -1,14 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
-
-{% comment %}
-    Lista sub-lokalizacji dla aktualnie wybranego miejsca.
-    Jak wszędzie - kod CSS trzeba przenieść do lessów.
-{% endcomment %}
-
-{% block extra_styles %}
-
-{% endblock %}
+{% load staticfiles i18n %}
 
 {% block content %}
 <div class="container sublocations">
@@ -19,8 +10,8 @@
     
     {% for sublocation in sublocations %}
     <div class="col-lg-3">
-        <div class="sublocation" style="width: 270px;">
-            <img src="{{ sublocation.image.url }}"  style="width: 270px; height: 150px;" />
+        <div class="sublocation">
+            <img src="{{ sublocation.get_cropped_image }}" />
             <div class="sublocation-contetn">
                 <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
             </div>
