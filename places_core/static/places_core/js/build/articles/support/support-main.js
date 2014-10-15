@@ -76,6 +76,9 @@ function ($) {
                     .slideUp('fast');
         });
         
+        // If list is empty, ignore
+        if ($sublist.is(':empty')) return false;
+        
         $sublist.slideToggle('fast', function () {
             
             // If there are articles, show first, otherwise expand first category.
