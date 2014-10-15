@@ -1,8 +1,13 @@
 {% extends 'places_core/base.html' %}
 {% load i18n %}{% load staticfiles %}
 
+{% block require_scripts %}
+<script data-main="{% static 'places_core/js/build/articles/support/support-main.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-    {% for article in articles %}
-        <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
-    {% endfor %}
+  <div class="col-sm-3">
+    <ul id="category-menu">{{ menu | safe }}</ul>
+  </div>
+  <div id="article-content" class="col-sm-9"></div>
 {% endblock %}

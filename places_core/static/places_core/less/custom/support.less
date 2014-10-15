@@ -1,0 +1,73 @@
+/*
+ * Help and support stylesheet, including accordion menu.
+ */
+
+#category-menu {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  font-size: 22px;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  
+  a, a:link, a:hover, a:active, a:visited, a:focus {
+    outline: 0;
+    text-decoration: none;
+    
+    &.active {
+      font-weight: bold;
+      color: #007FF2;
+    }
+  }
+  
+  li {
+    display: inline-block;
+    width: 100%;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  
+  >li {
+    line-height: 42px;
+    border-bottom: 1px solid #ccc;
+    
+    a {
+      background-color: ##FFFFFF;
+      padding-left: 10px;
+    }
+  }
+    
+  ul {
+    margin: inherit;
+    padding: inherit;
+    list-style-type: inherit;
+    line-height: 1.5em;
+    
+    &.sublist {
+      display: none;
+      padding-left: 10px;
+      margin-bottom: 15px;
+      
+      &.sub-lvl-1 {
+        font-size: 20px;
+      }
+      
+      &.sub-lvl-2 {
+        font-size: 14px;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+
+#article-content {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  min-height: 600px;
+  margin-bottom: 35px;
+}
