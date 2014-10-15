@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags analytical %}
 
 {% include 'places_core/header.html' %}
 
@@ -6,12 +6,13 @@
 {% block extra_styles %}{% endblock %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/staticpages/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/staticpages/default/built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 </head>
 
 <body class="body-nopd">
+{% analytical_body_top %}
 
 {% include 'staticpages/navigation.html' %}
 
@@ -25,5 +26,6 @@
 
 {% include 'places_core/footer.html' %}
 
+{% analytical_body_bottom %}
 </body>
 </html>

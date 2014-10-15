@@ -1,4 +1,4 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles i18n analytical %}
 
 {% include 'places_core/header.html' %}
 
@@ -48,6 +48,7 @@
 </head>
 
 <body>
+{% analytical_body_top %}
 
 {% include 'places_core/navigation.html' %}
 
@@ -147,5 +148,6 @@
 </div>
 </script>
 
+{% analytical_body_bottom %}
 </body>
 </html>
