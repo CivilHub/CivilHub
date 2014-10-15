@@ -150,7 +150,7 @@ urlpatterns += patterns('',
     #url(r'^values/', PageView.as_view(page='values')),
     #url(r'^creed/', PageView.as_view(page='creed')),
     #url(r'^support/', PageView.as_view(page='support')),
-    #url(r'^feature/', PageView.as_view(page='feature')),
+    url(r'^feature/', PageView.as_view(page='feature')),
     
     # Przykład wykorzystania formularza wyboru języka:
     #url(r'^test/', PageView.as_view(page='test')),

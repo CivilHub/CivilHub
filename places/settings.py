@@ -187,7 +187,7 @@ LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_UID_LENGTH = 255
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/places/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/places/?new_user=true'
 # Custom setting - dla użytkowników Twittera
 SOCIAL_AUTH_SET_TWITTER_EMAIL_URL = '/user/twitter_email/'
 SOCIAL_AUTH_PIPELINE = (
