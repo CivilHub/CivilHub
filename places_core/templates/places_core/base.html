@@ -1,19 +1,7 @@
-{% load staticfiles %} {% load i18n %} {% load civil_tags %}
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
-<meta name="msvalidate.01" content="E0442A02BBB71BAA5B21CC0D8F020ED6" />
-<link rel="icon" type="image/png" href="{% static 'places_core/favicon.ico' %}" />
-<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
-
-{% hreflang request %}
-
+{% load staticfiles i18n civil_tags %}
+    
+{% include 'places_core/header.html' %}
+    
 {% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGI ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block meta %}{% endblock %}
 
@@ -22,10 +10,6 @@
 
 {% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
 {% block extra_styles %}{% endblock %}
-
-<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script>window.STATIC_URL = "{% static 'places_core' %}";</script>
-{% google_data user %}
 
 {% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
 {% block require_scripts %}
@@ -40,36 +24,17 @@
     
 {% endblock %}
 
-{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~ EXTRA JS FILES ~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block extra_scripts %}{% endblock %}
-<link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
-<link rel="apple-touch-icon" sizes="57x57" href="{% static 'places_core/favicons/apple-touch-icon-57x57.png' %}">
-<link rel="apple-touch-icon" sizes="114x114" href="{% static 'places_core/favicons/apple-touch-icon-114x114.png' %}">
-<link rel="apple-touch-icon" sizes="72x72" href="{% static 'places_core/favicons/apple-touch-icon-72x72.png' %}">
-<link rel="apple-touch-icon" sizes="144x144" href="{% static 'places_core/favicons/apple-touch-icon-144x144.png' %}">
-<link rel="apple-touch-icon" sizes="60x60" href="{% static 'places_core/favicons/apple-touch-icon-60x60.png' %}">
-<link rel="apple-touch-icon" sizes="120x120" href="{% static 'places_core/favicons/apple-touch-icon-120x120.png' %}">
-<link rel="apple-touch-icon" sizes="76x76" href="{% static 'places_core/favicons/apple-touch-icon-76x76.png' %}">
-<link rel="apple-touch-icon" sizes="152x152" href="{% static 'places_core/favicons/apple-touch-icon-152x152.png' %}">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-196x196.png' %}" sizes="196x196">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-160x160.png' %}" sizes="160x160">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-96x96.png' %}" sizes="96x96">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-16x16.png' %}" sizes="16x16">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-32x32.png' %}" sizes="32x32">
-<meta name="msapplication-TileColor" content="#2b5797">
-<meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
-<meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
 
 </head>
 <body>
 
-    <div id="messages"></div>
-    <div id="cookie-msg"></div>
+<div id="messages"></div>
+<div id="cookie-msg"></div>
     
-{% comment %}Main page navigation - top navbar{% endcomment %}
 {% include 'places_core/navigation.html' %}
 
-{% comment %}Page content begins here.{% endcomment %}
 <div class="main-page-content wrap">
     
     <div id="messages"></div>
@@ -88,65 +53,29 @@
     
     {% endblock %}
     
-        <div class="container">
+    <div class="container">
+    
+        {% comment %}
+            W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
+            wyszukiwarki. Nadpisywany w szablonie każdego modułu.
+        {% endcomment %}
+        {% block topbar %}{% endblock %}
         
-            {% comment %}
-                W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
-                wyszukiwarki. Nadpisywany w szablonie każdego modułu.
-            {% endcomment %}
-            {% block topbar %}{% endblock %}
-            
-            {% comment %}Główna zawartość strony.{% endcomment %}
-            {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
-            
-            {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
-            {% block sidebar %}{% endblock %}
+        {% comment %}Główna zawartość strony.{% endcomment %}
+        {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+        
+        {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
+        {% block sidebar %}{% endblock %}
 
-        </div>  
+    </div>
     
 </div>
 
 
-    {% include 'places_core/footer.html' %}
-    
+{% include 'places_core/footer.html' %}
 
-{% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
-
-{% if user.is_authenticated %}{% include 'places_core/abuse-window-modal.html' %}{% endif %}
-{% include 'places_core/sublocation-dropdown.html' %}
-
-{% comment %}Dodatkowe skrypty dołączane przed zamknięciem 'body'.{% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~~ FOOTER SCRIPTS ~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block footer_scripts %}{% endblock %}
-
-<script type="text/template" id="user-popup-tpl">
-<div class="user-popup-avatar">
-    <img src="<%= avatar %>" alt="<%= username %>" />
-</div>
-<div class="user-popup-details">
-    <span class="fa fa-times-circle-o user-popup-close"> </span>
-    <p class="user-popup-personals">
-        <a href="<%= user_link %>"><%= fullname %></a><br />
-        <%= rank_pts %> {% trans 'pts' %}
-    </p>
-    <p>
-        <% for (var i = 0; i < follows.length; i++) { %>
-            <%= follows[i].name %>,&nbsp;
-        <% } %>
-    </p>
-</div>
-</script>
-
-{% comment %} ~~~~~~~~~~~~~~~~~~~~~ INTRO ~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
-{% comment %}
-
-    Pomocnik użytkownika - do zrobienia później
-    
-<link rel="stylesheet" type="text/css" href="{% static 'places_core/css/bootstrap-tour.css' %}" />
-<script src="{% static 'places_core/includes/jquery/jquery.js' %}"></script>
-<script src="{% static 'places_core/includes/tour/bootstrap-tour-standalone.js' %}"></script>
-<script src="{% static 'places_core/js/common/tour.js' %}"></script>
-
-{% endcomment %}
 
 </body>
 </html>

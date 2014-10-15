@@ -1,5 +1,5 @@
 {% extends 'staticpages/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
@@ -10,7 +10,7 @@ window.GOOGLE_DATA = {
     id: '{{ plus_id }}'
 }
 </script>
-<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/staticpages/home/home-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -84,7 +84,7 @@ window.GOOGLE_DATA = {
                 <button id="googleplus" type="button" class="google-button" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');">{% trans "Connect with Google+" %}</button>
                     
             </div>
-            <button id="signup_button" type="submit" class="long signup-button"  onClick="ga('send', 'event', 'register-form-home', 'click', 'register-form-home');">{% trans "Sign up" %}</button>
+            <button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
             </br>
 
             <p class="terms">

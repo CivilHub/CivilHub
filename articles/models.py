@@ -44,7 +44,7 @@ class Article(models.Model):
             # Article belongs to other category, not nested to support tree
             else:
                 urlentry = 'articles:{}_entry'.format(self.category.name)
-            return reverse(urlentry, kwargs={'slug':self.slug})
+            return reverse(urlentry.lower(), kwargs={'slug':self.slug})
         # stand-alone article - remember to configure urls properly!!!
         return '/' + self.slug + '/'
 

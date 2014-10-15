@@ -79,7 +79,7 @@ require(['jquery',
          'js/common',
          'js/ui/validate',
          'async!https://apis.google.com/js/plusone.js',
-         'async!https://plus.google.com/js/client:plusone.js?onload=render'],
+         'includes/google/client'],
 
 function ($) {
     

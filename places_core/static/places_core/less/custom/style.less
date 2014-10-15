@@ -1,17 +1,5 @@
 .default-box-shadow {
-  /*
-  background: #c4c4c4;
-  background: -moz-linear-gradient(top,  #c4c4c4 0%, #e9e9e9 5%, #dedede 91%, #ebebeb 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c4c4c4), color-stop(5%,#e9e9e9), color-stop(91%,#dedede), color-stop(100%,#ebebeb));
-  background: -webkit-linear-gradient(top,  #c4c4c4 0%,#e9e9e9 5%,#dedede 91%,#ebebeb 100%);
-  background: -o-linear-gradient(top,  #c4c4c4 0%,#e9e9e9 5%,#dedede 91%,#ebebeb 100%);
-  background: -ms-linear-gradient(top,  #c4c4c4 0%,#e9e9e9 5%,#dedede 91%,#ebebeb 100%);
-  background: linear-gradient(to bottom,  #c4c4c4 0%,#e9e9e9 5%,#dedede 91%,#ebebeb 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4c4c4', endColorstr='#ebebeb',GradientType=0 );
-  */
-  
   border: 1px solid #dedede;
-  
 }
 
 html {
@@ -25,6 +13,10 @@ body {
   height: 100%;
   padding-top: 45px;
   background: #fbfbfb;
+  
+  &.body-nopd {
+    padding-top: 0px;
+  }
 
   font-family: "Open Sans";
   
@@ -46,6 +38,7 @@ body {
   min-height: 100%;
   height: auto;
   /* Negative indent footer by its height */
+  /* WHY??? For god's sake! */
   margin: 0 auto -150px;
   /* Pad bottom by footer height */
   padding: 0 0 150px;
