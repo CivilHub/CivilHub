@@ -1,30 +1,7 @@
 {% load staticfiles %} {% load i18n %}
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
-<link rel="apple-touch-icon" sizes="57x57" href="{% static 'places_core/favicons/apple-touch-icon-57x57.png' %}">
-<link rel="apple-touch-icon" sizes="114x114" href="{% static 'places_core/favicons/apple-touch-icon-114x114.png' %}">
-<link rel="apple-touch-icon" sizes="72x72" href="{% static 'places_core/favicons/apple-touch-icon-72x72.png' %}">
-<link rel="apple-touch-icon" sizes="144x144" href="{% static 'places_core/favicons/apple-touch-icon-144x144.png' %}">
-<link rel="apple-touch-icon" sizes="60x60" href="{% static 'places_core/favicons/apple-touch-icon-60x60.png' %}">
-<link rel="apple-touch-icon" sizes="120x120" href="{% static 'places_core/favicons/apple-touch-icon-120x120.png' %}">
-<link rel="apple-touch-icon" sizes="76x76" href="{% static 'places_core/favicons/apple-touch-icon-76x76.png' %}">
-<link rel="apple-touch-icon" sizes="152x152" href="{% static 'places_core/favicons/apple-touch-icon-152x152.png' %}">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-196x196.png' %}" sizes="196x196">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-160x160.png' %}" sizes="160x160">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-96x96.png' %}" sizes="96x96">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-16x16.png' %}" sizes="16x16">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-32x32.png' %}" sizes="32x32">
-<meta name="msapplication-TileColor" content="#2b5797">
-<meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
-<meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
-<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-<link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
+
+{% include 'places_core/header.html' %}
+
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script>
 (function () {
@@ -68,6 +45,9 @@
 })();
 </script>
 <script data-main="{% static 'places_core' %}/js/build/maps/main-map/map-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+</head>
+
+<body>
 
 {% include 'places_core/navigation.html' %}
 
@@ -110,23 +90,7 @@
 
 {% comment %} Popup z informacją o użytkowniku. {% endcomment %}
 
-<script type="text/template" id="user-popup-tpl">
-    <div class="user-popup-avatar">
-        <img src="<%= avatar %>" alt="<%= username %>" />
-    </div>
-    <div class="user-popup-details">
-        <span class="fa fa-times-circle-o user-popup-close"> </span>
-        <p class="user-popup-personals">
-            <a href="<%= user_link %>"><%= fullname %></a><br />
-            <%= rank_pts %> {% trans 'pts' %}
-        </p>
-        <p>
-            <% for (var i = 0; i < follows.length; i++) { %>
-                <%= follows[i] %>,&nbsp;
-            <% } %>
-        </p>
-    </div>
-</script>
+{% include 'places_core/user-popup.html' %}
 
 
 

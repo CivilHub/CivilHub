@@ -1,77 +1,17 @@
-{% load staticfiles %}{% load i18n %}{% load analytical %}{% load civil_tags %}
-<!DOCTYPE html>
-{% get_current_language as LANG %}
-<html lang="{{ LANG }}" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
-<head>
-<!-- Google Analytics Content Experiment code -->
-<script>function utmx_section(){}function utmx(){}(function(){var
-k='86760154-1',d=document,l=d.location,c=d.cookie;
-if(l.search.indexOf('utm_expid='+k)>0)return;
-function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
-indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
-length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
-'<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
-'://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
-'&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
-valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
-'" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-</script><script>utmx('url','A/B');</script>
-<!-- End of Google Analytics Content Experiment code -->
+{% load staticfiles i18n civil_tags %}
 
-{% analytical_head_top %}
-<meta charset="utf-8">
-<meta property="og:title" content="CivilHub" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://civilhub.org" />
-<meta property="og:image" content="https://civilhub.org/places_core/favicons/favicon-196x196.png " />
-<meta property="og:site_name" content="CivilHub" />
-<meta property="fb:app_id" content="345109858975991" />
-<meta name="description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-
-<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
-<meta name="msvalidate.01" content="E0442A02BBB71BAA5B21CC0D8F020ED6" />
-<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
-<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-
-{% hreflang request %}
+{% include 'places_core/header.html' %}
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
 
-<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script>window.STATIC_URL = "{% static 'places_core' %}"</script>
-
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/staticpages/default/main-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/build/staticpages/default/main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
-<link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
-<link rel="apple-touch-icon" sizes="57x57" href="{% static 'places_core/favicons/apple-touch-icon-57x57.png' %}">
-<link rel="apple-touch-icon" sizes="114x114" href="{% static 'places_core/favicons/apple-touch-icon-114x114.png' %}">
-<link rel="apple-touch-icon" sizes="72x72" href="{% static 'places_core/favicons/apple-touch-icon-72x72.png' %}">
-<link rel="apple-touch-icon" sizes="144x144" href="{% static 'places_core/favicons/apple-touch-icon-144x144.png' %}">
-<link rel="apple-touch-icon" sizes="60x60" href="{% static 'places_core/favicons/apple-touch-icon-60x60.png' %}">
-<link rel="apple-touch-icon" sizes="120x120" href="{% static 'places_core/favicons/apple-touch-icon-120x120.png' %}">
-<link rel="apple-touch-icon" sizes="76x76" href="{% static 'places_core/favicons/apple-touch-icon-76x76.png' %}">
-<link rel="apple-touch-icon" sizes="152x152" href="{% static 'places_core/favicons/apple-touch-icon-152x152.png' %}">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-196x196.png' %}" sizes="196x196">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-160x160.png' %}" sizes="160x160">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-96x96.png' %}" sizes="96x96">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-16x16.png' %}" sizes="16x16">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-32x32.png' %}" sizes="32x32">
-<meta name="msapplication-TileColor" content="#2b5797">
-<meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
-<meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
-
-{% analytical_head_bottom %}
 </head>
 
-<body style="padding-top: 0;">
-{% analytical_body_top %}
+<body class="body-nopd">
 
 {% include 'staticpages/navigation.html' %}
 
@@ -83,31 +23,7 @@ valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 {% endblock %}
 </div>
 
-
-{% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
-{% if user.is_authenticated %}{% include 'places_core/abuse-window-modal.html' %}{% endif %}
-{% include 'places_core/sublocation-dropdown.html' %}
-<script type="text/template" id="user-popup-tpl">
-<div class="user-popup-avatar">
-    <img src="<%= avatar %>" alt="<%= username %>" />
-</div>
-<div class="user-popup-details">
-    <span class="fa fa-times-circle-o user-popup-close"> </span>
-    <p class="user-popup-personals">
-        <a href="<%= user_link %>"><%= fullname %></a><br />
-        <%= rank_pts %> {% trans 'pts' %}
-    </p>
-    <p>
-        <% for (var i = 0; i < follows.length; i++) { %>
-            <%= follows[i].name %>,&nbsp;
-        <% } %>
-    </p>
-</div>
-</script>
-
-
 {% include 'places_core/footer.html' %}
 
-{% analytical_body_bottom %}
 </body>
 </html>

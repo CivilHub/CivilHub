@@ -3,7 +3,6 @@ from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns('',
-    url(r'^tester/', views.TopLevelArticleView.as_view(article_slug='tester'), name='tester'),
     url(r'^contact/', views.TopLevelArticleView.as_view(article_slug='contact'), name='contact'),
     url(r'^cookies/', views.TopLevelArticleView.as_view(article_slug='cookies'), name='cookies'),
     url(r'^privacy/', views.TopLevelArticleView.as_view(article_slug='privacy'), name='privacy'),

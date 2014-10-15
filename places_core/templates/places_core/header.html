@@ -1,33 +1,47 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles i18n civil_tags analytical %}
 <!DOCTYPE html>
-<html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
+{% analytical_head_top %}
 <meta charset="utf-8">
 <title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
+<meta name="msvalidate.01" content="E0442A02BBB71BAA5B21CC0D8F020ED6" />
+<meta property="og:title" content="CivilHub" />
+<meta property="og:type" content="community" />
+<meta property="og:url" content="https://civilhub.org" />
+<meta property="og:image" content="{% static 'places_core/favicons/favicon-196x196.png' %}" />
+<meta property="og:site_name" content="CivilHub" />
+<meta property="fb:app_id" content="345109858975991" />
+<meta name="description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
-
-{% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
-{% block extra_styles %}{% endblock %}
+<link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
+<link rel="apple-touch-icon" sizes="57x57" href="{% static 'places_core/favicons/apple-touch-icon-57x57.png' %}">
+<link rel="apple-touch-icon" sizes="114x114" href="{% static 'places_core/favicons/apple-touch-icon-114x114.png' %}">
+<link rel="apple-touch-icon" sizes="72x72" href="{% static 'places_core/favicons/apple-touch-icon-72x72.png' %}">
+<link rel="apple-touch-icon" sizes="144x144" href="{% static 'places_core/favicons/apple-touch-icon-144x144.png' %}">
+<link rel="apple-touch-icon" sizes="60x60" href="{% static 'places_core/favicons/apple-touch-icon-60x60.png' %}">
+<link rel="apple-touch-icon" sizes="120x120" href="{% static 'places_core/favicons/apple-touch-icon-120x120.png' %}">
+<link rel="apple-touch-icon" sizes="76x76" href="{% static 'places_core/favicons/apple-touch-icon-76x76.png' %}">
+<link rel="apple-touch-icon" sizes="152x152" href="{% static 'places_core/favicons/apple-touch-icon-152x152.png' %}">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-196x196.png' %}" sizes="196x196">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-160x160.png' %}" sizes="160x160">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-96x96.png' %}" sizes="96x96">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-16x16.png' %}" sizes="16x16">
+<link rel="icon" type="image/png" href="{% static 'places_core/favicons/favicon-32x32.png' %}" sizes="32x32">
+<meta name="msapplication-TileColor" content="#2b5797">
+<meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
+<meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
 
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script src="{% static 'places_core/includes/require/require.js' %}"></script>
+<script>window.STATIC_URL = "{% static 'places_core' %}";</script>
+{% google_data user %}
 
-{% comment %}
-    W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
-    i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
-    faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
-{% endcomment %}
+{% hreflang request %}
 
-{% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/locations/default/default-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
-{% endblock %}
-
-{% comment %}Dodatkowe skrypty do załączenia globalnie.{% endcomment %}
-{% block extra_scripts %}{% endblock %}
-</head>
-<body>
-    
-    <div id="messages"></div>
+{% analytical_head_bottom %}
