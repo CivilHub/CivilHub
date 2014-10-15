@@ -1,43 +1,38 @@
 {% load staticfiles i18n civil_tags %}
 
-{% comment %}
-    Universal footer template. Made mainly to hold underscore templates.
-{% endcomment %}
-
+{% comment %} Po co to? {% endcomment %}
 <div class="clear"></div>
+
 <div class="footer">
+{% comment %} Po co to? Nie może być class="footer container"??? {% endcomment %}
 <div class="container">
     <div class="row">
     
         <div class="col-md-5 left-side">
-            
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Press" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
-
         </div>
-    
 
         <div class="col-md-2">
             <a href="/"><img src="{% static "places_core/img/logo-footer.png" %}" alt="CivilHub" /></a>
         </div>
     
-    
         <div class="col-md-5 right-side">
-            
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Support" %}</a>
             <a href="{% url 'articles:blog' %}" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
             <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
-
         </div>
     
     </div>
+    
     <div class="row  share-buttons">
+        
         <div class="col-md-3">        
             <div id="lang-selector">
             {% get_current_language as LANG %}
@@ -47,14 +42,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
         
-
-        <!-- Twitter -->
+        <div class="col-md-8">
+            <!-- Twitter -->
             <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-        
-        <!-- Facebook -->
+            
+            <!-- Facebook -->
             <script>(function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) return;
@@ -63,8 +57,8 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
             <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-        
-        <!-- Google 1+ -->
+            
+            <!-- Google 1+ -->
             <div class="g-plusone"></div>
             <script type="text/javascript">
               window.___gcfg = {lang: 'pl'};
@@ -77,9 +71,10 @@
             </script>
 
         </div>
-    </div>
+        
+    </div><!-- /.row -->
     
-</div>
+</div><!-- /.container -->
 
 {% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
 
@@ -87,4 +82,4 @@
 {% include 'places_core/sublocation-dropdown.html' %}
 {% include 'places_core/user-popup.html' %}
 
-</div>
+</div><!-- /.footer -->

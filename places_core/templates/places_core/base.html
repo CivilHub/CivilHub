@@ -39,12 +39,6 @@
     
     <div id="messages"></div>
     
-    {% comment %}
-        W bloku header zostawiłem miejsce dla nagłówka lokalizacji - banner
-        ze zdjęciem, ścieżka lokalizacji oraz drugie menu poniżej banneru mają
-        swoje miejsce tutaj.
-    {% endcomment %}
-    
     {% block header %}
     
         <div class="container">
@@ -55,16 +49,10 @@
     
     <div class="container">
     
-        {% comment %}
-            W tym bloku znajduje się menu z filtrami wyszukiwania oraz formularzem
-            wyszukiwarki. Nadpisywany w szablonie każdego modułu.
-        {% endcomment %}
         {% block topbar %}{% endblock %}
         
-        {% comment %}Główna zawartość strony.{% endcomment %}
-        {% block content %}<p class="custom-booklike">Lorem ipsum dolor sit amet.</p>{% endblock %}
+        {% block content %}{% endblock %}
         
-        {% comment %}Sidebar dla podstron lokalizacji - czyli menu po prawej.{% endcomment %}
         {% block sidebar %}{% endblock %}
 
     </div>
