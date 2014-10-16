@@ -8,8 +8,7 @@ class Category(MPTTModel):
     """ Nested category model. """
     name = models.CharField(max_length=64)
     description = models.TextField(null=True, blank=True)
-    parent = TreeForeignKey('self', null=True, blank=True,
-                            related_name='subcategories')
+    parent = TreeForeignKey('self', null=True, blank=True, related_name='subcategories')
 
     class MPTTMeta:
         order_insertion_by = ['name']
