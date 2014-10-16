@@ -1,0 +1,34 @@
+{% load i18n staticfiles %}
+
+<script>
+var signInCallback = function (result) {
+    if (result['error']) {
+        console.log('An error happened:', result['error']);
+    } else {
+        document.getElementById('code').value = result['code'];
+        document.getElementById('at').value = result['access_token'];
+        document.getElementById('google-plus').submit();
+    }
+};
+
+/* Executed when the APIs finish loading */
+function render() {
+    // Additional params including the callback, the rest of the params will
+    // come from the page-level configuration.
+    var additionalParams = {
+        'scope': window.GOOGLE_DATA.scope,
+        'clientid': window.GOOGLE_DATA.id,
+        'accesstype': 'offline',
+        'cookiepolicy': 'single_host_origin',
+        'callback': 'signInCallback'
+    };
+
+    // Attach a click listener to a button to trigger the flow.
+    var signinButton = document.getElementById('googleplus');
+    signinButton.addEventListener('click', function() {
+        gapi.auth.signIn(additionalParams); // Will use page level configuration
+    });
+}
+</script>
+<script src="https://apis.google.com/js/plusone.js" async="true"></script>
+<script src="https://plus.google.com/js/client:plusone.js?onload=render" async="true"></script>
