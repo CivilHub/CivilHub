@@ -404,7 +404,7 @@ USE_CACHE = False
 
 CITIES_FILES = {
     'city': {
-        'filename': 'cities1000.zip',
+        'filename': 'cities15000.zip',
     }
 }
 

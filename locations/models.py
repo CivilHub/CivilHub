@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import operator, os, json
 from uuid import uuid4
+from slugify import slugify
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.template.defaultfilters import slugify
 from django.utils.translation import get_language
 from actstream.models import model_stream
 # Override system storage: 
@@ -47,11 +47,19 @@ class LocationLocaleManager(models.Manager):
 
 
 class Location(models.Model):
-    """
-    Basic location model
-    """
+    """ Basic location model. """
+    OBJ_TYPES = (
+        ('country', 'Country'),
+        ('region', 'Region'),
+        ('subregion', 'Subregion'),
+        ('district', 'District'),
+        ('city', 'City')
+    )
+    
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
+    # Helps with relation to django-cities models
+    geo_type = models.CharField(max_length=24, choices=OBJ_TYPES, default='city')
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
@@ -76,25 +84,24 @@ class Location(models.Model):
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
         # Generujemy odpowiedni slug
-        if not self.pk:
-            to_slug_entry = self.name
-            chk = Location.objects.filter(slug=slugify(self.name))
+        if not self.slug:
+            to_slug_entry = slugify('-'.join([self.name, self.country_code]))
+            chk = Location.objects.filter(slug=to_slug_entry)
             if len(chk) > 0:
                 mod = len(chk)
-                to_slug_entry = slugify(self.name + '-' + str(mod))
+                to_slug_entry = to_slug_entry + '-' + str(mod)
                 while Location.objects.filter(slug=to_slug_entry).count():
                     mod += 1
-                    to_slug_entry = slugify(self.name + '-' + str(mod))
+                    to_slug_entry = to_slug_entry + '-' + str(mod)
             self.slug = slugify(to_slug_entry)
-        else:
-            # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
-            try:
-                orig = Location.objects.get(pk=self.pk)
-                if not u'nowhere' in orig.image.name and orig.image != self.image:
-                    delete_image(orig.image.path)
-                    delete_image(rename_background_file(orig.image.path))
-            except Location.DoesNotExist:
-                pass
+        # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
+        try:
+            orig = Location.objects.get(pk=self.pk)
+            if not u'nowhere' in orig.image.name and orig.image != self.image:
+                delete_image(orig.image.path)
+                delete_image(rename_background_file(orig.image.path))
+        except Location.DoesNotExist:
+            pass
         super(Location, self).save(*args, **kwargs)
 
     def get_parent_chain(self, parents=None, response='JSON'):
