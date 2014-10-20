@@ -400,3 +400,11 @@ PLACE_GALLERY_LIMIT = 12
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
 USE_CACHE = False
+
+
+CITIES_FILES = {
+    'city': {
+        'filename': 'cities1000.zip',
+    }
+}
+
