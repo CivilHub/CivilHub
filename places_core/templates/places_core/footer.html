@@ -1,19 +1,17 @@
 {% load staticfiles i18n civil_tags %}
 
-{% comment %} Po co to? {% endcomment %}
 <div class="clear"></div>
 
 <div class="footer">
-{% comment %} Po co to? Nie może być class="footer container"??? {% endcomment %}
 <div class="container">
     <div class="row">
     
         <div class="col-md-5 left-side">
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Press" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Privacy Policy" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Terms of Use" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Cookies" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Press" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Jobs" %}</a>
         </div>
 
         <div class="col-md-2">
@@ -21,12 +19,12 @@
         </div>
     
         <div class="col-md-5 right-side">
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Support" %}</a>
-            <a href="{% url 'articles:blog' %}" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
-            <a href="#" class="custom-tooltip" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Feature" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Support" %}</a>
+            <a href="{% url 'articles:blog' %}" title="{% trans "Soon" %}">{% trans "Blog" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Creed" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "About Us" %}</a>
+            <a href="#" title="{% trans "Soon" %}">{% trans "Contact" %}</a>
         </div>
     
     </div>

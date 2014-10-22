@@ -48,18 +48,8 @@ class LocationLocaleManager(models.Manager):
 
 class Location(models.Model):
     """ Basic location model. """
-    OBJ_TYPES = (
-        ('country', 'Country'),
-        ('region', 'Region'),
-        ('subregion', 'Subregion'),
-        ('district', 'District'),
-        ('city', 'City')
-    )
-    
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
-    # Helps with relation to django-cities models
-    geo_type = models.CharField(max_length=24, choices=OBJ_TYPES, default='city')
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)

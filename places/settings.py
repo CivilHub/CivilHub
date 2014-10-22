@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     # Core program modules
     'places_core', # for common templates and static files
     'geobase',     # Kraje, języki i wszystko, co powiązane z mapą
+    'geonames',    # To, co powinno być w powyższym, tylko dobrze
     'userspace',   # panel użytkownika
     'locations',   # główny moduł obsługujący lokalizacje
     'ideas',       # Pomysły - core funkcjonalności

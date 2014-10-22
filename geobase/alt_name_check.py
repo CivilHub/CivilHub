@@ -67,4 +67,3 @@ def import_names():
             ndata = decode_entry(line)
             if ndata is not None:
                 create_name_entry(ndata)
-
