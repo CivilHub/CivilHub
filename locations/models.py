@@ -14,6 +14,7 @@ from actstream.models import model_stream
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
+from geonames.models import AltName
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -36,6 +37,15 @@ def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
+class AlterLocationName(models.Model):
+    """ Simple model to hold location name translations. """
+    altername = models.CharField(max_length=200)
+    language = models.CharField(max_length=2)
+
+    def __unicode__(self):
+        return self.altername
+
+
 class LocationLocaleManager(models.Manager):
     """
     Manager umożliwiający porządkowanie lokalizacji alfabetycznie z uwzględnieniem
@@ -43,7 +53,7 @@ class LocationLocaleManager(models.Manager):
     """
     def get_queryset(self):
         return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
-                                lambda x: x.name, get_language())
+                                lambda x: x.__unicode__(), get_language())
 
 
 class Location(models.Model):
@@ -53,6 +63,7 @@ class Location(models.Model):
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    names     = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames')
     creator   = models.ForeignKey(User, blank=True, related_name='created_locations')
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
@@ -106,7 +117,7 @@ class Location(models.Model):
             if response == 'JSON':
                 parents.append({
                     'pk'  : self.parent.pk,
-                    'name': self.parent.name,
+                    'name': self.parent.__unicode__(),
                     'url' : self.parent.get_absolute_url(),
                 })
             else:
@@ -126,7 +137,7 @@ class Location(models.Model):
         for a in self.location_set.all():
             if response == 'JSON':
                 ancestors.append({
-                    'name': a.name,
+                    'name': a.__unicode__(),
                     'url' : a.get_absolute_url(),
                 })
             else:
@@ -183,7 +194,12 @@ class Location(models.Model):
         return rename_background_file(self.image.url)
 
     def __unicode__(self):
-        return self.name
+        lang = get_language().split('-')[0]
+        alt = self.names.filter(language=lang)
+        if not len(alt):
+            return self.name
+        else:
+            return alt[0].altername
 
 
 from maps.signals import create_marker

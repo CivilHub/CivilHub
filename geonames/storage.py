@@ -128,7 +128,7 @@ def import_admin_code(entry):
         logging.info("Admin code object saved: %s", entry[3].replace('\n', ''))
     except Exception as ex:
         logging.error("Error importing Admin code: %s - %s",
-                      entry[3].replace('\n', ''), ex.strerror)
+                      entry[3].replace('\n', ''), repr(ex))
 
 
 def import_alt_name(entry):
@@ -167,4 +167,4 @@ def import_alt_name(entry):
                              unicode(entry[3]).encode('utf-8'))
     except Exception as ex:
         logging.error("Error importing Alternate name: %s - %s",
-                      unicode(entry[3]).encode('utf-8'), ex.strerror)
+                      unicode(entry[3]).encode('utf-8'), repr(ex))

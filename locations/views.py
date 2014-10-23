@@ -228,7 +228,7 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
                     queryset = cached_qs
             except Location.DoesNotExist:
                 queryset = Location.objects.all()
-            return sort_by_locale(queryset, lambda x: x.name,
+            return sort_by_locale(queryset, lambda x: x.__unicode__(),
                                     translation.get_language())
         return sort_by_locale(Location.objects.all(), lambda x: x.name,
                                 translation.get_language())

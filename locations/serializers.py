@@ -31,7 +31,7 @@ class LocationListSerializer(serializers.ModelSerializer):
     odnośnik bezpośredni i podstawowe informacje.
     """
     id = serializers.Field(source='pk')
-    name = serializers.CharField(max_length=64)
+    name = serializers.Field(source='__unicode__')
     slug = serializers.SlugField(max_length=64)
     followed = serializers.SerializerMethodField('check_followed')
 

@@ -25,7 +25,7 @@
         <li class="breaker"><a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></li>
         {% endfor %}
         <li class="active">
-            <a href="{{ location.get_absolute_url }}">{{ location.name }}</a>
+            <a href="{{ location.get_absolute_url }}">{{ location }}</a>
         </li>
         {% if location.location_set.count %}
         <li class="last-element">
