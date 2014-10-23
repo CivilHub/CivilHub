@@ -86,15 +86,15 @@ class Location(models.Model):
         self.description = sanitizeHtml(self.description)
         # Generujemy odpowiedni slug
         if not self.slug:
-            slug = slugify('-'.join([self.name, self.country_code]))
-            chk = Location.objects.filter(slug=slug)
+            slug_entry = slugify('-'.join([self.name, self.country_code]))
+            chk = Location.objects.filter(slug=slug_entry)
             if len(chk) > 0:
                 mod = len(chk)
-                to_slug_entry = slug + '-' + str(mod)
-                while Location.objects.filter(slug=to_slug_entry).count():
-                    mod += 1
-                    to_slug_entry = slug + '-' + str(mod)
-            self.slug = slugify(to_slug_entry)
+                to_slug_entry = slug_entry + '-' + str(mod)
+                while Location.objects.filter(slug_entry=to_slug_entry).count():
+                    to_slug_entry = slug_entry + '-' + str(mod+1)
+                slug_entry = to_slug_entry
+            self.slug = slug_entry
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         try:
             orig = Location.objects.get(pk=self.pk)
