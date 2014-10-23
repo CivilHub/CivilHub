@@ -9,11 +9,11 @@ admin = User.objects.get(pk=1)
 def load_region_data(region, r_location):
     """
     This function takes AdminCode model instance as argument and creates city
-    objects for entire region, excluding city districts. Additianally function
+    objects for entire region, excluding city districts. Additionally function
     takes location made based on region as argument to pass as parent for
     created cities.
     """
-    city = GeoName.objects.filter(admin1=region.code)
+    city = GeoName.objects.filter(admin1=region.code, country=region.country)
     # Country capital region
     main = city.filter(feature_code='PPLC')
     # Regular admin region (e.g. state or voivodeship)

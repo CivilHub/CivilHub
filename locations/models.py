@@ -48,8 +48,8 @@ class LocationLocaleManager(models.Manager):
 
 class Location(models.Model):
     """ Basic location model. """
-    name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, unique=True)
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
@@ -58,7 +58,7 @@ class Location(models.Model):
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    country_code = models.CharField(max_length=2,
+    country_code = models.CharField(max_length=200,
                                     choices=get_country_codes())
     image     = models.ImageField(
         upload_to = get_upload_path,
