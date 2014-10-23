@@ -22,3 +22,17 @@ class Country(models.Model):
 
     def __unicode__(self):
         return self.code
+
+
+class LanguageCode(models.Model):
+    """
+    Kody językowe ISO pobrane z bazy geonames. Umożliwią nam identyfikowanie
+    języków i kojarzenie ich z językami zarejestrowanymi w Django w trakcie
+    importu. Model przechowuje tylko języki z grupy podstawowej, tzn. posiadające
+    dwuliterowe kody ISO-639-1, z innych nie korzystamy.
+    """
+    iso_code = models.CharField(max_length=2)
+    name = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.name

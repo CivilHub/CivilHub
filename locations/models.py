@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 import operator, os, json
 from uuid import uuid4
+from slugify import slugify
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.template.defaultfilters import slugify
 from django.utils.translation import get_language
 from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
+from geonames.models import AltName
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -36,6 +37,15 @@ def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
+class AlterLocationName(models.Model):
+    """ Simple model to hold location name translations. """
+    altername = models.CharField(max_length=200)
+    language = models.CharField(max_length=2)
+
+    def __unicode__(self):
+        return self.altername
+
+
 class LocationLocaleManager(models.Manager):
     """
     Manager umożliwiający porządkowanie lokalizacji alfabetycznie z uwzględnieniem
@@ -43,24 +53,23 @@ class LocationLocaleManager(models.Manager):
     """
     def get_queryset(self):
         return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
-                                lambda x: x.name, get_language())
+                                lambda x: x.__unicode__(), get_language())
 
 
 class Location(models.Model):
-    """
-    Basic location model
-    """
-    name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, unique=True)
+    """ Basic location model. """
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(max_length=10000, blank=True)
     latitude  = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+    names     = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames')
     creator   = models.ForeignKey(User, blank=True, related_name='created_locations')
     users     = models.ManyToManyField(User, blank=True)
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    country_code = models.CharField(max_length=2,
+    country_code = models.CharField(max_length=200,
                                     choices=get_country_codes())
     image     = models.ImageField(
         upload_to = get_upload_path,
@@ -76,25 +85,24 @@ class Location(models.Model):
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
         # Generujemy odpowiedni slug
-        if not self.pk:
-            to_slug_entry = self.name
-            chk = Location.objects.filter(slug=slugify(self.name))
+        if not self.slug:
+            slug = slugify('-'.join([self.name, self.country_code]))
+            chk = Location.objects.filter(slug=slug)
             if len(chk) > 0:
                 mod = len(chk)
-                to_slug_entry = slugify(self.name + '-' + str(mod))
+                to_slug_entry = slug + '-' + str(mod)
                 while Location.objects.filter(slug=to_slug_entry).count():
                     mod += 1
-                    to_slug_entry = slugify(self.name + '-' + str(mod))
+                    to_slug_entry = slug + '-' + str(mod)
             self.slug = slugify(to_slug_entry)
-        else:
-            # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
-            try:
-                orig = Location.objects.get(pk=self.pk)
-                if not u'nowhere' in orig.image.name and orig.image != self.image:
-                    delete_image(orig.image.path)
-                    delete_image(rename_background_file(orig.image.path))
-            except Location.DoesNotExist:
-                pass
+        # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
+        try:
+            orig = Location.objects.get(pk=self.pk)
+            if not u'nowhere' in orig.image.name and orig.image != self.image:
+                delete_image(orig.image.path)
+                delete_image(rename_background_file(orig.image.path))
+        except Location.DoesNotExist:
+            pass
         super(Location, self).save(*args, **kwargs)
 
     def get_parent_chain(self, parents=None, response='JSON'):
@@ -109,7 +117,7 @@ class Location(models.Model):
             if response == 'JSON':
                 parents.append({
                     'pk'  : self.parent.pk,
-                    'name': self.parent.name,
+                    'name': self.parent.__unicode__(),
                     'url' : self.parent.get_absolute_url(),
                 })
             else:
@@ -129,7 +137,7 @@ class Location(models.Model):
         for a in self.location_set.all():
             if response == 'JSON':
                 ancestors.append({
-                    'name': a.name,
+                    'name': a.__unicode__(),
                     'url' : a.get_absolute_url(),
                 })
             else:
@@ -186,7 +194,12 @@ class Location(models.Model):
         return rename_background_file(self.image.url)
 
     def __unicode__(self):
-        return self.name
+        lang = get_language().split('-')[0]
+        alt = self.names.filter(language=lang)
+        if not len(alt):
+            return self.name
+        else:
+            return alt[0].altername
 
 
 from maps.signals import create_marker

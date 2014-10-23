@@ -23,9 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
 
-#~ RECAPTCHA_PUBLIC_KEY = '6LdNLPQSAAAAAIUZQ14Atth5VBL45JwN-8_G0BiU'
-#~ RECAPTCHA_PRIVATE_KEY = '98dfg6df7g56df6gdfgdfg65JHJH656565GFGFGs'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -46,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    # https://github.com/coderholic/django-cities
     'cities',
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
@@ -56,15 +54,10 @@ INSTALLED_APPS = (
     'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
-    # https://github.com/praekelt/django-recaptcha
-    #'captcha',
     # https://github.com/SmileyChris/easy-thumbnails
     'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
-    # https://github.com/thoas/django-discussions
-    # disabled because of problems with south migrations.
-    #'discussions',
     # http://www.django-rest-framework.org
     'rest_framework',
     'rest_framework.authtoken',
@@ -84,22 +77,22 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     # Core program modules
     'places_core', # for common templates and static files
-    'geobase',  # Kraje, języki i wszystko, co powiązane z mapą
-    'userspace',# panel użytkownika
-    'locations',
-    'ideas',     
-    'blog',
-    'polls',
-    'rest',     # out for django rest framework
-    'topics',   # custom forum app
-    'comments', # custom comments app (using mptt)
-    'gallery',  # user media app
-    'south',    # Database migrations
-    'maps',     # Custom app for Google Maps
+    'geobase',     # Kraje, języki i wszystko, co powiązane z mapą
+    'geonames',    # To, co powinno być w powyższym, tylko dobrze
+    'userspace',   # panel użytkownika
+    'locations',   # główny moduł obsługujący lokalizacje
+    'ideas',       # Pomysły - core funkcjonalności
+    'blog',        # sekcja News dla lokacji
+    'polls',       # ankiety tworzone przez użytkowników
+    'rest',        # out for django rest framework
+    'topics',      # custom forum app
+    'comments',    # custom comments app (using mptt)
+    'gallery',     # user media app
+    'south',       # Database migrations
+    'maps',        # Custom app for Open Street Maps
     'staticpages', # Statyczne strony
-    'civmail',  # Newsletter i obsługa maili
-    'articles', # Statyczne artykuły - support etc.
-    #'import_export',
+    'civmail',     # Newsletter i obsługa maili
+    'articles',    # Statyczne artykuły - support etc.
     'raven.contrib.django.raven_compat',
     'analytical',
 )
@@ -160,6 +153,7 @@ DATABASES = {
     }
 }
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -181,14 +175,8 @@ HAYSTACK_CONNECTIONS = {
 # Authentication and python-social-auth settings
 AUTHENTICATION_BACKENDS = (
     'social.backends.google.GooglePlusAuth',
-    #'social.backends.open_id.OpenIdAuth',
-    #'social.backends.google.GoogleOpenId',
-    #'social.backends.google.GoogleOAuth2',
-    #'social.backends.google.GoogleOAuth',
     'social.backends.twitter.TwitterOAuth',
     'social.backends.facebook.FacebookOAuth2',
-    #'social.backends.twitter.Facebook2OAuth2',
-    #'social.backends.yahoo.YahooOpenId',
     'social.backends.linkedin.LinkedinOAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -447,3 +435,11 @@ SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 #Analitical
 CLICKY_SITE_ID = '100769640'
+
+
+CITIES_FILES = {
+    'city': {
+        'filename': 'cities1000.zip',
+    }
+}
+
