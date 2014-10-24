@@ -68,8 +68,7 @@ class Location(models.Model):
     parent    = models.ForeignKey('Location', blank=True, null=True)
     population= models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    country_code = models.CharField(max_length=200,
-                                    choices=get_country_codes())
+    country_code = models.CharField(max_length=10)
     image     = models.ImageField(
         upload_to = get_upload_path,
         default = 'img/locations/nowhere.jpg'

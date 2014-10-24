@@ -380,7 +380,7 @@ URL_ATTRS = ['href','src',]
 
 # GeoIP settings
 #-------------------------------------------------------------------------------
-GEOIP_PATH = os.path.join(BASE_DIR, 'geobase', 'data')
+GEOIP_PATH = os.path.join(BASE_DIR, 'geonames', 'data')
 GEOIP_COUNTRY = 'GeoIP.dat'
 GEOIP_CITY = 'GeoLiteCity.dat'
 
