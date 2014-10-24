@@ -13,6 +13,23 @@ logging.basicConfig(filename=os.path.join(settings.BASE_DIR, 'logs', 'django.log
                    level=logging.INFO)
 
 
+def get_translation(geonameid, country_code):
+    """ Get native translations for geo name objects. """
+    translation = None
+    try:
+        c = CountryInfo.objects.get(code=country_code)
+        lang = c.languages.split(',')[0].split('-')[0]
+    except CountryInfo.DoesNotExist:
+        lang = None
+    if lang is not None:
+        try:
+            translation = AltName.objects.filter(geonameid=geonameid, language=lang)
+            translation = translation[0].altername
+        except IndexError:
+            translation = None
+    return translation
+
+
 def load_region_data(region, r_location):
     """
     This function takes AdminCode model instance as argument and creates city
@@ -39,9 +56,11 @@ def load_region_data(region, r_location):
             pass
 
         try:
+            trans = get_translation(c.pk, region.country)
+            if trans is None: trans = c.name
             nl = Location.objects.create(
                 id = c.pk,
-                name      = c.name,
+                name      = trans,
                 creator   = admin,
                 parent    = r_location,
                 latitude  = c.latitude,
@@ -66,11 +85,13 @@ def load_country_data(code):
     # Create location for country
     try:
         l = Location.objects.get(pk=country_info.pk)
-        logging.info("Location already exists: %s. Skipping", chk.name)
-    except Location.DoesNotExist:        
+        logging.info("Location already exists: %s. Skipping", l.name)
+    except Location.DoesNotExist:
+        trans = get_translation(country_info.pk, code)
+        if trans is None: trans = country_info.name
         l = Location.objects.create(
             id = country_info.pk,
-            name = country_info.name,
+            name = trans,
             country_code = country_info.code,
             creator = admin,
             population = country_info.population
@@ -79,14 +100,21 @@ def load_country_data(code):
         logging.info("Created country location: %s", l.name)
     # Create location for every admin area and load cities
     for region in regions_info:
-        nl = Location.objects.create(
-            id = region.pk,
-            name = region.name,
-            country_code = country_info.code,
-            parent = l,
-            creator = admin
-        )
-        nl.save()
+        try:
+            nl = Location.objects.get(pk=region.pk)
+            logging.info("Region already exists: %s. Skipping.", nl.name)
+        except Location.DoesNotExist:
+            trans = get_translation(region.pk, region.country)
+            if trans is None: trans = region.name
+            nl = Location.objects.create(
+                id = region.pk,
+                name = trans,
+                country_code = country_info.code,
+                parent = l,
+                creator = admin
+            )
+            nl.save()
+            logging.info("Created region location: %s", nl.name)
         load_region_data(region, nl)
 
 
