@@ -91,14 +91,22 @@ function ($, _, Backbone, utils, PageableView) {
 
             render: function () {
                 var self = this;
-                this.$el.empty();
-                this.$el.html(this.template(this.collection.state));
-                this.collection.each(function (item) {
-                    this.renderEntry(item);
-                }, this);
-                this.$el.find('.page').on('click', function () {
-                    self.getPage(parseInt($(this).attr('data-index'), 10));
-                });
+                if (this.collection.length > 0) {
+                    // It seems that we have something to show
+                    $('.content-container').addClass('main-content');
+                    this.$el.empty();
+                    this.$el.html(this.template(this.collection.state));
+                    this.collection.each(function (item) {
+                        this.renderEntry(item);
+                    }, this);
+                    this.$el.find('.page').on('click', function () {
+                        self.getPage(parseInt($(this).attr('data-index'), 10));
+                    });
+                } else {
+                    // Show info that there are no items
+                    $('.content-container').hide();
+                    $('.no-entries').show();
+                }
             },
 
             renderEntry: function (item) {

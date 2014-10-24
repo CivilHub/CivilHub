@@ -66,8 +66,7 @@
 
 {% block content %}
 
-{% if news %}
-    <div class="col-sm-9 main-content">
+    <div class="col-sm-9 content-container">
 
         <div id="entries"></div>
 
@@ -109,8 +108,7 @@
             {% include 'blog/news_list.html' %}
     </div>
     
-{% else %}
-    <div class="col-sm-9 no-entries">
+    <div class="col-sm-9 no-entries" style="display:none">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any news" %} {% trans "in" %} {{ location.name }}.<br /> 
@@ -122,7 +120,6 @@
             {% endif %}{% trans "add first news" %}</a>.
         </h2>
     </div>
-{% endif %}
 
     {% include 'locations/category-form.html' %}
 

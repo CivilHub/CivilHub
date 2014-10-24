@@ -70,8 +70,7 @@
 
 {% block content %}
 
-{% if ideas %}
-    <div class="col-sm-8 main-content">
+    <div class="col-sm-8 content-container">
         
         <div id="idea-list-view"></div>
         
@@ -86,8 +85,7 @@
             
     </div>
 
-{% else %}
-    <div class="col-sm-8 no-entries">
+    <div class="col-sm-8 no-entries" style="display:none;">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any ideas" %} {% trans "in" %} {{ location.name }}.<br /> 
@@ -99,7 +97,6 @@
             {% endif %}{% trans "add first idea" %}</a>.
         </h2>
     </div>
-{% endif %}
 
     <div class="col-sm-4">
         {% include 'locations/sidebar.html' %}
