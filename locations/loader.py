@@ -109,16 +109,8 @@ def load_translation_data(location_pk=None):
                     altername = a.altername,
                     language = a.language,
                 )
-                try:
-                    country = CountryInfo.objects.get(code=l.country_code)
-                    lang = country.languages.split(',')[0].split('-')[0]
-                except CountryInfo.DoesNotExist:
-                    lang = None
-                if lang is not None and lang == a.language:
-                    l.name = a.altername
-                else:
-                    alt_name.save()
-                    l.names.add(alt_name)
+                alt_name.save()
+                l.names.add(alt_name)
                 l.save()
                 logging.info("Created translation %s for %s",
                              alt_name.language, l.pk)
