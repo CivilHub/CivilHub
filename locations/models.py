@@ -14,7 +14,6 @@ from actstream.models import model_stream
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
-from geonames.models import AltName
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -86,15 +85,11 @@ class Location(models.Model):
         self.description = sanitizeHtml(self.description)
         # Generujemy odpowiedni slug
         if not self.slug:
-            to_slug_entry = slugify('-'.join([self.name, self.country_code]))
-            chk = Location.objects.filter(slug=to_slug_entry)
-            if len(chk) > 0:
-                mod = len(chk)
-                to_slug_entry = to_slug_entry + '-' + str(mod)
-                while Location.objects.filter(slug=to_slug_entry).count():
-                    mod += 1
-                    to_slug_entry = to_slug_entry + '-' + str(mod)
-            self.slug = slugify(to_slug_entry)
+            slug_entry = slugify('-'.join([self.name, self.country_code]))
+            chk = Location.objects.filter(slug__icontains=slug_entry).count()
+            if chk:
+                slug_entry = slug_entry + '-' + str(chk)
+            self.slug = slug_entry
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         try:
             orig = Location.objects.get(pk=self.pk)
