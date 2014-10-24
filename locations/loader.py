@@ -65,7 +65,7 @@ def load_country_data(code):
     regions_info = AdminCode.objects.filter(country=code)
     # Create location for country
     try:
-        chk = Location.objects.get(pk=country_info.pk)
+        l = Location.objects.get(pk=country_info.pk)
         logging.info("Location already exists: %s. Skipping", chk.name)
     except Location.DoesNotExist:        
         l = Location.objects.create(
