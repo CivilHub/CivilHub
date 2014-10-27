@@ -16,6 +16,7 @@ router.register('locations', LocationAPIViewSet, 'locations')
 router.register('markers', LocationMapViewSet, 'markers')
 router.register('actions', LocationActionsRestViewSet, 'actions')
 router.register('sublocations', SublocationAPIViewSet, 'sublocations')
+router.register('countries', CountryAPIViewSet, 'countries')
 router.add_api_view('follow', url(r'^follow/$', LocationFollowAPIView.as_view(), name='follow'))
 
 urlpatterns = patterns('',

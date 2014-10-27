@@ -9,11 +9,10 @@ from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from blog.models import News
 from blog.models import Category as BlogCategory
-from locations.models import Location, get_country_codes
+from locations.models import Location, Country
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from haystack.forms import SearchForm
-from geobase.models import Country
 from places_core.forms import BootstrapBaseForm
 
 

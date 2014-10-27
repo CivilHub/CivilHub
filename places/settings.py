@@ -43,8 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # https://github.com/coderholic/django-cities
-    'cities',
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
@@ -77,7 +75,6 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     # Core program modules
     'places_core', # for common templates and static files
-    'geobase',     # Kraje, języki i wszystko, co powiązane z mapą
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
     'userspace',   # panel użytkownika
     'locations',   # główny moduł obsługujący lokalizacje

@@ -99,7 +99,7 @@ function ($, ColView) {
             return false;
         }
         // Sprawdzamy, czy kraj jest już w bazie. Jeżeli tak, otwieramy listę.
-        $.get('/api-geo/countries/?code=' + code, function (resp) {
+        $.get('/api-locations/countries/?code=' + code, function (resp) {
             if (resp.length) {
                 // Bezwzględnie koniecznie jako pierwszy argument podajemy
                 // pustą tabelę - Backbone zawsze traktuje pierwszy argument
