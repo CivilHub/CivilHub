@@ -2,7 +2,7 @@ import os, logging
 from django.conf import settings
 from django.contrib.auth.models import User
 from geonames.models import *
-from .models import Location, AlterLocationName
+from .models import *
 
 # Let's work as superuser :)
 admin = User.objects.get(pk=1)
