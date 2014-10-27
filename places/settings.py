@@ -402,10 +402,3 @@ PLACE_GALLERY_LIMIT = 12
 # wersji developerskiej.
 USE_CACHE = False
 
-
-CITIES_FILES = {
-    'city': {
-        'filename': 'cities15000.zip',
-    }
-}
-
