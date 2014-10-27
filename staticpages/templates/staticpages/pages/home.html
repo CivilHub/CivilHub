@@ -75,7 +75,7 @@ window.GOOGLE_DATA = {
                 <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
                 <div>
   
-                <button type="button" class="facebook-button" onclick="location.href='/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');">Connect with Facebook</button>
+                <button type="button" class="facebook-button" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');">Connect with Facebook</button>
                     
                 <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');">{% trans "Connect with Twitter" %}</button>
                     
@@ -84,7 +84,7 @@ window.GOOGLE_DATA = {
                 <button id="googleplus" type="button" class="google-button" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');">{% trans "Connect with Google+" %}</button>
                     
             </div>
-            <button id="signup_button" type="submit" class="long signup-button"  onClick="ga('send', 'event', 'register-form-home', 'click', 'register-form-home');">{% trans "Sign up" %}</button>
+            <button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
             </br>
 
             <p class="terms">
@@ -235,13 +235,6 @@ window.GOOGLE_DATA = {
     
 </div>
 
+{% include 'places_core/google-login.html' %}
 
-
-{% comment %}
-    <ul>
-    {% for page in pages %}
-        <li><a href="{{ page.url }}">{{ page.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% endcomment %}
 {% endblock %}
