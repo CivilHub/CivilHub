@@ -98,6 +98,14 @@ def load_country_data(code):
         )
         l.save()
         logging.info("Created country location: %s", l.name)
+    # Create related country instance
+    try:
+        l_country = Country.objects.get(location=l)
+        logging.info("Related country already exists: %s. Skipping", l.name)
+    except Country.DoesNotExist:
+        l_country = Country.objects.create(code=code, location=l)
+        l_country.save()
+        logging.info("Created related country: %s", l.name)
     # Create location for every admin area and load cities
     for region in regions_info:
         try:
