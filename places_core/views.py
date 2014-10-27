@@ -134,3 +134,9 @@ class CreateAbuseReport(CreateView):
 def report_sent(request):
     ctx = {'title': _('Report sent')}
     return render(request, 'places_core/report-sent.html', ctx)
+
+
+# Testujemy django-easy-pdf
+from easy_pdf.views import PDFTemplateView
+class HelloPDFView(PDFTemplateView):
+    template_name = 'places_core/hello.html'
