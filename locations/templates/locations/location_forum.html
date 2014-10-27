@@ -73,11 +73,11 @@
 </div>
 
 <div class="container">
-    {% if discussions %}
-    <div class="col-sm-9 main-content">
+    
+    <div class="col-sm-9 content-container">
         
             <div class="discussion-list-entry">
-                <div class="custom-label-list">
+                <div class="custom-label-list" style="display:none;">
                     <span class="fa fa-list custom-fa"> </span>
                     <span class="custom-label-entry custom-main-label-entry">
                         <a href="#" class="list-controller" data-target="all" data-control="category">{% trans "All channels" %}</a>
@@ -97,8 +97,7 @@
     
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />
 
-    {% else %}
-    <div class="col-sm-9 no-entries">
+    <div class="col-sm-9 no-entries" style="display:none;">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location.name }}.<br /> 
@@ -110,7 +109,6 @@
             {% endif %}{% trans "add first discussion" %}</a>.
         </h2>
     </div>
-    {% endif %}
     
     {% include 'locations/category-form.html' %}
 

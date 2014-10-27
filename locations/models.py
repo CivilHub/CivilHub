@@ -18,20 +18,6 @@ from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
 
-def get_country_codes():
-    """
-    Funkcja, która odczytuje plik .json przechowujący kody państ przyporząd-
-    kowane do ich nazw i zwraca je w postaci listy.
-    """
-    f = open(os.path.join(settings.BASE_DIR, 'geobase/data/codes.json'))
-    data = json.loads(f.read())
-    f.close()
-    codes = []
-    for row in data:
-        codes.append((row['code'], row['name']))
-    return codes
-
-
 def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
 
@@ -60,21 +46,17 @@ class Location(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     description = models.TextField(max_length=10000, blank=True)
-    latitude  = models.FloatField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    names     = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames')
-    creator   = models.ForeignKey(User, blank=True, related_name='created_locations')
-    users     = models.ManyToManyField(User, blank=True)
-    parent    = models.ForeignKey('Location', blank=True, null=True)
-    population= models.IntegerField(blank=True, null=True)
+    names = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames')
+    creator = models.ForeignKey(User, blank=True, related_name='created_locations')
+    users = models.ManyToManyField(User, blank=True)
+    parent = models.ForeignKey('Location', blank=True, null=True)
+    population = models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    country_code = models.CharField(max_length=200,
-                                    choices=get_country_codes())
-    image     = models.ImageField(
-        upload_to = get_upload_path,
-        default = 'img/locations/nowhere.jpg'
-    )
-    
+    country_code = models.CharField(max_length=10)
+    image = models.ImageField(upload_to = get_upload_path, default = 'img/locations/nowhere.jpg')
+    # custom managers
     objects = models.Manager()
     locale_sorted = LocationLocaleManager()
     
@@ -142,7 +124,7 @@ class Location(models.Model):
         return ancestors
 
     def get_children_id_list(self, ids=None):
-        """ Returns all sublocations for this location. """
+        """ Returns all id's of sublocations for this location. """
         if ids == None: ids = []
         for a in self.location_set.all():
             ids.append(a.pk)
@@ -195,6 +177,15 @@ class Location(models.Model):
             return self.name
         else:
             return alt[0].altername
+
+
+class Country(models.Model):
+    """ """
+    code = models.CharField(max_length=2)
+    location = models.OneToOneField(Location, related_name='country')
+
+    def __unicode__(self):
+        return self.code
 
 
 from maps.signals import create_marker

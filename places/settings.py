@@ -43,8 +43,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # https://github.com/coderholic/django-cities
-    'cities',
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
@@ -77,7 +75,6 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     # Core program modules
     'places_core', # for common templates and static files
-    'geobase',     # Kraje, języki i wszystko, co powiązane z mapą
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
     'userspace',   # panel użytkownika
     'locations',   # główny moduł obsługujący lokalizacje
@@ -115,7 +112,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -403,7 +402,7 @@ URL_ATTRS = ['href','src',]
 
 # GeoIP settings
 #-------------------------------------------------------------------------------
-GEOIP_PATH = os.path.join(BASE_DIR, 'geobase', 'data')
+GEOIP_PATH = os.path.join(BASE_DIR, 'geonames', 'data')
 GEOIP_COUNTRY = 'GeoIP.dat'
 GEOIP_CITY = 'GeoLiteCity.dat'
 
@@ -435,11 +434,4 @@ SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 #Analitical
 CLICKY_SITE_ID = '100769640'
-
-
-CITIES_FILES = {
-    'city': {
-        'filename': 'cities1000.zip',
-    }
-}
 

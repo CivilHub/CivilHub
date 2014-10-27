@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from django.utils.translation import gettext as _
 from django.contrib.contenttypes.models import ContentType
-from .models import Location
+from .models import Location, Country
 
 
 class MapLocationSerializer(serializers.ModelSerializer):
@@ -44,3 +44,13 @@ class LocationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
         fields = ('id', 'name', 'slug', 'followed',)
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    """
+    Serializer umożliwiający łatwiejsze namierzanie lokalizacji użytkownika.
+    Dla aplikacji mobilnej raczej bardziej przydatne będą natywne funkcje
+    geolokacji, ale dla porządku to też puszczam przez REST.
+    """
+    class Meta:
+        model = Country

@@ -250,7 +250,7 @@ class PollListViewSet(viewsets.ModelViewSet):
             cached_qs = cache.get(location.slug+'_polls', None)
             if cached_qs is None or not settings.USE_CACHE:
                 newset = Poll.objects \
-                    .filter(location__pk__in=location.get_children_ids_list())
+                    .filter(location__pk__in=location.get_children_id_list())
                 newset = newset | Poll.objects.filter(location=location)
                 cache.set(location.slug+'_polls', newset)
             else:

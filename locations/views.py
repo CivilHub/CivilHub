@@ -30,7 +30,7 @@ from civmail import messages as mails
 from maps.models import MapPointer
 from gallery.forms import BackgroundForm
 from forms import *
-from models import Location
+from models import Location, Country
 from .links import LINKS_MAP as links
 # Use our mixin to allow only some users make actions
 from places_core.mixins import LoginRequiredMixin
@@ -46,9 +46,9 @@ from rest_framework.views import APIView
 from rest_framework import permissions as rest_permissions
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from geobase.models import Country
 from locations.serializers import MapLocationSerializer
-from .serializers import SimpleLocationSerializer, LocationListSerializer
+from .serializers import SimpleLocationSerializer, LocationListSerializer, \
+                          CountrySerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
@@ -120,6 +120,25 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(location)
         serializer.data['followed'] = request.user in location.users.all()
         return Response(serializer.data)
+
+
+class CountryAPIViewSet(viewsets.ModelViewSet):
+    """
+    Tutaj kojarzymy kod państwa z GeoIP z naszym modelem lokalizacji. Model
+    przechowuje informacje o startowej lokalizacji i powiększeniu mapy etc.
+    Domyślnie prezentowana jest lista wszystkich państw w bazie. Umożliwia
+    wyszukiwanie na podstawie country code (np. ?code=pl).
+    """
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
+    paginate_by = None
+    permission_classes = (rest_permissions.DjangoModelPermissionsOrAnonReadOnly,)
+
+    def get_queryset(self):
+        code = self.request.QUERY_PARAMS.get('code') or None
+        if code:
+            return Country.objects.filter(code=code.upper())
+        return Country.objects.all()
 
 
 class LocationActionsRestViewSet(viewsets.ViewSet):
