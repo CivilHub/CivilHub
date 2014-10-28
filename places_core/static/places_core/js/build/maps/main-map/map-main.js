@@ -93,7 +93,8 @@ function ($, CivilMap) {
             
             application: new CivilMap({
                 elementID: 'main-map',
-                center: [lat, lng]
+                center: [lat, lng],
+                mapTailURL: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
             }),
             
             // Get map content filters
@@ -134,6 +135,8 @@ function ($, CivilMap) {
         };
         
         app.initialize();
+        
+        window.test = app;
     });
     
     $(document).trigger('load');

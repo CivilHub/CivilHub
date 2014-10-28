@@ -55,13 +55,29 @@ class Location(models.Model):
     population = models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     country_code = models.CharField(max_length=10)
-    image = models.ImageField(upload_to = get_upload_path, default = 'img/locations/nowhere.jpg')
+    image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg')
+    # Tutaj oznaczamy regiony/miasta/stolice itp. oznaczeniami z geonames
+    kind = models.CharField(max_length=10)
     # custom managers
     objects = models.Manager()
     locale_sorted = LocationLocaleManager()
     
     class Meta:
         ordering = ['name',]
+
+    def count_objects(self, content_types=None):
+        """
+        Count all objects related to this location (sublocations and content).
+        """
+        subs = self.get_children_id_list()
+        count = len(subs)
+        for s in subs:
+            l = Location.objects.get(pk=s)
+            count += l.idea_set.count()
+            count += l.discussion_set.count()
+            count += l.poll_set.count()
+            count += l.news_set.count()
+        return count
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)

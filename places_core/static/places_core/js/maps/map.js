@@ -21,6 +21,8 @@ function ($, _, L) {
         apiURL: '/api-maps/data/',
         // URL to fetch info about specific object
         infoURL: '/api-maps/objects/',
+        // URL dla map tails
+        mapTailURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         // Minimalne zbliżenie, przy jakim pokazujemy pojedyncze markery:
         minZoom: 10,
         // Maksymalne możliwe zbliżenie - ze względu na openmaps
@@ -38,6 +40,8 @@ function ($, _, L) {
     var Map = function (options) {
         // Array to hold marker so we have some hooks to manipulate them
         this.markers = [];
+        // Array to hold cluster markers
+        this.clusters = [];
         // Array of content types to fetch with every API request
         this.filters = [];
         // Fetch only data related to this location
@@ -45,6 +49,10 @@ function ($, _, L) {
         this.opts = $.extend(defaults, options);
         this.initialize();
         this.map.on('zoomend dragend', function () {
+            this.fetchData();
+        }.bind(this));
+        this.map.on('zoomend', function () {
+            this.clearClusters();
             this.fetchData();
         }.bind(this));
         // Fetch starting point if zoom is big enough
@@ -58,7 +66,7 @@ function ($, _, L) {
     Map.prototype.initialize = function () {
         this.map = L.map(this.opts.elementID)
                     .setView(this.opts.center, this.opts.startZoom);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer(this.opts.mapTailURL, {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom
         }).addTo(this.map);
@@ -92,7 +100,9 @@ function ($, _, L) {
         // Clear markers on zoom-out
         if (mapData.zoom < this.opts.minZoom) {
             this.clearMarkers();
-            return false;
+            //return false;
+        } else {
+            this.clearClusters();
         }
         $.get(this.opts.apiURL, mapData, function (response) {
             this.updateMarkers(response);
@@ -107,7 +117,11 @@ function ($, _, L) {
         var indexes = [];
         // Create new markers
         _.each(markers, function (item, idx) {
-            this.addMarker(item);
+            if (this.map.getZoom() >= this.opts.minZoom) {
+                this.addMarker(item);
+            } else {
+                this.addCluster(item);
+            }
         }, this);
         // Find markers that are no longer available
         _.each(this.markers, function (marker) {
@@ -124,6 +138,43 @@ function ($, _, L) {
             this.map.removeLayer(marker);
             this.markers.splice(this.markers.indexOf(marker), 1);
         }, this);
+    };
+    
+    // Place new cluster on map
+    //
+    // @param item { object } Cluster object fetched from server
+    
+    Map.prototype.addCluster = function (item) {
+        var cluster = L.marker([item.lat, item.lng], {
+            icon: L.divIcon({
+                className: 'count-icon',
+                html: item.counter,
+                iconSize: [40, 40]
+            })
+        });
+        var latlng = L.latLng(item.lat, item.lng);
+        
+        // Check if cluster already exists
+        var chk = _.find(this.clusters, function (cluster) {
+            return cluster.getLatLng().equals(latlng);
+        });
+        if (!_.isUndefined(chk)) return false;
+        
+        this.map.addLayer(cluster);
+        this.clusters.push(cluster);
+        
+        cluster.on('click', function () {
+            this.map.setView(cluster.getLatLng(), 10);
+        }.bind(this));
+    };
+    
+    // Destroy entire clusters array
+    
+    Map.prototype.clearClusters = function () {
+        _.each(this.clusters, function (cluster) {
+            this.map.removeLayer(cluster);
+        }, this);
+        this.clusters = [];
     };
     
     // Place new marker on map
