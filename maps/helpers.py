@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from locations.models import Location
+from django.contrib.contenttypes.models import ContentType
+from locations.models import Country, Location
 from .models import MapPointer
 
 def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
@@ -31,3 +32,47 @@ def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
         queryset = queryset.filter(content_type__in=filters)
 
     return queryset
+
+
+def create_region_clusters(lat, lng, filters=None):
+    clusters = []
+    max_lat = float(lat) + 10.0
+    max_lng = float(lng) + 10.0
+    min_lat = float(lat) - 10.0
+    min_lng = float(lng) - 10.0
+    main_locations = Location.objects.filter(kind__in=['PPLA','PPLC'], latitude__gt=min_lat, latitude__lt=max_lat, longitude__gt=min_lng, longitude__lt=max_lng)
+    for l in main_locations:
+        cluster = {
+            'lat': l.latitude,
+            'lng': l.longitude,
+            'counter': MapPointer.objects.filter(location__in=l.parent.get_children_id_list()).count(),
+        }
+        clusters.append(cluster)
+    return clusters
+
+
+def create_country_clusters(filters=None):
+    clusters = []
+    main_locations = Country.objects.all()
+    for c in main_locations:
+        l = Location.objects.get(country_code=c.code, kind='PPLC')
+        cluster = {
+            'lat': l.latitude,
+            'lng': l.longitude,
+            'counter': MapPointer.objects.filter(location__in=c.location.get_children_id_list()).count(),
+        }
+        clusters.append(cluster)
+    return clusters
+
+
+def create_clusters(lat, lng, zoom, filters=None):
+    """
+    Crate clusters for map when zoom is less then 10. As above, this function
+    takes latitude, longitude and map zoom level as argments and returns array
+    of marker positions along with number of items in requested region.
+    """
+    zoom = int(zoom)
+    if zoom >= 6:
+        return create_region_clusters(lat, lng, filters)
+    else:
+        return create_country_clusters(filters)

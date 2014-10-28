@@ -14,6 +14,13 @@ class MapPointerSerializer(serializers.ModelSerializer):
         exclude = ('id',)
 
 
+class MapClusterSerializer(serializers.Serializer):
+    """ Serializer for clusters. """
+    lat = serializers.FloatField()
+    lng = serializers.FloatField()
+    counter = serializers.IntegerField()
+
+
 class MapObjectSerializer(serializers.ModelSerializer):
     """
     This serializer takes map pointer and related object and presents

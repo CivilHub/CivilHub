@@ -6,11 +6,12 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.geoip import GeoIP
 from ipware.ip import get_ip
 from models import MapPointer
-from helpers import filter_markers
+from helpers import filter_markers, create_clusters
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import MapPointerSerializer, MapObjectSerializer
+from .serializers import MapPointerSerializer, MapObjectSerializer, \
+                          MapClusterSerializer
 
 
 # API views
@@ -76,6 +77,7 @@ class MapDataViewSet(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
+        import json
         lat  = self.request.QUERY_PARAMS.get('lat', None)
         lng  = self.request.QUERY_PARAMS.get('lng', None)
         zoom = self.request.QUERY_PARAMS.get('zoom', None)
@@ -89,9 +91,10 @@ class MapDataViewSet(APIView):
                 serializer = MapPointerSerializer(markers, many=True)
                 context = serializer.data
 
-            elif int(zoom) > 3:
-                markers = filter_markers(lat, lng, 10, filters, location).count()
-                context = {'count': markers}
+            else:
+                clusters = create_clusters(lat, lng, zoom)
+                serializer = MapClusterSerializer(clusters, many=True)
+                context = serializer.data
 
         else:
             context = {'count': MapPointer.objects.count()}
