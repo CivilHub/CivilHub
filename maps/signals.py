@@ -7,6 +7,8 @@ from .helpers import create_country_clusters
 
 def update_marker_cache(sender, instance, **kwargs):
     """
+    Update cached pointer objects for map every time new map pointer is created.
+    This way we can use redis-server as database with quick access.
     """
     count = MapPointer.objects.filter(
         location__in=instance.location.parent.get_children_id_list()).count()
@@ -17,15 +19,16 @@ def update_marker_cache(sender, instance, **kwargs):
 def create_marker(sender, instance, created, **kwargs):
     """ Create map marker for new model instance. """
     if created and instance.latitude and instance.longitude:
+        # Check if created object is location itself:
+        if isinstance(instance, Location):
+            location = instance
+        elif hasattr(instance, 'location'):
+            location = instance.location
+
         mp = MapPointer.objects.create(content_object = instance,
                                        latitude = instance.latitude,
-                                       longitude = instance.longitude)
-
-        if isinstance(instance, Location):
-            mp.location = instance
-        elif hasattr(instance, 'location'):
-            mp.location = instance.location
-
+                                       longitude = instance.longitude,
+                                       location = location)
         mp.save()
 
 

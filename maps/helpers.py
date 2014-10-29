@@ -4,6 +4,20 @@ from django.contrib.contenttypes.models import ContentType
 from locations.models import Country, Location
 from .models import MapPointer
 
+
+def update_marker_data():
+    """
+    There seems to be some problem with adding marker post save hook - when user
+    creates new location, it works as expected, but when we are loading data
+    from geonames databases, created markers have 'None' as location. This funtion
+    updates all existing MapPointer objects and fixes that.
+    """
+    for mp in MapPointer.objects.all():
+        if isinstance(mp.content_object, Location) and mp.location is None:
+            mp.location = mp.content_object
+            mp.save()
+
+
 def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
     """ 
     Simple marker list filter. It takes latitude and longitude of point as 

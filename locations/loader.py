@@ -62,6 +62,7 @@ def load_region_data(region, r_location):
                 id = c.pk,
                 name      = trans,
                 creator   = admin,
+                kind      = c.feature_code,
                 parent    = r_location,
                 latitude  = c.latitude,
                 longitude = c.longitude,
@@ -92,6 +93,7 @@ def load_country_data(code):
         l = Location.objects.create(
             id = country_info.pk,
             name = trans,
+            kind = 'country',
             country_code = country_info.code,
             creator = admin,
             population = country_info.population
@@ -117,6 +119,7 @@ def load_country_data(code):
             nl = Location.objects.create(
                 id = region.pk,
                 name = trans,
+                kind = 'region',
                 country_code = country_info.code,
                 parent = l,
                 creator = admin
