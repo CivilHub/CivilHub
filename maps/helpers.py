@@ -46,7 +46,7 @@ def create_region_clusters(lat, lng, filters=None):
         count = cache.get(str(l.pk) + '_childlist')
         if count is None:
             count = MapPointer.objects.filter(location__in=l.parent.get_children_id_list()).count()
-            cache.set(str(l.pk) + '_childlist', count)
+            cache.set(str(l.pk) + '_childlist', count, timeout=None)
         cluster = {
             'lat': l.latitude,
             'lng': l.longitude,
@@ -83,5 +83,5 @@ def create_clusters(lat, lng, zoom, filters=None):
         results = cache.get("allcountries")
         if not results:
             results = create_country_clusters(filters)
-            cache.set("allcountries", results)
+            cache.set("allcountries", results, timeout=None)
         return results
