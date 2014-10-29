@@ -53,6 +53,15 @@ function ($, _, L) {
         }.bind(this));
         this.map.on('zoomend', function () {
             this.clearClusters();
+            // Hide or show control panel - show it only when single
+            // markers are visible.
+            if (this.map.getZoom() >= this.opts.minZoom) {                
+                $('#map-options-toggle').fadeIn('fast');
+                $('#map-options-panel').fadeIn('fast');
+            } else {
+                $('#map-options-toggle').fadeOut('fast');
+                $('#map-options-panel').fadeOut('fast');
+            }
         }.bind(this));
         // Fetch starting point if zoom is big enough
         if (this.map.getZoom() >= this.opts.minZoom) {
