@@ -56,6 +56,8 @@ function ($, CivilMap) {
     
     "use strict";
     
+    // Set to true when map is activated to avoid
+    // initializing map second time.
     var mapIsActive = false;
     
     function getCoords (success) {

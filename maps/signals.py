@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db.models import signals
 from django.core.cache import cache
 from locations.models import Location
@@ -32,5 +33,6 @@ def create_marker(sender, instance, created, **kwargs):
         mp.save()
 
 
-signals.post_save.connect(update_marker_cache, sender=MapPointer)
-signals.post_delete.connect(update_marker_cache, sender=MapPointer)
+if settings.USE_CACHE:
+    signals.post_save.connect(update_marker_cache, sender=MapPointer)
+    signals.post_delete.connect(update_marker_cache, sender=MapPointer)
