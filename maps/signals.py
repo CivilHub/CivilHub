@@ -34,4 +34,3 @@ def create_marker(sender, instance, created, **kwargs):
 
 signals.post_save.connect(update_marker_cache, sender=MapPointer)
 signals.post_delete.connect(update_marker_cache, sender=MapPointer)
-
