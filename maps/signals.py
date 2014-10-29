@@ -10,8 +10,8 @@ def update_marker_cache(sender, instance, **kwargs):
     """
     count = MapPointer.objects.filter(
         location__in=instance.location.parent.get_children_id_list()).count()
-    cache.set(str(instance.location.pk) + '_childlist', count)
-    cache.set('allcountries', create_country_clusters())
+    cache.set(str(instance.location.pk) + '_childlist', count, timeout=None)
+    cache.set('allcountries', create_country_clusters(), timeout=None)
 
 
 def create_marker(sender, instance, created, **kwargs):

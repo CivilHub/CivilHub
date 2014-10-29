@@ -41,7 +41,14 @@ def create_region_clusters(lat, lng, filters=None):
     max_lng = float(lng) + 10.0
     min_lat = float(lat) - 10.0
     min_lng = float(lng) - 10.0
-    main_locations = Location.objects.filter(kind__in=['PPLA','PPLC'], latitude__gt=min_lat, latitude__lt=max_lat, longitude__gt=min_lng, longitude__lt=max_lng)
+
+    main_locations = Location.objects.filter(
+        kind__in=['PPLA','PPLC'],
+        latitude__gt=min_lat,
+        latitude__lt=max_lat,
+        longitude__gt=min_lng,
+        longitude__lt=max_lng)
+
     for l in main_locations:
         count = cache.get(str(l.pk) + '_childlist')
         if count is None:
@@ -77,7 +84,7 @@ def create_clusters(lat, lng, zoom, filters=None):
     of marker positions along with number of items in requested region.
     """
     zoom = int(zoom)
-    if zoom >= 7:
+    if zoom >= 5:
         return create_region_clusters(lat, lng, filters)
     else:
         results = cache.get("allcountries")
