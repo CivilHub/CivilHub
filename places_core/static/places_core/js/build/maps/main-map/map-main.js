@@ -56,6 +56,8 @@ function ($, CivilMap) {
     
     "use strict";
     
+    var mapIsActive = false;
+    
     function getCoords (success) {
         
         var callback = null;
@@ -77,6 +79,13 @@ function ($, CivilMap) {
                 var x = position.coords.latitude;
                 var y = position.coords.longitude;
                 callback(x, y);
+                // If user selected 'later' or 'not this time' when asked for
+                // his/her position.
+                setTimeout(function () {
+                    if (!mapIsActive) {
+                        fallback();
+                    }
+                }, 5000);
             }, function () {
                 fallback();
             });
@@ -131,12 +140,14 @@ function ($, CivilMap) {
                         app.application.fetchData();
                     }
                 });
+                
+                mapIsActive = true;
             }
         };
         
-        app.initialize();
-        
-        window.test = app;
+        if (!mapIsActive) {
+            app.initialize();
+        }
     });
     
     $(document).trigger('load');
