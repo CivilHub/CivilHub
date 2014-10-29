@@ -5,19 +5,6 @@ from locations.models import Country, Location
 from .models import MapPointer
 
 
-def update_marker_data():
-    """
-    There seems to be some problem with adding marker post save hook - when user
-    creates new location, it works as expected, but when we are loading data
-    from geonames databases, created markers have 'None' as location. This funtion
-    updates all existing MapPointer objects and fixes that.
-    """
-    for mp in MapPointer.objects.all():
-        if isinstance(mp.content_object, Location) and mp.location is None:
-            mp.location = mp.content_object
-            mp.save()
-
-
 def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
     """ 
     Simple marker list filter. It takes latitude and longitude of point as 
@@ -49,12 +36,19 @@ def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
     return queryset
 
 
-def create_region_clusters(lat, lng, filters=None):
+def create_region_clusters(lat, lng, zoom):
+    """
+    Create clusters for regions - usable in medium zoom. Function takes latitude
+    and longitude of current map center as strings or numbers.
+    """
     clusters = []
-    max_lat = float(lat) + 10.0
-    max_lng = float(lng) + 10.0
-    min_lat = float(lat) - 10.0
-    min_lng = float(lng) - 10.0
+    if int(zoom) == 6: factor = 40.0
+    elif int(zoom) > 6 and int(zoom) < 9: factor = 20.0
+    else: factor = 10.0
+    max_lat = float(lat) + factor
+    max_lng = float(lng) + factor
+    min_lat = float(lat) - factor
+    min_lng = float(lng) - factor
 
     main_locations = Location.objects.filter(
         kind__in=['PPLA','PPLC'],
@@ -64,9 +58,11 @@ def create_region_clusters(lat, lng, filters=None):
         longitude__lt=max_lng)
 
     for l in main_locations:
+        # we can use this value directly - update signal takes care of cache.
         count = cache.get(str(l.pk) + '_childlist')
         if count is None:
-            count = MapPointer.objects.filter(location__in=l.parent.get_children_id_list()).count()
+            count = MapPointer.objects.filter(
+                location__in=l.parent.get_children_id_list()).count()
             cache.set(str(l.pk) + '_childlist', count, timeout=None)
         cluster = {
             'lat': l.latitude,
@@ -77,7 +73,8 @@ def create_region_clusters(lat, lng, filters=None):
     return clusters
 
 
-def create_country_clusters(filters=None):
+def create_country_clusters():
+    """ Create clusters for all countries - for very low zoom level. """
     clusters = []
     main_locations = Country.objects.all()
     for c in main_locations:
@@ -85,24 +82,25 @@ def create_country_clusters(filters=None):
         cluster = {
             'lat': l.latitude,
             'lng': l.longitude,
-            'counter': MapPointer.objects.filter(location__in=c.location.get_children_id_list()).count(),
+            'counter': MapPointer.objects.filter(
+                location__in=c.location.get_children_id_list()).count(),
         }
         clusters.append(cluster)
     return clusters
 
 
-def create_clusters(lat, lng, zoom, filters=None):
+def create_clusters(lat, lng, zoom):
     """
     Crate clusters for map when zoom is less then 10. As above, this function
     takes latitude, longitude and map zoom level as argments and returns array
     of marker positions along with number of items in requested region.
     """
     zoom = int(zoom)
-    if zoom >= 5:
-        return create_region_clusters(lat, lng, filters)
+    if zoom >= 6:
+        return create_region_clusters(lat, lng, zoom)
     else:
         results = cache.get("allcountries")
         if not results:
-            results = create_country_clusters(filters)
+            results = create_country_clusters()
             cache.set("allcountries", results, timeout=None)
         return results
