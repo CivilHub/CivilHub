@@ -74,7 +74,7 @@ function ($, CivilMap) {
             callback(x, y);
         };
         
-        if ("geolocation" in navigator) {
+        if (navigator.geolocation !== null && "geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var x = position.coords.latitude;
                 var y = position.coords.longitude;
