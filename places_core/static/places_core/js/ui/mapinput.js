@@ -41,7 +41,7 @@ function ($, L) {
             
             map = L.map(opts.elementID).setView(opts.center, opts.zoom);
             
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            L.tileLayer('https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw', {
                 attribution: opts.attribution,
                 maxZoom: opts.maxZoom
             }).addTo(map);

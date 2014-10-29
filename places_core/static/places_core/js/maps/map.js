@@ -97,11 +97,6 @@ function ($, _, L) {
             lat: this.map.getCenter().lat,
             lng: this.map.getCenter().lng
         };
-        // Do not show anything if zoom is less than 4
-        if (mapData.zoom <= 3) {
-            this.clearClusters();
-            return false;
-        }
         // Check for content type filters
         if (!_.isEmpty(this.filters)) {
             mapData.filters = this.filters.join(',');
