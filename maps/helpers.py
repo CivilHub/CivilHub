@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.cache import cache
 from django.contrib.contenttypes.models import ContentType
 from locations.models import Country, Location
 from .models import MapPointer
@@ -42,10 +43,14 @@ def create_region_clusters(lat, lng, filters=None):
     min_lng = float(lng) - 10.0
     main_locations = Location.objects.filter(kind__in=['PPLA','PPLC'], latitude__gt=min_lat, latitude__lt=max_lat, longitude__gt=min_lng, longitude__lt=max_lng)
     for l in main_locations:
+        count = cache.get(str(l.pk) + '_childlist')
+        if count is None:
+            count = MapPointer.objects.filter(location__in=l.parent.get_children_id_list()).count()
+            cache.set(str(l.pk) + '_childlist', count)
         cluster = {
             'lat': l.latitude,
             'lng': l.longitude,
-            'counter': MapPointer.objects.filter(location__in=l.parent.get_children_id_list()).count(),
+            'counter': count,
         }
         clusters.append(cluster)
     return clusters
@@ -72,7 +77,11 @@ def create_clusters(lat, lng, zoom, filters=None):
     of marker positions along with number of items in requested region.
     """
     zoom = int(zoom)
-    if zoom >= 6:
+    if zoom >= 7:
         return create_region_clusters(lat, lng, filters)
     else:
-        return create_country_clusters(filters)
+        results = cache.get("allcountries")
+        if not results:
+            results = create_country_clusters(filters)
+            cache.set("allcountries", results)
+        return results
