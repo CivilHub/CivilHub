@@ -1,6 +1,6 @@
 {% load i18n %}
 
 {% trans "New invitation" %}
-{{ inviting_user.get_full_name }} {% blocktrans %}Invited you to follow{% endblocktrans %} {{ location.name }}
+{{ inviting_user.get_full_name }} {% blocktrans %}Invited you to follow{% endblocktrans %} {{ location }}
 {% blocktrans %} Visit this link if you want to start following this location:{% endblocktrans %}
 {{ location.get_absolute_url }}

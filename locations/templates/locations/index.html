@@ -2,7 +2,7 @@
 {% load staticfiles i18n %}
 
 {% block geometa %}{% if location.latitude and location.longitude %}
-<meta name="DC.title" content="{{ location.name }}" />
+<meta name="DC.title" content="{{ location }}" />
 <meta name="geo.region" content="{{ location.country_code }}" />
 <meta name="geo.placename" content="{{ location.name }}" />
 <meta name="geo.position" content="{{ location.latitude }};{{ location.longitude }}" />
@@ -40,7 +40,7 @@
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container" style="height: 100%; position: relative;">
         <div class="title-container"> 
-            <div class="location-name-title">{{ location.name }}</div>
+            <div class="location-name-title">{{ location }}</div>
             <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
             
         {% if user in location.users.all %}

@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
 
-{% block title %} {{ location.name }}, {% trans "Discussions" %} | CivilHub {% endblock %}
+{% block title %} {{ location }}, {% trans "Discussions" %} | CivilHub {% endblock %}
 
 {% block require_scripts %}
 
@@ -100,7 +100,7 @@
     <div class="col-sm-9 no-entries" style="display:none;">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
-            {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location.name }}.<br /> 
+            {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
             {% trans "Please" %}
             {% if user.is_authenticated %}
                 <a href="{% url 'locations:new_topic' location.slug %}" >

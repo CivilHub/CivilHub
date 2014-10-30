@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% load i18n %}{% load civil_tags %}
 
-{% block title %} {{ news.title }}, {{ location.name }} | CivilHub {% endblock %}
+{% block title %} {{ news.title }}, {{ location }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
