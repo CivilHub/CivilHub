@@ -39,7 +39,8 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
                                          .filter(object_pk=pk)
         else:
             pointers = MapPointer.objects.all()
-        serializer = MapObjectSerializer(pointers, many=True)
+        serializer = MapObjectSerializer(pointers, many=True,
+                                        context={'request': request})
         return Response(serializer.data)
 
 

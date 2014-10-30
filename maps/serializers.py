@@ -44,6 +44,14 @@ class MapObjectSerializer(serializers.ModelSerializer):
             'desc': obj.content_object.get_description(),
             'date': timesince(obj.content_object.date_created),
             'user': obj.content_object.creator.get_full_name(),
-            'profile': obj.content_object.creator.profile.get_absolute_url()
+            'profile': obj.content_object.creator.profile.get_absolute_url(),
         }
+
+        # only for locations
+        if hasattr(obj.content_object, 'kind'):
+            print self.context
+            usr = self.context['request'].user
+            tmpobj['followers'] = obj.content_object.users.count()
+            tmpobj['followed'] = usr in obj.content_object.users.all()
+
         return tmpobj
