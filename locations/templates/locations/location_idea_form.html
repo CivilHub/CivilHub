@@ -14,7 +14,7 @@
     <div class="col-sm-9 main-content">
     
         <div class="create-form">
-        <h3>{% trans "Write idea in" %} {{ location.name }}</h3>
+        <h3>{% trans "Write idea in" %} {{ location }}</h3>
             <form class="form-horizontal" role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
                 {% csrf_token %}
                 {{ form.as_p }}

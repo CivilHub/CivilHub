@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles %}
 {% load civil_tags %} {% load i18n %}
-{% block title %} {{ poll.title }}, {{ location.name }} | CivilHub {% endblock %}
+{% block title %} {{ poll.title }}, {{ location }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}

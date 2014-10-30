@@ -86,7 +86,7 @@
                     {% if profile.followed_locations %}
                         <ul class="sprite-icon">
                         {% for location in profile.followed_locations %}
-                            <li><span class="ch-icon ch-subspaces"></span><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
+                            <li><span class="ch-icon ch-subspaces"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>
                         {% endfor %}
                         </ul>
                     {% endif %}

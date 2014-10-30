@@ -9,7 +9,7 @@
 
     <div class="col-sm-8 main-content">
         <div class="create-form">
-            <h3>{% trans "Create poll in " %} {{ location.name }}</h3>
+            <h3>{% trans "Create poll in " %} {{ location }}</h3>
             <form class="form-horizontal" action="" method="post" role="form" id="poll-create-form">
                 {% csrf_token %}
                 {{ form.as_p }}

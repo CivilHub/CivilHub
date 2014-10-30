@@ -62,7 +62,7 @@
             <div class="no-entries">
                 <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
                 <h2>
-                    {% trans "We didn't find any photos" %} {% trans "in" %} {{ location.name }}.<br />
+                    {% trans "We didn't find any photos" %} {% trans "in" %} {{ location }}.<br />
                     {% trans "Please" %}
                     {% if user.is_authenticated %}
                         <a class="media-form-toggle" href="{% url 'locations:upload' location.slug %}" >
