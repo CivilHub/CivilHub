@@ -36,6 +36,14 @@ def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
     return queryset
 
 
+def make_region_cluster(city):
+    """ This function takes region main location as argument and creates cache. """
+    count = MapPointer.objects.filter(
+        location__in=city.parent.get_children_id_list()).count()
+    cache.set(str(city.pk) + '_childlist', count, timeout=None)
+    return count
+
+
 def create_region_clusters(lat, lng, zoom):
     """
     Create clusters for regions - usable in medium zoom. Function takes latitude
@@ -61,9 +69,7 @@ def create_region_clusters(lat, lng, zoom):
         # we can use this value directly - update signal takes care of cache.
         count = cache.get(str(l.pk) + '_childlist')
         if count is None:
-            count = MapPointer.objects.filter(
-                location__in=l.parent.get_children_id_list()).count()
-            cache.set(str(l.pk) + '_childlist', count, timeout=None)
+            count = make_region_cluster(l)
         cluster = {
             'lat': l.latitude,
             'lng': l.longitude,
