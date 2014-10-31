@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # included in project directory (so they will be not versioned by GIT).
 
 import json
-secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret.json'), 'r')
+secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret_master.json'), 'r')
 config = json.loads(secret_file.read())
 secret_file.close()
 
