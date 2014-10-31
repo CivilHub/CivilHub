@@ -139,6 +139,23 @@ def import_alt_name(entry):
     
     # We're interested only in 1st group langs
     if len(entry[2]) != 2: return None
+    # ... and objects we are really going to use
+    target = None
+    try:
+        target = CountryInfo.objects.get(pk=int(entry[1]))
+    except CountryInfo.DoesNotExist:
+        target = None
+    try:
+        target = AdminCode.objects.get(pk=int(entry[1]))
+    except AdminCode.DoesNotExist:
+        target = None
+    try:
+        target = GeoName.objects.get(pk=int(entry[1]))
+    except GeoName.DoesNotExist:
+        target = None
+    if target is None:
+        logging.info("No geo entry for alternate name. Skipping")
+        return True
     
     try:
         chk = AltName.objects.get(pk=int(entry[0]))
