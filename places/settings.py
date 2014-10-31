@@ -16,12 +16,23 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# SECURITY SETTINGS
+#
+# Read all important configuration settings from files on root filesystem, not
+# included in project directory (so they will be not versioned by GIT).
+
+import json
+secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret.json'), 'r')
+config = json.loads(secret_file.read())
+secret_file.close()
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
+#SECRET_KEY = 'c1ahg2n8_qtu36pg+qp7f92&bugk6k2mpm=qh#y@jtzi-(^rl-'
+SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -135,10 +146,10 @@ MESSAGE_TAGS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'civilhub',                      
-        'USER': 'civilhub',
-        'PASSWORD': '987xyz',
-        'HOST': 'postgis',
+        'NAME': config['db_name'],
+        'USER': config['db_user'],
+        'PASSWORD': config['db_pass'],
+        'HOST': config['db_host'],
         'PORT': 5432,
     }
 }
@@ -193,8 +204,8 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # New Google+ login
-SOCIAL_AUTH_GOOGLE_PLUS_KEY = '621695853095-7p2mrjthfvma0rq0loolpoocq6f94577.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'y4xJ9Vr18aQAkhyp8DDkaz5l'
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = config['google_plus_key']
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = config['google_plus_secret']
 SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
                                  'https://www.googleapis.com/auth/userinfo.email',
                                  'https://www.googleapis.com/auth/userinfo.profile',
@@ -202,15 +213,15 @@ SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = ['https://www.googleapis.com/auth/plus.login',
                                  'https://www.googleapis.com/auth/plus.me',
                                  'https://www.google.com/m8/feeds',]
 
-SOCIAL_AUTH_FACEBOOK_KEY = '345201478966829'
-SOCIAL_AUTH_FACEBOOK_SECRET = '8581a70916d1946e76135d23c4ca271f'
+SOCIAL_AUTH_FACEBOOK_KEY = config['facebook_key']
+SOCIAL_AUTH_FACEBOOK_SECRET = config['facebook_secret']
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile', 'user_friends', 'user_birthday']
 
-SOCIAL_AUTH_TWITTER_KEY = 'OMqEsrvkxHgMuwEs4FZWWkr4q'
-SOCIAL_AUTH_TWITTER_SECRET = 'SDlUX3bxzZdjF1quH3VtSDg34XAA8Are8pIU461kVLiRjHn5H8'
+SOCIAL_AUTH_TWITTER_KEY = config['twitter_key']
+SOCIAL_AUTH_TWITTER_SECRET = config['twitter_secret']
 
-SOCIAL_AUTH_LINKEDIN_KEY = '77uveqo8v3tk5v'
-SOCIAL_AUTH_LINKEDIN_SECRET = 'PSsrYr0Acg4BdKWM'
+SOCIAL_AUTH_LINKEDIN_KEY = config['linkedin_key']
+SOCIAL_AUTH_LINKEDIN_SECRET = config['linkedin_secret']
 SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline',]
 SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('firstName', 'first_name'),
@@ -305,10 +316,10 @@ LANGUAGES = (
 # Email settings
 #-------------------------------------------------------------------------------
 # Email account settings
-EMAIL_HOST          = 'mail.composly.com'
+EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
-EMAIL_HOST_USER     = 'test@composly.com'
-EMAIL_HOST_PASSWORD = 'test11'
+EMAIL_HOST_USER     = config['email_user']
+EMAIL_HOST_PASSWORD = config['email_pass']
 EMAIL_USE_TLS       = True
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
