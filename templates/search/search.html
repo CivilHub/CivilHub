@@ -18,50 +18,55 @@
         <div class="main-content col-lg-6">
             {% if query %}
                 <h3 class="label">{% trans "Results" %}:</h3>
-                
+                <ul id="search-result-list">
                 {% for result in page.object_list %}
                     <!-- search results for locations -->
                     {% if result.content_type == "locations.location" %}
-                    <p>
-                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
-                    </p>
+                    <li>
+                        <h4><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a> ({% trans "location in" %} {{ result.object.country_name }})</h4>
+                    </li>
                     {% endif %}
                     <!-- search results for blog entries -->
                     {% if result.content_type == "blog.news" %}
-                    <p>
-                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
-                    </p>
+                    <li>
+                        <h4><a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a> ({% trans "news" %})</h4>
+                        <p>{{ result.object.content | striptags | truncatewords:20 }}</p>
+                        <p><a href="{{ result.object.get_absolute_url }}">More...</a></p>
+                    </li>
                     {% endif %}
                     <!-- search results for ideas -->
                     {% if result.content_type == "ideas.idea" %}
-                    <p>
-                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a>
+                    <li>
+                        <h4><a href="{{ result.object.get_absolute_url }}">{{ result.object.name }}</a> ({% trans "idea" %})</h4>
                         <p>{{ result.object.description | striptags | truncatewords:20 }}</p>
-                    </p>
+                    </li>
                     {% endif %}
                     <!-- search results for polls -->
                     {% if result.content_type == "polls.poll" %}
-                    <p>
-                        <a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a>
+                    <li>
+                        <h4><a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a> ({% trans "poll" %})</h4>
                         <p>{{ result.object.question | striptags | truncatewords:20 }}</p>
-                    </p>
+                    </li>
                     {% endif %}
                     <!-- search results for discussions -->
                     {% if result.content_type == "topics.discussion" %}
-                    <p><a href="{{ result.object.get_absolute_url }}">{{ result.object.question }}</a></p>
-                    <p>{{ result.object.intro | striptags | truncatewords:20 }}</p>
-                    <p><a href="{{ result.object.get_absolute_url }}">More...</a></p>
+                    <li>
+                        <h4><a href="{{ result.object.get_absolute_url }}">{{ result.object.question }}</a> ({% trans "discussion" %})</h4>
+                        <p>{{ result.object.intro | striptags | truncatewords:20 }}</p>
+                        <p><a href="{{ result.object.get_absolute_url }}">More...</a></p>
+                    </li>
                     {% endif %}
                     <!-- search results for users -->
                     {% if result.content_type == "auth.user" %}
-                    <p>
-                        <a href="{% url 'user:profile' result.object.username %}">{{ result.object.get_full_name }}</a>
-                    </p>
+                    <li>
+                        <h4><a href="{% url 'user:profile' result.object.username %}">{{ result.object.get_full_name }}</a></h4>
+                    </li>
                     {% endif %}
                     
                 {% empty %}
                     <p>No results found.</p>
                 {% endfor %}
+                </ul>
 
                 {% if page.has_previous or page.has_next %}
                     <div>

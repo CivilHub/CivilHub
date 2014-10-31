@@ -12,8 +12,8 @@ class LocationIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwarka dla lokalizacji.
     """
-    text = indexes.CharField(document=True, use_template=True)
-    name = indexes.CharField(model_attr='name')
+    text = indexes.EdgeNgramField(document=True)
+    name = indexes.EdgeNgramField(model_attr='name')
 
     def get_model(self):
         return Location
@@ -27,10 +27,10 @@ class DiscussionIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwarka tematów forum.
     """
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='question')
     intro = indexes.CharField(model_attr='intro')
-    location = indexes.IntegerField(model_attr='location.pk')
+    location = indexes.IntegerField(model_attr='location__pk')
 
     def get_model(self):
         return Discussion
@@ -44,7 +44,7 @@ class NewsIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwarka newsów.
     """
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.CharField(document=True)
     title = indexes.CharField(model_attr='title')
     content = indexes.CharField(model_attr='content')
 
@@ -59,7 +59,7 @@ class IdeasIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwarka idei.
     """
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='name')
     description = indexes.CharField(model_attr='description')
 
@@ -74,7 +74,7 @@ class PollsIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwarka ankiet.
     """
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.CharField(document=True)
     title = indexes.CharField(model_attr='title')
     question = indexes.CharField(model_attr='question')
 
@@ -89,7 +89,7 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
     """
     Wyszukiwanie użytkowników po nazwie użytkownika / imieniu / nazwisku.
     """
-    text = indexes.CharField(document=True, use_template=True)
+    text = indexes.CharField(document=True)
     username = indexes.CharField(model_attr='username')
     first_name = indexes.CharField(model_attr='first_name')
     last_name = indexes.CharField(model_attr='last_name')

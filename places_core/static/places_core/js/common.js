@@ -18,6 +18,21 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     "use strict";
     
+    // Wyszukiwarka - dodajemy '*' na początku i na końcu
+    // --------------------------------------------------
+    
+    $(document).ready(function () {
+        $('[name="q"]').each(function () {
+            $(this).val($(this).val().replace(/\*/g, ''));
+        });
+    });
+    $('[role="search"]').submit(function (e) {
+        e.preventDefault();
+        var $in = $(this).find('[name="q"]'),
+            url = ['/search/?q=*', $in.val(), '*'].join('');
+        document.location.href = url;
+    });
+    
     // Zmiana języka
     // -------------
     
