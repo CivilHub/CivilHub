@@ -24,6 +24,15 @@ class SubdomainMiddleware(object):
     Middleware, który ustawia język sesji w zależności od wybranej subdomeny.
     """
     def process_request(self, request):
+        from django.shortcuts import redirect
         code = request.META.get('HTTP_HOST', '').split('.')[0]
         if code in [x[0] for x in settings.LANGUAGES]:
+            url = request.META.get('HTTP_HOST', '').replace(code+'.', '')
+            url += request.get_full_path()
             translation.activate(code)
+            request.session['django_language'] = code
+            if request.is_secure():
+                return redirect('https://' + url)
+            else:
+                return redirect('http://' + url)
+
