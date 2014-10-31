@@ -136,9 +136,14 @@
         
         <div class="description">
             <h4><a href="<%= url %>"><%= title %></a></h4>
-            {% comment %}<p>{% trans "Followers" %}: <%= followers %></p>
-            <p><% if(followed) { %> {% trans "You are following this place" %}
-               <% }else{ %>{% trans "You are not following this place" %} <% } %></p>{% endcomment %}
+            <% if (followers !== undefined) { %>
+                <p>{% trans "Followers" %}: <%= followers %></p>
+            <% } %>
+            <% if (followed !== undefined ) { %><p><% if (followed) { %>
+                    {% trans "You are following this place" %}
+               <% } else { %>
+                   {% trans "You are not following this place" %}
+            <% } %></p><% } %>
         </div>
     </div>
     
