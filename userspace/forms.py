@@ -24,12 +24,12 @@ class RegisterForm(forms.Form):
     )
     first_name = forms.CharField(
         label = _("First name"),
-        max_length = 30,
+        max_length = 36,
         widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'first-name',})
     )
     last_name = forms.CharField(
         label = _("Last name"),
-        max_length = 30,
+        max_length = 36,
         widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'last-name',})
     )
     password = forms.CharField(
@@ -65,7 +65,7 @@ class SocialAuthPassetForm(forms.Form):
     )
     passchk = forms.CharField(
         label = _("Repeat password"),
-        max_length = 32,
+        max_length = 64,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
     
@@ -88,12 +88,12 @@ class LoginForm(forms.Form):
     """
     email = forms.CharField(
         label = _('Email'),
-        max_length = 32,
+        max_length = 128,
         widget=forms.EmailInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
     )
     password = forms.CharField(
         label = _('Password'),
-        max_length = 64,
+        max_length = 128,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
     )
     remember_me = forms.BooleanField(
