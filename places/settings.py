@@ -175,7 +175,8 @@ MEDIA_URL    = '/media/'
 #-------------------------------------------------------------------------------
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+        'ENGINE': 'xapian_backend.XapianEngine',
+        'PATH': os.path.join(BASE_DIR, '.settings/xapian_index'),
     },
 }
 

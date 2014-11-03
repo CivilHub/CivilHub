@@ -65,6 +65,14 @@ class Location(models.Model):
     class Meta:
         ordering = ['name',]
 
+    def country_name(self):
+        """ Get location's country name. """
+        try:
+            country = Country.objects.get(code=self.country_code)
+            return country.location.__unicode__()
+        except Country.DoesNotExist:
+            return _("Unknown")
+
     def count_objects(self, content_types=None):
         """
         Count all objects related to this location (sublocations and content).
