@@ -557,7 +557,7 @@ class SublocationList(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SublocationList, self).get_context_data(**kwargs)
         sublocations = self.object.location_set.all()
-        max_per_page = settings.LIST_PAGINATION_LIMIT
+        max_per_page = 24
         paginator    = Paginator(sublocations, max_per_page)
         context      = {}
         page         = self.request.GET.get('page')

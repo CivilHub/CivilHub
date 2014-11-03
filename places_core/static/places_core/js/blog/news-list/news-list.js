@@ -10,7 +10,8 @@ define(['jquery',
         'js/utils/utils', 
         'js/utils/pageable-view',
         'paginator',
-        'moment'],
+        'moment',
+        'jpaginate'],
 
 function ($, _, Backbone, utils, PageableView) {
     
@@ -101,6 +102,10 @@ function ($, _, Backbone, utils, PageableView) {
                     }, this);
                     this.$el.find('.page').on('click', function () {
                         self.getPage(parseInt($(this).attr('data-index'), 10));
+                    });
+                    this.$el.find('.pagination').pagination({
+                        defaultOffset: self.collection.state.currentPage,
+                        visibleEntries: 11
                     });
                 } else {
                     // Show info that there are no items

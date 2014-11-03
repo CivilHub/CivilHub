@@ -15,6 +15,7 @@ require.config({
     
     paths: {
         jquery: 'includes/jquery/jquery',
+        jpaginate: 'includes/jquery/jquery.paginate',
         underscore: 'includes/underscore/underscore',
         backbone: 'includes/backbone/backbone',
         bootstrap: 'includes/bootstrap/bootstrap',
@@ -25,6 +26,8 @@ require.config({
     },
     
     shim: {
+        jpaginate: { deps: ['jquery'] },
+        
         underscore: {
             deps: ['jquery'],
             exports: '_'
