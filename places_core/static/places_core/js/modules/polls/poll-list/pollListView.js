@@ -2,12 +2,14 @@
 // pollListView.js
 // ===============
 // Generic poll list view for selected location.
+
 define(['jquery',
         'underscore',
         'backbone',
         'js/modules/polls/poll-list/pollListEntry',
         'js/modules/polls/poll-list/pollListCollection',
-        'js/modules/utils/pageable-view'],
+        'js/modules/utils/pageable-view',
+        'jpaginate'],
 
 function ($, _, Backbone, PollListEntry, PollListCollection, PageableView) {
     
@@ -31,6 +33,10 @@ function ($, _, Backbone, PollListEntry, PollListCollection, PageableView) {
             }, this);
             this.$el.find('.page').on('click', function () {
                 self.getPage(parseInt($(this).attr('data-index'), 10));
+            });
+            this.$el.find('.pagination').pagination({
+                defaultOffset: self.collection.state.currentPage,
+                visibleEntries: 9
             });
         },
 

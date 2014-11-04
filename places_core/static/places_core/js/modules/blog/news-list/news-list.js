@@ -105,7 +105,7 @@ function ($, _, Backbone, utils, PageableView) {
                     });
                     this.$el.find('.pagination').pagination({
                         defaultOffset: self.collection.state.currentPage,
-                        visibleEntries: 11
+                        visibleEntries: 9
                     });
                 } else {
                     // Show info that there are no items

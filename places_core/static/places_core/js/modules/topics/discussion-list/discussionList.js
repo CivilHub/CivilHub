@@ -7,7 +7,8 @@ define(['jquery',
         'backbone',
         'js/modules/topics/discussion-list/discussionEntry',
         'js/modules/topics/discussion-list/discussionCollection',
-        'js/modules/utils/pageable-view'],
+        'js/modules/utils/pageable-view',
+        'jpaginate'],
         
 function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
     
@@ -33,6 +34,10 @@ function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
                 }, this);
                 this.$el.find('.page').on('click', function () {
                     self.getPage(parseInt($(this).attr('data-index'), 10));
+                });
+                this.$el.find('.pagination').pagination({
+                    defaultOffset: self.collection.state.currentPage,
+                    visibleEntries: 9
                 });
                 $('.custom-label-list').show();
             } else {
