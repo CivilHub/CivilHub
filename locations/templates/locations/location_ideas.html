@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}{% load civil_tags %}
+{% load staticfiles i18n civil_tags %}
 {% block title %} {{ location }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>

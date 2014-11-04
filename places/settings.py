@@ -120,12 +120,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'places_core.middleware.SubdomainMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'places_core.middleware.SubdomainMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
