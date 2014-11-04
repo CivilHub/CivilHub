@@ -12,7 +12,7 @@ function ($, _, utils, ui) {
     
     "use strict";
     
-    $(document).delegate('.vote-btn', 'click', function () {
+    $(document).delegate('.vote-btn-active', 'click', function () {
         
         var formData = {
                 csrfmiddlewaretoken: utils.getCookie('csrftoken'),

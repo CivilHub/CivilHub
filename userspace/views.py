@@ -696,7 +696,9 @@ def login(request):
                     elif len(datas) == 1:
                         # Jeżeli użytkownik loguje się pierwszy raz, pokazujemy mu listę
                         return redirect('/places/?new_user=true')
-                    return redirect('/activity/')
+                    n = request.POST.get('next')
+                    if not len(n): n = '/activity/'
+                    return redirect(n)
                 else:
                     ctx = {'errors': _("Your account has not been activated")}
                     return render(request, 'userspace/login.html', ctx)
