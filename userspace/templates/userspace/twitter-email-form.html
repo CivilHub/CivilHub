@@ -1,9 +1,9 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n %}
 
 {% block content %}
 
-    <!--<form role="form" method="post" action="{% url 'social:complete' 'twitter' %}">-->
+    {% comment %}<form role="form" method="post" action="{% url 'social:complete' 'twitter' %}">{% endcomment %}
     <form role="form" method="post" action="">
         {% csrf_token %}
         {{ form }}

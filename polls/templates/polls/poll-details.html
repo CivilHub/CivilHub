@@ -1,11 +1,11 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
-{% load civil_tags %} {% load i18n %}
+{% load staticfiles civil_tags i18n %}
+
 {% block title %} {{ poll.title }}, {{ location }} | CivilHub {% endblock %}
 
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
-<script data-main="{% static 'places_core' %}/js/build/polls/details/poll-details-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/src/poll-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
