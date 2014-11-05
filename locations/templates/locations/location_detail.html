@@ -1,10 +1,10 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% block require_scripts %}
 <script>window.API_URL = "/api-locations/actions/";</script>
 <script>window.USER_ID = "{{ location.id }}";</script>
-<script data-main="{% static 'places_core' %}/js/src/location-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/location-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block title %} {{ location }} | CivilHub {% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% block require_scripts %}
 <script>
@@ -8,7 +8,7 @@ window.GOOGLE_DATA = {
     id: '{{ plus_id }}'
 }
 </script>
-<script data-main="{% static 'places_core' %}/js/src/userspace-login.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/userspace-login.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

@@ -13,7 +13,7 @@
 
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
-<script data-main="{% static 'places_core' %}/js/src/discussion-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/discussion-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

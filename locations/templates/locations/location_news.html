@@ -3,7 +3,7 @@
 
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/src/news-list.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/news-list.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}

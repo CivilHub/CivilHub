@@ -1,4 +1,4 @@
-{% load staticfiles i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% include 'places_core/header.html' %}
 
@@ -44,7 +44,7 @@
     
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/src/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 </head>
 
 <body>
