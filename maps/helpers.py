@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.core.cache import cache
+from django.core import cache
 from django.contrib.contenttypes.models import ContentType
 from locations.models import Country, Location
 from .models import MapPointer
+
+
+redis_cache = cache.get_cache('redis')
 
 
 def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
@@ -40,7 +43,7 @@ def make_region_cluster(city):
     """ This function takes region main location as argument and creates cache. """
     count = MapPointer.objects.filter(
         location__in=city.parent.get_children_id_list()).count()
-    cache.set(str(city.pk) + '_childlist', count, timeout=None)
+    redis_cache.set(str(city.pk) + '_childlist', count, timeout=None)
     return count
 
 
@@ -67,7 +70,7 @@ def create_region_clusters(lat, lng, zoom):
 
     for l in main_locations:
         # we can use this value directly - update signal takes care of cache.
-        count = cache.get(str(l.pk) + '_childlist')
+        count = redis_cache.get(str(l.pk) + '_childlist')
         if count is None:
             count = make_region_cluster(l)
         cluster = {
@@ -105,8 +108,8 @@ def create_clusters(lat, lng, zoom):
     if zoom >= 6:
         return create_region_clusters(lat, lng, zoom)
     else:
-        results = cache.get("allcountries")
+        results = redis_cache.get("allcountries")
         if not results:
             results = create_country_clusters()
-            cache.set("allcountries", results, timeout=None)
+            redis_cache.set("allcountries", results, timeout=None)
         return results

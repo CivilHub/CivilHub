@@ -1,4 +1,4 @@
-from django.core.cache import cache
+from django.core import cache
 from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
 from locations.models import Location
@@ -6,6 +6,9 @@ from blog.models import News
 from topics.models import Discussion
 from polls.models import Poll
 from ideas.models import Idea
+
+
+redis_cache = cache.get_cache('redis')
 
 
 def update_cached_items(sender, instance, created, **kwargs):
@@ -32,7 +35,7 @@ def update_cached_items(sender, instance, created, **kwargs):
         .filter(location__pk__in=instance.location.get_children_id_list())
     qs = ct.get_all_objects_for_this_type().filter(location=instance.location)
 
-    cache.set(instance.location.slug+postfix, qs)
+    redis_cache.set(instance.location.slug+postfix, qs)
 
 
 post_save.connect(update_cached_items, sender=News)

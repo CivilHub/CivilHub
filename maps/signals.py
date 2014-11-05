@@ -1,9 +1,12 @@
 from django.conf import settings
 from django.db.models import signals
-from django.core.cache import cache
+from django.core import cache
 from locations.models import Location
 from .models import MapPointer
 from .helpers import create_country_clusters
+
+
+redis_cache = cache.get_cache('redis')
 
 
 def update_marker_cache(sender, instance, **kwargs):
@@ -13,8 +16,8 @@ def update_marker_cache(sender, instance, **kwargs):
     """
     count = MapPointer.objects.filter(
         location__in=instance.location.parent.get_children_id_list()).count()
-    cache.set(str(instance.location.pk) + '_childlist', count, timeout=None)
-    cache.set('allcountries', create_country_clusters(), timeout=None)
+    redis_cache.set(str(instance.location.pk) + '_childlist', count, timeout=None)
+    redis_cache.set('allcountries', create_country_clusters(), timeout=None)
 
 
 def create_marker(sender, instance, created, **kwargs):

@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.http import HttpResponse, HttpResponseForbidden
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.cache import cache
+from django.core import cache
 from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -50,6 +50,9 @@ from locations.serializers import MapLocationSerializer
 from .serializers import SimpleLocationSerializer, LocationListSerializer, \
                           CountrySerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
+
+
+redis_cache = cache.get_cache('redis')
 
 
 class LocationFollowAPIView(APIView):
@@ -239,10 +242,10 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
         if pk:
             try:
                 location = Location.objects.get(pk=pk)
-                cached_qs = cache.get(location.slug+'_sub', None)
+                cached_qs = redis_cache.get(location.slug+'_sub', None)
                 if cached_qs is None or not settings.USE_CACHE:
                     queryset = location.location_set.all()
-                    cache.set(location.slug+'_sub', queryset)
+                    redis_cache.set(location.slug+'_sub', queryset)
                 else:
                     queryset = cached_qs
             except Location.DoesNotExist:

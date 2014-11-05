@@ -323,10 +323,15 @@ LANGUAGES = (
 )
 
 
-# REDIS CACHE
+# CACHE
+#-------------------------------------------------------------------------------
 
 CACHES = {
     'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    },
+    'redis': {
         'BACKEND': 'redis_cache.cache.RedisCache',
         'LOCATION': '127.0.0.1:6379:1',
         'OPTIONS': {
