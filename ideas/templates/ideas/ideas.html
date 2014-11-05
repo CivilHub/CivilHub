@@ -14,8 +14,8 @@
             <div class="votes"><%= total_votes %></div>
             <div class="vote-controls">
                 {% if user.is_authenticated %}
-                    <button data-target-id="<%= id %>" data-vote="up" class="vote-btn" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
-                    <button data-target-id="<%= id %>" data-vote="down" class="vote-btn" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
+                    <button data-target-id="<%= id %>" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+                    <button data-target-id="<%= id %>" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
                 {% else %}
                     <a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
                     <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>
