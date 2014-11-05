@@ -394,6 +394,15 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
+        idea = Idea.objects.latest('pk')
+        lat = self.request.POST.get('latitude')
+        lon = self.request.POST.get('longitude')
+        if lat and lon:
+            mp = MapPointer.objects.create(
+                content_object = idea,
+                latitude = lat,
+                longitude = lon
+            )
         return super(LocationIdeaCreate, self).form_valid(form)
 
     def form_invalid(self, form):

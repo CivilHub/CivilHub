@@ -7,6 +7,7 @@
 
 require(['jquery',
          'redactor',
+         'js/modules/ui/mapinput',
          'tagsinput'],
 
 function ($) {
@@ -23,6 +24,18 @@ function ($) {
         $('#id_tags').tagsInput({
             autocomplete_url: '/rest/tags/'
         });
+        
+        $('#id_latitude, #id_longitude')
+            .css('display', 'none');
+        
+        $('<div id="map"></div>')
+            .insertAfter('#id_longitude')
+            .mapinput({
+                latField: '#id_latitude',
+                lngField: '#id_longitude',
+                width: 640,
+                height: 480
+            });
     });
     
 });

@@ -10,7 +10,8 @@
         backbone   : "includes/backbone/backbone",
         tagsinput  : "includes/jquery/jquery.tagsinput",
         redactor   : "includes/redactor/redactor",
-        dropzone   : "includes/dropzone/dropzone"
+        dropzone   : "includes/dropzone/dropzone",
+        "leaflet"  : "includes/leaflet/leaflet"
     },
     
     shim: {
