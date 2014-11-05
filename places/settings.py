@@ -121,7 +121,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'places_core.middleware.SubdomainMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -311,6 +313,24 @@ LANGUAGES = (
     ('it', 'Italiano'),
     ('cz', 'Ceština'),
 )
+
+
+# CACHE
+#-------------------------------------------------------------------------------
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    },
+    'redis': {
+        'BACKEND': 'redis_cache.cache.RedisCache',
+        'LOCATION': '127.0.0.1:6379:1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
+        }
+    }
+}
 
 
 # Email settings
