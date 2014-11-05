@@ -52,8 +52,15 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
         });
         
         $('#lang-selector > a').on('shown.bs.popover', function () {
+            $('.popover').find('a').on('click', function (e) {
+                e.preventDefault();
+                $('#lang-selected-field')
+                    .val($(this).parent().attr('data-code'));
+                $('#main-lang-form').submit();
+            });
             $('body').not('.popover').one('click', function () {
                 $('#lang-selector > a').popover('hide');
+                $('#popover-lang-list a').off('click');
             });
         });
     });

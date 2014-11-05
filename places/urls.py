@@ -81,20 +81,21 @@ urlpatterns = patterns('',
     url(r'^api-gallery/', include(gallery_router.urls)),
 )
 
+from cooki18n.views import set_language
+
 urlpatterns += patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
     # Email app
     url(r'^civmail/', include('civmail.urls', namespace='civmail')),
-    # Google Maps
+    # Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
     url(r'^news/', include('blog.urls', namespace='blog')),
     # ideas
     url(r'^ideas/', include('ideas.urls', namespace='ideas')),
     # django-activity-stream
-    #url(r'^activity/', include('actstream.urls', namespace='activities')),
     url(r'^activity/', UserActivityView.as_view()),
     # social auth
     url('', include('social.apps.django_app.urls', namespace='social')),
@@ -121,14 +122,13 @@ urlpatterns += patterns('',
     }),
     # REST server
     url(r'^rest/', include(router.urls, namespace='rest')),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
+    # Haystack - wyszukiwarka
     url(r'^search/', include('haystack.urls', namespace='search')),
-    url(r'^i18n/', include('django.conf.urls.i18n')),
+    # Obsługa języków
+    url(r'^i18n/setlang', set_language, name='set_language'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    
+    # Dla robotów - indeksiarzy :)
     url(r'^robots.txt$', FileServeView.as_view(filename='robots.txt')),
-    
     # Static Pages
     # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można
     # dodawać kolejne.
@@ -147,9 +147,6 @@ urlpatterns += patterns('',
     #url(r'^creed/', PageView.as_view(page='creed')),
     #url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
-    
-    # Przykład wykorzystania formularza wyboru języka:
-    #url(r'^test/', PageView.as_view(page='test')),
     
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
