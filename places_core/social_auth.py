@@ -34,11 +34,9 @@ def set_user_profile_birth_date(date_string):
     Zwraca `datetime` obiekt albo None jeżeli nie może przekonwertować daty,
     bo jest w złym formacie albo co.
     """
-    from datetime import datetime
     birth_date = None
-    month, day, year = [int(x) for x in date_string.split('/')]
     try:
-        birth_date = datetime(year, month, day)
+        birth_date = date_string.split(' ')[0]
     except Exception:
         pass
     return birth_date
