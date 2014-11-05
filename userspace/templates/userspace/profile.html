@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}{% load i18n %} 
+{% load staticfiles i18n civil_tags %} 
 
 {% block meta %}
 <meta property="og:image" content="{{ profile.avatar.url }}"/>
@@ -11,7 +11,7 @@
 {% include 'places_core/google-contacts-modal.html' %}
 <script>window.API_URL = "{% url 'rest:my_actions-list' %}";</script>
 <script>window.USER_ID = "{{ cuser.pk }}";</script>
-<script data-main="{% static 'places_core' %}/js/dist/userspace-profile.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/userspace-profile.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block header %}

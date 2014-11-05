@@ -120,7 +120,7 @@ TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'cooki18n.middleware.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'places_core.middleware.SubdomainMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -130,7 +130,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.FailedLoginMiddleware',
+#    'axes.middleware.FailedLoginMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'

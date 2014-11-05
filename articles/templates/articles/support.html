@@ -1,9 +1,9 @@
 {% extends 'places_core/base.html' %}
-{% load i18n staticfiles %}
+{% load i18n staticfiles civil_tags %}
 
 {% block require_scripts %}
 <script
-    data-main="{% static 'places_core/js/dist/support.js' %}"
+    data-main="{% static 'places_core/js' %}/{% js_path %}/support.js"
     src="{% static 'places_core/includes/require/require.js' %}">
 </script>
 {% endblock %}

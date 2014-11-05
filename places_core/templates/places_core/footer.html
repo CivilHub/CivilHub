@@ -31,9 +31,14 @@
     
     <div class="row  share-buttons">
         
-        <div class="col-md-3">        
-            <div id="lang-selector">
+        <div class="col-md-3">
             {% get_current_language as LANG %}
+            <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+                {% csrf_token %}
+                <input type="text" name="next" value="{{ request.path }}" />
+                <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+            </form>
+            <div id="lang-selector">
                 <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
                 <div id="popover-lang-list">
                     <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>

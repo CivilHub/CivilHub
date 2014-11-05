@@ -11,6 +11,14 @@ register = Library()
 
 
 @register.simple_tag
+def js_path():
+    """ Simple tag to change js path depending on settings. """
+    if settings.DEBUG:
+        return 'src'
+    return 'dist'
+
+
+@register.simple_tag
 def google_data(user=None):
     """ Prosty tag przechowujący dane uwierzytelniające dla Google. """
     if user is None or user.is_anonymous(): return ''

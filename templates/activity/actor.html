@@ -1,10 +1,10 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles activity_tags i18n %}
+{% load staticfiles activity_tags i18n civil_tags %}
 
 {% block require_scripts %}
 <script>window.API_URL = "/api-userspace/activity/";</script>
 <script>window.USER_ID = "{{ user.pk }}";</script>
-<script data-main="{% static 'places_core' %}/js/dist/userspace-activity.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/userspace-activity.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block title %}{% ifequal request.user actor %}Your feed{% else %}{{ actor }}{% endifequal %}{% endblock %}

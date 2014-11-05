@@ -1,7 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}
-{% load civil_tags %}
-{% load i18n %}
+{% load staticfiles civil_tags i18n %}
 
 {% block title %} {{ idea.name }}, {{ location }} | CivilHub {% endblock %}
 
@@ -16,7 +14,7 @@
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/dist/idea-detail.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

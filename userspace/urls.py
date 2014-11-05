@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 from userspace import views
-from axes.decorators import watch_login
 
 from rest import routers
 router = routers.HybridRouter()
@@ -18,7 +17,7 @@ urlpatterns = patterns('',
     url(r'confirm-register/', views.confirm_registration, name='message_sent'),
     url(r'twitter-email/', views.SetTwitterEmailView.as_view(), name='twitter_email'),
     url(r'test/', views.test_view, name='test'),
-    url(r'login/', watch_login(views.login), name='login'),
+    url(r'login/', views.login, name='login'),
     url(r'logout/', views.logout, name='logout'),
     url(r'active/(?P<lang>\w+)/', views.active, name='active'),
     url(r'activate/(?P<activation_link>\w+)/', views.activate, name='activate'),

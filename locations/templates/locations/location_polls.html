@@ -5,7 +5,7 @@
 
 {% block require_scripts %}
 <script>window.pageSize = {% page_size 'list' %};</script>
-<script data-main="{% static 'places_core' %}/js/dist/poll-list.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/poll-list.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block topbar %}

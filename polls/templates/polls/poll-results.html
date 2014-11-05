@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% block extra_styles %}
 
@@ -18,7 +18,7 @@
     window.POLLS = pollapp;
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/dist/poll-results.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/poll-results.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 
