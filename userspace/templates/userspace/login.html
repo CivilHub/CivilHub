@@ -18,7 +18,7 @@ window.GOOGLE_DATA = {
         <p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
     {% endif %}
 
-    <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+    <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" style="display:none;">
         {% csrf_token %}
         <input id="at" type="hidden" name="access_token" value="" />
         <input id="code" type="hidden" name="code" value="" />
@@ -35,11 +35,11 @@ window.GOOGLE_DATA = {
         <div class="login-form-body">
             <div class="login-social row">
 
-                <button type="button" class="facebook-button" onclick="location.href='{% url 'social:begin' 'facebook' %}'">Connect with Facebook</button>
+                <button type="button" class="facebook-button" onclick="location.href='{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">Connect with Facebook</button>
                     
-                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
+                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">{% trans "Connect with Twitter" %}</button>
                     
-                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}'">{% trans "Connect with Linkedin" %}</button>
+                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">{% trans "Connect with Linkedin" %}</button>
                         
                 <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
                     

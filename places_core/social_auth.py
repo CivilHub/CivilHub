@@ -65,7 +65,7 @@ def set_twitter_email(strategy, details, user=None, is_new=False, *args, **kwarg
     Ustawienie adresu email dla użytkowników, którzy tworzą konto przez
     API Twittera.
     """
-    if strategy.backend.name == 'twitter' and is_new:
+    if kwargs['backend'].name == 'twitter' and is_new:
         email = strategy.session_pop('account_email')
         if email:
             details['email'] = email
@@ -82,10 +82,10 @@ def update_user_social_profile(strategy, details, response, user, *args, **kwarg
     from userspace.models import UserProfile
     changed = False
     profile = UserProfile.objects.get(user=user)
-    if strategy.backend.name == 'facebook' and not profile.fb_url:
+    if kwargs['backend'].name == 'facebook' and not profile.fb_url:
         profile.fb_url = obtain_user_social_profile(response)
         changed = True
-    elif strategy.backend.name == 'google-plus' and not profile.gplus_url:
+    elif kwargs['backend'].name == 'google-plus' and not profile.gplus_url:
         profile.gplus_url = obtain_user_social_profile(response)
         changed = True
     if 'gender' in response and not profile.gender:
