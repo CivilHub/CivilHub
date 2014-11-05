@@ -1,8 +1,8 @@
 {% extends 'places_core/base.html' %}
-{% load i18n %}{% load staticfiles %}
+{% load i18n staticfiles %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/build/articles/blog-details/blog-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/dist/blog-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}

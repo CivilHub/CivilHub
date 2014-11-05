@@ -1,9 +1,6 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles %}{% load i18n %}
-{% block header %} {% endblock %}
-{% block content %}
-<div class="login-page">
-    
+{% load staticfiles i18n %}
+
 {% block require_scripts %}
 <script>
 window.GOOGLE_DATA = {
@@ -11,8 +8,11 @@ window.GOOGLE_DATA = {
     id: '{{ plus_id }}'
 }
 </script>
-<script data-main="{% static 'places_core' %}/js/build/userspace/login/userspace-login-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/dist/userspace-login.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
+
+{% block content %}
+<div class="login-page">
 
     {% if welcome_msg %}
         <p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
@@ -35,7 +35,7 @@ window.GOOGLE_DATA = {
         <div class="login-form-body">
             <div class="login-social row">
 
-                <button type="button" class="facebook-button" onclick="location.href='//civilhub.org/login/facebook/'">Connect with Facebook</button>
+                <button type="button" class="facebook-button" onclick="location.href='{% url 'social:begin' 'facebook' %}'">Connect with Facebook</button>
                     
                 <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}'">{% trans "Connect with Twitter" %}</button>
                     
@@ -49,6 +49,7 @@ window.GOOGLE_DATA = {
                     {{ form.errors }}
                     <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}" />
                         <input class="form-control" id="username" maxlength="32" name="email" placeholder="Email" type="email" autofocus>
                         <input class="form-control" id="password" maxlength="64" name="password" placeholder="Password" type="password">
                         <div class="remember-me">

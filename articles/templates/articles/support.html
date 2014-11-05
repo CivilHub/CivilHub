@@ -2,7 +2,10 @@
 {% load i18n staticfiles %}
 
 {% block require_scripts %}
-<script data-main="{% static 'places_core/js/build/articles/support/support-built.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
+<script
+    data-main="{% static 'places_core/js/dist/support.js' %}"
+    src="{% static 'places_core/includes/require/require.js' %}">
+</script>
 {% endblock %}
 
 {% block content %}

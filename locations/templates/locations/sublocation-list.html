@@ -9,20 +9,22 @@
         {% blocktrans %}Act not only globally, but also on local community like small city, blocks of flats or estates.{% endblocktrans %}</h2>
     
     {% for sublocation in sublocations %}
-    <div class="col-lg-3">
-        <div class="sublocation">
-            <img src="{{ sublocation.get_cropped_image }}" />
-            <div class="sublocation-content">
-                <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
+    {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row-fluid">{% endif %}
+        <div class="col-sm-3">
+            <div class="sublocation">
+                <img src="{{ sublocation.get_cropped_image }}" />
+                <div class="sublocation-content">
+                    <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
+                </div>
+                {% if user not in sublocation.users.all and user.is_authenticated %}
+                    <button type="button" class="btn-follow-location" data-location-id="{{ sublocation.pk }}">{% trans "Follow" %}</button>
+                {% else %}
+                    <button type="button" class="btn-unfollow-location" data-location-id="{{ sublocation.pk }}">{% trans "You are following" %}</button>
+                {% endif %}
+                <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
             </div>
-            {% if user not in sublocation.users.all and user.is_authenticated %}
-                <button type="button" class="btn-follow-location" data-location-id="{{ sublocation.pk }}">{% trans "Follow" %}</button>
-            {% else %}
-                <button type="button" class="btn-unfollow-location" data-location-id="{{ sublocation.pk }}">{% trans "You are following" %}</button>
-            {% endif %}
-            <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
         </div>
-    </div>
+    {% if forloop.counter|divisibleby:4 or forloop.counter == sublocations.count %}</div>{% endif %}
     {% endfor %}
     
 </div>

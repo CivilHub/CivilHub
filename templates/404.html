@@ -1,19 +1,15 @@
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n %}
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>{% block title %}{{ title | capfirst }}{% endblock %}</title>
+<title>{% block title %}{{ title | default:"Civilhub" | capfirst }}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-<link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
 {% block extra_styles %}{% endblock %}
-
-<script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
-<script src="{% static 'places_core/includes/require/require.js' %}"></script>
 
 </head>
 

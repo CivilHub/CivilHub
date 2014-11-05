@@ -4,9 +4,7 @@
 
 {% block require_scripts %}
 
-    <script data-main="{% static 'places_core/js/build/gallery/location-gallery/location-gallery-built.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'places_core/includes/shadowbox/shadowbox.css' %}" />
-    <script src="{% static 'places_core/includes/shadowbox/shadowbox.js' %}"></script>
+    <script data-main="{% static 'places_core/js/dist/gallery-location.js' %}" src="{% static 'places_core/includes/require/require.js' %}"></script>
 
 {% endblock %}
 
@@ -37,7 +35,7 @@
                 {% if forloop.counter|divisibleby:3 or forloop.counter == files.count %}</div>{% endif %}
             {% endfor %}
             
-            {% if is_paginated %}<ul class="pagination">
+            {% if is_paginated %}<ul class="pagination custom-static-pagination">
             
                 {% if page_obj.has_previous %}
                     <li><a href="?page=1">&laquo;</a></li>

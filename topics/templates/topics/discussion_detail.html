@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}{% load civil_tags %}
+{% load staticfiles i18n civil_tags %}
 
 {% block title %} {{ title }}, {{ location }} | CivilHub {% endblock %}
 
@@ -13,7 +13,7 @@
 
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
-<script data-main="{% static 'places_core' %}/js/build/topics/details/discussion-details-built.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script data-main="{% static 'places_core' %}/js/dist/discussion-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
 {% block content %}
