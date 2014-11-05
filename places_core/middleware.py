@@ -17,7 +17,7 @@ def flush_cache():
     cache.clear()
     cursor = connections['default'].cursor()
     cursor.execute("TRUNCATE TABLE {};".format(
-                    settings.CACHES['default']['LOCATION']})
+                    settings.CACHES['default']['LOCATION']))
     transaction.commit_unless_managed(using='default') 
 
 
