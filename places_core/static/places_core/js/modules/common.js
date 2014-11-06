@@ -30,11 +30,11 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     // --------------------------------------------------
     
     $(document).ready(function () {
-        $('[name="q"]').each(function () {
+        $('.custom-main-search').find('[name="q"]').each(function () {
             $(this).val($(this).val().replace(/\*/g, ''));
         });
     });
-    $('[role="search"]').submit(function (e) {
+    $('.custom-main-search').submit(function (e) {
         e.preventDefault();
         var $in = $(this).find('[name="q"]'),
             url = ['/search/?q=*', $in.val(), '*'].join('');
