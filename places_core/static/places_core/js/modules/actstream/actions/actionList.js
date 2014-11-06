@@ -8,7 +8,8 @@ define(['jquery',
         'underscore',
         'backbone',
         'js/modules/actstream/actions/actionCollection',
-        'js/modules/actstream/actions/actionView'],
+        'js/modules/actstream/actions/actionView',
+        'jpaginate'],
 
 function ($, _, Backbone, ActionCollection, ActionView) {
     
