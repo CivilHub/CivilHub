@@ -431,5 +431,4 @@ PLACE_GALLERY_LIMIT = 12
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = False
-
+USE_CACHE = True
