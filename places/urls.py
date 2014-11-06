@@ -122,8 +122,6 @@ urlpatterns += patterns('',
     }),
     # REST server
     url(r'^rest/', include(router.urls, namespace='rest')),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    #url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
     # Haystack - wyszukiwarka
     url(r'^search/', include('haystack.urls', namespace='search')),
     # Obsługa języków
