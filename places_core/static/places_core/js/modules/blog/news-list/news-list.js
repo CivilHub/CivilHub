@@ -16,6 +16,8 @@ define(['jquery',
 function ($, _, Backbone, utils, PageableView) {
     
     "use strict";
+    
+    var currentLang = window.CivilApp.language || 'en';
         
     var baseurl = $('#rest-api-url').val(),
 
@@ -43,10 +45,12 @@ function ($, _, Backbone, utils, PageableView) {
                     opened: false
                 };
                 this.$el.find('.date-created')
-                    .text(moment(this.model.get('date_created')).fromNow());
+                    .text(moment(this.model.get('date_created'))
+                        .lang(currentLang).fromNow());
                 if (this.model.get('edited')) {
                     this.$el.find('.date-edited')
-                        .text(moment(this.model.get('date_edited')).fromNow());
+                        .text(moment(this.model.get('date_edited'))
+                            .lang(currentLang).fromNow());
                 }
                 return this;
             },

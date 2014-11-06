@@ -2,13 +2,17 @@
 // replyView.js
 // ============
 // Single reply.
+
 define(['jquery',
         'underscore',
         'backbone',
         'moment'],
 
 function ($, _, Backbone, utils) {
+    
     "use strict";
+    
+    var currentLang = window.CivilApp.language || 'en';
     
     var getCookie = function (name) {
         var cookieValue = null;
@@ -46,10 +50,12 @@ function ($, _, Backbone, utils) {
                 self.sendVote(false);
             });
             this.$el.find('.date-created')
-                .text(moment(this.model.get('date_created')).fromNow());
+                .text(moment(this.model.get('date_created'))
+                    .lang(currentLang).fromNow());
             if (this.model.get('edited')) {
                 this.$el.find('.date-edited')
-                    .text(moment(this.model.get('date_edited')).fromNow());
+                    .text(moment(this.model.get('date_edited'))
+                        .lang(currentLang).fromNow());
             }
             return this;
         },

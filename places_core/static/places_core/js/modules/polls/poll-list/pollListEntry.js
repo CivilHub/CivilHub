@@ -11,6 +11,8 @@ function ($, _, Backbone) {
     
     "use strict";
     
+    var currentLang = window.CivilApp.language || 'en';
+    
     var PollListEntry = Backbone.View.extend({
         tagName: 'div',
         
@@ -21,10 +23,12 @@ function ($, _, Backbone) {
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.find('.date-created')
-                .text(moment(this.model.get('date_created')).fromNow());
+                .text(moment(this.model.get('date_created'))
+                    .lang(currentLang).fromNow());
             if (this.model.get('edited')) {
                 this.$el.find('.date-edited')
-                    .text(moment(this.model.get('date_edited')).fromNow());
+                    .text(moment(this.model.get('date_edited'))
+                        .lang(currentLang).fromNow());
             }
             return this;
         }

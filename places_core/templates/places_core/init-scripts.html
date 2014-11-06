@@ -1,0 +1,28 @@
+{% load staticfiles i18n civil_tags %}
+
+{% get_current_language as LANG %}
+
+<script>
+(function () {
+    
+  "use strict";
+  
+  var CivilApp = window.CivilApp || {};
+  
+  // Set all necessary paths/properties and settings
+  // taken from django template system and context.
+  
+  CivilApp.staticURL = "{% static 'places_core' %}";
+  CivilApp.language  = "{{ LANG }}";
+  
+  // Export to public scope
+  
+  window.CivilApp = CivilApp;
+  
+  // Legacy - things, that are already used in apps
+  // as publicly available.
+  
+  window.STATIC_URL = CivilApp.staticURL;
+  
+})();
+</script>
