@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.core.cache import cache
@@ -40,13 +40,10 @@ class SubdomainMiddleware(object):
     """
     def process_request(self, request):
         code = request.META.get('HTTP_HOST', '').split('.')[0]
-        if code in [x[0] for x in settings.LANGUAGES]:
-            url = request.META.get('HTTP_HOST', '').replace(code + '.', '')
-            url += request.get_full_path()
+        if translation.check_for_language(code):
+            next = request.get_full_path()
+            response = HttpResponseRedirect(next)
             flush_cache()
             translation.activate(code)
-            request.session['django_language'] = code
-            if request.is_secure():
-                return redirect('https://' + url)
-            else:
-                return redirect('http://' + url)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60)
+            return response
