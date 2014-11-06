@@ -216,28 +216,6 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
             }
         });
     });
-
-    
-    // List of user's bookmarks to fetch.
-    // -------------------------------------------------------------------------
-    $(document).ready(function () {
-        $('.bookmarks-list-toggle').one('click', function (evt) {
-            $.get('/user/my_bookmarks', function (resp) {
-                var $list = $('.bookmarks-list');
-                resp = JSON.parse(resp);
-                if (resp.success) {
-                    $(resp.bookmarks).each(function () {
-                        var $el = $('<li><a></a></li>'),
-                            href = this.target,
-                            label = this.label;
-                        $el.appendTo($list).find('a')
-                            .attr('href', href)
-                            .text(label);
-                    });
-                }
-            });
-        });
-    });
     
     //
     // Submenus for content entries.

@@ -79,8 +79,6 @@ INSTALLED_APPS = (
     'actstream',
     #http://django-taggit.readthedocs.org/en/latest/
     'taggit',
-    # http://django-easy-pdf.readthedocs.org/en/stable/
-    'easy_pdf',
     # geodjango
     'django.contrib.gis',
     # Core program modules

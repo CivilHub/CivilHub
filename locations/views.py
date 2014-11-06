@@ -532,15 +532,14 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        topic = Discussion.objects.latest('pk')
         lat = self.request.POST.get('latitude')
         lon = self.request.POST.get('longitude')
         if lat and lon:
             mp = MapPointer.objects.create(
-                content_object = topic,
+                content_object = obj,
                 latitude = lat,
                 longitude = lon,
-                location = topic.location
+                location = obj.location
             )
             mp.save()
         return redirect(reverse('locations:topic', 
