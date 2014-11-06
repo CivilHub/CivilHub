@@ -72,8 +72,15 @@ function ($, _, L) {
     // Init map and create icon objects.
     
     Map.prototype.initialize = function () {
+        var center = this.opts.center;
+        // Mark active marker when 'show on map' option is used
+        if (!_.isUndefined(CIVILAPP.current)) {
+            var m = CIVILAPP.current;
+            center = [m.latitude, m.longitude];
+            this.activeMarker = L.marker(center);
+        }
         this.map = L.map(this.opts.elementID)
-                    .setView(this.opts.center, this.opts.startZoom);
+                    .setView(center, this.opts.startZoom);
         L.tileLayer(this.opts.mapTailURL, {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom
@@ -82,11 +89,6 @@ function ($, _, L) {
         _.each(CIVILAPP.icons, function (icon, key) {
             icons[key] = L.icon(icon);
         });
-        // Mark active marker when 'show on map' option is used
-        if (!_.isUndefined(CIVILAPP.current)) {
-            var m = CIVILAPP.current;
-            this.activeMarker = L.marker([m.latitude, m.longitude]);
-        }
     };
     
     // Get markers from server
