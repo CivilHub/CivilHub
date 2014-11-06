@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic.edit import CreateView
@@ -78,6 +79,22 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
             return ContentType.objects.filter(app_label=app_label, model=model)
         else:
             return ContentType.objects.all()
+
+
+def set_language(request):
+    next = request.REQUEST.get('next', None)
+    if not next:
+        next = request.META.get('HTTP_REFERER', None)
+    if not next:
+        next = '/'
+    response = HttpResponseRedirect(next)
+    if request.method == 'POST':
+        lang_code = request.POST.get('language', None)
+        if lang_code and check_for_language(lang_code):
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
+                                lang_code, 365*24*60*60, 
+                                domain = settings.SESSION_COOKIE_DOMAIN)
+    return response
 
 
 class FileServeView(View):
