@@ -27,10 +27,10 @@
                     {{ cuser.get_full_name }}
                 </div>
                 {% if request.user != cuser %}
-                    <button type="button" class="btn-follow-user">{% trans "Follow" %}</button>
+                    <button type="button" class="btn-follow-user">{% trans "Follow" %}</button><br />
                 {% endif %}
-                {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
-                {% if profile.fb_url %}<a href="{{ profile.fb_url }}" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
+                {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
+                {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
             </div>
             
             {% if request.user == cuser %}
