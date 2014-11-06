@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.core.cache import cache
 from django.db import connections, transaction
 from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from social import exceptions as social_exceptions
+
+import logging, os
+LOG = os.path.join(settings.BASE_DIR, 'logs/django.log')
+logging.basicConfig(filename = LOG, level = logging.INFO)
 
 
 def flush_cache():
@@ -39,14 +43,16 @@ class SubdomainMiddleware(object):
     Middleware, który ustawia język sesji w zależności od wybranej subdomeny.
     """
     def process_request(self, request):
-        code = request.META.get('HTTP_HOST', '').split('.')[0]
-        if code in [x[0] for x in settings.LANGUAGES]:
-            url = request.META.get('HTTP_HOST', '').replace(code + '.', '')
-            url += request.get_full_path()
+        code = request.GET.get('lang', None)
+        if code is None:
+            code = request.META.get('HTTP_HOST', '').split('.')[0]
+        if translation.check_for_language(code):
+            next = request.get_full_path() \
+                    .replace('?lang={}'.format(code), '') \
+                    .replace('&lang={}'.format(code), '')
+            response = HttpResponseRedirect(next)
             flush_cache()
             translation.activate(code)
-            request.session['django_language'] = code
-            if request.is_secure():
-                return redirect('https://' + url)
-            else:
-                return redirect('http://' + url)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60)
+            logging.info("Language set to {}".format(code))
+            return response
