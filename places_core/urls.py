@@ -10,7 +10,6 @@ router.register('search', views.SearchResultsAPIViewSet, 'search')
 
 
 urlpatterns = patterns('',
-    url(r'^test/', views.HelloPDFView.as_view(), name='pdf_test'),
     url(r'^sent/', views.report_sent),
     url(r'^(?P<app_label>.+)/(?P<model_label>.+)/(?P<object_pk>\d+)/',
         views.CreateAbuseReport.as_view(), name='report'),

@@ -151,16 +151,3 @@ class CreateAbuseReport(CreateView):
 def report_sent(request):
     ctx = {'title': _('Report sent')}
     return render(request, 'places_core/report-sent.html', ctx)
-
-
-import qrcode
-from easy_pdf.views import PDFTemplateView
-class HelloPDFView(PDFTemplateView):
-    """ Testujemy django-easy-pdf i qr kody. """
-    template_name = 'places_core/hello.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(HelloPDFView, self).get_context_data(**kwargs)
-        context['title'] = _("Test - this is Sparta")
-        context['qrcode'] = qrcode.make("This is Sparta!!!")
-        return context
