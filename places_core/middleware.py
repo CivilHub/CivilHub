@@ -39,11 +39,17 @@ class SubdomainMiddleware(object):
     Middleware, który ustawia język sesji w zależności od wybranej subdomeny.
     """
     def process_request(self, request):
-        code = request.META.get('HTTP_HOST', '').split('.')[0]
+        host = request.META.get('HTTP_HOST', '')
+        code = host.split('.')[0]
         if translation.check_for_language(code):
-            next = request.get_full_path()
-            response = HttpResponseRedirect(next)
             flush_cache()
             translation.activate(code)
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60)
+            host = host.replace(code + '.', '')
+            if request.is_secure():
+                next = 'https://' + host + request.get_full_path()
+            else:
+                next = 'http://' + host + request.get_full_path()
+            response = HttpResponseRedirect(next)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60, domain=settings.SESSION_COOKIE_DOMAIN)
             return response
+
