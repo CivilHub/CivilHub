@@ -81,7 +81,7 @@ urlpatterns = patterns('',
     url(r'^api-gallery/', include(gallery_router.urls)),
 )
 
-from cooki18n.views import set_language
+from places_core.views import set_language
 
 urlpatterns += patterns('',
     # user account
