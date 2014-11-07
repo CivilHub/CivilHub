@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
+from userspace.models import UserProfile
 
 
 def obtain_user_social_profile(response):
@@ -79,9 +80,9 @@ def update_user_social_profile(strategy, details, response, user, *args, **kwarg
     któregokolwiek konta. Jeżeli tak, a w profilu użytkownika nie ma jeszcze
     tej informacji, zostanie ona zapisana.
     """
-    from userspace.models import UserProfile
     changed = False
     profile = UserProfile.objects.get(user=user)
+    
     if kwargs['backend'].name == 'facebook' and not profile.fb_url:
         profile.fb_url = obtain_user_social_profile(response)
         changed = True
@@ -94,6 +95,19 @@ def update_user_social_profile(strategy, details, response, user, *args, **kwarg
     if 'birthday' in response and not profile.birth_date:
         profile.birth_date = set_user_profile_birth_date(response['birthday'])
         changed = True
+    if kwargs['backend'].name == 'twitter' and not profile.twt_url:
+        try:
+            screen_name = response['access_token']['screen_name']
+            profile.twt_url = 'https://twitter.com/' + screen_name
+            changed = True
+        except KeyError, TypeError:
+            pass
+    if kwargs['backend'].name == 'linkedin' and not profile.linkedin_url:
+        try:
+            profile.linkedin_url = response['publicProfileUrl']
+            changed = True
+        except KeyError:
+            pass
     if changed: profile.save()
 
 

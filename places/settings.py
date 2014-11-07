@@ -222,7 +222,7 @@ SOCIAL_AUTH_TWITTER_SECRET = config['twitter_secret']
 
 SOCIAL_AUTH_LINKEDIN_KEY = config['linkedin_key']
 SOCIAL_AUTH_LINKEDIN_SECRET = config['linkedin_secret']
-SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline',]
+SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'public-profile-url']
 SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('firstName', 'first_name'),
                                    ('lastName', 'last_name'),
