@@ -50,10 +50,10 @@ require.config({
 });
 
 require(['jquery',
-         'js/maps/map',
-         'js/maps/autocomplete',
+         'js/modules/maps/map',
+         'js/modules/maps/autocomplete',
          'bootstrap',
-         'js/common/bookmarks'],
+         'js/modules/common/bookmarks'],
 
 function ($, CivilMap) {
     
