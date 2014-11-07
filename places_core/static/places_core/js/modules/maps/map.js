@@ -73,14 +73,15 @@ function ($, _, L) {
     
     Map.prototype.initialize = function () {
         var center = this.opts.center;
+        var zoom = this.opts.startZoom;
         // Mark active marker when 'show on map' option is used
         if (!_.isUndefined(CIVILAPP.current)) {
             var m = CIVILAPP.current;
             center = [m.latitude, m.longitude];
+            zoom = 15;
             this.activeMarker = L.marker(center);
         }
-        this.map = L.map(this.opts.elementID)
-                    .setView(center, this.opts.startZoom);
+        this.map = L.map(this.opts.elementID).setView(center, zoom);
         L.tileLayer(this.opts.mapTailURL, {
             attribution: this.opts.attribution,
             maxZoom: this.opts.maxZoom

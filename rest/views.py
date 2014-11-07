@@ -564,6 +564,11 @@ class IdeaListViewSet(viewsets.ModelViewSet):
             # Order by last name - we assume that every user has full name
             l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
             return l
+        elif sortby == 'answers':
+            l = list(queryset)
+            l.sort(key=lambda x: x.get_votes())
+            l = l[::-1]
+            return l
 
         return queryset.order_by('-date_created')
 

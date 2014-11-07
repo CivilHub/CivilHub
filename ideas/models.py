@@ -43,9 +43,8 @@ class Idea(models.Model):
     tags = TaggableManager()
     
     def get_votes(self):
-        votes_total = self.vote_set
-        votes_up = len(votes_total.filter(vote=True))
-        votes_down = len(votes_total.filter(vote=False))
+        votes_up = self.vote_set.filter(vote=True).count()
+        votes_down = self.vote_set.filter(vote=False).count()
         return votes_up - votes_down
 
     def get_comment_count(self):
