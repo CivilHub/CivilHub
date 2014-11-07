@@ -208,6 +208,9 @@ class Country(models.Model):
     code = models.CharField(max_length=2)
     location = models.OneToOneField(Location, related_name='country')
 
+    class Meta:
+        ordering = ['code',]
+
     def __unicode__(self):
         return self.code
 
