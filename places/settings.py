@@ -53,6 +53,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    # https://bitbucket.org/psam/django-postman
+    'postman',
     #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
@@ -323,7 +325,7 @@ CACHES = {
     },
     'redis': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '127.0.0.1:6379:1',
+        'LOCATION': 'redis:6379:1',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }
@@ -352,7 +354,7 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
 # Celery task manager settings
-BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
+BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT    = ['json']
