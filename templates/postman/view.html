@@ -1,6 +1,7 @@
 {% extends "postman/base.html" %}
 {% load url from future %}
-{% load i18n %}{% load postman_tags %}{% load civil_tags %}
+{% load i18n postman_tags civil_tags %}
+
 {% block content %}
 <div id="postman">
 <h1>{% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}</h1>
@@ -15,22 +16,26 @@
  </div>
  <div class="pm_body">{{ message.body|linebreaksbr }}</div>
 </div>
-{% if forloop.last %}
+{% if forloop.last %}<hr />
 <form action="" method="post">{% csrf_token %}
 <input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
-<a href="{{ next_url }}">{% trans "Back" %}</a>
+<a class="btn btn-default btn-sm custom-tooltip" href="{{ next_url }}" title="{% trans "Back" %}"><span class="fa fa-chevron-circle-left">&nbsp;</span></a>
 <span id="pm_buttons">
-<button type="submit" onclick="this.form.action='{% url 'postman_delete' %}?next={{ next_url|urlencode }}'">{% trans "Delete" %}</button>
-{% if not archived %}<button type="submit" onclick="this.form.action='{% url 'postman_archive' %}?next={{ next_url|urlencode }}'">{% trans "Archive" %}</button>{% endif %}
+<button type="submit" class="btn btn-danger btn-sm custom-tooltip" title="{% trans "Delete" %}" onclick="this.form.action='{% url 'postman_delete' %}?next={{ next_url|urlencode }}'"><span class="fa fa-minus-circle">&nbsp;</span></button>
+{% if not archived %}<button class="btn btn-default btn-sm custom-tooltip" type="submit" title="{% trans "Archive" %}" onclick="this.form.action='{% url 'postman_archive' %}?next={{ next_url|urlencode }}'"><span class="fa fa-archive">&nbsp;</span></button>{% endif %}
 </span>
-{% if reply_to_pk %}<a href="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}">{% trans "Reply" %}</a>{% endif %}
+{% if reply_to_pk %}<a class="btn btn-default btn-sm custom-tooltip" title="{% trans "Reply" %}" href="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}"><span class="fa fa-mail-reply">&nbsp;</span></a>{% endif %}
+{% if message.sender != user %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link btn btn-default btn-sm custom-tooltip" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
 </form>
-<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}">{% trans "Report abuse" %}</a>
 {% if reply_to_pk %}<hr />
 <h2>{% trans 'Reply' %}</h2>
 <form action="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post">{% csrf_token %}
-<div id="pm_reply">{{ form.body }}</div>
-<button type="submit">{% trans 'Reply' %}</button>
+<div id="pm_reply" class="form-group">
+  <textarea id="id_body" rows="12" name="body" cols="55" class="form-control"></textarea>
+</div>
+<div class="form-group">
+  <button type="submit" class="btn btn-primary">{% trans 'Reply' %}</button>
+</div>
 </form>{% endif %}
 {% endif %}
 {% endfor %}

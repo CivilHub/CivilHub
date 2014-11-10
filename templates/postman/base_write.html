@@ -1,0 +1,37 @@
+{% extends "postman/base.html" %}
+{% load i18n %}
+
+{% block extrahead %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<div id="postman">
+    
+<h1>{% block pm_write_title %}{% endblock %}</h1>
+
+<form class="form-horizontal" action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
+  {% block pm_write_recipient %}{% endblock %}
+  <div class="form-group">
+    <label for="id_recipients" class="col-sm-2">{% trans "Recipients" %}</label>
+    <div class="col-sm-10">
+      <input id="id_recipients" class="form-control" type="text" name="recipients" value="{{ form.recipients.value|default_if_none:"" }}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="id_subject" class="col-sm-2">{% trans "Subject" %}</label>
+    <div class="col-sm-10">
+      <input id="id_subject" class="form-control" type="text" name="subject" value="{{ form.subject.value|default_if_none:"" }}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="id_body" class="col-sm-2">{% trans "Message" %}</label>
+    <div class="col-sm-10">
+      <textarea id="id_body" class="form-control" name="body" cols="55" rows="12">{{ form.body.value|default_if_none:"" }}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-success">{% trans "Send" %}</button></div>
+  </div>
+</form>
+
+</div>
+{% endblock %}
