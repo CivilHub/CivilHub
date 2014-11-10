@@ -53,9 +53,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # https://bitbucket.org/psam/django-postman
-    'postman',
-    #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+    # https://github.com/arneb/django-messages
+    'django_messages',
+    # http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
     # http://niwibe.github.io/djmail/
@@ -113,7 +113,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
 )
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),]
 
 
 MIDDLEWARE_CLASSES = (
@@ -416,7 +416,6 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 
 # Custom module settings
 #-------------------------------------------------------------------------------
-COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
 DEFAULT_COUNTRY_CODE = 'PL'
 # Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
 LIST_PAGINATION_LIMIT = 50
