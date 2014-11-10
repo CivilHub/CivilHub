@@ -53,8 +53,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # https://github.com/arneb/django-messages
-    'django_messages',
+    # https://bitbucket.org/psam/django-postman
+    'postman',
     # http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
@@ -112,7 +112,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
-    'django_messages.context_processors.inbox',
 )
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),]
 
@@ -172,6 +171,14 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(BASE_DIR, '.settings/xapian_index'),
     },
 }
+
+
+# Postman - wiadomości pomiędzy użytkownikami
+POSTMAN_DISALLOW_ANONYMOUS = True
+POSTMAN_AUTO_MODERATE_AS = True
+POSTMAN_DISABLE_USER_EMAILING = True
+POSTMAN_DISALLOW_MULTIRECIPIENTS = True
+
 
 # Social Auth
 #-------------------------------------------------------------------------------

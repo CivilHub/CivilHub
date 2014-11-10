@@ -1,4 +1,7 @@
-{% load staticfiles i18n inbox %}
+{% load staticfiles i18n postman_tags %}
+
+{% postman_unread as unread_count %}
+
 {% comment %}
     This is main top navigation panel to include in other templates.
 {% endcomment %}
@@ -83,8 +86,11 @@
                     <ul class="dropdown-menu bookmarks-list"></ul>
                 </li>
                 <li>
-                    <a href="{% url 'messages_inbox' %}">
-                        <span class="ch-icon ch-envelope"></span><span class="badge">{% inbox_count %}</span>
+                    <a href="{% url 'postman_inbox' %}">
+                        <span class="ch-icon ch-envelope"></span>
+                        {% if unread_count %}
+                            <span class="badge">{{ unread_count }}</span>
+                        {% endif %}
                     </a>
                 </li>
                 {% endif %}

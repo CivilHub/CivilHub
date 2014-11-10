@@ -36,7 +36,7 @@
 
                 <!-- TEST -->
                 {% if user.is_authenticated and user != cuser %}
-                    <a href="{% url 'messages_compose_to' cuser.username %}">Send message</a>
+                    <a href="{% url 'postman_write' cuser.username %}">Send message</a>
                 {% endif %}
                 <!-- ./ TEST -->
 

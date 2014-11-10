@@ -125,7 +125,7 @@ urlpatterns += patterns('',
     # Haystack - wyszukiwarka
     url(r'^search/', include('haystack.urls', namespace='search')),
     # django-messages: wiadomości pomiędzy użytkownikami
-    url(r'^messages/', include('django_messages.urls')),
+    url(r'^messages/', include('postman.urls')),
     # Obsługa języków
     url(r'^i18n/setlang', set_language, name='set_language'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
