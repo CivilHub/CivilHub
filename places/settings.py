@@ -174,6 +174,7 @@ HAYSTACK_CONNECTIONS = {
 
 
 # Postman - wiadomości pomiędzy użytkownikami
+#-------------------------------------------------------------------------------
 POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_AUTO_MODERATE_AS = True
 POSTMAN_DISABLE_USER_EMAILING = True
