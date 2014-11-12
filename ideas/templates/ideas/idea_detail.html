@@ -81,7 +81,7 @@
                 <div class="acticle-content">{{ idea.description | safe }}</div>
     <p>{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
-        <a class="tag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}" />{{ tag }}</a>  
+        <a class="tag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  
         {% endfor %}
     </p>
     <p>

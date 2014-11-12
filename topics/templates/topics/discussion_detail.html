@@ -63,7 +63,7 @@
 
         <hr />
 
-        {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name %}">{{tag.name}}</a> {% endfor %}
+        {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}
 
         <div class="reply-entry">
             <div class="row">

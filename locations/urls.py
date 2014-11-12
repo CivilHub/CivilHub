@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     # lista sub-lokalizacji
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),
     # wyszukiwanie treści w/g tagów
-    url(r'^(?P<slug>[\w-]+)/search/(?P<tag>[%&+ \w]+)$', LocationContentSearch.as_view(), name='tag_search'),
+    url(r'^(?P<slug>[\w-]+)/search/(?P<tag>[\w-]+)$', LocationContentSearch.as_view(), name='tag_search'),
     url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
     # wyszukiwanie treści w/g kategorii
     url(r'^(?P<slug>[\w-]+)/filter/(?P<app>[\w-]+)/(?P<model>[\w-]+)/(?P<category>\d+)/$', LocationContentFilter.as_view(), name='category_search'),
