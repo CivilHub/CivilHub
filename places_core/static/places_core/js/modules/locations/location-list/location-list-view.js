@@ -10,6 +10,21 @@ function ($, _, Backbone) {
     
     "use strict";
     
+    /*
+     * Simple helper functions to detect IE and Safari browsers, wich have
+     * some problems with advanced CSS rendering, so we need to adjust styles
+     * later (thank you, IE).
+     */
+    
+    function isSafari () {
+        var n = window.navigator.userAgent;
+        return (/Safari/).test(n);
+    }
+    function isIE () {
+        var n = window.navigator.userAgent;
+        return (/MSIE/).test(n) || (/Trident/).test(n);
+    }
+    
     var LocationListView = Backbone.View.extend({
         
         tagName: 'li',
@@ -40,11 +55,24 @@ function ($, _, Backbone) {
         },
         
         details: function () {
-            this.$el.find('.list-entry-details').fadeIn('slow');
+            var $ol = this.$el.find('.list-entry-details'),
+                $parent = this.$el.parent();
+
+            $parent.children().hide();
+            $ol.parent().show();
+            $ol.css({
+                position: 'absolute',
+                left: $parent.parent().position().left,
+                top: $parent.parent().position().top - 40,
+                width: $parent.width(),
+                height: $parent.height() + 20,
+                zIndex: 1001
+            }).fadeIn('fast');
         },
         
         hideDetails: function () {
             $('.is-empty-list').empty().remove();
+            this.$el.parent().children().show();
             this.$el.find('.list-entry-details').fadeOut('slow');
             if (this.parentView.sublist !== undefined) {
                 this.parentView.sublist.destroy();
