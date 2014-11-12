@@ -78,7 +78,7 @@
                 <div class="sprite-icon">
                     <span class="ch-icon ch-tags"> </span>{% trans "Tags" %}:
                     {% for tag in news.tags.all %}
-                        <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag %}">{{ tag }}</a> 
+                        <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">{{ tag }}</a> 
                     {% endfor %}
                 </div>
                 <br />

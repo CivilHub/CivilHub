@@ -45,7 +45,7 @@
                 <a href="{{ idea.get_absolute_url }}"><span class="fa fa-comments"> </span> {{ idea.get_comment_count }} {% trans "comments" %}</a>
                 <span class="fa fa-tags"> </span> {% trans "Tags" %}: 
                 {% for tag in idea.tags.all %}
-                    <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag.name %}">{{tag.name}}</a>, 
+                    <a href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}">{{tag.name}}</a>, 
                 {% endfor %}
                 {% if idea.category %}
                 <span class="fa fa-star"> </span>{% trans "Category" %}:

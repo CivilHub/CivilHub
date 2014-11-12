@@ -706,7 +706,7 @@ def login(request):
         return render(request, 'userspace/login.html', ctx)
     f = LoginForm()
     ctx = {
-        'title': _('Login'),
+        'title': "",
         'form': f,
         'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
         'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,

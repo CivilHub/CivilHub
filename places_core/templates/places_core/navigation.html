@@ -1,8 +1,12 @@
-{% load staticfiles %} {% load i18n %}
+{% load staticfiles i18n postman_tags %}
+
+{% postman_unread as unread_count %}
+
 {% comment %}
     This is main top navigation panel to include in other templates.
 {% endcomment %}
 <nav id="navbar-top"class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
+    
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
@@ -13,6 +17,7 @@
             </button>
             <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"></a>
         </div>
+        
         <div class="collapse navbar-collapse" id="bs-navbar-collapse">
             
             <div class="navbar-top-search">
@@ -50,7 +55,8 @@
                 {% else %}
                 <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> {% trans "Login" %}</a></li>
                 {% endif %}
-        </ul>
+            </ul>
+            
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-home"></span>{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
@@ -71,21 +77,24 @@
 
                 <li><a href="{% url 'maps:index' %}"><span class="ch-icon ch-earth"></span>{% trans "Map" %}</a></li>
 
-            {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle" data-toggle="dropdown" href="#">
                         <span class="ch-icon ch-bookmark custom-tooltip-bottom" title="{% trans "My Bookmarks" %}"> </span>
-            {% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span>
+                        {% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu bookmarks-list"></ul>
                 </li>
-                {% comment %} 
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="ch-icon ch-envelope"></span></a>
+                <li>
+                    <a href="{% url 'postman_inbox' %}">
+                        <span class="ch-icon ch-envelope"></span>
+                        {% if unread_count %}
+                            <span class="badge custom-badge-indicator">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
                 </li>
-        {% endcomment %}
+                {% endif %}
             </ul>
-            {% endif %}
         </div>
     </div>
 </nav>

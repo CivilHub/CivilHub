@@ -67,6 +67,18 @@ class UserProfile(models.Model):
         null=True,
         verbose_name = _("Facebook profile url")
     )
+    twt_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name = _("Twitter profile url")
+    )
+    linkedin_url = models.URLField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name = _("LinkedIn profile url")
+    )
     avatar = models.ImageField(
         upload_to = "img/avatars/",
         default = 'img/avatars/anonymous.png',

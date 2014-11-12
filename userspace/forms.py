@@ -146,11 +146,22 @@ class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
         required = False,
         widget = forms.TextInput(attrs={'class': 'form-control'})
     )
+    twt_url = forms.URLField(
+        label = _("Twitter"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
+    linkedin_url = forms.URLField(
+        label = _("LinkedIn"),
+        required = False,
+        widget = forms.TextInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = UserProfile
         fields = ('first_name', 'last_name', 'gender', 'description',
-                  'birth_date', 'gplus_url', 'fb_url',)
+                  'birth_date', 'gplus_url', 'fb_url', 'twt_url',
+                  'linkedin_url',)
 
 
 class PasswordResetForm(forms.Form, BootstrapBaseForm):

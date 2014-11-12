@@ -53,7 +53,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    #http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+    # https://bitbucket.org/psam/django-postman
+    'postman',
+    # http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
     'kombu.transport.django',
     'djcelery',
     # http://niwibe.github.io/djmail/
@@ -115,7 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
 )
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),]
 
 
 MIDDLEWARE_CLASSES = (
@@ -180,6 +182,15 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
+
+# Postman - wiadomości pomiędzy użytkownikami
+#-------------------------------------------------------------------------------
+POSTMAN_DISALLOW_ANONYMOUS = True
+POSTMAN_AUTO_MODERATE_AS = True
+POSTMAN_DISABLE_USER_EMAILING = True
+POSTMAN_DISALLOW_MULTIRECIPIENTS = True
+
+
 # Social Auth
 #-------------------------------------------------------------------------------
 # Authentication and python-social-auth settings
@@ -232,7 +243,7 @@ SOCIAL_AUTH_TWITTER_SECRET = config['twitter_secret']
 
 SOCIAL_AUTH_LINKEDIN_KEY = config['linkedin_key']
 SOCIAL_AUTH_LINKEDIN_SECRET = config['linkedin_secret']
-SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline',]
+SOCIAL_AUTH_LINKEDIN_FIELD_SELECTORS = ['email-address', 'headline', 'public-profile-url']
 SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('firstName', 'first_name'),
                                    ('lastName', 'last_name'),
@@ -424,7 +435,6 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 
 # Custom module settings
 #-------------------------------------------------------------------------------
-COUNTRY_STORAGE_PATH = os.path.join(BASE_DIR, 'geobase', 'markers')
 DEFAULT_COUNTRY_CODE = 'US'
 # Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
 LIST_PAGINATION_LIMIT = 50

@@ -850,8 +850,11 @@ class LocationContentSearch(View):
         items = []
 
         if tag:
-            tag = Tag.objects.get(name=tag)
-            all_items = tag.taggit_taggeditem_items.all()
+            try:
+                tag = Tag.objects.get(slug=tag)
+                all_items = tag.taggit_taggeditem_items.all()
+            except Tag.DoesNotExist:
+                all_items = []
             for itm in all_items:
                 if itm.content_object.location == location:
                     items.append(itm.content_object)
