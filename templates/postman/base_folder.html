@@ -11,22 +11,23 @@ in the INSTALLED_APPS setting.
 {% block content %}
 <div id="postman">
 <h1>{% block pm_folder_title %}{% endblock %}</h1>
-<div class="col-sm-8">
+<div class="col-sm-9">
 {% autopaginate pm_messages %}
 {% if invalid_page %}
 <p>{% trans "Sorry, this page number is invalid." %}</p>
 {% else %}
 {% if pm_messages %}
-{% block pm_by_modes %}<div id="pm_by_modes">
-<span class="pm_by_mode">{% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}{% trans "by conversation" %}{% if by_message %}</a>{% endif %}</span>
-<span class="pm_by_mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}{% trans "by message" %}{% if by_conversation %}</a>{% endif %}</span>
-</div>{% endblock pm_by_modes %}
 <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
+{% block pm_by_modes %}
+<hr /><span class="pm_by_mode">
+  {% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}<span class="btn btn-sm btn-primary">{% trans "by conversation" %}</span>{% if by_message %}</a>{% endif %}</span>
+<span class="pm_by_mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}<span class="btn btn-sm btn-primary">{% trans "by message" %}</span>{% if by_conversation %}</a>{% endif %}</span>
+{% endblock pm_by_modes %}
 {% block pm_form_buttons %}<span id="pm_buttons">
-{% block pm_delete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_delete' %}'">{% trans "Delete" %}</button>{% endblock %}
-{% block pm_archive_button %}<button type="submit" onclick="this.form.action='{% url 'postman_archive' %}'">{% trans "Archive" %}</button>{% endblock %}
-{% block pm_undelete_button %}<button type="submit" onclick="this.form.action='{% url 'postman_undelete' %}'">{% trans "Undelete" %}</button>{% endblock %}
-</span>{% endblock %}
+{% block pm_delete_button %}<button class="btn btn-sm btn-danger custom-tooltip" title="{% trans "Delete" %}" type="submit" onclick="this.form.action='{% url 'postman_delete' %}'"><span class="fa fa-minus-circle">&nbsp;</span></button>{% endblock %}
+{% block pm_archive_button %}<button class="btn btn-sm btn-default custom-tooltip" title="{% trans "Archive" %}" type="submit" onclick="this.form.action='{% url 'postman_archive' %}'"><span class="fa fa-archive">&nbsp;</span></button>{% endblock %}
+{% block pm_undelete_button %}<button class="btn btn-sm btn-default custom-tooltip" title="{% trans "Undelete" %}" type="submit" onclick="this.form.action='{% url 'postman_undelete' %}'"><span class="fa fa-undo">&nbsp;</span></button>{% endblock %}
+</span><hr />{% endblock %}
 <table id="pm_messages">
  <thead>
   <tr>

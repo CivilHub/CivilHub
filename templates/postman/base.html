@@ -6,7 +6,7 @@
 
 {% block extrahead %}{{ block.super }}{% endblock %}
 
-{% block sidebar %}<div class="col-sm-4">
+{% block sidebar %}<div class="col-sm-3">
   <ul id="postman_menu">{% postman_unread as unread_count %}
     <li><a href="{% url 'postman_inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
     <li><a href="{% url 'postman_sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>

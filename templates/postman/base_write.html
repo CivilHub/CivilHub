@@ -8,7 +8,7 @@
     
   <h1>{% block pm_write_title %}{% endblock %}</h1>
 
-  <div class="col-sm-8">
+  <div class="col-sm-9">
     <form class="form-horizontal" action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
       {% block pm_write_recipient %}{% endblock %}
       <div class="form-group">

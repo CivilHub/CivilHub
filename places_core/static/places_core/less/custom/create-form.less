@@ -56,7 +56,22 @@
  * Formularze dla django-postman - tworzenie i edycja wiadomości.
  */
 #postman {
+  /* Fix to give some space for footer. */
+  >.col-sm-8, >.col-sm-9, >.col-sm-10 {
+    margin-bottom: 20px;
+  }
   .pm_message {
     margin-bottom: 15px;
   }
+}
+#pm_messages {
+  tr {
+    padding: 5px 0px;
+    td, th {
+      padding: 0px 5px;
+    }
+  }
+}
+#postman_menu {
+  list-style-type: none;
 }
