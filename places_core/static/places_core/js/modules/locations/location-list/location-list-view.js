@@ -10,21 +10,6 @@ function ($, _, Backbone) {
     
     "use strict";
     
-    /*
-     * Simple helper functions to detect IE and Safari browsers, wich have
-     * some problems with advanced CSS rendering, so we need to adjust styles
-     * later (thank you, IE).
-     */
-    
-    function isSafari () {
-        var n = window.navigator.userAgent;
-        return (/Safari/).test(n);
-    }
-    function isIE () {
-        var n = window.navigator.userAgent;
-        return (/MSIE/).test(n) || (/Trident/).test(n);
-    }
-    
     var LocationListView = Backbone.View.extend({
         
         tagName: 'li',
