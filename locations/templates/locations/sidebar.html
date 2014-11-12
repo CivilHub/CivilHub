@@ -64,7 +64,7 @@
     <div class="sidebar-content tags">
         <ul>
         {% for tag, counter in tags %}
-            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag %}">{{ tag }}</a></li>
+            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
         {% endfor %}
         </ul>
     </div>

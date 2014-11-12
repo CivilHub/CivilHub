@@ -238,7 +238,7 @@ class TagFilter(ContentFilter):
             itemlist += arg
         for itm in itemlist:
             for tag in itm.tags.all():
-                if tag.name and len(tag.name) > 0:
+                if tag.slug and len(tag.name) > 0:
                     try:
                         self._items[tag.name] += 1
                     except KeyError:
