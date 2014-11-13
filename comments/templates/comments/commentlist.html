@@ -4,7 +4,7 @@
 <input type="hidden" id="comment-page-size" value="{% page_size %}" />
 
 {% comment %} ~~~~~~~~~~ TWORZENIE NOWEGO KOMENTARZA  ~~~~~~~~ {% endcomment %}
-<div class="commentformarea">
+<div class="commentformarea row">
     {% if user.is_authenticated %}
     <div class="col-sm-2">
         <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar" />
