@@ -287,7 +287,7 @@ class NewsSerializer(serializers.ModelSerializer):
                 'name': tag.name,
                 'url': reverse('locations:tag_search',
                                kwargs={'slug':obj.location.slug,
-                                       'tag':tag.name})
+                                       'tag':tag.slug})
             })
         return tags
 
@@ -343,7 +343,7 @@ class PollSerializer(serializers.ModelSerializer):
                 'name': tag.name,
                 'url': reverse('locations:tag_search',
                                kwargs={'slug':obj.location.slug,
-                                       'tag':tag.name})
+                                       'tag':tag.slug})
             })
         return tags
 
@@ -449,7 +449,7 @@ class DiscussionSerializer(serializers.ModelSerializer):
                 'name': tag.name,
                 'url': reverse('locations:tag_search',
                                kwargs={'slug':obj.location.slug,
-                                       'tag':tag.name})
+                                       'tag':tag.slug})
             })
         return tags
 
@@ -542,7 +542,7 @@ class IdeaSerializer(serializers.ModelSerializer):
                 'name': tag.name,
                 'url': reverse('locations:tag_search',
                                kwargs={'slug':obj.location.slug,
-                                       'tag':tag.name})
+                                       'tag':tag.slug})
             })
         return tags
 

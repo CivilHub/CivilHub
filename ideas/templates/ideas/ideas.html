@@ -39,7 +39,7 @@
         <h3><a href="<%= url %>"><%= name %></a></h3>
 
         <p>
-            {% trans "Created" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span> <span class="date-created"><%= date_created %></span> </a>
+            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span> <span class="date-created"><%= date_created %></span> </a>
             <% if (edited) { %>
                 {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
             <% } %>

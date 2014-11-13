@@ -2,7 +2,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.template.defaultfilters import slugify
+from slugify import slugify
 from django.contrib.contenttypes.models import ContentType
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _

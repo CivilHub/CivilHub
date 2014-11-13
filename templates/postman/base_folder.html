@@ -11,7 +11,7 @@ in the INSTALLED_APPS setting.
 {% block content %}
 <div id="postman">
 <h1>{% block pm_folder_title %}{% endblock %}</h1>
-<div class="col-sm-9">
+<div class="col-sm-9 main-content">
 {% autopaginate pm_messages %}
 {% if invalid_page %}
 <p>{% trans "Sorry, this page number is invalid." %}</p>
@@ -19,7 +19,7 @@ in the INSTALLED_APPS setting.
 {% if pm_messages %}
 <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
 {% block pm_by_modes %}
-<hr /><span class="pm_by_mode">
+<span class="pm_by_mode">
   {% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}<span class="btn btn-sm btn-primary">{% trans "by conversation" %}</span>{% if by_message %}</a>{% endif %}</span>
 <span class="pm_by_mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}<span class="btn btn-sm btn-primary">{% trans "by message" %}</span>{% if by_conversation %}</a>{% endif %}</span>
 {% endblock pm_by_modes %}

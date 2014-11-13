@@ -9,6 +9,16 @@ from userspace.models import Bookmark
 
 register = Library()
 
+ALLOWABLE_VALUES = ("DEBUG", "COMMENT_PAGINATOR_LIMIT",)
+
+
+@register.simple_tag
+def settings_value(name):
+    """ Get single settings valued that is allowed to access. """
+    if name in ALLOWABLE_VALUES:
+        return getattr(settings, name, '')
+    return ''
+
 
 @register.simple_tag
 def js_path():
