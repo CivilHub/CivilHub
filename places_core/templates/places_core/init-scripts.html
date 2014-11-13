@@ -36,9 +36,14 @@
   // taken from django template system and context.
   
   CivilApp = extend(CivilApp, {
+    
     staticURL: "{% static 'places_core' %}",
+    
     language: "{{ LANG }}",
-    debug: "{% settings_value 'DEBUG' %}"
+    
+    debug: "{% settings_value 'DEBUG' %}",
+    
+    maxComments: "{% settings_value 'COMMENT_PAGINATOR_LIMIT' %}"
   });
   
   // Export to public scope

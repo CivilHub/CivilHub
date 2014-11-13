@@ -63,6 +63,12 @@ function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
             
             // Usuwamy referencje widoków kiedy resetujemy kolekcję/wczytujemy nową
             this.listenTo(this.collection, 'sync', this.cleanup);
+            
+            // TEST!!!
+            CivilApp.testApp = this;
+            $(document).on('click', function (e) {
+                console.log(this.collection);
+            });
         },
         
         render: function () {
@@ -78,6 +84,10 @@ function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
                     this.nextPage();
                 }
             }.bind(this));
+            if (this.collection.length <= CivilApp.maxComments) {
+                alert("Yes, it's lower");
+                $('#comment-order-controls').hide();
+            }
         },
         
         renderComment: function (item) {

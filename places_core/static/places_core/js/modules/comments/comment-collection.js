@@ -30,6 +30,15 @@ function ($, _, Backbone, CommentModel) {
         },
         
         parseRecords: function (data) {
+            alert(data.results.length);
+            alert(CivilApp.maxComments);
+            alert(data.results.length < CivilApp.maxComments);
+            console.log($('#comment-order-controls'));
+            if (data.results.length < CivilApp.maxComments) {
+                $(document).ready(function () {
+                    $('#comment-order-controls').hide();
+                });
+            }
             return data.results;
         },
         
