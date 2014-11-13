@@ -9,6 +9,17 @@ from userspace.models import Bookmark
 
 register = Library()
 
+ALLOWABLE_VALUES = ("DEBUG",)
+
+
+@register.simple_tag
+def settings_value(name):
+    """ Get single settings valued that is allowed to access. """
+    is_allowable = [x for x in ALLOWABLE_VALUES if x == name]
+    if len(is_allowable) > 0:
+        return getattr(settings, name, '')
+    return ''
+
 
 @register.simple_tag
 def js_path():

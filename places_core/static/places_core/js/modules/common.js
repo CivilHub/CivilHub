@@ -114,7 +114,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     // ----------------------
     
     (function($) {
-        if(!utils.getCookie('cookie_msg')) {
+        if(!utils.getCookie('cookie_msg') && !CivilApp.debug) {
         
             $('#cookie-msg').prepend('<div class="alert fade in fade out">' + gettext('Cookies help us to deliver our services. By using our services, you agree to our use of cookies') + '.' + '<a class="btn" href="/cookies">' + gettext("Polityka cookies") + '</a><a id="accept-button" class="btn" data-dismiss="alert">OK</a></div>')
                 .hide().fadeIn('slow');

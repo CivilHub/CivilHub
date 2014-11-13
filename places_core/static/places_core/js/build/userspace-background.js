@@ -55,5 +55,5 @@
         }
     },
     name: "js/src/userspace-background",
-    out: "../src/userspace-background.js"
+    out: "../dist/userspace-background.js"
 })

@@ -7,13 +7,39 @@
     
   "use strict";
   
+  /* 
+   * Create new object from given arguments. Takes any number of other objects
+   * to join together. If they declare same properties, they will be overwritten
+   * by last declaration. Objects are processed in order they are passed to 
+   * function
+   * 
+   * @returns { Obj } Plain object
+   */
+  
+  function extend () {
+    var obj = {}, i = 0, j, prop;
+    for (i; i < arguments.length; i++) {
+      if (typeof (arguments[i] === 'object') && arguments[i] !== null) {
+        for (prop in arguments[i]) {
+          if (arguments[i].hasOwnProperty(prop)) {
+            obj[prop] = arguments[i][prop];
+          }
+        }
+      }
+    }
+    return obj;
+  }
+  
   var CivilApp = window.CivilApp || {};
   
   // Set all necessary paths/properties and settings
   // taken from django template system and context.
   
-  CivilApp.staticURL = "{% static 'places_core' %}";
-  CivilApp.language  = "{{ LANG }}";
+  CivilApp = extend(CivilApp, {
+    staticURL: "{% static 'places_core' %}",
+    language: "{{ LANG }}",
+    debug: "{% settings_value 'DEBUG' %}"
+  });
   
   // Export to public scope
   
