@@ -13,6 +13,8 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
     
     "use strict";
     
+    var currentLang = CivilApp.language;
+    
     var CommentView = Backbone.View.extend({
         
         tagName: 'div',

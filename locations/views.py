@@ -544,8 +544,8 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
             mp.save()
         return redirect(reverse('locations:topic', 
             kwargs = {
-                'place_slug': topic.location.slug,
-                'slug': topic.slug,
+                'place_slug': obj.location.slug,
+                'slug': obj.slug,
             }
         ))
 

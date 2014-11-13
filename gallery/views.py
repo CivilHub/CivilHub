@@ -2,7 +2,7 @@
 import os, json, sys, hashlib, random
 from PIL import Image
 from datetime import datetime
-from django.template.defaultfilters import slugify
+from slugify import slugify
 from django.utils.translation import ugettext as _
 from django.views.generic import View, DetailView, ListView, FormView, UpdateView
 from django.http import HttpResponse, Http404, HttpResponseForbidden

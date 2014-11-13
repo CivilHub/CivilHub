@@ -45,7 +45,7 @@
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
         <div class="comment-main-col">
             <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a> 
-            <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
+            <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
             <span class="comment-controls">
                 <% if (username === $('#target-user').val()) { %>
                     <a href="#" class="comment-edit" title="{% trans "Edit entry" %}">

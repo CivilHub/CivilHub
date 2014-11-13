@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from django.template.defaultfilters import slugify
+from slugify import slugify
 from django.contrib.contenttypes.models import ContentType
 from comments.models import CustomComment
 from locations.models import Location

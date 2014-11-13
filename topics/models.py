@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from django.template.defaultfilters import slugify
+from slugify import slugify
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 from locations.models import Location
