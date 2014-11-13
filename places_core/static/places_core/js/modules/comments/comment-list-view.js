@@ -85,7 +85,6 @@ function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
                 }
             }.bind(this));
             if (this.collection.length <= CivilApp.maxComments) {
-                alert("Yes, it's lower");
                 $('#comment-order-controls').hide();
             }
         },
