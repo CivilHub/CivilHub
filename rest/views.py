@@ -72,6 +72,9 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         ct = request.QUERY_PARAMS.get('content') or None        
         queryset = self.get_queryset(pk, ct)
         
+        if request.user.is_anonymous():
+            return HttpResponseNotFound()
+        
         page = request.QUERY_PARAMS.get('page')
         paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
         try:
