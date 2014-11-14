@@ -784,7 +784,7 @@ class LocationBackgroundView(FormView):
             raise Http404()
         user = request.user
         if not user.is_superuser and not is_moderator(user, location):
-            return HttpResponseForbidden()
+            raise Http404()
         return super(LocationBackgroundView, self).get(request, pk)
 
     def form_valid(self, form):
