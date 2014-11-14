@@ -6,7 +6,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class Category(MPTTModel):
     """ Nested category model. """
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
     description = models.TextField(null=True, blank=True)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='subcategories')
 
