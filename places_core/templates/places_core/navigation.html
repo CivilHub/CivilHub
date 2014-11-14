@@ -37,7 +37,7 @@
                 </li>
                  
                 <li class="user-profile-link">
-                    <a class="avatar" href="{% url 'user:profile' user.username %}">
+                    <a class="avatar" href="{{ user.profile.get_absolute_url }}">
                         <img src="{{ user.profile.thumbnail.url }}" alt="{{ user.get_full_name }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
                     </a>
                 </li>

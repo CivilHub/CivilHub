@@ -32,5 +32,5 @@ urlpatterns = patterns('',
     #url(r'background/', views.change_background, name='background'),
     url(r'background/', views.UserBackgroundView.as_view(), name='background'),
     url(r'dashboard/', views.UserActivityView.as_view(), name='dashboard'),
-    url(r'(?P<username>\w+)/$', views.profile, name='profile'),
+    url(r'(?P<username>[-\w.]+)/$', views.profile, name='profile'),
 )
