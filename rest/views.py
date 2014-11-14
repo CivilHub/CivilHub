@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from dateutil.relativedelta import relativedelta
+from django.http import Http404
 from django.utils import timezone
 from django.utils.html import escape
 from django.contrib.auth.models import User
@@ -50,6 +51,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
     
     def get_queryset(self, pk=None, ct=None):
         from userspace.helpers import UserActionStream
+        if self.request.user.is_anonymous(): return None
         if pk:
             user = get_object_or_404(User, pk=pk)
         else:
@@ -71,6 +73,9 @@ class UserActionsRestViewSet(viewsets.ViewSet):
         pk = request.QUERY_PARAMS.get('pk') or None
         ct = request.QUERY_PARAMS.get('content') or None        
         queryset = self.get_queryset(pk, ct)
+        
+        if request.user.is_anonymous():
+            raise Http404()
         
         page = request.QUERY_PARAMS.get('page')
         paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)

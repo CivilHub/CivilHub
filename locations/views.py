@@ -2,7 +2,8 @@
 import json, datetime, os
 from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
+                        Http404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import cache
@@ -444,15 +445,21 @@ def ajax_discussion_list(request, slug):
     "Ulepszenie" filtrowania wyników dla klientów korzystających
     z Javascript.
     """
-    location = Location.objects.get(slug=slug)
-    queryset = Discussion.objects.filter(location=location)
-    categories = ForumCategory.objects.all()
-    category = request.GET.get('category')
-    meta     = request.GET.get('meta')
-    state    = request.GET.get('state')
-    time     = request.GET.get('time')
-    page     = request.GET.get('page')
-    text     = request.GET.get('text')
+    try:
+        location = Location.objects.get(slug=slug)
+        queryset = Discussion.objects.filter(location=location)
+        categories = ForumCategory.objects.all()
+        category = request.GET.get('category')
+        meta     = request.GET.get('meta')
+        state    = request.GET.get('state')
+        time     = request.GET.get('time')
+        page     = request.GET.get('page')
+        text     = request.GET.get('text')
+    except Location.DoesNotExist:
+        location = None
+    
+    if location is None or not request.is_ajax():
+        raise Http404()
     
     if category != 'all':
         queryset = queryset.filter(category=category)
@@ -763,11 +770,18 @@ class LocationBackgroundView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationBackgroundView, self).get_context_data(**kwargs)
-        context['location'] = Location.objects.get(pk=self.kwargs.get('pk', None))
+        try:
+            context['location'] = Location.objects.get(
+                pk=self.kwargs.get('pk', None))
+        except Location.DoesNotExist:
+            raise Http404()
         return context
 
     def get(self, request, pk=None):
-        location = Location.objects.get(pk=pk)
+        try:
+            location = Location.objects.get(pk=pk)
+        except Location.DoesNotExist:
+            raise Http404()
         user = request.user
         if not user.is_superuser and not is_moderator(user, location):
             return HttpResponseForbidden()
@@ -877,7 +891,10 @@ class LocationContentFilter(View):
     template_name = 'locations/category-search.html'
 
     def get(self, request, slug, app, model, category):
-        location = Location.objects.get(slug=slug)
+        try:
+            location = Location.objects.get(slug=slug)
+        except Location.DoesNotExist:
+            raise Http404()
         category_type = ContentType.objects.get(app_label=app, model='category')
         category_type = category_type.model_class()
         category = category_type.objects.get(pk=category)
