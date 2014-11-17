@@ -15,7 +15,6 @@
 {% endblock %}
 
 {% block header %}
-
     <div class="user-logo" style="background-image:url({{ profile.background_image.url }})">
         <div class="container" style="height: 100%; position: relative;">
             
@@ -29,8 +28,11 @@
                 {% if request.user.is_anonymous %}
                     <a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
                 {% else %}
-                    {% if request.user != cuser and cuser not in request.user.follow_set.all %}
+                    {% if request.user != cuser and request.user not in profile.followers %}
                         <a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Follow" %}</a>
+                    {% endif %}
+                    {% if request.user != cuser and request.user in profile.followers %}
+                        <a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Following" %}</a>
                     {% endif %}
                 {% endif %}
                 {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
