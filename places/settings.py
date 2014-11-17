@@ -249,7 +249,7 @@ ACTSTREAM_SETTINGS = {
     'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
                'blog.news', 'polls.poll', 'comments.customcomment',
                'topics.discussion', 'userspace.userprofile', 'userspace.badge',
-               'gallery.locationgalleryitem', 'topics.entry', 'articles.article'),
+               'gallery.locationgalleryitem', 'topics.entry', 'articles.article',),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,

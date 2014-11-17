@@ -52,6 +52,7 @@ require.config({
 require(['jquery',
          'underscore',
          'js/modules/userspace/google-contacts',
+         'js/modules/userspace/user-follow',
          'js/modules/common',
          'js/modules/userspace/actions/actions'],
 

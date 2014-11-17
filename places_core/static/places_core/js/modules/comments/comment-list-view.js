@@ -63,12 +63,6 @@ function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
             
             // Usuwamy referencje widoków kiedy resetujemy kolekcję/wczytujemy nową
             this.listenTo(this.collection, 'sync', this.cleanup);
-            
-            // TEST!!!
-            CivilApp.testApp = this;
-            $(document).on('click', function (e) {
-                console.log(this.collection);
-            });
         },
         
         render: function () {

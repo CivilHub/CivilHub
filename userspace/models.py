@@ -127,7 +127,7 @@ class UserProfile(models.Model):
 
     def followed_locations(self):
         """ Metoda zwraca listę lokalizacji obserwowanych przez użytkownika. """
-        return sort_by_locale(following(self.user), lambda x: x.name, get_language())
+        return sort_by_locale(following(self.user, Location), lambda x: x.name, get_language())
 
     def get_cropped_image(self):
         """ Method to get cropped background for list views. """
