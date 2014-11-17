@@ -43,7 +43,9 @@
     
     debug: "{% settings_value 'DEBUG' %}",
     
-    maxComments: "{% settings_value 'COMMENT_PAGINATOR_LIMIT' %}"
+    maxComments: "{% settings_value 'COMMENT_PAGINATOR_LIMIT' %}",
+    
+    currentUserId: {% if user.is_authenticated %}"{{ user.pk }}"{% else %}null{% endif %}
   });
   
   // Export to public scope

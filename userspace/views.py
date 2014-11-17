@@ -6,7 +6,7 @@ from datetime import timedelta
 from django.utils import timezone
 from ipware.ip import get_ip
 from django.http import HttpResponse, HttpResponseBadRequest, \
-                         HttpResponseForbidden, HttpResponseNotFound
+                         HttpResponseForbidden, HttpResponseNotFound, Http404
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
@@ -24,6 +24,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
 from actstream.models import model_stream, user_stream, following
+from actstream.actions import follow, unfollow
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
@@ -49,6 +50,37 @@ from .serializers import BookmarkSerializer, \
                           UserAuthSerializer, \
                           UserSerializer, \
                           SocialAuthSerializer
+
+
+class UserFollowAPIView(rest_views.APIView):
+    """
+    Widok API obsługujący przycisk podążania za użytkownikiem. Tylko zapytania
+    typu POST. Wymagane jest podanie ID użytkownika, którego chcemy obserwować
+    w parametrze `pk` żądania. Zwracana wartość to true albo false w zależności
+    od tego, czy zaczynamy, czy przestajemy obserwować drugiego użytkownika.
+    Przykład odpowiedzi:
+        ```{'fallow': true }```
+    
+    """
+    permission_classes = (rest_permissions.IsAuthenticated,)
+
+    def post(self, request):
+        target_user = None
+        pk = request.DATA.get('pk', None)
+        try:
+            target_user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            pass
+
+        if target_user is None:
+            raise Http404()
+
+        if target_user in following(request.user):
+            unfollow(request.user, target_user)
+        else:
+            follow(request.user, target_user, actor_only=True)
+
+        return Response({'follow': target_user in following(request.user)})
 
 
 class SocialApiView(rest_views.APIView):

@@ -25,4 +25,19 @@
     
 </div>
 
+{% else %}
+
+<div class="col-sm-4">
+    {% if cuser %}
+        <div class="sidebar ">
+            <div class="sidebar-label">{% trans "Actions" %}:</div>
+                
+            <ul class="custom-sidebar-nav">
+                <li><a href="{% url 'postman_write' cuser.username %}"><span class="ch-icon ch-envelope"></span>{% trans "Send message" %}</a></li>
+            </ul>
+        </div>
+    {% endif %}
+    
+</div>
+
 {% endif %}

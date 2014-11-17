@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sort_by_locale
 from locations.models import Location
-from actstream.models import following
+from actstream.models import following, followers
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -127,7 +127,10 @@ class UserProfile(models.Model):
 
     def followed_locations(self):
         """ Metoda zwraca listę lokalizacji obserwowanych przez użytkownika. """
-        return sort_by_locale(following(self.user), lambda x: x.name, get_language())
+        return sort_by_locale(following(self.user, Location), lambda x: x.name, get_language())
+
+    def followers(self):
+        return followers(self.user)
 
     def get_cropped_image(self):
         """ Method to get cropped background for list views. """
