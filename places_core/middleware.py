@@ -8,10 +8,6 @@ from django.db import connections, transaction
 from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from social import exceptions as social_exceptions
 
-import logging, os
-LOG = os.path.join(settings.BASE_DIR, 'logs/django.log')
-logging.basicConfig(filename = LOG, level = logging.INFO)
-
 
 def flush_cache():
     """
@@ -46,10 +42,6 @@ class SubdomainMiddleware(object):
         host = request.META.get('HTTP_HOST', '')
         code = host.split('.')[0]
         if translation.check_for_language(code):
-            next = request.get_full_path() \
-                    .replace('?lang={}'.format(code), '') \
-                    .replace('&lang={}'.format(code), '')
-            response = HttpResponseRedirect(next)
             flush_cache()
             translation.activate(code)
             host = host.replace(code + '.', '')
@@ -59,6 +51,5 @@ class SubdomainMiddleware(object):
                 next = 'http://' + host + request.get_full_path()
             response = HttpResponseRedirect(next)
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60, domain=settings.SESSION_COOKIE_DOMAIN)
-            logging.info("Language set to {}".format(code))
             return response
 
