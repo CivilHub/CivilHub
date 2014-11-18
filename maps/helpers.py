@@ -5,7 +5,7 @@ from locations.models import Country, Location
 from .models import MapPointer
 
 
-redis_cache = cache.get_cache('redis')
+redis_cache = cache.get_cache('default')
 
 
 def filter_markers(lat, lng, factor=1.0, filters=None, location=None):

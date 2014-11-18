@@ -1,4 +1,8 @@
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags cache %}
+
+{% get_current_language as LANG %}
+
+{% cache 600 footer LANG %}
 
 <div class="clear"></div>
 
@@ -32,7 +36,6 @@
     <div class="row  share-buttons">
         
         <div class="col-md-3">
-            {% get_current_language as LANG %}
             <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
                 {% csrf_token %}
                 <input type="text" name="next" value="{{ request.path }}" />
@@ -86,3 +89,5 @@
 {% include 'places_core/user-popup.html' %}
 
 </div><!-- /.footer -->
+
+{% endcache %}

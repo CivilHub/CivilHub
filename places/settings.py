@@ -329,16 +329,12 @@ LANGUAGES = (
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'cache_table',
-    },
-    'redis': {
         'BACKEND': 'redis_cache.cache.RedisCache',
         'LOCATION': 'redis:6379:1',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }
-    }
+    },
 }
 
 
@@ -441,4 +437,4 @@ COMMENT_PAGINATOR_LIMIT = 10
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = False
+USE_CACHE = True

@@ -53,7 +53,7 @@ from .serializers import SimpleLocationSerializer, LocationListSerializer, \
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
-redis_cache = cache.get_cache('redis')
+redis_cache = cache.get_cache('default')
 
 
 class LocationFollowAPIView(APIView):
@@ -243,10 +243,12 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
         if pk:
             try:
                 location = Location.objects.get(pk=pk)
-                cached_qs = redis_cache.get(location.slug+'_sub', None)
+                key = "{}_{}_{}".format(location.slug,
+                    translation.get_language(), 'sub')
+                cached_qs = redis_cache.get(key, None)
                 if cached_qs is None or not settings.USE_CACHE:
                     queryset = location.location_set.all()
-                    redis_cache.set(location.slug+'_sub', queryset)
+                    redis_cache.set(key, queryset)
                 else:
                     queryset = cached_qs
             except Location.DoesNotExist:

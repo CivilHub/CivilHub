@@ -9,7 +9,7 @@
         {% blocktrans %}Act not only globally, but also on local community like small city, blocks of flats or estates.{% endblocktrans %}</h2>
     
     {% for sublocation in sublocations %}
-    {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row-fluid">{% endif %}
+    {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
         <div class="col-sm-3">
             <div class="sublocation">
                 <img src="{{ sublocation.get_cropped_image }}" />
