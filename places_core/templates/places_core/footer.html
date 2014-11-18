@@ -2,7 +2,7 @@
 
 {% get_current_language as LANG %}
 
-{% cache 600 footer LANG %}
+{% cache 600 footer_top LANG %}
 
 <div class="clear"></div>
 
@@ -34,6 +34,8 @@
     </div>
     
     <div class="row  share-buttons">
+
+{% endcache %}
         
         <div class="col-md-3">
             <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
@@ -47,7 +49,9 @@
                 </div>
             </div>
         </div>
-        
+
+{% cache 600 footer_bottom LANG %}
+
         <div class="col-md-8">
             <!-- Twitter -->
             <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
