@@ -131,6 +131,8 @@ urlpatterns += patterns('',
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
     # Dla robotów - indeksiarzy :)
     url(r'^robots.txt$', FileServeView.as_view(filename='robots.txt')),
+    # Captcha
+    url(r'^captcha/', include('captcha.urls')),
     # Static Pages
     # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można
     # dodawać kolejne.

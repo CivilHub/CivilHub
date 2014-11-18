@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from captcha.fields import CaptchaField
 from places_core.forms import BootstrapBaseForm
 from .models import UserProfile
 
@@ -205,6 +206,7 @@ class PasswordRemindForm(forms.Form):
         label = '',
         widget = forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _('Enter your email address'), 'autofocus': 'autofocus'})
     )
+    captcha = CaptchaField()
 
 
 class AvatarUploadForm(forms.Form):

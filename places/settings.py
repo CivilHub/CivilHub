@@ -53,6 +53,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    # http://django-simple-captcha.readthedocs.org/en/latest
+    'captcha',
     # https://bitbucket.org/psam/django-postman
     'postman',
     # http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
@@ -152,6 +154,16 @@ DATABASES = {
         'PASSWORD': config['db_pass'],
         'HOST': config['db_host'],
         'PORT': 5432,
+    }
+}
+
+# Baza danych do testów
+import sys
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'test.db'),
     }
 }
 

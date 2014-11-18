@@ -659,11 +659,14 @@ def pass_reset(request):
     Pozwól zarejestrowanym użytkownikom zresetować zapomniane
     hasło na podstawie adresu email.
     """
+    if request.user.is_authenticated():
+        return redirect('/')
+
     ctx = {}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
 
-        if f.is_valid:
+        if f.is_valid():
             try:
                 # If user does not exist, there is no need to do all this stuff.
                 user = User.objects.get(email=request.POST.get('email'))
