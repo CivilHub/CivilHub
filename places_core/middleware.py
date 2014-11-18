@@ -9,18 +9,6 @@ from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from social import exceptions as social_exceptions
 
 
-def flush_cache():
-    """
-    Helper function to flush django default cache. WARNING: we suppose that
-    you use default database connection for caching static content.
-    """
-    cache.clear()
-    cursor = connections['default'].cursor()
-    cursor.execute("TRUNCATE TABLE {};".format(
-                    settings.CACHES['default']['LOCATION']))
-    transaction.commit_unless_managed(using='default') 
-
-
 class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
     """
     Custom exception to handle social auth logging and authorization errors.
@@ -42,7 +30,6 @@ class SubdomainMiddleware(object):
         host = request.META.get('HTTP_HOST', '')
         code = host.split('.')[0]
         if translation.check_for_language(code):
-            flush_cache()
             translation.activate(code)
             host = host.replace(code + '.', '')
             if request.is_secure():
