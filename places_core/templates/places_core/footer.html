@@ -1,4 +1,8 @@
-{% load staticfiles i18n civil_tags analytical %}
+{% load staticfiles i18n civil_tags cache analytical %}
+
+{% get_current_language as LANG %}
+
+{% cache 600 footer LANG %}
 
 <div class="clear"></div>
 
@@ -32,7 +36,6 @@
     <div class="row  share-buttons">
         
         <div class="col-md-3">
-            {% get_current_language as LANG %}
             <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
                 {% csrf_token %}
                 <input type="text" name="next" value="{{ request.path }}" />
@@ -121,3 +124,5 @@ var _qevents = _qevents || [];
         <img src="//pixel.quantserve.com/pixel/p-7RCQfhyaZy5kz.gif" border="0" height="1" width="1" alt="Quantcast"/>
     </div>
 </noscript>
+
+{% endcache %}

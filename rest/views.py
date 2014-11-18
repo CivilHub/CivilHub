@@ -191,7 +191,7 @@ class NewsViewSet(viewsets.ModelViewSet):
                 newset = News.objects \
                     .filter(location__pk__in=location.get_children_id_list())
                 newset = newset | News.objects.filter(location=location)
-                cache.set(location.slug + '_newset', newset)
+                cache.set(location.slug + '_newset', newset, timeout=None)
             else:
                 newset = cached_qs
         else:
@@ -257,7 +257,7 @@ class PollListViewSet(viewsets.ModelViewSet):
                 newset = Poll.objects \
                     .filter(location__pk__in=location.get_children_id_list())
                 newset = newset | Poll.objects.filter(location=location)
-                cache.set(location.slug+'_polls', newset)
+                cache.set(location.slug+'_polls', newset, timeout=None)
             else:
                 newset = cached_qs
         else:
@@ -425,7 +425,7 @@ class ForumViewSet(viewsets.ModelViewSet):
                 queryset = Discussion.objects \
                     .filter(location__pk__in=location.get_children_id_list())
                 queryset = queryset | Discussion.objects.filter(location=location)
-                cache.set(location.slug + '_forum', queryset)
+                cache.set(location.slug + '_forum', queryset, timeout=None)
             else:
                 queryset = cached_qs
         else:
@@ -523,7 +523,7 @@ class IdeaListViewSet(viewsets.ModelViewSet):
                 queryset = Idea.objects \
                     .filter(location__pk__in=location.get_children_id_list())
                 queryset = queryset | Idea.objects.filter(location=location)
-                cache.set(location.slug + '_ideas', queryset)
+                cache.set(location.slug + '_ideas', queryset, timeout=None)
             else:
                 queryset = cached_qs
         else:

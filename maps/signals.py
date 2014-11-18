@@ -6,7 +6,7 @@ from .models import MapPointer
 from .helpers import create_country_clusters
 
 
-redis_cache = cache.get_cache('redis')
+redis_cache = cache.get_cache('default')
 
 
 def update_marker_cache(sender, instance, **kwargs):

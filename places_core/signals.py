@@ -1,4 +1,5 @@
 from django.core import cache
+from django.utils.translation import get_language
 from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
 from locations.models import Location
@@ -8,7 +9,7 @@ from polls.models import Poll
 from ideas.models import Idea
 
 
-redis_cache = cache.get_cache('redis')
+redis_cache = cache.get_cache('default')
 
 
 def update_cached_items(sender, instance, created, **kwargs):
@@ -19,23 +20,24 @@ def update_cached_items(sender, instance, created, **kwargs):
     postfix = None
 
     if isinstance(instance, News):
-        postfix = '_news'
+        postfix = 'news'
     elif isinstance(instance, Idea):
-        postfix = '_ideas'
+        postfix = 'ideas'
     elif isinstance(instance, Discussion):
-        postfix = '_forum'
+        postfix = 'forum'
     elif isinstance(instance, Poll):
-        postfix = '_polls'
+        postfix = 'polls'
 
     if postfix is None or not hasattr(instance, 'location'):
         return False
 
+    key = "{}_{}_{}".format(instance.location.slug, get_language(), postfix)
     ct = ContentType.objects.get_for_model(instance)
     qs = ct.get_all_objects_for_this_type() \
         .filter(location__pk__in=instance.location.get_children_id_list())
     qs = ct.get_all_objects_for_this_type().filter(location=instance.location)
 
-    redis_cache.set(instance.location.slug+postfix, qs)
+    redis_cache.set(key, qs)
 
 
 post_save.connect(update_cached_items, sender=News)

@@ -1,5 +1,7 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags cache %}
+
+{% cache 600 header location.slug %}
 
 {% block geometa %}{% if location.latitude and location.longitude %}
 <meta name="DC.title" content="{{ location }}" />
@@ -93,3 +95,4 @@
 
 {% endblock %}
 
+{% endcache %}

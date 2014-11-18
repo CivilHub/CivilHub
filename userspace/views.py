@@ -20,6 +20,7 @@ from django.utils.translation import ugettext as _
 from django.utils import translation
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_safe, require_POST
+from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
@@ -691,6 +692,7 @@ def pass_reset(request):
 
 
 @csrf_exempt
+@cache_page(60 * 60, key_prefix="login" + translation.get_language())
 def login(request):
     """
     Login form. Performs user login and record login data with basic info
