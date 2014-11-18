@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.cache import cache
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic.edit import CreateView
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import get_current_site
 from django.shortcuts import render
@@ -17,6 +19,16 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework import permissions as rest_permissions
 from .serializers import ContentTypeSerializer, PaginatedSearchSerializer
+
+
+def flush_page_cache():
+    """ Funkcja usuwa zapisane w cache szablony kiedy zmieniamy język witryny. """
+    langs = [x[0] for x in settings.LANGUAGES]
+    sections = ['home',]
+    for l in langs:
+        for s in sections:
+            key = '_'.join([s, l])
+            cache.delete(key)
 
 
 class SearchResultsAPIViewSet(viewsets.ViewSet):
@@ -81,6 +93,7 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
             return ContentType.objects.all()
 
 
+@csrf_exempt
 def set_language(request):
     next = request.REQUEST.get('next', None)
     if not next:
@@ -91,6 +104,7 @@ def set_language(request):
     if request.method == 'POST':
         lang_code = request.POST.get('language', None)
         if lang_code and check_for_language(lang_code):
+            flush_page_cache();
             response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
                                 lang_code, 365*24*60*60, 
                                 domain = settings.SESSION_COOKIE_DOMAIN)
