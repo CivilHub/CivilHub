@@ -2,7 +2,7 @@
 {% load staticfiles %}{% load i18n %}
 
 {% block content %}
-<div class="col-sm-9">
+<div class="col-sm-8 main-content">
     <ul>
     {% for item in items %}
         <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
@@ -12,16 +12,15 @@
 {% endblock %}
 
 {% block sidebar %}
-<div class="col-sm-3">
-    <ul class="sidebar-right">
-        
-    </ul>
-    <div class="tags">
-        <ul>
-        {% for tag, counter in tags %}
-            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
-        {% endfor %}
-        </ul>
+<div class="col-sm-4">
+    <div class="sidebar">
+        <div class="sidebar-content tags">
+            <ul>
+            {% for tag, counter in tags %}
+                <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}
