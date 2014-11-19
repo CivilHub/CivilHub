@@ -102,21 +102,27 @@ function($, _, ContactListView) {
 
     // Przypinamy wydarzenia i odpalamy skrypty
     
-    $('.contacts-toggle').on('click', function (e) {
+    $(document).ready(function () {
         
-        e.preventDefault();
+        if (GOOGLE_DATA !== undefined && GOOGLE_DATA.access_token) {
+            
+            $('.contacts-toggle').show().on('click', function (e) {
         
-        if (!_.isNull(contactWindow)) {
-            contactWindow.open();
-            return false;
-        }
-        
-        fetchContacts(function (data) {
-            contactWindow = new ContactListView({
-                contacts: parseContacts(data)
+                e.preventDefault();
+                
+                if (!_.isNull(contactWindow)) {
+                    contactWindow.open();
+                    return false;
+                }
+                
+                fetchContacts(function (data) {
+                    contactWindow = new ContactListView({
+                        contacts: parseContacts(data)
+                    });
+                    contactWindow.open();
+                });
             });
-            contactWindow.open();
-        });
+        }
     });
 
     $(document).trigger('load');
