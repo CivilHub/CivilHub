@@ -22,7 +22,8 @@ function ($) {
         });
         
         $('#id_tags').tagsInput({
-            autocomplete_url: '/rest/tags/'
+            autocomplete_url: '/rest/tags/',
+            defaultText: gettext("Add tag")
         });
         
         $('#id_latitude, #id_longitude')

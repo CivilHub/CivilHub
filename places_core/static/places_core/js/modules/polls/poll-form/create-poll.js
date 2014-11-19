@@ -43,6 +43,7 @@ function ($, _) {
       
         $('#id_tags').tagsInput({
             autocomplete_url: '/rest/tags/',
+            defaultText: gettext("Add tag")
         });
       
         $('.add-answer-btn').tooltip().bind('click', function (e) {
