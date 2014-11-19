@@ -102,13 +102,13 @@
                     {% endif %}
                 </div>
                 
-                <!--{% if profile.badges %}
+                {% comment %}{% if profile.badges %}
                         <ul class="user-badges-list">
                         {% for badge in profile.badges.all %}
                             <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
                         {% endfor %}
                         </ul>
-                {% endif %} -->
+                {% endif %}{% endcomment %}
             </div>
         </div>
         

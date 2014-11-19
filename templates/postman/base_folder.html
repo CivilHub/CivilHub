@@ -11,7 +11,7 @@ in the INSTALLED_APPS setting.
 {% block content %}
 <div id="postman">
 <h1>{% block pm_folder_title %}{% endblock %}</h1>
-<div class="col-sm-9 main-content">
+<div class="col-sm-8 main-content">
 {% autopaginate pm_messages %}
 {% if invalid_page %}
 <p>{% trans "Sorry, this page number is invalid." %}</p>

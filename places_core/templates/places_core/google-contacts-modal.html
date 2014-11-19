@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<script type="text/template" id="google-contacts-tpl">
+<div class="modal fade" id="google-contacts-modal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -11,7 +11,7 @@
         <p><input type="checkbox" id="check-all-button" checked="checked" />{% trans "Check all" %}</p>
         <form id="google-contacts-form">
           {% csrf_token %}
-          <ul id="contact-list"></ul>
+          <ul id="contact-list"><div class="custom-spinner"><span class="fa fa-spin fa-circle-o-notch">&nbsp;</span></div></ul>
         </form>
       </div>
       <div class="modal-footer">
@@ -20,7 +20,7 @@
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</script><!-- /.modal -->
+</div><!-- /.modal -->
 
 <script type="text/template" id="google-contacts-entry-tpl">
   <input type="checkbox" name="emails" checked="checked" value="<%= address %>" /> <%= name %>

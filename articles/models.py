@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 
@@ -15,6 +16,11 @@ class Category(MPTTModel):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _("category"),
+        verbose_name_plural = _("categories")
 
 
 class Article(models.Model):
@@ -49,3 +55,8 @@ class Article(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        ordering = ['title',]
+        verbose_name = _("article"),
+        verbose_name_plural = _("articles")

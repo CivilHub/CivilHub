@@ -34,6 +34,11 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _("category"),
+        verbose_name_plural = _("categories")
+
 
 class News(models.Model):
     """
@@ -47,7 +52,7 @@ class News(models.Model):
     content = models.TextField(max_length=10248, null=True, blank=True,)
     category = models.ForeignKey(
         Category,
-        verbose_name=_('Category'),
+        verbose_name=_('category'),
         null=True,
         blank=True,
     )
@@ -89,4 +94,9 @@ class News(models.Model):
     
     def __unicode__(self):
         return self.title
+
+    class Meta:
+        ordering = ['title',]
+        verbose_name = _("news"),
+        verbose_name_plural = _("news")
     

@@ -1,12 +1,11 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles i18n %}
+
 {% block content %}
 
 <div class="col-sm-12">
     
-{% comment %}
-    List of most active followers.
-{% endcomment %}
+{% comment %} List of all location followers. {% endcomment %}
 
 {% comment %}
 <ul>
@@ -39,16 +38,16 @@
                     <div class="points">
                         <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
                     </div>
+                    {% comment %}
+                    {% if user.is_superuser or is_moderator %}
+                        {% if user != usr %}
+                            <p class="admin-extra-options">
+                                <a href="#" class="moderator-badge-add custom-tooltip" title="{% trans "Give badge" %}" data-target="{{ usr.pk }}"><span class="fa fa-paw">&nbsp;</span></a>
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                    {% endcomment %}
                 </div>
-                
-
-                <button type="button" class="btn-follow-location" data-location-id=""> {% trans "Follow" %}</button>
-
-                {% if is_moderator and user != usr %}
-                <p class="admin-extra-options">
-                    <a href="#" class="moderator-badge-add" data-target="{{ usr.pk }}">{% trans "Give badge" %}</a>
-                </p>
-                {% endif %}
             </div>
         </div>
     {% endfor %}
