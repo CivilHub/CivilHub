@@ -13,6 +13,22 @@ from actstream.models import user_stream
 from userspace.models import RegisterDemand
 from civmail.messages import *
 
+import os, logging
+LOG = os.path.join(settings.BASE_DIR, 'logs/django.log')
+logging.basicConfig(filename = LOG, level = logging.INFO)
+
+
+#
+# Test tasks
+# ----------
+#
+@task(name='tasks.test_schedule')
+def test_schedule():
+    f = open(LOG, 'a')
+    f.write("Test task finished\n")
+    f.close()
+    logging.info("Test task finished")
+
 
 #
 # Email tasks
