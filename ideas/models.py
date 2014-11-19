@@ -24,6 +24,11 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _('category'),
+        verbose_name_plural = _('categories')
+
 
 class Idea(models.Model):
     """
@@ -86,6 +91,11 @@ class Idea(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _("idea"),
+        verbose_name_plural = _("ideas")
+
 
 class Vote(models.Model):
     """
@@ -98,3 +108,7 @@ class Vote(models.Model):
     
     def __unicode__(self):
         return self.user.username
+
+    class Meta:
+        verbose_name = _("vote"),
+        verbose_name_plural = _("votes")

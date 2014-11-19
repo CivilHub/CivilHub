@@ -19,6 +19,7 @@ class GalleryItem(models.Model):
     class Meta:
         abstract = True
         verbose_name = _("gallery item")
+        verbose_name_plural = _("gallery items")
 
     user = models.ForeignKey(User)
     name = models.CharField(max_length=20, blank=True, null=True)
@@ -104,9 +105,6 @@ class LocationGalleryItem(GalleryItem):
     comment and name.
     """
     location = models.ForeignKey(Location, related_name='pictures')
-    
-    class Meta:
-        verbose_name = _("gallery item")
 
     def url(self):
         """

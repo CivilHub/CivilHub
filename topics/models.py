@@ -20,6 +20,11 @@ class Category(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _('category'),
+        verbose_name_plural = _('categories')
+
 
 class Discussion(models.Model):
     """
@@ -63,6 +68,7 @@ class Discussion(models.Model):
     
     class Meta:
         verbose_name = _("discussion")
+        verbose_name_plural = _("discussions")
 
 
 class Entry(MPTTModel):
@@ -102,6 +108,11 @@ class Entry(MPTTModel):
     def get_absolute_url(self):
         return self.discussion.get_absolute_url()
 
+    class Meta:
+        ordering = ['-date_created',]
+        verbose_name = _("entry")
+        verbose_name_plural = _("entries")
+
 
 class EntryVote(models.Model):
     """
@@ -114,3 +125,7 @@ class EntryVote(models.Model):
 
     def __unicode__(self):
         return self.vote
+
+    class Meta:
+        verbose_name = _("vote")
+        verbose_name_plural = _("votes")

@@ -48,6 +48,11 @@ class Poll(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        ordering = ['title',]
+        verbose_name = _("poll"),
+        verbose_name_plural = _("polls")
+
 
 class Answer(models.Model):
     """
@@ -62,6 +67,11 @@ class Answer(models.Model):
 
     def __unicode__(self):
         return self.answer
+
+    class Meta:
+        ordering = ['answer',]
+        verbose_name = _("answer"),
+        verbose_name_plural = _("answers")
 
 
 class AnswerSet(models.Model):

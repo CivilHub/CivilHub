@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import get_language
+from django.utils.translation import ugettext_lazy as _
 from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
@@ -64,6 +65,8 @@ class Location(models.Model):
     
     class Meta:
         ordering = ['name',]
+        verbose_name = _('location')
+        verbose_name_plural = _('locations')
 
     def country_name(self):
         """ Get location's country name. """
