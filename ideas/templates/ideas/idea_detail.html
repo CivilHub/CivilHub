@@ -59,8 +59,8 @@
                         {% if map_markers %}
                             <li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>
                         {% endif %}
-                        <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                         {% if user.is_superuser or user == idea.creator or is_moderator %}
+                        <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                         <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>
                         {% endif %}
                         {% if user.is_superuser or is_moderator %}
