@@ -40,20 +40,12 @@ function ($, _, Bootstrap, utils, ui) {
     
     var ContactListView = Backbone.View.extend({
         
-        tagName: 'div',
-        
-        className: 'modal fade',
-        
-        template: _.template($('#google-contacts-tpl').html()),
-        
-        events: {
-            'click #check-all-button': 'toggleAll'
-        },
+        el: '#contact-list',
         
         initialize: function (options) {
-            this.$el.html(this.template({})).modal({show:false});
-            this.$form = this.$el.find('form:first');
-            this.$submit = this.$el.find('.submit-btn:first');
+            this.$modal = this.$el.parents('.modal').first();
+            this.$form = this.$modal.find('form:first');
+            this.$submit = this.$modal.find('.submit-btn:first');
             this.collection = new ContactsCollection(options.contacts);
             this.render();
             
@@ -67,6 +59,10 @@ function ($, _, Bootstrap, utils, ui) {
                 e.preventDefault();
                 this.$form.trigger('submit');
             }.bind(this));
+            
+            $('#check-all-button').on('click', function (e) {
+                this.toggleAll();
+            }.bind(this));
         },
         
         render: function () {
@@ -79,7 +75,7 @@ function ($, _, Bootstrap, utils, ui) {
             var contact = new ContactView({
                 model: item
             });
-            $(contact.render().el).appendTo(this.$el.find('#contact-list'));
+            $(contact.render().el).appendTo(this.$el);
         },
         
         submit: function () {
@@ -109,11 +105,11 @@ function ($, _, Bootstrap, utils, ui) {
         },
         
         open: function () {
-            this.$el.modal('show');
+            this.$modal.modal('show');
         },
         
         close: function () {
-            this.$el.modal('hide');
+            this.$modal.modal('hide');
         }
     });
     

@@ -11,7 +11,7 @@ require.config({
     
     urlArgs: "bust=" + (new Date()).getTime(),
     
-    waitSeconds: 200,
+    waitSeconds: 500,
     
     paths: {
         jquery     : "includes/jquery/jquery",
@@ -59,8 +59,6 @@ require(['jquery',
 function($, _, ContactListView) {
 
     "use strict";
-    
-    var contactWindow = null; // Globalne dowiązanie do okna kontaktów.
 
     // Zapytanie do serwera o kontakty użytkownika.
 
@@ -106,21 +104,20 @@ function($, _, ContactListView) {
         
         if (GOOGLE_DATA !== undefined && GOOGLE_DATA.access_token) {
             
+            var contacts;
+            
             $('.contacts-toggle').show().on('click', function (e) {
-        
                 e.preventDefault();
-                
-                if (!_.isNull(contactWindow)) {
-                    contactWindow.open();
-                    return false;
-                }
-                
-                fetchContacts(function (data) {
-                    contactWindow = new ContactListView({
-                        contacts: parseContacts(data)
+                var $modal = $('#google-contacts-modal');
+                $modal.one('shown.bs.modal', function () {
+                    fetchContacts(function (data) {
+                        $('#contact-list').empty();
+                        contacts = new ContactListView({
+                            contacts: parseContacts(data)
+                        });
                     });
-                    contactWindow.open();
                 });
+                $modal.modal('toggle');
             });
         }
     });
