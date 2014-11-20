@@ -76,6 +76,7 @@ function ($, _, Backbone) {
         filter: function () {
             var filters = getListOptions();
             _.extend(this.collection.queryParams, filters);
+            this.filtered = true;
             this.collection.fetch();
         },
         

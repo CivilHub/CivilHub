@@ -40,6 +40,8 @@ function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
                     visibleEntries: 9
                 });
                 $('.custom-label-list').show();
+            } else if (this.filtered !== undefined && this.filtered) {
+                this.$el.empty().html($('#no-results-tpl').html());
             } else {
                 $('.content-container').hide();
                 $('.no-entries').show();

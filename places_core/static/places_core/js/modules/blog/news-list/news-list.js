@@ -111,6 +111,8 @@ function ($, _, Backbone, utils, PageableView) {
                         defaultOffset: self.collection.state.currentPage,
                         visibleEntries: 9
                     });
+                } else if (this.filtered !== undefined && this.filtered) {
+                    this.$el.empty().html($('#no-results-tpl').html());
                 } else {
                     // Show info that there are no items
                     $('.content-container').hide();

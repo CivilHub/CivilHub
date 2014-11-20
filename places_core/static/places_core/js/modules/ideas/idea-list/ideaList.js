@@ -39,6 +39,8 @@ function ($, _, Backbone, IdeaCollection, IdeaView, PageableView) {
                     defaultOffset: self.collection.state.currentPage,
                     visibleEntries: 9
                 });
+            } else if (this.filtered !== undefined && this.filtered) {
+                this.$el.empty().html($('#no-results-tpl').html());
             } else {
                 $('.content-container').hide();
                 $('.no-entries').show();

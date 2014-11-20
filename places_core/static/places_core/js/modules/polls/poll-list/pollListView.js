@@ -26,18 +26,25 @@ function ($, _, Backbone, PollListEntry, PollListCollection, PageableView) {
 
         render: function () {
             var self = this;
-            this.$el.empty();
-            this.$el.html(this.template(this.collection.state));
-            this.collection.each(function (item) {
-                this.renderEntry(item);
-            }, this);
-            this.$el.find('.page').on('click', function () {
-                self.getPage(parseInt($(this).attr('data-index'), 10));
-            });
-            this.$el.find('.pagination').pagination({
-                defaultOffset: self.collection.state.currentPage,
-                visibleEntries: 9
-            });
+            if (this.collection.length) {
+                this.$el.empty();
+                this.$el.html(this.template(this.collection.state));
+                this.collection.each(function (item) {
+                    this.renderEntry(item);
+                }, this);
+                this.$el.find('.page').on('click', function () {
+                    self.getPage(parseInt($(this).attr('data-index'), 10));
+                });
+                this.$el.find('.pagination').pagination({
+                    defaultOffset: self.collection.state.currentPage,
+                    visibleEntries: 9
+                });
+            } else if (this.filtered !== undefined && this.filtered) {
+                this.$el.empty().html($('#no-results-tpl').html());
+            } else {
+                $('.content-container').hide();
+                $('.no-entries').show();
+            }
         },
 
         renderEntry: function (item) {
