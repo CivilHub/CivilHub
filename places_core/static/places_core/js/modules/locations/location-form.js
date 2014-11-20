@@ -227,7 +227,6 @@ function ($, _, Backbone) {
             }.bind(this));
             
             this.$realInput.val(id);
-            alert(this.$realInput.val());
         }
     });
     
