@@ -25,7 +25,7 @@ function ($, _, Backbone) {
     // Szablon dla całej grupy "sztucznego" elementu
     
     var inputTemplate = '<div class="btn btn-success custom-btn-full-width \
-        input-indicator"></div><ul></ul>';
+        input-indicator"></div><ul class="sublist"></ul>';
     
     // Templatka dla pojedynczej opcji w elemencie 'select' (lokalizacja)
     
@@ -110,7 +110,12 @@ function ($, _, Backbone) {
         },
         
         toggleList: function () {
-            this.$el.find('ul').toggle();
+            var $ul = this.$el.find('ul');
+            $('ul.expanded').not($ul)
+                .hide()
+                .removeClass('expanded');
+            this.$el.find('ul').toggle()
+                .toggleClass('expanded');
         },
         
         select: function (name) {
