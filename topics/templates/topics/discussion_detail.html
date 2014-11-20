@@ -51,7 +51,7 @@
                     <a href="{% url 'locations:discussions' discussion.location.slug %}">{% trans "All channels" %}</a>
                 </span>
                 <span class="custom-label-entry">
-                    <a href="{% url 'locations:ajaxlist' discussion.location.slug %}?meta=question&state=all&time=any&category={{ discussion.category.pk }}&text=false" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
+                    <a href="{% url 'locations:discussions' discussion.location.slug %}/#{{ discussion.category.pk }}" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
                 </span>
             </div>
 
