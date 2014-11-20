@@ -31,7 +31,7 @@
                 </a>
             </li>{% endif %}
             {% if 'upload' in links %}<li>
-                <a href="#"> <span class="ch-icon ch-photos"> </span> Upload Images </a>
+                <a href="{% url 'locations:upload' location.slug %}"> <span class="ch-icon ch-photos"> </span> Upload Images </a>
             </li>{% endif %}
             {% if 'invite' in links %}<li>
                 <a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}"><span class="ch-icon ch-followers"> </span>{% trans "Invite people" %}</a>
