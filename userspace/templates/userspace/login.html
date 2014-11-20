@@ -50,7 +50,7 @@ window.GOOGLE_DATA = {
                     <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ request.GET.next }}" />
-                        <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %} type="email" autofocus>
+                        <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus>
                         <input class="form-control" id="password" maxlength="64" name="password" placeholder="{% trans "Password" %}" type="password">
                         <div class="remember-me">
                             <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
