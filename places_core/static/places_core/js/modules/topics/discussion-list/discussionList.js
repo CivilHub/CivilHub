@@ -16,11 +16,15 @@ function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
     
     var DiscussionList = PageableView.extend({
 
-        initialize: function () {
+        initialize: function (opts) {
             this.collection = new DiscussionCollection();
-            this.collection.setPageSize(window.pageSize);
             this.$el.appendTo('#discussions');
             this.listenTo(this.collection, 'sync', this.render);
+            if (opts.cat !== null) {
+                this.filtered = true;
+                _.extend(this.collection.queryParams, {category: opts.cat});
+            }
+            this.collection.setPageSize(window.pageSize);
         },
 
         render: function () {
@@ -41,6 +45,7 @@ function ($, _, Backbone, DiscussionEntry, DiscussionCollection, PageableView) {
                 });
                 $('.custom-label-list').show();
             } else if (this.filtered !== undefined && this.filtered) {
+                $('.custom-label-list').show();
                 this.$el.empty().html($('#no-results-tpl').html());
             } else {
                 $('.content-container').hide();

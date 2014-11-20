@@ -8,7 +8,16 @@ function (DiscussionList) {
     
     "use strict";
     
-    var discussions = new DiscussionList();
+    function getCategoryId () {
+        var re = /#[0-9]+/,
+            res = re.exec(document.location.href);
+        if (res !== null) {
+            return res[0].replace('#', '');
+        }
+        return null;
+    }
+    
+    var discussions = new DiscussionList({'cat': getCategoryId()});
     
     //
     // Obsługa kliknięć.
