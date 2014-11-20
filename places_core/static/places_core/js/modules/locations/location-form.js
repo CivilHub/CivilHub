@@ -1,8 +1,11 @@
-//
-// location-form.js
-// ================
-//
-// Skrypty obsługujące formularz tworzenia lokalizacji.
+/**
+ * location-form.js
+ * ================
+ *
+ * Skrypty obsługujące formularz tworzenia lokalizacji.
+ *
+ * TODO: uzupełnianie początkowej wartości w formularzu.
+ */
 
 define(['jquery',
         'underscore',
@@ -23,13 +26,13 @@ function ($, _, Backbone) {
     var defaultOpt = gettext("Click to select from list");
     
     // Szablon dla całej grupy "sztucznego" elementu
+    // (załączony w locations/templates/locations/location_form.html)
     
-    var inputTemplate = '<div class="btn btn-success custom-btn-full-width \
-        input-indicator"></div><ul class="sublist"></ul>';
+    var inputTemplate = $('#input-tpl').html();
     
     // Templatka dla pojedynczej opcji w elemencie 'select' (lokalizacja)
     
-    var optionTemplate = '<li data-value="<%= id %>"><%= name %></li>';
+    var optionTemplate = '<li class="name-entry" data-value="<%= id %>"><%= name %></li>';
     
     // Templatka dla 'sztucznego' elementu input zastępującego oryginalny select
     
@@ -52,8 +55,9 @@ function ($, _, Backbone) {
         template: _.template(inputTemplate),
         
         events: {
-            'click li': 'expand',
-            'click .input-indicator': 'toggleList'
+            'click .name-entry': 'expand',
+            'click .input-indicator': 'toggleList',
+            'keyup .search-filter': 'filter'
         },
         
         initialize: function (data) {
@@ -109,6 +113,8 @@ function ($, _, Backbone) {
             }
         },
         
+        // Metoda pokazuje/ukrywa listę sublokalizacji
+        
         toggleList: function () {
             var $ul = this.$el.find('ul');
             $('ul.expanded').not($ul)
@@ -118,6 +124,13 @@ function ($, _, Backbone) {
                 .toggleClass('expanded');
         },
         
+        /** 
+         * Metoda uzupełnie aktualnie wybraną
+         * lokalizację do wyświetlenia na przycisku
+         *
+         * @param name { string } Nazwa lokalizacji
+         */
+        
         select: function (name) {
             var $i = this.$el.find('.input-indicator');
             $i.text(name);
@@ -125,6 +138,20 @@ function ($, _, Backbone) {
                 $i.removeClass('btn-success')
                     .addClass('btn-primary');
             }
+        },
+        
+        // Metoda filtruje listę i ukrywa wyniki, które nie pasują
+        
+        filter: function () {
+            var name = this.$el.find('.search-filter').val(),
+                re = new RegExp(name, 'i');
+            this.$el.find('.name-entry').each(function (item) {
+                if (re.test($(this).text())) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         }
     });
     
@@ -200,6 +227,7 @@ function ($, _, Backbone) {
             }.bind(this));
             
             this.$realInput.val(id);
+            alert(this.$realInput.val());
         }
     });
     
