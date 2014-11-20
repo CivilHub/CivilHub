@@ -36,25 +36,63 @@
         clear: both;
     }
     
-    /*
-     * Element wyświetlający aktualnie wybraną miejscowość w formularzu tworzenia
-     * nowej lokalizacji.
-     */
-    .indicator {
-        margin-top: 15px;
+    .custom-btn-full-width {
+        width: 100%;
     }
 }
 
+
+/*******************************
+ * TWORZENIE NOWEJ LOKALIZACJI *
+ *******************************/
+ 
 /*
- * Podgląd obrazu w formularzach zmiany tła i avatara.
+ * Element wyświetlający aktualnie wybraną miejscowość.
  */
+.indicator {
+    margin-top: 15px;
+}
+
+/*
+ * Style dla listy sub-lokalizacji.
+ */
+.fake-input {
+  ul {
+    list-style-type: none;
+    display: none;
+    position: absolute;
+    z-index: 1001;
+    background-color: #fff;
+    padding: 0px 10px 10px 10px;
+    border: 1px solid #407DCD;
+    
+    li {
+        display: block;
+        width: 100%;
+        height: 30px;
+        cursor: pointer;
+        
+        :hover {
+            background-color: #407DCD;
+        }
+    }
+  }
+}
+
+
+/*******************************
+ *    FORMULARZE DO OBRAZÓW    *
+ *******************************/
+
 #img-preview {
     margin-bottom: 35px;
 }
 
-/*
- * Formularze dla django-postman - tworzenie i edycja wiadomości.
- */
+
+/*******************************
+ *       DJANGO POSTMAN        *
+ *******************************/
+
 #postman {
   /* Fix to give some space for footer. */
   >.col-sm-8, >.col-sm-9, >.col-sm-10 {
