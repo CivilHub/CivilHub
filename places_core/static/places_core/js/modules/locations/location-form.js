@@ -122,6 +122,9 @@ function ($, _, Backbone) {
                 .removeClass('expanded');
             this.$el.find('ul').toggle()
                 .toggleClass('expanded');
+            this.$el.find('.search-filter')
+                .val('').focus();
+            this.filter();
         },
         
         /** 
