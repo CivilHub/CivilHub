@@ -292,7 +292,11 @@ class BookmarkAPIViewSet(viewsets.ModelViewSet):
 
 
 class UserActivityView(TemplateView):
-    """ """
+    """ 
+    Statyczny widok listy aktywności użytkownika (aka dashboard). Tutaj
+    wczytujemy szablon i listę ostatnich pięciu elementów z każdego typu
+    zawartości. Dodatkowo z osobnego widoku API ładowane są akcje.
+    """
     template_name = 'userspace/activity.html'
 
     def get_latest(self, actstream, item_type):
@@ -306,8 +310,8 @@ class UserActivityView(TemplateView):
         elif item_type == 'polls':
             ct = ContentType.objects.get_for_model(Poll).pk
         raw_set = actstream.filter(action_object_content_type_id=ct) \
-                           .distinct('timestamp') \
-                           .order_by('-timestamp')[:5]
+                .distinct('action_object_object_id') \
+                .order_by('action_object_object_id')[:5]
         return [x.action_object for x in raw_set]
 
     def get_context_data(self, **kwargs):
