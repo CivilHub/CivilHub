@@ -342,7 +342,7 @@ LANGUAGES = (
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': '127.0.0.1:6379:1',
+        'LOCATION': 'redis:6379:1',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }
@@ -371,7 +371,7 @@ DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
 # Celery task manager settings
-BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
+BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT    = ['json']
