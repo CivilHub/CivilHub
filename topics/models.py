@@ -10,6 +10,7 @@ from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 
 from locations.models import Location
+from gallery.image import adjust_uploaded_image
 from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
@@ -135,4 +136,5 @@ class EntryVote(models.Model):
         verbose_name_plural = _("votes")
 
 
+models.signals.post_save.connect(adjust_uploaded_image, sender=Discussion)
 models.signals.post_delete.connect(remove_image, sender=Discussion)

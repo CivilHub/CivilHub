@@ -31,13 +31,12 @@ def handle_tmp_image(image):
                                     img_io.len, None)
 
 
-def resize_image(image):
+def resize_image(image, size=None):
     """
     Funkcja przyjmuje obraz PIL jako argument i zwraca taki sam obiekt, ale ze
     zmienionymi rozmiarami.
-    TODO: warto pomyśleć o dodaniu rozmiaru jako kolejnego argumentu.
     """
-    max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
+    max_w, max_h = settings.BACKGROUND_IMAGE_SIZE if size is None else size
     width, height = image.getdata().size
     ratio = float(max_w)/float(width)
     return image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
@@ -58,10 +57,13 @@ def get_fieldname(instance):
     Metoda przyjmuje instancję obiektu jako argument i zwraca prawidłową nazwę
     pola przechowującego obrazek tła. Działa dla modeli UserProfile oraz Location.
     """
-    if str(type(instance)) == "<class 'locations.models.Location'>":
-        fieldname = instance.image
-    elif str(type(instance)) == "<class 'userspace.models.UserProfile'>":
-        fieldname = instance.background_image
+    field_names = ('background_image', 'image')
+    fieldname = None
+
+    for fn in field_names:
+        fieldname = instance.__dict__.get(fn)
+        if fieldname is not None:
+            break
 
     if fieldname is None:
         raise Exception("Wrong model instance")
@@ -69,14 +71,14 @@ def get_fieldname(instance):
     return fieldname
 
 
-def crop_background(image, pathname):
+def crop_background(image, pathname, max_size=(270,150)):
     """
     Crop background images and display them in thumbs. Both arguments are
     required. Image is PIL image instance (resized and cropped to fit background
     dimmensions) and pathname means upload path (excluding MEDIA_ROOT, e.g same
     as in model's field declaration).
     """
-    max_w, max_h  = (270,150)
+    max_w, max_h  = max_size
     width, height = image.getdata().size
     new_width     = int(width * float(max_h)/float(height))
     startx        = int((new_width - max_w) / 2)
@@ -181,3 +183,15 @@ def delete_cropped_thumb(sender, instance, **kwargs):
     else:
         filepath = os.path.join(settings.MEDIA_ROOT, instance.user.username, filename)
     delete_image(filepath)
+
+
+def adjust_uploaded_image(sender, instance, **kwargs):
+    """
+    Zunifikowana metoda obsługująca obrazy dla naszego modelu ImagableItemMixin.
+    """
+    if instance.image.name == settings.DEFAULT_IMG_PATH:
+        return True
+    imagepath = instance.image.path
+    image = Image.open(imagepath)
+    image = resize_image(image, settings.DEFAULT_IMG_SIZE)
+    image.save(imagepath, 'JPEG')

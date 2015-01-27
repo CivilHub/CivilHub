@@ -84,6 +84,7 @@
         <a class="tag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  
         {% endfor %}
     </p>
+    <img src="{{ idea.image_url }}" alt="{{ idea }}">
     <p>
         {% if idea.category %}
                 <span class="fa fa-star"> </span>{% trans "Category" %}:

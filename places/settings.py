@@ -387,6 +387,12 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 # Ustawienia dla miniaturek
 #-------------------------------------------------------------------------------
+
+DEFAULT_IMG_PATH = "img/item.jpg"
+
+# "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
+DEFAULT_IMG_SIZE = (100,100)
+
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
     (30, 30),

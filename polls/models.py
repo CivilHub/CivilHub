@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 
 from locations.models import Location
+from gallery.image import adjust_uploaded_image
 from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
@@ -88,4 +89,5 @@ class AnswerSet(models.Model):
     answers = models.ManyToManyField(Answer, related_name='answers', blank=True)
 
 
+models.signals.post_save.connect(adjust_uploaded_image, sender=Poll)
 models.signals.post_delete.connect(remove_image, sender=Poll)
