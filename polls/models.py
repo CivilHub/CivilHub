@@ -1,15 +1,19 @@
+from slugify import slugify
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
 from django.contrib.auth.models import User
-from slugify import slugify
-from locations.models import Location
+
 from taggit.managers import TaggableManager
+
+from locations.models import Location
 from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.models import ImagableItemMixin, remove_image
 
 
-class Poll(models.Model):
+class Poll(ImagableItemMixin, models.Model):
     """
     Base poll class - means entire poll.
     """
@@ -82,3 +86,6 @@ class AnswerSet(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
     answers = models.ManyToManyField(Answer, related_name='answers', blank=True)
+
+
+models.signals.post_delete.connect(remove_image, sender=Poll)

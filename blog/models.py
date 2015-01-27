@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
+from slugify import slugify
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from slugify import slugify
 from django.contrib.contenttypes.models import ContentType
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
+
+from taggit.managers import TaggableManager
+
 from comments.models import CustomComment
 from locations.models import Location
-from taggit.managers import TaggableManager
 from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.models import ImagableItemMixin, remove_image
 
 
 class Category(models.Model):
@@ -40,7 +44,7 @@ class Category(models.Model):
         verbose_name_plural = _("categories")
 
 
-class News(models.Model):
+class News(ImagableItemMixin, models.Model):
     """
     Blog for Places
     """
@@ -99,4 +103,6 @@ class News(models.Model):
         ordering = ['title',]
         verbose_name = _("news"),
         verbose_name_plural = _("news")
-    
+
+
+models.signals.post_delete.connect(remove_image, sender=News)

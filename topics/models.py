@@ -1,13 +1,17 @@
+from slugify import slugify
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from slugify import slugify
+
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
+
 from locations.models import Location
 from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.models import ImagableItemMixin, remove_image
 
 
 class Category(models.Model):
@@ -26,7 +30,7 @@ class Category(models.Model):
         verbose_name_plural = _('categories')
 
 
-class Discussion(models.Model):
+class Discussion(ImagableItemMixin, models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
@@ -129,3 +133,6 @@ class EntryVote(models.Model):
     class Meta:
         verbose_name = _("vote")
         verbose_name_plural = _("votes")
+
+
+models.signals.post_delete.connect(remove_image, sender=Discussion)

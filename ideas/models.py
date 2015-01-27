@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
 import datetime
+from slugify import slugify
+
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from slugify import slugify
 from django.contrib.contenttypes.models import ContentType
+
+from taggit.managers import TaggableManager
+
 from comments.models import CustomComment
 from locations.models import Location
-from taggit.managers import TaggableManager
 from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.models import ImagableItemMixin, remove_image
 
 
 class Category(models.Model):
@@ -30,7 +34,7 @@ class Category(models.Model):
         verbose_name_plural = _('categories')
 
 
-class Idea(models.Model):
+class Idea(ImagableItemMixin, models.Model):
     """
     User Idea basic model
     """
@@ -112,3 +116,6 @@ class Vote(models.Model):
     class Meta:
         verbose_name = _("vote"),
         verbose_name_plural = _("votes")
+
+
+models.signals.post_delete.connect(remove_image, sender=Idea)
