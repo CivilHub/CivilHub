@@ -456,13 +456,13 @@ def save_settings(request):
             return redirect('user:index')
     return HttpResponse(_('Form invalid'))
 
-    
+
 def profile(request, username):
     """
     Show user info to other allowed users
     """
-    user = get_object_or_404(User, username=username)
-    prof = get_object_or_404(UserProfile, user=user)
+    prof = get_object_or_404(UserProfile, clean_username=username)
+    user = prof.user
     # Custom action stream
     stream  = UserActionStream(user)
     actions = stream.get_actions(action_type  = 'actor')

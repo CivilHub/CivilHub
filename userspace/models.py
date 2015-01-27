@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from slugify import slugify
 from uuid import uuid4
 from django.db import models
 from django.db.models.signals import post_delete, post_save
@@ -49,6 +50,7 @@ class UserProfile(models.Model):
     rank_pts  = models.IntegerField(blank=True, default=0)
     birth_date = models.CharField(max_length=20, blank=True, null=True)
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
+    clean_username = models.SlugField(blank=True, null=True)
     gender = models.CharField(
         max_length=1,
         choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
@@ -93,10 +95,17 @@ class UserProfile(models.Model):
         upload_to = get_upload_path,
         default = 'img/backgrounds/background.jpg'
     )
-    
+
     def save(self, *args, **kwargs):
         if self.description:
             self.description = strip_tags(self.description)
+        if not self.clean_username:
+            clean_username = slugify(self.user.get_full_name())
+            chk = UserProfile.objects.filter(clean_username=clean_username).count()
+            if chk:
+                self.clean_username = "%s-%d" % (clean_username, self.pk)
+            else:
+                self.clean_username = clean_username
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
             try:
@@ -107,7 +116,7 @@ class UserProfile(models.Model):
             except UserProfile.DoesNotExist:
                 pass
         super(UserProfile, self).save(*args, **kwargs)
-    
+
     def thumbnail_small(self):
         return thumbnail(self.avatar.name, 30)
         
@@ -137,7 +146,7 @@ class UserProfile(models.Model):
         return rename_background_file(self.background_image.url)
 
     def get_absolute_url(self):
-        return reverse('user:profile', kwargs={'username': self.user.username})
+        return reverse('user:profile', kwargs={'username': self.clean_username})
 
     def __unicode__(self):
         return self.user.get_full_name()
