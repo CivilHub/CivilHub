@@ -53,6 +53,27 @@ from .serializers import BookmarkSerializer, \
                           SocialAuthSerializer
 
 
+def obtain_auth_token(request):
+    """
+    Widok dla aplikacji mobilnej pozwalający nam zalogować
+    użytkownika przy pomocy email i hasła.
+    """
+    context = {'success': False,}
+    if request.method != 'POST':
+        context.update({'error': _("Only POST requests allowed"),})
+    else:
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        try:
+            system_user = User.objects.get(email=email)
+            user = auth.authenticate(username=system_user.username, password=password)
+            context.update({'success': True, 'token': system_user.auth_token.key})
+        except User.DoesNotExist:
+            user = None
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+
 class UserFollowAPIView(rest_views.APIView):
     """
     Widok API obsługujący przycisk podążania za użytkownikiem. Tylko zapytania
