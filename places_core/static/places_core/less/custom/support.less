@@ -71,3 +71,14 @@
   min-height: 600px;
   margin-bottom: 35px;
 }
+
+.headerBGa{
+    &.headerBGSupport{
+        background-image: url('../img/header_faq.png');
+        @media 
+        (-webkit-min-device-pixel-ratio: 2), 
+        (min-resolution: 192dpi) { 
+            background-image: url('../img/header_faq@2x.png');
+        }
+    }
+}

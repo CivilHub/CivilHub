@@ -105,7 +105,16 @@
 /*******************************
  *       DJANGO POSTMAN        *
  *******************************/
-
+.avatarViewIMG{
+    width: 40px;
+    height: 40px;  
+    img{
+        max-width: 100%;  
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radisu: 50%;
+    }
+}
 #postman {
   /* Fix to give some space for footer. */
   >.col-sm-8, >.col-sm-9, >.col-sm-10 {
@@ -113,7 +122,61 @@
   }
   .pm_message {
     margin-bottom: 15px;
+
+
+
+
+    .avatarView{
+        .avatarViewIMG;
+        float: left;
+        margin-top: 10px;
+
+    }
+    &#myReplayView{
+        //text-align: right;
+        .avatarView{
+           .avatarViewIMG;
+            float:right;
+        }
+        .pm_container{
+            .pm_header{
+                text-align: right;
+            }
+            .pm_body{
+                border: 1px solid #DEDEDE;
+                color: #666;
+            }
+        }
+    }
+        
+    .pm_container{
+        margin: 0 55px;
+
+        .pm_body{
+            padding: 5px 15px;
+            border: 1px solid #0083fb;
+            border-radius: 20px;
+            -webkit-border-radius: 20px;  
+            color: #424242;          
+        }
+        .pm_header{
+            font-size: 10px;
+            padding: 0 10px;
+            line-height: 18px;
+        }
+
+
+    }
+
   }
+  
+  .formPostmanView{
+    margin: -15px -15px 30px;
+    padding: 15px;
+    border-bottom: 1px solid #DEDEDE;
+  }
+
+
 }
 #pm_messages {
   tr {
@@ -126,4 +189,168 @@
 #postman_menu {
   list-style-type: none;
   margin: 10px 0px 10px 10px;
+}
+//inbox Message Postman 
+
+.btn-postmanButton{
+    background: transparent;
+    text-shadow: none;
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #4d4747;
+    border: 1px solid #DEDEDE;
+    margin-right: 10px;
+    &:hover{
+        color: #0083FB;
+    }
+}
+.btn-postmanButton:active,
+.btn-postmanButton.active{
+    box-shadow: 0 0 0 transparent;
+    -webkit-box-shadow: 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 transparent;
+}
+
+.pmMode{
+    border-bottom: 1px solid #DEDEDE;
+    margin: 5px -15px 20px;
+    padding: 0 15px 20px;
+}
+
+.inboxDivH{
+
+
+    .inboxCheckbox,
+    .inboxContent{
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .inboxCheckbox{
+        width: 19px;
+    }
+    .inboxContent{
+        width: 100%;
+        padding-right: 25px;
+        margin-right: -25px;
+        position: relative;
+        margin-bottom: 10px;
+
+        .inboxMessageH{
+            line-height: 18px;
+            font-size: 12px;
+            .inboxMessageAuthor{
+                color: #0083fb;
+            }
+            .inboxDateMessage{
+                font-weight: 200;
+            }
+
+            .inboxUserAvatar{
+                float: left;
+                width: 40px;
+                height: 40px;
+                .avatarViewIMG;
+                img{
+                    max-width: 100%;
+                    
+                }
+            }
+            .inboxContentH{
+                padding-left: 45px;
+            }
+        }
+        .inboxPmSubject{
+            padding-left: 45px;
+            a{
+              font-size: 12px;
+              line-height: 18px;
+              color: #5b5757;  
+
+              position: absolute;
+              top: 0;
+              left: 0;
+              padding-top: 18px;
+              width: 100%;
+              height: 100%;
+              max-width: 675px;
+              padding-left: 45px;
+              border-radius: 6px;
+              -webkit-border-radius: 6px;
+
+              &:hover{
+                background:rgba(125, 125, 125, 0.1);
+              }
+            }
+        }
+        .inboxReplyDiv{
+            text-align: right;
+            .inboxReply{
+                color: #5b5757;
+                font-size: 12px;
+                font-weight: 200;
+            }
+        }
+    }
+}
+
+
+.inboxHeader{
+    background-image: url('../img/inbox_header.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    max-height: 175px;
+    padding: 3%;
+    margin-bottom: 25px;
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('../img/inbox_header@2x.png');
+    }
+
+
+    h1{
+        text-align: center;
+        font-size: 64px;
+        line-height: 32px;
+        color: #FFF;
+        font-weight: bold;
+
+        @media(max-width: 768px){
+            font-size: 32px;
+
+        }
+    }
+
+
+}
+
+.inboxSidebar{
+    margin-right: 0px;
+}
+.inboxWrite{
+    .main-content{
+        padding: 22px;
+        label{
+            font-size: 15px;
+            line-height: 18px;
+        }
+        .form-button-group{
+            margin-bottom: 0px;
+            padding-top: 5px;
+        }
+    }
+}
+
+.avatartextareaReplay{
+    width: 60px !important;
+    height: 60px !important;
+    .avatarViewIMG;
+}
+.textareaReplyH{
+    padding-left: 30px;
+    padding-right: 0;
 }

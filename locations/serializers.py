@@ -1,8 +1,36 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+from rest_framework.pagination import PaginationSerializer
 from django.utils.translation import gettext as _
 from django.contrib.contenttypes.models import ContentType
 from .models import Location, Country
+
+
+class ContentObjectSerializer(serializers.Serializer):
+    """
+    Serializar dla obiektów wyciąganych z listy relacji wybranej lokalizacji.
+    Metoda sama serializuje dane, ta klasa potrzebna jest, aby połączyć nasz
+    skrypt z REST API poprzez restowe APIView oraz PaginationSerializer.
+    """
+    type = serializers.Field(source='type')
+    name = serializers.Field(source='name')
+    ct = serializers.Field(source='ct')
+    pk = serializers.Field(source='pk')
+    url = serializers.Field(source='url')
+    title = serializers.Field(source='title')
+    image = serializers.Field(source='image')
+    creator = serializers.Field(source='creator')
+    description = serializers.Field(source='description')
+    date_created = serializers.Field(source='date_created')
+
+
+class ContentPaginatedSerializer(PaginationSerializer):
+    """
+    Nakładka pozwalająca nam wypuścić listę obiektów w
+    lokalizacji przez paginowalne APIView z Rest Framework.
+    """
+    class Meta:
+        object_serializer_class = ContentObjectSerializer
 
 
 class MapLocationSerializer(serializers.ModelSerializer):

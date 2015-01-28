@@ -4,11 +4,9 @@
 {% block extrahead %}{{ block.super }}{% endblock %}
 
 {% block content %}
-<div id="postman">
-    
-  <h1>{% block pm_write_title %}{% endblock %}</h1>
+<div id="postman" class="col-sm-8 inboxWrite">
 
-  <div class="col-sm-8 main-content">
+  <div class="main-content">
     <form class="form-horizontal" action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
       {% block pm_write_recipient %}{% endblock %}
       <div class="form-group">
@@ -29,8 +27,8 @@
           <textarea id="id_body" class="form-control" name="body" cols="55" rows="12">{{ form.body.value|default_if_none:"" }}</textarea>
         </div>
       </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-success">{% trans "Send" %}</button></div>
+      <div class="form-group form-button-group">
+        <div class="col-sm-offset-2 col-sm-10 custom-align-r"><button type="submit" class="btn btn-saveBig">{% trans "Send" %}</button></div>
       </div>
     </form>
   </div>

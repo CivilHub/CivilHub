@@ -2,9 +2,28 @@
  * Discussions stylesheet.
  */
 
+.discussionHeading{
+    margin-top: 0px;
+    color: #50616d;
+}
+.discussionTags{
+    font-size: 13px;
+    color: #4d4747;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
 /* Discussion list */
 .discussion-list-entry {
-  padding-top: 15px;
+  //padding-top: 15px;
+
+  .submenuHeading{
+    margin: 0px;
+  }
+
+  .custom-label-list{
+    padding: 5px 0 20px;
+    //border-bottom: 1px solid #EAEAEA;
+  }
   
   .submenu-toggle {
     margin-top: 0px;
@@ -53,17 +72,22 @@
   .topic-list-entry {
     margin-left: 0px;
     margin-right: 0px;
-    border-bottom: 1px solid #eaeaea;
+    //border-bottom: 1px solid #eaeaea;
+    border-top: 1px solid #eaeaea;
     .excerpt {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: left;
+        padding: 0;
       a {
         color: @link-color;
         font-size: 15px;
         line-height: 21px;
         overflow: hidden;
       }
+
+
     }
       
     .category {
@@ -77,12 +101,23 @@
         min-height: 19px;
         line-height: 19px;
       }
+
+    }  
+
+    .custom-align-r{
+        padding: 0;
     }
     
+    .user-window-toggle,
     .count {
       font-size: 15px;
       line-height: 21px;
     }
+    .date-created{
+        font-size: 12px;
+        font-weight: 200;
+    }
+
   }
 }
 
@@ -132,10 +167,19 @@
       margin: 10px 0px 10px 0px;
       padding: 0px 15px 0px 15px;
       
+        .user-window-toggle-detail{
+            color: #0083FB;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .topic-date-col{
+            font-size: 12px;
+        }
     }
     .entry-content {
       padding: 0px 15px 0px 15px;
-      font-size: 16px;
+      //font-size: 16px;
+      font-size: 15px;
       line-height: 26px;
     }
     .entry-footer {
@@ -151,8 +195,14 @@
           float: right;
         }
         .fa {
-          font-size: 14px;
+          font-size: 10px;
+
+          &.fa-angle-down,
+          &.fa-angle-up{
+            font-size: 14px;
+          }
         }
+
       }
     }
   }
@@ -160,7 +210,8 @@
     width: 18px;
     height: 18px;
     position: absolute;
-    left: 70px;
+    //left: 70px;
+    left: 75px;
     top: 25px;
     transform        : rotate(-45deg);
     -webkit-transform: rotate(-45deg);
@@ -174,6 +225,9 @@
   .custom-centered {
     margin: 10px 0px 0px 20px;
     font-size: 9px;
+    &.discussionPH{
+        margin: 10px 0 0 10px;
+    }
   }
   img {
     margin-top: 0px !important;

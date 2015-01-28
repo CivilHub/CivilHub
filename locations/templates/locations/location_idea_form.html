@@ -11,11 +11,11 @@
 
 {% block content %}
 
-    <div class="col-sm-9 main-content">
+    <div class="col-sm-9 main-content contentPX">
     
         <div class="create-form">
         <h3>{% trans "Write idea in" %} {{ location }}</h3>
-            <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
+            <form class="form-horizontal" role="form" method="post" action="{% url 'locations:new_idea' location.slug %}" id="idea-create-form">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <p style="text-align:center;">{% trans "If this entry is about a specific location, you can mark it on the map" %}</p>
@@ -37,7 +37,7 @@
         
     </div>
     
-    <div class="col-sm-3">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
     

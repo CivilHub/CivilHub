@@ -5,21 +5,7 @@
 
 {% comment %} ~~~~~~~~~~ TWORZENIE NOWEGO KOMENTARZA  ~~~~~~~~ {% endcomment %}
 <div class="commentformarea row">
-    {% if user.is_authenticated %}
-    <div class="col-sm-2">
-        <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar" />
-    </div>
-    <div class="col-sm-10">
-        <form id="user-comment-form" role="presentation" class="comment-form-body">
-            <div class="form-group">
-                <textarea name="comment" id="comment" class="form-control" cols="15" rows="5"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-default btn-submit-comment-main">{% trans "Submit comment" %}</button>
-            </div>
-        </form>
-    </div>
-    {% endif %}
+
  
 {% comment %} ~~~~~~~~~~~~~~~~~~~~ FILTRY  ~~~~~~~~~~~~~~~~~~~ {% endcomment %}    
     <p id="comment-order-controls">{% trans "Order by" %}:
@@ -33,7 +19,22 @@
         <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
         <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
     </p>
-    
+
+    {% if user.is_authenticated %}
+    <div class="col-sm-1 avatarCommentsAutor">
+        <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar" />
+    </div>
+    <div class="col-sm-11">
+        <form id="user-comment-form" role="presentation" class="comment-form-body">
+            <div class="form-group">
+                <textarea name="comment" id="comment" class="form-control" cols="15" rows="1"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sendBlue btn-submit-comment-main">{% trans "Submit comment" %}</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}    
 </div>
 
 {% comment %} ~~~~~~~~~~~~~~~~~~ KOMENTARZE  ~~~~~~~~~~~~~~~~~ {% endcomment %}
@@ -41,7 +42,7 @@
 
 {% comment %} ~~~~~~~~~~~~~~ SZABLON KOMENTARZA  ~~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-template">
-    <div class="row comment-row comment-entry-heading">
+    <div class="row comment-row comment-entry-heading commentNext">
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
         <div class="comment-main-col">
             <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a> 
@@ -63,18 +64,18 @@
                 <% if (username !== $('#target-user').val()) { %>
                     <p>
                         <span class="comment-total-votes"><%= total_votes %></span>
-                        <a class="vote-link vote-up-link" href="#"><span class="fa fa-arrow-circle-o-up"> </span></a> |
-                        <a class="vote-link vote-down-link" href="#"><span class="fa fa-arrow-circle-o-down"> </span></a>
+                        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
+                        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="{% trans "Bad Idea, Vote NO" %}" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
                 <% } else { %>
                     <p><span class="comment-total-votes"><%= total_votes %></span>
                 <% } %>
                 {% endif %}
                 
                 {% comment %}
-                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %})</a>
+                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %}) </a>
                 {% endcomment %}
                 
-                {% if user.is_authenticated %}| <a class="comment-reply" href="#">{% trans "Reply" %}</a> |{% endif %}
+                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> &bull; {% endif %}
                 
                 <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a>
                 </p>
@@ -98,11 +99,11 @@
         <form role="presentation" class="comment-form-body">
             <div class="form-group">
                 <label for="comment" class="control-label">Comment</label>
-                <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
+                <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
-                <button class="btn btn-default btn-cancel-comment">{% trans "Cancel" %}</button>
+                <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+                <button class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
             </div>
         </form>
     </div>
@@ -113,11 +114,11 @@
     <form role="presentation" class="comment-form-body">
         <div class="form-group">
             <label for="comment" class="control-label">Comment</label>
-            <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
+            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default btn-submit-comment">{% trans "Submit comment" %}</button>
-            <button type="submit" class="btn btn-default btn-cancel-comment">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+            <button type="submit" class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
         </div>
     </form>
 </script>

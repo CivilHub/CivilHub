@@ -7,10 +7,10 @@
 
 {% block content %}
 
-    <div class="col-sm-9 main-content">
+    <div class="col-sm-9 main-content contentPX">
         <div class="create-form">
         <h3>{% trans "Write news in" %} {{ location }}</h3>
-            <form class="form-horizontal" role="form" method="post" action="" enctype="multipart/form-data" id="news-create-form">
+            <form class="form-horizontal" role="form" method="post" action="" id="news-create-form">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="form-group">
@@ -24,7 +24,7 @@
         </div>
     </div>
     
-    <div class="col-sm-3">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
     

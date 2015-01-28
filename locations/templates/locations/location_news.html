@@ -48,7 +48,7 @@
             <ul class="nav navbar-nav navbar-right">
             <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
             <li class="navbar-text">{% trans "Stats" %}</li>
-            <span class="bs-navbar-soon">(soon)</span>
+            {% comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
             </ul>
 
 
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <input type="text" id="haystack" name="haystack" class="form-control" placeholder="{% trans "Search" %}">
                 </div>
-                <a class="search-button"><span class="fa fa-search"></span></a>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
             </form>
         </div>
     </nav>
@@ -66,7 +66,7 @@
 
 {% block content %}
 
-    <div class="col-sm-9 content-container">
+    <div class="col-sm-9 content-container contentPX blogDivNews">
 
         <div id="entries"></div>
 
@@ -105,10 +105,10 @@
         
         <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
     
-            {% include 'blog/news_list.html' %}
+              {% include 'blog/news_list.html' %}  
     </div>
     
-    <div class="col-sm-9 no-entries" style="display:none">
+    <div class="col-sm-9 no-entries contentPX" style="display:none">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any news" %} {% trans "in" %} {{ location }}.<br /> 
@@ -128,7 +128,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="col-sm-3">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
 {% endblock %}

@@ -33,6 +33,8 @@ body {
 
 .top15 { margin-top: 15px; }
 
+textarea{ resize: vertical; }
+
 /* Wrapper for page content to push down footer */
 .wrap {
   min-height: 100%;
@@ -83,15 +85,27 @@ body {
   overflow: hidden;
 }
 /*---Semi-tables on BS grid---*/
+
+
+
 .custom-tablelike {
+    //margin-top: -15px; discusion:0
 
   .custom-list-heading {
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 2em;
+    //font-size: 14px;
+    //font-weight: bold;
+    //line-height: 2em;
+
+    font-size: 21px;
+    color: #50616d;
+    font-weight: 700;
+    border-top: 0px none !important;
+
   }
   .custom-list-entry {
-    padding: 5px 0px 5px 0px;
+    //padding: 5px 0px 5px 0px;
+    padding: 8px 0px 8px 0px;
+
     &:hover {
       .list-entry-controls {
         opacity: 1;
@@ -133,6 +147,19 @@ body {
       display: block;
     }
   }
+
+  &.polls-list{
+    .polls-list-entry{
+        .date-created{
+            font-size: 12px;
+            font-weight: 200;
+        }
+        .pollEye{
+            display: inline-block;
+            margin-left: 5px;
+        }
+    }
+  }
 }
 /*--------User avatar---------*/
 .user-profile-link {
@@ -156,12 +183,15 @@ body {
 }
    
 .user-avatar {
-    width: 60px;
-    height: 60px;
+
+
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
-    border: 1px solid #eee;
+    //border: 1px solid #eee;
+    border: 0 none;
     margin-bottom: 6px;
    
 } 
@@ -299,6 +329,8 @@ body {
     span {
         vertical-align: middle;
         margin-top: -3px;
+        margin-left: 10px;
+        margin-right: 8px;
     }
 }
 
@@ -341,6 +373,106 @@ body {
     margin-top: -54px;
     text-decoration: none;
 }
+
+button.btn-sendBlue, button.btn-cancelGray{
+    background:#0083FB;
+    color: #FFF;
+    font-size: 9px;
+    line-height: 12px;
+    font-weight: bold;
+    padding: 3px 15px;
+}
+button.btn-cancelBig, button.btn-cancelGray{
+    background:#4d4747;
+}
+
+button.btn-saveBig{
+    background: #0083fb !important;
+}
+
+button.btn-saveBig, button.btn-cancelBig{
+    font-weight: normal;
+    font-size: 14px;
+    padding: 12px 13px;
+    text-shadow: none !important;
+    border: 0 none !important;
+    color: #FFF;
+    margin-left: 5px;
+}
+
+button.btn-plusAdd,button.btn-minusDelete{
+    color:#FFF;
+    font-weight: 200;
+    border: 0 none !important;
+    text-shadow: none !important;
+}
+button.btn-plusAdd{
+    background: #84bd00;
+}
+button.btn-minusDelete{
+    background: #e40f0d;
+}
+
+.twitterDiv{
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 5%;
+
+    label{
+        color: #b3b3b1;
+    }
+    .twCreatingAccept{
+        margin-top: 25px;
+        a{
+            color: #0083FB;
+            text-decoration: underline;
+        }
+    }
+    .twButton{
+        text-align: center;
+        .btn-sendBlue{
+            font-size: 14px;
+            padding: 5px 15px;
+            font-weight: normal;
+        }
+    }
+    .twitterDivLabel{
+        text-align: center;
+        margin-bottom: 25px;
+        h2{
+            font-weight: bold;
+        }
+        .twAccount{
+            font-size: 16px;
+            a{
+                color: #0083FB;
+                text-decoration: none;
+            }
+        }
+
+    }
+
+}
+
+h1.headerTitleBG{
+    text-align: center;
+    font-size: 64px;
+    line-height: 32px;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.headerBGa{
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #DEDEDE;
+    max-height: 175px;
+    padding: 3%;
+    margin-bottom: 25px;
+}
+
 
 @import "location-navbar.less";
 @import "filter-navbar.less";

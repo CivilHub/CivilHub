@@ -3,7 +3,21 @@
     margin-right: -15px;
 }
 
+.idea-Content{
+    padding-right: 15px;
+    .submenu-toggle{
+        margin-left: -37px;
+    }
+}
+
+.idea-votesH{
+    //padding-right: 25px; zle wysiwetla ideas/pomysl
+}
+
 .idea-entry {
+
+    padding: 0px 10px;
+
   .tag-list,
   .category-list,
   .comments-controls {
@@ -18,10 +32,52 @@
   
   .author-info {
     margin-bottom: 10px;
+    a{
+        color: #0083fb;
+    }
+    .ideaDataCreated{
+        font-weight: 200;
+    }
+  }
+  .acticle-content{
+    font-size: 15px !important;
+    line-height: 18px !important;
+  }
+
+  .ideaEntryTags{        
+    font-size: 12px;
+    font-weight: 200;
+    line-height: 22px;
+    a.entryTag{
+    }
+  }
+
+  .ideaEntryComments{
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+
+    border-bottom: 1px solid #5b5757;
+    margin-bottom: 25px;
+    .entryCommentsToggle{
+        float: right;
+        text-decoration: none;
+    }
   }
   
   .full-link {
     float: right;
+    font-size: 12px;
+    font-weight: 200;
+  }
+
+  .totalComments{
+    font-size: 12px;
+    font-weight: 200;
+  }
+
+  .ideaName{
+    color: #50616d;
   }
 
   .entry-submenu {
@@ -102,7 +158,27 @@
 }
 
 #idea-list-view {
+    //padding: 0px 10px;
+
+    h3.allHeadingThree{
+        margin-bottom:  5px;
+        a{
+            color: #50616d;
+            font-size: 21px;
+            font-weight: bold;
+        }
+    }
+
+    p.createBY{
+        font-size: 12px;
+        font-weight: 200;
+        margin: 0;
+    }
     .idea-summary {
+        &.acticle-content{
+            font-size: 15px;
+            text-align: left;
+        }
     
         a {
             color: #666;

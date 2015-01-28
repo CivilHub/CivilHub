@@ -56,14 +56,14 @@
                   <span class="icon-bar"></span>
                 </button>
               </div>
-            <div class="row collapse navbar-collapse" id="bs-location-collapse-menu">
+            <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
         <ul class="nav navbar-nav navbar-nav-userspace">
-                    <li><a href="#" class="list-controller userspace active" data-control="content" data-target=""><span class="ch-icon ch-content navbar-icon"></span>{% trans "Everything" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="news"><span class="ch-icon ch-blog navbar-icon"></span>{% trans "Blog" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion"><span class="ch-icon ch-discussions navbar-icon"></span>{% trans "Discussions" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="idea"><span class="ch-icon ch-ideas navbar-icon"></span>{% trans "Ideas" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="poll"><span class="ch-icon ch-polls navbar-icon"></span>{% trans "Polls" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery"><span class="ch-icon ch-photos navbar-icon"></span>{% trans "Gallery" %}</a></li>
+                    <li><a href="#" class="list-controller userspace active" data-control="content" data-target="">{% trans "Everything" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="news">{% trans "Blog" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion">{% trans "Discussions" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="idea">{% trans "Ideas" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="poll">{% trans "Polls" %}</a></li>
+                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery">{% trans "Gallery" %}</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
                         </div>
-                        <button type="submit" class="search-button"><span class="ch-icon ch-search"></span></button>
+                        <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
                     </form>
         </ul>
             </div>
@@ -83,7 +83,7 @@
 
 {% block content %}
         
-        <div class="col-lg-3">
+        <div class="col-sm-3">
             <div class="sidebar left">
             {% if profile.description %}
                 <div class="sidebar-label">{% trans "About me"%}</div>
@@ -96,7 +96,7 @@
                     {% if profile.followed_locations %}
                         <ul class="sprite-icon">
                         {% for location in profile.followed_locations %}
-                            <li><span class="ch-icon ch-subspaces"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>
+                            <li><span class="fa fa-map-marker"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>
                         {% endfor %}
                         </ul>
                     {% endif %}
@@ -112,7 +112,7 @@
             </div>
         </div>
         
-        <div class="col-lg-5">
+        <div class="col-sm-5">
             <div class=" activity-stream">
             {% for action in stream %}<noscript>
                 <div class="row action-entry">
@@ -124,7 +124,7 @@
                     
                     <div class="col-xs-10 entry-meta-col">
                         <div class="entry-header">
-                            <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
+                            <a href="{{ action.actor.get_absolute_url }}" class="activitesName">{{ action.actor.get_full_name }}</a>
                             {{ action.verb }}
                             {% if action.action_object_content_type %}
                                 &nbsp;{{ action.action_object_content_type }}&nbsp;

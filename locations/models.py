@@ -2,14 +2,17 @@
 import operator, os, json
 from uuid import uuid4
 from slugify import slugify
+
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
+from django.template.defaultfilters import capfirst, truncatewords_html
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import get_language
 from django.utils.translation import ugettext_lazy as _
+
 from actstream.models import model_stream
 # Override system storage: 
 #http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
@@ -21,6 +24,41 @@ from gallery.image import resize_background_image, delete_background_image, \
 
 def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
+
+
+def obj_to_dict(obj):
+    """
+    Helper który zamienia nam rózne typy zawartości na zunifikowany format, co
+    ułatwi nam wyświetlanie ich w templatach. Działa jak prosty serializer.
+    """
+    content_type = ContentType.objects.get_for_model(obj)
+    context = {
+        'type': content_type.model,
+        'name': _(content_type.model),
+        'ct'  : content_type.pk,
+        'pk'  : obj.pk,
+        'url' : capfirst(obj.get_absolute_url()),
+        'title': obj.__unicode__(),
+        'image': obj.image_url,
+        'creator': {
+            'url': obj.creator.profile.get_absolute_url(),
+            'img': obj.creator.profile.avatar.url,
+            'name': obj.creator.get_full_name(),
+        },
+        'date_created': obj.date_created.isoformat(),
+    }
+    if content_type.model == 'idea':
+        context.update({'description': obj.description})
+    elif content_type.model == 'poll':
+        context.update({'description': obj.question})
+    elif content_type.model == 'news':
+        context.update({'description': obj.content})
+    elif content_type.model == 'discussion':
+        context.update({'description': obj.intro})
+    else:
+        raise Exception(_(u"Wrong model instance"))
+    context['description'] = truncatewords_html(context['description'], 15)
+    return context
 
 
 class AlterLocationName(models.Model):
@@ -59,10 +97,11 @@ class Location(models.Model):
     image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg')
     # Tutaj oznaczamy regiony/miasta/stolice itp. oznaczeniami z geonames
     kind = models.CharField(max_length=10)
+
     # custom managers
     objects = models.Manager()
     locale_sorted = LocationLocaleManager()
-    
+
     class Meta:
         ordering = ['name',]
         verbose_name = _('location')
@@ -196,6 +235,15 @@ class Location(models.Model):
     def get_cropped_image(self):
         """ Method to get cropped background for list views. """
         return rename_background_file(self.image.url)
+
+    def content_objects(self):
+        """ Zwraca listę obiektów powiązanych z tą lokalizacją (idee, dyskusje,
+        newsy i ankiety), sortowane od najnowszych. """
+        qs = [obj_to_dict(x) for x in self.poll_set.all()]
+        qs += [obj_to_dict(x) for x in self.news_set.all()]
+        qs += [obj_to_dict(x) for x in self.idea_set.all()]
+        qs += [obj_to_dict(x) for x in self.discussion_set.all()]
+        return sorted(qs, key=lambda x: x['date_created'], reverse=True)
 
     def __unicode__(self):
         lang = get_language().split('-')[0]

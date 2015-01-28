@@ -8,7 +8,11 @@
   #bs-navbar-collapse {
     
     min-height: 0;
-    
+    .dropdown-list{
+        &.bookmark-no-list{
+            right: -15px;
+        }
+    }
   }
   
   #navbar-space {
@@ -63,9 +67,9 @@
       
 	  >a.userspace {
         
-        font-size: 12px;
-        line-height: 15px;
-        padding: 10px 15px;
+        font-size: 15px;
+        line-height: 16px;
+        padding: 11px 15px;
         
       }
 	  
@@ -76,10 +80,16 @@
   
 	.navbar-nav-userspace {
   
-		margin-left: 210px;
+		//margin-left: 210px;
 		
 		li {
-			margin-right: 30px;
+			margin-right: 35px;
+            a{
+                text-transform: uppercase;
+                font-weight: 400;
+                color: #4d4747;
+                
+            }
 		}
 		
 		
@@ -98,14 +108,14 @@
             height: 22px;
             border-radius: 0px;
             border: 1px solid #c6c6c6;
-            
-            -webkit-border-top-left-radius: 3px;
-            -webkit-border-bottom-left-radius: 3px;
-            -moz-border-radius-topleft: 3px;
-            -moz-border-radius-bottomleft: 3px;
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
-            
+                        
+            -webkit-border-top-left-radius: 12px;
+            -webkit-border-bottom-left-radius: 12px;
+            -moz-border-radius-topleft: 12px;
+            -moz-border-radius-bottomleft: 12px;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+
             font-size: 9px;
             line-height: 20px;
             color: #767676;
@@ -130,12 +140,12 @@
             right: 10px;
             width: 30px;
             text-align: center;
-            -webkit-border-top-right-radius: 3px;
-            -webkit-border-bottom-right-radius: 3px;
-            -moz-border-radius-topright: 3px;
-            -moz-border-radius-bottomright: 3px;
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
+            -webkit-border-top-right-radius: 12px;
+            -webkit-border-bottom-right-radius: 12px;
+            -moz-border-radius-topright: 12px;
+            -moz-border-radius-bottomright: 12px;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
 			background: none repeat scroll 0 0 #fff;
             
             span {
@@ -143,8 +153,10 @@
                 font-size: 12px;
                 line-height: 21px;
                 position: relative;
-                top: -3px;
-				left: -3px;
+                //top: -3px;
+				//left: -3px;
+                top: -2px;
+                left: -2px;
                 color: #9b9797;
                 
             }
@@ -156,6 +168,32 @@
   
 }
 
+.profileClassNav{
+
+    .navbar-nav-userspace{
+        max-width: 910px;
+        float: none;
+        width: 100%;
+        text-align: center;
+        display: inline-block;
+        li{
+            float: none;
+            display: inline-block;
+        }
+    }
+    .navbar-right{
+        float: none !important;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    #haystack-form{
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+}
+
 @media all and (max-width: 768px) {
     
     #filters-wprapper {
@@ -164,4 +202,16 @@
         
     }
     
+}
+
+#bs-navbar-collapse {
+
+    .dropdown-menu{
+        &.bookmarks-no-list{
+            right: -15px;
+            li.bookmark-no-list{
+                padding: 6px 10px;
+            }
+        }
+    }
 }

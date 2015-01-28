@@ -12,8 +12,10 @@
         color: #424141;
         padding-top: 0px;
         padding-bottom: 0px;
-        line-height: 45px;
-        height: 45px;
+        //line-height: 45px;
+        //height: 45px;
+        line-height: 68px;
+        height: 68px;
         
         img {
         
@@ -21,13 +23,28 @@
             margin-top: -3px;
             
         }
+
+        .logo_beta{
+            background: #84bd00;
+            color: #fff;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0px 8px;
+            border-radius: 3px;
+            position: relative;
+            top: -8px;
+            margin-left: 6px;
+        }
         
     }
     
     .navbar-form[role=search] {
         
         position: relative;
-        margin-top: 12px;
+        //margin-top: 12px;
+        margin-top: 23px;
+        margin-bottom: 23px;
         margin-left: 20px;
         margin-right: 0px;
         
@@ -35,19 +52,21 @@
             
             padding-top: 1px;
             padding-bottom: 0px;
-            height: 22px;
+            //height: 22px;
+            height: 24px;
             border-radius: 0px;
             border: 1px solid #c6c6c6;
             
-            -webkit-border-top-left-radius: 3px;
-            -webkit-border-bottom-left-radius: 3px;
-            -moz-border-radius-topleft: 3px;
-            -moz-border-radius-bottomleft: 3px;
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
+            -webkit-border-top-left-radius: 12px;
+            -webkit-border-bottom-left-radius: 12px;
+            -moz-border-radius-topleft: 12px;
+            -moz-border-radius-bottomleft: 12px;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
             
             font-size: 9px;
-            line-height: 1;
+            //line-height: 1;
+            line-height: 2;
             color: #767676;
             
         }
@@ -61,7 +80,9 @@
         
         .search-button {
             
-            height: 22px;  
+            //height: 22px;  
+            height: 24px;
+
             border: 1px solid #c6c6c6;
             display: inline-block;
             border-left: 0px;
@@ -70,12 +91,12 @@
             right: -30px;
             width: 30px;
             text-align: center;
-            -webkit-border-top-right-radius: 3px;
-            -webkit-border-bottom-right-radius: 3px;
-            -moz-border-radius-topright: 3px;
-            -moz-border-radius-bottomright: 3px;
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
+            -webkit-border-top-right-radius: 12px;
+            -webkit-border-bottom-right-radius: 12px;
+            -moz-border-radius-topright: 12px;
+            -moz-border-radius-bottomright: 12px;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
             background: none repeat scroll 0 0 #fff;
             
             span {
@@ -83,8 +104,10 @@
                 font-size: 12px;
                 line-height: 21px;
                 position: relative;
-                top: -3px;
-                left: -3px;
+                //top: -3px;
+                //left: -3px;
+                top: 0px;
+                left: 0px;
                 color: #9b9797;
                 
             }
@@ -103,11 +126,49 @@
             
             >a {
                 
-                font-size: 12px;
-                line-height: 15px;
-                padding: 15px 15px 15px 25px;
-                font-weight: 700;
+                //font-size: 12px;
+                font-size: 15px;
+                //line-height: 15px;
+                line-height: 18px;
+                //padding: 15px 15px 15px 25px;
+                padding: 25px 15px 25px 25px;
+                //font-weight: 700;
+                font-weight: 400;
                 position: relative;
+
+                color: #4d4747;
+                text-transform: uppercase;
+
+                &.onlyIcon{
+                    //padding: 25px 14px;
+                    padding: 25px 5px;
+
+                    &:hover{
+                        color: #3399F3;
+                    }
+                    
+                    .message-box{
+                        display: block;
+                        margin-top: -1px;
+                    }
+                    .maps-boxBox,
+                    .my-bookmarkBox,
+                    .message-box{
+                        
+                        display: block;
+                        width: 20px;
+                        text-align: center;
+                        height: 16px;
+
+                    }
+
+                    &.lastIco{
+                        margin-right: 20px;
+                    }
+
+                }
+
+
                 
                 >span.ch-icon {
                     
@@ -116,6 +177,8 @@
                     left: 0px;
                     
                 }
+
+                
                 
             }
             
@@ -132,7 +195,8 @@
                 &.avatar {
                     
                     display: inline-block;
-                    height: 45px;
+                    //height: 45px;
+                    height: 68px;
                     position: relative;
                     width: 30px;
                     
@@ -168,6 +232,68 @@
     border-radius: 50%;
     font-size: 9px;
     position: absolute;
-    left: 10px;
-    top: 5px;
+    left: 14px;
+    top: 22px;
+
+    &.badge{
+        padding: 1px 3px;
+    }
+}
+
+
+#bs-navbar-collapse{
+    .dropdown-menu{
+
+        top: 90%;
+
+        &.bookmarks-list{
+            right: -15px;
+        }
+
+        .divider{
+            margin: 2px 0 0;
+        }
+
+        >li{
+
+            >a{
+                font-size: 15px;
+                color: #2b2a2a;
+                padding: 6px 10px;
+
+                &:hover{
+                    background: transparent;   
+                    color: #2b2a2a;
+                }
+
+            }
+        }
+    }    
+}
+
+
+
+
+.navbarHeader{
+    ul{
+        &:before{
+            content: url('../img/msg_dzibuek.png');
+            display: block;
+            top: -15px;
+            right: 20px;
+            width:19px;
+            position: absolute;
+        }
+    }
+    >li{
+        >.dropdown-menu{
+
+        padding: 0;
+        border-radius: 5px;
+
+           &:hover{
+
+           }
+        }
+    }
 }

@@ -2,7 +2,8 @@
     
     .comment {
         
-        margin-bottom: 10px;
+        //margin-bottom: 10px;
+        margin-bottom: 0px;
         
         .comment-main-col {
           padding-left: 50px;
@@ -11,20 +12,21 @@
         
         .subcomments {
             
-            margin-top: 20px;
+            //margin-top: 20px;
+            margin-top: 0px;
             
         }
         
         .comment-content {
             
             font-size: 14px;
-            line-height: 21px;
+            line-height: 20px;
             
         }
         
         .comment-author-name {
         
-            
+            font-size: 12px;
             
         }
         
@@ -37,7 +39,7 @@
         .comment-meta-options {
             
             p {
-                
+                font-size: 12px;    
                 .comment-total-votes {
                     
                    margin-right: 10px; 
@@ -61,14 +63,53 @@
             }
             
         }
+
+        .commentNext{
+            margin-top: 0px;
+        }
         
     }
     
 }
 
-/* Comments */
+/* Comments */  
+
 .commentformarea {
+
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+
+    .avatarCommentsAutor{
+        padding: 0;
+        margin-right: -15px;
+        img{
+            width: 40px;
+            height: 40px;
+        }
+    }
   
+  //ukryte w js sortowanie
+ #comment-order-controls{
+    
+    margin-top: -20px;
+    padding-bottom: 20px;
+    font-size: 12px;
+
+ }
+
+ #user-comment-form{
+    margin-right: -30px;
+ }
+
+  textarea{
+    border-radius: 0;
+    box-shadow: 0 0 0 transparent;
+    -webkit-box-shadow: 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 transparent;
+    //margin: 11px 0;
+    resize: vertical;
+  }
+
   width: 100%;
   
   .current-user-comment-avatar {
@@ -78,7 +119,8 @@
   .btn-submit-comment-main {
     float: right;
   }
-  
+
+ 
 }
 /* // Comments */
 

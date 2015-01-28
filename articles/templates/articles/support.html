@@ -8,9 +8,80 @@
 </script>
 {% endblock %}
 
+{% block header %}
+
+<div class="headerBGa headerBGSupport">
+<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small></h1>
+</div>
+
+
+{% endblock %}
+
 {% block content %}
-  <div class="col-sm-3">
-    <ul id="category-menu">{{ menu | safe }}</ul>
+<div class="col-sm-3">
+{% comment %}
+	<div class="panel-grou" id="accordion">
+	  	<div class="panel panel-default">
+	  		<div class="panel-heading">
+	  			<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" class="collapsed">Tytul 1</a>
+	  		</div>
+	  		<div id="collapseOne" class="plane-collapse collapse" aria-expanded="false" style="height:0px;">
+	  			<div class="panel-body">
+	  				<table class="table">
+	  					<tbody>
+		  					<tr>
+		  						<td> <a href="#1">Pierwszy</a></td>
+		  					</tr>
+		  					<tr>
+		  						<td><a href="#2">Drugi</a></td>
+		  					</tr>
+	  					</tbody>
+	  				</table>
+	  			</div>
+	  		</div>
+	  	</div>
+	  	<div class="panel panel-default">
+	  		<div class="panel-heading">
+	  			<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed" aria-expanded="false">Tytuł 2</a>
+	  		</div>
+	  		<div id="collapseTwo" class="panel-collapse collapse" aria-expanded="false">
+	  			<div class="panel-body">
+	  				<table class="table">
+	  					<tbody>
+	  						<tr>
+	  							<td><a href="#3">Trzy</a></td>
+	  						</tr>
+	  						<tr>
+	  							<td><a href="#4">Cztery</a></td>
+	  						</tr>
+	  					</tbody>
+	  				</table>
+	  			</div>
+	  		</div>
+	  	</div>
+	</div>		
+{% endcomment %}
+
+    <ul id="category-menu" class="helpMenu">{{ menu | safe }}</ul>
+
+</div>
+
+  <div id="article-content" class="col-sm-9">
+
+{% comment %}
+	  	<div id="#1">
+	  		<p>Pierwszy</p>
+	  	</div>
+	  	<div id="#2">
+	  		<p>Drugi</p>
+	  	</div>
+	  	<div id="#3">
+	  		<p>Trzeci</p>
+	  	</div>
+	  	<div id="#4">
+	  		<p>Czwarty</p>
+	  	</div>
+{% endcomment %}
   </div>
-  <div id="article-content" class="col-sm-9"></div>
+
 {% endblock %}

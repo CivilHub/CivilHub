@@ -22,10 +22,10 @@
 
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
 
-    <div class="col-sm-8 main-content">
+    <div class="col-sm-9 main-content contentPX">
         <div class="discussion-list-entry">
             {% if user.is_authenticated %}
-            <h1><span class="submenu-toggle"> </span></h1>
+            <h1 class="submenuHeading"><span class="submenu-toggle"> </span></h1>
             <div class="entry-submenu">
                 <ul>{% with discussion|content_type as ctype %}
                     {% if map_markers %}
@@ -57,25 +57,23 @@
 
         </div>
         
-        <hr />
         
-        <h1>{{ title }}&nbsp;</h1>
-        <img src="{{ discussion.image_url }}" alt="{{ discussion }}">
+        <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
 
-        <hr />
 
-        {% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}
+
+        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}</p>
 
         <div class="reply-entry">
             <div class="row">
                 <div class="blobfish-left">&nbsp;</div>
                 <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
                     <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
-                    <p class="custom-centered">{{ discussion.creator.profile.rank_pts }}</p>
+                    <p class="custom-centered discussionPH">{{ discussion.creator.profile.rank_pts }}</p>
                 </div>
                 <div class="col-xs-11 discussion-entry-content">
                     <p class="entry-meta">
-                        <a href="{% url 'user:profile' discussion.creator %}" class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
+                        <a href="{% url 'user:profile' discussion.creator %}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
                         <span class="topic-date-col">
                             {{ discussion.date_created | timesince }} {% trans "ago" %}
                         </span>
@@ -101,11 +99,11 @@
                     <div class="blobfish-left">&nbsp;</div>
                     <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
                         <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
-                        <p class="custom-centered">{{ entry.creator.profile.rank_pts }}</p>
+                        <p class="custom-centered discussionPH">{{ entry.creator.profile.rank_pts }}</p>
                     </div>
                     <div class="col-xs-11 discussion-entry-content">
                         <p class="entry-meta">
-                            <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
+                            <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
                             <span class="topic-date-col">
                                 {{ entry.date_created | timesince }} {% trans "ago" %}
                                 {% if entry.is_edited %}
@@ -126,10 +124,10 @@
                             {% else %}
                                 <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
                                 <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-up">
-                                    <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
+                                    <span class="fa fa-angle-up custom-tooltip " title="{% trans "Vote up" %}"> </span>
                                 </a> |
                                 <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
-                                    <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+                                    <span class="fa fa-angle-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
                                 </a> |
                                 <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                                     <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
@@ -188,7 +186,7 @@
        
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
     
@@ -197,7 +195,7 @@
             <div class="blobfish-left">&nbsp;</div>
             <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
                 <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar user-window-toggle" data-target="<%= creator_id %>" />
-                <p class="custom-centered"></p>
+                <p class="custom-centered discussionPH"></p>
             </div>
             <div class="col-xs-11 discussion-entry-content">
                 <p class="entry-meta">

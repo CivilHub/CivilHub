@@ -41,7 +41,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
             <li class="navbar-text">{% trans "Stats" %}</li>
-            <span class="bs-navbar-soon">(soon)</span>
+            {% comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
             </ul>
 
             <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
@@ -58,13 +58,13 @@
 {% block content %}
 
 {% if polls %}
-    <div class="col-sm-9 main-content">
+    <div class="col-sm-9 main-content contentPX">
         {% if polls %}
         <div class="polls-list custom-tablelike">
             
             <div class="row polls-list-heading custom-list-heading">
-                <div class="col-xs-4">{% trans "Title" %}</div>
-                <div class="col-xs-5">{% trans "Created by" %}</div>
+                <div class="col-xs-6 custom-align-l">{% trans "Title" %}</div>
+                <div class="col-xs-6 custom-align-r">{% trans "Created by" %}</div>
             </div>
             
             <noscript>
@@ -101,7 +101,7 @@
     </div>
     
 {% else %}
-    <div class="col-sm-9 no-entries">
+    <div class="col-sm-9 no-entries contentPX">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any polls" %} {% trans "in" %} {{ location }}.<br /> 
@@ -115,7 +115,7 @@
     </div>
 {% endif %}
     
-    <div class="col-sm-3">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
 

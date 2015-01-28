@@ -36,9 +36,9 @@
     </div>
 
     <div class="col-sm-9">
-        <h3><a href="<%= url %>"><%= name %></a></h3>
+        <h3 class="allHeadingThree"><a href="<%= url %>"><%= name %></a></h3>
 
-        <p>
+        <p class="createBY">
             {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a> <span class="date-created"><%= date_created %></span>
             <% if (edited) { %>
                 {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
@@ -51,11 +51,11 @@
         <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a>
         <div class="clear">&nbsp;</div>
         <div>
-            <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
-            <% if (category_name) { %>
+            <a href="<%= url %>" class="totalComments"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
+            {% comment %}<% if (category_name) { %>
             <span class="fa fa-star"> </span>{% trans "Category" %}:
                 <a href="<%= category_url %>"><%= category_name %></a>
-            <% } %>
+            <% } %>{% endcomment %}
         </div>
     </div>
 </script>

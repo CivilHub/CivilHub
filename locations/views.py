@@ -49,11 +49,31 @@ from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from locations.serializers import MapLocationSerializer
 from .serializers import SimpleLocationSerializer, LocationListSerializer, \
-                          CountrySerializer
+                          CountrySerializer, ContentPaginatedSerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
-
 redis_cache = cache.get_cache('default')
+
+
+class LocationSummaryAPI(APIView):
+    """ 
+    Widok API pozwalający pobierać listę wszystkich elementów w danej lokalizacji
+    (idee, dyskusje, ankiety oraz blog). W zapytaniu podajemy pk interesującego nas miejsca, np:
+
+    `/api-locations/contents/?pk=756135/`
+    """
+    paginate_by = 15
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        location_pk = request.QUERY_PARAMS.get('pk', 0)
+        page = request.QUERY_PARAMS.get('page', 1)
+        location = get_object_or_404(Location, pk=location_pk)
+        paginator = Paginator(location.content_objects(), self.paginate_by)
+        items = paginator.page(page)
+        serializer_context = {'request': request}
+        serializer = ContentPaginatedSerializer(items, context=serializer_context)
+        return Response(serializer.data)
 
 
 class LocationFollowAPIView(APIView):

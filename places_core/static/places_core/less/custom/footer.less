@@ -42,6 +42,9 @@
             text-align: left;
             padding-right: 0px;
             
+            padding-top: 22px;
+
+
             a {
                 margin-right: 12px;
             }
@@ -50,6 +53,7 @@
         .right-side {
             text-align: right;
             padding-left: 0px;
+            padding-top: 22px;
         
             a {
                 margin-left: 12px;
@@ -73,15 +77,34 @@
     padding-top: 30px;
     border-top: 1px solid #dedede;
 
-    a:hover {
+    max-height: 215px;
+    height: 100%;
+
+    a{
+        color: #707070;
+        font-size: 13px;//14 sie nie miesci
+        font-weight: 600;
+        line-height: 22px;
+
+        &:hover {
         text-decoration: none;
+        }
     }
+   
     
     img {
         border: 0;
         width: 115px;
         display: table;
         margin: 0 auto
+    }
+
+    .col-md-2 {
+        img{
+            max-width: 151px;
+            max-height: 86px;
+            width: 100%;
+        }
     }
 
     .share-buttons {
@@ -117,7 +140,7 @@
         list-style-type: none;
         padding: 0px; 
         margin: 0;
-        min-width: 150px;
+        min-width: 165px;
         
         img {
             vertical-align: middle;
@@ -185,6 +208,45 @@
         :last-child {
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
+        }
+    }
+
+    .socialSmallIcon{
+        margin: 10px 0px 0px;
+        text-align: center;
+        ul{
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li{
+                display: inline-block;
+                margin: 0 1px;
+                .fa-inverse{
+                    border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    color: #FFF;
+                }
+                &.youtube{
+                    .fa-inverse{
+                        background-color: #FFF;
+                        color: #d22222;
+                        border: 1px solid #DEDEDE;
+                       }
+                }
+                &.linkedin{
+                    .fa-inverse{
+                        background-color: #007ab9;
+                    }
+                }
+                &.instagram{
+                    .fa-inverse{
+                        background-color:#517fa6;
+                    }
+                }
+
+            }
         }
     }
 }

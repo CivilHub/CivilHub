@@ -3,9 +3,9 @@
 
 {% block content %}
 
-    <div class="col-sm-8 main-content">
+    <div class="col-sm-9 main-content contentPX">
         <center>
-            <h2>{% trans "Are you sure you want to delete this item" %}?</h2>
+            <h2 class="topHeadingH">{% trans "Are you sure you want to delete this item" %}?</h2>
             <form id="content-delete-form" class="form-hidden" method="post" action="">
                 {% csrf_token %}
                 <input type="hidden" name="content_type" value="{{ content_type }}" />
@@ -16,7 +16,7 @@
         </center>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-3 boxPX">
         
         {% include 'locations/sidebar.html' %}
         

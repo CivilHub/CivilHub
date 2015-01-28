@@ -329,12 +329,12 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
-    ('es', 'Español'),
-    ('de', 'Niemiecki'),
-    ('pt', 'Português'),
-    ('fr', 'Français'),
-    ('it', 'Italiano'),
-    ('cz', 'Ceština'),
+    ('es', 'Español (soon)'),
+    ('de', 'Deutsch'),
+    ('pt', 'Português (soon)'),
+    ('fr', 'Français (soon)'),
+    ('it', 'Italiano (soon)'),
+    ('cz', 'Ceština (soon)'),
 )
 
 
@@ -393,7 +393,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 DEFAULT_IMG_PATH = "img/item.jpg"
 
 # "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
-DEFAULT_IMG_SIZE = (100,100)
+DEFAULT_IMG_SIZE = (270,179)
 
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [

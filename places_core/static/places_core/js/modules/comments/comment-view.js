@@ -32,6 +32,9 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
         },
         
         render: function () {
+            //dodaje tooltip dla glosowania pod kazdym komentarzem
+            $('.comment-meta-options').find('a').tooltip();
+            
             // Wyświetlenie bieżącego komentarza
             this.$el.html(this.template(this.model.toJSON()));
             

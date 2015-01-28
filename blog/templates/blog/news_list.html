@@ -2,32 +2,32 @@
 
 <script type="text/template" id="news-entry-tpl">
 <div class="row">
-    <div class="col-xs-1 entry-avatar-col"><img src="<%= avatar %>" alt="<%= user_full_name %>" class="user-avatar user-window-toggle" /></div>
-    <div class="col-xs-11">
-        <h3><a href="<%= slug %>"><%= title %></a></h3>
-        <p>
-            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <span class="date-created"><%= date_created %></span>.
-            <% if (edited) { %>- {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.<% } %>
-        </p>
-        <p class="custom-booklike acticle-content"><%= content %></p>
+
+    <div class="col-xs-10">
+        <h3 class="blogTitleNews"><a href="<%= slug %>"><%= title %></a></h3>
+
+
+        <p class="custom-booklike acticle-content blogNewsContent"><%= content %></p>
         <div class="clear">&nbsp;</div>
-        <a class="read-more-link" href="<%= link %>">{% trans "Read more" %} &raquo;</a></p>
+        
         <div class="row">
-            <p class="col-sm-6"><span class="fa fa-star"> </span>
-                <a href="<%= category_url %>"><%= category %></a>
-            </p>
-            <p class="col-sm-6"><span class="fa fa-tags"> </span> {% trans "Tags" %}: 
-            <% for (var i = 0; i < tags.length; i++) { %>
-                <a class="tag" href="<%= tags[i].url %>"><%= tags[i].name %></a> 
-            <% } %> 
-            </p>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <p><span class="fa fa-comments"> </span> <a href="<%= slug %>#comments">{% trans "Comments" %}: <%= comment_count %></a></p>
+            <div class="col-xs-12">
+                <div class="blogAuthorDiv">
+                    <div class="blogAvatarDiv"><img src="<%= avatar %>" alt="<%= user_full_name %>" class="user-avatar user-window-toggle minUserAvatar" /></div>
+
+                    <p>
+                        <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <span class="date-created"><%= date_created %></span>.
+                    </p>
+                </div>
             </div>
         </div>
+
     </div>
+
+    <div class="col-xs-2 blogImageNews">
+        <div class="newsThumbnail"><img src="http://placehold.it/150x150"></div>
+    </div>
+
 </div>
 </script>
 

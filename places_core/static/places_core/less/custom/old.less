@@ -191,7 +191,7 @@
 .comment .comment-date-from-now {
     color: #8c8c8c;
     display: inline-block;
-    margin-left: 15px
+    //margin-left: 15px
 }
 .comment .comment-votes-detail {
     display: none;
@@ -222,7 +222,7 @@
     text-align: center
 }
 .comment .comment-content {
-    margin: 15px 0
+    //margin: 15px 0
 }
 .comment .badge {
     cursor: pointer
@@ -381,17 +381,29 @@
     border: 1px solid #000
 }
 .answer-entry {
-    border: 1px solid @bordercolor;
-    border-radius: 3px;
-    padding: 20px 15px;
+    //border: 1px solid @bordercolor;
+    //border-radius: 3px;
+    //padding: 20px 15px;
     margin-bottom: 15px;
     
+    .form-group{
+
+    }
     input[type=text] {
-        width: 78%;
+        //width: 78%;
     }
     
     button {
-        float: right;
+        //float: right;
+    }
+}
+#poll-create-form{
+    .pollCreateButtons{
+        text-align: right;
+    }
+
+    .formH{
+        padding-left: 0px;
     }
 }
 .discussion-list .news-user-avatar {

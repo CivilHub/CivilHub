@@ -1,4 +1,4 @@
-{% extends "places_core/base.html" %}
+{% extends "postman/postman_base.html" %}
 {% load url from future %}
 {% load i18n postman_tags %}
 
@@ -6,12 +6,12 @@
 
 {% block extrahead %}{{ block.super }}{% endblock %}
 
-{% block sidebar %}<div class="col-sm-4"><div class="sidebar">
+{% block sidebar %}<div class="col-sm-3"><div class="sidebar inboxSidebar">
   <ul id="postman_menu">{% postman_unread as unread_count %}
-    <li><a href="{% url 'postman_inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-    <li><a href="{% url 'postman_sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>
-    <li><a href="{% url 'postman_write' %}">&raquo;&nbsp;{% trans "Write" %}</a></li>
-    <li><a href="{% url 'postman_archives' %}">&raquo;&nbsp;{% trans "Archives" %}</a></li>
-    <li><a href="{% url 'postman_trash' %}">&raquo;&nbsp;{% trans "Trash" %}</a></li>
+    <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+    <li><a href="{% url 'postman_sent' %}">{% trans "Sent Messages" %}</a></li>
+    <li><a href="{% url 'postman_write' %}">{% trans "Write" %}</a></li>
+    <li><a href="{% url 'postman_archives' %}">{% trans "Archives" %}</a></li>
+    <li><a href="{% url 'postman_trash' %}">{% trans "Trash" %}</a></li>
   </ul>
 </div></div>{% endblock %}
