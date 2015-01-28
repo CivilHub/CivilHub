@@ -26,6 +26,8 @@ secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret_kuba.json'), 'r')
 config = json.loads(secret_file.read())
 secret_file.close()
 
+from . import loggers
+LOGGING = loggers.LOGGING
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

@@ -205,7 +205,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     User serializer to show short info during mouse hover
     """
     id = serializers.Field(source='pk')
-    email = serializers.CharField()
+    #email = serializers.CharField()
     username = serializers.CharField()
     fullname = serializers.CharField(source='get_full_name')
     rank_pts = serializers.IntegerField(source='profile.rank_pts')
@@ -216,7 +216,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email','fullname', 'rank_pts', 'avatar',
+        fields = ('id', 'username', 'fullname', 'rank_pts', 'avatar',
                   'follows', 'user_link')
 
     def get_followed_locations(self, obj):
