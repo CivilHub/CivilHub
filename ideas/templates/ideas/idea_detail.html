@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles civil_tags i18n %}
+{% load staticfiles civil_tags i18n bookmark_tags %}
 
 {% block title %} {{ idea.name }}, {{ location }} | CivilHub {% endblock %}
 
@@ -66,11 +66,12 @@
                         {% if user.is_superuser or is_moderator %}
                         <li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>
                         {% endif %}
-                        <li>{% bookmark_form idea user %}</li>
+                        <li></li>
                         {% if user.is_authenticated and user != idea.creator %}
                             <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>
                         {% endif %}
-                    {% endwith %}</ul>
+                        <li>{% endwith %}{% bookmark_form idea user %}</li>
+                    </ul>
                 </div>
                 <div class="author-info">
                     <small>

@@ -40,7 +40,8 @@ from actstream.actions import follow, unfollow
 from actstream.models import Action
 # custom permissions
 from places_core.permissions import is_moderator
-from places_core.helpers import TagFilter, process_background_image, sort_by_locale
+from places_core.helpers import TagFilter, process_background_image, \
+                sort_by_locale, get_time_difference
 # REST views
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -55,25 +56,19 @@ from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 redis_cache = cache.get_cache('default')
 
 
-def get_time_difference(period):
-    """ Mały helper, który przerabia dzień/rok/miesiąc na timedelta w python. """
-    if period == 'day':
-        time_delta = timezone.now() - datetime.timedelta(days=1)
-    elif period == 'week':
-        time_delta = timezone.now() - datetime.timedelta(days=7)
-    elif period == 'month':
-        time_delta = timezone.now() - relativedelta(months=1)
-    elif period == 'year':
-        time_delta = timezone.now() - relativedelta(years=1)
-    return time_delta
-
-
 class LocationSummaryAPI(APIView):
     """ 
     Widok API pozwalający pobierać listę wszystkich elementów w danej lokalizacji
     (idee, dyskusje, ankiety oraz blog). W zapytaniu podajemy pk interesującego nas miejsca, np:
 
-    `/api-locations/contents/?pk=756135/`
+    `/api-locations/contents/?pk=756135`
+
+    Dodatkowe parametry:<br>
+        `page`    - Numer strony do pobrania<br>
+        `content` - Tylko jeden typ zawartości (idea, news, poll, discussion)
+                    Domyślna wartość to `all`<br>
+        `time`    - Zakres czasowy (year, week, month, day). Domyślnie `any`<br>
+        `haystack`- Fraza do wyszukania w tytułach
     """
     paginate_by = 15
     permission_classes = (rest_permissions.AllowAny,)

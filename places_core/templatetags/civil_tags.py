@@ -5,7 +5,6 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.contrib.contenttypes.models import ContentType
 from social.apps.django_app.default.models import UserSocialAuth
-from userspace.models import Bookmark
 
 register = Library()
 
@@ -62,27 +61,6 @@ def page_size(pg_type=None):
     elif pg_type == 'stream':
         return settings.STREAM_PAGINATOR_LIMIT
     return settings.PAGE_PAGINATION_LIMIT
-
-
-@register.simple_tag
-def bookmark_form(instance=None, user=None):
-    
-    if not instance or not user: return ''
-
-    if user.is_anonymous(): return ''
-    
-    ct = ContentType.objects.get_for_model(instance).pk
-    pk = instance.pk
-    
-    if len(Bookmark.objects.filter(content_type=ct, object_id=pk, user=user)):
-        cls = 'btn-remove-bookmark'
-        text = _("Remove bookmark")
-    else:
-        cls = 'btn-add-bookmark'
-        text = _("Bookmark")
-        
-    return '<a href="#" class="' + cls + '" data-ct="' + str(ct) + \
-            '" data-id="' + str(pk) + '">' + text + '</a>'
 
 
 @register.simple_tag

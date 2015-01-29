@@ -202,22 +202,5 @@ class LoginData(models.Model):
     address = models.IPAddressField()
 
 
-class Bookmark(models.Model):
-    """
-    Zastępujemy django-generic-bookmarks własnym modelem. Powyższy moduł ma
-    zbyt wiele dziu i wad, które praktycznie uniemożliwiają jego funkcjonowanie.
-    """
-    # Content-object field
-    content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
-    object_id = models.TextField(_('object ID'))
-    content_object = generic.GenericForeignKey(ct_field="content_type", fk_field="object_id")
-    
-    user = models.ForeignKey(User)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __unicode__(self):
-        return self.content_object.__unicode__()
-
-
 post_delete.connect(delete_background_image, sender=UserProfile)
 post_save.connect(resize_background_image, sender=UserProfile)

@@ -263,3 +263,19 @@ def process_background_image(imgfile, dirname=None):
         img.thumbnail((settings.BACKGROUND_IMAGE_SIZE, settings.BACKGROUND_IMAGE_SIZE))
     img.save(os.path.join(dirname, imgname), 'JPEG')
     return File(open(os.path.join(dirname, imgname)))
+
+
+def get_time_difference(period):
+    """
+    Mały helper, który przerabia dzień/rok/miesiąc na datetime w pythonie.
+    Przydatny we wszystkich widokach z filtrem daty.
+    """
+    if period == 'day':
+        time_delta = timezone.now() - datetime.timedelta(days=1)
+    elif period == 'week':
+        time_delta = timezone.now() - datetime.timedelta(days=7)
+    elif period == 'month':
+        time_delta = timezone.now() - relativedelta(months=1)
+    elif period == 'year':
+        time_delta = timezone.now() - relativedelta(years=1)
+    return time_delta

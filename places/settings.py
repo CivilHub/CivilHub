@@ -104,6 +104,7 @@ INSTALLED_APPS = (
     'staticpages', # Statyczne strony
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
+    'bookmarks',   # Zakładki do treści dla użytkowników
 )
 
 

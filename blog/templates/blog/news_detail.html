@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags bookmark_tags %}
 
 {% block title %} {{ news.title }}, {{ location }} | CivilHub {% endblock %}
 
@@ -52,7 +52,6 @@
                             {% if map_markers %}
                                 <li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>
                             {% endif %}
-                            <li>{% bookmark_form news user %}</li>
                             {% if user.is_authenticated and user != news.creator %}
                             <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ news.pk }}">
                                 {% trans "Report abuse" %}</a></li>

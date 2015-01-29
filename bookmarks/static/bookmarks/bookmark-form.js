@@ -1,38 +1,47 @@
-//
-// bookmarks.js
-//
-// Obsługa zakładek dla użytkownika
-
-require(['jquery',
-         'js/modules/utils/utils',
-         'js/modules/ui/ui'],
-
-function ($, utils, ui) {
-
+/*
+ * bookmark-form.js
+ * 
+ * Obsługa dodawania i usuwania zakładek użytkownika via AJAX.
+ * Skrypt współpracuje z tagiem `bookmark_form` z grupy `bookmark_tags`.
+ * Do działania wymaga jQuery oraz flash-msg z mojego repozytorium.
+ */
+(function ($, msg) {
+  
   "use strict";
-
-  var entryTemplate = '<li><a href="{link}">{label}</a></li>';
-
+  
+  msg.initialize();
+  
+  function getCookie (name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  
   function makeRequest (url, data, callback) {
     $.post(url, data, function (response) {
       if (response.success) {
-        ui.message.success(response.message);
+        msg.success(response.message);
         if (callback !== undefined && typeof(callback === 'function')) {
           callback(response);
         }
       } else {
-        ui.message.alert(response.message);
+        msg.alert(response.message);
       }
     });
   }
-
-  // Add/remove bookmark via AJAX API
-  // --------------------------------
-
+  
   $(document).delegate('.btn-bookmark', 'click', function (e) {
-
     e.preventDefault();
-
     var $this = $(e.currentTarget);
 
     if ($this.hasClass('btn-add-bookmark')) {
@@ -48,36 +57,21 @@ function ($, utils, ui) {
           .removeClass('btn-add-bookmark')
           .addClass('btn-active-bookmark')
           .attr('data-pk', resp.bookmark)
-          .text(gettext("Remove bookmark"));
+          .attr("data-original-title", "Usuń zakładkę");
       });
 
     } else {
       // Usuwamy zakładkę
-      var postData = {csrfmiddlewaretoken: utils.getCookie('csrftoken')};
+      var postData = {csrfmiddlewaretoken: getCookie('csrftoken')};
       var url = '/bookmarks/delete/{}/'.replace(/{}/g, $this.attr('data-pk'));
       
       makeRequest(url, postData, function (resp) {
         $this
           .removeClass('btn-active-bookmark')
           .addClass('btn-add-bookmark')
-          .text(gettext("Add bookmark"));
+          .attr("data-original-title", "Dodaj do zakładek");
       });
     }
   });
-
-  // List of user's bookmarks to fetch
-  // ---------------------------------
-
-  $(document).ready(function () {
-    $('.bookmarks-list-toggle').one('click', function (evt) {
-      $.get('/api-userspace/my-bookmarks/', function (resp) {
-        var $list = $('.bookmarks-no-list');
-        $(resp).each(function () {
-          var html = entryTemplate.replace(/{link}/g, this.url)
-            .replace(/{label}/g, this.label);
-          $(html).insertBefore($list.find('.divider:last'));
-        });
-      });
-    });
-  });
-});
+  
+})(jQuery, msg);

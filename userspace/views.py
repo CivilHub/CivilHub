@@ -37,7 +37,7 @@ from blog.models import News
 from ideas.models import Idea
 from polls.models import Poll
 from topics.models import Discussion
-from .models import Bookmark
+from bookmarks.models import Bookmark
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -47,10 +47,8 @@ from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
 from .managers import SocialAuthManager
-from .serializers import BookmarkSerializer, \
-                          UserAuthSerializer, \
-                          UserSerializer, \
-                          SocialAuthSerializer
+from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
+            BookmarkSerializer
 
 
 def obtain_auth_token(request):
@@ -72,6 +70,15 @@ def obtain_auth_token(request):
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')
 
+
+class UserBookmarksViewSet(viewsets.ModelViewSet):
+    """ Pozwala użytkownikom manipulować zakładkami. """
+    permission_classes = (IsOwnerOrReadOnly,)
+    serializer_class = BookmarkSerializer
+    paginate_by = None
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
 
 
 class UserFollowAPIView(rest_views.APIView):
@@ -256,60 +263,13 @@ class ActivityAPIViewSet(rest_views.APIView):
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             actions = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999),
-            # deliver last page of results.
             actions = paginator.page(paginator.num_pages)
         serializer = PaginatedActionSerializer(actions,
                                                context={'request': request})
         return Response(serializer.data)
 
-
-class BookmarkAPIViewSet(viewsets.ModelViewSet):
-    """
-    Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
-    z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
-    w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
-    konkretnym użytkownikiem o danym ID, np.:
-    
-    `/api-userspace/bookmarks/?pk=2`
-    
-    Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
-    typu zawartości (`content_type`), oraz id konkretnego obiektu (`object_id`).
-    "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
-    """
-    queryset = Bookmark.objects.all()
-    paginate_by = None
-    serializer_class = BookmarkSerializer
-    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def get_queryset(self):
-        pk = self.request.QUERY_PARAMS.get('pk', None)
-        if pk:
-            return Bookmark.objects.filter(user=User.objects.get(pk=pk))
-        else:
-            return Bookmark.objects.all()
-
-    def create(self, request):
-        ct = request.DATA.get('content_type', None)
-        id = request.DATA.get('object_id', None)
-        content_type = ContentType.objects.get(pk=ct)
-        try:
-            bookmark = Bookmark.objects.get(content_type = content_type, 
-                                         object_id = id,
-                                         user = request.user)
-            bookmark.delete()
-            return Response(False)
-        except Bookmark.DoesNotExist:
-            bookmark = Bookmark.objects.create(
-                content_type = content_type,
-                object_id = id,
-                user = request.user)
-            bookmark.save()
-            return Response(True)
 
 
 class UserActivityView(TemplateView):
@@ -813,31 +773,6 @@ def chpass(request):
         'form': f,
     }
     return render(request, 'userspace/chpass.html', ctx)
-
-
-@require_safe
-def my_bookmarks(request):
-    """
-    Return list of bookmarked elements belonging to
-    currently logged in user in form of JSON objects.
-    """
-    if not request.is_ajax(): return HttpResponseBadRequest()
-
-    bookmarks = []
-    queryset = Bookmark.objects.filter(user=request.user)
-    for b in queryset:
-        target = b.content_object
-        target_content_type = ContentType.objects.get_for_model(target)
-        bookmarks.append({
-            'id': b.pk,
-            'content_type': target_content_type.pk,
-            'target': target.get_absolute_url(),
-            'label': truncatesmart(target.__unicode__(), 30),
-        })
-    return HttpResponse(dumps({
-        'success': True,
-        'bookmarks': bookmarks,
-    }))
 
 
 class UserFollowedLocations(DetailView):

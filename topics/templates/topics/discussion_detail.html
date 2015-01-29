@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags bookmark_tags %}
 
 {% block title %} {{ title }}, {{ location }} | CivilHub {% endblock %}
 
@@ -32,7 +32,7 @@
                         <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}">{% trans "Show on map" %}</a></li>
                     {% endif %}
                     {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-                    <li>{% bookmark_form discussion user %}</li>
+                    <li></li>
                     {% if user == discussion.creator %}
                     <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
                     {% endif %}
@@ -42,6 +42,7 @@
                     {% if user.is_authenticated and user != discussion.creator %}
                         <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">{% trans "Report abuse" %}</a></li>
                     {% endif %}{% endwith %}
+                    <li>{% bookmark_form discussion user %}</li>
                 </ul>
             </div>
             {% endif %}
@@ -133,7 +134,6 @@
                                     <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
                                 </a> 
                             {% endif %}
-                            | {% bookmark_form for discussion %}
                         </div>
                     </div>
                 </div>
