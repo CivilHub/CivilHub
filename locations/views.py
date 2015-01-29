@@ -98,9 +98,10 @@ class LocationSummaryAPI(APIView):
             content_objects = [x for x in content_objects if x['type']==content]
         if time != 'any':
             content_objects = [x for x in content_objects\
-                        if x['date_created'] >= get_time_difference(time).isoformat()]
+                if x['date_created'] >= get_time_difference(time).isoformat()]
         if haystack:
-            content_objects = [x for x in content_objects if haystack.lower() in x['title'].lower()]
+            content_objects = [x for x in content_objects \
+                if haystack.lower() in x['title'].lower()]
 
         paginator = Paginator(content_objects, self.paginate_by)
         items = paginator.page(page)
