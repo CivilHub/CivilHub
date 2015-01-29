@@ -22,7 +22,7 @@
 
 
 {% for message in pm_messages %}
-<div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}" {% if message.sender == user %}id="myReplayView"{% endif %}>
+<div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}" {% if message.recipient == user %}id="myReplayView"{% endif %}>
 
 		<div class="avatarView">{% if message.sender == user %}<img src="{{ user.profile.avatar.url }}">{% else %}<img src="{{ message.sender.profile.avatar.url }}">{% endif %}</div>
 		 <div class="pm_container">		 	
@@ -52,9 +52,9 @@
 	</div>
 
 <div id="pm_reply" class="form-group col-sm-11 textareaReplyH">
-  <textarea id="id_body" rows="2" name="body" cols="55" class="form-control"></textarea>
+  <textarea id="id_body" rows="1" name="body" cols="55" class="form-control"></textarea>
 </div>
-<div class="form-group custom-align-r">
+<div class="form-group custom-align-r margiBz">
   <button type="submit" class="btn btn-saveBig">{% trans 'Reply' %}</button>
 </div>
 </form>{% endif %}

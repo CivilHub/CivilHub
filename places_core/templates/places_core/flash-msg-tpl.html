@@ -1,0 +1,13 @@
+{% load i18n civil_tags %}
+
+<script type="text/template" id="flash-msg-tpl">
+
+    <div class="avatarMessageAlert"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}"></div>
+
+    <span class="message-content"><p class="messageName">{{ user.get_full_name }}</p><%= message %></span>
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span> 
+        <span class="sr-only">Close</span>
+    </button>
+
+</script>

@@ -75,9 +75,10 @@
                 Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %}) </a>
                 {% endcomment %}
                 
-                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> &bull; {% endif %}
+                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> {% endif %} 
                 
-                <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a>
+                <% if (replies) { %> &bull; <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a><% } %> 
+
                 </p>
                 <div class="comment-votes-detail">
                     <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>

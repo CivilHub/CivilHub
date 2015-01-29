@@ -14,15 +14,15 @@
 
 <div class="row">
     <div class="col-sm-3">
-        <div class=" sidebar">
+        <div class=" sidebar inboxSidebar">
             <div class="sidebar-content">
                 <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
-                <ul>
+                <ul id="postman_menu" class="profileSidebarLeft">
                     <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
                     <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
                     <li><a href="#" class="simple-tabs-link" data-target="tab-3">{% trans "Change avatar" %}</a></li>
                 </ul>
-                <p>{% trans "Points" %}: {{ profile.rank_pts }}</p>
+                <p class="profileRankPKT">{% trans "Points" %}: {{ profile.rank_pts }}</p>
                 <ul>
                 {% for badge in profile.badges.all %}
                     <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>

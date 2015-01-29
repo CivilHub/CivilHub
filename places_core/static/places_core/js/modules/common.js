@@ -26,6 +26,32 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
         visibleEntries: 13
     });
     
+    //textarea zwiekszanie wysokosci
+    $('textarea').keypress(function (e) {
+      // check if user pressed 'Enter'
+      if(e.which == 13) 
+      {
+       // get control object to modify further
+       var control = e.target;
+              
+        // get existing 'Height' of pressed control
+       var controlHeight = $(control).height();
+
+       //add some height to existing height of control, I chose 17 as my line-height was 17 for the control 
+       $(control).height(controlHeight+17);
+      }
+    });
+
+    $('textarea').blur(function (e) {
+        
+        // Here we get exact number of lines in our TextArea
+        var textLines = $(this).val().trim().split(/\r*\n/).length; 
+
+        // Now apply the number Of Lines * line-height to your control. That's all.
+        $(this).val($(this).val().trim()).height(textLines*17);
+    });
+
+
     // Wyszukiwarka - dodajemy '*' na początku i na końcu
     // --------------------------------------------------
     
@@ -320,7 +346,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
                                 if (trigger) {
                                     $elem.empty().remove();
                                 }
-                            }, 1000);
+                            }, 500);
                         })
                         .on('mouseover', function () {
                             trigger = false;
@@ -345,7 +371,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
                 if (trigger) {
                     openWindow($toggle);
                 }
-            }, 1000);
+            }, 500);
         });
         $(document).delegate('.user-window-toggle', 'mouseout', function () {
             trigger = false;
@@ -354,7 +380,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
                 timeout = setTimeout(function () {
                     $('.user-popup-window').empty().remove();
                     state = false;
-                }, 1000);
+                }, 500);
             }
         });
     })();

@@ -18,7 +18,8 @@ body {
     padding-top: 0px;
   }
 
-  font-family: "Open Sans";
+  //font-family: "Open Sans";
+  font-family: "Lato";
   
   a:hover {
     text-decoration: none;
@@ -462,7 +463,12 @@ h1.headerTitleBG{
     color: #FFF;
     font-weight: bold;
 }
-
+h1.articleFirstHeadling{
+    color: #50616d;
+    font-size: 32px;
+    line-height: 32px;
+    margin-top: 0px;
+}
 .headerBGa{
     background-position: center center;
     background-size: cover;
@@ -472,6 +478,75 @@ h1.headerTitleBG{
     padding: 3%;
     margin-bottom: 25px;
 }
+.margiBz{
+    margin-bottom: 0px;
+}
+
+
+.messageAlert{
+    border-radius: 300px;
+    overflow: hidden;
+    padding: 6px 55px 6px 6px;
+    -webkit-transform: translateZ(0); 
+    position: relative; 
+        animation: fadeInCircle 0.3s ease forwards, resizeCircle 0.3s 0.4s cubic-bezier(0.25, 0.25, 0.4, 1.6) forwards !important;
+    -webkit-animation: fadeInCircle 0.3s ease forwards, resizeCircle 0.3s 0.4s cubic-bezier(0.25, 0.25, 0.4, 1.6) forwards !important;
+    height: 60px !important;
+    float: right;
+
+    .close{
+    margin-top: -12px;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    display: block !important;
+    }
+
+    .message-content{
+        position: absolute;
+        top: 50%;
+        line-height: 14px;
+        margin-top: -18px;
+        margin-left: 55px;
+        font-size: 12px;
+        display: block !important;
+
+        .messageName{
+            margin-bottom: 0;
+            font-size: 13px;
+            line-height: 22px;
+            font-weight: bold;
+            color: #666;
+        }
+    }
+    .avatarMessageAlert{
+        width: 48px !important;
+        height: 48px !important;
+        position: absolute;
+        top: 50%;
+        margin-top: -24px;      
+        .avatarViewIMG;
+    }
+}
+
+
+h1.articleCTitle{
+    font-size: 32px;
+    line-height: 32px;
+    color: #50616d;
+    margin-top: 0;
+}
+.articleContactsb{
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 25px;
+
+}
+#article-content{
+    min-height: 0 !important;
+}
+
+
 
 
 @import "location-navbar.less";

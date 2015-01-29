@@ -27,11 +27,8 @@ function ($, _, Backbone, bootbox) {
         tagName: 'div',
         
         className: 'alert',
-        
-        template: _.template('<span class="message-content"><%= message %> \
-            </span><button type="button" class="close" \
-            data-dismiss="alert"><span aria-hidden="true">&times;</span> \
-            <span class="sr-only">Close</span></button>'),
+        // dodana templatka dla powiadomien jest w places_core/templates
+        template: _.template($('#flash-msg-tpl').html()),
         
         events: {
             'mouseover': 'highlight'
@@ -40,11 +37,11 @@ function ($, _, Backbone, bootbox) {
         render: function (msg, lvl) {
             var that = this;
             this.$el.html(this.template({'message': msg}));
-            this.$el.addClass('alert-' + lvl + ' fade out animate').fadeIn();
+            this.$el.addClass('alert-' + lvl + ' messageAlert ').fadeIn();
             this.setClock();
             setTimeout(function () {
-                that.$el.removeClass('animate');
-                that.$el.find('.message-content, .close').show(2200);
+                that.$el.removeClass('');
+                //that.$el.find('.message-content, .close').show(1200);
             }, 1200);
             return this;
         },
@@ -142,3 +139,4 @@ function ($, _, Backbone, bootbox) {
     
     return ui;
 });
+

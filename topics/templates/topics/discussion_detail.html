@@ -58,12 +58,9 @@
 
         </div>
         
-        
         <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
 
-
-
-        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a class="tag" href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}</p>
+        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}</p>
 
         <div class="reply-entry">
             <div class="row">
@@ -139,9 +136,9 @@
                 </div>
             </div>
         {% endfor %}
+
+        {% if replies.paginator.num_pages > 1 %}<ul class="pagination">
         
-        <ul class="pagination">
-            
             {% if replies.has_previous %}
                 <li><a href="?page=1">&laquo;</a></li>
                 <li><a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a></li>
@@ -156,8 +153,8 @@
                 <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
             {% endif %}
             
-        </ul>
-        
+        </ul>{% endif %}
+
         <div id="replies"></div>
         
         {% if user.is_authenticated and discussion.status %}

@@ -4,26 +4,50 @@
 
 #category-menu {
   margin: 0px;
-  padding: 0px;
   list-style-type: none;
-  font-size: 22px;
-  border-top: 1px solid #ccc;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+  border: 1px solid #DEDEDE;
+
+  &.helpMenu{
+    font-size: 14px;
+    line-height: 22px;
+    padding: 0;
+
+      >li.category-entry{
+        border-top: 1px solid #DEDEDE;
+        >a{    
+            padding: 15px 30px;
+            line-height: 22px;
+            background: #f8f8f8;
+
+        }
+        &:first-child{
+            border-top: 0 none;
+        }
+        &:last-child{
+
+            .sublist{
+
+                margin-bottom: -6px;
+            }
+        }
+      }    
+  }
+
   
   a, a:link, a:hover, a:active, a:visited, a:focus {
     outline: 0;
     text-decoration: none;
+    color: #666;
     
     &.active {
-      font-weight: bold;
-      color: #007FF2;
+      //color: #007FF2;
     }
   }
   
   li {
     display: inline-block;
     width: 100%;
+    line-height: 36px;
 
     a {
       display: block;
@@ -34,11 +58,12 @@
   
   >li {
     line-height: 42px;
-    border-bottom: 1px solid #ccc;
+    //border-bottom: 1px solid #ccc;
     
     a {
-      background-color: ##FFFFFF;
-      padding-left: 10px;
+      background-color: #FFFFFF;
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
     
@@ -50,15 +75,18 @@
     
     &.sublist {
       display: none;
-      padding-left: 10px;
-      margin-bottom: 15px;
+      padding: 15px;
+      //margin: 0 0 -7px 0;
+      border-top: 1px solid #DEDEDE;
+      background-color: #FFF;
+      margin-bottom: -7px;
       
       &.sub-lvl-1 {
-        font-size: 20px;
+        font-size: 13px;
       }
       
       &.sub-lvl-2 {
-        font-size: 14px;
+        font-size: 11px;
         margin-top: 10px;
       }
     }
@@ -66,10 +94,20 @@
 }
 
 #article-content {
-  border: 1px solid #ccc;
+  border: 1px solid #DEDEDE;
   background-color: #fff;
   min-height: 600px;
   margin-bottom: 35px;
+  padding: 25px;
+  
+  hgroup{
+        h1{
+        font-size: 32px;
+        line-height: 32px;
+        color: #50616d;
+        margin-top: 0px;
+        }
+    }
 }
 
 .headerBGa{

@@ -97,7 +97,7 @@
             <p>
                 {% comment %}{% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>{% endcomment %}
                 {{ idea.comments }} {% trans "Comments" %}
-                <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
+               {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a> {% endif %}
             </p>
         </div>
         

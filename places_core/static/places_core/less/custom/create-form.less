@@ -143,8 +143,8 @@
                 text-align: right;
             }
             .pm_body{
-                border: 1px solid #DEDEDE;
-                color: #666;
+                border: 1px solid #0083fb;
+                color: #424242;
             }
         }
     }
@@ -154,10 +154,10 @@
 
         .pm_body{
             padding: 5px 15px;
-            border: 1px solid #0083fb;
+            border: 1px solid #DEDEDE;
             border-radius: 20px;
             -webkit-border-radius: 20px;  
-            color: #424242;          
+            color: #666;          
         }
         .pm_header{
             font-size: 10px;
@@ -240,6 +240,7 @@
         .inboxMessageH{
             line-height: 18px;
             font-size: 12px;
+            padding: 10px 0px;
             .inboxMessageAuthor{
                 color: #0083fb;
             }
@@ -271,13 +272,11 @@
               position: absolute;
               top: 0;
               left: 0;
-              padding-top: 18px;
+              padding-top: 26px;
               width: 100%;
               height: 100%;
-              max-width: 675px;
+              max-width: 691px;
               padding-left: 45px;
-              border-radius: 6px;
-              -webkit-border-radius: 6px;
 
               &:hover{
                 background:rgba(125, 125, 125, 0.1);
@@ -346,11 +345,16 @@
 }
 
 .avatartextareaReplay{
-    width: 60px !important;
-    height: 60px !important;
+    margin-left: -15px;
     .avatarViewIMG;
 }
 .textareaReplyH{
-    padding-left: 30px;
+    padding-left: 0px;
     padding-right: 0;
-}
+    textarea{
+        border-radius:20px;
+        -webkit-border-radius:20px;
+        -moz-border-radius: 20px;
+        resize: none;
+    }
+}   

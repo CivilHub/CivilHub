@@ -33,7 +33,7 @@
             <div class="sidebar-label">{% trans "Actions" %}:</div>
                 
             <ul class="custom-sidebar-nav">
-                <li><a href="{% url 'postman_write' cuser.username %}"><span class="ch-icon ch-envelope"></span>{% trans "Send message" %}</a></li>
+                {% comment %}<li><a href="{% url 'postman_write' cuser.username %}"><span class="ch-icon ch-envelope"></span>{% trans "Send message" %}</a></li>{% endcomment %}
             </ul>
         </div>
     {% endif %}

@@ -59,7 +59,11 @@ function ($, _, Backbone, CommentModel, SubcommentCollection) {
             // Pokaż/ukryj odpowiedzi do tego komentarza
             this.$el.find('.show-replies').on('click', function (e) {
                 e.preventDefault();
-                this.toggleReplies();
+                if (this.collection.length) {
+                    this.toggleReplies();
+                } else {
+                    return false;
+                }
             }.bind(this));
             
             // Pokaż/ukryj kontrolki

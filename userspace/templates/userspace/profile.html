@@ -39,6 +39,7 @@
                 {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
                 {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
                 {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
+                <a href="{% url 'postman_write' cuser.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a>
             </div>
             
             {% if request.user == cuser %}
