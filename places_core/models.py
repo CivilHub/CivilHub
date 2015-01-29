@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
 from uuid import uuid4
 
@@ -6,6 +8,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.comments.models import BaseCommentAbstractModel
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 
 from gallery.image import adjust_uploaded_image
 
@@ -68,6 +71,7 @@ class ImagableItemMixin(models.Model):
         super(ImagableItemMixin, self).save(*args, **kwargs)
 
 
+@python_2_unicode_compatible
 class AbuseReport(BaseCommentAbstractModel):
     """
     Abuse reports to show to admins and moderators. All registered users
@@ -79,3 +83,6 @@ class AbuseReport(BaseCommentAbstractModel):
     status  = models.BooleanField(default=False)
     date_reported = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "<Abuse Report from: %s>" % self.sender.get_full_name()

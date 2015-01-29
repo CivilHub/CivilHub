@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from slugify import slugify
 
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,6 +20,7 @@ from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
     """
     User Blog Categories basic model
@@ -36,15 +40,16 @@ class Category(models.Model):
             self.slug = slugify(slug_entry)
         super(Category, self).save(*args, **kwargs)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _("category"),
-        verbose_name_plural = _("categories")
+        verbose_name = _(u"category")
+        verbose_name_plural = _(u"categories")
 
 
+@python_2_unicode_compatible
 class News(ImagableItemMixin, models.Model):
     """
     Blog for Places
@@ -97,13 +102,13 @@ class News(ImagableItemMixin, models.Model):
     def get_description(self):
         return truncatehtml(self.content, 100)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['title',]
-        verbose_name = _("news"),
-        verbose_name_plural = _("news")
+        verbose_name = _(u"news")
+        verbose_name_plural = _(u"newses")
 
 
 models.signals.post_save.connect(adjust_uploaded_image, sender=News)

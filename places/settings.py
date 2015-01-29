@@ -65,7 +65,7 @@ INSTALLED_APPS = (
     # http://niwibe.github.io/djmail/
     'djmail',
     # https://django-modeltranslation.readthedocs.org/en/latest/
-    'modeltranslation',
+    #'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
     # https://github.com/SmileyChris/easy-thumbnails
@@ -81,8 +81,6 @@ INSTALLED_APPS = (
     'annoying',
     #'python-social-auth',
     'social.apps.django_app.default',
-    # django-activity-stream
-    'actstream',
     #http://django-taggit.readthedocs.org/en/latest/
     'taggit',
     # geodjango
@@ -99,12 +97,15 @@ INSTALLED_APPS = (
     'topics',      # custom forum app
     'comments',    # custom comments app (using mptt)
     'gallery',     # user media app
-    'south',       # Database migrations
+    #'south',       # Database migrations
     'maps',        # Custom app for Open Street Maps
     'staticpages', # Statyczne strony
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
+    
+    # django-activity-stream
+    'actstream',
 )
 
 

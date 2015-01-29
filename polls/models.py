@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from slugify import slugify
 
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
@@ -14,6 +18,7 @@ from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
 
+@python_2_unicode_compatible
 class Poll(ImagableItemMixin, models.Model):
     """
     Base poll class - means entire poll.
@@ -50,15 +55,14 @@ class Poll(ImagableItemMixin, models.Model):
     def get_description(self):
         return truncatehtml(self.question, 100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['title',]
-        verbose_name = _("poll"),
-        verbose_name_plural = _("polls")
 
 
+@python_2_unicode_compatible
 class Answer(models.Model):
     """
     Single answer model.
@@ -70,13 +74,11 @@ class Answer(models.Model):
         self.answer = strip_tags(self.answer)
         super(Answer, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.answer
 
     class Meta:
         ordering = ['answer',]
-        verbose_name = _("answer"),
-        verbose_name_plural = _("answers")
 
 
 class AnswerSet(models.Model):

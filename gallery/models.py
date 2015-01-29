@@ -1,16 +1,22 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
+
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
-from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+
 from locations.models import Location
 from .image import crop_gallery_thumb, delete_cropped_thumb
 
 
+@python_2_unicode_compatible
 class GalleryItem(models.Model):
     """
     Basic abstract model for gallery items. All types of gallery items should
@@ -18,8 +24,6 @@ class GalleryItem(models.Model):
     """
     class Meta:
         abstract = True
-        verbose_name = _("gallery item")
-        verbose_name_plural = _("gallery items")
 
     user = models.ForeignKey(User)
     name = models.CharField(max_length=20, blank=True, null=True)
@@ -62,7 +66,7 @@ class GalleryItem(models.Model):
             pass
         super(GalleryItem, self).delete()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.picture_name   
 
 
@@ -134,7 +138,7 @@ class LocationGalleryItem(GalleryItem):
                             'pk'  : self.pk,
                         })
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name or self.picture_name
 
 

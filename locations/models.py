@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import operator, os, json
 from uuid import uuid4
 from slugify import slugify
@@ -12,6 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import get_language
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
 # Override system storage: 
@@ -81,6 +84,7 @@ class LocationLocaleManager(models.Manager):
                                 lambda x: x.__unicode__(), get_language())
 
 
+@python_2_unicode_compatible
 class Location(models.Model):
     """ Basic location model. """
     name = models.CharField(max_length=200)
@@ -105,8 +109,6 @@ class Location(models.Model):
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _('location')
-        verbose_name_plural = _('locations')
 
     def country_name(self):
         """ Get location's country name. """
@@ -246,7 +248,7 @@ class Location(models.Model):
         qs += [obj_to_dict(x) for x in self.discussion_set.all()]
         return sorted(qs, key=lambda x: x['date_created'], reverse=True)
 
-    def __unicode__(self):
+    def __str__(self):
         lang = get_language().split('-')[0]
         alt = self.names.filter(language=lang)
         if not len(alt):
@@ -255,6 +257,7 @@ class Location(models.Model):
             return alt[0].altername
 
 
+@python_2_unicode_compatible
 class Country(models.Model):
     """ """
     code = models.CharField(max_length=2)
@@ -263,7 +266,7 @@ class Country(models.Model):
     class Meta:
         ordering = ['code',]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.code
 
 

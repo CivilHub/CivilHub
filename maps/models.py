@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.contrib.gis.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+
 from locations.models import Location
 from .managers import MapPointerManager
 
@@ -24,6 +28,7 @@ class BaseAbstractMapPointer(models.Model):
         abstract = True
 
 
+@python_2_unicode_compatible
 class MapPointer(BaseAbstractMapPointer):
     """
     Final MapPointer class.
@@ -34,5 +39,5 @@ class MapPointer(BaseAbstractMapPointer):
     # Manager
     objects = MapPointerManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return "{},{}".format(self.latitude, self.longitude)

@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import datetime
 from slugify import slugify
 
 from django.db import models, transaction
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
+from django.utils.encoding import python_2_unicode_compatible
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 from taggit.managers import TaggableManager
@@ -19,6 +22,7 @@ from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
     """
     User Idea Categories basic model
@@ -26,15 +30,14 @@ class Category(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(max_length=1024)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _('category'),
-        verbose_name_plural = _('categories')
 
 
+@python_2_unicode_compatible
 class Idea(ImagableItemMixin, models.Model):
     """
     User Idea basic model
@@ -89,19 +92,20 @@ class Idea(ImagableItemMixin, models.Model):
         Customowa metoda do usuwania jest najwyraźniej niezbędna we wszystkich
         modelach korzystających z django-taggit. Powodem jest błąd w pluginie,
         który powoduje błędy transakcji.
+
+        FIXME: możliwe, że to już jest niepotrzebne
         """
         with transaction.autocommit():
             super(Idea, self).delete()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _("idea"),
-        verbose_name_plural = _("ideas")
 
 
+@python_2_unicode_compatible
 class Vote(models.Model):
     """
     Users can vote up or down on ideas
@@ -111,12 +115,8 @@ class Vote(models.Model):
     vote = models.BooleanField(default=False)
     date_voted = models.DateTimeField(auto_now=True)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
-
-    class Meta:
-        verbose_name = _("vote"),
-        verbose_name_plural = _("votes")
 
 
 models.signals.post_save.connect(adjust_uploaded_image, sender=Idea)

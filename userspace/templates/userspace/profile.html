@@ -141,7 +141,7 @@
                             {% if action.target %}
                                 {% if action.target.get_absolute_url %}
                                     <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-                                {% else %}
+                                {% elif action.target_url %}
                                     <a href="{{ action.target_url }}">{{ action.target }}</a>
                                 {% endif %}
                             {% endif %}

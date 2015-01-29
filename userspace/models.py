@@ -1,22 +1,28 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
+
 from slugify import slugify
 from uuid import uuid4
+
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
-from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import strip_tags
-from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+
+from actstream.models import following, followers
+
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sort_by_locale
 from locations.models import Location
-from actstream.models import following, followers
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -36,11 +42,12 @@ def get_upload_path(instance, filename):
     return 'img/backgrounds/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
+@python_2_unicode_compatible
 class UserProfile(models.Model):
     """
     Profil użytkownika.
     """
-    user = AutoOneToOneField(User, primary_key=True, related_name='profile')
+    user = models.OneToOneField(User, primary_key=True, related_name='profile')
     lang = models.CharField(
         max_length = 7,
         choices = settings.LANGUAGES,
@@ -148,10 +155,11 @@ class UserProfile(models.Model):
     def get_absolute_url(self):
         return reverse('user:profile', kwargs={'username': self.clean_username})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.get_full_name()
 
 
+@python_2_unicode_compatible
 class Badge(models.Model):
     """
     Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
@@ -170,7 +178,7 @@ class Badge(models.Model):
         storage = OverwriteStorage()
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
