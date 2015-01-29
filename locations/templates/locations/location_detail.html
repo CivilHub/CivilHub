@@ -1,6 +1,7 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles i18n civil_tags %}
 
+
 {% block require_scripts %}
 <script>window.API_URL = "/api-locations/actions/";</script>
 <script>window.USER_ID = "{{ location.id }}";</script>
@@ -9,7 +10,10 @@
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/location-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
+
 {% block title %} {{ location }} | CivilHub {% endblock %}
+
+
 {% block topbar %}
 <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
@@ -54,6 +58,8 @@
     </div>
 </nav>
 {% endblock %}
+
+
 {% block content %}
 <!-- Main content -->
 
@@ -166,76 +172,10 @@
     </div>
 
 </div><!--./col-sm-3-->
-    
 
-<script type="text/template" id="action-template">
-    <div class="col-md-2 entry-avatar-col">
-        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar avatarH" />
-        <%= actor.rank_pts %>
-    </div>
-    
-    <div class="col-md-10 entry-meta-col">
-        <div class="entry-header">
-            <a href="<%= actor.user_link %>" class="locActorNick"><%= actor.fullname %></a>
-            <span class="locTimeAdd"><%= timestamp %> {% trans "ago" %}</span>
-            {% comment %}<%= verb %>{% endcomment %}
-            <p><% if (!_.isEmpty(object_ct)) { %>
-                <%= object_ct %>
-                <% if (_.isEmpty(target_ct)) { %>
-                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
-                <% } else { %>
-                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
-                    {% comment %}{% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>{% endcomment %}
-                <% } %>
-            <% } else if (!_.isEmpty(target_ct)) { %>
-                <p><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></p>
-            <% } %></p>
-            
-        </div>
-        {% comment %}<div class="entry-body"><%= description %></div>{% endcomment %}
-        <div class="clear">&nbsp;</div>
-        <div class="entry-footer"></div>
-    </div><!-- // .entry-meta-col -->
-</script>
+{% include 'places_core/script-templates/action-template.html' %}
 
-
-<script type="text/template" id="content-item-tpl">
-    <div class="locBox loc-box-<%= type %>">
-
-    <div class="locBoxHeader">
-        <div class="locBoxLoc">{{ location }}</div>
-        <div class="locBoxIcon">
-            <div class="locBoxBookmark">
-                {% with location.bookmark_exists as exists %}
-                <a href="#" class="custom-tooltip-right btn-add-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
-                <a href="#" class="custom-tooltip-right btn-remove-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
-                {% endwith %}
-            </div>
-            <div class="locBoxMarker">
-                {% comment %}{% if map_markers %}{% endcomment %}
-                <a href="#" class="custom-tooltip-right" title="{% trans "Show on map" %}"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-ivnerse"></i></span></a>
-                {% comment %}{% endif %}{% endcomment %}
-            </div>
-        </div>
-
-        <div class="locBoxContainer">
-            <div class="locBoxAuthor">
-                <a href="<%= creator.url %>">
-                    <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH">
-                </a>
-            </div>
-            <div class="locBoxTitle">
-               <a href="<%= url %>"><%= title %></a>
-            </div>
-        </div>
-    </div>
-
-    <div class="locBoxCat"><%= title %></div>
-
-    <div class="locBoxBody"><%= description %></div>
-
-</div><!-- /.locBox -->
-</script>
+{% include 'places_core/script-templates/content-item-template.html' %}
 
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />
 

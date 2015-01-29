@@ -57,6 +57,7 @@ require.config({
 
 require(['jquery',
          'js/modules/actstream/actions/actionList',
+         'js/modules/content/content-list',
          'js/modules/common'],
 
 function($, ActionList) {

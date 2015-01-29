@@ -20,6 +20,7 @@ class ContentObjectSerializer(serializers.Serializer):
     title = serializers.Field(source='title')
     image = serializers.Field(source='image')
     creator = serializers.Field(source='creator')
+    location = serializers.Field(source='location')
     description = serializers.Field(source='description')
     date_created = serializers.Field(source='date_created')
 

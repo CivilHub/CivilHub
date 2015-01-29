@@ -40,6 +40,7 @@ def obj_to_dict(obj):
         'url' : capfirst(obj.get_absolute_url()),
         'title': obj.__unicode__(),
         'image': obj.image_url,
+        'location': obj.location.__unicode__(),
         'creator': {
             'url': obj.creator.profile.get_absolute_url(),
             'img': obj.creator.profile.avatar.url,

@@ -38,6 +38,7 @@ from ideas.models import Idea
 from polls.models import Poll
 from topics.models import Discussion
 from bookmarks.models import Bookmark
+from locations.serializers import ContentPaginatedSerializer
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -69,6 +70,51 @@ def obtain_auth_token(request):
         except User.DoesNotExist:
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+class UserSummaryAPI(rest_views.APIView):
+    """
+    Widok podsumowania dla użytkownika. Działa podobnie, jak moduł wyświetlający
+    ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
+    lokacji obserwowanych przez użytkownika.
+    """
+    paginate_by = 15
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+
+        # Id lokacji, z której pobieramy wpisy
+        location_pk = request.QUERY_PARAMS.get('pk', 0)
+        # Numer strony do wyświetlenia
+        page = request.QUERY_PARAMS.get('page', 1)
+        # Rodzaj typu zawartości (albo wszystkie)
+        content = request.QUERY_PARAMS.get('content', 'all')
+        # Zakres dat do wyszukiwania
+        time = request.QUERY_PARAMS.get('time', 'any')
+        # Wyszukiwanie po tytułach wpisów
+        haystack = request.QUERY_PARAMS.get('haystack', None)
+        
+        content_objects = []
+        for location in request.user.profile.followed_locations():
+            content_objects += location.content_objects()
+        content_objects = sorted(content_objects, reverse=True,
+                                    key=lambda x: x['date_created'])
+
+        if content != 'all':
+            content_objects = [x for x in content_objects if x['type']==content]
+        if time != 'any':
+            content_objects = [x for x in content_objects\
+                if x['date_created'] >= get_time_difference(time).isoformat()]
+        if haystack:
+            content_objects = [x for x in content_objects \
+                if haystack.lower() in x['title'].lower()]
+
+        paginator = Paginator(content_objects, self.paginate_by)
+        items = paginator.page(page)
+        serializer_context = {'request': request}
+        serializer = ContentPaginatedSerializer(items, context=serializer_context)
+
+        return Response(serializer.data)
 
 
 class UserBookmarksViewSet(viewsets.ModelViewSet):
