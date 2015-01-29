@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFoun
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core import cache
-from django.utils import translation
+from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
@@ -55,6 +55,19 @@ from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 redis_cache = cache.get_cache('default')
 
 
+def get_time_difference(period):
+    """ Mały helper, który przerabia dzień/rok/miesiąc na timedelta w python. """
+    if period == 'day':
+        time_delta = timezone.now() - datetime.timedelta(days=1)
+    elif period == 'week':
+        time_delta = timezone.now() - datetime.timedelta(days=7)
+    elif period == 'month':
+        time_delta = timezone.now() - relativedelta(months=1)
+    elif period == 'year':
+        time_delta = timezone.now() - relativedelta(years=1)
+    return time_delta
+
+
 class LocationSummaryAPI(APIView):
     """ 
     Widok API pozwalający pobierać listę wszystkich elementów w danej lokalizacji
@@ -66,13 +79,34 @@ class LocationSummaryAPI(APIView):
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
+
+        # Id lokacji, z której pobieramy wpisy
         location_pk = request.QUERY_PARAMS.get('pk', 0)
+        # Numer strony do wyświetlenia
         page = request.QUERY_PARAMS.get('page', 1)
+        # Rodzaj typu zawartości (albo wszystkie)
+        content = request.QUERY_PARAMS.get('content', 'all')
+        # Zakres dat do wyszukiwania
+        time = request.QUERY_PARAMS.get('time', 'any')
+        # Wyszukiwanie po tytułach wpisów
+        haystack = request.QUERY_PARAMS.get('haystack', None)
+
         location = get_object_or_404(Location, pk=location_pk)
-        paginator = Paginator(location.content_objects(), self.paginate_by)
+        content_objects = location.content_objects()
+
+        if content != 'all':
+            content_objects = [x for x in content_objects if x['type']==content]
+        if time != 'any':
+            content_objects = [x for x in content_objects\
+                        if x['date_created'] >= get_time_difference(time).isoformat()]
+        if haystack:
+            content_objects = [x for x in content_objects if haystack.lower() in x['title'].lower()]
+
+        paginator = Paginator(content_objects, self.paginate_by)
         items = paginator.page(page)
         serializer_context = {'request': request}
         serializer = ContentPaginatedSerializer(items, context=serializer_context)
+
         return Response(serializer.data)
 
 

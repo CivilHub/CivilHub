@@ -54,11 +54,9 @@ function ($, _, Backbone, ActionCollection, ActionView) {
       }, this, {'pk':apiUser});
     },
     
-    filter: function (content) {
-      this.filterContent = content || false;
-      var data = {};
+    filter: function (options) {
+      var data = options || {};
       data.pk = apiUser;
-      if (this.filterContent) data.content = this.filterContent;
       this.initCollection(function (actions, next) {
         this.setPage(next);
         this.collection.reset(actions);
