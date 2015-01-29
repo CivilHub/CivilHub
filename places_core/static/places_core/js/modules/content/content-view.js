@@ -1,14 +1,17 @@
 /**
+ * content-view.js
+ * ===============
  *
+ * Widok pojedynczego elementu dla paginowalnej
+ * kolekcji obsługującej filtry i lazy-loader.
  */
-
 define(['underscore', 'backbone'],
 
 function (_, Backbone) {
     
   "use strict";
   
-  var ActionView = Backbone.View.extend({
+  var ContentView = Backbone.View.extend({
       
     tagName: 'div',
     
@@ -22,5 +25,5 @@ function (_, Backbone) {
     }
   });
   
-  return ActionView;
+  return ContentView;
 });

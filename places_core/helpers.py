@@ -1,13 +1,35 @@
 # -*- coding: utf-8 -*-
-import json, math, os, re, icu
+import json, math, os, re, icu, datetime
+
 from urlparse import urljoin
 from BeautifulSoup import BeautifulSoup, Comment
 from uuid import uuid4 as uuid
 from PIL import Image
 from operator import itemgetter
+from dateutil.relativedelta import relativedelta
+
 from taggit.models import Tag
+
 from django.conf import settings
 from django.core.files import File
+from django.utils import timezone
+
+
+def get_time_difference(period):
+    """
+    Mały helper, który przerabia dzień/rok/miesiąc na datetime w pythonie.
+    Przydatny we wszystkich widokach z filtrem daty.
+    """
+    if period == 'day':
+        time_delta = timezone.now() - datetime.timedelta(days=1)
+    elif period == 'week':
+        time_delta = timezone.now() - datetime.timedelta(days=7)
+    elif period == 'month':
+        time_delta = timezone.now() - relativedelta(months=1)
+    elif period == 'year':
+        time_delta = timezone.now() - relativedelta(years=1)
+    return time_delta
+
 
 tag_end_re = re.compile(r'(\w+)[^>]*>')
 entity_end_re = re.compile(r'(\w+;)')
@@ -263,19 +285,3 @@ def process_background_image(imgfile, dirname=None):
         img.thumbnail((settings.BACKGROUND_IMAGE_SIZE, settings.BACKGROUND_IMAGE_SIZE))
     img.save(os.path.join(dirname, imgname), 'JPEG')
     return File(open(os.path.join(dirname, imgname)))
-
-
-def get_time_difference(period):
-    """
-    Mały helper, który przerabia dzień/rok/miesiąc na datetime w pythonie.
-    Przydatny we wszystkich widokach z filtrem daty.
-    """
-    if period == 'day':
-        time_delta = timezone.now() - datetime.timedelta(days=1)
-    elif period == 'week':
-        time_delta = timezone.now() - datetime.timedelta(days=7)
-    elif period == 'month':
-        time_delta = timezone.now() - relativedelta(months=1)
-    elif period == 'year':
-        time_delta = timezone.now() - relativedelta(years=1)
-    return time_delta

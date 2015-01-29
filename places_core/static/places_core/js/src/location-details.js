@@ -61,7 +61,7 @@ require.config({
 
 require(['jquery',
          'js/modules/locations/actions/actions',
-         'js/modules/locations/content/content-list',
+         'js/modules/content/content-list',
          'js/modules/common',
          'js/modules/locations/follow',
          'js/modules/inviter/userinviter',
