@@ -7,16 +7,16 @@
         <h3 class="blogTitleNews"><a href="<%= slug %>"><%= title %></a></h3>
 
 
-        <p class="custom-booklike acticle-content blogNewsContent"><%= content %></p>
+        <p class="custom-booklike acticle-content blogNewsContent"><%= description %></p>
         <div class="clear">&nbsp;</div>
         
         <div class="row">
             <div class="col-xs-12">
                 <div class="blogAuthorDiv">
-                    <div class="blogAvatarDiv"><img src="<%= avatar %>" alt="<%= user_full_name %>" class="user-avatar user-window-toggle minUserAvatar" /></div>
+                    <div class="blogAvatarDiv"><img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar user-window-toggle minUserAvatar" /></div>
 
                     <p>
-                        <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= user_id %>"><%= user_full_name %></span></a> <span class="date-created"><%= date_created %></span>.
+                        <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a> <span class="date-created"><%= date_created %></span>.
                     </p>
                 </div>
             </div>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-xs-2 blogImageNews">
-        <div class="newsThumbnail"><img src="http://placehold.it/150x150"></div>
+        <div class="newsThumbnail"><img src="<%= image %>"></div>
     </div>
 
 </div>

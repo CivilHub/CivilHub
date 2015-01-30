@@ -8,18 +8,22 @@ from .models import Location, Country
 
 class ContentObjectSerializer(serializers.Serializer):
     """
-    Serializar dla obiektów wyciąganych z listy relacji wybranej lokalizacji.
+    Proxy dla obiektów wyciąganych z listy relacji wybranej lokalizacji.
     Metoda sama serializuje dane, ta klasa potrzebna jest, aby połączyć nasz
     skrypt z REST API poprzez restowe APIView oraz PaginationSerializer.
+    Oczywiście działa tylko read-only.
     """
     type = serializers.Field(source='type')
     name = serializers.Field(source='name')
+    slug = serializers.Field(source='slug')
     ct = serializers.Field(source='ct')
     pk = serializers.Field(source='pk')
     url = serializers.Field(source='url')
     title = serializers.Field(source='title')
     image = serializers.Field(source='image')
+    meta = serializers.Field(source='meta')
     creator = serializers.Field(source='creator')
+    category = serializers.Field(source='category')
     location = serializers.Field(source='location')
     description = serializers.Field(source='description')
     date_created = serializers.Field(source='date_created')

@@ -12,21 +12,21 @@
             <a href="">
                 <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
             </a>
-            <button data-target="<%= id %>" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
+            <button data-target="<%= pk %>" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
                 <span class="fa fa-times-circle-o"> </span></button>
         </div>
     {% endif %}
     <div class="col-xs-6 custom-align-l"><a href="<%= url %>"><%= title %></a></div>
     <div class="col-xs-6 custom-align-r">
-        <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
-        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
+        <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
+        <a href="<%= creator.url %>" class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></a>
         <span class="date-created"><%= date_created %></span>
-        <div class="pollEye"><a href="<%= answers_url %>"><span class="fa fa-eye"></span></a></div>
+        <div class="pollEye"><a href="<%= url %>"><span class="fa fa-eye"></span></a></div>
     </div>
 
 </script>
 
-<input type="hidden" name="poll_api_url" id="poll-api-url" value="/rest/polls/?pk={{ location.pk }}" />
+<input type="hidden" name="poll_api_url" id="poll-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=poll" />
 
 {% include 'places_core/paginator.html' %}
 {% include 'locations/no-results-tpl.html' %}

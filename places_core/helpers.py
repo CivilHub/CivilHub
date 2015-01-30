@@ -28,6 +28,8 @@ def get_time_difference(period):
         time_delta = timezone.now() - relativedelta(months=1)
     elif period == 'year':
         time_delta = timezone.now() - relativedelta(years=1)
+    else:
+        time_delta = None
     return time_delta
 
 

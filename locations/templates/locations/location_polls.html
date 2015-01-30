@@ -67,8 +67,7 @@
                 <div class="col-xs-6 custom-align-r">{% trans "Created by" %}</div>
             </div>
             
-            <noscript>
-                {% for poll in polls %}
+            <noscript>{% for poll in polls %}
                 <div class="polls-list-entry custom-list-entry row">
                     {% if user == poll.creator or is_moderator %}
                         <div class="btn-group list-entry-controls">
@@ -88,8 +87,7 @@
                     {% comment %}<div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>{% endcomment %}
                     <div class="col-xs-3 custom-align-r"><a href="{% url 'polls:results' poll.pk %}">{% trans "Show answers" %}</a></div>
                 </div>
-                {% endfor %}
-            </noscript>
+            {% endfor %}</noscript>
             
             {% include 'polls/poll-list.html' %}
             

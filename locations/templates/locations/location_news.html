@@ -35,7 +35,7 @@
                 <li class="navbar-text"> {% trans "When" %}:</li>
                 <li><a href="#" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
                 <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
-        <li class="navbar-text-narrow">{% trans "Past" %}:</li>
+                <li class="navbar-text-narrow">{% trans "Past" %}:</li>
                 <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
             <li class="navbar-text-narrow">|</li>
                 <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
@@ -50,7 +50,6 @@
             <li class="navbar-text">{% trans "Stats" %}</li>
             {% comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
             </ul>
-
 
             <form id="haystack-form" class="navbar-form navbar-right" role="search">
                 <div class="form-group">
@@ -103,7 +102,7 @@
         </form>
         </script>
         
-        <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
+        <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=news" />
     
               {% include 'blog/news_list.html' %}  
     </div>

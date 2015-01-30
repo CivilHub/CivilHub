@@ -16,6 +16,7 @@ from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
 from locations.links import LINKS_MAP as links
+from locations.mixins import ContentMixin
 from .models import Category, News
 from .forms import NewsForm
 # Use our mixin to allow only some users make actions
@@ -25,13 +26,12 @@ from places_core.helpers import SimplePaginator, truncatehtml
 # Mobile API
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
-from rest.mixins import LocationContentMixin
 from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
                               IsSuperuserOrReadOnly
 from .serializers import NewsSimpleSerializer, NewsCategorySerializer
 
 
-class NewsAPIView(LocationContentMixin, viewsets.ModelViewSet):
+class NewsAPIView(ContentMixin):
     """
     Simple view for mobile applications. Provides a way to manage blog.
     """

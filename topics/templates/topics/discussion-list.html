@@ -10,15 +10,15 @@
 <script type="text/template" id="topic-entry">
     <div class="row">
         <div class="col-sm-6 excerpt">
-            <a href="<%= url %>"><%= question %></a>
+            <a href="<%= url %>"><%= title %></a>
         </div>
         <div class="col-sm-2 category">
-            <a href="<%= category_url %>"><label class="label label-default"><%= category_name %></label></a>
+            {% comment %}<a href="<%= category.url %>">{% endcomment %}<label class="label label-default"><%= category.name %></label>{% comment %}</a>{% endcomment %}
         </div>
         <div class="col-sm-4 custom-align-r">
-            <span class="count"><%= answers %></span>
-            <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar-minithumb" />
-            <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a>
+            <span class="count"><%= meta.answers %></span>
+            <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
+            <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a>
             <span class="date-created"><%= date_created %></span>
         </div>
     </div>

@@ -76,26 +76,26 @@
     
     <div class="col-sm-9 content-container contentPX">
         
-            <div class="discussion-list-entry">
-                <div class="custom-label-list" style="display:none;">
-                    <span class="fa fa-list custom-fa"> </span>
-                    <span class="custom-label-entry custom-main-label-entry">
-                        <a href="#" class="list-controller" data-target="all" data-control="category">{% trans "All channels" %}</a>
-                    </span>
-                    {% for category in categories %}
-                    <span class="custom-label-entry">
-                        <a href="#" class="list-controller custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
-                    </span>
-                    {% endfor %}
-                </div>
-
-                {% include 'topics/discussion-list.html' %}
-                
+        <div class="discussion-list-entry">
+            <div class="custom-label-list" style="display:none;">
+                <span class="fa fa-list custom-fa"> </span>
+                <span class="custom-label-entry custom-main-label-entry">
+                    <a href="#" class="list-controller" data-target="all" data-control="category">{% trans "All channels" %}</a>
+                </span>
+                {% for category in categories %}
+                <span class="custom-label-entry">
+                    <a href="#" class="list-controller custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
+                </span>
+                {% endfor %}
             </div>
+
+            {% include 'topics/discussion-list.html' %}
+            
+        </div>
             
     </div>
     
-    <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/rest/topics/?pk={{ location.pk }}" />
+    <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=discussion" />
 
     <div class="col-sm-9 no-entries" style="display:none;">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">

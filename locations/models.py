@@ -35,30 +35,53 @@ def obj_to_dict(obj):
     ułatwi nam wyświetlanie ich w templatach. Działa jak prosty serializer.
     """
     content_type = ContentType.objects.get_for_model(obj)
+
     context = {
         'type': content_type.model,
         'name': _(content_type.model),
+        'slug': obj.slug,
         'ct'  : content_type.pk,
         'pk'  : obj.pk,
         'url' : capfirst(obj.get_absolute_url()),
         'title': obj.__unicode__(),
         'image': obj.image_url,
         'location': obj.location.__unicode__(),
+        'meta': {},
+        'date_created': obj.date_created.isoformat(),
         'creator': {
+            'id': obj.creator.pk,
             'url': obj.creator.profile.get_absolute_url(),
             'img': obj.creator.profile.avatar.url,
             'name': obj.creator.get_full_name(),
         },
-        'date_created': obj.date_created.isoformat(),
     }
+
+    if hasattr(obj, 'category'):
+        context.update({'category': {
+            'pk': obj.category.pk,
+            'name': obj.category.__unicode__(),
+        }})
+
     if content_type.model == 'idea':
-        context.update({'description': obj.description})
+        context.update({
+            'description': obj.description,
+            'meta': {'votes': obj.get_votes(),}
+        })
+
     elif content_type.model == 'poll':
         context.update({'description': obj.question})
+
     elif content_type.model == 'news':
         context.update({'description': obj.content})
+
     elif content_type.model == 'discussion':
-        context.update({'description': obj.intro})
+        context.update({
+            'description': obj.intro,
+            'meta': {
+                'answers': obj.entry_set.count(),
+            }
+        })
+
     else:
         raise Exception(_(u"Wrong model instance"))
     context['description'] = truncatewords_html(context['description'], 15)

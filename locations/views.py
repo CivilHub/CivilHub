@@ -64,11 +64,12 @@ class LocationSummaryAPI(APIView):
     `/api-locations/contents/?pk=756135`
 
     Dodatkowe parametry:<br>
-        `page`    - Numer strony do pobrania<br>
-        `content` - Tylko jeden typ zawartości (idea, news, poll, discussion)
+        `page`     - Numer strony do pobrania<br>
+        `content`  - Tylko jeden typ zawartości (idea, news, poll, discussion)
                     Domyślna wartość to `all`<br>
-        `time`    - Zakres czasowy (year, week, month, day). Domyślnie `any`<br>
-        `haystack`- Fraza do wyszukania w tytułach
+        `time`     - Zakres czasowy (year, week, month, day). Domyślnie `any`<br>
+        `haystack` - Fraza do wyszukania w tytułach<br>
+        `category` - ID kategorii do przeszukania (jeżeli dotyczy)<br>
     """
     paginate_by = 15
     permission_classes = (rest_permissions.AllowAny,)
@@ -76,30 +77,63 @@ class LocationSummaryAPI(APIView):
     def get(self, request):
 
         # Id lokacji, z której pobieramy wpisy
-        location_pk = request.QUERY_PARAMS.get('pk', 0)
+        try:
+            location_pk = int(request.QUERY_PARAMS.get('pk'))
+        except (ValueError, TypeError):
+            location_pk = None
+
         # Numer strony do wyświetlenia
-        page = request.QUERY_PARAMS.get('page', 1)
+        try:
+            page = int(request.QUERY_PARAMS.get('page'))
+        except (ValueError, TypeError):
+            page = 1
+
         # Rodzaj typu zawartości (albo wszystkie)
         content = request.QUERY_PARAMS.get('content', 'all')
-        # Zakres dat do wyszukiwania
-        time = request.QUERY_PARAMS.get('time', 'any')
+
+        # Przedział czasowy do przeszukania
+        time = get_time_difference(request.QUERY_PARAMS.get('time', 'any'))
+
         # Wyszukiwanie po tytułach wpisów
-        haystack = request.QUERY_PARAMS.get('haystack', None)
+        haystack = request.QUERY_PARAMS.get('haystack')
+
+        # Wyszukiwanie poprzez ID kategorii (jeżeli dotyczy)
+        try:
+            category = int(request.QUERY_PARAMS.get('category'))
+        except (ValueError, TypeError):
+            category = None
 
         location = get_object_or_404(Location, pk=location_pk)
         content_objects = location.content_objects()
 
         if content != 'all':
             content_objects = [x for x in content_objects if x['type']==content]
-        if time != 'any':
+        if time is not None:
             content_objects = [x for x in content_objects\
-                if x['date_created'] >= get_time_difference(time).isoformat()]
+                                    if x['date_created'] >= time.isoformat()]
         if haystack:
             content_objects = [x for x in content_objects \
-                if haystack.lower() in x['title'].lower()]
+                                    if haystack.lower() in x['title'].lower()]
+        if category is not None:
+            content_objects = [x for x in content_objects if x['category']['pk']==category]
+
+        # Opcje sortowania wyników (dotyczy konkretnych obiektów)
+        sortby = self.request.QUERY_PARAMS.get('sortby')
+        if sortby == 'title':
+            content_objects = sort_by_locale(content_objects,
+                            lambda x: x['title'], translation.get_language())
+        elif sortby == 'oldest':
+            content_objects.sort(key=lambda x: x['date_created'])
+        elif sortby == 'newest':
+            content_objects.sort(key=lambda x: x['date_created'], reversed=True)
+        elif sortby == 'user':
+            content_objects.sort(key=lambda x: x['creator']['name'].split(' ')[1])
 
         paginator = Paginator(content_objects, self.paginate_by)
-        items = paginator.page(page)
+        try:
+            items = paginator.page(page)
+        except EmptyPage:
+            items = paginator.page(1)
         serializer_context = {'request': request}
         serializer = ContentPaginatedSerializer(items, context=serializer_context)
 
@@ -242,11 +276,8 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             actions = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999),
-            # deliver last page of results.
             actions = paginator.page(paginator.num_pages)
 
         serializer_context = {'request': request}
