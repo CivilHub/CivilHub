@@ -8,12 +8,11 @@
     <div class="locBoxHeader">
         <div class="locBoxLoc"><%= location %></div>
         <div class="locBoxIcon">
-            {% comment %}<div class="locBoxBookmark">
+            <div class="locBoxBookmark">
                 <a href="#" class="custom-tooltip-right btn-add-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
                 <a href="#" class="custom-tooltip-right btn-remove-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
             </div>
-            <div class="locBoxMarker">
-                {% if map_markers %}
+            {% comment %}<div class="locBoxMarker">
                 <a href="#" class="custom-tooltip-right" title="{% trans "Show on map" %}"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-ivnerse"></i></span></a>
                 {% endif %}
             </div>{% endcomment %}

@@ -60,7 +60,7 @@
         
         <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
 
-        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}">{{tag.name}}</a> {% endfor %}</p>
+        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}" class="newTag">{{tag.name}}</a> {% endfor %}</p>
 
         <div class="reply-entry">
             <div class="row">

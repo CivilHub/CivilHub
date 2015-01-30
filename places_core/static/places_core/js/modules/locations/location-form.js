@@ -178,7 +178,7 @@ function ($, _, Backbone) {
             this.$el.find('#map').mapinput({
                 latField: '#id_latitude',
                 lngField: '#id_longitude',
-                width: 640,
+                width: 664,
                 height: 480
             });
             

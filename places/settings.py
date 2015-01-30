@@ -77,8 +77,6 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     # https://github.com/ottoyiu/django-cors-headers
     'corsheaders',
-    # https://github.com/skorokithakis/django-annoying
-    'annoying',
     #'python-social-auth',
     'social.apps.django_app.default',
     #http://django-taggit.readthedocs.org/en/latest/
@@ -104,7 +102,7 @@ INSTALLED_APPS = (
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
     
-    # django-activity-stream
+    # django-activity-stream - powinien być ostatni na liście
     'actstream',
 )
 
@@ -262,10 +260,6 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 #-------------------------------------------------------------------------------
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
-               'blog.news', 'polls.poll', 'comments.customcomment',
-               'topics.discussion', 'userspace.userprofile', 'userspace.badge',
-               'gallery.locationgalleryitem', 'topics.entry', 'articles.article',),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,

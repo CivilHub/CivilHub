@@ -13,6 +13,17 @@ window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/location-create.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
+
+{% block header %}
+
+    <div class="headerBGa headerBGLocationFrom">
+        <h1 class="headerTitleBG"> {{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
+    </div>
+
+{% endblock %}
+
+
+
 {% block content %}
 
 <div class="col-sm-3 top15">
@@ -22,21 +33,21 @@ window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
     </div>
 </div>
 
-<div class="col-sm-9 main-content top15">
+<div class="col-sm-9 main-content top15 p25">
     <div class="create-form">
         {% if action and action == 'edit' %}
-            <h3>{% trans "Edit location" %}</h3>
+            {% comment %}<h3>{% trans "Edit location" %}</h3>{% endcomment %}
             <form class="form-horizontal" role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
         {% else %}
-            <h3>{% trans "Create location" %}</h3>
+            {% comment %}<h3>{% trans "Create location" %}</h3>{% endcomment %}
             <form class="form-horizontal" role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">
         {% endif %}
             {% csrf_token %}
             {{ form.as_p }}
             <div class="form-group">
                 <div class="col-sm-2">&nbsp;</div>
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary">{% trans "Create new location" %}</button>
+                <div class="col-sm-10 text-right">
+                    <button type="submit" class="btn btn-greenBig">{% trans "Create new location" %}</button>
                 </div>
             </div>
         </form>
@@ -46,7 +57,7 @@ window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
 </div>
 
 <script type="text/template" id="input-tpl">
-    <div class="btn btn-success custom-btn-full-width input-indicator"></div>
+    <div class="btn btn-createLocation custom-btn-full-width input-indicator"></div>
     <ul class="sublist">
         <li class="filter-entry">
             <form role="presentation">

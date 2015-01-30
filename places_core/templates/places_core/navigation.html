@@ -76,12 +76,12 @@
                     </ul>
                 </li>
 
-                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="Mapa"><span title="maps-box" class="maps-boxBox"><i class="fa fa-globe"></i></span></a></li>
+                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}"><span title="maps-box" class="maps-boxBox"><i class="fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></i></span> </a></li>
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="Zakładki">
-                        <span title="{% trans "My Bookmarks" %}" class="my-bookmarkBox"><i class="fa fa-bookmark-o"></i></span>
+                        <span title="{% trans "My Bookmarks" %}" class="my-bookmarkBox"><i class="fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></i></span>
 
                     </a>
    {% comment %}                 
@@ -96,7 +96,7 @@
                 </li>
                 <li>                                                           
                     <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="Wiadomości" >
-                        <span title="message-box" class="message-box"><i class="fa fa-envelope-o"></i></span>
+                        <span title="message-box" class="message-box"><i class="fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></i></span>
                         {% if unread_count %}
                             <span class="badge custom-badge-indicator">{{ unread_count }}</span>
                         {% endif %}

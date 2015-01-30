@@ -375,43 +375,71 @@ textarea{ resize: vertical; }
     text-decoration: none;
 }
 
-button.btn-sendBlue, button.btn-cancelGray{
-    background:#0083FB;
+.btn-sendBlue, .btn-cancelGray{
     color: #FFF;
     font-size: 9px;
     line-height: 12px;
     font-weight: bold;
+    text-shadow: none !important;
+    border: 0 none !important;
     padding: 3px 15px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
 }
-button.btn-cancelBig, button.btn-cancelGray{
-    background:#4d4747;
+.btn-cancelBig, .btn-cancelGray, .btn-browseBig{
+    background:#4d4747 !important;
 }
 
-button.btn-saveBig{
+.btn-saveBig, .btn-sendBlue{
     background: #0083fb !important;
 }
 
-button.btn-saveBig, button.btn-cancelBig{
+.btn-greenBig{
+    background: #84bd00 !important;
+}
+
+.btn-saveBig, .btn-cancelBig, .btn-greenBig, .btn-browseBig{
     font-weight: normal;
     font-size: 14px;
-    padding: 12px 13px;
+    //padding: 12px 13px;
+    padding: 8px 13px;
     text-shadow: none !important;
     border: 0 none !important;
     color: #FFF;
     margin-left: 5px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
 }
 
-button.btn-plusAdd,button.btn-minusDelete{
+.btn-plusAdd,.btn-minusDelete{
     color:#FFF;
     font-weight: 200;
     border: 0 none !important;
     text-shadow: none !important;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
 }
-button.btn-plusAdd{
-    background: #84bd00;
+.btn-plusAdd{
+    background: #84bd00 !important;
 }
-button.btn-minusDelete{
-    background: #e40f0d;
+.btn-minusDelete{
+    background: #e40f0d !important;
+}
+
+.btn-createLocation{
+    background: #0083fb;
+    color: #FFF;
+    line-height: 18px;
+    font-size: 14px;
+    text-shadow: none !important;
+    border: 0px none !important;
+    margin-bottom: 1px;
+    &:hover{
+        background: #0083fb !important;
+    }
 }
 
 .twitterDiv{
@@ -547,7 +575,72 @@ h1.articleCTitle{
 }
 
 
+//padding pomocniczy 25px, 15px+10px z margin form
+.p25{
+    padding: 25px 25px 15px !important;
+}
+
 
 
 @import "location-navbar.less";
 @import "filter-navbar.less";
+
+
+//RWD
+.rwdShow{
+    display: none;
+}
+@media(max-width: 768px){
+    .navbar-top-search{
+        float: none;
+        #id_q{
+            border-top-right-radius: 12px !important;
+            -webkit-top-right-radius: 12px !important;
+            -moz-border-radius-topright: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            -webkit-bottom-right-radius: 12px !important;
+            -moz-border-radius-bottomright: 12px !important;
+        }
+        .search-button{
+            right: 0 !important;
+        }
+
+    }
+    #navbar-top{
+        .navbar-nav{
+            li{
+                a{
+                    padding: 15px 0px;
+                }
+            }
+        }
+    }
+    #bs-navbar-collapse{
+        ul{
+            padding: 0 15px;
+            margin: 0px;
+            &.dropdown-menu{
+                padding: 0px;
+            }
+            li{
+                a{
+                    padding: 10px 0px !important;
+                }
+                &.dropdown{
+                    ul{
+                        li{
+
+                            &.divider{
+                                display: none;
+                            }
+
+                            a{
+                                padding: 6px 0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
