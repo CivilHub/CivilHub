@@ -125,7 +125,7 @@ def delete_background_image(sender, instance, **kwargs):
     """
     fieldname = get_fieldname(instance)
     
-    if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
+    if u'nowhere.jpg' in fieldname or u'background.jpg' in fieldname:
         return False
 
     if (os.path.isfile(fieldname.path)):

@@ -47,6 +47,7 @@ from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
+from .helpers import profile_activation
 from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
             BookmarkSerializer
@@ -203,6 +204,8 @@ class SocialApiView(rest_views.APIView):
                               'auth_token': social.user.auth_token.key})
         except UserSocialAuth.DoesNotExist:
             manager = SocialAuthManager(provider, uid, details)
+            if manager.user.pk:
+                profile = profile_activation(manager.user)
             manager_data = manager.is_valid()
             return Response({'user_id': manager.user.pk,
                               'auth_token': manager.user.auth_token.key})
@@ -636,6 +639,7 @@ def activate(request, activation_link=None):
         user.save()
         demand.delete()
         user = User.objects.get(pk=user_id)
+        profile = profile_activation(user)
         user = auth.authenticate(username=user.username,
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)
