@@ -33,6 +33,11 @@ def get_time_difference(period):
     return time_delta
 
 
+def date_from_iso(isodate):
+    """ Zamienia datetime.isoformat z powrotem na datetime obiekt. """
+    return datetime.datetime.strptime(isodate[:-7],'%Y-%m-%dT%H:%M:%S.%f')
+
+
 tag_end_re = re.compile(r'(\w+)[^>]*>')
 entity_end_re = re.compile(r'(\w+;)')
 
