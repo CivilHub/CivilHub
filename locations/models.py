@@ -56,7 +56,7 @@ def obj_to_dict(obj):
         },
     }
 
-    if hasattr(obj, 'category'):
+    if hasattr(obj, 'category') and obj.category is not None and obj.category.pk:
         context.update({'category': {
             'pk': obj.category.pk,
             'name': obj.category.__unicode__(),

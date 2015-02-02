@@ -210,5 +210,18 @@ class LoginData(models.Model):
     address = models.IPAddressField()
 
 
+def activate_user_profile(sender, instance, **kwargs):
+    """
+    Sygnał wysyłany kiedy użytkownik jest tworzony/edytowany.
+    Upewniamy się, że zostanie utworzony jego profil.
+    """
+    try:
+        profile = UserProfile.objects.get(user=instance)
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=instance)
+    return profile
+
+
 post_delete.connect(delete_background_image, sender=UserProfile)
 post_save.connect(resize_background_image, sender=UserProfile)
+post_save.connect(activate_user_profile, sender=User)
