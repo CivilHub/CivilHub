@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles civil_tags i18n %}
+{% load staticfiles civil_tags i18n bookmark_tags %}
 
 {% block title %} {{ poll.title }}, {{ location }} | CivilHub {% endblock %}
 
@@ -19,7 +19,7 @@
                 {% if map_markers %}
                     <li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>
                 {% endif %}
-                <li>{% bookmark_form poll user %}</li>
+                <li></li>
                 <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                 {% if user.is_authenticated and user != poll.creator %}
                     <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>
@@ -27,11 +27,12 @@
                 {% if user.is_superuser or is_moderator %}
                     <li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>
                 {% endif %}{% endwith %}
+                <li>{% bookmark_form poll user %}</li>
             </ul>
         </div>
         
         <hr />
-        
+        <img src="{{ poll.image_url }}" alt="{{ poll }}">
         <div class="acticle-content">{{ poll.question | safe }}</div>
         
         {% if can_vote %}

@@ -12,33 +12,33 @@
             {% if user.is_authenticated %}                 
             {% if 'new_discussion' in links %}<li>
                 <a href="{% url 'locations:new_topic' location.slug %}">
-                    <span class="ch-icon ch-discussions"> </span> {% trans "New discussion" %}
+                    {% trans "New discussion" %}
                 </a>
             </li>{% endif %}
             {% if 'new_poll' in links %}<li>
                 <a href="{% url 'locations:new_poll' location.slug %}">
-                    <span class="ch-icon ch-polls"> </span> {% trans "Create poll" %}
+                   {% trans "Create poll" %}
                 </a>
             </li>{% endif %}
             {% if 'new_location' in links %}<li>
                 <a href="{% url 'locations:news_create' location.slug %}">
-                    <span class="ch-icon ch-blog"> </span> {% trans "Add news" %}
+                    {% trans "Add news" %}
                 </a>
             </li>{% endif %}
             {% if 'new_idea' in links %}<li>
                 <a href="{% url 'locations:new_idea' location.slug %}">
-                    <span class="ch-icon ch-ideas"> </span> {% trans "New idea" %}</button>
+                    {% trans "New idea" %}</button>
                 </a>
             </li>{% endif %}
             {% if 'upload' in links %}<li>
-                <a href="{% url 'locations:upload' location.slug %}"> <span class="ch-icon ch-photos"> </span> Upload Images </a>
+                <a href="{% url 'locations:upload' location.slug %}">Upload Images </a>
             </li>{% endif %}
             {% if 'invite' in links %}<li>
-                <a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}"><span class="ch-icon ch-followers"> </span>{% trans "Invite people" %}</a>
+                <a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a>
             </li>{% endif %}
             {% if 'add_news' in links %}<li>
                 <a href="{% url 'locations:news_create' location.slug %}">
-                    <span class="ch-icon"> </span> {% trans "Add news" %}
+                    {% trans "Add news" %}
                 </a>
             </li>{% endif %}
             {% endif %}

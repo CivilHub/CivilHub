@@ -25,7 +25,7 @@
             <div class="follower">
                 
                 <div class="follower-header">
-                <a href="{% url 'user:profile' usr.username %}">
+                <a href="{{ usr.profile.get_absolute_url }}">
                     <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.get_cropped_image }}"></div>
                     <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
                     </a>
@@ -53,7 +53,7 @@
     {% endfor %}
 </div>
 
-
+{% if followers|length > 18 %}
 <ul class="pagination">
     {% if followers.has_previous %}
         <li><a href="?page=1">&laquo;</a></li>
@@ -69,6 +69,7 @@
         <li><a href="?page={{ followers.paginator.num_pages }}">&raquo;</a></li>
     {% endif %}
 </ul>
+{% endif %}
 
 </div>
 </div>

@@ -1,0 +1,78 @@
+{% load staticfiles i18n civil_tags %}
+    
+{% include 'places_core/header.html' %}
+    
+{% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGI ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
+{% block meta %}{% endblock %}
+
+{% comment %} ~~~~~~~~~~~~~~~~~~~ TAGI GEO ~~~~~~~~~~~~~~~~~~~ {% endcomment %}
+{% block geometa %}{% endblock %}
+
+{% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
+{% block extra_styles %}{% endblock %}
+
+{% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
+{% block require_scripts %}
+
+    {% comment %}
+        W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
+        i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
+        faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
+    {% endcomment %}
+    
+    <script data-main="{% static 'places_core' %}/js/{% js_path %}/default.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+    
+{% endblock %}
+
+{% comment %} ~~~~~~~~~~~~~~~ EXTRA JS FILES ~~~~~~~~~~~~~~~~ {% endcomment %}
+{% block extra_scripts %}{% endblock %}
+
+</head>
+<body>
+
+<div id="messages"></div>
+<div id="cookie-msg"></div>
+    
+{% include 'places_core/navigation.html' %}
+
+<div class="main-page-content wrap">
+    
+    
+    
+    {% block header %}
+    
+        <div class="inboxHeader">
+            <h1>
+
+                {% block pm_folder_title %}{% endblock %} 
+
+                {% block pm_write_title %}{% endblock %}       
+
+            </h1>
+        </div>
+    
+    {% endblock %}
+
+    <div id="messages"></div>
+
+    <div class="container">
+    
+        {% block topbar %}{% endblock %}
+        
+        
+        
+        {% block sidebar %}{% endblock %}
+        {% block content %}{% endblock %}
+
+    </div>
+    
+</div>
+
+
+{% include 'places_core/footer.html' %}
+
+{% comment %} ~~~~~~~~~~~~~~~~ FOOTER SCRIPTS ~~~~~~~~~~~~~~~~ {% endcomment %}
+{% block footer_scripts %}{% endblock %}
+
+</body>
+</html>

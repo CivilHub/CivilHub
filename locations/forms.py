@@ -114,7 +114,7 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'location', 'tags', 'category',)
+        fields = ('name', 'description', 'location', 'tags', 'category', 'image')
 
 
 class NewsLocationForm(forms.ModelForm, BootstrapBaseForm):
@@ -146,7 +146,7 @@ class NewsLocationForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'category', 'location', 'tags')
+        fields = ('title', 'content', 'category', 'location', 'tags', 'image')
 
 
 class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
@@ -176,7 +176,7 @@ class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'location', 'tags')
+        fields = ('question', 'intro', 'category', 'location', 'tags', 'image')
 
 
 class SearchDiscussionForm(SearchForm):

@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles civil_tags i18n %}
+{% load staticfiles civil_tags i18n bookmark_tags %}
 
 {% block title %} {{ idea.name }}, {{ location }} | CivilHub {% endblock %}
 
@@ -19,10 +19,10 @@
 
 {% block content %}
 
-<div class="main-content col-sm-8">
+<div class="main-content col-sm-9 contentPX">
     {% include 'maps/pointer-modal-form.html' %}
     <div class="row idea-entry">
-        <div class="idea-votes col-sm-3">
+        <div class="idea-votes col-sm-3 idea-votesH">
             <div class="vote-form">
                 <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
                 <div class="vote-controls">
@@ -51,9 +51,9 @@
             {% include 'locations/share_buttons.html' %}            
             
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-9 idea-Content">
 
-            <h1>{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
+            <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
                 <div class="entry-submenu">
                     <ul>{% with idea|content_type as ctype %}
                         {% if map_markers %}
@@ -66,34 +66,38 @@
                         {% if user.is_superuser or is_moderator %}
                         <li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>
                         {% endif %}
-                        <li>{% bookmark_form idea user %}</li>
+                        <li></li>
                         {% if user.is_authenticated and user != idea.creator %}
                             <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>
                         {% endif %}
-                    {% endwith %}</ul>
+                        <li>{% endwith %}{% bookmark_form idea user %}</li>
+                    </ul>
                 </div>
                 <div class="author-info">
                     <small>
                         <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar mini user-window-toggle" data-target="{{ idea.creator.pk }}" />     
-                        <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> {{ idea.date_created }}
+                        <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
                     </small>
                 </div>
                 <div class="acticle-content">{{ idea.description | safe }}</div>
-    <p>{% trans "Tags" %}:
+    <p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}
-        <a class="tag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  
+        <a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  
         {% endfor %}
     </p>
-    <p>
+    
+    {% comment %}<p>
         {% if idea.category %}
                 <span class="fa fa-star"> </span>{% trans "Category" %}:
                     <a href="{% url 'locations:category_search' slug=idea.location.slug app='ideas' model='idea' category=idea.category.pk %}">{{ idea.category }}</a>
         {% endif %}
-    </p>
-        <div>
+    </p>{% endcomment %}
+
+        <div class="ideaEntryComments">
             <p>
-                {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
-                <a class="comment-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>
+                {% comment %}{% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>{% endcomment %}
+                {{ idea.comments }} {% trans "Comments" %}
+               {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a> {% endif %}
             </p>
         </div>
         
@@ -115,7 +119,7 @@
 
     {% include 'locations/category-form.html' %}
 
-    <div class="col-sm-4">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
 

@@ -1,15 +1,25 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from slugify import slugify
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
 from django.utils.html import strip_tags
-from slugify import slugify
+from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
+
 from locations.models import Location
+from gallery.image import adjust_uploaded_image
 from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.models import ImagableItemMixin, remove_image
 
 
+@python_2_unicode_compatible
 class Category(models.Model):
     """
     Basic categories for forum discussions
@@ -17,16 +27,15 @@ class Category(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(blank=True, null=True, default="")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _('category'),
-        verbose_name_plural = _('categories')
 
 
-class Discussion(models.Model):
+@python_2_unicode_compatible
+class Discussion(ImagableItemMixin, models.Model):
     """
     Single discussion on forum - e.g. some topic.
     """
@@ -63,12 +72,8 @@ class Discussion(models.Model):
     def get_description(self):
         return truncatehtml(self.intro, 100)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.question
-    
-    class Meta:
-        verbose_name = _("discussion")
-        verbose_name_plural = _("discussions")
 
 
 class Entry(MPTTModel):
@@ -110,10 +115,9 @@ class Entry(MPTTModel):
 
     class Meta:
         ordering = ['-date_created',]
-        verbose_name = _("entry")
-        verbose_name_plural = _("entries")
 
 
+@python_2_unicode_compatible
 class EntryVote(models.Model):
     """
     Users can vote up or down on forum entries, but only once.
@@ -123,9 +127,9 @@ class EntryVote(models.Model):
     entry = models.ForeignKey(Entry, related_name='votes')
     date_voted = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.vote
 
-    class Meta:
-        verbose_name = _("vote")
-        verbose_name_plural = _("votes")
+
+models.signals.post_save.connect(adjust_uploaded_image, sender=Discussion)
+models.signals.post_delete.connect(remove_image, sender=Discussion)

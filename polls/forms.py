@@ -32,7 +32,7 @@ class PollForm(forms.ModelForm, BootstrapBaseForm):
     
     class Meta:
         model = Poll
-        fields = ('title', 'question', 'location', 'multiple', 'tags',)
+        fields = ('title', 'question', 'location', 'multiple', 'tags', 'image')
 
 
 class PollEntryAnswerForm(forms.Form):

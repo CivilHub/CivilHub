@@ -37,7 +37,7 @@
         icons: { {% for type in content_types %}
             {% if type.model in icons %}'{{ type.pk }}': {
                 iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
-                iconSize: [32, 32]
+                iconSize: [23, 27]
             },{% endif %}
         {% endfor %} }
     };

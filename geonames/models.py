@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 
+@python_2_unicode_compatible
 class GeoName(models.Model):
     """ Basic model for geoname instances. """
     name = models.CharField(max_length=200)
@@ -17,10 +22,11 @@ class GeoName(models.Model):
     population = models.IntegerField(null=True, blank=True, default=0)
     elevation = models.IntegerField(null=True, blank=True, default=0)
 
-    def __unicode__(self):
-        return "{}: {}".format(self.id, self.name)
+    def __str__(self):
+        return u"{}: {}".format(self.id, self.name)
 
 
+@python_2_unicode_compatible
 class CountryInfo(models.Model):
     """ Country info from geonames. """
     iso_alpha2 = models.CharField(max_length=2)
@@ -34,10 +40,11 @@ class CountryInfo(models.Model):
     continent = models.CharField(max_length=2)
     languages = models.CharField(max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
+@python_2_unicode_compatible
 class AdminCode(models.Model):
     """ 1st level admin code areas. """
     name = models.CharField(max_length=200)
@@ -45,10 +52,11 @@ class AdminCode(models.Model):
     country = models.CharField(max_length=3)
     code = models.CharField(max_length=10)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
+@python_2_unicode_compatible
 class AltName(models.Model):
     """ Alternative names for objects. This will be used 'as is'. """
     geonameid = models.IntegerField()
@@ -60,5 +68,5 @@ class AltName(models.Model):
     is_colloquial = models.BooleanField(default=False)
     is_historic = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.altername

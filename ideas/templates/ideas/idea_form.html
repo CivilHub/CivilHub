@@ -14,7 +14,7 @@
 
 {% block content %}
 
-    <div class="col-sm-8 main-content">
+    <div class="col-sm-9 main-content contentPX">
         <div class="create-form">
             {% if action == 'update' %}
                 <form role="form" class="form-horizontal" method="post" action="{% url 'ideas:update' idea.slug %}" id="idea-create-form">
@@ -33,7 +33,7 @@
         </div>
     </div>
     
-    <div class="col-sm-4">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
     

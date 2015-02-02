@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
-from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
+from django.utils.encoding import python_2_unicode_compatible
+
+from mptt.models import MPTTModel, TreeForeignKey
+
 from userspace.models import UserProfile
 from places_core.helpers import sanitizeHtml
 
@@ -44,6 +49,7 @@ class CustomComment(MPTTModel, Comment):
         return self.content_object.get_absolute_url()
 
 
+@python_2_unicode_compatible
 class CommentVote(models.Model):
     """
     Users can vote up or down on comments, but only once
@@ -53,5 +59,5 @@ class CommentVote(models.Model):
     comment = models.ForeignKey(CustomComment, related_name='votes')
     date_voted = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.vote

@@ -14,10 +14,10 @@
         <div class="sidebar-label">{% trans "Actions" %}:</div>
             
         <ul class="custom-sidebar-nav"> 
-            <li><a href="{% url 'user:locations' user.pk %}"><span class="ch-icon ch-home"></span>{% trans "My Places" %}</a></li>
-            <li><a href="{% url 'gallery:index' %}"><span class="ch-icon ch-photos"></span>{% trans "Media" %}</a></li>
-            <li><a href="{% url 'user:index' %}"><span class="ch-icon ch-edit"></span>{% trans "Edit profile" %}</a></li>
-            <li><a href="#" class="contacts-toggle"><span class="ch-icon ch-edit"></span>{% trans "Invite friends" %}</a></li>
+            <li><a href="{% url 'user:locations' user.pk %}"></span>{% trans "My Places" %}</a></li>
+            <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
+            <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
+            <li><a href="#" class="contacts-toggle">{% trans "Invite friends" %}</a></li>
         </ul>
     </div>
     
@@ -33,7 +33,7 @@
             <div class="sidebar-label">{% trans "Actions" %}:</div>
                 
             <ul class="custom-sidebar-nav">
-                <li><a href="{% url 'postman_write' cuser.username %}"><span class="ch-icon ch-envelope"></span>{% trans "Send message" %}</a></li>
+                {% comment %}<li><a href="{% url 'postman_write' cuser.username %}"><span class="ch-icon ch-envelope"></span>{% trans "Send message" %}</a></li>{% endcomment %}
             </ul>
         </div>
     {% endif %}

@@ -35,7 +35,7 @@
                 <li class="navbar-text"> {% trans "When" %}:</li>
                 <li><a href="#" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
                 <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
-        <li class="navbar-text-narrow">{% trans "Past" %}:</li>
+                <li class="navbar-text-narrow">{% trans "Past" %}:</li>
                 <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
             <li class="navbar-text-narrow">|</li>
                 <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
@@ -48,15 +48,14 @@
             <ul class="nav navbar-nav navbar-right">
             <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
             <li class="navbar-text">{% trans "Stats" %}</li>
-            <span class="bs-navbar-soon">(soon)</span>
+            {% comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
             </ul>
-
 
             <form id="haystack-form" class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input type="text" id="haystack" name="haystack" class="form-control" placeholder="{% trans "Search" %}">
                 </div>
-                <a class="search-button"><span class="fa fa-search"></span></a>
+                <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
             </form>
         </div>
     </nav>
@@ -66,7 +65,7 @@
 
 {% block content %}
 
-    <div class="col-sm-9 content-container">
+    <div class="col-sm-9 content-container contentPX blogDivNews">
 
         <div id="entries"></div>
 
@@ -103,12 +102,12 @@
         </form>
         </script>
         
-        <input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/news/?pk={{ location.pk }}" />
+        <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=news" />
     
-            {% include 'blog/news_list.html' %}
+              {% include 'blog/news_list.html' %}  
     </div>
     
-    <div class="col-sm-9 no-entries" style="display:none">
+    <div class="col-sm-9 no-entries contentPX" style="display:none">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
             {% trans "We didn't find any news" %} {% trans "in" %} {{ location }}.<br /> 
@@ -128,7 +127,7 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="col-sm-3">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
 {% endblock %}

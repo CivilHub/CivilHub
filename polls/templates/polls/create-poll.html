@@ -10,17 +10,68 @@
     <div class="col-sm-8 main-content">
         <div class="create-form">
             <h3>{% trans "Create poll in " %} {{ location }}</h3>
-            <form class="form-horizontal" action="" method="post" role="form" id="poll-create-form">
+            <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" role="form" id="poll-create-form">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <h4>{% trans "Add answers" %}:</h4>
+
+                {% comment %}
+                nie przrchodzi dalej przy zapisie
+                <div class="form-group">
+                    <label for="id_title" class="control-label col-sm-2">{% trans "Title" %}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="id_title"
+                            name="{{ form.as_p.name.name }}"
+                            value="{{ form.as_p.name.value | default_if_none:"" }}">
+                            {% if form.as_p.name.errors %}
+                            <p class="form-error">{{ form.as_p.name.errors.as_text }}</p>
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_question" class="control-label col-sm-2">{% trans "Question" %}:</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" cols="40" id="id_question" row="10" name="{{ form.as_p.question.name }}"></textarea>
+                        {% if form.as_p.question.errors %}
+                        <p class="form-error">{{ form.as_p.question.errors.as_text }}</p>
+                        {% endif %}
+                    </div> 
+                </div>
+                <div class="form-group">
+                    <label for="id_tags" class="col-sm-2 control-label">{% trans "Tags" %}:</label>
+                    <div class="col-sm-10">
+                        <div class="id_tagsinput" class="taginput">
+                            <div class="id_tags_addTag">
+                                <input id="id_tags_tag" data-default="add tag" class="ui-autocomplite-input form-control" autocomplite="off">
+                            </div>
+                            <div class="tags_clear"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endcomment %}
+
+                
+                {% comment %}<h4>{% trans "Add answers" %}:</h4> {% endcomment %}
+
                 <div id="poll-answer-form"></div>
-                <p>
-                    <button type="button" class="btn btn-success btn-sm add-answer-btn" title="{% trans "Add answer" %}">
-                        <span class="fa fa-plus-circle"> </span>
-                    </button>
-                </p>
-                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                    <p class="col-sm-offset-2 col-sm-10 formH">
+                        <button type="button" class="btn add-answer-btn btn-plusAdd" title="{% trans "Add answer" %}">
+                            <span class="fa fa-plus"> </span>
+                        </button>
+                    </p>
+
+                {% comment %}
+                <div cass="form-group ">
+                    <div class="col-sm-5 col-sm-offset-2 formH">
+                        <input type="checkbox" name="{{ form.multiple.name }}" id="id_multiple">
+                    
+                    <label for="id_multiple">{% trans "Allow multiple answers" %}</label></div>
+                </div>
+                {% endcomment %}
+
+                <div class="pollCreateButtons">
+                    <button type="reset" class="btn btn-cancelBig ">{% trans "Cancel" %}</button>
+                    <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Save" %}</button>
+                </div>
             </form>
         </div>
     </div>
@@ -32,10 +83,16 @@
     </div>
     
     <script type="text/template" id="answer-entry-tpl">
-        <button type="button" class="btn btn-danger btn-sm delete-entry-btn"><span class="fa fa-minus-circle"> </span></button>
         <div>
-            <label for="answer-txt-<%= id %>" class="control-label">{% trans "Answer text" %}</label>
-            <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
+            <div class="form-group">
+                <label for="answer-txt-<%= id %>" class="control-label col-sm-2">{% trans "Answer text" %}</label>
+                <div class="col-sm-9">
+                    <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-minusDelete delete-entry-btn"><span class="fa fa-minus"> </span></button>
+                </div>
+            </div>
         </div>
     </script>
 

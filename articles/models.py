@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
+
 from mptt.models import MPTTModel, TreeForeignKey
 
 
+@python_2_unicode_compatible
 class Category(MPTTModel):
     """ Nested category model. """
     name = models.CharField(max_length=64, unique=True)
@@ -14,15 +19,14 @@ class Category(MPTTModel):
     class MPTTMeta:
         order_insertion_by = ['name']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         ordering = ['name',]
-        verbose_name = _("category"),
-        verbose_name_plural = _("categories")
 
 
+@python_2_unicode_compatible
 class Article(models.Model):
     """ Basic model for different types of articles. """
     title = models.CharField(max_length=64)
@@ -53,10 +57,8 @@ class Article(models.Model):
         # stand-alone article - remember to configure urls properly!!!
         return '/' + self.slug + '/'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['title',]
-        verbose_name = _("article"),
-        verbose_name_plural = _("articles")

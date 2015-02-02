@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # included in project directory (so they will be not versioned by GIT).
 
 import json
-secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret_master.json'), 'r')
+secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret.json'), 'r')
 config = json.loads(secret_file.read())
 secret_file.close()
 
@@ -65,7 +65,7 @@ INSTALLED_APPS = (
     # http://niwibe.github.io/djmail/
     'djmail',
     # https://django-modeltranslation.readthedocs.org/en/latest/
-    'modeltranslation',
+    #'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
     # https://github.com/SmileyChris/easy-thumbnails
@@ -77,14 +77,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     # https://github.com/ottoyiu/django-cors-headers
     'corsheaders',
-    # https://github.com/skorokithakis/django-annoying
-    'annoying',
     #'python-social-auth',
     'social.apps.django_app.default',
-    # django-activity-stream
-    'actstream',
-    # https://github.com/django-pci/django-axes
-    'axes',
     #http://django-taggit.readthedocs.org/en/latest/
     'taggit',
     # geodjango
@@ -101,13 +95,17 @@ INSTALLED_APPS = (
     'topics',      # custom forum app
     'comments',    # custom comments app (using mptt)
     'gallery',     # user media app
-    'south',       # Database migrations
+    #'south',       # Database migrations
     'maps',        # Custom app for Open Street Maps
     'staticpages', # Statyczne strony
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
+    'bookmarks',   # Zakładki do treści dla użytkowników
+    
     'raven.contrib.django.raven_compat',
     'analytical',
+    # django-activity-stream - powinien być ostatni na liście
+    'actstream',
 )
 
 
@@ -136,7 +134,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-#    'axes.middleware.FailedLoginMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -173,8 +170,8 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL   = '/static/'
-STATIC_ROOT  = '../static/'
-MEDIA_ROOT   = '../media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
 # Haystack - search engine
@@ -260,10 +257,6 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 #-------------------------------------------------------------------------------
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MODELS': ('auth.user', 'auth.group', 'locations.location', 'ideas.idea',
-               'blog.news', 'polls.poll', 'comments.customcomment',
-               'topics.discussion', 'userspace.userprofile', 'userspace.badge',
-               'gallery.locationgalleryitem', 'topics.entry', 'articles.article',),
     'MANAGER': 'actstream.managers.ActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
@@ -329,12 +322,12 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
-    ('es', 'Español'),
-    ('de', 'Niemiecki'),
-    ('pt', 'Português'),
-    ('fr', 'Français'),
-    ('it', 'Italiano'),
-    ('cz', 'Ceština'),
+    ('es', 'Español (soon)'),
+    ('de', 'Deutsch'),
+    ('pt', 'Português (soon)'),
+    ('fr', 'Français (soon)'),
+    ('it', 'Italiano (soon)'),
+    ('cz', 'Ceština (soon)'),
 )
 
 
@@ -389,6 +382,12 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 # Ustawienia dla miniaturek
 #-------------------------------------------------------------------------------
+
+DEFAULT_IMG_PATH = "img/item.jpg"
+
+# "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
+DEFAULT_IMG_SIZE = (270,179)
+
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
     (30, 30),

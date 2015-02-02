@@ -15,6 +15,30 @@ from models import UserProfile
 AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
 
 
+def create_user_profile(user, extra_data=None):
+    """
+    Metoda przyjmuje jako argument instancję auth.user i tworzy profil użytkownika.
+
+    TODO: extra_data do zbierania informacji (język, IP itp.)
+    """
+    try:
+        profile = UserProfile.objects.create(user=user)
+    except Exception:
+        profile = None
+    return profile
+
+
+def profile_activation(user):
+    """ Sprawdzamy, czy profil użytkownika istnieje lub tworzymy nowy. """
+    try:
+        profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        profile = create_user_profile(user)
+    if profile is None:
+        raise Exception(u"Cannot create or fetch user profile")
+    return profile
+
+
 def random_password():
     """
     Funkcja tworzy losowy ciąg znaków zakodowany w MD5 (32 znaki).

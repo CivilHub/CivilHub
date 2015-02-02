@@ -1,15 +1,78 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles i18n %}
 
+
+{%comment %} przy tworzeniu konta przez TW musieliśmy podać jedynie email w formularzu, czy te Full Name i Profile Address będzie wymagane tego nie wiem {% endcomment %}
+
+
 {% block content %}
 
     {% comment %}<form role="form" method="post" action="{% url 'social:complete' 'twitter' %}">{% endcomment %}
-    <form role="form" method="post" action="">
-        {% csrf_token %}
-        {{ form }}
-        <div class="form-group">
-            <button class="btn btn-primary">{% trans "Send" %}</button>
-        </div>
-    </form>
+
+    <div class="twitterDiv">
+
+    	<div class="twitterDivLabel">
+    		<h2>Almost there</h2>
+    		<h4>Finish creating yout CivilHub account<h4>
+    		<p class="twAccount"><a href="/user/login/"><span>I already have an account</span></a><p>
+    	</div>
+
+	    <form role="form" method="post" action="">{% csrf_token %}
+	        {% comment %}{{ form }}{% endcomment %}
+
+	      <div class="form-group">
+	        <label for="id_cc_number" class="control-label">{% trans "Email address" %}</label>
+	        
+	          <input type="email" class="form-control" id="id_account_email"
+	            maxlength="{{ form.fields.account_email.max_length }}"
+	            name="{{ form.account_email.name }}">
+	            {% if form.account_email.errors %}
+	              <p class="form-error">{{ form.account_email.errors.as_text }}</p>
+	            {% endif %}
+	       
+	      </div>
+
+	      <div class="form-group">
+	      	<label for="full_name" class="control-label">{% trans "Full name" %}</label>
+	
+	      		<input type="text" class="form-control" id="id_full_name"
+	      			maxlength="{{ form.fields.full_name.max_length }}"
+	      			name="{{ form.full_name.name }}">
+	      			{% if form.full_name.errors %}
+	      				<p class="form-error">{{ form.full_name.errors.as_text }}</p>
+	      			{% endif %}
+
+	      	</div>
+
+	      	<div class="form-group">
+	      		<label for="profile_address" class="control-label">{% trans "Profile address" %}</label>
+	      		
+	      			<input type="text" class="form-control" id="id_profile_address"
+	      				maxlength="{{ form.fields.profile_address.max_length }}"
+	      				name="{{ form.profile_address }}">
+      			
+      		</div>
+			<div class="form-group">
+			 	<div class="twCreatingAccept"><p>By creating an account, I accept CivilHub <a href="/terms/">Terms of Service</a> and <a href="/privacy/">Privacy Police</a></p></div>
+			</div>
+
+	        <div class="form-group">
+	            <div class="twButton"><button class="btn btn-sendBlue">{% trans "Send" %}</button></div>
+	        </div>
+
+	       
+	    </form>
+	</div>
+
+
+{% endblock %}
+
+{% block footer_scripts %}
+
+
+<script type="text/javascript">
+document.getElementById('headlingBase').style.display='none';
+
+</script>
 
 {% endblock %}

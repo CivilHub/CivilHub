@@ -8,9 +8,26 @@
 </script>
 {% endblock %}
 
+{% block header %}
+
+<div class="headerBGa headerBGSupport">
+<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small></h1>
+</div>
+
+
+{% endblock %}
+
 {% block content %}
-  <div class="col-sm-3">
-    <ul id="category-menu">{{ menu | safe }}</ul>
-  </div>
-  <div id="article-content" class="col-sm-9"></div>
+<div class="col-sm-3">
+
+    <ul id="category-menu" class="helpMenu">{{ menu | safe }}</ul>
+
+</div>
+
+
+
+  <div id="article-content" class="col-sm-9"> </div>
+
+
+
 {% endblock %}

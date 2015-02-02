@@ -4,18 +4,18 @@
     Szablon dla idei - do obsługi listy idei w lokalizacji.
 {% endcomment %}
 
-<input type="hidden" name="rest_api_url" id="rest-api-url" value="/rest/ideas/?pk={{ location.pk }}" />
+<input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=idea" />
 
 {% include 'places_core/paginator.html' %}
 
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3">
         <div class="vote-form">
-            <div class="votes"><%= total_votes %></div>
+            <div class="votes"><%= meta.votes %></div>
             <div class="vote-controls">
                 {% if user.is_authenticated %}
-                    <button data-target-id="<%= id %>" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
-                    <button data-target-id="<%= id %>" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
+                    <button data-target-id="<%= pk %>" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+                    <button data-target-id="<%= pk %>" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
                 {% else %}
                     <a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
                     <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>
@@ -31,18 +31,18 @@
                     <label class="label label-danger">{% trans "Inactive" %}</label>
                 <% } %>
             </div>
-            <div class="idea-vote-count" data-target=<%= id %>><%= total_votes %> {% trans "votes" %}</div>
+            <div class="idea-vote-count" data-target=<%= pk %>><%= meta.votes %> {% trans "votes" %}</div>
         </div>
     </div>
 
     <div class="col-sm-9">
-        <h3><a href="<%= url %>"><%= name %></a></h3>
+        <h3 class="allHeadingThree"><a href="<%= url %>"><%= title %></a></h3>
 
-        <p>
-            {% trans "Created by" %} <a href="<%= creator_url %>"><span class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></span></a> <span class="date-created"><%= date_created %></span>
-            <% if (edited) { %>
+        <p class="createBY">
+            {% trans "Created by" %} <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a> <span class="date-created"><%= date_created %></span>
+            {% comment %}<% if (edited) { %>
                 {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
-            <% } %>
+            <% } %>{% endcomment %}
         </p>
         
         <div class="idea-summary acticle-content">
@@ -51,11 +51,11 @@
         <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a>
         <div class="clear">&nbsp;</div>
         <div>
-            <a href="<%= url %>"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>
-            <% if (category_name) { %>
+            {% comment %}<a href="<%= url %>" class="totalComments"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>{% endcomment %}
+            {% comment %}<% if (category_name) { %>
             <span class="fa fa-star"> </span>{% trans "Category" %}:
                 <a href="<%= category_url %>"><%= category_name %></a>
-            <% } %>
+            <% } %>{% endcomment %}
         </div>
     </div>
 </script>

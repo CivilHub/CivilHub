@@ -1,13 +1,30 @@
 # -*- coding: utf-8 -*-
 from rest_framework import serializers
+
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+
 from social.apps.django_app.default.models import UserSocialAuth
-from .models import Bookmark
+from bookmarks.models import Bookmark
 
 
 PROVIDERS = ('facebook','google-plus','linkedin','twitter')
 GENDERS = ('male','female')
+
+
+class BookmarkSerializer(serializers.ModelSerializer):
+    """ Serializer dla zakładek użytkownika. """
+    url = serializers.SerializerMethodField('get_url')
+    label = serializers.SerializerMethodField('get_label')
+
+    class Meta:
+        model = Bookmark
+
+    def get_url(self, obj):
+        return obj.url()
+
+    def get_label(self, obj):
+        return obj.__str__()
 
 
 class SocialAuthenticationDataSerializer(serializers.Serializer):
@@ -85,14 +102,6 @@ class UserAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'token',)
-
-
-class BookmarkSerializer(serializers.ModelSerializer):
-    """
-    Serializer dla zakładek użytkownika.
-    """
-    class Meta:
-        model = Bookmark
 
 
 class UserSerializer(serializers.ModelSerializer):

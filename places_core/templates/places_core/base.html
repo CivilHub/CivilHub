@@ -43,7 +43,7 @@
     {% block header %}
     
         <div class="container">
-            <h1 class="custom-main-title">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
+            <h1 class="custom-main-title" id="headlingBase">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
         </div>
     
     {% endblock %}
@@ -62,6 +62,9 @@
 
 
 {% include 'places_core/footer.html' %}
+
+{% comment %}tpl dla powiadomien (alert){% endcomment %}
+{% include 'places_core/script-templates/flash-msg-tpl.html' %}
 
 {% comment %} ~~~~~~~~~~~~~~~~ FOOTER SCRIPTS ~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block footer_scripts %}{% endblock %}

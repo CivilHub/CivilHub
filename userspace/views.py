@@ -37,7 +37,8 @@ from blog.models import News
 from ideas.models import Idea
 from polls.models import Poll
 from topics.models import Discussion
-from .models import Bookmark
+from bookmarks.models import Bookmark
+from locations.serializers import ContentPaginatedSerializer
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -46,11 +47,85 @@ from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
+from .helpers import profile_activation
 from .managers import SocialAuthManager
-from .serializers import BookmarkSerializer, \
-                          UserAuthSerializer, \
-                          UserSerializer, \
-                          SocialAuthSerializer
+from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
+            BookmarkSerializer
+
+
+def obtain_auth_token(request):
+    """
+    Widok dla aplikacji mobilnej pozwalający nam zalogować
+    użytkownika przy pomocy email i hasła.
+    """
+    context = {'success': False,}
+    if request.method != 'POST':
+        context.update({'error': _("Only POST requests allowed"),})
+    else:
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        try:
+            system_user = User.objects.get(email=email)
+            user = auth.authenticate(username=system_user.username, password=password)
+            context.update({'success': True, 'token': system_user.auth_token.key})
+        except User.DoesNotExist:
+            user = None
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+class UserSummaryAPI(rest_views.APIView):
+    """
+    Widok podsumowania dla użytkownika. Działa podobnie, jak moduł wyświetlający
+    ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
+    lokacji obserwowanych przez użytkownika.
+    """
+    paginate_by = 15
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+
+        # Id lokacji, z której pobieramy wpisy
+        location_pk = request.QUERY_PARAMS.get('pk', 0)
+        # Numer strony do wyświetlenia
+        page = request.QUERY_PARAMS.get('page', 1)
+        # Rodzaj typu zawartości (albo wszystkie)
+        content = request.QUERY_PARAMS.get('content', 'all')
+        # Zakres dat do wyszukiwania
+        time = request.QUERY_PARAMS.get('time', 'any')
+        # Wyszukiwanie po tytułach wpisów
+        haystack = request.QUERY_PARAMS.get('haystack', None)
+        
+        content_objects = []
+        for location in request.user.profile.followed_locations():
+            content_objects += location.content_objects()
+        content_objects = sorted(content_objects, reverse=True,
+                                    key=lambda x: x['date_created'])
+
+        if content != 'all':
+            content_objects = [x for x in content_objects if x['type']==content]
+        if time != 'any':
+            content_objects = [x for x in content_objects\
+                if x['date_created'] >= get_time_difference(time).isoformat()]
+        if haystack:
+            content_objects = [x for x in content_objects \
+                if haystack.lower() in x['title'].lower()]
+
+        paginator = Paginator(content_objects, self.paginate_by)
+        items = paginator.page(page)
+        serializer_context = {'request': request}
+        serializer = ContentPaginatedSerializer(items, context=serializer_context)
+
+        return Response(serializer.data)
+
+
+class UserBookmarksViewSet(viewsets.ModelViewSet):
+    """ Pozwala użytkownikom manipulować zakładkami. """
+    permission_classes = (IsOwnerOrReadOnly,)
+    serializer_class = BookmarkSerializer
+    paginate_by = None
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
 
 
 class UserFollowAPIView(rest_views.APIView):
@@ -129,6 +204,8 @@ class SocialApiView(rest_views.APIView):
                               'auth_token': social.user.auth_token.key})
         except UserSocialAuth.DoesNotExist:
             manager = SocialAuthManager(provider, uid, details)
+            if manager.user.pk:
+                profile = profile_activation(manager.user)
             manager_data = manager.is_valid()
             return Response({'user_id': manager.user.pk,
                               'auth_token': manager.user.auth_token.key})
@@ -235,60 +312,13 @@ class ActivityAPIViewSet(rest_views.APIView):
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             actions = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999),
-            # deliver last page of results.
             actions = paginator.page(paginator.num_pages)
         serializer = PaginatedActionSerializer(actions,
                                                context={'request': request})
         return Response(serializer.data)
 
-
-class BookmarkAPIViewSet(viewsets.ModelViewSet):
-    """
-    Prosty widok umożliwiający pobieranie/tworzenie zakładek powiązanych
-    z użytkownikiem. Domyślnie listowane są wszystkie zakładki, przekazanie
-    w zapytaniu GET parametru `pk` wyświetli tylko zakładki powiązane z 
-    konkretnym użytkownikiem o danym ID, np.:
-    
-    `/api-userspace/bookmarks/?pk=2`
-    
-    Tworząc zakładkę musimy tylko przekazać element docelowy, tzn. pk
-    typu zawartości (`content_type`), oraz id konkretnego obiektu (`object_id`).
-    "Twórcą" zakładki będzie zawsze aktualnie zalogowany użytkownik.
-    """
-    queryset = Bookmark.objects.all()
-    paginate_by = None
-    serializer_class = BookmarkSerializer
-    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def get_queryset(self):
-        pk = self.request.QUERY_PARAMS.get('pk', None)
-        if pk:
-            return Bookmark.objects.filter(user=User.objects.get(pk=pk))
-        else:
-            return Bookmark.objects.all()
-
-    def create(self, request):
-        ct = request.DATA.get('content_type', None)
-        id = request.DATA.get('object_id', None)
-        content_type = ContentType.objects.get(pk=ct)
-        try:
-            bookmark = Bookmark.objects.get(content_type = content_type, 
-                                         object_id = id,
-                                         user = request.user)
-            bookmark.delete()
-            return Response(False)
-        except Bookmark.DoesNotExist:
-            bookmark = Bookmark.objects.create(
-                content_type = content_type,
-                object_id = id,
-                user = request.user)
-            bookmark.save()
-            return Response(True)
 
 
 class UserActivityView(TemplateView):
@@ -456,13 +486,13 @@ def save_settings(request):
             return redirect('user:index')
     return HttpResponse(_('Form invalid'))
 
-    
+
 def profile(request, username):
     """
     Show user info to other allowed users
     """
-    user = get_object_or_404(User, username=username)
-    prof = get_object_or_404(UserProfile, user=user)
+    prof = get_object_or_404(UserProfile, clean_username=username)
+    user = prof.user
     # Custom action stream
     stream  = UserActionStream(user)
     actions = stream.get_actions(action_type  = 'actor')
@@ -609,6 +639,7 @@ def activate(request, activation_link=None):
         user.save()
         demand.delete()
         user = User.objects.get(pk=user_id)
+        profile = profile_activation(user)
         user = auth.authenticate(username=user.username,
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)
@@ -794,31 +825,6 @@ def chpass(request):
     return render(request, 'userspace/chpass.html', ctx)
 
 
-@require_safe
-def my_bookmarks(request):
-    """
-    Return list of bookmarked elements belonging to
-    currently logged in user in form of JSON objects.
-    """
-    if not request.is_ajax(): return HttpResponseBadRequest()
-
-    bookmarks = []
-    queryset = Bookmark.objects.filter(user=request.user)
-    for b in queryset:
-        target = b.content_object
-        target_content_type = ContentType.objects.get_for_model(target)
-        bookmarks.append({
-            'id': b.pk,
-            'content_type': target_content_type.pk,
-            'target': target.get_absolute_url(),
-            'label': truncatesmart(target.__unicode__(), 30),
-        })
-    return HttpResponse(dumps({
-        'success': True,
-        'bookmarks': bookmarks,
-    }))
-
-
 class UserFollowedLocations(DetailView):
     """
     Present list of followed locations.
@@ -854,8 +860,7 @@ class UserBackgroundView(FormView):
         profile = UserProfile.objects.get(user=self.request.user)
         profile.background_image = handle_tmp_image(image)
         profile.save()
-        return redirect(reverse('user:profile',
-                         kwargs={'username':self.request.user.username}))
+        return redirect(self.request.user.profile.get_absolute_url())
 
 
 def test_view(request):

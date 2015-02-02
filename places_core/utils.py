@@ -44,3 +44,27 @@ def export_items(model_class):
     f = codecs.open(filename, 'w+', 'utf-8')
     f.write(serialize_models(model_class))
     f.close()
+
+
+def load_ideas():
+    """ Przykład zastosowania powyższych funkcji w przypadku idei. Ta funkcja
+    jest napisana "na raz", w związku z czym bez poprawek nie zadziała. """
+    from django.contrib.auth.models import User
+    from locations.models import Location
+    from ideas.models import Idea
+    from .helpers import date_from_iso
+    f = codecs.open('/home/chester/Developer/tmp/dump/ideas/idea.json', 'r', 'utf-8')
+    data = json.loads(f.read())
+    for l in data:
+        try:
+            idea = Idea.objects.create(
+                creator = User.objects.get(pk=l['creator_id']),
+                location = Location.objects.get(pk=l['location_id']),
+                name = l['name'],
+                description = l['description'],
+                status = l['status'],
+                date_created = date_from_iso(l['date_created']),
+                date_edited = date_from_iso(l['date_edited'])
+            )
+        except Exception as ex:
+            print ex.message

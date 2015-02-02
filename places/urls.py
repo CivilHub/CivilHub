@@ -87,6 +87,7 @@ urlpatterns += patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
+    url(r'^bookmarks/', include('bookmarks.urls')),
     # Email app
     url(r'^civmail/', include('civmail.urls', namespace='civmail')),
     # Maps

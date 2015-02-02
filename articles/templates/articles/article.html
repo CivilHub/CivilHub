@@ -5,6 +5,16 @@
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/blog-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
+
+{% block header %}
+
+<div class="headerBGa headerBGBlog">
+<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small></h1>
+</div>
+
+
+{% endblock %}
+
 {% block content %}
 
     <div>{{ article.content | safe }}</div>

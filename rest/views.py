@@ -575,7 +575,8 @@ class IdeaListViewSet(viewsets.ModelViewSet):
             l = l[::-1]
             return l
 
-        return queryset.order_by('-date_created')
+        return queryset
+        #return queryset.order_by('-date_created')
 
     def pre_save(self, obj):
         obj.creator = self.request.user

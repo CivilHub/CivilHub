@@ -3,9 +3,56 @@
 
 {% block title %}{% trans "Articles" %}{% endblock %}
 
+{% block header %}
+
+<div class="headerBGa headerBGBlog">
+<h1 class="headerTitleBG">{% comment %}{{ title | capfirst }}<small>{{ subtitle | capfirst }}{% endcomment %}</small> Blog </h1>
+</div>
+
+
+{% endblock %}
 {% block content %}
-    {% for article in articles %}
-        <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
-        <div>{{ article.content  | safe | truncatewords:40 }}</div>
-    {% endfor %}
+
+<div class="col-sm-3">
+    <div class="sidebar inboxSidebar">
+        <ul id="postman_menu">
+            <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
+            <li><a href="/terms/">{% trans "Terms of Use" %}</a></li>
+            <li><a href="/cookies/">{% trans "Cookies" %}</a></li>
+            <li><a href="/press/">{% trans "Press" %}</a></li>
+            <li><a href="/jobs/">{% trans "Jobs" %}</a></li>
+            <li><a href="/features/">{% trans "Features" %}</a></li>
+            <li><a href="/support/">{% trans "Support" %}</a></li>
+            <li><a href="/blog/">{% trans "Blog" %}</a></li>
+            <li><a href="/creed/">{% trans "Creed" %}</a></li>
+            <li><a href="/about-us/">{% trans "About us" %}</a></li>
+            <li><a href="/contact/">{% trans "Contact" %}</a></li>
+        </ul>
+    </div>
+</div>
+
+
+      <div id="article-content" class="col-sm-9">
+
+      	<h1 class="articleFirstHeadling">{% trans "Blog" %}</h1>
+        
+
+        {% for article in articles %}
+            <h3 class="articleBlogTitle"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
+            <div>{{ article.content  | safe | truncatewords:40 }}</div>
+        {% endfor %}
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}

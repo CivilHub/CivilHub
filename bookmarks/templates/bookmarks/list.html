@@ -1,0 +1,47 @@
+{% extends 'places_core/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Moje zakładki" %}{% endblock title %}
+
+{% block content %}
+<div id="user-panel" class="container">
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="bookmarks-page shadow">
+        <div class="bookmarkLabheadling">{% trans "Zakładki" %}</div>
+        {% if bookmarks %}
+          <ul class="list-unstyled">
+            {% for bookmark in bookmarks %}
+            <li>
+              <div class="bk-link"><a href="{{ bookmark.url }}">{{ bookmark }}</a></div>
+              <form action="{% url 'bookmarks-delete' bookmark.pk %}" method="post">{% csrf_token %}
+                <input type="hidden" name="pk" value="{{ bookmark.pk }}">
+                <button type="submit" class="csu-btn-default btn-deleteBookmark">{% trans "Usuń" %}</button>
+              </form>
+              <div class="bk-createdTime">{{ bookmark.created_at }}</div>
+            </li>
+            {% endfor %}
+          </ul>
+          {% if is_paginated %}
+            <div class="pagination">
+              <span class="page-links">
+                {% if page_obj.has_previous %}
+                  <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+                {% endif %}
+                <span class="page-current">
+                  {% trans "Strona" %} {{ page_obj.number }} {% trans "z" %} {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                  <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+                {% endif %}
+              </span>
+            </div>
+          {% endif %}
+        {% else %}
+          <p>{% trans "Nie masz jeszcze żadnych zakładek" %}.</p>
+        {% endif %}
+      </div>
+    </div><!-- / .col-sm-9 -->
+  </div><!-- / .row -->
+</div><!-- / #user-panel -->
+{% endblock content %}

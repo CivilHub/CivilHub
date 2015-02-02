@@ -1,21 +1,28 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import os
+
+from slugify import slugify
 from uuid import uuid4
+
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
-from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import strip_tags
-from annoying.fields import AutoOneToOneField
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+
+from actstream.models import following, followers
+
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sort_by_locale
 from locations.models import Location
-from actstream.models import following, followers
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -35,11 +42,12 @@ def get_upload_path(instance, filename):
     return 'img/backgrounds/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
+@python_2_unicode_compatible
 class UserProfile(models.Model):
     """
     Profil użytkownika.
     """
-    user = AutoOneToOneField(User, primary_key=True, related_name='profile')
+    user = models.OneToOneField(User, primary_key=True, related_name='profile')
     lang = models.CharField(
         max_length = 7,
         choices = settings.LANGUAGES,
@@ -49,6 +57,7 @@ class UserProfile(models.Model):
     rank_pts  = models.IntegerField(blank=True, default=0)
     birth_date = models.CharField(max_length=20, blank=True, null=True)
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
+    clean_username = models.SlugField(blank=True, null=True)
     gender = models.CharField(
         max_length=1,
         choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
@@ -93,10 +102,17 @@ class UserProfile(models.Model):
         upload_to = get_upload_path,
         default = 'img/backgrounds/background.jpg'
     )
-    
+
     def save(self, *args, **kwargs):
         if self.description:
             self.description = strip_tags(self.description)
+        if not self.clean_username:
+            clean_username = slugify(self.user.get_full_name())
+            chk = UserProfile.objects.filter(clean_username=clean_username).count()
+            if chk:
+                self.clean_username = "%s-%d" % (clean_username, self.pk)
+            else:
+                self.clean_username = clean_username
         # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
         if self.pk:
             try:
@@ -107,7 +123,7 @@ class UserProfile(models.Model):
             except UserProfile.DoesNotExist:
                 pass
         super(UserProfile, self).save(*args, **kwargs)
-    
+
     def thumbnail_small(self):
         return thumbnail(self.avatar.name, 30)
         
@@ -137,12 +153,13 @@ class UserProfile(models.Model):
         return rename_background_file(self.background_image.url)
 
     def get_absolute_url(self):
-        return reverse('user:profile', kwargs={'username': self.user.username})
+        return reverse('user:profile', kwargs={'username': self.clean_username})
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.get_full_name()
 
 
+@python_2_unicode_compatible
 class Badge(models.Model):
     """
     Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
@@ -161,7 +178,7 @@ class Badge(models.Model):
         storage = OverwriteStorage()
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -193,22 +210,18 @@ class LoginData(models.Model):
     address = models.IPAddressField()
 
 
-class Bookmark(models.Model):
+def activate_user_profile(sender, instance, **kwargs):
     """
-    Zastępujemy django-generic-bookmarks własnym modelem. Powyższy moduł ma
-    zbyt wiele dziu i wad, które praktycznie uniemożliwiają jego funkcjonowanie.
+    Sygnał wysyłany kiedy użytkownik jest tworzony/edytowany.
+    Upewniamy się, że zostanie utworzony jego profil.
     """
-    # Content-object field
-    content_type = models.ForeignKey(ContentType, verbose_name=_('content type'))
-    object_id = models.TextField(_('object ID'))
-    content_object = generic.GenericForeignKey(ct_field="content_type", fk_field="object_id")
-    
-    user = models.ForeignKey(User)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __unicode__(self):
-        return self.content_object.__unicode__()
+    try:
+        profile = UserProfile.objects.get(user=instance)
+    except UserProfile.DoesNotExist:
+        profile = UserProfile.objects.create(user=instance)
+    return profile
 
 
 post_delete.connect(delete_background_image, sender=UserProfile)
 post_save.connect(resize_background_image, sender=UserProfile)
+post_save.connect(activate_user_profile, sender=User)

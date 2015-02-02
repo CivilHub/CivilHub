@@ -1,0 +1,33 @@
+{% load i18n %}
+
+{% comment %} Szablon dla activity streamów {% endcomment %}
+
+<script type="text/template" id="action-template">
+    <div class="col-md-2 entry-avatar-col">
+        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar avatarH" />
+        <%= actor.rank_pts %>
+    </div>
+    
+    <div class="col-md-10 entry-meta-col">
+        <div class="entry-header">
+            <a href="<%= actor.user_link %>" class="locActorNick"><%= actor.fullname %></a>
+            <span class="locTimeAdd"><%= timestamp %> {% trans "ago" %}</span>
+            {% comment %}<%= verb %>{% endcomment %}
+            <p><% if (!_.isEmpty(object_ct)) { %>
+                <%= object_ct %>
+                <% if (_.isEmpty(target_ct)) { %>
+                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
+                <% } else { %>
+                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
+                    {% comment %}{% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>{% endcomment %}
+                <% } %>
+            <% } else if (!_.isEmpty(target_ct)) { %>
+                <p><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></p>
+            <% } %></p>
+            
+        </div>
+        {% comment %}<div class="entry-body"><%= description %></div>{% endcomment %}
+        <div class="clear">&nbsp;</div>
+        <div class="entry-footer"></div>
+    </div><!-- // .entry-meta-col -->
+</script>
