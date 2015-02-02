@@ -174,6 +174,7 @@ if 'test' in sys.argv:
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL   = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
@@ -453,4 +454,4 @@ COMMENT_PAGINATOR_LIMIT = 10
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = True
+USE_CACHE = False

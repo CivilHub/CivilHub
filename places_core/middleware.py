@@ -37,6 +37,7 @@ class SubdomainMiddleware(object):
             else:
                 next = 'http://' + host + request.get_full_path()
             response = HttpResponseRedirect(next)
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60, domain=settings.SESSION_COOKIE_DOMAIN)
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60,
+                                            domain=settings.SESSION_COOKIE_DOMAIN)
             return response
 

@@ -58,8 +58,9 @@ redis_cache = cache.get_cache('default')
 
 class LocationSummaryAPI(APIView):
     """ 
-    Widok API pozwalający pobierać listę wszystkich elementów w danej lokalizacji
-    (idee, dyskusje, ankiety oraz blog). W zapytaniu podajemy pk interesującego nas miejsca, np:
+    Widok pozwalający pobierać listę wszystkich elementów w danej lokalizacji 
+    (idee, dyskusje, ankiety oraz blog). W zapytaniu podajemy pk interesującego
+    nas miejsca, np:
 
     `/api-locations/contents/?pk=756135`
 
@@ -134,8 +135,7 @@ class LocationSummaryAPI(APIView):
             items = paginator.page(page)
         except EmptyPage:
             items = paginator.page(1)
-        serializer_context = {'request': request}
-        serializer = ContentPaginatedSerializer(items, context=serializer_context)
+        serializer = ContentPaginatedSerializer(items, context={'request': request})
 
         return Response(serializer.data)
 
@@ -193,7 +193,6 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         code = request.QUERY_PARAMS.get('code', None)
-        print code
         if code:
             location = Location.objects.get(country__code=code.upper())
             serializer = self.serializer_class(location)
@@ -280,9 +279,7 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         except EmptyPage:
             actions = paginator.page(paginator.num_pages)
 
-        serializer_context = {'request': request}
-        serializer = PaginatedActionSerializer(actions,
-                                             context=serializer_context)
+        serializer = PaginatedActionSerializer(actions, context={'request': request})
         return Response(serializer.data)
 
 
@@ -300,7 +297,7 @@ class LocationMapViewSet(viewsets.ModelViewSet):
     http_method_names = [u'get']
 
     def get_queryset(self):
-        name = self.request.QUERY_PARAMS.get('term', None)
+        name = self.request.QUERY_PARAMS.get('term')
         if name is not None:
             return self.queryset.filter(name__icontains=name)
         return self.queryset

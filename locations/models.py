@@ -38,11 +38,11 @@ def obj_to_dict(obj):
 
     context = {
         'type': content_type.model,
-        'name': _(content_type.model),
+        'name': capfirst(_(content_type.model)),
         'slug': obj.slug,
         'ct'  : content_type.pk,
         'pk'  : obj.pk,
-        'url' : capfirst(obj.get_absolute_url()),
+        'url' : obj.get_absolute_url(),
         'title': obj.__unicode__(),
         'image': obj.image_url,
         'location': obj.location.__unicode__(),
