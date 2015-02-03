@@ -53,7 +53,7 @@ def load_ideas():
     from locations.models import Location
     from ideas.models import Idea
     from .helpers import date_from_iso
-    f = codecs.open('/home/chester/Developer/tmp/dump/ideas/idea.json', 'r', 'utf-8')
+    f = codecs.open(os.path.join(DIR, 'ideas' ,'idea.json'), 'r', 'utf-8')
     data = json.loads(f.read())
     for l in data:
         try:
