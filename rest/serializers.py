@@ -521,13 +521,14 @@ class IdeaSerializer(serializers.ModelSerializer):
     edited = serializers.BooleanField()
     tags = serializers.SerializerMethodField('get_tags')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
+    image = serializers.Field(source='image_url')
 
     class Meta:
         model = Idea
         fields = ('id','name','description','creator_id','creator_username',
                  'creator_fullname','creator_avatar','date_created','date_edited',
                  'edited','tags','category_name','category_url','total_comments',
-                 'total_votes','url','creator_url', 'comment_meta',)
+                 'total_votes','url','creator_url', 'comment_meta', 'image')
 
     def get_comment_meta(self, obj):
         return {

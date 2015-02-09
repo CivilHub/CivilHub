@@ -15,6 +15,7 @@ router.add_api_view('contents', url(r'^contents/', views.UserSummaryAPI.as_view(
 router.add_api_view('api-token-auth', url(r'^api-token-auth/', views.obtain_auth_token, name='api-token-auth'))
 router.add_api_view('activity', url(r'activity/$', views.ActivityAPIViewSet.as_view(), name='activity'))
 router.add_api_view('follow', url(r'follow/$', views.UserFollowAPIView.as_view(), name='follow'))
+router.add_api_view('locations', url(r'locations/$', views.UserFollowedLocationsAPI.as_view(), name='locations'))
 
 
 urlpatterns = patterns('',

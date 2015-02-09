@@ -38,7 +38,7 @@ from ideas.models import Idea
 from polls.models import Poll
 from topics.models import Discussion
 from bookmarks.models import Bookmark
-from locations.serializers import ContentPaginatedSerializer
+from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -53,6 +53,7 @@ from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerialize
             BookmarkSerializer
 
 
+@csrf_exempt
 def obtain_auth_token(request):
     """
     Widok dla aplikacji mobilnej pozwalający nam zalogować
@@ -73,13 +74,25 @@ def obtain_auth_token(request):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
+class UserFollowedLocationsAPI(rest_views.APIView):
+    """ Lista lokalizacji, które obserwuje użytkownik. """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        if request.user.is_anonymous():
+            return Response([])
+        locations = request.user.profile.followed_locations()
+        serializer = SimpleLocationSerializer(locations, many=True)
+        return Response(serializer.data)
+
+
 class UserSummaryAPI(rest_views.APIView):
     """
     Widok podsumowania dla użytkownika. Działa podobnie, jak moduł wyświetlający
     ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
     lokacji obserwowanych przez użytkownika.
     """
-    paginate_by = 15
+    paginate_by = 50
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
