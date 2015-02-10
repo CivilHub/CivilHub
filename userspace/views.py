@@ -68,7 +68,17 @@ def obtain_auth_token(request):
         try:
             system_user = User.objects.get(email=email)
             user = auth.authenticate(username=system_user.username, password=password)
-            context.update({'success': True, 'token': system_user.auth_token.key})
+            if user is not None:
+                context.update({
+                    'success'   : True,
+                    'id'        : system_user.pk,
+                    'token'     : system_user.auth_token.key,
+                    'username'  : system_user.username,
+                    'email'     : system_user.email,
+                    'first_name': system_user.first_name,
+                    'last_name' : system_user.last_name,
+                    'avatar'    : system_user.profile.avatar.url,
+                })
         except User.DoesNotExist:
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')

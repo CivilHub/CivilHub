@@ -185,6 +185,42 @@ def delete_cropped_thumb(sender, instance, **kwargs):
     delete_image(filepath)
 
 
+def thumb_name(filename, size):
+    """ Given file name or full path and size tuple returns thumbnail name. """
+    file, ext = os.path.splitext(filename)
+    return "%s_%dx%d%s" % (file, size[0], size[1], ext)
+
+
+def crop_thumb(filename, size):
+    """
+    Funkcja przyjmuje ścieżkę do pliku obrazu jako argument i tworzy miniaturę
+    o podanych wymiarach. Obraz zostanie pomniejszony i przycięty "inteligentnie".
+    """
+    image = Image.open(filename)
+    max_w, max_h = size
+    width, height = image.getdata().size
+    if height > width:
+        ratio = float(max_w)/float(width)
+        image = image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
+        box = (0, 0, max_w, max_h)
+    else:
+        ratio = float(max_h)/float(height)
+        new_width = int(width*ratio)
+        image = image.resize((new_width, max_h), Image.ANTIALIAS)
+        start_x = 0
+        x_factor = max_w
+        if new_width >= max_w:
+            start_x = int((float(new_width)-float(max_w))/2)
+        else:
+            nratio = float(max_w)/float(new_width)
+            cw, ch = image.getdata().size
+            image = image.resize((max_w, int(float(ch)*nratio)), Image.ANTIALIAS)
+        stop_x = start_x + x_factor
+        box = (start_x, 0, stop_x, max_h)
+    image = image.crop(box)
+    image.save(thumb_name(filename, size), 'JPEG')
+
+
 def adjust_uploaded_image(sender, instance, **kwargs):
     """
     Zunifikowana metoda obsługująca obrazy dla naszego modelu ImagableItemMixin.
@@ -195,3 +231,4 @@ def adjust_uploaded_image(sender, instance, **kwargs):
     image = Image.open(imagepath)
     image = resize_image(image, settings.DEFAULT_IMG_SIZE)
     image.save(imagepath, 'JPEG')
+    crop_thumb(imagepath, (90,90))

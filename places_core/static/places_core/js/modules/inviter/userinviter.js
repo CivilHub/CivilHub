@@ -1,6 +1,7 @@
 //
 // userinviter.js
 // ==============
+//
 // Allow registered user to invite others for browsing content.
 
 require(['jquery', 'tagsinput', 'bootstrap'],

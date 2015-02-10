@@ -72,7 +72,7 @@ class LocationSummaryAPI(APIView):
         `haystack` - Fraza do wyszukania w tytułach<br>
         `category` - ID kategorii do przeszukania (jeżeli dotyczy)<br>
     """
-    paginate_by = 15
+    paginate_by = 50
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):

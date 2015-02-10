@@ -10,7 +10,7 @@ from django.contrib.comments.models import BaseCommentAbstractModel
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 
-from gallery.image import adjust_uploaded_image
+from gallery.image import adjust_uploaded_image, thumb_name, crop_thumb
 
 DEFAULT_PATH = settings.DEFAULT_IMG_PATH
 
@@ -35,12 +35,6 @@ def remove_image(sender, instance, **kwargs):
             pass
 
 
-def adjust_images(sender, instance, **kwargs):
-    if instance.image.name == DEFAULT_PATH:
-        return True
-    adjust_uploaded_image(instance.image.path)
-
-
 class ImagableItemMixin(models.Model):
     """ Klasa dodająca do modelu pole przechowujące obraz. """
     image = models.ImageField(blank=True,
@@ -50,6 +44,10 @@ class ImagableItemMixin(models.Model):
     def image_url(self):
         """ Ponieważ zmieniamy ścieżki, potrzebujemy url obrazka. """
         return settings.MEDIA_URL + self.image.name
+
+    @property
+    def thumbnail(self):
+        return settings.MEDIA_URL + thumb_name(self.image.name, (90,90))
 
     @property
     def has_image_changed(self):

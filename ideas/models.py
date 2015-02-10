@@ -114,7 +114,7 @@ class Vote(models.Model):
     idea = models.ForeignKey(Idea)
     vote = models.BooleanField(default=False)
     date_voted = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         return self.user.username
 
