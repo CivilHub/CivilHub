@@ -1,5 +1,6 @@
 {% load staticfiles i18n civil_tags %}
 
+{% get_current_language as LANG %}
 {% include 'places_core/header.html' %}
 
 {% comment %}Miejsce na dodatkowe pliki css.{% endcomment %}
@@ -11,9 +12,10 @@
 
 </head>
 
-<body class="body-nopd">
-
+<body class="body-nopd body-Home">
+{%block navigation %}
 {% include 'staticpages/navigation.html' %}
+{% endblock %}
 
 <div class="wrap">
 {% block content %}
@@ -23,7 +25,8 @@
 {% endblock %}
 </div>
 
+{% block footer %}
 {% include 'places_core/footer.html' %}
-
+{% endblock %}
 </body>
 </html>

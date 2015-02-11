@@ -20,6 +20,7 @@ function (_, Backbone) {
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+            $('.actiClock').find('span').tooltip();
             return this;
         }
     });

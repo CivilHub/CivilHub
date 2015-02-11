@@ -124,3 +124,57 @@ class TopLevelArticleView(DetailView):
         context = super(TopLevelArticleView, self).get_context_data(**kwargs)
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
+
+# Stand-alone clear page
+#-------------------------------------------------------------------------------
+
+class ClearArticleView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/clear.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(ClearArticleView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
+        
+# Features
+#-------------------------------------------------------------------------------
+
+class FeaturesArticleView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/features.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(FeaturesArticleView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
+
+# Features
+#-------------------------------------------------------------------------------
+
+class InviteFriendsView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/invite-friends.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(InviteFriendsView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context

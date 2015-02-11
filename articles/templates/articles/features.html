@@ -1,0 +1,502 @@
+{% extends 'places_core/features-base.html' %}
+{% load i18n staticfiles postman_tags civil_tags %}
+
+{% block require_scripts %}
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/features-page.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endblock %}
+
+{% block extra_styles %}
+<link href="{% static 'places_core/css/jquery.fullPage.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+
+
+{% block navigation %}
+
+{% postman_unread as unread_count %}
+
+{% comment %}
+    This is main top navigation panel to include in other templates.
+{% endcomment %}
+<nav id="navbar-top"class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
+    
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
+                <span class="sr-only">{% trans "Toggle navigation" %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a id="logo" class="navbar-brand" href="/"><img src="{% static 'places_core/img/logo.png' %}"><span class="logo_beta">Beta</span></a>
+
+        </div>
+        
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
+            
+            {% if user.is_authenticated %}
+            <div class="navbar-top-search">
+                <form class="navbar-form navbar-right custom-main-search" role="search" method="get" action="{% url 'search:haystack_search' %}">
+                    
+                    <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
+                    <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+                    
+                </form>
+            </div>
+            {% endif %}
+            <ul class="nav navbar-nav navbar-right navbarHeader">
+                {% if user.is_authenticated %}
+                <li class="user-hidden-link">
+                    <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>
+                    <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> {% trans "Logout" %}</a>
+                </li>
+                 
+                <li class="user-profile-link">
+                    <a class="avatar" href="{{ user.profile.get_absolute_url }}">
+                        <img src="{{ user.profile.thumbnail.url }}" alt="{{ user.get_full_name }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a  id="username" href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} <span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ user.profile.get_absolute_url }}">{% trans "Profile" %}</a></li>
+                        <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
+                        <li><a href="{% url 'user:locations' user.pk %}">{% trans "My Places" %}</a></li>
+                        <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
+                        <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{% url 'user:login' %}" class="loginFeatures">{% trans "Login" %}</a></li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right navbarHeader">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
+                        </li>
+                        <li class="divider"></li>
+                        {% for l in user.profile.followed_locations %}
+                        <li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>
+                        {% endfor %}
+                        {% if user.is_authenticated %}
+                        <li class="divider"></li>
+                        <li><a href="{% url 'locations:create' %}">{% trans "Create new" %}</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>
+
+                {% if user.is_authenticated %}
+                <li class="dropdown">
+                    <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="Zakładki">
+                        <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></span>
+
+                    </a>
+   {% comment %}                 
+
+                    <ul class="dropdown-menu bookmarks-list"></ul>
+ {% endcomment %}
+                    <ul class="dropdown-menu bookmarks-no-list">
+                        <li class="divider"></li>
+                        <li class="bookmark-no-list"><a href="{% url 'bookmarks-list' %}">{% trans "Zarządzaj" %}</a></li>
+                    </ul>
+
+                </li>
+                <li>                                                           
+                    <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="Wiadomości" >
+                        <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
+                        {% if unread_count %}
+                            <span class="badge custom-badge-indicator">{{ unread_count }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+{% endblock %}
+
+
+{% block header %}{% endblock %}
+
+{% block content %}
+
+  {{ article.content | safe }}
+
+{% comment %}
+
+<div class="features-preloader"><div class="fr-preloader"><span class="fa fa-spinner fa-spin"></span></div></div>
+
+<div id="features-Page">
+<div class="menuBlock">
+	<ul id="menuSection" class="hide">
+		<li data-menuanchor="slide3"><a href="#slide3">News</a></li>
+		<li data-menuanchor="slide4"><a href="#slide4">Discussion</a></li>
+		<li data-menuanchor="slide5"><a href="#slide5">Ideas</a></li>
+		<li data-menuanchor="slide6"><a href="#slide6">Polls</a></li>
+		<li data-menuanchor="slide7"><a href="#slide7">Projects</a></li>
+		<li data-menuanchor="slide8"><a href="#slide8">Documents</a></li>
+	</ul>
+</div>
+
+<div id="fullpage">
+
+	<div class="section active" id="section0">
+		<div class="s1-top">
+
+
+			<div class="civilhub_logo_section0"> 
+				<img src="/static/places_core/img/features/civilhub_logo_section.png" />
+			</div>
+
+
+			<h1>Nowy Wymiar Demokracji</h1>
+
+		<h3>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</h3>
+
+		<a href="#" class="btn btn-greenBig">{% trans "Rozpocznij" %}</a>
+		</div>
+ 	<div class="mockup1">
+ 		<div id="staticImg">
+ 			<div class="imgsContainer jump">
+ 				<img src="/static/places_core/img/features/mockup1.png" />
+ 			</div>
+ 		</div>
+ 	</div>
+
+	</div>
+	<div class="section" id="section1">
+		<div class="container">
+			<div class="mockupPoints">
+		<div class="mockupPoint1_section1">
+			<span>1</span>
+			<div class="content">
+				<h2>Dołącz do społeczności</h2>
+				<p>Dołącz do miejsc, w których mieszkasz. <br />Bądź w kontakcie, obserwuj co się dzieję, z ludzmi z twojego otoczenia.</p>
+			</div>
+		</div>
+		<div class="mockupPoint2_section1">
+			<span>2</span>
+			<div class="content">
+				<h2>Głosuj na pomysły</h2>
+				<p>Wyrażaj swoją opinię na temat idei proponowanych przez osoby z twojego otoczenia.</p>
+			</div>
+		</div>
+		<div class="mockupPoint3_section1">
+			<span>3</span>
+			<div class="content">
+				<h2>Proponuj zmiany</h2>
+				<p>Ty najlepiej wiesz co należy zmienić w miejscu, w któym żyjesz.</p>
+			</div>
+		</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="section" id="section2">
+		<div class="container">
+		<div class="heading">
+		<h1>Działaj w swoim mieście</h1>
+		<h2>Realizuj zmiany z ludźmi mieszkającymi blisko Ciebie</h2>
+		</div>
+
+		<div class="countryPhone">
+
+			<div class="phone">
+				<div class="boxPhone">
+					<label class="lab-City">Kraków</label>
+					<img src="/static/places_core/img/features/features_mobile_mockup_1.png" />
+				</div>
+				<div class="boxPhone">
+					<label class="lab-City">Gdańsk</label>
+					<img src="/static/places_core/img/features/features_mobile_mockup_2.png" />
+				</div>
+				<div class="boxPhone">
+					<label class="lab-City">Warszawa</label>
+					<img src="/static/places_core/img/features/features_mobile_mockup_3.png" />
+				</div>
+				<div class="boxPhone">
+					<label class="lab-City">Iłża</label>
+					<img src="/static/places_core/img/features/features_mobile_mockup_4.png" />
+				</div>
+
+			</div>
+		
+			
+			
+			<div class="iconMaps">
+				<h2>Wspieramy takie kraje jak: </h2>
+
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Australia" %}"><img src="/static/places_core/img/flags/Australia-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Austria" %}"><img src="/static/places_core/img/flags/Austria-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Belgium" %}"><img src="/static/places_core/img/flags/Belgium-Flag-48.png"></span></li>
+						
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Brazil" %}"><img src="/static/places_core/img/flags/Brazil-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Bulgaria" %}"><img src="/static/places_core/img/flags/Bulgaria-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Canada" %}"><img src="/static/places_core/img/flags/Canada-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						
+						<li><span class="custom-tooltip" title="{% trans "China" %}"><img src="/static/places_core/img/flags/China-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Czech Republic" %}"><img src="/static/places_core/img/flags/Czech-Republic-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Denmark" %}"><img src="/static/places_core/img/flags/Denmark48.png"></span></li>
+						
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Egypt" %}"><img src="/static/places_core/img/flags/Egypt-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Finland" %}"><img src="/static/places_core/img/flags/Finland-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "France" %}"><img src="/static/places_core/img/flags/France-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Greece" %}"><img src="/static/places_core/img/flags/Greece-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Hungary" %}"><img src="/static/places_core/img/flags/Hungary-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "India" %}"><img src="/static/places_core/img/flags/India-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Indonesia" %}"><img src="/static/places_core/img/flags/Indonesia-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Ireland" %}"><img src="/static/places_core/img/flags/Ireland-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Israel" %}"><img src="/static/places_core/img/flags/Israel-Flag-48.png"></span></li>
+						
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Italy" %}"><img src="/static/places_core/img/flags/Italy-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Japan" %}"><img src="/static/places_core/img/flags/Japan-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Liechtenstein" %}"><img src="/static/places_core/img/flags/Liechtenstein-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						
+						<li><span class="custom-tooltip" title="{% trans "Mexico" %}"><img src="/static/places_core/img/flags/Mexico-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Monaco" %}"><img src="/static/places_core/img/flags/Monaco-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Netherlands" %}"><img src="/static/places_core/img/flags/Netherlands-Flag-48.png"></span></li>
+						
+					</ul>
+				</div>
+
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "New Zealand" %}"><img src="/static/places_core/img/flags/New-Zealand48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Norway" %}"><img src="/static/places_core/img/flags/Norway-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Poland" %}"><img src="/static/places_core/img/flags/Poland-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						
+						<li><span class="custom-tooltip" title="{% trans "Portugal" %}"><img src="/static/places_core/img/flags/Portugal-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Romania" %}"><img src="/static/places_core/img/flags/Romania-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Slovakia" %}"><img src="/static/places_core/img/flags/Slovakia-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "South Africa" %}"><img src="/static/places_core/img/flags/South-Africa-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Spain" %}"><img src="/static/places_core/img/flags/Spain-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Sweden" %}"><img src="/static/places_core/img/flags/Sweden-Flag-48.png"></span></li>
+						
+					</ul>
+				</div>
+
+				<div class="mapBox">
+					<ul>
+						<li><span class="custom-tooltip" title="{% trans "Switzerland" %}"><img src="/static/places_core/img/flags/Switzerland-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Turkey" %}"><img src="/static/places_core/img/flags/Turkey-Flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "Ukraine" %}"><img src="/static/places_core/img/flags/Ukraine-Flag-48.png"></span></li>
+					</ul>
+				</div>
+				<div class="mapBox">
+					<ul>
+						
+						<li><span class="custom-tooltip" title="{% trans "United Arab Emirates" %}"><img src="/static/places_core/img/flags/United-Arab-Emirates-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "United Kingdom" %}"><img src="/static/places_core/img/flags/United-Kingdom-flag-48.png"></span></li>
+						<li><span class="custom-tooltip" title="{% trans "United States" %}"><img src="/static/places_core/img/flags/United-States-Flag-48.png"></span></li>
+					</ul>
+				</div>
+			</div>
+
+			</div>
+		</div>
+
+
+	</div>
+	<div class="section" id="section3">
+
+		<div class="headling">
+		<h2>Możesz czytać aktualności publikowane przez Twoich sąsiadów</h2>
+
+			<div class="contentSen">
+				<p>Jeżeli masz coś ważnego do przekazania, napisz to.<br/>
+	Wszyscy z Twojej okolicy to zobaczą. Wierzymy, że możemy się nawzajem informować o ważnych kwestiach dotyczących nas wszystkich.
+				</p>
+
+				<p>Politykom i miediom często nie zależy na tym aby społeczeństwo się jednoczyło.</p>
+			</div>
+		</div>
+
+
+		<div class="mockup_safari">
+			<img src="/static/places_core/img/features/mockup_safari.png">
+		</div>
+
+
+
+	</div>
+	<div class="section" id="section4">
+
+		<div class="headling">
+			<h2>Forum dyskusyjne dla Twojego miejsca</h2>
+			<div class="contentSen">
+				<p>Rozmawiaj, na każdym temat z ludziomi z Twojego otoczenia.</p>
+			</div>
+		</div>
+		<div class="mockup_discussion">
+			<img src="/static/places_core/img/features/mockup_discussion.png">
+		</div>
+
+	</div>
+	<div class="section" id="section5">
+		<div class="headling">
+			<h2>Głosuj na propozycję zmian, proponuj własne</h2>
+			<div class="contentSen">
+				<p>Razem mamy możliwości zmienić miejsca, w których żyjemy. Sami wiemy najlepiej co należy zmienić, brakowało nam tylko miejsca, gdzie moglibyśmy o tym napisać. Wspólnie zrealizujmy nasze pomysły.</p>
+			</div>
+		</div>
+		<div class="mockup_ideas">
+			<img src="/static/places_core/img/features/mockup_ideas.png">
+		</div>
+	</div>
+	<div class="section" id="section6">
+		<div class="headling">
+			<h2>Stwórz lokalną ankietę, sprawdź co myślą inni</h2>
+			<div class="contentSen">
+				<p>Dajemy Ci proste narzędzie dzięki, któremu możesz stworzyć ankietę zbierając opinię na temat powiązany z miejscem w którym żyjesz.</p>
+			</div>
+		</div>
+		<div class="mockup_polls">
+			<img src="/static/places_core/img/features/mockup_polls.png">
+		</div>
+	</div>
+	<div class="section" id="section7">
+		<div class="headling">
+			<h2>Pomysły przekształcamy w projekty</h2>
+			<div class="contentSen">
+				<p>Same pomysły nic nie zmieniają. Liczy się konkretny efekt. Udostępniamy narzędzie dzięki, któremu zwykli obywatele mogą wspólnie wprowadzać zmiany w życie</p>
+			</div>
+		</div>
+		<div class="mockup_project">
+			<img src="/static/places_core/img/features/mockup_project.png">
+		</div>
+	</div>
+	<div class="section" id="section8">
+		<div class="headling">
+			<h2>Dziel się dokumentami z ludzimi z twojego otoczenia</h2>
+			<div class="contentSen">
+				<p>W ramach osiedla / miejscowości, często mamy potrzebę podzielenia się dokumentami / plikami które dotyczą nas wszystkich.</p>
+				<p>Tutaj również będziemy mogli w przyszłości tworzyć nasze założenia do zmiany prawa.</p>
+			</div>
+		</div>
+		<div class="mockup_documents">
+			<img src="/static/places_core/img/features/mockup_documents.png">
+		</div>
+	</div>
+	<div class="section" id="section9">
+		<div class="container text-center">
+			<h1>Gramy w otwarte karty - API, CC, GPL</h1>
+			<p>Każdy ma dostęp do wszystkich danych zebranych w portalu. Udostępniamy publiczne API, wszystkie informacje w portalu są objęte licencją CC Creative Common.  Cała aplikacja CivilHub jest dostępna na GitHub na otwartej licencji GPL-3.</p>
+
+			<div class="features_api">
+
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="section10">
+		<div class="container">
+			<div class="heading">
+				<h2>Zobacz co się dzieje, w okolicy na mapie</h2>
+				<div class="contentSen">
+					<p>Każdą zawartość (pomysły, ankiety, aktualności, dyskusje, lokalizacje), można oznaczyć na mapie. Dzięki temu możemy szybko odnaleźć wszystko co sie dzieje w okolicy.</p>
+				</div>
+			</div>
+			<div class="mockup_laptop_map">
+				<div class="mockup_map_marker"></div>
+				<div class="mockup_container">
+					<div class="left-idea-map">
+						<h3>Pomysły</h3>
+						<p>Zobacz jaki pomysł pojawił się w Twojej okolicy. Zagłosuj i wyraź swoją opinię.</p>
+					</div>
+					<div class="laptop-feature-mockup">
+						<div class="map-idea-green"></div>
+						<div class="map-discussion-green"></div>
+					</div>
+					<div class="right-discussion-map">
+						<h3>Dyskusje</h3>
+						<p>Mozemy rozmawiać na temat konkretnych elementów naszej przestrzeni.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section" id="section11">
+		<div class="top-End">
+			<div class="top-End-headling">
+				<h1>Lorem ipsum dolor sit amet</h1>
+				<h3>Proin sit amet massa nisl. Nunc augue arcu</h3>
+			</div>
+		</div>
+			
+		<div class="bottom-End">
+			<div class="bottom-End-headling">
+				<h1>This Page was inspired by</h1>
+				<h3><a href="http://www.telerik.com">http://www.telerik.com</a></h3>
+			</div>
+		</div>
+
+
+	</div>
+
+</div>
+
+</div><!--./features-Page-->
+{% endcomment %}
+
+{% endblock %}
+
+
+{% block footer %}
+{% include 'places_core/flash-msg-tpl.html' %}
+{% include 'places_core/user-popup.html' %}
+{% include 'places_core/abuse-window-modal.html' %}
+{% include 'places_core/sublocation-dropdown.html' %}
+ {% endblock %}

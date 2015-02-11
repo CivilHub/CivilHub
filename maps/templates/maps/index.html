@@ -22,29 +22,60 @@
     {% endfor %}
     };
     
-    window.CIVILAPP = {
-        {% if active_marker %}
-        current: {
-            latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
-            longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
-            object_pk: "{{ active_marker.content_object.pk }}",
-            content_type: "{{ active_marker.content_type.pk }}"
-        },{% endif %}
-        position: {
-            lat: ("{{ position.lat }}").replace(',', '.'),
-            lng: ("{{ position.lng }}").replace(',', '.')
-        },
-        icons: { {% for type in content_types %}
-            {% if type.model in icons %}'{{ type.pk }}': {
-                iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
-                iconSize: [23, 27]
+    var retina = window.devicePixelRatio > 1;
+    if(retina){
+        window.CIVILAPP = {
+            {% if active_marker %}
+            current: {
+                latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
+                longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
+                object_pk: "{{ active_marker.content_object.pk }}",
+                content_type: "{{ active_marker.content_type.pk }}"
             },{% endif %}
-        {% endfor %} }
-    };
+            position: {
+                lat: ("{{ position.lat }}").replace(',', '.'),
+                lng: ("{{ position.lng }}").replace(',', '.')
+            },
+            icons: { {% for type in content_types %}
+
+                {% if type.model in icons %}'{{ type.pk }}': {              
+                    iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}@2x.png",
+                    iconSize: [23, 27]
+                },{% endif %}
+            {% endfor %} }
+        };
+    } else {
+
+        window.CIVILAPP = {
+            {% if active_marker %}
+            current: {
+                latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
+                longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
+                object_pk: "{{ active_marker.content_object.pk }}",
+                content_type: "{{ active_marker.content_type.pk }}"
+            },{% endif %}
+            position: {
+                lat: ("{{ position.lat }}").replace(',', '.'),
+                lng: ("{{ position.lng }}").replace(',', '.')
+            },
+            icons: { {% for type in content_types %}
+
+                {% if type.model in icons %}'{{ type.pk }}': {              
+                    iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
+                    iconSize: [23, 27]
+                },{% endif %}
+            {% endfor %} }
+        };
+    }
     
 })();
 </script>
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+
+
 </head>
 
 <body>

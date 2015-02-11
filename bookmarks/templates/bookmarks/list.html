@@ -4,11 +4,11 @@
 {% block title %}{% trans "Moje zakładki" %}{% endblock title %}
 
 {% block content %}
-<div id="user-panel" class="container">
+<div id="bookmark-Panel" class="container">
   <div class="row">
-    <div class="col-sm-9">
-      <div class="bookmarks-page shadow">
-        <div class="bookmarkLabheadling">{% trans "Zakładki" %}</div>
+    <div class="col-sm-12">
+      <div class="bookmarks-page">
+        <div class="bookmarkLabheadling">{% trans "Zakładki" %}:</div>
         {% if bookmarks %}
           <ul class="list-unstyled">
             {% for bookmark in bookmarks %}
@@ -16,7 +16,7 @@
               <div class="bk-link"><a href="{{ bookmark.url }}">{{ bookmark }}</a></div>
               <form action="{% url 'bookmarks-delete' bookmark.pk %}" method="post">{% csrf_token %}
                 <input type="hidden" name="pk" value="{{ bookmark.pk }}">
-                <button type="submit" class="csu-btn-default btn-deleteBookmark">{% trans "Usuń" %}</button>
+                <button type="submit" class="btn btn-bookmarkDelete">{% trans "Usuń" %}</button>
               </form>
               <div class="bk-createdTime">{{ bookmark.created_at }}</div>
             </li>

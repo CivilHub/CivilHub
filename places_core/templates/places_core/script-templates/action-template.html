@@ -3,31 +3,40 @@
 {% comment %} Szablon dla activity streamów {% endcomment %}
 
 <script type="text/template" id="action-template">
-    <div class="col-md-2 entry-avatar-col">
-        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar avatarH" />
-        <%= actor.rank_pts %>
-    </div>
-    
-    <div class="col-md-10 entry-meta-col">
-        <div class="entry-header">
-            <a href="<%= actor.user_link %>" class="locActorNick"><%= actor.fullname %></a>
-            <span class="locTimeAdd"><%= timestamp %> {% trans "ago" %}</span>
-            {% comment %}<%= verb %>{% endcomment %}
-            <p><% if (!_.isEmpty(object_ct)) { %>
-                <%= object_ct %>
+    <div class="entry-avatar-col">
+       <div class="actiAvatar"> <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" /> </div>
+        {% comment %}<%= actor.rank_pts %>{% endcomment %}
+        <div class="actiNick"><a href="<%= actor.user_link %>" class="locActorNick"><h5><%= actor.fullname %></h5></a>
+
+        <p>
+           <%= verb %>
+            <% if (!_.isEmpty(object_ct)) { %>
+               <span class="actiAction">  <%= object_ct %> </span>
                 <% if (_.isEmpty(target_ct)) { %>
-                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
+                    <span class="actiTitle"><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></span>
                 <% } else { %>
-                    <p><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></p>
-                    {% comment %}{% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>{% endcomment %}
+                    <span class="actiTitle"> <a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></span>
+                    <span class="actiCategory"> {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a></span>
                 <% } %>
             <% } else if (!_.isEmpty(target_ct)) { %>
-                <p><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></p>
-            <% } %></p>
-            
+                <span class="actiCategory"><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></span>
+            <% } %>
+        </p>
+            <div class="actiClock"><span class="custom-tooltip" title="<%= timestamp %>"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd"><%= timestamp %> {% trans "ago" %}</span> {% endcomment %}</span></span></div>
         </div>
-        {% comment %}<div class="entry-body"><%= description %></div>{% endcomment %}
+    </div>
+    <% if (!_.isEmpty(object_ct)) { %>
+    <div class="entry-meta-col">
+        <div class="entry-header"></div>
+        
+        <div class="entry-body"><%= description %></div>
+
+        
         <div class="clear">&nbsp;</div>
         <div class="entry-footer"></div>
     </div><!-- // .entry-meta-col -->
+    <% } else {%>
+       <div class="entry-meta-col rwdShow "></div>
+    <% } %>
+
 </script>

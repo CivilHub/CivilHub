@@ -4,7 +4,7 @@
 {% block extrahead %}{{ block.super }}{% endblock %}
 
 {% block content %}
-<div id="postman" class="col-sm-8 inboxWrite">
+<div id="postman" class="col-sm-9 inboxWrite">
 
   <div class="main-content">
     <form class="form-horizontal" action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}

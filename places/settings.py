@@ -95,7 +95,6 @@ INSTALLED_APPS = (
     'topics',      # custom forum app
     'comments',    # custom comments app (using mptt)
     'gallery',     # user media app
-    #'south',       # Database migrations
     'maps',        # Custom app for Open Street Maps
     'staticpages', # Statyczne strony
     'civmail',     # Newsletter i obsługa maili
@@ -406,12 +405,13 @@ GALLERY_THUMB_SIZE = (270,170)
 BACKGROUND_IMAGE_SIZE = (1920, 300)
 
 # Settings for user avatar pictures
-AVATAR_SIZE = (128, 128)
+AVATAR_SIZE = (260, 260) #(128, 128)
 AVATAR_THUMBNAIL_SIZES = [
-    (30, 30),
-    (60, 60),
-    (90, 90),
-    (120, 120),
+    #(30, 30),
+    #(60, 60),
+    #(90, 90),
+    #(120, 120),
+    (100, 100),
 ]
 
 

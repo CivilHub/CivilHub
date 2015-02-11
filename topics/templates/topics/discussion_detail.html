@@ -159,14 +159,14 @@
         
         {% if user.is_authenticated and discussion.status %}
             
-            <div>
-                <button type="button" class="btn btn-primary reply-entry-btn">{% trans "Reply" %}</button>
+            <div class="text-right mt-m5">
+                <button type="button" class="btn btn-saveBig reply-entry-btn">{% trans "Reply" %}</button>
             </div>
             <form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post" class="hidden-form">
                 {% csrf_token %}
                 {{ form }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary submit-btn">{% trans "Submit" %}</button>
+                <div class="form-group text-right mb0">
+                    <button type="submit" class="btn btn-saveBig submit-btn top15">{% trans "Submit" %}</button>
                 </div>
             </form>
             

@@ -113,7 +113,7 @@
             </div>
         </div>
         
-        <div class="col-sm-5">
+        <div class="col-sm-5" id="profActi">
             <div class=" activity-stream">
             {% for action in stream %}<noscript>
                 <div class="row action-entry">
@@ -175,34 +175,8 @@
 
     <!-- // .user-activities -->
     
-    <script type="text/template" id="action-template">
-        <div class="col-md-2 entry-avatar-col">
-            <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
-            <%= actor.rank_pts %>
-        </div>
-        
-        <div class="col-md-10 entry-meta-col">
-            <div class="entry-header">
-                <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
-                <%= verb %>
-                <% if (!_.isEmpty(object_ct)) { %>
-                    <%= object_ct %>
-                    <% if (_.isEmpty(target_ct)) { %>
-                        <a href="<%= object.url %>"><%= object.name %></a>
-                    <% } else { %>
-                        <a href="<%= object.url %>"><%= object.name %></a>
-                        {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
-                    <% } %>
-                <% } else if (!_.isEmpty(target_ct)) { %>
-                    <a href="<%= target.url %>"><%= target.name %></a>
-                <% } %>
-                <%= timestamp %> {% trans "ago" %}
-            </div>
-            <div class="entry-body"><%= description %></div>
-            <div class="clear">&nbsp;</div>
-            <div class="entry-footer"></div>
-        </div><!-- // .entry-meta-col -->
-    </script>
+    {% include 'places_core/script-templates/action-template.html' %}
+
 
     {% include 'userspace/sidebar.html' %}
     

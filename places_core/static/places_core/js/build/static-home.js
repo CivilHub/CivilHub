@@ -6,7 +6,8 @@
         bootstrap  : "includes/bootstrap/bootstrap",
         bootbox    : "includes/bootstrap/bootbox",
         underscore : "includes/underscore/underscore",
-        backbone   : "includes/backbone/backbone"
+        backbone   : "includes/backbone/backbone",
+        tubular    : "includes/tubular/jquery.tubular.1.0"
     },
     
     shim: {
@@ -32,6 +33,9 @@
         bootbox: {
             deps: ["bootstrap"],
             exports: "bootbox"
+        },
+        tubular: {
+            deps: ["jquery"]
         }
     },
     name: "js/src/static-home",

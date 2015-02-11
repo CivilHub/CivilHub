@@ -39,8 +39,8 @@
         <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
             {% csrf_token %}
             {{ form }}
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Send" %}</button>
             </div>
         </form>
         {% else %}

@@ -59,6 +59,11 @@
                     </form>
                 </div>
                 <div class="simple-tabs-tab" id="tab-3">
+
+                    <div class="addImageWidth">
+                        <h4>* {% trans "The image should have a minimal width and height of 260px by 260px" %}</h4>
+                    </div>
+
                     <form id="upload-avatar-form" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
                         {% csrf_token %}
                         {{ avatar_form.as_p }}

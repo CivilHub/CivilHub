@@ -46,6 +46,7 @@
                     <a  id="username" href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} <span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ user.profile.get_absolute_url }}">{% trans "Profile" %}</a></li>
+                        <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
                         <li><a href="{% url 'user:locations' user.pk %}">{% trans "My Places" %}</a></li>
                         <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
                         <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
@@ -54,7 +55,7 @@
                     </ul>
                 </li>
                 {% else %}
-                <li><a href="{% url 'user:login' %}"><span class="fa fa-power-off"> </span> {% trans "Login" %}</a></li>
+                <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% comment %}<span class="fa fa-power-off"> </span>{% endcomment %} {% trans "Login" %}</a></li>
                 {% endif %}
             </ul>
             
@@ -76,12 +77,12 @@
                     </ul>
                 </li>
 
-                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}"><span title="maps-box" class="maps-boxBox"><i class="fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></i></span> </a></li>
+                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">
                     <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="Zakładki">
-                        <span title="{% trans "My Bookmarks" %}" class="my-bookmarkBox"><i class="fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></i></span>
+                        <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></span>
 
                     </a>
    {% comment %}                 
@@ -96,7 +97,7 @@
                 </li>
                 <li>                                                           
                     <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="Wiadomości" >
-                        <span title="message-box" class="message-box"><i class="fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></i></span>
+                        <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
                         {% if unread_count %}
                             <span class="badge custom-badge-indicator">{{ unread_count }}</span>
                         {% endif %}

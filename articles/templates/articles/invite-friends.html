@@ -1,0 +1,86 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles i18n %}
+
+{% comment %} Invite friends jest zrobione dla zalogowanych uzytkownikow przez g+, places_core/../{% endcomment %}
+
+{% block header %}
+<div class="headerBGaInvi headerBGInvite">
+	<div class="headerInviteBox">
+		<h1 class="headerTitleInvite"> {% trans "Invite friends" %} </h1>
+		<a href="#" type="button" class="btn-googleInvite contacts-toggle custom-tooltip" title="{% trans "You must be logged by Google" %}">{% trans "Invite friends from Gmail" %}</a>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+{% comment %}{{ article.content  | safe  }}{% endcomment %}
+
+<div class="invitePage">
+
+
+<div id="invite-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Zaproś znajomych</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" action="" >
+                    <div class="form-group">
+                        <label for="invite-emails" class="control-label">Wpisz adresy email rozdzielone przecinkami</label>
+                        <p class="help-block">Podaj adresy email rozdzielone przecinkami</p>
+                        <input type="text" id="invite-emails" name="emails" class="form-control" data-defaulttext="Dodaj email" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary submit-btn">Wyślij</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    
+
+	<div class="inviteFriends">
+		<h2>Zaproś znajomego poprzez wysłanie mu wiadomości, aby miał możliwość przekonać się co to znaczy siła CivilHub.</h2>
+		<h3>Terms and Conditions</h3>
+	</div>
+	<div class="inviteForm">
+		<form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">
+
+
+		<div class="inviteInputL">
+			<input type="email" class="form-control" placeholder="Add your friend’s email addresses">
+			<p class="text-left">Separate the adressees with commas</p>
+		</div>
+
+
+		<div class="inviteSubmit">
+			<button type="submit" class="btn btn-saveBig">Send</button>
+		</div>
+
+
+		<div class="inviteInputR">
+			<input type="text" class="form-control" placeholder="www.civilhub.org/">
+		<div class="text-left">Share: 
+			<div class="fb-share-button" data-href="https://civilhub.org" data-layout="icon"></div>{% comment %}<span class="fa fa-facebook"></span>  <a href="#"><span class="fa fa-twitter"></span></a> {% endcomment %}</div>
+		</div>
+
+	</form>
+	</div>
+
+
+</div>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}

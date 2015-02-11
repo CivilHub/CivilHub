@@ -28,6 +28,8 @@ function ($, _, L) {
         // Maksymalne możliwe zbliżenie - ze względu na openmaps
         maxZoom: 18,
         // Początkowe opcje mapy
+        detectRetina: true, 
+        //Retina
         startZoom: 10,
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
@@ -84,7 +86,8 @@ function ($, _, L) {
         this.map = L.map(this.opts.elementID).setView(center, zoom);
         L.tileLayer(this.opts.mapTailURL, {
             attribution: this.opts.attribution,
-            maxZoom: this.opts.maxZoom
+            maxZoom: this.opts.maxZoom,
+            detectRetina: true
         }).addTo(this.map);
         // Create icons for different marker types
         _.each(CIVILAPP.icons, function (icon, key) {

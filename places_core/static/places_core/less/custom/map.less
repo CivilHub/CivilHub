@@ -143,6 +143,12 @@
 @placeimage: url(/static/maps/icons/map-location-icon.png);
 @ideaimage: url(/static/maps/icons/map-idea-icon.png);
 @newsimage: url(/static/maps/icons/map-news-icon.png);
+//retina
+@discussionimage2x: url(/static/maps/icons/map-discussion-icon@2x.png);
+@pollimage2x: url(/static/maps/icons/map-poll-icon@2x.png);
+@placeimage2x: url(/static/maps/icons/map-location-icon@2x.png);
+@ideaimage2x: url(/static/maps/icons/map-idea-icon@2x.png);
+@newsimage2x: url(/static/maps/icons/map-news-icon@2x.png);
 
 .gm-style-iw {
     left: 0px !important;
@@ -207,6 +213,12 @@
         .type {
             background-image: @discussionimage;
             background-color: @discussioncolor;
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+            background-image: @discussionimage2x;
+            background-size: 55px 55px;
+            }
         }
         .go-to { background: @discussioncolor; }
     }  
@@ -215,6 +227,12 @@
         .type {
             background-image: @pollimage;
             background-color: @pollscolor;
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+                background-image: @pollimage2x;
+                background-size: 55px 55px;
+            }
         }
         .go-to { background: @pollscolor; }
     }  
@@ -223,6 +241,12 @@
         .type {
             background-image: @placeimage;
             background-color: @placecolor;
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+                background-image: @placeimage2x;
+                background-size: 55px 55px;
+            }
         }
         .go-to { background: @placecolor; }
     }   
@@ -231,6 +255,12 @@
         .type {
             background-image: @ideaimage;
             background-color: @ideacolor;
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+                background-image: @ideaimage2x;
+                background-size: 55px 55px;
+            }                           
         }
         .go-to { background: @ideacolor; }
     }   
@@ -239,6 +269,12 @@
         .type {
             background-image: @newsimage;
             background-color: @newscolor;
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+                background-image: @newsimage2x;
+                background-size: 55px 55px;
+            }                       
         }
         .go-to { background: @newscolor; }
     }
