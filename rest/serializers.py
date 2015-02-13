@@ -50,13 +50,16 @@ class MyActionsSerializer(serializers.Serializer):
     """
     id = serializers.Field(source='pk')
     verb = serializers.Field()
-    timestamp = serializers.Field(source='timesince')
+    timestamp = serializers.SerializerMethodField('get_timestamp')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
     object_ct = serializers.SerializerMethodField('get_verbose_name')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
     description = serializers.SerializerMethodField('get_action_description')
+
+    def get_timestamp(self, obj):
+        return obj.timestamp.isoformat()
 
     def get_verbose_name(self, obj):
         try:

@@ -4,6 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from locations.models import Country, Location
 from .models import MapPointer
 
+import logging
+logger = logging.getLogger('django')
 
 redis_cache = cache.get_cache('default')
 
@@ -87,14 +89,17 @@ def create_country_clusters():
     clusters = []
     main_locations = Country.objects.all()
     for c in main_locations:
-        l = Location.objects.get(country_code=c.code, kind='PPLC')
-        cluster = {
-            'lat': l.latitude,
-            'lng': l.longitude,
-            'counter': MapPointer.objects.filter(
-                location__in=c.location.get_children_id_list()).count(),
-        }
-        clusters.append(cluster)
+        try:
+            l = Location.objects.get(country_code=c.code, kind='PPLC')
+            cluster = {
+                'lat': l.latitude,
+                'lng': l.longitude,
+                'counter': MapPointer.objects.filter(
+                    location__in=c.location.get_children_id_list()).count(),
+            }
+            clusters.append(cluster)
+        except Location.DoesNotExist:
+            logger.info(u"Cannot find capital location for %s" % c.code)
     return clusters
 
 

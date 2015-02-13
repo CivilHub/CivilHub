@@ -6,3 +6,4 @@ class DiscussionStreamConfig(AppConfig):
 
     def ready(self):
         registry.register(self.get_model('Discussion'))
+        registry.register(self.get_model('Entry'))
