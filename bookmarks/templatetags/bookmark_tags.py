@@ -22,12 +22,12 @@ def bookmark_form(instance=None, user=None):
     try:
         bookmark = Bookmark.objects.filter(content_type=ct, object_id=pk, user=user)[0]
         cls = 'btn-bookmark btn-active-bookmark'
-        title = _(u"Usuń zakładkę")
+        title = _(u"Remove bookmark")
         bookmark_pk = bookmark.pk
     except IndexError:
         bookmark = None
         cls = 'btn-bookmark btn-add-bookmark'
-        title = _(u"Dodaj zakładkę")
+        title = _(u"Add bookmark")
         bookmark_pk = ""
 
     return """<a href="#" class="{}" data-ct="{}" data-id="{}" data-pk="{}"

@@ -19,8 +19,8 @@ function (_, Backbone) {
         template: _.template($('#action-template').html()),
         
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            $('.actiClock').find('span').tooltip();
+            this.$el.html(this.template(this.model.toJSON()));  
+            this.$('.actiClock').find('span').tooltip();    
             return this;
         }
     });

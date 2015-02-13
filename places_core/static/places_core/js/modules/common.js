@@ -19,6 +19,9 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
     "use strict";
     
+    //transifex
+    $('#popover-lang-list').append('<a href="https://www.transifex.com/projects/p/civilhub/" target="_blank" class="help_translate">Help in translate</a>');
+
     // "Statyczna" paginacja
     // ---------------------
     
@@ -42,6 +45,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
       }
     });
 
+    /* przycinanie wylaczone dla textarea
     $('textarea').blur(function (e) {
         
         // Here we get exact number of lines in our TextArea
@@ -49,7 +53,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
 
         // Now apply the number Of Lines * line-height to your control. That's all.
         $(this).val($(this).val().trim()).height(textLines*17);
-    });
+    });*/
 
 
     // Wyszukiwarka - dodajemy '*' na początku i na końcu
@@ -78,13 +82,14 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
         });
         
         $('#lang-selector > a').on('shown.bs.popover', function () {
-            $('.popover').find('a').on('click', function (e) {
+            $('.popover ul').find('a').on('click', function (e) {
                 e.preventDefault();
                 $('#lang-selected-field')
                     .val($(this).parent().attr('data-code'));
                 $('#main-lang-form').submit();
             });
-            $('body').not('.popover').one('click', function () {
+
+            $('body').not('.popover ul').one('click', function () {
                 $('#lang-selector > a').popover('hide');
                 $('#popover-lang-list a').off('click');
             });

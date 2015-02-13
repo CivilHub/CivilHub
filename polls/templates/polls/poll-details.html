@@ -31,15 +31,14 @@
             </ul>
         </div>
         
-        <hr />
-        <img src="{{ poll.image_url }}" alt="{{ poll }}">
+        <div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>
         <div class="acticle-content">{{ poll.question | safe }}</div>
         
         {% if can_vote %}
         <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
             {% csrf_token %}
             {{ form }}
-            <div class="form-group text-right">
+            <div class="form-group text-right mb0">
                 <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Send" %}</button>
             </div>
         </form>

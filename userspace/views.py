@@ -463,10 +463,10 @@ def upload_avatar(request):
                 pass
 
         profile.avatar = crop_avatar(image)
-        size = 30, 30
+        size = 60, 60
         path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
         file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
-        thumbname = '30x30_' + file + ext
+        thumbname = '60x60_' + file + ext
         tmp = image.copy()
         tmp.thumbnail(size, Image.ANTIALIAS)
         tmp.save(os.path.join(path, thumbname))

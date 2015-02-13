@@ -54,12 +54,12 @@ class BookmarkCreateView(View):
         if bookmark is None:
             ctx = {
                 'success': False,
-                'message': _(u"Utworzenie zakładki nie powidło się"),
+                'message': _(u"You can't create bookmark"),
             }
         else:
             ctx = {
                 'success': True,
-                'message': _(u"Utworzono zakładkę"),
+                'message': _(u"Bookmark created"),
                 'bookmark': bookmark.pk,
             }
         return HttpResponse(json.dumps(ctx), content_type='application/json')
@@ -82,5 +82,5 @@ class BookmarkDeleteView(LoginRequiredMixin, DeleteView):
         if not bookmark.user == request.user:
             raise Http404()
         bookmark.delete()
-        context = json.dumps({'success': True, 'message': _(u"Usunięto zakładkę"),})
+        context = json.dumps({'success': True, 'message': _(u"Bookmark removed"),})
         return HttpResponse(context, content_type='application/json')

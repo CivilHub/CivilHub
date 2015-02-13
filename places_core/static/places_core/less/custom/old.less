@@ -258,7 +258,8 @@
     border-top-right-radius: 0
 }
 .idea-entry .idea-votes {
-    padding-top: 25px
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 .idea-entry .votes {
     display: block;
@@ -374,7 +375,28 @@
     width: 100%;
 }
 .poll-form ul, .poll-form ol {
-    list-style-type: none
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.poll-form{
+    margin-top: 10px;
+    ul{
+        input{
+            margin-right: 10px;
+        }
+        label{
+            width: auto;
+        }
+    }
+    input{
+        float: left;
+
+    }   
+    label{
+        width: 97%;
+        padding-left: 10px;
+    }
 }
 .question-entry {
     margin-top: 25px;

@@ -43,7 +43,7 @@
 <div class="location-logo" style="background-image:url({{ location.image.url }})">
     <div class="container" style="height: 100%; position: relative;">
         <div class="title-container"> 
-            <div class="location-name-title">{{ location }}</div>
+            <div class="location-name-title" id="tour-location-name">{{ location }}</div>
             <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
             
         {% if user in location.users.all %}
@@ -72,20 +72,20 @@
           </div>
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}">{% trans "Summary" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}"></span>{% trans "Blog" %}</a></li>
-                <li><a href="{% url 'locations:discussions' location.slug %}">{% trans "Discussions" %}</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}">{% trans "Ideas" %}</a></li>
-                <li><a href="{% url 'locations:polls' location.slug %}">{% trans "Polls" %}</a></li>
+                <li><a href="{{ location.get_absolute_url }}" id="tour-Summary">{% trans "Summary" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}" id="tour-Blog"></span>{% trans "Blog" %}</a></li>
+                <li><a href="{% url 'locations:discussions' location.slug %}" id="tour-Discussions">{% trans "Discussions" %}</a></li>
+                <li><a href="{% url 'locations:ideas' location.slug %}" id="tour-Ideas">{% trans "Ideas" %}</a></li>
+                <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls">{% trans "Polls" %}</a></li>
                 <li><a href="#">{% trans "Projects" %}</a>{% comment %}<span class="navbar-soon">(soon)</span>{% endcomment %}</li>
                 <li><a href="#"> {% trans "Documents" %}</a>{% comment %}<span class="navbar-soon">(soon)</span>{% endcomment %}</li>
                 <!--<li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-videos"></span>{% trans "Videos" %}</a></li>-->
-                <li><a href="{% url 'locations:gallery' location.slug %}">{% trans "Gallery" %}</a></li>
+                <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery">{% trans "Gallery" %}</a></li>
                 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'locations:followers' location.slug %}">{% trans "Followers" %}</a></li>
-                <li><a href="{% url 'locations:sublocations' location.slug %}">{% trans "Subspaces" %}</a></li>
+                <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers">{% trans "Followers" %}</a></li>
+                <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces">{% trans "Subspaces" %}</a></li>
             </ul>
         </div>
     </div>

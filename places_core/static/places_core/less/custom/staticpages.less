@@ -133,6 +133,13 @@ img{
     }
 
     #section1{
+        .fp-tableCell{
+            position: relative;
+            right: -5%;
+            @media(max-width: 1400px){
+                right: 0;
+            }
+        }
         .mockupPoints{
             float: right;
            //max-width: 410px;
@@ -260,11 +267,12 @@ img{
                 color: #50616d;
                 //padding-bottom: 20px;
                 padding-bottom: 0.4em;
-                margin-top: 0px;
+                margin-top: 27px;
             }
             h2{
                 //font-size: 35px;
                 font-size: 2.5em;
+                margin: 0;
             }
         }
 
@@ -830,6 +838,7 @@ img{
 
                 .imgsContainer{
                     width: 38%;
+                    //width: 65%;
                     display: inline-block;
                     transition: width 0.7s ease-in-out;
                     -webkit-transition: width 0.7s ease-in-out;
@@ -842,9 +851,32 @@ img{
                 -moz-transform: translate3d(0,0,0);
             }
             &.imgSec{
+                top: 57%;
+                left: -5%;
                 .imgsContainer{
-                    width: 38%;
+                    //width: 38%;
+                    width: 65%;
                     display: inline-block;
+                }
+                @media(max-width: 1400px) and (max-height: 750px){
+                    top: 50%;
+                }
+                @media(max-width: 1200px) and (max-height: 750px){
+                    top: 65%;
+                    left: 0;
+                    .imgsContainer{
+                        width: 50%;
+                    }
+                }
+                @media(max-width: 1400px) and (min-height: 751px){
+                    left: -10%;
+                }
+                @media(max-width: 1200px) and (min-height: 751px){
+                    left: 0;
+                    top: 70%;
+                    .imgsContainer{
+                        width: 50%;
+                    }
                 }
             }
             @media(max-width: 650px){
@@ -974,6 +1006,7 @@ img{
     border: 1px solid #DEDEDE;
     padding: 10px 40px 30px;
     margin-top: 25px;
+    margin-bottom: 25px;
 
 
     .inviteForm{

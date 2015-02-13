@@ -45,7 +45,7 @@
                     <li>{% bookmark_form discussion user %}</li>
                 </ul>
             </div>
-            {% endif %}
+            {% endif %}           
             <div class="custom-label-list">
                 <span class="fa fa-list custom-fa"> </span>
                 <span class="custom-label-entry custom-main-label-entry">
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-xs-11 discussion-entry-content">
                     <p class="entry-meta">
-                        <a href="{% url 'user:profile' discussion.creator %}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
+                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail wtf" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
                         <span class="topic-date-col">
                             {{ discussion.date_created | timesince }} {% trans "ago" %}
                         </span>
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-xs-11 discussion-entry-content">
                         <p class="entry-meta">
-                            <a href="{% url 'user:profile' entry.creator %}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
+                            <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
                             <span class="topic-date-col">
                                 {{ entry.date_created | timesince }} {% trans "ago" %}
                                 {% if entry.is_edited %}
