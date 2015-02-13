@@ -21,6 +21,7 @@ class ContentObjectSerializer(serializers.Serializer):
     url = serializers.Field(source='url')
     title = serializers.Field(source='title')
     image = serializers.Field(source='image')
+    thumbnail = serializers.Field(source='thumbnail')
     meta = serializers.Field(source='meta')
     creator = serializers.Field(source='creator')
     category = serializers.Field(source='category')

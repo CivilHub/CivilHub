@@ -50,13 +50,16 @@ class MyActionsSerializer(serializers.Serializer):
     """
     id = serializers.Field(source='pk')
     verb = serializers.Field()
-    timestamp = serializers.Field(source='timesince')
+    timestamp = serializers.SerializerMethodField('get_timestamp')
     actor = serializers.SerializerMethodField('get_actor_data')
     object = serializers.SerializerMethodField('get_action_object')
     object_ct = serializers.SerializerMethodField('get_verbose_name')
     target = serializers.SerializerMethodField('get_action_target')
     target_ct = serializers.Field(source='target_content_type.model')
     description = serializers.SerializerMethodField('get_action_description')
+
+    def get_timestamp(self, obj):
+        return obj.timestamp.isoformat()
 
     def get_verbose_name(self, obj):
         try:
@@ -521,13 +524,14 @@ class IdeaSerializer(serializers.ModelSerializer):
     edited = serializers.BooleanField()
     tags = serializers.SerializerMethodField('get_tags')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
+    image = serializers.Field(source='image_url')
 
     class Meta:
         model = Idea
         fields = ('id','name','description','creator_id','creator_username',
                  'creator_fullname','creator_avatar','date_created','date_edited',
                  'edited','tags','category_name','category_url','total_comments',
-                 'total_votes','url','creator_url', 'comment_meta',)
+                 'total_votes','url','creator_url', 'comment_meta', 'image')
 
     def get_comment_meta(self, obj):
         return {

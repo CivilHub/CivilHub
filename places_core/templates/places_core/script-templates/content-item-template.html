@@ -1,16 +1,17 @@
-{% load i18n %}
+{% load i18n bookmark_tags %}
 
 {% comment %} Szablon dla podsumowania aktywności - location summary i user activity {% endcomment %}
 
 <script type="text/template" id="content-item-tpl">
+<div id="tour-summary-box">
     <div class="locBox loc-box-<%= type %>">
 
     <div class="locBoxHeader">
-        <div class="locBoxLoc"><%= location %></div>
+        <div class="locBoxLoc"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></div>
         <div class="locBoxIcon">
-            <div class="locBoxBookmark">
-                <a href="#" class="custom-tooltip-right btn-add-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
-                <a href="#" class="custom-tooltip-right btn-remove-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+            <div class="locBoxBookmark"> 
+                <a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+                <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
             </div>
             {% comment %}<div class="locBoxMarker">
                 <a href="#" class="custom-tooltip-right" title="{% trans "Show on map" %}"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-ivnerse"></i></span></a>
@@ -20,8 +21,8 @@
 
         <div class="locBoxContainer">
             <div class="locBoxAuthor">
-                <a href="<%= creator.url %>">
-                    <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH">
+                <a href="<%= creator.url %>" ><span class="user-window-toggle" data-target="<%= creator.id %>">
+                    <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH "></span>
                 </a>
             </div>
             <div class="locBoxTitle">
@@ -30,9 +31,10 @@
         </div>
     </div>
 
-    <div class="locBoxCat"><%= type %></div>
+    <div class="locBoxCat"><a href="<%= url %>"><%= type %></a></div>
 
-    <div class="locBoxBody"><%= description %></div>
+    <div class="locBoxBody"><a href="<%= url %>"><%= description %></a></div>
 
 </div><!-- /.locBox -->
+</div>
 </script>

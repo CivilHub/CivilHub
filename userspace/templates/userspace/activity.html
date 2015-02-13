@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n activity_tags civil_tags %}
+{% load staticfiles i18n activity_tags civil_tags bookmark_tags %}
 
 {% block require_scripts %}
 <script>window.API_URL = "/api-userspace/activity/";</script>
@@ -17,7 +17,7 @@
         <div id="location-content-collection" class="containerLocationCollection"></div>
     </div>
 
-    <div class="col-sm-3 colHlineL colHline colHP">
+    <div class="col-sm-3 colHlineL colHline">
         <div class="activity-stream"></div>
     </div>
 

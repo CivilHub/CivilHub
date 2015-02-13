@@ -371,16 +371,14 @@ def reply(request, slug):
             creator = request.user,
             discussion = topic,
         )
-        try:
-            entry.save()
-            action.send(
-                request.user,
-                action_object=entry,
-                target = topic,
-                verb= _('posted')
-            )
-        except:
-            return HttpResponse(_('An error occured'))
+        
+        entry.save()
+        action.send(
+            request.user,
+            action_object=entry,
+            target = topic,
+            verb= _('posted')
+        )
         
     return HttpResponseRedirect(request.META['HTTP_REFERER'] + '#reply-' + str(entry.pk))
 

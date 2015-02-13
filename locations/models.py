@@ -45,6 +45,7 @@ def obj_to_dict(obj):
         'url' : obj.get_absolute_url(),
         'title': obj.__unicode__(),
         'image': obj.image_url,
+        'thumbnail': obj.thumbnail,
         'location': obj.location.__unicode__(),
         'meta': {},
         'date_created': obj.date_created.isoformat(),

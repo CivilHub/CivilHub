@@ -38,7 +38,7 @@ from ideas.models import Idea
 from polls.models import Poll
 from topics.models import Discussion
 from bookmarks.models import Bookmark
-from locations.serializers import ContentPaginatedSerializer
+from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
 from forms import *
 # REST api
 from rest_framework import viewsets
@@ -53,6 +53,7 @@ from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerialize
             BookmarkSerializer
 
 
+@csrf_exempt
 def obtain_auth_token(request):
     """
     Widok dla aplikacji mobilnej pozwalający nam zalogować
@@ -67,10 +68,32 @@ def obtain_auth_token(request):
         try:
             system_user = User.objects.get(email=email)
             user = auth.authenticate(username=system_user.username, password=password)
-            context.update({'success': True, 'token': system_user.auth_token.key})
+            if user is not None:
+                context.update({
+                    'success'   : True,
+                    'id'        : system_user.pk,
+                    'token'     : system_user.auth_token.key,
+                    'username'  : system_user.username,
+                    'email'     : system_user.email,
+                    'first_name': system_user.first_name,
+                    'last_name' : system_user.last_name,
+                    'avatar'    : system_user.profile.avatar.url,
+                })
         except User.DoesNotExist:
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+class UserFollowedLocationsAPI(rest_views.APIView):
+    """ Lista lokalizacji, które obserwuje użytkownik. """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def get(self, request):
+        if request.user.is_anonymous():
+            return Response([])
+        locations = request.user.profile.followed_locations()
+        serializer = SimpleLocationSerializer(locations, many=True)
+        return Response(serializer.data)
 
 
 class UserSummaryAPI(rest_views.APIView):
@@ -79,7 +102,7 @@ class UserSummaryAPI(rest_views.APIView):
     ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
     lokacji obserwowanych przez użytkownika.
     """
-    paginate_by = 15
+    paginate_by = 50
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
@@ -440,10 +463,10 @@ def upload_avatar(request):
                 pass
 
         profile.avatar = crop_avatar(image)
-        size = 30, 30
+        size = 60, 60
         path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
         file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
-        thumbname = '30x30_' + file + ext
+        thumbname = '60x60_' + file + ext
         tmp = image.copy()
         tmp.thumbnail(size, Image.ANTIALIAS)
         tmp.save(os.path.join(path, thumbname))

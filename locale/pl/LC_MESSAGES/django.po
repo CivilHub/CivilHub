@@ -1,42 +1,218 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Translators:
+# CivilHub <grzegorz@civilhub.org>, 2015
 msgid ""
 msgstr ""
-"Project-Id-Version: civilhub.org\n"
+"Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-12 15:38+0100\n"
-"PO-Revision-Date: 2014-11-18 13:25+0100\n"
-"Last-Translator: Jakub Pocentek <jpocentek@gmail.com>\n"
-"Language-Team: CivilHub Team <office@civilhub.org>\n"
+"POT-Creation-Date: 2015-02-12 08:12+0100\n"
+"PO-Revision-Date: 2015-02-11 22:24+0100\n"
+"Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/"
+"pl/)\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.7.3\n"
+
+#: articles/templates/articles/blog.html:4
+#: locations/templates/locations/location_detail.html:26
+msgid "Articles"
+msgstr "Artykuły"
+
+#: articles/templates/articles/blog.html:20
+#: places_core/templates/places_core/footer.html:14
+msgid "Privacy Policy"
+msgstr "Polityka Prywatności"
+
+#: articles/templates/articles/blog.html:21
+#: places_core/templates/places_core/footer.html:15
+msgid "Terms of Use"
+msgstr "Regulamin"
+
+#: articles/templates/articles/blog.html:22
+#: places_core/templates/places_core/footer.html:16
+msgid "Cookies"
+msgstr "Polityka Cookies"
+
+#: articles/templates/articles/blog.html:23
+#: places_core/templates/places_core/footer.html:17
+msgid "Press"
+msgstr "Prasa"
+
+#: articles/templates/articles/blog.html:24
+#: places_core/templates/places_core/footer.html:18
+msgid "Jobs"
+msgstr "Praca"
+
+#: articles/templates/articles/blog.html:25
+msgid "Features"
+msgstr "Funkcje"
+
+#: articles/templates/articles/blog.html:26
+#: places_core/templates/places_core/footer.html:28
+msgid "Support"
+msgstr "Pomoc"
+
+#: articles/templates/articles/blog.html:27
+#: articles/templates/articles/blog.html:38
+#: locations/templates/locations/index.html:76
+#: places_core/templates/places_core/footer.html:29
+#: userspace/templates/userspace/profile.html:63
+msgid "Blog"
+msgstr "Blog"
+
+#: articles/templates/articles/blog.html:28
+#: places_core/templates/places_core/footer.html:30
+msgid "Creed"
+msgstr "Kredo"
+
+#: articles/templates/articles/blog.html:29
+msgid "About us"
+msgstr "O nas"
+
+#: articles/templates/articles/blog.html:30
+#: places_core/templates/places_core/footer.html:32
+msgid "Contact"
+msgstr "Kontakt"
+
+#: articles/templates/articles/features.html:28
+#: locations/templates/locations/index.html:67
+#: places_core/templates/places_core/navigation.html:13
+#: userspace/templates/userspace/profile.html:54
+msgid "Toggle navigation"
+msgstr "Przełącz nawigację"
+
+#: articles/templates/articles/features.html:43
+#: locations/templates/locations/location_detail.html:55
+#: locations/templates/locations/location_forum.html:65
+#: locations/templates/locations/location_ideas.html:64
+#: locations/templates/locations/location_news.html:57
+#: locations/templates/locations/location_polls.html:50
+#: maps/templates/maps/index.html:99
+#: places_core/templates/places_core/navigation.html:27
+#: places_core/templates/places_core/sublocation-dropdown.html:21
+#: templates/search/search.html:11
+#: userspace/templates/userspace/profile.html:74
+msgid "Search"
+msgstr "Szukaj"
+
+#: articles/templates/articles/features.html:52
+#: articles/templates/articles/features.html:64
+#: places_core/templates/places_core/navigation.html:36
+#: places_core/templates/places_core/navigation.html:48
+msgid "Profile"
+msgstr "Profil użytkownika"
+
+#: articles/templates/articles/features.html:53
+#: articles/templates/articles/features.html:70
+#: places_core/templates/places_core/navigation.html:37
+#: places_core/templates/places_core/navigation.html:54
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: articles/templates/articles/features.html:58
+#: places_core/templates/places_core/navigation.html:42
+msgid "Logged in as"
+msgstr "Zalogowano jako"
+
+#: articles/templates/articles/features.html:65
+#: articles/templates/articles/invite-friends.html:10
+#: places_core/templates/places_core/navigation.html:49
+#: userspace/templates/userspace/sidebar.html:20
+msgid "Invite friends"
+msgstr "Zaproś znajomych"
+
+#: articles/templates/articles/features.html:66
+#: places_core/templates/places_core/navigation.html:50
+#: userspace/templates/userspace/sidebar.html:17
+msgid "My Places"
+msgstr "Miejsca"
+
+#: articles/templates/articles/features.html:67
+#: places_core/templates/places_core/navigation.html:51
+#: userspace/templates/userspace/sidebar.html:18
+msgid "Media"
+msgstr "Moje pliki"
+
+#: articles/templates/articles/features.html:68
+#: places_core/templates/places_core/navigation.html:52
+#: userspace/templates/userspace/sidebar.html:19
+msgid "Edit profile"
+msgstr "Edycja profilu"
+
+#: articles/templates/articles/features.html:74
+#: places_core/templates/places_core/navigation.html:59
+#: staticpages/templates/staticpages/navigation.html:12
+#: userspace/templates/userspace/active.html:12
+#: userspace/templates/userspace/login.html:59
+msgid "Login"
+msgstr "Zaloguj się"
+
+#: articles/templates/articles/features.html:80
+#: maps/templates/maps/index.html:108
+#: places_core/templates/places_core/navigation.html:65
+#: userspace/templates/userspace/profile.html:95
+msgid "Places"
+msgstr "Miejsca"
+
+#: articles/templates/articles/features.html:83
+#: places_core/templates/places_core/navigation.html:68
+msgid "Browse Places"
+msgstr "Przeglądaj lokalizacje"
+
+#: articles/templates/articles/features.html:91
+#: places_core/templates/places_core/navigation.html:76
+msgid "Create new"
+msgstr "Utwórz nowy"
+
+#: articles/templates/articles/features.html:96 maps/views.py:137
+#: places_core/templates/places_core/navigation.html:81
+msgid "Map"
+msgstr "Mapa"
+
+#: articles/templates/articles/features.html:101
+#: places_core/templates/places_core/navigation.html:86
+msgid "My Bookmarks"
+msgstr "Moje zakładki"
+
+#: articles/templates/articles/features.html:111
+#: places_core/templates/places_core/navigation.html:96
+msgid "Zarządzaj"
+msgstr ""
+
+#: articles/templates/articles/features.html:117
+#: places_core/templates/places_core/navigation.html:102
+msgid "Messages"
+msgstr "Wiadomości"
+
+#: articles/templates/articles/invite-friends.html:11
+msgid "You must be logged by Google"
+msgstr "Musisz być zalogowany do Google+"
+
+#: articles/templates/articles/invite-friends.html:11
+msgid "Invite friends from Gmail"
+msgstr "Zaproś znajomych przez Gmail"
 
 #: articles/views.py:74
 msgid "Help and support"
 msgstr "Pomoc i wsparcie"
 
 #: articles/views.py:79
-#, fuzzy
 msgid "Support category does not exist yet"
-msgstr "Wybrana lokalizacje nie istnieje"
-
-#: articles/templates/articles/blog.html:4
-msgid "Articles"
-msgstr "Artykuły"
+msgstr "Kategoria pomocy jeszcze nie istnieje"
 
 #: blog/forms.py:17 locations/forms.py:125
 #: locations/templates/locations/location_ideas.html:16
 #: locations/templates/locations/location_news.html:17
 #: locations/templates/locations/location_news.html:97
-#: locations/templates/locations/location_polls.html:66 polls/forms.py:15
+#: locations/templates/locations/location_polls.html:67 polls/forms.py:15
 msgid "Title"
 msgstr "Tytuł"
 
@@ -44,11 +220,8 @@ msgstr "Tytuł"
 msgid "Content"
 msgstr "Treść"
 
-#: blog/forms.py:29 blog/models.py:50 blog/templates/blog/news_detail.html:87
-#: ideas/forms.py:50 ideas/templates/ideas/idea_basic.html:51
-#: ideas/templates/ideas/idea_detail.html:89
-#: ideas/templates/ideas/ideas.html:53 locations/forms.py:103
-#: locations/forms.py:135 locations/forms.py:166
+#: blog/forms.py:29 ideas/forms.py:50 ideas/templates/ideas/idea_basic.html:51
+#: locations/forms.py:103 locations/forms.py:135 locations/forms.py:166
 #: locations/templates/locations/location_forum.html:29
 #: locations/templates/locations/location_ideas.html:18
 #: locations/templates/locations/location_ideas.html:32
@@ -57,13 +230,21 @@ msgstr "Treść"
 msgid "Category"
 msgstr "Kategoria"
 
-#: blog/views.py:273 comments/templates/comments/commentlist.html:57
-#: topics/templates/topics/discussion_detail.html:122
-#: topics/templates/topics/discussion_detail.html:123
-#: topics/templates/topics/discussion_detail.html:218
-#: topics/templates/topics/discussion_detail.html:219
-msgid "Edit entry"
-msgstr "Edycja wpisu"
+#: blog/models.py:48 blog/models.py:65
+msgid "category"
+msgstr "kategoria"
+
+#: blog/models.py:49
+msgid "categories"
+msgstr "kategorie"
+
+#: blog/models.py:110 templates/search/search.html:30
+msgid "news"
+msgstr "aktualność"
+
+#: blog/models.py:111
+msgid "newses"
+msgstr "aktualności"
 
 #: blog/templates/blog/category_form.html:10
 #: gallery/templates/gallery/location-gallery-form.html:15
@@ -77,21 +258,23 @@ msgstr "Edycja wpisu"
 #: locations/templates/locations/location_idea_form.html:32
 #: maps/templates/maps/pointer-form.html:9
 #: maps/templates/maps/pointer-modal-form.html:23
-#: polls/templates/polls/create-poll.html:23
+#: polls/templates/polls/create-poll.html:76
 #: topics/templates/topics/discussion_form.html:18
 #: topics/templates/topics/reply_update.html:9
 #: userspace/templates/userspace/background-form.html:19
 #: userspace/templates/userspace/chpass.html:10
-#: userspace/templates/userspace/index.html:68
+#: userspace/templates/userspace/index.html:73
 #: userspace/templates/userspace/pass.html:10
 msgid "Save"
 msgstr "Zapisz"
 
 #: blog/templates/blog/news_detail.html:39
-#: blog/templates/blog/news_list.html:9
-#: locations/templates/locations/location_polls.html:67
-msgid "Created by"
-msgstr "Utworzony przez"
+msgid "Created"
+msgstr "Utworzony"
+
+#: blog/templates/blog/news_detail.html:39
+msgid "by"
+msgstr "przez"
 
 #: blog/templates/blog/news_detail.html:53
 #: ideas/templates/ideas/idea_detail.html:60
@@ -100,24 +283,24 @@ msgstr "Utworzony przez"
 msgid "Show on map"
 msgstr "Pokaż na mapie"
 
+#: blog/templates/blog/news_detail.html:56
 #: blog/templates/blog/news_detail.html:57
-#: blog/templates/blog/news_detail.html:58
-#: comments/templates/comments/commentlist.html:61
+#: comments/templates/comments/commentlist.html:62
 #: gallery/templates/gallery/picture-view.html:15
 #: ideas/templates/ideas/idea_detail.html:71
 #: places_core/templates/places_core/abuse-window-modal.html:7
-#: polls/templates/polls/poll-details.html:25
+#: polls/templates/polls/poll-details.html:25 templates/postman/view.html:20
 #: topics/templates/topics/discussion_detail.html:43
-#: topics/templates/topics/discussion_detail.html:88
-#: topics/templates/topics/discussion_detail.html:89
-#: topics/templates/topics/discussion_detail.html:133
-#: topics/templates/topics/discussion_detail.html:134
-#: topics/templates/topics/discussion_detail.html:229
-#: topics/templates/topics/discussion_detail.html:230
+#: topics/templates/topics/discussion_detail.html:85
+#: topics/templates/topics/discussion_detail.html:86
+#: topics/templates/topics/discussion_detail.html:130
+#: topics/templates/topics/discussion_detail.html:131
+#: topics/templates/topics/discussion_detail.html:225
+#: topics/templates/topics/discussion_detail.html:226
 msgid "Report abuse"
 msgstr "Zgłoś naruszenie"
 
-#: blog/templates/blog/news_detail.html:61
+#: blog/templates/blog/news_detail.html:60
 #: gallery/templates/gallery/location-gallery.html:27
 #: gallery/templates/gallery/user-gallery.html:30
 #: ideas/templates/ideas/idea_basic.html:34
@@ -128,7 +311,7 @@ msgstr "Zgłoś naruszenie"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: blog/templates/blog/news_detail.html:62
+#: blog/templates/blog/news_detail.html:61
 #: gallery/templates/gallery/location-gallery.html:29
 #: gallery/templates/gallery/picture-view.html:18
 #: gallery/templates/gallery/user-gallery.html:31
@@ -137,58 +320,103 @@ msgstr "Edytuj"
 #: locations/templates/locations/location_polls.html:78
 #: polls/templates/polls/poll-details.html:28
 #: polls/templates/polls/poll-list.html:15
+#: templates/postman/base_folder.html:42 templates/postman/view.html:16
 #: topics/templates/topics/discussion_detail.html:40
 msgid "Delete"
 msgstr "Usuń"
 
-#: blog/templates/blog/news_detail.html:63
-#: ideas/templates/ideas/idea_detail.html:62
+#: blog/templates/blog/news_detail.html:62
+#: ideas/templates/ideas/idea_detail.html:63
 #: polls/templates/polls/poll-details.html:23
 #: topics/templates/topics/discussion_detail.html:34
 msgid "Add map marker"
 msgstr "Dodaj punkt na mapie"
 
-#: blog/templates/blog/news_detail.html:79
-#: blog/templates/blog/news_list.html:19 ideas/forms.py:53
-#: ideas/templates/ideas/idea_basic.html:46
-#: ideas/templates/ideas/idea_detail.html:82 locations/forms.py:113
-#: locations/forms.py:145 locations/forms.py:175
-#: locations/templates/locations/sidebar.html:63 polls/forms.py:31
-#: topics/templates/topics/discussion_detail.html:66
-msgid "Tags"
-msgstr "Tagi"
-
-#: blog/templates/blog/news_detail.html:103
-#: blog/templates/blog/news_list.html:27
+#: blog/templates/blog/news_detail.html:117
 #: gallery/templates/gallery/picture-view.html:29
-#: ideas/templates/ideas/idea_detail.html:95
+#: ideas/templates/ideas/idea_detail.html:101
 msgid "Comments"
 msgstr "Komentarze"
 
-#: blog/templates/blog/news_detail.html:104
+#: blog/templates/blog/news_detail.html:118
 #: gallery/templates/gallery/picture-view.html:30
-#: ideas/templates/ideas/idea_detail.html:96
+#: ideas/templates/ideas/idea_detail.html:102
 msgid "Hide comments"
 msgstr "Ukryj komentarze"
 
-#: blog/templates/blog/news_list.html:10
-#: ideas/templates/ideas/idea_basic.html:40
-#: ideas/templates/ideas/ideas.html:44
-msgid "Last edited"
-msgstr "Ostatnio edytowano"
+#: blog/views.py:271 comments/templates/comments/commentlist.html:58
+#: topics/templates/topics/discussion_detail.html:119
+#: topics/templates/topics/discussion_detail.html:120
+#: topics/templates/topics/discussion_detail.html:214
+#: topics/templates/topics/discussion_detail.html:215
+msgid "Edit entry"
+msgstr "Edycja wpisu"
 
-#: blog/templates/blog/news_list.html:14
-msgid "Read more"
-msgstr "Czytaj więcej"
+#: bookmarks/templates/bookmarks/list.html:4
+#, fuzzy
+#| msgid "My Bookmarks"
+msgid "My bookmarks"
+msgstr "Moje zakładki"
 
-#: civmail/views.py:24 civmail/templates/civmail/invite-users.html:8
+#: bookmarks/templates/bookmarks/list.html:11
+#, fuzzy
+#| msgid "Bookmark"
+msgid "Bookmarks"
+msgstr "Dodaj do zakładek"
+
+#: bookmarks/templates/bookmarks/list.html:19
+msgid "Delate"
+msgstr ""
+
+#: bookmarks/templates/bookmarks/list.html:32
+#, fuzzy
+#| msgid "404 Page"
+msgid "Page"
+msgstr "404"
+
+#: bookmarks/templates/bookmarks/list.html:32
+msgid "z"
+msgstr ""
+
+#: bookmarks/templates/bookmarks/list.html:41
+#, fuzzy
+#| msgid "Remove bookmark"
+msgid "You don't have bookmarks"
+msgstr "Usuń zakładkę"
+
+#: bookmarks/templatetags/bookmark_tags.py:25
+#: locations/templates/locations/location_detail.html:79
+#: places_core/templates/places_core/script-templates/content-item-template.html:14
+#: templates/bookmarks/form.html:10
+msgid "Remove bookmark"
+msgstr "Usuń zakładkę"
+
+#: bookmarks/templatetags/bookmark_tags.py:30
+#, fuzzy
+#| msgid "Bookmark"
+msgid "Add bookmark"
+msgstr "Dodaj do zakładek"
+
+#: bookmarks/views.py:57
+msgid "You can't create bookmark"
+msgstr ""
+
+#: bookmarks/views.py:62
+#, fuzzy
+#| msgid "Bookmark"
+msgid "Bookmark created"
+msgstr "Dodaj do zakładek"
+
+#: bookmarks/views.py:85
+#, fuzzy
+#| msgid "Bookmark"
+msgid "Bookmark removed"
+msgstr "Dodaj do zakładek"
+
+#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:24
 #: locations/templates/locations/sidebar.html:37
 msgid "Invite people"
 msgstr "Zaproś znajomych"
-
-#: civmail/views.py:46
-msgid "All messages sent successfully"
-msgstr "Wiadomości wysłane"
 
 #: civmail/templates/civmail/invite-users.html:13
 msgid "Enter email addresses"
@@ -207,7 +435,7 @@ msgstr "Dodaj email"
 #: ideas/templates/ideas/idea-category.html:25
 #: ideas/templates/ideas/idea-votes.html:24
 #: locations/templates/locations/category-form.html:31
-#: locations/templates/locations/location_followers.html:97
+#: locations/templates/locations/location_followers.html:99
 #: locations/templates/locations/location_news.html:86
 #: maps/templates/maps/minimap.html:26 maps/templates/maps/minimap.html:34
 #: maps/templates/maps/pointer-modal-form.html:22
@@ -222,55 +450,81 @@ msgstr "Zamknij"
 #: locations/templates/locations/invite-users.html:16
 #: places_core/templates/places_core/abuse-report.html:8
 #: polls/templates/polls/poll-details.html:42
-#: userspace/templates/userspace/twitter-email-form.html:12
+#: templates/postman/base_write.html:31
+#: userspace/templates/userspace/twitter-email-form.html:55
 msgid "Send"
 msgstr "Wyślij"
 
-#: comments/templates/comments/commentlist.html:20
-#: comments/templates/comments/commentlist.html:112
-#: comments/templates/comments/commentlist.html:128
-msgid "Submit comment"
-msgstr "Wyślij komentarz"
+#: civmail/views.py:46
+msgid "All messages sent successfully"
+msgstr "Wiadomości wysłane"
 
-#: comments/templates/comments/commentlist.html:28
+#: comments/templates/comments/commentlist.html:14
 msgid "Order by"
 msgstr "Kolejność"
 
-#: comments/templates/comments/commentlist.html:36
+#: comments/templates/comments/commentlist.html:22
 msgid "Most voted"
 msgstr "Najwięcej głosów"
 
-#: comments/templates/comments/commentlist.html:37
+#: comments/templates/comments/commentlist.html:23
 #: locations/templates/locations/location_news.html:18
 msgid "Newest"
 msgstr "Nowe"
 
-#: comments/templates/comments/commentlist.html:38
+#: comments/templates/comments/commentlist.html:24
 #: locations/templates/locations/location_forum.html:28
 #: locations/templates/locations/location_news.html:19
 #: locations/templates/locations/location_polls.html:22
 msgid "Oldest"
 msgstr "Najstarsze"
 
-#: comments/templates/comments/commentlist.html:84
-#: topics/templates/topics/discussion_detail.html:167
+#: comments/templates/comments/commentlist.html:37
+#: comments/templates/comments/commentlist.html:114
+#: comments/templates/comments/commentlist.html:130
+msgid "Submit comment"
+msgstr "Wyślij komentarz"
+
+#: comments/templates/comments/commentlist.html:73
+#: ideas/templates/ideas/idea_basic.html:8
+#: ideas/templates/ideas/idea_basic.html:11
+#: ideas/templates/ideas/idea_detail.html:30
+#: ideas/templates/ideas/idea_detail.html:33
+#: ideas/templates/ideas/ideas.html:17 ideas/templates/ideas/ideas.html:20
+msgid "Good Idea, Vote YES"
+msgstr "Dobry pomysł, jestem na TAK"
+
+#: comments/templates/comments/commentlist.html:74
+#: ideas/templates/ideas/idea_basic.html:9
+#: ideas/templates/ideas/idea_basic.html:12
+#: ideas/templates/ideas/idea_detail.html:31
+#: ideas/templates/ideas/idea_detail.html:34
+#: ideas/templates/ideas/ideas.html:21
+msgid "Bad Idea, Vote NO"
+msgstr "Zły pomysł, jestem na NIE"
+
+#: comments/templates/comments/commentlist.html:85
+#: templates/postman/base_folder.html:87 templates/postman/view.html:19
+#: templates/postman/view.html.py:50 templates/postman/view.html:60
+#: topics/templates/topics/discussion_detail.html:163
 msgid "Reply"
 msgstr "Odpowiedz"
 
-#: comments/templates/comments/commentlist.html:86
+#: comments/templates/comments/commentlist.html:87
 msgid "hide"
 msgstr "ukryj"
 
-#: comments/templates/comments/commentlist.html:86
+#: comments/templates/comments/commentlist.html:87
 msgid "replies"
 msgstr "odpowiedzi"
 
-#: comments/templates/comments/commentlist.html:113
-#: comments/templates/comments/commentlist.html:129
+#: comments/templates/comments/commentlist.html:115
+#: comments/templates/comments/commentlist.html:131
 #: gallery/templates/gallery/media-editor.html:16
 #: locations/templates/locations/content-remove.html:13
 #: locations/templates/locations/invite-users.html:15
 #: locations/templates/locations/location_news_form.html:20
+#: polls/templates/polls/create-poll.html:75
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -286,7 +540,6 @@ msgstr "Wybierz zdjęcie"
 #: ideas/forms.py:38 ideas/templates/ideas/idea-category.html:15
 #: locations/forms.py:26 locations/templates/locations/category-form.html:21
 #: locations/templates/locations/location_news.html:96
-#: staticpages/templates/staticpages/pages/home.html:72
 msgid "Name"
 msgstr "Nazwa"
 
@@ -298,77 +551,32 @@ msgstr "Nazwa"
 msgid "Description"
 msgstr "Opis"
 
-#: gallery/models.py:21 gallery/models.py:109
-msgid "gallery item"
-msgstr "Galeria"
-
-#: gallery/views.py:112
-msgid "Cannot create gallery"
-msgstr "Nie udało się utworzyć galerii"
-
-#: gallery/views.py:136
-msgid "File uploaded"
-msgstr "Wysłano plik"
-
-#: gallery/views.py:146
-msgid "No item ID provided"
-msgstr ""
-
-#: gallery/views.py:163 rest/views.py:672 rest/views.py:693
-msgid "Item deleted"
-msgstr "Usunięto plik"
-
-#: gallery/views.py:179 gallery/views.py:294
-#: gallery/templates/gallery/media-uploader.html:24
-#: gallery/templates/gallery/user-gallery-form.html:4
-#: gallery/templates/gallery/user-gallery.html:13
-#: locations/templates/locations/index.html:81
-#: userspace/templates/userspace/profile.html:58
-msgid "Gallery"
-msgstr "Galeria"
-
-#: gallery/views.py:199 gallery/views.py:320
-msgid "Add pictures"
-msgstr "Dodaj zdjęcia"
-
-#: gallery/views.py:233 gallery/views.py:365
-msgid "Edit picture data"
-msgstr "Edytuj zdjęcie"
-
-#: gallery/views.py:251
-msgid "Edit image"
-msgstr "Edycja obrazu"
-
-#: gallery/views.py:350
-msgid "uploaded"
-msgstr "Wysłano plik"
-
 #: gallery/templates/gallery/location-gallery.html:42
 #: gallery/templates/gallery/user-gallery.html:44
-#: locations/templates/locations/location_followers.html:61
-#: locations/templates/locations/sublocation-list.html:35
-#: topics/templates/topics/discussion_detail.html:148
+#: locations/templates/locations/location_followers.html:62
+#: locations/templates/locations/sublocation-list.html:36
+#: topics/templates/topics/discussion_detail.html:144
 msgid "previous"
 msgstr "poprzednie"
 
 #: gallery/templates/gallery/location-gallery.html:50
 #: gallery/templates/gallery/user-gallery.html:52
-#: locations/templates/locations/location_followers.html:69
-#: locations/templates/locations/sublocation-list.html:43
-#: topics/templates/topics/discussion_detail.html:156
+#: locations/templates/locations/location_followers.html:70
+#: locations/templates/locations/sublocation-list.html:44
+#: topics/templates/topics/discussion_detail.html:152
 msgid "next"
 msgstr "następne"
 
 #: gallery/templates/gallery/location-gallery.html:56
 #: gallery/templates/gallery/user-gallery.html:58
-msgid "Dodaj pliki"
+msgid "Add files"
 msgstr "Dodaj pliki"
 
 #: gallery/templates/gallery/location-gallery.html:61
-#: locations/templates/locations/location_forum.html:101
-#: locations/templates/locations/location_ideas.html:90
+#: locations/templates/locations/location_forum.html:102
+#: locations/templates/locations/location_ideas.html:92
 #: locations/templates/locations/location_news.html:112
-#: locations/templates/locations/location_polls.html:106
+#: locations/templates/locations/location_polls.html:105
 msgid "Sad Civilian"
 msgstr "Smutny Civilian"
 
@@ -377,18 +585,18 @@ msgid "We didn't find any photos"
 msgstr "Nie znaleźliśmy żadnych zdjęć"
 
 #: gallery/templates/gallery/location-gallery.html:63
-#: locations/templates/locations/location_forum.html:103
-#: locations/templates/locations/location_ideas.html:92
+#: locations/templates/locations/location_forum.html:104
+#: locations/templates/locations/location_ideas.html:94
 #: locations/templates/locations/location_news.html:114
-#: locations/templates/locations/location_polls.html:108
+#: locations/templates/locations/location_polls.html:107
 msgid "in"
 msgstr "w"
 
 #: gallery/templates/gallery/location-gallery.html:64
-#: locations/templates/locations/location_forum.html:104
-#: locations/templates/locations/location_ideas.html:93
+#: locations/templates/locations/location_forum.html:105
+#: locations/templates/locations/location_ideas.html:95
 #: locations/templates/locations/location_news.html:115
-#: locations/templates/locations/location_polls.html:109
+#: locations/templates/locations/location_polls.html:108
 msgid "Please"
 msgstr "Proszę"
 
@@ -408,8 +616,16 @@ msgstr "Wyślij pliki"
 msgid "My files"
 msgstr "Moje pliki"
 
+#: gallery/templates/gallery/media-uploader.html:24
+#: gallery/templates/gallery/user-gallery-form.html:4
+#: gallery/templates/gallery/user-gallery.html:13 gallery/views.py:179
+#: gallery/views.py:294 locations/templates/locations/index.html:85
+#: userspace/templates/userspace/profile.html:67
+msgid "Gallery"
+msgstr "Galeria"
+
 #: gallery/templates/gallery/media-uploader.html:48
-#: locations/templates/locations/location_followers.html:98
+#: locations/templates/locations/location_followers.html:100
 msgid "Select"
 msgstr "Wybierz"
 
@@ -418,21 +634,49 @@ msgstr "Wybierz"
 msgid "Upload"
 msgstr "Wyślij"
 
+#: gallery/views.py:112
+msgid "Cannot create gallery"
+msgstr "Nie udało się utworzyć galerii"
+
+#: gallery/views.py:136
+msgid "File uploaded"
+msgstr "Wysłano plik"
+
+#: gallery/views.py:146
+msgid "No item ID provided"
+msgstr ""
+
+#: gallery/views.py:163 rest/views.py:683 rest/views.py:704
+msgid "Item deleted"
+msgstr "Usunięto plik"
+
+#: gallery/views.py:199 gallery/views.py:320
+msgid "Add pictures"
+msgstr "Dodaj zdjęcia"
+
+#: gallery/views.py:233 gallery/views.py:365
+msgid "Edit picture data"
+msgstr "Edytuj zdjęcie"
+
+#: gallery/views.py:251
+msgid "Edit image"
+msgstr "Edycja obrazu"
+
+#: gallery/views.py:350
+msgid "uploaded"
+msgstr "Wysłano plik"
+
+#: ideas/forms.py:53 ideas/templates/ideas/idea_basic.html:46
+#: ideas/templates/ideas/idea_detail.html:83 locations/forms.py:113
+#: locations/forms.py:145 locations/forms.py:175
+#: locations/templates/locations/sidebar.html:63 polls/forms.py:31
+#: topics/templates/topics/discussion_detail.html:63
+msgid "Tags"
+msgstr "Tagi"
+
 #: ideas/serializers.py:24
 msgid "You voted already for this idea"
 msgstr "Już oddałeś głos na tą idee"
-
-#: ideas/views.py:164 locations/templates/locations/category-form.html:16
-msgid "Create new category"
-msgstr "Wybierz nową kategorię"
-
-#: ideas/views.py:343
-msgid "no votes yet"
-msgstr "brak głosów"
-
-#: ideas/views.py:372
-msgid "create new idea"
-msgstr "stwórz nowy pomysł"
 
 #: ideas/templates/ideas/idea-category.html:10
 msgid "Create ideas category"
@@ -449,22 +693,6 @@ msgstr "Negatywny"
 #: ideas/templates/ideas/idea-votes.html:16
 msgid "Positive"
 msgstr "Pozytywny"
-
-#: ideas/templates/ideas/idea_basic.html:8
-#: ideas/templates/ideas/idea_basic.html:11
-#: ideas/templates/ideas/idea_detail.html:30
-#: ideas/templates/ideas/idea_detail.html:33
-#: ideas/templates/ideas/ideas.html:17 ideas/templates/ideas/ideas.html:20
-msgid "Good Idea, Vote YES"
-msgstr "Dobry pomysł, jestem na TAK"
-
-#: ideas/templates/ideas/idea_basic.html:9
-#: ideas/templates/ideas/idea_basic.html:12
-#: ideas/templates/ideas/idea_detail.html:31
-#: ideas/templates/ideas/idea_detail.html:34
-#: ideas/templates/ideas/ideas.html:21
-msgid "Bad Idea, Vote NO"
-msgstr "Zły pomysł, jestem na NIE"
 
 #: ideas/templates/ideas/idea_basic.html:21
 #: ideas/templates/ideas/idea_detail.html:43
@@ -488,11 +716,15 @@ msgstr "głosy"
 
 #: ideas/templates/ideas/idea_basic.html:39
 #: ideas/templates/ideas/ideas.html:42
-msgid "Created"
-msgstr "Utworzony"
+#: locations/templates/locations/location_polls.html:68
+msgid "Created by"
+msgstr "Utworzony przez"
+
+#: ideas/templates/ideas/idea_basic.html:40
+msgid "Last edited"
+msgstr "Ostatnio edytowano"
 
 #: ideas/templates/ideas/idea_basic.html:45
-#: ideas/templates/ideas/ideas.html:51
 msgid "comments"
 msgstr "komentarze"
 
@@ -504,13 +736,21 @@ msgstr "Utwórz"
 msgid "Bad Idea, Vote No"
 msgstr "Zły pomysł, Jestem na NIE"
 
-#: ideas/templates/ideas/ideas.html:42
-msgid "by"
-msgstr "przez"
-
-#: ideas/templates/ideas/ideas.html:48
+#: ideas/templates/ideas/ideas.html:52
 msgid "See full version"
 msgstr "Pokaż pełną wersję"
+
+#: ideas/views.py:164 locations/templates/locations/category-form.html:16
+msgid "Create new category"
+msgstr "Wybierz nową kategorię"
+
+#: ideas/views.py:343
+msgid "no votes yet"
+msgstr "brak głosów"
+
+#: ideas/views.py:372
+msgid "create new idea"
+msgstr "stwórz nowy pomysł"
 
 #: locations/forms.py:31
 msgid "Country code"
@@ -557,174 +797,86 @@ msgstr "Wstęp"
 msgid "Select users"
 msgstr "Wybierz użytkowników"
 
-#: locations/models.py:74
-msgid "Unknown"
+#: locations/models.py:87
+msgid "Wrong model instance"
 msgstr ""
 
-#: locations/views.py:269
-#: locations/templates/locations/location_detail.html:84
-#: maps/templates/maps/index.html:82 templates/activity/actor.html:99
-#: userspace/templates/userspace/activity.html:27
-msgid "News"
-msgstr "Aktualności"
-
-#: locations/views.py:288 locations/views.py:309
-msgid "Create new entry"
-msgstr "Dodaj nowy wpis"
-
-#: locations/views.py:360 locations/templates/locations/index.html:75
-#: locations/templates/locations/location_detail.html:98
-#: locations/templates/locations/location_ideas.html:3
-#: maps/templates/maps/index.html:79 templates/activity/actor.html:109
-#: userspace/templates/userspace/activity.html:41
-#: userspace/templates/userspace/profile.html:56
-msgid "Ideas"
-msgstr "Pomysły"
-
-#: locations/views.py:382 locations/views.py:411
-msgid "Create new idea"
-msgstr "Dodaj nowy pomysł"
-
-#: locations/views.py:433 locations/views.py:494
-#: locations/templates/locations/index.html:74
-#: locations/templates/locations/location_detail.html:91
-#: locations/templates/locations/location_forum.html:4
-#: maps/templates/maps/index.html:81 templates/activity/actor.html:104
-#: userspace/templates/userspace/activity.html:34
-#: userspace/templates/userspace/profile.html:55
-msgid "Discussions"
-msgstr "Dyskusje"
-
-#: locations/views.py:519 locations/views.py:558
-msgid "Create new discussion"
-msgstr "Utwórz nową dyskusję"
-
-#: locations/views.py:591
-#: locations/templates/locations/sublocation-list.html:7
-#: places_core/templates/places_core/sublocation-dropdown.html:12
-msgid "Sublocations"
-msgstr "Sublokalizacje"
-
-#: locations/views.py:625 locations/templates/locations/index.html:85
-#: maps/templates/maps/index.html:143
-msgid "Followers"
-msgstr "Obserwatorzy"
-
-#: locations/views.py:643 locations/templates/locations/index.html:76
-#: locations/templates/locations/location_detail.html:105
-#: locations/templates/locations/location_polls.html:4
-#: maps/templates/maps/index.html:80 templates/activity/actor.html:114
-#: userspace/templates/userspace/activity.html:48
-#: userspace/templates/userspace/profile.html:57
-msgid "Polls"
-msgstr "Ankiety"
-
-#: locations/views.py:663 locations/views.py:688 locations/views.py:702
-msgid "Create new poll"
-msgstr "Utwórz nową ankietę"
-
-#: locations/views.py:805
-msgid "create new location"
-msgstr "Utwórz nową lokalizację"
-
-#: locations/views.py:824
-msgid "Edit this location"
-msgstr "Edytuj lokalizacje"
-
-#: locations/views.py:860
-msgid "Search by tag"
-msgstr "Szukaj po tagu"
-
-#: locations/views.py:886
-msgid "Search by category"
-msgstr "Szukaj po kategori"
-
-#: locations/views.py:905
-msgid "Confirm delete"
-msgstr "Potwierdź usunięcie"
-
-#: locations/views.py:965
-msgid "invited you to follow"
-msgstr "zaprosił Cię do obserwowania"
-
-#: locations/views.py:969
-msgid "Successfully send invitation"
-msgstr "Pomyślnie wysłano zaproszenie"
-
-#: locations/views.py:975
-msgid "User field cannot be empty"
-msgstr "Nazwa użytkownika nie może być pusta"
-
-#: locations/views.py:996
-msgid "You follow this location"
-msgstr "Obserwujesz tą lokalizację"
-
-#: locations/views.py:1001 locations/views.py:1025
-msgid "Something, somewhere went terribly wrong"
-msgstr "Coś, gdzieś poszło źle"
-
-#: locations/views.py:1020
-msgid "You stop following this location"
-msgstr "Przestałeś obserwować tą lokalizację"
+#: locations/models.py:143
+msgid "Unknown"
+msgstr ""
 
 #: locations/templates/locations/content-remove.html:8
 msgid "Are you sure you want to delete this item"
 msgstr "Czy jesteś pewien, że chcesz usunąć ten element?"
 
-#: locations/templates/locations/index.html:47
-#: locations/templates/locations/location_list.html:61
+#: locations/templates/locations/index.html:50
+#: locations/templates/locations/location_list.html:63
 #: locations/templates/locations/sublocation-list.html:22
 #: userspace/templates/userspace/followed-locations.html:19
 msgid "You are following"
 msgstr "Obserwujesz"
 
-#: locations/templates/locations/index.html:49
-#: locations/templates/locations/location_followers.html:45
-#: locations/templates/locations/location_list.html:63
+#: locations/templates/locations/index.html:52
+#: locations/templates/locations/location_list.html:65
 #: locations/templates/locations/sublocation-list.html:20
 #: userspace/templates/userspace/followed-locations.html:17
-#: userspace/templates/userspace/profile.html:30
+#: userspace/templates/userspace/profile.html:29
+#: userspace/templates/userspace/profile.html:32
 msgid "Follow"
 msgstr "Obserwuj"
 
-#: locations/templates/locations/index.html:55
-#: userspace/templates/userspace/profile.html:37
+#: locations/templates/locations/index.html:58
+#: userspace/templates/userspace/profile.html:46
 msgid "Change background image"
 msgstr "Zmień zdjęcie tła"
 
-#: locations/templates/locations/index.html:64
-#: places_core/templates/places_core/navigation.html:9
-#: userspace/templates/userspace/profile.html:45
-msgid "Toggle navigation"
-msgstr "Przełącz nawigację"
-
-#: locations/templates/locations/index.html:72
+#: locations/templates/locations/index.html:75
 msgid "Summary"
 msgstr "Podsumowanie"
 
-#: locations/templates/locations/index.html:73
-#: places_core/templates/places_core/footer.html:24
-#: userspace/templates/userspace/profile.html:54
-msgid "Blog"
-msgstr "Blog"
-
 #: locations/templates/locations/index.html:77
+#: locations/templates/locations/location_detail.html:27
+#: locations/templates/locations/location_forum.html:4 locations/views.py:514
+#: locations/views.py:581 maps/templates/maps/index.html:111
+#: templates/activity/actor.html:104
+#: userspace/templates/userspace/profile.html:64
+msgid "Discussions"
+msgstr "Dyskusje"
+
+#: locations/templates/locations/index.html:78
+#: locations/templates/locations/location_detail.html:28
+#: locations/templates/locations/location_ideas.html:3 locations/views.py:441
+#: maps/templates/maps/index.html:109 templates/activity/actor.html:109
+#: userspace/templates/userspace/profile.html:65
+msgid "Ideas"
+msgstr "Pomysły"
+
+#: locations/templates/locations/index.html:79
+#: locations/templates/locations/location_detail.html:25
+#: locations/templates/locations/location_polls.html:4 locations/views.py:730
+#: maps/templates/maps/index.html:110 templates/activity/actor.html:114
+#: userspace/templates/userspace/profile.html:66
+msgid "Polls"
+msgstr "Ankiety"
+
+#: locations/templates/locations/index.html:80
 msgid "Projects"
 msgstr "Projekty"
 
-#: locations/templates/locations/index.html:78
-msgid "Events"
-msgstr "Wydarzenia"
-
-#: locations/templates/locations/index.html:79
+#: locations/templates/locations/index.html:82
 msgid "Documents"
 msgstr "Dokumenty"
 
-#: locations/templates/locations/index.html:80
+#: locations/templates/locations/index.html:84
 msgid "Videos"
 msgstr "Wideo"
 
-#: locations/templates/locations/index.html:86
+#: locations/templates/locations/index.html:89 locations/views.py:712
+#: maps/templates/maps/index.html:173
+msgid "Followers"
+msgstr "Obserwatorzy"
+
+#: locations/templates/locations/index.html:90
 msgid "Subspaces"
 msgstr "Sub lokalizacje"
 
@@ -746,37 +898,102 @@ msgstr "Tak"
 msgid "No"
 msgstr "Nie"
 
-#: locations/templates/locations/location_detail.html:50
-#: locations/templates/locations/location_detail.html:145
+#: locations/templates/locations/location_detail.html:22
+#: locations/templates/locations/location_forum.html:23
+#: locations/templates/locations/location_ideas.html:14
+#: locations/templates/locations/location_news.html:15
+#: locations/templates/locations/location_polls.html:17
+msgid "Sort by"
+msgstr "Sortuj"
+
+#: locations/templates/locations/location_detail.html:24
+#: locations/templates/locations/location_forum.html:38
+#: locations/templates/locations/location_ideas.html:28
+#: locations/templates/locations/location_ideas.html:34
+#: locations/templates/locations/location_news.html:27
+msgid "All"
+msgstr "Wszystko"
+
+#: locations/templates/locations/location_detail.html:33
+#: locations/templates/locations/location_forum.html:43
+#: locations/templates/locations/location_ideas.html:42
+#: locations/templates/locations/location_news.html:35
+#: locations/templates/locations/location_polls.html:28
+msgid "When"
+msgstr "Kiedy"
+
+#: locations/templates/locations/location_detail.html:34
+#: locations/templates/locations/location_forum.html:44
+#: locations/templates/locations/location_ideas.html:43
+#: locations/templates/locations/location_news.html:36
+#: locations/templates/locations/location_polls.html:29
+msgid "Anytime"
+msgstr "Kiedykolwiek"
+
+#: locations/templates/locations/location_detail.html:36
+#: locations/templates/locations/location_forum.html:46
+#: locations/templates/locations/location_ideas.html:45
+#: locations/templates/locations/location_news.html:38
+#: locations/templates/locations/location_polls.html:31
+msgid "Past"
+msgstr "Zakres dat"
+
+#: locations/templates/locations/location_detail.html:37
+#: locations/templates/locations/location_forum.html:47
+#: locations/templates/locations/location_ideas.html:46
+#: locations/templates/locations/location_news.html:39
+#: locations/templates/locations/location_polls.html:32
+msgid "Day"
+msgstr "Dzień"
+
+#: locations/templates/locations/location_detail.html:39
+#: locations/templates/locations/location_forum.html:49
+#: locations/templates/locations/location_ideas.html:48
+#: locations/templates/locations/location_news.html:41
+#: locations/templates/locations/location_polls.html:34
+msgid "Week"
+msgstr "Tydzień"
+
+#: locations/templates/locations/location_detail.html:41
+#: locations/templates/locations/location_forum.html:51
+#: locations/templates/locations/location_ideas.html:50
+#: locations/templates/locations/location_news.html:43
+#: locations/templates/locations/location_polls.html:36
+msgid "Month"
+msgstr "Miesiąc"
+
+#: locations/templates/locations/location_detail.html:43
+#: locations/templates/locations/location_forum.html:53
+#: locations/templates/locations/location_ideas.html:52
+#: locations/templates/locations/location_news.html:45
+#: locations/templates/locations/location_polls.html:38
+msgid "Year"
+msgstr "Rok"
+
+#: locations/templates/locations/location_detail.html:48
+#: locations/templates/locations/location_forum.html:58
+#: locations/templates/locations/location_ideas.html:57
+#: locations/templates/locations/location_news.html:50
+#: locations/templates/locations/location_polls.html:43
+msgid "Stats"
+msgstr "Statystyki"
+
+#: locations/templates/locations/location_detail.html:78
+#: places_core/templates/places_core/script-templates/content-item-template.html:13
+#: templates/bookmarks/form.html:9
+msgid "Bookmark"
+msgstr "Dodaj do zakładek"
+
+#: locations/templates/locations/location_detail.html:156
 #: templates/activity/action.html:27 templates/activity/actor.html:67
 #: templates/activity/actor.html.py:153
 #: templates/emails/activities-body-html.html:19
-#: topics/templates/topics/discussion_detail.html:79
-#: topics/templates/topics/discussion_detail.html:109
-#: topics/templates/topics/discussion_detail.html:111
-#: userspace/templates/userspace/activity.html:91
-#: userspace/templates/userspace/profile.html:139
-#: userspace/templates/userspace/profile.html:190
+#: topics/templates/topics/discussion_detail.html:76
+#: topics/templates/topics/discussion_detail.html:106
+#: topics/templates/topics/discussion_detail.html:108
+#: userspace/templates/userspace/profile.html:149
 msgid "ago"
 msgstr "temu"
-
-#: locations/templates/locations/location_detail.html:82
-#: templates/activity/actor.html:97
-#: userspace/templates/userspace/activity.html:24
-#: userspace/templates/userspace/sidebar.html:12
-msgid "Zostań ambasadorem"
-msgstr ""
-
-#: locations/templates/locations/location_detail.html:117
-msgid "About place"
-msgstr "O tym miejscu"
-
-#: locations/templates/locations/location_detail.html:140
-#: templates/activity/actor.html:148
-#: userspace/templates/userspace/activity.html:86
-#: userspace/templates/userspace/profile.html:185
-msgid "to"
-msgstr ""
 
 #: locations/templates/locations/location_followers.html:20
 msgid "People"
@@ -786,37 +1003,34 @@ msgstr "Osoby"
 msgid "People who follow this place"
 msgstr "Osoby które obserwują tą lokalizacje"
 
-#: locations/templates/locations/location_followers.html:49
-msgid "Give badge"
-msgstr "Przydziel odznakę"
-
-#: locations/templates/locations/location_followers.html:93
+#: locations/templates/locations/location_followers.html:95
 msgid "Select badge for user"
 msgstr "Wybierz odznakę dla użytkownika"
 
 #: locations/templates/locations/location_form.html:4
-#: locations/templates/locations/location_form.html:31
 msgid "Create location"
 msgstr "Utwórz nową lokalizację"
 
-#: locations/templates/locations/location_form.html:20
+#: locations/templates/locations/location_form.html:31
 msgid "Rules"
 msgstr "Zasady"
 
-#: locations/templates/locations/location_form.html:28
-msgid "Edit location"
-msgstr "Edytuj lokalizacje"
+#: locations/templates/locations/location_form.html:51
+#, fuzzy
+#| msgid "The image should have a minimal width and height of 260px by 260px"
+msgid "The image should have a width and height of 3840px by 600px"
+msgstr ""
+"Zalecamy aby wysyłane zdjęcie miało minimalnie 260 px na 260 px (wysokość, "
+"szerokość)."
 
-#: locations/templates/locations/location_form.html:39
+#: locations/templates/locations/location_form.html:57
 msgid "Create new location"
 msgstr "Utwórz nową lokalizację"
 
-#: locations/templates/locations/location_forum.html:23
-#: locations/templates/locations/location_ideas.html:14
-#: locations/templates/locations/location_news.html:15
-#: locations/templates/locations/location_polls.html:17
-msgid "Sort by"
-msgstr "Sortuj"
+#: locations/templates/locations/location_form.html:71
+#: locations/templates/locations/location_list.html:51
+msgid "Filter"
+msgstr "Filtruj"
 
 #: locations/templates/locations/location_forum.html:27
 #: locations/templates/locations/location_polls.html:21
@@ -826,8 +1040,8 @@ msgstr "Ostatnie"
 #: locations/templates/locations/location_forum.html:30
 #: locations/templates/locations/location_ideas.html:19
 #: locations/templates/locations/location_news.html:21
-#: locations/templates/locations/location_polls.html:23 userspace/forms.py:16
-#: userspace/forms.py:57
+#: locations/templates/locations/location_polls.html:23 userspace/forms.py:17
+#: userspace/forms.py:58
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
@@ -841,91 +1055,16 @@ msgstr "Status"
 msgid "Closed"
 msgstr "Zamknięte"
 
-#: locations/templates/locations/location_forum.html:38
-#: locations/templates/locations/location_ideas.html:28
-#: locations/templates/locations/location_ideas.html:34
-#: locations/templates/locations/location_news.html:27
-msgid "All"
-msgstr "Wszystko"
-
-#: locations/templates/locations/location_forum.html:43
-#: locations/templates/locations/location_ideas.html:42
-#: locations/templates/locations/location_news.html:35
-#: locations/templates/locations/location_polls.html:28
-msgid "When"
-msgstr "Kiedy"
-
-#: locations/templates/locations/location_forum.html:44
-#: locations/templates/locations/location_ideas.html:43
-#: locations/templates/locations/location_news.html:36
-#: locations/templates/locations/location_polls.html:29
-msgid "Anytime"
-msgstr "Kiedykolwiek"
-
-#: locations/templates/locations/location_forum.html:46
-#: locations/templates/locations/location_ideas.html:45
-#: locations/templates/locations/location_news.html:38
-#: locations/templates/locations/location_polls.html:31
-msgid "Past"
-msgstr "Zakres dat"
-
-#: locations/templates/locations/location_forum.html:47
-#: locations/templates/locations/location_ideas.html:46
-#: locations/templates/locations/location_news.html:39
-#: locations/templates/locations/location_polls.html:32
-msgid "Day"
-msgstr "Dzień"
-
-#: locations/templates/locations/location_forum.html:49
-#: locations/templates/locations/location_ideas.html:48
-#: locations/templates/locations/location_news.html:41
-#: locations/templates/locations/location_polls.html:34
-msgid "Week"
-msgstr "Tydzień"
-
-#: locations/templates/locations/location_forum.html:51
-#: locations/templates/locations/location_ideas.html:50
-#: locations/templates/locations/location_news.html:43
-#: locations/templates/locations/location_polls.html:36
-msgid "Month"
-msgstr "Miesiąc"
-
-#: locations/templates/locations/location_forum.html:53
-#: locations/templates/locations/location_ideas.html:52
-#: locations/templates/locations/location_news.html:45
-#: locations/templates/locations/location_polls.html:38
-msgid "Year"
-msgstr "Rok"
-
-#: locations/templates/locations/location_forum.html:58
-#: locations/templates/locations/location_ideas.html:57
-#: locations/templates/locations/location_news.html:50
-#: locations/templates/locations/location_polls.html:43
-msgid "Stats"
-msgstr "Statystyki"
-
-#: locations/templates/locations/location_forum.html:64
-#: locations/templates/locations/location_ideas.html:63
-#: locations/templates/locations/location_news.html:57
-#: locations/templates/locations/location_polls.html:49
-#: maps/templates/maps/index.html:69
-#: places_core/templates/places_core/navigation.html:21
-#: places_core/templates/places_core/sublocation-dropdown.html:17
-#: templates/search/search.html:11
-#: userspace/templates/userspace/profile.html:65
-msgid "Search"
-msgstr "Szukaj"
-
-#: locations/templates/locations/location_forum.html:83
-#: topics/templates/topics/discussion_detail.html:51
+#: locations/templates/locations/location_forum.html:84
+#: topics/templates/topics/discussion_detail.html:52
 msgid "All channels"
 msgstr "Wszystkie kategorie"
 
-#: locations/templates/locations/location_forum.html:103
+#: locations/templates/locations/location_forum.html:104
 msgid "We didn't find any discussions"
 msgstr "Nie znaleźliśmy żadnych dyskusji"
 
-#: locations/templates/locations/location_forum.html:109
+#: locations/templates/locations/location_forum.html:110
 msgid "add first discussion"
 msgstr "rozpocznij pierwszą dyskusję"
 
@@ -956,209 +1095,205 @@ msgstr "Data"
 msgid "Answers"
 msgstr "Ilość głosów"
 
-#: locations/templates/locations/location_ideas.html:92
+#: locations/templates/locations/location_ideas.html:94
 msgid "We didn't find any ideas"
 msgstr "Nie znaleźliśmy żadnych idei"
 
-#: locations/templates/locations/location_ideas.html:98
+#: locations/templates/locations/location_ideas.html:100
 msgid "add first idea"
 msgstr "dodaj pierwszy pomysł"
 
-#: locations/templates/locations/location_list.html:14
-#: locations/templates/locations/location_list.html:29
+#: locations/templates/locations/location_list.html:16
+#: locations/templates/locations/location_list.html:31
 msgid "Find your places"
 msgstr "Znajdź lokalizacje"
 
-#: locations/templates/locations/location_list.html:18
-#: locations/templates/locations/location_list.html:35
+#: locations/templates/locations/location_list.html:20
+#: locations/templates/locations/location_list.html:37
 msgid "Search place in universe"
 msgstr "Szukaj we wszechświecie ;)"
 
-#: locations/templates/locations/location_list.html:22
+#: locations/templates/locations/location_list.html:24
 msgid "Sorry but we don't support your country"
 msgstr "Przepraszamy, ale obecnie jeszcze nie wspieramy tego kraju"
 
-#: locations/templates/locations/location_list.html:23
+#: locations/templates/locations/location_list.html:25
 msgid "If You want use CivilHub from this country please"
 msgstr "Jeśli chcesz wykorzystać CivilHub w tym kraju, proszę"
 
-#: locations/templates/locations/location_list.html:23
+#: locations/templates/locations/location_list.html:25
 msgid "Contact Us"
 msgstr "Kontakt"
 
-#: locations/templates/locations/location_list.html:42
+#: locations/templates/locations/location_list.html:44
 msgid "No sublocations found"
 msgstr "Nie znaleziono sublokalizacji"
 
-#: locations/templates/locations/location_list.html:49
-msgid "Filter"
-msgstr "Filtruj"
-
-#: locations/templates/locations/location_list.html:66
+#: locations/templates/locations/location_list.html:68
 msgid "Go to"
 msgstr "Idź"
 
-#: locations/templates/locations/location_list.html:77
+#: locations/templates/locations/location_list.html:79
 msgid "Choose a country, which you love"
 msgstr "Wybierz kraj, który kochasz"
 
-#: locations/templates/locations/location_list.html:80
+#: locations/templates/locations/location_list.html:82
 msgid "If you don't like maps, choose from list"
 msgstr "Jeśli nie lubisz map, możesz wybrać z listy"
 
-#: locations/templates/locations/location_list.html:101
+#: locations/templates/locations/location_list.html:103
 msgid "Australia"
 msgstr "Australia"
 
-#: locations/templates/locations/location_list.html:108
+#: locations/templates/locations/location_list.html:110
 msgid "Austria"
 msgstr "Austria"
 
-#: locations/templates/locations/location_list.html:114
+#: locations/templates/locations/location_list.html:116
 msgid "Belgium"
 msgstr "Belgia"
 
-#: locations/templates/locations/location_list.html:120
+#: locations/templates/locations/location_list.html:122
 msgid "Brazil"
 msgstr "Brazylia"
 
-#: locations/templates/locations/location_list.html:126
+#: locations/templates/locations/location_list.html:128
 msgid "Bulgaria"
 msgstr "Bułgaria"
 
-#: locations/templates/locations/location_list.html:132
+#: locations/templates/locations/location_list.html:134
 msgid "Canada"
 msgstr "Kanada"
 
-#: locations/templates/locations/location_list.html:138
+#: locations/templates/locations/location_list.html:140
 msgid "China"
 msgstr "Chiny"
 
-#: locations/templates/locations/location_list.html:144
+#: locations/templates/locations/location_list.html:146
 msgid "Czech Republic"
 msgstr "Czechy"
 
-#: locations/templates/locations/location_list.html:150
+#: locations/templates/locations/location_list.html:152
 msgid "Denmark"
 msgstr "Dania"
 
-#: locations/templates/locations/location_list.html:156
+#: locations/templates/locations/location_list.html:158
 msgid "Egypt"
 msgstr "Egipt"
 
-#: locations/templates/locations/location_list.html:162
+#: locations/templates/locations/location_list.html:164
 msgid "Finland"
 msgstr "Finlandia"
 
-#: locations/templates/locations/location_list.html:168
+#: locations/templates/locations/location_list.html:170
 msgid "France"
 msgstr "Francja"
 
-#: locations/templates/locations/location_list.html:174
+#: locations/templates/locations/location_list.html:176
 msgid "Greece"
 msgstr "Grecja"
 
-#: locations/templates/locations/location_list.html:182
+#: locations/templates/locations/location_list.html:184
 msgid "Hungary"
 msgstr "Węgry"
 
-#: locations/templates/locations/location_list.html:188
+#: locations/templates/locations/location_list.html:190
 msgid "India"
 msgstr "Indie"
 
-#: locations/templates/locations/location_list.html:194
+#: locations/templates/locations/location_list.html:196
 msgid "Indonesia"
 msgstr "Indonezia"
 
-#: locations/templates/locations/location_list.html:200
+#: locations/templates/locations/location_list.html:202
 msgid "Ireland"
 msgstr "Irlandia"
 
-#: locations/templates/locations/location_list.html:206
+#: locations/templates/locations/location_list.html:208
 msgid "Israel"
 msgstr "Izrael"
 
-#: locations/templates/locations/location_list.html:212
+#: locations/templates/locations/location_list.html:214
 msgid "Italy"
 msgstr "Włochy"
 
-#: locations/templates/locations/location_list.html:218
+#: locations/templates/locations/location_list.html:220
 msgid "Japan"
 msgstr "Japonia"
 
-#: locations/templates/locations/location_list.html:224
+#: locations/templates/locations/location_list.html:226
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: locations/templates/locations/location_list.html:230
+#: locations/templates/locations/location_list.html:232
 msgid "Mexico"
 msgstr "Meksyk"
 
-#: locations/templates/locations/location_list.html:236
+#: locations/templates/locations/location_list.html:238
 msgid "Monaco"
 msgstr "Monaco"
 
-#: locations/templates/locations/location_list.html:242
+#: locations/templates/locations/location_list.html:244
 msgid "Netherlands"
 msgstr "Holandia"
 
-#: locations/templates/locations/location_list.html:248
+#: locations/templates/locations/location_list.html:250
 msgid "New Zealand"
 msgstr "Nowa Zelandia"
 
-#: locations/templates/locations/location_list.html:254
+#: locations/templates/locations/location_list.html:256
 msgid "Norway"
 msgstr "Norwegia"
 
-#: locations/templates/locations/location_list.html:262
+#: locations/templates/locations/location_list.html:264
 msgid "Poland"
 msgstr "Polska"
 
-#: locations/templates/locations/location_list.html:268
+#: locations/templates/locations/location_list.html:270
 msgid "Portugal"
 msgstr "Portugalia"
 
-#: locations/templates/locations/location_list.html:274
+#: locations/templates/locations/location_list.html:276
 msgid "Romania"
 msgstr "Rumunia"
 
-#: locations/templates/locations/location_list.html:280
+#: locations/templates/locations/location_list.html:282
 msgid "Slovakia"
 msgstr "Słowacja"
 
-#: locations/templates/locations/location_list.html:286
+#: locations/templates/locations/location_list.html:288
 msgid "South Africa"
 msgstr "RPA"
 
-#: locations/templates/locations/location_list.html:292
+#: locations/templates/locations/location_list.html:294
 msgid "Spain"
 msgstr "Hiszpania"
 
-#: locations/templates/locations/location_list.html:298
+#: locations/templates/locations/location_list.html:300
 msgid "Sweden"
 msgstr "Szwecja"
 
-#: locations/templates/locations/location_list.html:304
+#: locations/templates/locations/location_list.html:306
 msgid "Switzerland"
 msgstr "Szwajcaria"
 
-#: locations/templates/locations/location_list.html:310
+#: locations/templates/locations/location_list.html:312
 msgid "Turkey"
 msgstr "Turcja"
 
-#: locations/templates/locations/location_list.html:316
+#: locations/templates/locations/location_list.html:318
 msgid "Ukraine"
 msgstr "Ukraina"
 
-#: locations/templates/locations/location_list.html:322
+#: locations/templates/locations/location_list.html:324
 msgid "United Arab Emirates"
 msgstr "Zjed. Emir. Arabskie"
 
-#: locations/templates/locations/location_list.html:328
+#: locations/templates/locations/location_list.html:330
 msgid "United Kingdom"
 msgstr "Wielka Brytania"
 
-#: locations/templates/locations/location_list.html:334
+#: locations/templates/locations/location_list.html:336
 msgid "USA"
 msgstr "USA"
 
@@ -1189,24 +1324,28 @@ msgid "Create news"
 msgstr "Utwórz aktualność"
 
 #: locations/templates/locations/location_polls.html:90
-#: polls/templates/polls/poll-list.html:25
 msgid "Show answers"
 msgstr "Pokaż odpowiedzi"
 
-#: locations/templates/locations/location_polls.html:99
+#: locations/templates/locations/location_polls.html:98
 msgid "There are no polls yet"
 msgstr "Nie ma jeszcze ankiet"
 
-#: locations/templates/locations/location_polls.html:108
+#: locations/templates/locations/location_polls.html:107
 msgid "We didn't find any polls"
 msgstr "Nie znaleźliśmy żadnych ankiet"
 
-#: locations/templates/locations/location_polls.html:114
+#: locations/templates/locations/location_polls.html:113
 msgid "add first poll"
 msgstr "dodaj pierwszą ankietę"
 
+#: locations/templates/locations/no-results-tpl.html:8
+msgid "No results mathing query found."
+msgstr ""
+
 #: locations/templates/locations/sidebar.html:10
 #: userspace/templates/userspace/sidebar.html:14
+#: userspace/templates/userspace/sidebar.html:33
 msgid "Actions"
 msgstr "Akcje"
 
@@ -1235,6 +1374,12 @@ msgstr "Zaproś znajomych do portalu"
 msgid "Most active users"
 msgstr "Najbardziej aktywni"
 
+#: locations/templates/locations/sublocation-list.html:7
+#: locations/views.py:678
+#: places_core/templates/places_core/sublocation-dropdown.html:12
+msgid "Sublocations"
+msgstr "Sublokalizacje"
+
 #: locations/templates/locations/sublocation-list.html:8
 msgid "List of all sublocations that are inside current location."
 msgstr ""
@@ -1246,6 +1391,71 @@ msgid ""
 "of flats or estates."
 msgstr ""
 
+#: locations/views.py:350 maps/templates/maps/index.html:112
+#: templates/activity/actor.html:99
+msgid "News"
+msgstr "Aktualności"
+
+#: locations/views.py:369 locations/views.py:390
+msgid "Create new entry"
+msgstr "Dodaj nowy wpis"
+
+#: locations/views.py:463 locations/views.py:492
+msgid "Create new idea"
+msgstr "Dodaj nowy pomysł"
+
+#: locations/views.py:606 locations/views.py:645
+msgid "Create new discussion"
+msgstr "Utwórz nową dyskusję"
+
+#: locations/views.py:750 locations/views.py:775 locations/views.py:789
+msgid "Create new poll"
+msgstr "Utwórz nową ankietę"
+
+#: locations/views.py:899
+msgid "create new location"
+msgstr "Utwórz nową lokalizację"
+
+#: locations/views.py:918
+msgid "Edit this location"
+msgstr "Edytuj lokalizacje"
+
+#: locations/views.py:957
+msgid "Search by tag"
+msgstr "Szukaj po tagu"
+
+#: locations/views.py:986
+msgid "Search by category"
+msgstr "Szukaj po kategori"
+
+#: locations/views.py:1005
+msgid "Confirm delete"
+msgstr "Potwierdź usunięcie"
+
+#: locations/views.py:1065
+msgid "invited you to follow"
+msgstr "zaprosił Cię do obserwowania"
+
+#: locations/views.py:1069
+msgid "Successfully send invitation"
+msgstr "Pomyślnie wysłano zaproszenie"
+
+#: locations/views.py:1075
+msgid "User field cannot be empty"
+msgstr "Nazwa użytkownika nie może być pusta"
+
+#: locations/views.py:1096
+msgid "You follow this location"
+msgstr "Obserwujesz tą lokalizację"
+
+#: locations/views.py:1101 locations/views.py:1125
+msgid "Something, somewhere went terribly wrong"
+msgstr "Coś, gdzieś poszło źle"
+
+#: locations/views.py:1120
+msgid "You stop following this location"
+msgstr "Przestałeś obserwować tą lokalizację"
+
 #: maps/forms.py:14
 msgid "Content type"
 msgstr "Typy zawartości"
@@ -1254,51 +1464,33 @@ msgstr "Typy zawartości"
 msgid "Object id"
 msgstr ""
 
-#: maps/models.py:18 userspace/models.py:187
+#: maps/models.py:22
 msgid "content type"
 msgstr "Typy zawartości"
 
-#: maps/models.py:20 userspace/models.py:188
+#: maps/models.py:24
 msgid "object ID"
 msgstr ""
 
-#: maps/views.py:137 places_core/templates/places_core/navigation.html:72
-msgid "Map"
-msgstr "Mapa"
-
-#: maps/templates/maps/index.html:57 maps/templates/maps/index.html.py:59
+#: maps/templates/maps/index.html:87 maps/templates/maps/index.html.py:89
 msgid "Filters Map"
 msgstr "Filtruj mapę"
 
-#: maps/templates/maps/index.html:66
+#: maps/templates/maps/index.html:96
 msgid "Choose place"
 msgstr "Wybierz lokalizacje"
 
-#: maps/templates/maps/index.html:75
+#: maps/templates/maps/index.html:105
 msgid "Show"
 msgstr "Pokaż"
 
-#: maps/templates/maps/index.html:78
-#: places_core/templates/places_core/navigation.html:56
-#: userspace/templates/userspace/profile.html:86
-msgid "Places"
-msgstr "Miejsca"
-
-#: maps/templates/maps/index.html:132
+#: maps/templates/maps/index.html:162
 msgid "Place"
 msgstr "Miejsce"
 
-#: maps/templates/maps/index.html:146
-msgid "You are following this place"
-msgstr "Obserwujesz"
-
-#: maps/templates/maps/index.html:148
-msgid "You are not following this place"
-msgstr "Przestałeś obserwować tą lokalizację"
-
 #: maps/templates/maps/minimap.html:27
 msgid "Minimap"
-msgstr ""
+msgstr "Minimapa"
 
 #: maps/templates/maps/pointer-modal-form.html:14
 msgid "Create map marker"
@@ -1313,14 +1505,6 @@ msgstr "utworzył"
 msgid "commented"
 msgstr "skomentował"
 
-#: places_core/views.py:131
-msgid "Send abuse report"
-msgstr "Zgłoś naruszeni zasad"
-
-#: places_core/views.py:152
-msgid "Report sent"
-msgstr "Raport wysłano"
-
 #: places_core/templates/places_core/abuse-window-modal.html:11
 msgid "Comment"
 msgstr "Komentarz"
@@ -1329,47 +1513,16 @@ msgstr "Komentarz"
 msgid "Send report"
 msgstr "Zgłoś naruszeni zasad"
 
-#: places_core/templates/places_core/footer.html:10
-msgid "Privacy Policy"
-msgstr "Polityka Prywatności"
-
-#: places_core/templates/places_core/footer.html:11
-msgid "Terms of Use"
-msgstr "Regulamin"
-
-#: places_core/templates/places_core/footer.html:12
-msgid "Cookies"
-msgstr "Polityka Cookies"
-
-#: places_core/templates/places_core/footer.html:13
-msgid "Press"
-msgstr "Prasa"
-
-#: places_core/templates/places_core/footer.html:14
-msgid "Jobs"
-msgstr "Praca"
-
-#: places_core/templates/places_core/footer.html:22
+#: places_core/templates/places_core/footer.html:27
 msgid "Feature"
 msgstr "Funkcje"
 
-#: places_core/templates/places_core/footer.html:23
-msgid "Support"
-msgstr "Pomoc"
-
-#: places_core/templates/places_core/footer.html:25
-msgid "Creed"
-msgstr "Kredo"
-
-#: places_core/templates/places_core/footer.html:26
+#: places_core/templates/places_core/footer.html:31
 msgid "About Us"
 msgstr "O nas"
 
-#: places_core/templates/places_core/footer.html:27
-msgid "Contact"
-msgstr "Kontakt"
-
-#: places_core/templates/places_core/footer.html:42
+#: places_core/templates/places_core/footer.html:47
+#: staticpages/templates/staticpages/pages/home.html:45
 msgid "Choose language"
 msgstr "Wybierz język"
 
@@ -1384,63 +1537,6 @@ msgstr ""
 #: places_core/templates/places_core/google-contacts-modal.html:19
 msgid "Send messages"
 msgstr "Wyślij wiadomości"
-
-#: places_core/templates/places_core/header.html:17
-msgid ""
-"CivilHub - People have the Power. The best tools to collaborate in local "
-"communities."
-msgstr ""
-"CivilHub - People have the Power. Najlepsze miejsce do współpracy nas "
-"obywateli w lokalnych społecznościach. "
-
-#: places_core/templates/places_core/navigation.html:30
-#: places_core/templates/places_core/navigation.html:42
-msgid "Profile"
-msgstr "Profil użytkownika"
-
-#: places_core/templates/places_core/navigation.html:31
-#: places_core/templates/places_core/navigation.html:47
-msgid "Logout"
-msgstr "Wyloguj"
-
-#: places_core/templates/places_core/navigation.html:36
-msgid "Logged in as"
-msgstr "Zalogowano jako"
-
-#: places_core/templates/places_core/navigation.html:43
-#: userspace/templates/userspace/sidebar.html:17
-msgid "My Places"
-msgstr "Miejsca"
-
-#: places_core/templates/places_core/navigation.html:44
-#: userspace/templates/userspace/sidebar.html:18
-msgid "Media"
-msgstr "Moje pliki"
-
-#: places_core/templates/places_core/navigation.html:45
-#: userspace/templates/userspace/sidebar.html:19
-msgid "Edit profile"
-msgstr "Edycja profilu"
-
-#: places_core/templates/places_core/navigation.html:51
-#: staticpages/templates/staticpages/navigation.html:12 userspace/views.py:709
-#: userspace/templates/userspace/active.html:12
-#: userspace/templates/userspace/login.html:59
-msgid "Login"
-msgstr "Zaloguj się"
-
-#: places_core/templates/places_core/navigation.html:59
-msgid "Browse Places"
-msgstr "Przeglądaj lokalizacje"
-
-#: places_core/templates/places_core/navigation.html:67
-msgid "Create new"
-msgstr "Utwórz nowy"
-
-#: places_core/templates/places_core/navigation.html:77
-#: places_core/templates/places_core/navigation.html:78
-msgid "My Bookmarks"
-msgstr "Moje zakładki"
 
 #: places_core/templates/places_core/paginator.html:14
 msgid "Previous"
@@ -1458,52 +1554,36 @@ msgstr "Dziękujemy Ci za partycypacje"
 msgid "Back to homepage"
 msgstr "Wróć do Strony Głównej"
 
-#: places_core/templates/places_core/user-popup.html:10
-msgid "pts"
+#: places_core/templates/places_core/script-templates/action-template.html:21
+#: templates/activity/actor.html:148
+msgid "to"
 msgstr ""
 
-#: places_core/templatetags/civil_tags.py:69 templates/bookmarks/form.html:10
-msgid "Remove bookmark"
-msgstr "Usuń zakładkę"
+#: places_core/views.py:145
+msgid "Send abuse report"
+msgstr "Zgłoś naruszeni zasad"
 
-#: places_core/templatetags/civil_tags.py:72 templates/bookmarks/form.html:9
-msgid "Bookmark"
-msgstr "Dodaj do zakładek"
+#: places_core/views.py:166
+msgid "Report sent"
+msgstr "Raport wysłano"
 
 #: polls/forms.py:28
 msgid "Multiple"
-msgstr ""
+msgstr "Wiele odpowiedzi"
 
 #: polls/forms.py:60
 msgid "Select answer"
 msgstr "Wybierz odpowiedź"
 
-#: polls/views.py:217
-msgid "You already voted on this poll."
-msgstr "Już oddałeś głos w tej ankiecie"
-
-#: polls/views.py:258
-msgid "Permission required"
-msgstr "Nie masz uprawnień"
-
-#: polls/views.py:266 topics/views.py:285 topics/views.py:349
-#: topics/templates/topics/delete-confirm.html:6
-msgid "Entry deleted"
-msgstr "Usunięto wpis"
-
 #: polls/templates/polls/create-poll.html:12
 msgid "Create poll in "
 msgstr "Utworzony ankietę w"
 
-#: polls/templates/polls/create-poll.html:16
-msgid "Add answers"
-msgstr "Dodaj odpowiedź"
-
-#: polls/templates/polls/create-poll.html:19
+#: polls/templates/polls/create-poll.html:59
 msgid "Add answer"
 msgstr "Dodaj odpowiedź"
 
-#: polls/templates/polls/create-poll.html:37
+#: polls/templates/polls/create-poll.html:91
 msgid "Answer text"
 msgstr "Treść odpowiedzi"
 
@@ -1519,6 +1599,19 @@ msgstr "wyniki"
 msgid "results"
 msgstr "wyniki"
 
+#: polls/views.py:217
+msgid "You already voted on this poll."
+msgstr "Już oddałeś głos w tej ankiecie"
+
+#: polls/views.py:258
+msgid "Permission required"
+msgstr "Nie masz uprawnień"
+
+#: polls/views.py:266 topics/templates/topics/delete-confirm.html:6
+#: topics/views.py:285 topics/views.py:349
+msgid "Entry deleted"
+msgstr "Usunięto wpis"
+
 #: rest/serializers.py:116
 msgid "More"
 msgstr "Więcej"
@@ -1531,45 +1624,56 @@ msgstr "Zagłosowano na Tak"
 msgid "Voted no"
 msgstr "Zagłosowano na Nie"
 
-#: rest/views.py:340
+#: rest/views.py:345
 msgid "Changes saved"
 msgstr "Zapisano zmiany"
 
-#: rest/views.py:385 topics/views.py:407
+#: rest/views.py:390 topics/views.py:407
 msgid "Vote saved"
 msgstr "Zapisano Twój głos"
 
-#: rest/views.py:390
+#: rest/views.py:395
 msgid "Already voted on this comment"
 msgstr "Już oddałeś głos na ten komentarz"
 
-#: rest/views.py:621
+#: rest/views.py:632
 msgid "Requested badge does not exist"
 msgstr ""
 
-#: rest/views.py:625
+#: rest/views.py:636
 msgid "Requested user does not exist"
 msgstr "Ten użytkownik nie istnieje"
 
-#: rest/views.py:635
+#: rest/views.py:646
 msgid "Operation failed"
 msgstr "Wystąpił błąd"
 
-#: rest/views.py:640
+#: rest/views.py:651
 msgid "Badge saved"
 msgstr "Zapisano odznakę"
 
-#: rest/views.py:644
+#: rest/views.py:655
 msgid "gave badge to"
 msgstr ""
 
-#: staticpages/templates/staticpages/pages/home-b.html:4
-#: staticpages/templates/staticpages/pages/home.html:4
-msgid "CivilHub - People have the Power."
+#: staticpages/templates/staticpages/pages/404.html:24 templates/404.html:23
+msgid "404 Page"
+msgstr "404"
+
+#: staticpages/templates/staticpages/pages/404.html:25 templates/404.html:24
+msgid "We lost something"
 msgstr ""
 
+#: staticpages/templates/staticpages/pages/404.html:30 templates/404.html:29
+msgid "Back to Home Page"
+msgstr "Wróć do Home"
+
+#: staticpages/templates/staticpages/pages/home-b.html:4
+#: staticpages/templates/staticpages/pages/home.html:5
+msgid "CivilHub - People have the Power."
+msgstr "CivilHub - Władza należy do ludzi"
+
 #: staticpages/templates/staticpages/pages/home-b.html:28
-#: staticpages/templates/staticpages/pages/home.html:60
 msgid ""
 "CivilHub is a space,<br />where we can act together<br />to make our local "
 "environment a better place"
@@ -1589,230 +1693,6 @@ msgstr "Powiadom mnie"
 msgid "We will notify you when we launch website"
 msgstr "Powiadomimy Cię gdy witryna wystartuje. "
 
-#: staticpages/templates/staticpages/pages/home.html:70
-msgid "Your username"
-msgstr "Twoja nazwa użytkownika"
-
-#: staticpages/templates/staticpages/pages/home.html:73
-msgid "Surname"
-msgstr "Nazwisko"
-
-#: staticpages/templates/staticpages/pages/home.html:75
-msgid "Your email"
-msgstr "Email"
-
-#: staticpages/templates/staticpages/pages/home.html:76
-msgid "Create a password"
-msgstr "Utwórz hasło"
-
-#: staticpages/templates/staticpages/pages/home.html:77 userspace/forms.py:41
-#: userspace/forms.py:67
-msgid "Repeat password"
-msgstr "Powtórz hasło"
-
-#: staticpages/templates/staticpages/pages/home.html:82
-#: userspace/templates/userspace/login.html:40
-msgid "Connect with Twitter"
-msgstr "Połącz przez Twittera"
-
-#: staticpages/templates/staticpages/pages/home.html:84
-#: userspace/templates/userspace/login.html:42
-msgid "Connect with Linkedin"
-msgstr "Połącz przez LinkedIn"
-
-#: staticpages/templates/staticpages/pages/home.html:86
-#: userspace/templates/userspace/login.html:44
-msgid "Connect with Google+"
-msgstr "Połącz przez Google+"
-
-#: staticpages/templates/staticpages/pages/home.html:89
-msgid "Sign up"
-msgstr "Zaloguj się"
-
-#: staticpages/templates/staticpages/pages/home.html:93
-msgid "By clicking &quot;Sign up&quot;, you agree to our"
-msgstr "Poprzez kliknięcie &quot;Rejestracja&quot;, akceptujesz nasz"
-
-#: staticpages/templates/staticpages/pages/home.html:93
-msgid "term of service"
-msgstr "Regulamin"
-
-#: staticpages/templates/staticpages/pages/home.html:93
-msgid "and"
-msgstr "i"
-
-#: staticpages/templates/staticpages/pages/home.html:93
-msgid "privacy policy"
-msgstr "Polityka Prywatności"
-
-#: staticpages/templates/staticpages/pages/home.html:116
-msgid "We believe that people have the</br>power to <b>change the World</b>."
-msgstr ""
-
-#: staticpages/templates/staticpages/pages/home.html:117
-msgid "founder CivilHub.org"
-msgstr "założyciel CivilHub.org"
-
-#: staticpages/templates/staticpages/pages/home.html:120
-msgid "Why Should I Use CivilHub?"
-msgstr "Dlaczego powinienem korzystać z CivilHub?"
-
-#: staticpages/templates/staticpages/pages/home.html:121
-msgid "Powerful features to make your community more collaborative."
-msgstr "Funkcje które pomogą Twojej społeczności lepiej współpracować"
-
-#: staticpages/templates/staticpages/pages/home.html:129
-msgid "Find the place, where you live"
-msgstr "Znajdź miejsce w którym żyjesz"
-
-#: staticpages/templates/staticpages/pages/home.html:130
-msgid ""
-"We have more than 80k places, but You can always create a new one for your "
-"own housing."
-msgstr ""
-"Mamy ponad 80 tys miejsc, ale zawsze możesz utworzyć własne, dla Twojego "
-"osiedla, bloku, małej miejscowości"
-
-#: staticpages/templates/staticpages/pages/home.html:134
-msgid "Collaborate with people"
-msgstr "Współpracuj z innymi"
-
-#: staticpages/templates/staticpages/pages/home.html:135
-msgid ""
-"Great collaboration starts with communication. We always want to know what's "
-"happening near us."
-msgstr ""
-"Doskonała współpraca rozpoczyna się od komunikacji. Zawsze chcemy wiedzieć "
-"co się dzieje w naszej okolicy. "
-
-#: staticpages/templates/staticpages/pages/home.html:139
-msgid "Share your ideas"
-msgstr "Dziel się pomysłami"
-
-#: staticpages/templates/staticpages/pages/home.html:140
-msgid ""
-"People always know what has to be changed in their own community. Don't be "
-"indifferent, tell the others what you think."
-msgstr ""
-"To ludzie mają wiedzę, co warto zmienić w naszych lokalnych społecznościach. "
-"Nie bądź obojętny, powiedz co myślisz. "
-
-#: staticpages/templates/staticpages/pages/home.html:145
-msgid "Create local polls"
-msgstr "Twórz lokalne ankiety"
-
-#: staticpages/templates/staticpages/pages/home.html:146
-msgid ""
-"Find out what others think about proposed changes you propose. In such "
-"context crowd is right."
-msgstr ""
-"Zobacz co inni myślą na temat Twoich propozycji. Tłum zawsze ma racje. "
-
-#: staticpages/templates/staticpages/pages/home.html:150
-msgid "Start local projects"
-msgstr "Rozpoczynaj lokalne projekty"
-
-#: staticpages/templates/staticpages/pages/home.html:151
-msgid ""
-"Breathe life to your ideas, starting with joint local civic initiatives. "
-"Together we can do anything we want."
-msgstr ""
-"Wdrażajmy nasze pomysły w życie, rozpoczynając lokalne oddolne inicjatywy "
-"obywatelskie."
-
-#: staticpages/templates/staticpages/pages/home.html:155
-msgid "Share your knowledge"
-msgstr "Dziel się wiedzą"
-
-#: staticpages/templates/staticpages/pages/home.html:156
-msgid ""
-"Together we know more about the places where we live. Let us share this "
-"knowledge to make the world a better place."
-msgstr ""
-"Razem mamy bardzo dużą wiedzę na temat otoczenia w którym żyjemy. Dziel się "
-"wiedzą by czynić świat lepszym miejscem. "
-
-#: staticpages/templates/staticpages/pages/home.html:166
-msgid "Be proud of the Place, where you live"
-msgstr "Bądźmy dumni z miejsc, w których żyjemy"
-
-#: staticpages/templates/staticpages/pages/home.html:167
-msgid "Stay connected with people who live next to You."
-msgstr "Bądź w kontakcie z osobami z Twojego otoczenia"
-
-#: staticpages/templates/staticpages/pages/home.html:175
-msgid "Take the local social participation to the next level"
-msgstr "Przenieś współpracę z Twoimi sąsiadami na nowy poziom"
-
-#: staticpages/templates/staticpages/pages/home.html:179
-msgid "Everything is for free. Always."
-msgstr "Wszystko jest za darmo, na zawsze. "
-
-#: staticpages/templates/staticpages/pages/home.html:180
-msgid ""
-"We want everyone to use modern tools for collaboration in local communities. "
-"Apps must be free, modern and simple."
-msgstr ""
-"Pragniemy aby każdy mógł wykorzystywać nowoczesne rozwiązania IT do "
-"współpracy w lokalnych społecznościach. "
-
-#: staticpages/templates/staticpages/pages/home.html:187
-msgid "Dedicate pages for your place"
-msgstr "Dedykowane strony dla Twojej lokalizacji"
-
-#: staticpages/templates/staticpages/pages/home.html:188
-msgid ""
-"Each location, city, district, neighborhood, village, may have their own "
-"dedicated place where cooperate to make it better."
-msgstr ""
-"Każda lokalizacja: miasto, dzielnica, osiedle, wieś może mieć własne "
-"dedykowane podstrony"
-
-#: staticpages/templates/staticpages/pages/home.html:195
-msgid "Public access to content"
-msgstr "Publiczny dostęp do wszystkiego"
-
-#: staticpages/templates/staticpages/pages/home.html:196
-msgid ""
-"There is nothing to be ashamed of. Each activity on the site is publicly "
-"available. See what your neighbor think about your proposal."
-msgstr ""
-"Nie ma nic, czego moglibyśmy się wstydzić. Każda aktywność na stronie jest "
-"publicznie dostępna. Zobacz co myślą sąsiedzi o Twoich pomysłach. "
-
-#: staticpages/templates/staticpages/pages/home.html:212
-msgid "Everything what you do, you can point it on the Map"
-msgstr "Wszystko co robisz, możesz zaznaczyć na mapie"
-
-#: staticpages/templates/staticpages/pages/home.html:213
-msgid "Ideas, Discussions, Polls pointed in specific places."
-msgstr ""
-"Pomysły, dyskusje, ankiety, aktualności, zaznaczone w dokładnych miejscach"
-
-#: staticpages/templates/staticpages/pages/home.html:233
-msgid "Mobile access to all content from anywhere"
-msgstr "Dostęp do danych przez aplikacje mobilne"
-
-#: staticpages/templates/staticpages/pages/home.html:235
-msgid ""
-"Coming to work, or in your free time, directly from your phone you can "
-"decide whether you are for or against ideas, proposed by those around you."
-msgstr ""
-"W drodze do pracy, w wolnym czasie, bezpośrednio z Twojego telefonu, "
-"decydujesz czy jesteś za czy przeciwko ideom proponowanym w Twoim otoczeniu. "
-
-#: templates/404.html:23
-msgid "404 Page"
-msgstr "404"
-
-#: templates/404.html:24
-msgid "We lost something"
-msgstr ""
-
-#: templates/404.html:29
-msgid "Back to Home Page"
-msgstr "Wróć do Home"
-
 #: templates/activity/actor.html:18
 msgid "UNFOLLOW"
 msgstr "NIE OBSERWUJ"
@@ -1821,9 +1701,13 @@ msgstr "NIE OBSERWUJ"
 msgid "FOLLOW"
 msgstr "OBSERWUJ"
 
-#: templates/activity/actor.html:124 userspace/forms.py:123
-#: userspace/templates/userspace/activity.html:61
-#: userspace/templates/userspace/profile.html:81
+#: templates/activity/actor.html:97
+#: userspace/templates/userspace/sidebar.html:12
+msgid "Zostań ambasadorem"
+msgstr ""
+
+#: templates/activity/actor.html:124 userspace/forms.py:124
+#: userspace/templates/userspace/profile.html:90
 msgid "About me"
 msgstr "O mnie"
 
@@ -1921,6 +1805,7 @@ msgid ""
 "We suggest to change that password as soon as possible in your\n"
 "account settings panel."
 msgstr ""
+"Sugerujemy aby zmienić hasło możliwie szybko, w ustawieniach Twojego konta. "
 
 #: templates/emails/password-subject.html:3
 msgid "Password reset request"
@@ -1961,6 +1846,82 @@ msgstr ""
 msgid "Registration in service"
 msgstr "Zarejestruj się w usłudze"
 
+#: templates/postman/base.html:5
+msgid "Messaging"
+msgstr "Wiadomość została wysłana"
+
+#: templates/postman/base.html:11
+msgid "Inbox"
+msgstr "Skrzynka odbiorcza"
+
+#: templates/postman/base.html:12
+msgid "Sent Messages"
+msgstr "Wyślij wiadomości"
+
+#: templates/postman/base.html:13
+msgid "Write"
+msgstr "Napisz wiadomość"
+
+#: templates/postman/base.html:14
+msgid "Archives"
+msgstr "Archiwum"
+
+#: templates/postman/base.html:15
+msgid "Trash"
+msgstr "Kosz"
+
+#: templates/postman/base_folder.html:31
+msgid "Sorry, this page number is invalid."
+msgstr "Przepraszamy, ale numer strony jest błędny. "
+
+#: templates/postman/base_folder.html:38
+msgid "by conversation"
+msgstr "rozmowami"
+
+#: templates/postman/base_folder.html:39
+msgid "by message"
+msgstr "wiadomościami"
+
+#: templates/postman/base_folder.html:44 templates/postman/view.html:17
+msgid "Archive"
+msgstr "Archiwizuj"
+
+#: templates/postman/base_folder.html:46
+msgid "Undelete"
+msgstr "Przywróć"
+
+#: templates/postman/base_folder.html:72 templates/postman/base_folder.html:74
+msgid "g:i A,M j,n/j/y"
+msgstr ""
+
+#: templates/postman/base_folder.html:103
+msgid "No messages."
+msgstr "Brak wiadomości"
+
+#: templates/postman/base_write.html:13
+msgid "Recipients"
+msgstr "Odbiorcy"
+
+#: templates/postman/base_write.html:19
+msgid "Subject"
+msgstr "Temat"
+
+#: templates/postman/base_write.html:25
+msgid "Message"
+msgstr "Wiadomość"
+
+#: templates/postman/view.html:14
+msgid "Back"
+msgstr "Wróć"
+
+#: templates/postman/view.html:37
+msgid "Rejected"
+msgstr ""
+
+#: templates/postman/view.html:37
+msgid ":"
+msgstr ""
+
 #: templates/search/search.html:18
 msgid "Results"
 msgstr "wyniki"
@@ -1968,10 +1929,6 @@ msgstr "wyniki"
 #: templates/search/search.html:24
 msgid "location in"
 msgstr "lokalizacja w"
-
-#: templates/search/search.html:30
-msgid "news"
-msgstr "aktualność"
 
 #: templates/search/search.html:38
 msgid "idea"
@@ -1981,13 +1938,51 @@ msgstr "pomysł"
 msgid "poll"
 msgstr "ankieta"
 
-#: templates/search/search.html:52 topics/models.py:65
+#: templates/search/search.html:52
 msgid "discussion"
 msgstr "Dyskusje"
 
 #: templates/search/search.html:85
 msgid "Additional informations"
 msgstr "Dodatkowe informacje"
+
+#: topics/templates/topics/delete.html:6
+msgid "Are you sure you want to delete this entry?"
+msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
+
+#: topics/templates/topics/discussion_detail.html:83
+#: topics/templates/topics/discussion_detail.html:116
+#: topics/templates/topics/discussion_detail.html:211
+msgid "Quote"
+msgstr "Cytuj"
+
+#: topics/templates/topics/discussion_detail.html:108
+#: topics/templates/topics/discussion_detail.html:203
+msgid "Edited"
+msgstr "Edytowany"
+
+#: topics/templates/topics/discussion_detail.html:125
+#: topics/templates/topics/discussion_detail.html:220
+msgid "Vote up"
+msgstr "Jestem na TAK"
+
+#: topics/templates/topics/discussion_detail.html:128
+#: topics/templates/topics/discussion_detail.html:223
+msgid "Vote down"
+msgstr "Jestem na NIE"
+
+#: topics/templates/topics/discussion_detail.html:169
+#: userspace/templates/userspace/passremind-form.html:20
+msgid "Submit"
+msgstr "Wyślij"
+
+#: topics/templates/topics/discussion_detail.html:175
+msgid "You have to be logged in to post answers."
+msgstr "Musisz być zalogowany, aby móc odpowiadać"
+
+#: topics/templates/topics/discussion_detail.html:179
+msgid "This topic is closed. You can't post answers."
+msgstr "Ten temat jest już zamknięty, nie możesz napisać odpowiedzi."
 
 #: topics/views.py:258
 msgid "Edit this topic"
@@ -2025,241 +2020,151 @@ msgstr "Wystąpił błąd"
 msgid "You already voted on this entry."
 msgstr "Już oddałeś głos."
 
-#: topics/templates/topics/delete.html:6
-msgid "Are you sure you want to delete this entry?"
-msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
-
-#: topics/templates/topics/discussion_detail.html:86
-#: topics/templates/topics/discussion_detail.html:119
-#: topics/templates/topics/discussion_detail.html:215
-msgid "Quote"
-msgstr "Cytuj"
-
-#: topics/templates/topics/discussion_detail.html:111
-#: topics/templates/topics/discussion_detail.html:207
-msgid "Edited"
-msgstr "Edytowany"
-
-#: topics/templates/topics/discussion_detail.html:128
-#: topics/templates/topics/discussion_detail.html:224
-msgid "Vote up"
-msgstr "Jestem na TAK"
-
-#: topics/templates/topics/discussion_detail.html:131
-#: topics/templates/topics/discussion_detail.html:227
-msgid "Vote down"
-msgstr "Jestem na NIE"
-
-#: topics/templates/topics/discussion_detail.html:173
-#: userspace/templates/userspace/passremind-form.html:20
-msgid "Submit"
-msgstr "Wyślij"
-
-#: topics/templates/topics/discussion_detail.html:179
-msgid "You have to be logged in to post answers."
-msgstr "Musisz być zalogowany, aby móc odpowiadać"
-
-#: topics/templates/topics/discussion_detail.html:183
-msgid "This topic is closed. You can't post answers."
-msgstr "Ten temat jest już zamknięty, nie możesz napisać odpowiedzi."
-
-#: userspace/forms.py:18 userspace/forms.py:59 userspace/forms.py:92
+#: userspace/forms.py:19 userspace/forms.py:60 userspace/forms.py:93
 msgid "Select username"
 msgstr "Wybierz nazwę użytkownika"
 
-#: userspace/forms.py:21 userspace/forms.py:90
+#: userspace/forms.py:22 userspace/forms.py:91
+#: userspace/templates/userspace/login.html:53
 msgid "Email"
 msgstr "Email"
 
-#: userspace/forms.py:26 userspace/forms.py:111 userspace/forms.py:114
+#: userspace/forms.py:27 userspace/forms.py:112 userspace/forms.py:115
 msgid "First name"
 msgstr "Imię"
 
-#: userspace/forms.py:31 userspace/forms.py:117 userspace/forms.py:120
+#: userspace/forms.py:32 userspace/forms.py:118 userspace/forms.py:121
 msgid "Last name"
 msgstr "Nazwisko"
 
-#: userspace/forms.py:36 userspace/forms.py:62 userspace/forms.py:95
+#: userspace/forms.py:37 userspace/forms.py:63 userspace/forms.py:96
+#: userspace/templates/userspace/login.html:54
 msgid "Password"
 msgstr "Hasło"
 
-#: userspace/forms.py:79
+#: userspace/forms.py:42 userspace/forms.py:68
+msgid "Repeat password"
+msgstr "Powtórz hasło"
+
+#: userspace/forms.py:80
 msgid "Username already taken. Pick another one!"
 msgstr "Taka nazwa użytkownika już istnieje, wybierz inną."
 
-#: userspace/forms.py:100
+#: userspace/forms.py:101
 msgid "Remember me"
 msgstr "Pamiętaj mnie"
 
-#: userspace/forms.py:129
+#: userspace/forms.py:130
 msgid "Birth date"
 msgstr "Data urodzenia (dd/mm/rrrr)"
 
-#: userspace/forms.py:134
+#: userspace/forms.py:135
 msgid "Gender"
 msgstr "Płeć"
 
-#: userspace/forms.py:136 userspace/models.py:54
+#: userspace/forms.py:137 userspace/models.py:63
 msgid "male"
 msgstr "mężczyzna"
 
-#: userspace/forms.py:136 userspace/models.py:54
+#: userspace/forms.py:137 userspace/models.py:63
 msgid "female"
 msgstr "kobieta"
 
-#: userspace/forms.py:136 userspace/models.py:54
+#: userspace/forms.py:137 userspace/models.py:63
 msgid "undefined"
 msgstr "to moja prywatna sprawa"
 
-#: userspace/forms.py:140
+#: userspace/forms.py:141
 msgid "Google+"
 msgstr "Google+"
 
-#: userspace/forms.py:145
+#: userspace/forms.py:146
 msgid "Facebook"
 msgstr "Facebook"
 
-#: userspace/forms.py:161
+#: userspace/forms.py:151
+msgid "Twitter"
+msgstr ""
+
+#: userspace/forms.py:156
+msgid "LinkedIn"
+msgstr ""
+
+#: userspace/forms.py:173
 msgid "Current password"
 msgstr "Obecne hasło"
 
-#: userspace/forms.py:167
+#: userspace/forms.py:179
 msgid "New password"
 msgstr "Nowe hasło"
 
-#: userspace/forms.py:173
+#: userspace/forms.py:185
 msgid "Retype password"
 msgstr "Powtórz hasło"
 
-#: userspace/forms.py:184
+#: userspace/forms.py:196
 msgid "Passwords not match!"
 msgstr "Hasła się nie zgadzają!"
 
-#: userspace/forms.py:195
+#: userspace/forms.py:207
 msgid "Enter your email address"
 msgstr "Wpisz swój adres email"
 
-#: userspace/forms.py:206
+#: userspace/forms.py:219
 msgid "Change"
 msgstr "Zmień"
 
-#: userspace/forms.py:216
+#: userspace/forms.py:229
 msgid "email address"
 msgstr "Adres email"
 
-#: userspace/forms.py:217
+#: userspace/forms.py:230
 msgid "Please provide your email address. Twitter doesn't"
 msgstr "Podaj proszę adres email."
 
-#: userspace/models.py:62
+#: userspace/models.py:71
 msgid "Google+ profile url"
 msgstr "Profil na Google+"
 
-#: userspace/models.py:68
+#: userspace/models.py:77
 msgid "Facebook profile url"
 msgstr "Profil na Facebooku"
 
-#: userspace/serializers.py:35
+#: userspace/models.py:83
+msgid "Twitter profile url"
+msgstr "Profil na Twitterze"
+
+#: userspace/models.py:89
+msgid "LinkedIn profile url"
+msgstr "Profil na LinkedIn"
+
+#: userspace/serializers.py:52
 msgid "Please provide valid email address"
 msgstr "Podaj proszę poprawny adres email"
 
-#: userspace/serializers.py:38
+#: userspace/serializers.py:55
 msgid " is not valid provider choice"
 msgstr ""
 
-#: userspace/serializers.py:41
+#: userspace/serializers.py:58
 msgid " is not valid gender choice"
-msgstr ""
+msgstr "to nie jest właściwa płeć"
 
-#: userspace/serializers.py:44
+#: userspace/serializers.py:61
 msgid "Invalid date format (dd/mm/yyyy required)"
 msgstr "Błędny format daty (dd/mm/rrrr)"
 
-#: userspace/serializers.py:54
+#: userspace/serializers.py:71
 msgid " is not valid url"
 msgstr "To nie jest poprawny adres url"
 
-#: userspace/serializers.py:60
+#: userspace/serializers.py:77
 msgid "This field is required"
 msgstr "To pole jest wymagane"
 
-#: userspace/serializers.py:117
+#: userspace/serializers.py:126
 msgid "Provided email address already exists"
 msgstr "Podany adres email już istnieje"
-
-#: userspace/views.py:306
-msgid "Set email"
-msgstr "Wyślij email"
-
-#: userspace/views.py:413
-msgid "User Area"
-msgstr "Konto użytkownika"
-
-#: userspace/views.py:418 userspace/views.py:741
-msgid "Settings saved"
-msgstr "Zapisano ustawienia"
-
-#: userspace/views.py:420 userspace/views.py:747
-msgid "Form invalid"
-msgstr ""
-
-#: userspace/views.py:476 userspace/views.py:519 userspace/views.py:531
-#: userspace/views.py:539
-msgid "Registration"
-msgstr "Zarejestruj się"
-
-#: userspace/views.py:477
-msgid "Selected username already exists. Please provide another one."
-msgstr "Taka nazwa użytkownika już istnieje, wybierz inną."
-
-#: userspace/views.py:502
-msgid "Registration failed"
-msgstr "Rejestracja nie powiodła się"
-
-#: userspace/views.py:551
-msgid "Message send"
-msgstr "Wiadomość została wysłana"
-
-#: userspace/views.py:560
-msgid "Sign Up"
-msgstr "Zaloguj się"
-
-#: userspace/views.py:566
-msgid "Activation link invalid"
-msgstr ""
-
-#: userspace/views.py:588
-msgid "Thank you for registration"
-msgstr "Dziękujemy za rejestrację"
-
-#: userspace/views.py:599
-msgid "Set your password"
-msgstr "Ustal hasło"
-
-#: userspace/views.py:679
-msgid "Login credentials invalid"
-msgstr "Nieprawidłowe hasło lub nazwa użytkownika"
-
-#: userspace/views.py:703
-msgid "Your account has not been activated"
-msgstr "Twoje konto nie zostało aktywowane"
-
-#: userspace/views.py:705
-msgid "Fields can not be empty"
-msgstr "Pola nie mogą być puste"
-
-#: userspace/views.py:744
-msgid "Your current password is invalid."
-msgstr "Twoje obecne hasło jest błędne"
-
-#: userspace/views.py:750 userspace/templates/userspace/index.html:22
-msgid "Change password"
-msgstr "Zmień hasło"
-
-#: userspace/views.py:791
-#: userspace/templates/userspace/followed-locations.html:4
-msgid "My places"
-msgstr "Moje miejsca"
 
 #: userspace/templates/userspace/active.html:10
 msgid "Thank You for register in CivilHub."
@@ -2270,13 +2175,22 @@ msgid "You can now, login using email adres that you give during registration"
 msgstr ""
 "Możesz się zalogować, wykorzystując adres email podany podczas rejestracji. "
 
-#: userspace/templates/userspace/activity.html:10
+#: userspace/templates/userspace/activity.html:12
 msgid "Your feed"
 msgstr "Twoje aktywności"
+
+#: userspace/templates/userspace/followed-locations.html:4
+#: userspace/views.py:861
+msgid "My places"
+msgstr "Moje miejsca"
 
 #: userspace/templates/userspace/index.html:21
 msgid "Profile summary"
 msgstr "Podsumowanie profilu"
+
+#: userspace/templates/userspace/index.html:22 userspace/views.py:845
+msgid "Change password"
+msgstr "Zmień hasło"
 
 #: userspace/templates/userspace/index.html:23
 msgid "Change avatar"
@@ -2286,7 +2200,13 @@ msgstr "Zmień avatar"
 msgid "Points"
 msgstr "Punkty"
 
-#: userspace/templates/userspace/index.html:79
+#: userspace/templates/userspace/index.html:64
+msgid "The image should have a minimal width and height of 260px by 260px"
+msgstr ""
+"Zalecamy aby wysyłane zdjęcie miało minimalnie 260 px na 260 px (wysokość, "
+"szerokość)."
+
+#: userspace/templates/userspace/index.html:84
 msgid "You are not allowed to visit this page. Sorry."
 msgstr "Nie masz uprawnień do odwiedzenia tej strony"
 
@@ -2297,6 +2217,18 @@ msgstr "Dziękujemy za rejestrację. Możesz się teraz zalogować."
 #: userspace/templates/userspace/login.html:34
 msgid "Sign In"
 msgstr "Zaloguj się"
+
+#: userspace/templates/userspace/login.html:40
+msgid "Connect with Twitter"
+msgstr "Połącz przez Twittera"
+
+#: userspace/templates/userspace/login.html:42
+msgid "Connect with Linkedin"
+msgstr "Połącz przez LinkedIn"
+
+#: userspace/templates/userspace/login.html:44
+msgid "Connect with Google+"
+msgstr "Połącz przez Google+"
 
 #: userspace/templates/userspace/login.html:56
 msgid "Remember me on this computer"
@@ -2323,7 +2255,11 @@ msgstr ""
 msgid "Reset password"
 msgstr "Resetuj hasło"
 
-#: userspace/templates/userspace/profile.html:53
+#: userspace/templates/userspace/profile.html:35
+msgid "Following"
+msgstr "Obserwuj"
+
+#: userspace/templates/userspace/profile.html:62
 msgid "Everything"
 msgstr "Wszystko"
 
@@ -2362,205 +2298,115 @@ msgstr "Wszystkie pola są wymagane"
 msgid "Register"
 msgstr "Zarejestruj się"
 
-#: userspace/templates/userspace/sidebar.html:20
-msgid "Invite friends"
-msgstr "Zaproś znajomych"
+#: userspace/templates/userspace/twitter-email-form.html:21
+msgid "Almost there"
+msgstr ""
 
-#~ msgid "Please provide an IP address"
-#~ msgstr "Podaj proszę adres IP"
+#: userspace/templates/userspace/twitter-email-form.html:22
+msgid "Finish creationg your CivilHub account"
+msgstr "Ukończ tworzenie Twojego konta na CivilHub"
 
-#~ msgid "User's ip address"
-#~ msgstr "Adresy IP użytkowników"
+#: userspace/templates/userspace/twitter-email-form.html:23
+msgid "I already have an account"
+msgstr "Mam już konto"
 
-#~ msgid "User's location"
-#~ msgstr "Lokalizacje użytkownika"
+#: userspace/templates/userspace/twitter-email-form.html:31
+msgid "Email address"
+msgstr "Adres email"
 
-#~ msgid "Reason"
-#~ msgstr "Powód"
+#: userspace/templates/userspace/twitter-email-form.html:43
+msgid "Full name"
+msgstr "Pełne imię"
 
-#~ msgid "Change background"
-#~ msgstr "Zmień zdjęcie tła"
+#: userspace/templates/userspace/twitter-email-form.html:51
+msgid "By creating an account, I accept CivilHub"
+msgstr "Tworząc konto, akceptuję "
 
-#~ msgid "Share"
-#~ msgstr "Podziel się"
+#: userspace/templates/userspace/twitter-email-form.html:51
+msgid "Terms of Service"
+msgstr "Regulamin"
 
-#~ msgid "Page"
-#~ msgstr "Strona"
+#: userspace/templates/userspace/twitter-email-form.html:51
+msgid "and"
+msgstr "i"
 
-#~ msgid "of"
-#~ msgstr "z"
+#: userspace/templates/userspace/twitter-email-form.html:51
+msgid "Privacy Police"
+msgstr "Polityka Prywatności"
 
-#~ msgid "There are no discussions opened yet."
-#~ msgstr "Nie ma jeszcze żadnych dyskusji"
+#: userspace/views.py:64
+msgid "Only POST requests allowed"
+msgstr ""
 
-#~ msgid "Pointer deleted"
-#~ msgstr "Usunięto punkt na mapie"
+#: userspace/views.py:396
+msgid "Set email"
+msgstr "Wyślij email"
 
-#~ msgid "Create map pointer"
-#~ msgstr "Dodaj punkt na mapie"
+#: userspace/views.py:503
+msgid "User Area"
+msgstr "Konto użytkownika"
 
-#~ msgid "Chose country"
-#~ msgstr "Wybierz kraj"
+#: userspace/views.py:508 userspace/views.py:836
+msgid "Settings saved"
+msgstr "Zapisano ustawienia"
 
-#~ msgid "File deleted"
-#~ msgstr "Usunięto plik"
+#: userspace/views.py:510 userspace/views.py:842
+msgid "Form invalid"
+msgstr "Błędy w formularzu"
 
-#~ msgid "Media gallery"
-#~ msgstr "Galeria zdjęć"
+#: userspace/views.py:566 userspace/views.py:609 userspace/views.py:621
+#: userspace/views.py:629
+msgid "Registration"
+msgstr "Zarejestruj się"
 
-#~ msgid "Image name"
-#~ msgstr "Nazwa pliku"
+#: userspace/views.py:567
+msgid "Selected username already exists. Please provide another one."
+msgstr "Taka nazwa użytkownika już istnieje, wybierz inną."
 
-#~ msgid "Image description"
-#~ msgstr "Opis zdjęcia"
+#: userspace/views.py:592
+msgid "Registration failed"
+msgstr "Rejestracja nie powiodła się"
 
-#~ msgid "Add news category"
-#~ msgstr "Dodaj kategorię"
+#: userspace/views.py:641
+msgid "Message send"
+msgstr "Wiadomość została wysłana"
 
-#~ msgid "New category"
-#~ msgstr "Nowa kategoria"
+#: userspace/views.py:650
+msgid "Sign Up"
+msgstr "Zaloguj się"
 
-#~ msgid "New forum category"
-#~ msgstr "Utwórz kategorię na forum"
+#: userspace/views.py:656
+msgid "Activation link invalid"
+msgstr "Link aktywacyjny jest błędny"
 
-#~ msgid "Homepage"
-#~ msgstr "Home | CivilHub.org"
+#: userspace/views.py:679
+msgid "Thank you for registration"
+msgstr "Dziękujemy za rejestrację"
 
-#~ msgid "About"
-#~ msgstr "O mnie"
+#: userspace/views.py:690
+msgid "Set your password"
+msgstr "Ustal hasło"
 
-#~ msgid "Contact us"
-#~ msgstr "Kontakt"
+#: userspace/views.py:774
+msgid "Login credentials invalid"
+msgstr "Nieprawidłowe hasło lub nazwa użytkownika"
 
-#~ msgid "Contact details"
-#~ msgstr "Kontakt"
+#: userspace/views.py:798
+msgid "Your account has not been activated"
+msgstr "Twoje konto nie zostało aktywowane"
 
-#~ msgid "Email:"
-#~ msgstr "Email:"
+#: userspace/views.py:800
+msgid "Fields can not be empty"
+msgstr "Pola nie mogą być puste"
 
-#~ msgid "Phone:"
-#~ msgstr "Telefon:"
+#: userspace/views.py:839
+msgid "Your current password is invalid."
+msgstr "Twoje obecne hasło jest błędne"
 
-#~ msgid "Skype:"
-#~ msgstr "Skype:"
-
-#~ msgid "Adress:"
-#~ msgstr "Adres:"
-
-#~ msgid "Warsaw"
-#~ msgstr "Warszawa"
-
-#~ msgid "Mission"
-#~ msgstr "Misja"
-
-#~ msgid "Policies"
-#~ msgstr "Polityki"
-
-#~ msgid "Terms of use"
-#~ msgstr "Regulamin"
-
-#~ msgid "Privacy"
-#~ msgstr "Prywatności"
-
-#~ msgid "Profil"
-#~ msgstr "Profil"
-
-#~ msgid "Team"
-#~ msgstr "Zespół"
-
-#~ msgid "Current language"
-#~ msgstr "Aktualny język"
-
-#~ msgid "Values"
-#~ msgstr "Wartości"
-
-#~ msgid "CivilHub starts: 1 Oct at 3.00 PM"
-#~ msgstr "CivilHub startuje: 1 września, o 15:00"
-
-#~ msgid ""
-#~ "CivilHub starts: 1 October at 3.00 PM, CEST</br>Location: Muranów, "
-#~ "Władysława Andersa 5, POLAND"
-#~ msgstr ""
-#~ "CivilHub startuje: 1 września o 15:00, CEST</br>Inauguracja: kino "
-#~ "Muranów, Władysława Andersa 5, Warszawa; wstęp FREE. "
-
-#~ msgid "Collaborate with people who live next to you"
-#~ msgstr "Bądź w kontakcie"
-
-#~ msgid "There are no ideas yet"
-#~ msgstr "Nie ma jeszcze żadnych ideii"
-
-#~ msgid "Date created"
-#~ msgstr "Data utworzenia"
-
-#~ msgid "summary"
-#~ msgstr "podsumowanie"
-
-#~ msgid "Latest related actions"
-#~ msgstr "Ostatnie podobne akcje"
-
-#~ msgid "Stop following"
-#~ msgstr "Przestań obserwować"
+#~ msgid "Menage"
+#~ msgstr "Zarządzaj"
 
 #, fuzzy
-#~ msgid "Only followed locations"
-#~ msgstr "Obserwujesz tą lokalizację"
-
-#~ msgid "No actions yet"
-#~ msgstr "Brak akcji"
-
-#~ msgid "Email address"
-#~ msgstr "Adres email"
-
-#~ msgid "Popieram, jestem na TAK"
-#~ msgstr "Popieram jestem na TAK"
-
-#~ msgid "User Profile"
-#~ msgstr "Profil użytkownika"
-
-#~ msgid "Create new topic"
-#~ msgstr "Utwórz nowy temat"
-
-#, fuzzy
-#~ msgid "Invite other users to follow this location"
-#~ msgstr "Przestałeś obserwować tą lokalizację"
-
-#~ msgid "New category created"
-#~ msgstr "Utworzono nową kategorię"
-
-#~ msgid "Category added"
-#~ msgstr "Dodano kategorię"
-
-#~ msgid "Are you sure you want to delete this poll?"
-#~ msgstr "Czy jesteś pewien, że chcesz usunąć tą ankietę?"
-
-#~ msgid "Start"
-#~ msgstr "Rozpocznij"
-
-#, fuzzy
-#~ msgid "Search In"
-#~ msgstr "Szukaj"
-
-#, fuzzy
-#~ msgid "Search Queries"
-#~ msgstr "Szukaj"
-
-#~ msgid "Opened"
-#~ msgstr "Otwarto"
-
-#~ msgid "Login with"
-#~ msgstr "Zaloguj się przez"
-
-#~ msgid "Register now"
-#~ msgstr "Zarejestruj się teraz"
-
-#~ msgid "This profile is public"
-#~ msgstr "Ten profil jest publiczny"
-
-#~ msgid "Last time edited"
-#~ msgstr "Ostatnio edytowany"
-
-#~ msgid "Email already taken. Pick another one!"
-#~ msgstr ""
-#~ "Ten email już istnieje w bazie. Wyślij przypomnienie hasła lub podaj inny "
-#~ "email."
+#~| msgid "Menage"
+#~ msgid "Manage"
+#~ msgstr "Zarządzaj"

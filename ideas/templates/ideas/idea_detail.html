@@ -76,7 +76,7 @@
                 <div class="author-info">
                     <small>
                         <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar mini user-window-toggle" data-target="{{ idea.creator.pk }}" />     
-                        <a href="{% url 'user:profile' idea.creator %}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
+                        <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
                     </small>
                 </div>
                 <div class="acticle-content">{{ idea.description | safe }}</div>

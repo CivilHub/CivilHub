@@ -29,6 +29,7 @@
     
 </div>
 
+{% if sublocations|length > 5 %}
 <ul class="pagination">
     {% if sublocations.has_previous %}
         <li><a href="?page=1">&laquo;</a></li>
@@ -44,7 +45,7 @@
         <li><a href="?page={{ sublocations.paginator.num_pages }}">&raquo;</a></li>
     {% endif %}
 </ul>
-
+{% endif %}
 
 </div>
 
