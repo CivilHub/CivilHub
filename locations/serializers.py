@@ -70,9 +70,11 @@ class LocationListSerializer(serializers.ModelSerializer):
     followed = serializers.SerializerMethodField('check_followed')
 
     def check_followed(self, obj):
-        user = self.context['view'].request.user
-        if user.is_authenticated() and user in obj.users.all():
-            return True
+        view_context = self.context.get('view')
+        if view_context is not None:
+            user = view_context.request.user
+            if user.is_authenticated() and user in obj.users.all():
+                return True
         return False
 
     class Meta:
@@ -86,5 +88,12 @@ class CountrySerializer(serializers.ModelSerializer):
     Dla aplikacji mobilnej raczej bardziej przydatne będą natywne funkcje
     geolokacji, ale dla porządku to też puszczam przez REST.
     """
+    capital = serializers.SerializerMethodField('get_capital_location')
+
+    def get_capital_location(self, obj):
+        capital = obj.get_capital()
+        serializer = LocationListSerializer(capital)
+        return serializer.data
+
     class Meta:
         model = Country

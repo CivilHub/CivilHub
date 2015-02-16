@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, datetime, os
 from dateutil.relativedelta import relativedelta
+
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
@@ -54,6 +55,24 @@ from .serializers import SimpleLocationSerializer, LocationListSerializer, \
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 redis_cache = cache.get_cache('default')
+
+
+class CapitalAPI(APIView):
+    """ """
+    permission_classes = (rest_permissions.AllowAny,)
+    def get(self, request):
+        from ipware.ip import get_ip
+        from django.contrib.gis.geoip import GeoIP
+        code = GeoIP().country(get_ip(self.request))\
+                      .get('country_code', settings.DEFAULT_COUNTRY_CODE)
+        try:
+            country = Country.objects.get(code=code)
+        except Country.DoesNotExist:
+            country = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE)
+        capital = country.get_capital()
+        if capital is not None:
+            serializer = LocationListSerializer(capital)
+            return Response(serializer.data)
 
 
 class LocationSummaryAPI(APIView):

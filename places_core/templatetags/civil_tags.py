@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
+import os, json
+
 from django.template import Library
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.contrib.contenttypes.models import ContentType
+
 from social.apps.django_app.default.models import UserSocialAuth
 
-register = Library()
 
+register = Library()
 ALLOWABLE_VALUES = ("DEBUG", "COMMENT_PAGINATOR_LIMIT",)
 
 
@@ -25,6 +28,14 @@ def js_path():
     if settings.DEBUG:
         return 'src'
     return 'dist'
+
+
+@register.simple_tag
+def require_config():
+    f = open(os.path.join(settings.BASE_DIR, 'places_core/static/places_core/js/config.json'))
+    conf = f.read()
+    f.close()
+    return """<script>require.config({});</script>""".format(conf)
 
 
 @register.simple_tag

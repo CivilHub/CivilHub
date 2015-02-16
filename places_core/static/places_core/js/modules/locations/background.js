@@ -3,7 +3,7 @@
 // =============
 //
 require(['jquery',
-         'fileinput'],
+         'file-input'],
 
 function ($) {
     

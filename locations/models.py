@@ -290,6 +290,12 @@ class Country(models.Model):
     class Meta:
         ordering = ['code',]
 
+    def get_capital(self):
+        try:
+            return Location.objects.get(country_code=self.code, kind="PPLC")
+        except Location.DoesNotExist:
+            return None
+
     def __str__(self):
         return self.code
 

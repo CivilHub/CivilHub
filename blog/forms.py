@@ -33,4 +33,4 @@ class NewsForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = News
-        fields = ('title', 'content', 'category', 'tags',)
+        fields = ('title', 'content', 'category', 'tags', 'image',)

@@ -54,4 +54,4 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'tags', 'category',)
+        fields = ('name', 'description', 'tags', 'category', 'image',)

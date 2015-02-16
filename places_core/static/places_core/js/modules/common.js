@@ -13,7 +13,8 @@ define(['jquery',
         'js/modules/locations/sublocations-popover',
         'bootstrap',
         'jpaginate',
-        'js/modules/common/bookmarks'],
+        'js/modules/common/bookmarks',
+        'js/modules/common/tour'],
 
 function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
@@ -32,16 +33,15 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     //textarea zwiekszanie wysokosci
     $('textarea').keypress(function (e) {
       // check if user pressed 'Enter'
-      if(e.which == 13) 
-      {
-       // get control object to modify further
-       var control = e.target;
+      if(e.which == 13) {
+        // get control object to modify further
+        var control = e.target;
               
         // get existing 'Height' of pressed control
-       var controlHeight = $(control).height();
+        var controlHeight = $(control).height();
 
-       //add some height to existing height of control, I chose 17 as my line-height was 17 for the control 
-       $(control).height(controlHeight+17);
+        //add some height to existing height of control, I chose 17 as my line-height was 17 for the control 
+        $(control).height(controlHeight+17);
       }
     });
 
