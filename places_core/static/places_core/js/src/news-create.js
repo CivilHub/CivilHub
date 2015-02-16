@@ -23,7 +23,9 @@ require.config({
         backbone   : "includes/backbone/backbone",
         tagsinput  : "includes/jquery/jquery.tagsinput",
         redactor   : "includes/redactor/redactor",
-        dropzone   : "includes/dropzone/dropzone"
+        dropzone   : "includes/dropzone/dropzone",
+        tour       : "includes/tour/bootstrap-tour",
+        leaflet    : "includes/leaflet/leaflet"
     },
     
     shim: {

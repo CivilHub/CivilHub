@@ -23,7 +23,8 @@ require.config({
         bootstrap  : "includes/bootstrap/bootstrap",
         bootbox    : "includes/bootstrap/bootbox",
         moment     : "includes/momentjs/moment",
-        leaflet    : "includes/leaflet/leaflet"
+        leaflet    : "includes/leaflet/leaflet",
+        tour       : "includes/tour/bootstrap-tour"
     },
     
     shim: {

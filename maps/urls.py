@@ -8,6 +8,7 @@ router = HybridRouter()
 router.register('pointers', views.MapPointerAPIViewSet, 'pointers')
 router.register('objects', views.MapObjectAPIViewSet, 'objects')
 router.add_api_view('data', url(r'^data/$', views.MapDataViewSet.as_view(), name='data'))
+router.add_api_view('mapinput', url(r'^mapinput/$', views.MapinputAPI.as_view(), name='mapinput'))
 
 
 urlpatterns = patterns('',

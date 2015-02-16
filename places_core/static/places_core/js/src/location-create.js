@@ -21,7 +21,8 @@ require.config({
         underscore : "includes/underscore/underscore",
         backbone   : "includes/backbone/backbone",
         leaflet    : "includes/leaflet/leaflet",
-        "bootstrap-fileinput": "includes/bootstrap/bootstrap.file-input"
+        "file-input": "includes/bootstrap/bootstrap.file-input",
+        "tour": "includes/tour/bootstrap-tour"
     },
     
     shim: {
@@ -53,9 +54,13 @@ require.config({
             exports: "bootbox"
         },
         
-        "bootstrap-fileinput": {
+        "file-input": {
             deps: ["bootstrap"]
         },
+
+        "tour": {
+            "deps": ["bootstrap"]
+        }
     }
 });
 

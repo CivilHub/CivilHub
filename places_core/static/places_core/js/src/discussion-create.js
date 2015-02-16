@@ -25,7 +25,8 @@ require.config({
         backbone           : "includes/backbone/backbone",
         redactor           : "includes/redactor/redactor",
         dropzone           : "includes/dropzone/dropzone",
-        leaflet            : "includes/leaflet/leaflet"
+        leaflet            : "includes/leaflet/leaflet",
+        tour               : "includes/tour/bootstrap-tour"
     },
     
     shim: {

@@ -10,7 +10,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'bootstrap-fileinput',
+        'file-input',
         'js/modules/ui/mapinput'],
 
 function ($, _, Backbone) {
@@ -176,10 +176,14 @@ function ($, _, Backbone) {
             this.$el.find('#id_latitude, #id_longitude')
                 .css('display', 'none');
             this.$el.find('#map').mapinput({
-                latField: '#id_latitude',
-                lngField: '#id_longitude',
-                width: 664,
-                height: 480
+                single: true,
+                width : 664,
+                height: 480,
+                iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
+                onchange: function (e, markers) {
+                    $('#id_latitude').val(e.lat);
+                    $('#id_longitude').val(e.lng);
+                }
             });
             
             var value = $('#id_parent').val();          // Startowa wartość

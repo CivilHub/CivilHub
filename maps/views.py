@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
+import json
+
+from ipware.ip import get_ip
+
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.geoip import GeoIP
-from ipware.ip import get_ip
-from models import MapPointer
-from helpers import filter_markers, create_clusters
+
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from models import MapPointer
+from helpers import filter_markers, create_clusters
 from .serializers import MapPointerSerializer, MapObjectSerializer, \
                           MapClusterSerializer
 
@@ -101,6 +106,34 @@ class MapDataViewSet(APIView):
             context = {'count': MapPointer.objects.count()}
 
         return Response(context)
+
+
+class MapinputAPI(APIView):
+    """
+    Tworzymy markery dla konkretnego elementu z wykorzystaniem mapki,
+    która umożliwia utworzenie na raz więcej niż jednego obiektu.
+    """
+    queryset = MapPointer.objects.all()
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def post(self, request):
+        pk = int(request.POST.get('object_pk'))
+        ct = ContentType.objects.get(pk=int(request.POST.get('content_type')))
+        markers = request.POST.get('markers')
+
+        # Zastępujemy całkowicie stare punkty nowymi
+        for map_pointer in MapPointer.objects.filter(content_type=ct, object_pk=pk):
+            map_pointer.delete()
+
+        # FIXME: sprawdzenie punktów bez niepotrzebnego powtarzania
+        for marker in json.loads(markers):
+            map_pointer = MapPointer.objects.create(
+                content_type = ct,
+                object_pk = pk, 
+                latitude = marker['lat'],
+                longitude = marker['lng'])
+
+        return Response({'success': True, 'message': _(u"Markers created"),})
 
 
 # Static views

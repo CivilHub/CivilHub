@@ -1,0 +1,11 @@
+{% load civil_tags %}
+{% if form.instance.pk %}{% with form.instance|content_type as ctype %}<script>
+(function () {
+  "use strict";
+  window.civapp = {
+    ct: {{ ctype.pk }},
+    pk: {{ form.instance.pk }},
+    markers: {{ form.instance|object_markers }}
+  };
+})();
+</script>{% endwith %}{% endif %}
