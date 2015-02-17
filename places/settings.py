@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
+
+import sys
+import os
+
 import djcelery
 djcelery.setup_loader()
 """
@@ -13,24 +17,16 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# SECURITY SETTINGS
-#
-# Read all important configuration settings from files on root filesystem, not
-# included in project directory (so they will be not versioned by GIT).
-
+# Read all important configuration settings from external file (see README)
 import json
-secret_file = open(os.path.join(BASE_DIR, '.settings', 'secret.json'), 'r')
+secret_file = open(os.path.join(BASE_DIR, 'settings', 'secret.json'), 'r')
 config = json.loads(secret_file.read())
 secret_file.close()
 
 from . import loggers
 LOGGING = loggers.LOGGING
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config['secret_key']
@@ -64,8 +60,6 @@ INSTALLED_APPS = (
     'djcelery',
     # http://niwibe.github.io/djmail/
     'djmail',
-    # https://django-modeltranslation.readthedocs.org/en/latest/
-    #'modeltranslation',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
     # https://github.com/SmileyChris/easy-thumbnails
@@ -83,6 +77,7 @@ INSTALLED_APPS = (
     'taggit',
     # geodjango
     'django.contrib.gis',
+
     # Core program modules
     'places_core', # for common templates and static files
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
@@ -147,19 +142,9 @@ MESSAGE_TAGS = {
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': config['db_name'],
-        'USER': config['db_user'],
-        'PASSWORD': config['db_pass'],
-        'HOST': config['db_host'],
-        'PORT': 5432,
-    }
-}
+DATABASES = config['databases']
 
 # Baza danych do testów
-import sys
 if 'test' in sys.argv:
     DATABASES = {
         'default': {
@@ -182,7 +167,7 @@ MEDIA_URL    = '/media/'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'xapian_backend.XapianEngine',
-        'PATH': os.path.join(BASE_DIR, '.settings/xapian_index'),
+        'PATH': os.path.join(BASE_DIR, 'settings/xapian_index'),
     },
 }
 
@@ -227,7 +212,6 @@ SOCIAL_AUTH_PIPELINE = (
     'places_core.social_auth.create_user_profile',
     'places_core.social_auth.update_user_social_profile',
 )
-
 # New Google+ login
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = config['google_plus_key']
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = config['google_plus_secret']
@@ -269,22 +253,15 @@ ACTSTREAM_SETTINGS = {
 
 # REST framework
 #-------------------------------------------------------------------------------
-# django rest framework
 REST_FRAMEWORK = {
     'PAGINATE_BY': 10,
     'PAGINATE_BY_PARAM': 'per_page',
     'MAX_PAGINATE_BY': 100,
-    # Use hyperlinked styles by default.
-    # Only used if the `serializer_class` attribute is not set on a view.
     'DEFAULT_MODEL_SERIALIZER_CLASS':
         'rest_framework.serializers.HyperlinkedModelSerializer',
-
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
@@ -350,7 +327,6 @@ CACHES = {
 
 # Email settings
 #-------------------------------------------------------------------------------
-# Email account settings
 EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
 EMAIL_HOST_USER     = config['email_user']
@@ -359,7 +335,6 @@ EMAIL_USE_TLS       = True
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub.org'
-
 # Email settings for testing purposes
 EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 # Uncomment below line to enable sending real emails.
@@ -368,7 +343,6 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
-# Celery task manager settings
 BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -385,12 +359,9 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 # Ustawienia dla miniaturek
 #-------------------------------------------------------------------------------
-
 DEFAULT_IMG_PATH = "img/item.jpg"
-
 # "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
 DEFAULT_IMG_SIZE = (270,179)
-
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
     (30, 30),
@@ -400,10 +371,8 @@ THUMB_SIZES = [
 # Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
 IMAGE_MAX_SIZE = (1024,1024)
 GALLERY_THUMB_SIZE = (270,170)
-
 # Maximum size for location and profile pages background images
 BACKGROUND_IMAGE_SIZE = (1920, 300)
-
 # Settings for user avatar pictures
 AVATAR_SIZE = (260, 260) #(128, 128)
 AVATAR_THUMBNAIL_SIZES = [
@@ -414,27 +383,17 @@ AVATAR_THUMBNAIL_SIZES = [
     (100, 100),
 ]
 
-
-# South database migrations schemes
-# ------------------------------------------------------------------------------
-# http://south.readthedocs.org/en/latest/convertinganapp.html#converting-an-app
-SOUTH_MIGRATION_MODULES = {
-    'taggit': 'taggit.south_migrations',
-}
-
+# GeoIP settings
+#-------------------------------------------------------------------------------
+GEOIP_PATH = os.path.join(BASE_DIR, 'geonames', 'data')
+GEOIP_COUNTRY = 'GeoIP.dat'
+GEOIP_CITY = 'GeoLiteCity.dat'
 
 # Sanitize input/output
 # ------------------------------------------------------------------------------
 VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr','ul','ol',]
 VALID_ATTRS = ['href','src','width','height','style','target',]
 URL_ATTRS = ['href','src',]
-
-
-# GeoIP settings
-#-------------------------------------------------------------------------------
-GEOIP_PATH = os.path.join(BASE_DIR, 'geonames', 'data')
-GEOIP_COUNTRY = 'GeoIP.dat'
-GEOIP_CITY = 'GeoLiteCity.dat'
 
 # Custom module settings
 #-------------------------------------------------------------------------------
