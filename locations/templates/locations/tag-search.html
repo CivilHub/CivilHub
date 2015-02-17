@@ -1,15 +1,48 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles %}{% load i18n civil_tags %}
 
 {% block content %}
-<div class="col-sm-9 main-content contentPX">
-    <ul>
+<div class="col-sm-9 main-content contentPX tags-Box-Search">
+    <div class="row">
     {% for item in items %}
-        {% with item|content_type as ctype %}<li>
-            <a href="{{ item.get_absolute_url }}">{{ item }}</a>
-        </li>{% endwith %}
+    {% with item|content_type as ctype %}
+
+    <div class="col-sm-4 locBoxH">
+
+    <div class="locBox loc-box-poll">
+
+    <div class="locBoxHeader" style="background: url(http://84.10.12.178:8888/media/img/item.jpg) 0% 0% no-repeat;">
+        <div class="locBoxLoc"><a href="/warsaw-pl/">{{ location }}</a></div>
+        <div class="locBoxIcon">
+            <div class="locBoxBookmark"> 
+                <a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="" data-original-title="Dodaj do zakładek"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+                <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="" style="display: none;" data-original-title="Usuń zakładkę"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+            </div>
+            
+        </div>
+
+        <div class="locBoxContainer">
+            <div class="locBoxAuthor">
+                <a href="{{ item.creator.profile.get_absolute_url }}">
+                    <img src="{{ item.creator.profile.avatar.url }}" alt="{{ item.creator }}" class="user-avatar avatarH ">
+                </a>
+            </div>
+            <div class="locBoxTitle">
+               <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="locBoxCat"><a href="{{ item.get_absolute_url }}">{{ ctype }}</a></div>
+
+    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description | safe }} {{ item.question | safe }}</a></div>
+
+</div><!-- /.locBox -->
+</div>
+
+    {% endwith %}
     {% endfor %}
-    </ul>
+  </div>
 </div>
 {% endblock %}
 

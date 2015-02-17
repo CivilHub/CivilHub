@@ -1,4 +1,5 @@
 {% load staticfiles i18n %}
+{% get_current_language as LANG %}
 
 <div class="share-buttons">
     <!-- Facebook -->
@@ -11,11 +12,11 @@
     }(document, 'script', 'facebook-jssdk'));</script>
 
     <div class="share-button">
-        <div class="fb-like" 
+        <div class="fb-share-button" 
             data-layout="box_count" 
             data-action="like" 
             data-show-faces="false" 
-            data-share="false"></div>
+            data-share="true"></div>
     </div>
 
     <!-- Google +1. -->
@@ -58,4 +59,25 @@
         <script type="IN/Share" 
         data-counter="top"></script>
     </div>
+
+    {% if LANG == 'pl' %}
+        <script language="javascript">
+        // wykopywarka wersja standardowa (59x60)
+        var wykop_url=location.href;// Link do strony
+        var wykop_title=encodeURIComponent(document.title); // Tytuł strony (pobierany z <title>)
+        var wykop_desc=encodeURIComponent('CivilHub');
+        var widget_bg='FFFFFF';
+        var widget_type='normal2';
+        var widget_url='http://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent(wykop_url)+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type);
+        document.write('<div class="share-button"><iframe src="'+widget_url+'" style="border:none;width:56px;height:60px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>');</script>
+    {% else %}
+        <div class="share-button">
+            <script type="text/javascript">
+              reddit_newwindow='1';
+            </script>
+            <script type="text/javascript" src="//www.redditstatic.com/button/button2.js"></script>
+        </div>
+    {% endif %}
+
 </div>
+

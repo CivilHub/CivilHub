@@ -1,7 +1,14 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles i18n %}
 
+{% block header %}
+    <div class="container">
+        <h1 class="custom-main-title" id="confirmReg">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
+    </div>
+{% endblock %}
+
 {% block content %}
-<p>{% blocktrans %}Thank you for registration. An email was sent with further instructions on address provided during registeration process.{% endblocktrans %}</p>
-    
+	<div class="text-center">
+		<p>{% blocktrans %}Thank you for registration. An email was sent with further instructions on address provided during registeration process.{% endblocktrans %}</p>
+	</div>
 {% endblock %}

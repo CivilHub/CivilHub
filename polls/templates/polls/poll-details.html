@@ -3,6 +3,19 @@
 
 {% block title %} {{ poll.title }}, {{ location }} | CivilHub {% endblock %}
 
+{% block meta %} 
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+
+<meta property="og:title" content="{{ title }}, {{ location.name }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta property="article:author" content="https://civilhub.org{{ poll.creator.profile.get_absolute_url }}" />
+<meta property="og:description" content="{{ poll.question|striptags|slice:":100" }}... " />
+<meta name="keywords" content="{{ poll }}, {{ poll.location }}, {% for tag in poll.tags.all %}{{ tag.name }}, {% endfor %}">
+{% endblock %}
+
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/poll-details.js" src="{% static 'places_core' %}/includes/require/require.js"></script>

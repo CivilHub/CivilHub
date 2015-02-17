@@ -155,9 +155,9 @@ urlpatterns += patterns('',
     
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
-    #url(r'^$', HomeView.as_view()),
+    url(r'^$', HomeView.as_view()),
     
-    url(r'^$', register),
+    #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
 )

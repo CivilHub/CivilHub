@@ -16,9 +16,9 @@
 <div class="col-sm-3">
     <div class="sidebar inboxSidebar">
         <ul id="postman_menu">
-            <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
-            <li><a href="/terms/">{% trans "Terms of Use" %}</a></li>
-            <li><a href="/cookies/">{% trans "Cookies" %}</a></li>
+            {% comment %}<li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>{% endcomment %}
+            {% comment %}{% comment %}<li><a href="/terms/">{% trans "Terms of Use" %}</a></li>{% endcomment %}
+            {% comment %}<li><a href="/cookies/">{% trans "Cookies" %}</a></li>{% endcomment %}
             <li><a href="/press/">{% trans "Press" %}</a></li>
             <li><a href="/jobs/">{% trans "Jobs" %}</a></li>
             <li><a href="/features/">{% trans "Features" %}</a></li>
@@ -39,7 +39,11 @@
 
         {% for article in articles %}
             <h3 class="articleBlogTitle"><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h3>
-            <div>{{ article.content  | safe | truncatewords:40 }}</div>
+            <div>{{ article.content  | safe | truncatewords:40 }}
+
+                {{ article }}
+
+                {{ article.content }}</div>
         {% endfor %}
 
       </div>

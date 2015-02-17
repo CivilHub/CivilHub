@@ -49,7 +49,7 @@
         <div class="sidebar-content followers-box">
             {% for usr in location.users.all %}
             <div class="follower">
-                <a class="custom-tooltip" href="{% url 'user:profile' usr.username %}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+                <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
                 <img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
                 </a>
             </div>
