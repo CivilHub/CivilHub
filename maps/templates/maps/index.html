@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n analytical civil_tags %}
 
 {% include 'places_core/header.html' %}
 
@@ -77,6 +77,7 @@
 </head>
 
 <body>
+{% analytical_body_top %}
 
 {% include 'places_core/navigation.html' %}
 
@@ -176,6 +177,7 @@
 </div>
 </script>
 
+{% analytical_body_bottom %}
 </body>
 </html>
 {% include 'places_core/script-templates/flash-msg-tpl.html' %}

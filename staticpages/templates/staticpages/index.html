@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags analytical %}
 
 {% get_current_language as LANG %}
 {% include 'places_core/header.html' %}
@@ -28,5 +28,6 @@
 {% block footer %}
 {% include 'places_core/footer.html' %}
 {% endblock %}
+{% analytical_body_bottom %}
 </body>
 </html>

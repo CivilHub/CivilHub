@@ -108,7 +108,7 @@ urlpatterns += patterns('',
     # comments
     url('^comments/', include('comments.urls', namespace='comments')),
     # admin panel
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^fuck-off-i-am-awesome/', include(admin.site.urls)),
     # Abuse reports (static)
     url(r'^report/', include('places_core.urls', namespace='reports')),
     # User media
@@ -156,9 +156,6 @@ urlpatterns += patterns('',
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
     #url(r'^$', HomeView.as_view()),
-    
-    # Tylko dla testów !!!
-    url(r'^sometestpage/', PageView.as_view(page='404')),
     
     url(r'^$', register),
     url(r'^', include('articles.urls', namespace='articles')),

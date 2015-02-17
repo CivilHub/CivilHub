@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags analytical %}
     
 {% include 'places_core/header.html' %}
     
@@ -29,6 +29,7 @@
 
 </head>
 <body>
+{% analytical_body_top %}
 
 <div id="messages"></div>
 <div id="cookie-msg"></div>
@@ -71,5 +72,6 @@
 {% comment %} ~~~~~~~~~~~~~~~~ FOOTER SCRIPTS ~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block footer_scripts %}{% endblock %}
 
+{% analytical_body_bottom %}
 </body>
 </html>

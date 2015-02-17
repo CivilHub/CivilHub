@@ -98,6 +98,8 @@ INSTALLED_APPS = (
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
     
+    'raven.contrib.django.raven_compat',
+    'analytical',
     # django-activity-stream - powinien być ostatni na liście
     'actstream',
 )
@@ -288,7 +290,7 @@ CORS_ALLOW_HEADERS = (
 #-------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'pl'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Europe/Warsaw'
 
@@ -400,7 +402,7 @@ URL_ATTRS = ['href','src',]
 
 # Custom module settings
 #-------------------------------------------------------------------------------
-DEFAULT_COUNTRY_CODE = 'PL'
+DEFAULT_COUNTRY_CODE = 'US'
 # Limit paginatora dla widoków list (lista dyskusji, ankiet etc.)
 LIST_PAGINATION_LIMIT = 50
 # Limit paginatora dla innych widoków (lista pomysłów, blog etc.)
@@ -417,3 +419,12 @@ COMMENT_PAGINATOR_LIMIT = 10
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
 USE_CACHE = False
+
+
+RAVEN_CONFIG = {
+    'dsn': config['raven_dsn']
+}
+
+#Analitical
+CLICKY_SITE_ID = config['clicky_site_id']
+
