@@ -247,6 +247,7 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
     """
     model = Discussion
     form_class = DiscussionForm
+    template_name = 'locations/location_forum_create.html'
 
     def get_context_data(self, **kwargs):
         obj = super(DiscussionUpdateView, self).get_object()

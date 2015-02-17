@@ -566,7 +566,7 @@ def register(request):
                     'title' : _("Registration"),
                     'errors': _("Selected username already exists. Please provide another one."),
                 }
-                return render(request, 'staticpages/pages/home.html', ctx)
+                return render(request, 'userspace/register.html', ctx)
             # Re-fetch user object from DB
             user = User.objects.latest('id')
 
@@ -621,7 +621,7 @@ def register(request):
                 'title': _("Registration"),
                 'errors': f.errors,
             }
-            return render(request, 'staticpages/pages/home.html', ctx)
+            return render(request, 'userspace/register.html', ctx)
 
     # Display registration form.
     ctx = {
@@ -630,7 +630,7 @@ def register(request):
         'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
         'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
     }
-    return render(request, 'staticpages/pages/home.html', ctx)
+    return render(request, 'userspace/register.html', ctx)
 
 
 def confirm_registration(request):

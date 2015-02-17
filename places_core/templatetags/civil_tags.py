@@ -1,14 +1,29 @@
 # -*- coding: utf-8 -*-
+import os, json
+
 from django.template import Library
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
+from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
+
 from social.apps.django_app.default.models import UserSocialAuth
 
-register = Library()
+from maps.models import MapPointer
 
+
+register = Library()
 ALLOWABLE_VALUES = ("DEBUG", "COMMENT_PAGINATOR_LIMIT",)
+
+
+@register.filter
+def object_markers(obj):
+    """ Wyciąga punkty na mapie dla obiektu do skryptów. """
+    if not obj or obj is None:
+        return ""
+    return mark_safe(json.dumps([{'lat': x.latitude, 'lng': x.longitude}\
+        for x in MapPointer.objects.for_model(obj)]))
 
 
 @register.simple_tag
@@ -25,6 +40,14 @@ def js_path():
     if settings.DEBUG:
         return 'src'
     return 'dist'
+
+
+@register.simple_tag
+def require_config():
+    f = open(os.path.join(settings.BASE_DIR, 'places_core/static/places_core/js/config.json'))
+    conf = f.read()
+    f.close()
+    return """<script>require.config({});</script>""".format(conf)
 
 
 @register.simple_tag
@@ -114,6 +137,31 @@ def langlist(request):
                    .replace('{% url %}', addr) \
                    .replace('{% CODE %}', l[0].upper())
     return tags
+
+
+@register.simple_tag
+def obj_ct_id(model_name):
+
+    from ideas.models import Idea
+    from blog.models import News
+    from polls.models import Poll
+    from topics.models import Discussion
+
+    if model_name == 'idea':
+        model = Idea
+    elif model_name == 'news':
+        model = News
+    elif model_name == 'poll':
+        model = Poll
+    elif model_name == 'discussion':
+        model = Discussion
+    else:
+        model = None
+
+    if model is not None:
+        return ContentType.objects.get_for_model(model).pk
+    else:
+        return 0
 
 
 @register.filter

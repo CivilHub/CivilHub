@@ -30,7 +30,7 @@ class DiscussionForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Discussion
-        fields = ('question', 'intro', 'category', 'status', 'tags')
+        fields = ('question', 'intro', 'category', 'status', 'tags', 'image',)
 
 
 class ReplyForm(forms.ModelForm):

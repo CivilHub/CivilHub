@@ -52,58 +52,6 @@ class BlogCategoryAPIViewSet(viewsets.ModelViewSet):
     permission_classes = (IsSuperuserOrReadOnly,)
 
 
-# class BasicNewsSerializer(object):
-#     """
-#     This is custom serializer for blog entries. It passes properly formatted.
-#     For more detailed info check BasicIdeaSerializer in ideas.views.
-#     """
-#     def __init__(self, obj):
-#         tags = []
-
-#         for tag in obj.tags.all():
-#             tags.append({
-#                 'name': tag.name,
-#                 'url': reverse('locations:tag_search',
-#                                kwargs={'slug':obj.location.slug,
-#                                        'tag':tag.name})
-#             })
-
-#         self.data = {
-#             'id'            : obj.pk,
-#             'title'         : obj.title,
-#             'slug'          : obj.slug,
-#             'link'          : obj.get_absolute_url(),
-#             'description'   : truncatehtml(obj.content, 240),
-#             'username'      : obj.creator.username,
-#             'user_full_name': obj.creator.get_full_name(),
-#             'creator_url'   : obj.creator.profile.get_absolute_url(),
-#             'user_id'       : obj.creator.pk,
-#             'avatar'        : obj.creator.profile.avatar.url,
-#             'date_created'  : timesince(obj.date_created),
-#             'edited'        : obj.edited,
-#             'comment_count' : obj.get_comment_count(),
-#             'tags'          : tags,
-#         }
-
-#         try:
-#             self.data['date_edited'] = timesince(obj.date_edited)
-#         except Exception:
-#             self.data['date_edited'] = ''
-
-#         if obj.category:
-#             self.data['category']     = obj.category.name
-#             self.data['category_url'] = reverse('locations:category_search',
-#                 kwargs={
-#                     'slug'    : obj.location.slug,
-#                     'app'     : 'blog',
-#                     'model'   : 'news',
-#                     'category': obj.category.pk,
-#                 })
-#         else:
-#             self.data['category'] = ''
-#             self.data['category_url'] = ''
-
-
 class BasicBlogView(View):
     """
     Basic view for our custom REST API, not involving Django rest framework.
@@ -241,9 +189,7 @@ class NewsDetailView(DetailView):
 
     
 class NewsCreateView(LoginRequiredMixin, CreateView):
-    """
-    Create new entry
-    """
+    """ Create new entry """
     model = News
     form_class = NewsForm
 

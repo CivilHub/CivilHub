@@ -22,7 +22,7 @@
                 <span class="actiCategory"><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></span>
             <% } %>
         </p>
-            <div class="actiClock"><span class="custom-tooltip" title="<%= timestamp %>"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd"><%= timestamp %> {% trans "ago" %}</span> {% endcomment %}</span></span></div>
+            <div class="actiClock"><span class="custom-tooltip" title="<%= moment(timestamp).fromNow() %>"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd"><%= moment(timestamp).fromNow() %> {% trans "ago" %}</span> {% endcomment %}</span></span></div>
         </div>
     </div>
     <% if (!_.isEmpty(object_ct)) { %>

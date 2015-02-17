@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json, datetime, os
 from dateutil.relativedelta import relativedelta
+
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
@@ -54,6 +55,24 @@ from .serializers import SimpleLocationSerializer, LocationListSerializer, \
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 redis_cache = cache.get_cache('default')
+
+
+class CapitalAPI(APIView):
+    """ """
+    permission_classes = (rest_permissions.AllowAny,)
+    def get(self, request):
+        from ipware.ip import get_ip
+        from django.contrib.gis.geoip import GeoIP
+        code = GeoIP().country(get_ip(self.request))\
+                      .get('country_code', settings.DEFAULT_COUNTRY_CODE)
+        try:
+            country = Country.objects.get(code=code)
+        except Country.DoesNotExist:
+            country = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE)
+        capital = country.get_capital()
+        if capital is not None:
+            serializer = LocationListSerializer(capital)
+            return Response(serializer.data)
 
 
 class LocationSummaryAPI(APIView):
@@ -382,6 +401,14 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(News),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return redirect(reverse('locations:news',
                         kwargs={'slug': obj.location.slug}))
 
@@ -475,16 +502,14 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        lat = self.request.POST.get('latitude')
-        lon = self.request.POST.get('longitude')
-        if lat and lon:
-            mp = MapPointer.objects.create(
-                content_object = obj,
-                latitude = lat,
-                longitude = lon,
-                location = obj.location
-            )
-            mp.save()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(Idea),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return super(LocationIdeaCreate, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -619,16 +644,14 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        lat = self.request.POST.get('latitude')
-        lon = self.request.POST.get('longitude')
-        if lat and lon:
-            mp = MapPointer.objects.create(
-                content_object = obj,
-                latitude = lat,
-                longitude = lon,
-                location = obj.location
-            )
-            mp.save()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(Discussion),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return redirect(reverse('locations:topic', 
             kwargs = {
                 'place_slug': obj.location.slug,
@@ -949,9 +972,7 @@ class LocationContentSearch(View):
                 all_items = tag.taggit_taggeditem_items.all()
             except Tag.DoesNotExist:
                 all_items = []
-            for itm in all_items:
-                if itm.content_object.location == location:
-                    items.append(itm.content_object)
+            items = [x.content_object for x in all_items if x.content_object.location==location]
 
         return render(request, self.template_name, {
                 'title'   : _("Search by tag"),

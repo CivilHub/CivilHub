@@ -1,11 +1,13 @@
 {% extends 'locations/index.html' %}
-{% load staticfiles %}{% load i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% block content %}
 <div class="col-sm-9 main-content contentPX">
     <ul>
     {% for item in items %}
-        <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+        {% with item|content_type as ctype %}<li>
+            <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+        </li>{% endwith %}
     {% endfor %}
     </ul>
 </div>
