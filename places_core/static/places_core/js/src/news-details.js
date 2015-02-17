@@ -23,7 +23,8 @@ require.config({
         bootstrap  : "includes/bootstrap/bootstrap",
         bootbox    : "includes/bootstrap/bootbox",
         moment     : "includes/momentjs/moment",
-        leaflet    : "includes/leaflet/leaflet"
+        leaflet    : "includes/leaflet/leaflet",
+        "tour": "includes/tour/bootstrap-tour"
     },
     
     shim: {
@@ -49,6 +50,10 @@ require.config({
         bootbox: {
             deps: ["bootstrap"],
             exports: "bootbox"
+        },
+
+        "tour": {
+            "deps": ["bootstrap"]
         },
         
         tagsinput: {

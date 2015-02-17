@@ -401,6 +401,14 @@ class LocationNewsCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(News),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return redirect(reverse('locations:news',
                         kwargs={'slug': obj.location.slug}))
 
@@ -494,16 +502,14 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        lat = self.request.POST.get('latitude')
-        lon = self.request.POST.get('longitude')
-        if lat and lon:
-            mp = MapPointer.objects.create(
-                content_object = obj,
-                latitude = lat,
-                longitude = lon,
-                location = obj.location
-            )
-            mp.save()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(Idea),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return super(LocationIdeaCreate, self).form_valid(form)
 
     def form_invalid(self, form):
@@ -638,16 +644,14 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         obj.save()
         # Without this next line the tags won't be saved.
         form.save_m2m()
-        lat = self.request.POST.get('latitude')
-        lon = self.request.POST.get('longitude')
-        if lat and lon:
-            mp = MapPointer.objects.create(
-                content_object = obj,
-                latitude = lat,
-                longitude = lon,
-                location = obj.location
-            )
-            mp.save()
+        try:
+            for m in json.loads(self.request.POST.get('markers')):
+                marker = MapPointer.objects.create(
+                    content_type=ContentType.objects.get_for_model(Discussion),
+                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+        except Exception:
+            # FIXME: silent fail, powinna być flash message
+            pass
         return redirect(reverse('locations:topic', 
             kwargs = {
                 'place_slug': obj.location.slug,

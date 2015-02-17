@@ -22,7 +22,8 @@ require.config({
         backbone   : "includes/backbone/backbone",
         paginator  : "includes/backbone/backbone.paginator",
         tagsinput  : "includes/jquery/jquery.tagsinput",
-        leaflet    : "includes/leaflet/leaflet"
+        leaflet    : "includes/leaflet/leaflet",
+        "tour": "includes/tour/bootstrap-tour"
     },
     
     shim: {
@@ -48,6 +49,10 @@ require.config({
         bootbox: {
             deps: ["bootstrap"],
             exports: "bootbox"
+        },
+
+        "tour": {
+            "deps": ["bootstrap"]
         },
         
         jqueryui: {
