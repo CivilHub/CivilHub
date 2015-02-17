@@ -259,7 +259,6 @@ class TagFilter(ContentFilter):
         super(TagFilter, self).__init__(location)
         self._filter_tags(self.news_list, self.idea_list, self.poll_list)
 
-
     def _filter_tags(self, *args):
         """ Prepare dict containing tags in location and their counter. """
         itemlist = []

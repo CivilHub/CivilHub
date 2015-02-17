@@ -972,9 +972,7 @@ class LocationContentSearch(View):
                 all_items = tag.taggit_taggeditem_items.all()
             except Tag.DoesNotExist:
                 all_items = []
-            for itm in all_items:
-                if itm.content_object.location == location:
-                    items.append(itm.content_object)
+            items = [x.content_object for x in all_items if x.content_object.location==location]
 
         return render(request, self.template_name, {
                 'title'   : _("Search by tag"),

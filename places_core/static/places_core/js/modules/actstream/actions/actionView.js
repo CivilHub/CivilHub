@@ -3,27 +3,27 @@
 // =============
 //
 // Single action entry view.
-//
-define(['underscore', 'backbone'],
 
-function (_, Backbone) {
+define(['underscore', 'backbone', 'moment'],
+
+function (_, Backbone, moment) {
     
-    "use strict";
+  "use strict";
+  
+  var ActionView = Backbone.View.extend({
+      
+    tagName: 'div',
     
-    var ActionView = Backbone.View.extend({
-        
-        tagName: 'div',
-        
-        className: 'row action-entry',
-        
-        template: _.template($('#action-template').html()),
-        
-        render: function () {
-            this.$el.html(this.template(this.model.toJSON()));  
-            this.$('.actiClock').find('span').tooltip();    
-            return this;
-        }
-    });
+    className: 'row action-entry',
     
-    return ActionView;
+    template: _.template($('#action-template').html()),
+    
+    render: function () {
+      this.$el.html(this.template(this.model.toJSON()));  
+      this.$('.actiClock').find('span').tooltip();    
+      return this;
+    }
+  });
+  
+  return ActionView;
 });

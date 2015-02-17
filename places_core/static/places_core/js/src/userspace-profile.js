@@ -20,7 +20,9 @@ require.config({
         underscore : "includes/underscore/underscore",
         backbone   : "includes/backbone/backbone",
         tagsinput  : "includes/jquery/jquery.tagsinput",
-        bootbox    : "includes/bootstrap/bootbox"
+        bootbox    : "includes/bootstrap/bootbox",
+        "tour": "includes/tour/bootstrap-tour",
+        "moment": "includes/momentjs/moment"
     },
     
     shim: {

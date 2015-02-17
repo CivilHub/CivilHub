@@ -22,7 +22,8 @@ require.config({
         bootbox    : "includes/bootstrap/bootbox",
         tagsinput  : "includes/jquery/jquery.tagsinput",
         "file-input": "includes/bootstrap/bootstrap.file-input",
-        tour       : "includes/tour/bootstrap-tour"
+        "tour": "includes/tour/bootstrap-tour",
+        "moment": "includes/momentjs/moment"
     },
     
     shim: {
