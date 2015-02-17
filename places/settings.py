@@ -77,6 +77,8 @@ INSTALLED_APPS = (
     'taggit',
     # geodjango
     'django.contrib.gis',
+    # http://django-modeltranslation.readthedocs.org/en/latest/
+    'modeltranslation',
 
     # Core program modules
     'places_core', # for common templates and static files
@@ -161,6 +163,7 @@ STATIC_URL   = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
+
 
 # Haystack - search engine
 #-------------------------------------------------------------------------------
