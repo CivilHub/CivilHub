@@ -78,6 +78,9 @@ INSTALLED_APPS = (
     'taggit',
     # geodjango
     'django.contrib.gis',
+    # http://django-modeltranslation.readthedocs.org/en/latest/
+    'modeltranslation',
+
     # Core program modules
     'places_core', # for common templates and static files
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
