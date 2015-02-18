@@ -128,10 +128,10 @@ def delete_background_image(sender, instance, **kwargs):
     if u'nowhere.jpg' in fieldname or u'background.jpg' in fieldname:
         return False
 
-    if (os.path.isfile(fieldname.path)):
-        os.unlink(fieldname.path)
+    if (os.path.isfile(fieldname)):
+        os.unlink(fieldname)
 
-    path, fname = os.path.splitext(fieldname.path)
+    path, fname = os.path.splitext(fieldname)
     fname = "s_" + str(fname)
     fpath = os.path.join(path, fname)
 
