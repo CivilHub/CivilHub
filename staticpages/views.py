@@ -20,7 +20,7 @@ class HomeView(TemplateView):
 
     def get(self, request):
         if request.user.is_authenticated():
-            return redirect('user:profile', request.user.username)
+            return redirect('/activity/')
         return super(HomeView, self).get(request)
 
 

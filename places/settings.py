@@ -28,7 +28,6 @@ secret_file.close()
 from . import loggers
 LOGGING = loggers.LOGGING
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config['secret_key']
 
