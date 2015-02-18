@@ -4,6 +4,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image
 from django.conf import settings
 
+from .image_manager import ImageManager
+
 
 def rename_background_file(filepath, pref="s_"):
     """
@@ -100,23 +102,25 @@ def resize_background_image(sender, instance, created, **kwargs):
     if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
         return False
 
-    try:
-        image = Image.open(fieldname.path)
-    except IOError:
-        return False
+    max_width, max_height = settings.BACKGROUND_IMAGE_SIZE
+    im = ImageManager(fieldname.path, "/".join(fieldname.path.split('/')[:-1]))
+    im.fix_size(max_width, max_height)
+    im.fixed_thumb(max_width, max_height)
+    im.fixed_thumb(270,190)
 
-    image = resize_image(image)
-    max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
-    width, height = image.getdata().size
-    start_y = 0
-    stop_y = height
-    if height > max_h:
-        start_y = int(float(height-max_h)/2)
-        stop_y = start_y + max_h
-    box = (0, start_y, max_w, stop_y)
-    image = image.crop(box)
-    image.save(fieldname.path, 'JPEG')
-    crop_background(image, fieldname.name)
+    #image = Image.open(fieldname)
+    # image = resize_image(image)
+    # max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
+    # width, height = image.getdata().size
+    # start_y = 0
+    # stop_y = height
+    # if height > max_h:
+    #     start_y = int(float(height-max_h)/2)
+    #     stop_y = start_y + max_h
+    # box = (0, start_y, max_w, stop_y)
+    # image = image.crop(box)
+    # image.save(fieldname.path, 'JPEG')
+    # crop_background(image, fieldname.name)
 
 
 def delete_background_image(sender, instance, **kwargs):
