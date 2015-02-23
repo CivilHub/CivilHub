@@ -881,7 +881,7 @@ class UserBackgroundView(FormView):
         image = Image.open(form.cleaned_data['image'])
         image = image.crop(box)
         profile = UserProfile.objects.get(user=self.request.user)
-        profile.background_image = handle_tmp_image(image)
+        profile.image = handle_tmp_image(image)
         profile.save()
         return redirect(self.request.user.profile.get_absolute_url())
 

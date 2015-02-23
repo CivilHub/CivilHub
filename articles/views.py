@@ -85,6 +85,11 @@ class SupportEntryView(DetailView):
     model = Article
     template_name = "articles/entry.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(SupportEntryView, self).get_context_data(**kwargs)
+        context['articles'] = self.get_object().category.article_set.all()
+        return context
+
 
 # blog
 #-------------------------------------------------------------------------------    

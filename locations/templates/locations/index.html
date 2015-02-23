@@ -3,6 +3,21 @@
 
 {% cache 600 header location.slug %}
 
+{% block extra_styles %}
+<style type="text/css">
+.location-logo {
+    background-image: url({{ location.background_url }});
+}
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) {
+    .location-logo {
+        background-image: url({{ location.retina_background_url }});
+    }
+}
+</style>
+{% endblock %}
+
 {% block geometa %}{% if location.latitude and location.longitude %}
 <meta name="DC.title" content="{{ location }}" />
 <meta name="geo.region" content="{{ location.country_code }}" />
@@ -40,7 +55,8 @@
 </div>
 </div>
 </nav>
-<div class="location-logo" style="background-image:url({{ location.image.url }})">
+<!--<div class="location-logo" style="background-image:url({{ location.image.url }})">-->
+<div class="location-logo">
     <div class="container" style="height: 100%; position: relative;">
         <div class="title-container"> 
             <div class="location-name-title" id="tour-location-name">{{ location }}</div>

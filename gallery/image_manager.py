@@ -29,10 +29,10 @@ class ImageManager(object):
 
         if image_h > image_w:
             ratio = width / float(image_w)
-            return image.resize((width, int(image_h * ratio)), Image.ANTIALIAS)
+            return self.image.resize((width, int(image_h * ratio)), Image.ANTIALIAS)
         else:
             ratio = height / float(image_h)
-            return image.resize((int(image_w * ratio), height), Image.ANTIALIAS)
+            return self.image.resize((int(image_w * ratio), height), Image.ANTIALIAS)
 
     def smart_cut(self, width, height):
         """
@@ -45,12 +45,12 @@ class ImageManager(object):
 
         if image_h > image_w:
             ratio = width / float(image_w)
-            image = image.resize((width, int(image_h * ratio)), Image.ANTIALIAS)
+            image = self.resize((width, int(image_h * ratio)))
             box = (0, 0, width, height)
         else:
             ratio = height / float(image_h)
             new_width = int(image_w * ratio)
-            image = self.image.resize((new_width, height), Image.ANTIALIAS)
+            image = self.resize(new_width, height)
             start_x = 0
             x_factor = width
             if new_width > width:
