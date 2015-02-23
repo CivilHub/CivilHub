@@ -556,64 +556,51 @@ def register(request):
             user.first_name = request.POST.get('first_name')
             user.last_name  = request.POST.get('last_name')
             user.is_active = False
-            try:
-                user.save()
-                # Create auth token for REST api:
-                token = Token.objects.create(user=user)
-                token.save()
-            except Exception:
-                # Form valid, but user already exists
-                ctx = {
-                    'form': RegisterForm(initial={
-                        'username': request.POST.get('username'),
-                        'email':    request.POST.get('email')
-                    }),
-                    'title' : _("Registration"),
-                    'errors': _("Selected username already exists. Please provide another one."),
-                }
-                return render(request, 'userspace/register.html', ctx)
+            # try:
+            #     user.save()
+            #     # Create auth token for REST api:
+            #     token = Token.objects.create(user=user)
+            #     token.save()
+            # except Exception as ex:
 
-            try:
-                # Create register demand object in DB
-                salt = hashlib.md5()
-                salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-                register_demand = RegisterDemand.objects.create(
-                    activation_link = salt.hexdigest(),
-                    ip_address      = get_ip(request),
-                    user            = user,
-                    email           = user.email,
-                    lang            = translation.get_language()
-                )
-            except Exception as ex:
-                # if something goes wrong, delete created user to avoid future
-                # name conflicts (and allow another registration).
-                user.delete()
+            #     logger.error(u"[{}]: {}".format(timezone.now(), ex))
 
-                logger.error(u"[{}]: {}".format(timezone.now(), ex.message))
+            #     # Form valid, but user already exists
+            #     ctx = {
+            #         'form': RegisterForm(initial={
+            #             'username': request.POST.get('username'),
+            #             'email':    request.POST.get('email')
+            #         }),
+            #         'title' : _("Registration"),
+            #         'errors': _("Selected username already exists. Please provide another one."),
+            #     }
+            #     return render(request, 'userspace/register.html', ctx)
 
-                return render(request, 'userspace/register-failed.html', {
-                    'title': _("Registration failed")
-                })
+            user.save()
+            # Create auth token for REST api:
+            token = Token.objects.create(user=user)
+            token.save()
+
+            # Create register demand object in DB
+            salt = hashlib.md5()
+            salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+            register_demand = RegisterDemand.objects.create(
+                activation_link = salt.hexdigest(),
+                ip_address      = get_ip(request),
+                user            = user,
+                email           = user.email,
+                lang            = translation.get_language()
+            )
 
             # Create activation link
             site_url = request.build_absolute_uri('/user/activate/')
             link = site_url + str(register_demand.activation_link)
 
-            try:
-                # Send email with activation link.
-                translation.activate(register_demand.lang)
-                email = emails.ActivationLink()
-                email.send(register_demand.email, {'link':link})
-            except Exception as ex:
-                # User is registered and link is created, but there was errors
-                # during sanding email, so just show static page with link.
+            # Send email with activation link.
+            translation.activate(register_demand.lang)
+            email = emails.ActivationLink()
+            email.send(register_demand.email, {'link':link})
 
-                logger.error(u"[{}]: {}".format(timezone.now(), ex.message))
-
-                return render(request, 'userspace/register-errors.html', {
-                    'title': _("Registration"),
-                    'link' : link,
-                })
             # Show confirmation
             return redirect('user:message_sent')
     
