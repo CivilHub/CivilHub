@@ -96,3 +96,16 @@ class ImageManager(object):
         self.filename = filename.split('/')[-1]
         self.image = self._open_image(filename)
         self.dir = dirname if dirname is not None else os.getcwd()
+
+
+def fix_images():
+    """ Tworzy miniatury zdjęć i przycięte tła dla oryginałów na serwerze. """
+    import re
+    from django.conf import settings
+
+    max_width, max_height = settings.BACKGROUND_IMAGE_SIZE
+    dirname = os.path.join(settings.BASE_DIR, 'media/img/locations')
+    for filename in os.listdir(dirname):
+        if not re.match(r'\w+_\d+', filename):
+            im = ImageManager(os.path.join(dirname, filename), dirname)
+            im.fixed_thumb(max_width, max_height)
