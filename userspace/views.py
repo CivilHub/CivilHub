@@ -52,6 +52,8 @@ from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
             BookmarkSerializer
 
+import logging
+logger = logging.getLogger('django')
 
 @csrf_exempt
 def obtain_auth_token(request):
@@ -574,20 +576,18 @@ def register(request):
                 # Create register demand object in DB
                 salt = hashlib.md5()
                 salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-                register_demand = RegisterDemand(
+                register_demand = RegisterDemand.objects.create(
                     activation_link = salt.hexdigest(),
                     ip_address      = get_ip(request),
                     user            = user,
                     email           = user.email,
                     lang            = translation.get_language()
                 )
-                register_demand.save()
-                register_demand = RegisterDemand.objects.latest('pk')
             except Exception as ex:
                 # if something goes wrong, delete created user to avoid future
                 # name conflicts (and allow another registration).
                 user.delete()
-                print str(ex)
+                logger.error(u"[{}]: {}".format(timezone.now(), ex.message))
                 return render(request, 'userspace/register-failed.html', {
                     'title': _("Registration failed")
                 })
