@@ -53,7 +53,7 @@ from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerialize
             BookmarkSerializer
 
 import logging
-logger = logging.getLogger('django')
+logger = logging.getLogger('userspace')
 
 @csrf_exempt
 def obtain_auth_token(request):
@@ -535,7 +535,7 @@ def register(request):
     Register new user via django system.
     """
     from rest_framework.authtoken.models import Token
-    
+
     if request.user.is_authenticated():
         return redirect('/activity')
     
@@ -543,6 +543,9 @@ def register(request):
         f = RegisterForm(request.POST)
 
         if f.is_valid():
+
+            logger.info(u"[{}]: Register request begin".format(timezone.now()))
+
             lang = translation.get_language()
             user = User()
             username = request.POST.get('username')
@@ -569,8 +572,6 @@ def register(request):
                     'errors': _("Selected username already exists. Please provide another one."),
                 }
                 return render(request, 'userspace/register.html', ctx)
-            # Re-fetch user object from DB
-            user = User.objects.latest('id')
 
             try:
                 # Create register demand object in DB
@@ -587,7 +588,9 @@ def register(request):
                 # if something goes wrong, delete created user to avoid future
                 # name conflicts (and allow another registration).
                 user.delete()
+
                 logger.error(u"[{}]: {}".format(timezone.now(), ex.message))
+
                 return render(request, 'userspace/register-failed.html', {
                     'title': _("Registration failed")
                 })
@@ -604,7 +607,9 @@ def register(request):
             except Exception as ex:
                 # User is registered and link is created, but there was errors
                 # during sanding email, so just show static page with link.
-                print str(ex)
+
+                logger.error(u"[{}]: {}".format(timezone.now(), ex.message))
+
                 return render(request, 'userspace/register-errors.html', {
                     'title': _("Registration"),
                     'link' : link,
