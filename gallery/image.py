@@ -104,23 +104,7 @@ def resize_background_image(sender, instance, created, **kwargs):
 
     max_width, max_height = settings.BACKGROUND_IMAGE_SIZE
     im = ImageManager(fieldname.path, "/".join(fieldname.path.split('/')[:-1]))
-    im.fix_size(max_width, max_height)
     im.fixed_thumb(max_width, max_height)
-    im.fixed_thumb(270,190)
-
-    #image = Image.open(fieldname)
-    # image = resize_image(image)
-    # max_w, max_h = settings.BACKGROUND_IMAGE_SIZE
-    # width, height = image.getdata().size
-    # start_y = 0
-    # stop_y = height
-    # if height > max_h:
-    #     start_y = int(float(height-max_h)/2)
-    #     stop_y = start_y + max_h
-    # box = (0, start_y, max_w, stop_y)
-    # image = image.crop(box)
-    # image.save(fieldname.path, 'JPEG')
-    # crop_background(image, fieldname.name)
 
 
 def delete_background_image(sender, instance, **kwargs):

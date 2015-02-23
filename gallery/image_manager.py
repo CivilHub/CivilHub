@@ -2,6 +2,44 @@
 from PIL import Image
 import os
 
+
+def resize_image(image, max_width):
+    """ Skaluje obraz do podanej szerokości z zachowaniem proporcji. """
+    img_width, img_height = image.getdata().size
+    if img_width >= max_width and img_width >= img_height:
+        # Obrazek do przeskalowania przez `thumbnail`
+        img_copy = image.copy()
+        img_copy.thumbnail((max_width, max_width), Image.ANTIALIAS)
+        return img_copy
+    ratio = float(max_width) / float(img_width)
+    return image.resize((max_width, int(float(img_height) * ratio)), Image.ANTIALIAS)
+
+
+def perform_smart_cut(image, size):
+    """ Przycina obraz do dokładnych rozmiarów, zachowując jak największą część. """
+    if size[0] >= size[1]:
+        image = resize_image(image, size[0])
+        new_width, new_height = image.getdata().size
+        start_x = 0
+        start_y = (new_height - size[1]) / 2
+        stop_x = start_x + size[0]
+        stop_y = start_y + size[1]
+
+    box = (start_x, start_y, stop_x, stop_y)
+    return image.crop(box)
+
+
+def crop_thumbnail(image, size):
+    """ Wycina miniaturkę z przyciętego już obrazu tła. """
+    max_w, max_h = size
+    width, height = image.getdata().size
+    new_width = int(width * float(max_h)/float(height))
+    startx = int((new_width - max_w) / 2)
+    image = image.resize((new_width, max_h), Image.ANTIALIAS)
+    box = (startx, 0, startx + max_w, max_h)
+    return image.crop(box)
+
+
 class ImageManager(object):
     """
     Manager ułatwiający manipulowanie obrazami uploadowanymi na serwer. Pozwala
@@ -40,27 +78,7 @@ class ImageManager(object):
         miniaturek o równych proporcjach. Metoda upewnia się, że jak największa
         część oryginalnego obrazu będzie widoczna.
         """
-        image_w, image_h = self.image.size
-        aspect_ratio = image_w / float(image_h)
-
-        if image_h > image_w:
-            ratio = width / float(image_w)
-            image = self.resize((width, int(image_h * ratio)))
-            box = (0, 0, width, height)
-        else:
-            ratio = height / float(image_h)
-            new_width = int(image_w * ratio)
-            image = self.resize(new_width, height)
-            start_x = 0
-            x_factor = width
-            if new_width > width:
-                start_x = int((float(new_width) - float(width)) / 2)
-            if new_width < width:
-                nratio = width / float(new_width)
-                image = image.resize((width, int(float(image_h) * nratio)), Image.ANTIALIAS)
-            stop_x = start_x + x_factor
-            box = (start_x, 0, stop_x, height)
-        return image.crop(box)
+        return perform_smart_cut(self.image, (width, height))
 
     def fixed_thumb(self, width, height):
         """ Tworzy miniaturkę zoptymalizowaną dla konkretnego rozmiaru. """
@@ -69,8 +87,9 @@ class ImageManager(object):
         img = img.resize((width, height), Image.ANTIALIAS)
         img.save(self.create_filename("{}x{}".format(width, height)), 'JPEG')
 
-    def fix_size(self, width, height):
-        return True
+        # TODO: rozmiary miniatur powinny być zdefiniowane w ustawieniach
+        img = crop_thumbnail(img, (270, 190))
+        img.save(self.create_filename("{}x{}".format(270, 190)), 'JPEG')
 
     def __init__(self, filename, dirname=None):
         """ FIXME: tu nie wszystko będzie teraz potrzebne. """
