@@ -40,7 +40,7 @@ class BookmarkCreateView(View):
     """
     def post(self, request):
         if request.user.is_anonymous():
-            raise Http404()
+            raise Http404
         ct = request.POST.get('content_type', None)
         pk = request.POST.get('object_id', None)
         try:
@@ -80,7 +80,7 @@ class BookmarkDeleteView(LoginRequiredMixin, DeleteView):
             return super(BookmarkDeleteView, self).post(request)
         bookmark = Bookmark.objects.get(pk=pk)
         if not bookmark.user == request.user:
-            raise Http404()
+            raise Http404
         bookmark.delete()
         context = json.dumps({'success': True, 'message': _(u"Bookmark removed"),})
         return HttpResponse(context, content_type='application/json')

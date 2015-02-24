@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, time, hashlib
+import os, time, hashlib, random, string
 from itertools import chain
 from uuid import uuid4 as uuid
 from actstream.models import Action, user_stream
@@ -37,6 +37,19 @@ def profile_activation(user):
     if profile is None:
         raise Exception(u"Cannot create or fetch user profile")
     return profile
+
+
+def random_string(length=8):
+    """ Funkcja tworzy ciąg losowych znaków alfanumerycznych. """
+    return ''.join(random.choice(string.letters + string.digits) for _ in range(length))
+
+
+def random_username():
+    """ Funkcja tworząca losową i unikalną nazwę użytkownika. """
+    username = random_string(30)
+    while (User.objects.filter(username=username).count() > 0):
+        username = random_string(30)
+    return username
 
 
 def random_password():

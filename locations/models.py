@@ -336,7 +336,15 @@ class Country(models.Model):
         return self.code
 
 
+def adjust_created_location(sender, instance, created, **kwargs):
+    """ Upewniamy się, że twórca lokacji będzie jej moderatorem. """
+    if created:
+        instance.creator.profile.mod_areas.add(instance)
+        instance.creator.profile.save()
+
+
 from maps.signals import create_marker
 post_delete.connect(delete_background_image, sender=Location)
 post_save.connect(resize_background_image, sender=Location)
+post_save.connect(adjust_created_location, sender=Location)
 post_save.connect(create_marker, sender=Location)

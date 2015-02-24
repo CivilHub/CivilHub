@@ -11,11 +11,6 @@ from .models import UserProfile
 
 class RegisterForm(forms.Form):
     """ Register new user """
-    username = forms.CharField(
-        label = _('Username'),
-        max_length = 32,
-        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
-    )
     email = forms.CharField(
         label = _("Email"),
         max_length = 128,

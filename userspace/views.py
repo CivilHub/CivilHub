@@ -47,13 +47,10 @@ from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
-from .helpers import profile_activation
+from .helpers import profile_activation, random_username
 from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
             BookmarkSerializer
-
-import logging
-logger = logging.getLogger('userspace')
 
 @csrf_exempt
 def obtain_auth_token(request):
@@ -380,7 +377,8 @@ class UserActivityView(TemplateView):
         return context
 
     def get(self, request):
-        if request.user.is_anonymous(): return HttpResponseNotFound()
+        if request.user.is_anonymous():
+            return redirect('/')
         return super(UserActivityView, self).get(request)
 
 
@@ -561,12 +559,9 @@ def register(request):
         f = RegisterForm(request.POST)
 
         if f.is_valid():
-
-            logger.info(u"[{}]: Register request begin".format(timezone.now()))
-
             lang = translation.get_language()
             user = User()
-            username = request.POST.get('username')
+            username = random_username()
             password = request.POST.get('password')
             user.username = username
             user.set_password(password)
@@ -580,9 +575,6 @@ def register(request):
                 token = Token.objects.create(user=user)
                 token.save()
             except Exception as ex:
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 # Form valid, but user already exists
                 ctx = {
                     'form': RegisterForm(initial={
@@ -609,9 +601,6 @@ def register(request):
                 # if something goes wrong, delete created user to avoid future
                 # name conflicts (and allow another registration).
                 user.delete()
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 return render(request, 'userspace/register-failed.html', {
                     'title': _("Registration failed")
                 })
@@ -628,9 +617,6 @@ def register(request):
             except Exception as ex:
                 # User is registered and link is created, but there was errors
                 # during sanding email, so just show static page with link.
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 return render(request, 'userspace/register-errors.html', {
                     'title': _("Registration"),
                     'link' : link,
@@ -779,7 +765,7 @@ def pass_reset(request):
 
 
 @csrf_exempt
-@cache_page(60 * 60, key_prefix="login" + translation.get_language())
+#@cache_page(60 * 60, key_prefix="login" + translation.get_language())
 def login(request):
     """
     Login form. Performs user login and record login data with basic info

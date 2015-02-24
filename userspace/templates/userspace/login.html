@@ -35,13 +35,13 @@ window.GOOGLE_DATA = {
         <div class="login-form-body">
             <div class="login-social row">
 
-                <button type="button" class="facebook-button" onclick="location.href='{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">Connect with Facebook</button>
+                <a class="facebook-button" href="{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Connect with Facebook</a>
                     
-                <button type="button" class="twitter-button" onClick="location.href='{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">{% trans "Connect with Twitter" %}</button>
+                <a class="twitter-button" href="{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Twitter" %}</a>
                     
-                <button type="button" class="linkedin-button" onClick="location.href='{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}'">{% trans "Connect with Linkedin" %}</button>
+                <a class="linkedin-button" href="{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Linkedin" %}</a>
                         
-                <button id="googleplus" type="button" class="google-button" >{% trans "Connect with Google+" %}</button>
+                <a id="googleplus" class="google-button" >{% trans "Connect with Google+" %}</a>
                     
             </div>
             <form action="" method="post">
