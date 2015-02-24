@@ -15,6 +15,7 @@ require.config({
     
     paths: {
         jquery     : "includes/jquery/jquery",
+        "jqueryui": "includes/jquery-ui/jquery-ui",
         jpaginate  : "includes/jquery/jquery.paginate",
         jqueryui   : "includes/jquery-ui/jquery-ui",
         bootstrap  : "includes/bootstrap/bootstrap",
@@ -32,6 +33,10 @@ require.config({
         
         jpaginate: {
             deps: ["jquery"]
+        },
+
+        "jqueryui": {
+            "deps": ["jquery"]
         },
         
         underscore: {
@@ -63,6 +68,7 @@ require.config({
 });
 
 require(['jquery',
+         'jqueryui',
          'js/modules/common',
          'js/modules/editor/plugins/uploader',
          'js/modules/locations/follow',

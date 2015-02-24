@@ -7,5 +7,6 @@ import views
 
 urlpatterns = patterns('',
     url(r'^(?P<page>[\w-]+)/$', views.PageView.as_view(), name='page'),
+    url(r'register/', views.PageView.as_view(), name='register'),
     url(r'^$', cache_page(60*60, key_prefix='home_'+get_language())(views.PageView.as_view()), name='page'),
 )

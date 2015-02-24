@@ -17,73 +17,74 @@ require(['jquery', 'tour'], function ($) {
       var tour = new Tour({
         steps: [{
           element: "#tour-location-name",
-          title: "Jesteś tutaj",
-          content: "Widzisz właśnie nazwę lokalizacji, w której aktualnie się znajdujesz.",
+          title: gettext("You are here"),
+          content: gettext("Right now you can see the location you are currently in."),
           path: rootUrl
         }, {
           element: "#tour-Summary",
-          title: "Podsumowanie",
-          content: "W tym miejscu możesz obserwować wszystkie aktywności dla tej lokalizacji.",
+          title: gettext("Summary"),
+          content: gettext("Here you can see a list of all of the place's activities."),
           path: rootUrl
         }, {
           element: "#tour-summary-box",
-          title: "Aktywność",
-          content: "Aktywności przedstawiamy tobie w taki oto sposób. Każda aktywność posiada własną kategorię (m.in. Ankieta, Dyskusja, Pomysł itp). Możesz do nich przechodzić bezpośrednio klikając w treść znajdującą się pod tytułem.",
+          title: gettext("An activity"),
+          content: gettext("In this manner we present the activities to you. Each activity has a category (e.g. Poll, Discussion, Idea etc.). You can view them by simply clicking on text below the title."),
           backdrop: true,
           path: rootUrl
         }, {
           element: "#tour-activity",
-          title: "Aktywność użytkowników",
-          content: "W tym miejscu znajdują się wszytskie aktywności jakie dany użytkownik wykonał dla tego miejsca.",
+          title: gettext("User activity"),
+          content: gettext("Here you can see all of the user's activities in this place."),
           backdrop: true,
+          placement: "left",
           path: rootUrl
         }, {
           element: "#tour-Blog",
-          title: "Blog",
-          content: "Znajdziesz tutaj wszystkie aktualności związane z tą lokalizacją. Ponadto możesz tworzyć własne aktualności wybierając w panelu bocznym dodaj aktualność. ",
+          title: gettext("Blog"),
+          content: gettext("Here you can see all of the news connected with the given place. Additionally, you can add your own news, to do so click 'add news' in the right side menu."),
           path: rootUrl + "news/"
         }, {
           element: "#tour-Discussions",
-          title: "Dyskusje",
-          content: "Możesz przglądać dyskusje poruszone w tej lokalizacji bądź samemy dołączyć do takiej dyskusji. Tworzenie nowych dyskusji jest również w twojej mocy.",
+          title: gettext("Discussions"),
+          content: gettext("Here you can view or join discussions of a given place. If you feel like adding a new discussion topic you are also free to do so."),
           path: rootUrl + "discussion/"
         }, {
           element: "#tour-Ideas",
-          title: "Pomysły",
-          content: "Przeglądaj pomysły użytkowników i oceniaj je. Dziel się również swoimy ciekawymi pomysłami.",
+          title: gettext("Ideas"),
+          content: gettext("View ideas of other users and vote on them. You can also share your creative ideas with others."),
           path: rootUrl + "ideas/"
         }, {
           element: "#tour-votes",
-          title: "Głosowanie",
-          content: "Tu oddajesz swój głos. Możesz przeglądać głosy innych klikająć w ilość głosów w dolnej części okienka.",
+          title: gettext("Voting"),
+          content: gettext("Here you can cast your vote. You can view other user's votes by clicking on the number of votes in the bottom part of the window."),
           backdrop: true,
           path: rootUrl + "ideas/"          
         }, {
           element: "#tour-Polls",
-          title: "Ankiety",
-          content: "Miejsce, w którym możesz przeglądać wszystkie ankiety dla danej lokalizacji.",
+          title: gettext("Polls"),
+          content: gettext("A place where you can view all polls of a given place."),
           path: rootUrl + "polls/"
         }, {
           element: "#tour-Followers",
-          title: "Obserwatorzy",
-          content: "Sprawdź kto jeszcze jest zaangażowany w rozwój swojego miasta. Znajdziesz tu wszytskich użytkowników, którzy obserwują to miejsce.",
+          title: gettext("Followers"),
+          content: gettext("Find out who else is active within this place. Here you can find all of the users that are following this place."),
           path: rootUrl + "followers/"
         }, {
           element: "#tour-map-icon",
-          title: "Mapa",
-          content: "Przejdź do mapy aby sprawdzić co się dzieje w okolicy",
+          title: gettext("See the map"),
+          content: gettext("Jump into the map and see what is happening in your place."),
           placement: "bottom",
           path: rootUrl + "followers/"
         }, {
           element: "",
-          title: "Mapa",
-          content: "Dzięki mapie możemsz szybko odnaleźć wszystko co sie dzieje w okolicy.",
+          title: gettext("Map"),
+          content: gettext("Thanks to the map you can quickly find out what is happening in your neighbourhood."),
           path: "/maps/",
           orphan: true
         }, {
           element: "",
-          title: "Kraj",
-          content: "Wybierz miejsce które chciałbyś zmieniać. Pamiętaj, że to ty masz wpływ na to co się dzieje w twoim otoczeniu.",
+          title: gettext("Country"),
+          content: gettext("Choose the place which you want to alter. Remember that you have the power to change what is happening within your surroundings."),
           path: "/places/",
           orphan: true
         }],

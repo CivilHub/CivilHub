@@ -19,12 +19,15 @@ require.config({
     
     paths: {
         jquery     : "includes/jquery/jquery",
+        "jqueryui": "includes/jquery-ui/jquery-ui",
         jpaginate  : "includes/jquery/jquery.paginate",
         bootstrap  : "includes/bootstrap/bootstrap",
         bootbox    : "includes/bootstrap/bootbox",
         underscore : "includes/underscore/underscore",
         backbone   : "includes/backbone/backbone",
-        tubular    : "includes/tubular/jquery.tubular.1.0"
+        tubular    : "includes/tubular/jquery.tubular.1.0",
+        "tour": "includes/tour/bootstrap-tour",
+        "moment": "includes/momentjs/moment"
     },
     
     shim: {
@@ -55,6 +58,10 @@ require.config({
         tubular: {
             deps: ["jquery"]
         },
+
+        "tour": {
+            "deps": ["bootstrap"]
+        }
     }
 });
 

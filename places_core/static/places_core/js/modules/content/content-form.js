@@ -55,7 +55,8 @@ function ($, utils) {
           width: 550,
           height: 300,
           markers: markers || [],
-          iconPath: ([window.STATIC_URL, 'css', 'images']).join('/')
+          iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
+          tileUrl: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
         }).data('mapinput');
         $('#content-create-form').on('submit', function (e) {
           submitMarkers(civapp.ct, civapp.pk);

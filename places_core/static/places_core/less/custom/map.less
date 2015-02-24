@@ -32,7 +32,8 @@
     border-top-left-radius: 3px;
     font-size: 14px;
     padding: 10px;
-    z-index: 5000;
+    //z-index: 5000;
+    z-index: 500;
     
     #map-filter-toggle {
         width: 100%;
@@ -55,7 +56,8 @@
 
 #map-options-panel {
     position: absolute;
-    z-index: 4000;
+    //z-index: 4000;
+    z-index: 400;
     left: 80px;
    
     top: 129px;
@@ -173,7 +175,14 @@
     h1, h2, h3, h4, p { 
         margin: 0px !important;
     }
-    
+    .description{
+        p{
+            img{
+                display: none;
+            }
+        }        
+    }
+
     .type { 
         position: relative;
         float: left;

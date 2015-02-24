@@ -4,10 +4,15 @@
 {% block title %} {{ title }}, {{ location }} | CivilHub {% endblock %}
 
 {% block meta %} 
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+
 <meta property="og:title" content="{{ title }}, {{ location.name }}"/>
-<meta property="og:image" content="{{ discussion.creator.profile.avatar.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:description" content="{{ discussion.question }}" />
+<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta property="article:author" content="https://civilhub.org{{ discussion.creator.profile.get_absolute_url }}" />
+<meta property="og:description" content="{{ discussion.question|striptags|slice:":100" }}... }}" />
 <meta name="keywords" content="{{ title }}, {{ location.name }}, {% for tag in discussion.tags.all %}{{ tag.name }}, {% endfor %}">
 {% endblock %}
 

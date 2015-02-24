@@ -1,0 +1,30 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+
+{% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
+{% block extra_styles %}
+    <link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/map.css">
+    <link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/mapplic/mapplic.css">
+{% endblock %}
+
+{% block require_scripts %}
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/vector-map.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endblock %}
+
+
+{% block main_page_content %}
+<div class="main-page-content wrap mapplicWparContent">
+    
+    <div id="messages"></div>
+    
+    {% block header %}{% endblock %}
+    
+    {% block container_main %}
+    <div class="mapplicDiv">
+        <div id="mapplic"></div>
+    </div>
+
+    {% endblock %}
+    
+</div>
+{% endblock %}

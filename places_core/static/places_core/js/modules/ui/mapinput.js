@@ -29,7 +29,7 @@ $.fn.mapinput = function (options) {
       onclear    : null,
       iconPath   : 'default',
       exceedMsg  : "Maximum number of markers exceeded. Remove some to add more",
-      tileUrl    : "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      tileUrl    : 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw',
       attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
   };
 

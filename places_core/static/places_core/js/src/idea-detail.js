@@ -75,7 +75,7 @@ require(['jquery',
 function ($, CounterWindow) {
     
     "use strict";
-    
+
     // Modal z podsumowanie głosów za i przeciw
     $('.idea-vote-count').on('click', function (e) {
         e.preventDefault();

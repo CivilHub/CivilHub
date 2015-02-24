@@ -139,6 +139,7 @@
             float:right;
         }
         .pm_container{
+            margin: 0 55px 0 0;
             .pm_header{
                 text-align: right;
             }
@@ -150,7 +151,7 @@
     }
         
     .pm_container{
-        margin: 0 55px;
+        margin: 0 0 0 55px;
 
         .pm_body{
             padding: 5px 15px;
@@ -217,6 +218,11 @@
     border-bottom: 1px solid #DEDEDE;
     margin: 5px -15px 20px;
     padding: 0 15px 20px;
+    @media(max-width: 500px){
+        span{
+           margin: 10px 0; 
+        }
+    }
 }
 
 .inboxDivH{
@@ -282,6 +288,15 @@
               &:hover{
                 background:rgba(125, 125, 125, 0.1);
               }
+              @media(max-width: 1200px){
+                width: 98%;
+              }
+              @media(max-width: 500px){
+                position: relative;
+                &:hover{
+                    background: none;
+                }
+              }
             }
         }
         .inboxReplyDiv{
@@ -331,6 +346,9 @@
 
 .inboxSidebar{
     margin-right: 0px;
+    .sidebar-content{
+        padding-top: 5px;
+    }
 }
 .inboxWrite{
     .main-content{
@@ -349,6 +367,9 @@
 .avatartextareaReplay{
     margin-left: -15px;
     .avatarViewIMG;
+    @media(max-width: 500px){
+        display: none;
+    }
 }
 .textareaReplyH{
     padding-left: 0px;
@@ -359,4 +380,13 @@
         -moz-border-radius: 20px;
         resize: none;
     }
+}
+
+.profileIndexEmptyBox{
+    height: 39px;
+    width: 100%;
+    background: #FFF;
+    border-bottom: 1px solid #DEDEDE;
+    margin-top: -20px;
+    margin-bottom: 20px;
 }

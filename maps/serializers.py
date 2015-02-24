@@ -35,6 +35,9 @@ class MapObjectSerializer(serializers.ModelSerializer):
         fields = ('lat', 'lng', 'content_object',)
 
     def get_content_object(self, obj):
+        if obj.content_object is None:
+            return {}
+
         tmpobj = {
             'id': obj.content_object.pk,
             'title': obj.content_object.__unicode__(),

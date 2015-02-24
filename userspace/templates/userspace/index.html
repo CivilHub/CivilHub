@@ -5,6 +5,44 @@
 <script data-main="{% static 'places_core' %}/js/{% js_path %}/userspace-form.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% endblock %}
 
+{% block header %}
+    <div class="user-logo" style="background-image:url({{ profile.background_image.url }})">
+        <div class="container" style="height: 100%; position: relative;">
+            
+            <div class="user-info">
+                <div class="profile-page-avatar">
+                    <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name }}" />
+                </div>
+                <div class="user-fullname">
+                    {{ user.get_full_name }}
+                </div>
+                {% if request.user.is_anonymous %}
+                    <a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
+                {% else %}
+                    {% if request.user != user and request.user not in profile.followers %}
+                        <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Follow" %}</a>
+                    {% endif %}
+                    {% if request.user != user and request.user in profile.followers %}
+                        <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Following" %}</a>
+                    {% endif %}
+                {% endif %}
+                {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
+                {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
+                {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
+                {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
+                <a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a> 
+
+            </div>
+            
+            {% if request.user == user %}
+                <a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="profileIndexEmptyBox"></div>
+
+{% endblock %}
+
 {% block content %}
 
 {% for error in errors %}
@@ -16,7 +54,7 @@
     <div class="col-sm-3">
         <div class=" sidebar inboxSidebar">
             <div class="sidebar-content">
-                <img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />
+                {% comment %}<img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />{% endcomment %}
                 <ul id="postman_menu" class="profileSidebarLeft">
                     <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
                     <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
@@ -41,7 +79,7 @@
                         <div class="form-group">
                             <div class="col-sm-2">&nbsp;</div>
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
                             </div>
                         </div>
                     </form>
@@ -53,7 +91,7 @@
                         <div class="form-group">
                             <div class="col-sm-2">&nbsp;</div>
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+                                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
                             </div>
                         </div>
                     </form>
@@ -70,7 +108,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2">&nbsp;</label>
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+                                <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Save" %}</button>
                             </div>
                         </div>
                     </form>

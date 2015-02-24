@@ -39,6 +39,15 @@
         font-weight: 400;
     }
   }
+  .articleBoxImg{
+    width: 100%;
+    text-align: center;
+    margin: 0px 0px 10px;
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+  }
   .acticle-content{
     font-size: 15px !important;
     line-height: 18px !important;
@@ -157,6 +166,9 @@
         }
         
     }
+    @media(max-width: 500px){
+        left: 250px !important;
+    }
 }
 }
 
@@ -197,3 +209,12 @@
         
     }
 }
+
+//edycja idei
+#content-create-form{
+    #image-clear_id,
+    #id_image{
+        display: inline-block;
+        margin-left: 15px;
+    }
+} 

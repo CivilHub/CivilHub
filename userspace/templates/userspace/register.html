@@ -1,14 +1,117 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles i18n %}
+{% extends 'staticpages/index.html' %}
+{% load staticfiles i18n civil_tags %}
+
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
+{% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+    scope: '{{ plus_scope }}',
+    id: '{{ plus_id }}'
+}
+</script>
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/static-home.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endblock %}
+
+{% block body %}
+<body class="body-nopd body-register">
+{% block navigation %}{% endblock %}
 
 {% block content %}
+<div id="register-Page">
 
+    <a href="/"><div class="logo-Home"></div></a>
+	    <div class="features-Home">
+	        <a href="/features/"><p>{% trans "Features" %}</p></a>
+	    </div>
+    <div class="login-Home">
+        <a href="{% url 'user:login' %}"><p>{% trans "Login" %}</p></a>
+    </div>
+     
     {{ errors }}
-    <p><small>{% trans "All fields are required" %}</small></p>
-    <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
-        {% csrf_token %}
-        {{ form }}
-        <button class="btn btn-primary" type="submit">{% trans "Register" %}</button>
-    </form>
+            
+	<div class="register-box">
+    <h1>{% trans "Create a new account" %}</h1>
 
+    <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
+        {% csrf_token %}
+        <div class="form-group">
+        	<div class="col-xs-6">
+        	<input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
+        	<div class="col-xs-6">
+        	<input id="surname" class="short form-control" type="text" name="last_name" placeholder="{% trans "Surname" %}" >
+        	</div>
+        </div>
+        <div class="form-group">
+        	<input id="username" class="long form-control" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> 
+    	</div>
+        <div class="form-group">
+        	<input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
+    	</div>
+    	<div class="form-group">
+        	<input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
+    	</div>
+    	<div class="form-group">
+        	<input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+        </div>
+        <div class="registerButtons">
+            <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+            <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>   
+            <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>          <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>       
+    	</div>
+    	<div class="registerButtonSubmit">
+    		<button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
+		</div>
+	    <p class="terms">
+	    {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.
+	    </p>
+    </form>
+    
+    <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+        {% csrf_token %}
+        <input id="at" type="hidden" name="access_token" value="" />
+        <input id="code" type="hidden" name="code" value="" />
+    </form>
+	</div>
+
+    <div class="footerLang footer" id="footer-register">   
+	    <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+	        <input type="text" name="next" value="{{ request.path }}" />
+	        <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+	    </form>
+	    <div id="lang-selector">
+	        <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
+	        <div id="popover-lang-list">
+	            <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
+	        </div>
+	    </div>
+	</div>
+
+   {% comment %}
+   <div class="footer-Home">
+        <ul>
+            <li><a href="http://maciejmargas.pl/" target="_blank" rel="nofollow">{% trans "About" %}</a></li>
+            <li><a href="#">{% trans "Terms of Use" %}</a></li>
+            <li><a href="#">{% trans "Privacy Policy" %}</a></li>
+            <li><a href="#"><div class="mute_bg"><div class="volume float_left"></div><div class="tubular-mute">&nbsp;{% trans "Mute" %}</div></div></a></li>
+        </ul>
+    </div>
+    {% endcomment %}
+
+</div>
+
+
+{% include 'places_core/google-login.html' %}
+
+{% endblock %}
+
+{% block footer %}
+
+{% include 'places_core/script-templates/flash-msg-tpl.html' %}
+{% include 'places_core/user-popup.html' %}
+{% include 'places_core/abuse-window-modal.html' %}
+{% include 'places_core/sublocation-dropdown.html' %}
+
+{% endblock %}
+</div>
 {% endblock %}

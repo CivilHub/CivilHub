@@ -11,7 +11,9 @@
 // przechwycony w przeglądarce, to nieprawidłowa nazwa użytkownika. Wówczas 
 // strona zostanie przeładowana i dopiero pojawi się informacja o błędzie.
 //
-require(['jquery'], function ($) {
+require(['jquery', 'underscore', 'js/modules/utils/utils'],
+
+function ($, _, utils) {
     
     "use strict";
     
@@ -28,10 +30,13 @@ require(['jquery'], function ($) {
     // @param invalid { function } Callback do wywołania, kiedy element nie jest
     //                              dostępny.
     var checkCredentials = function (data, valid, invalid) {
-        $.get('/api-userspace/credentials/', data, function (resp) {
-            if (resp.valid === true && typeof(valid) === 'function') {
+        var formData = _.extend(data, {
+                'csrfmiddlewaretoken': utils.getCookie('csrftoken')
+            });
+        $.post('/user/register_credentials_check/', formData, function (resp) {
+            if (resp.errors.length === 0 && _.isFunction(valid)) {
                 valid(resp);
-            } else if (resp.valid === false && typeof(invalid) === 'function') {
+            } else if (resp.errors.length && _.isFunction(invalid)) {
                 invalid(resp);
             }
         });
@@ -129,6 +134,7 @@ require(['jquery'], function ($) {
     // registerFormValidator
     // ---------------------
     // Plugin jQuery, który tworzy walidator dla formularza rejestracji.
+
     $.fn.registerFormValidator = function () {
         
         return $(this).each(function () {

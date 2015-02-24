@@ -3,6 +3,20 @@
 
 {% block title %} {{ news.title }}, {{ location }} | CivilHub {% endblock %}
 
+{% block meta %} 
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+
+<meta property="og:title" content="{{ title }}, {{ location.name }}"/>
+<meta property="og:image" content="https://civilhub.org{{ news.location.image.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta property="og:description" content="{{ news.content|striptags|slice:":100" }}..."/>
+<meta property="article:author" content="https://civilhub.org{{ news.creator.profile.get_absolute_url }}" />
+<meta name="keywords" content="{{ title }}, {{ location.name }}">
+{% endblock %}
+
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>

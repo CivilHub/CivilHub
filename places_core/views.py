@@ -49,7 +49,7 @@ class SearchResultsAPIViewSet(viewsets.ViewSet):
         from haystack.query import SearchQuerySet
         try:
             query_term = unquote(self.request.QUERY_PARAMS.get('q'))
-            return SearchQuerySet().filter(content_auto=query_term)
+            return SearchQuerySet().filter(content=query_term)
         except Exception:
             return []
 

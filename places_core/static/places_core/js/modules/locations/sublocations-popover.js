@@ -86,6 +86,10 @@ function ($, _, Backbone) {
             this.$el.find('input').on('keyup', function (e) {
                 this.filter($(e.currentTarget).val());
             }.bind(this));
+
+            this.$el.find('.close').click(function(){
+                $('.ancestors-menu').hide();
+            });
         },
         
         renderEntry: function (item) {

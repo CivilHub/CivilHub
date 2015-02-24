@@ -52,6 +52,14 @@
     padding: 7px 16px !important;
     margin: 19px 0px 0px; 
 
+    @media(max-width: 768px){
+        border:0;
+        margin: 0 !important;
+        font-weight: 400 !important;
+        text-transform: uppercase !important;
+        font-size: 15px !important;
+        line-height: 18px !important;
+    }
 }
 #features-Page{
 
@@ -955,46 +963,6 @@ img{
 
 }
 
-.jump{
-    animation: jump 5s infinite;
-    -webkit-animation: jump 5s infinite;
-    -moz-animation: jump 5s infinite;
-}
-
-@keyframes jump {
-  0% {
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-  }
-
-  50% {
-    -webkit-transform: translate3d(0,20px,0);
-    transform: translate3d(0,20px,0);
-  }
-
-  100% {
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
-  }
-}
-@-webkit-keyframes jump{
-    0%{
-        -webkit-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-    }
-
-    50%{
-        -webkit-transform: translate3d(0,20px,0);
-        transform: translate3d(0,20px,0);
-    }
-    100%{
-        -webkit-transform: translate3d(0,0,0);
-        transform: translate3d(0,0,0);
-    }
-}
-
-
-
 //Invite Friends
 
 .invitePage{
@@ -1323,6 +1291,15 @@ background-position: center 13%;
                     display: inline-block;
                     text-align: right;
                 }
+                @media(max-width: 500px){
+                    form{
+                        float: right;
+                        margin-right: 10px;
+                    }
+                    .bk-createdTime{
+                        width: auto;
+                    }
+                }
 
             }
         }
@@ -1335,4 +1312,279 @@ background-position: center 13%;
     }
 
 
+}
+.body-register{
+    background-image:url('../img/register_bg.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;      
+    z-index: 100;
+
+
+    background-color: #000;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('../img/register_bg@2x.png');
+    }
+    @media(max-width: 450px) and (max-height:580px) {
+        position: relative;
+        overflow-x: hidden;
+        height: auto;
+    }
+}
+#footer-register{
+    @media(max-width: 450px){
+        position: relative;
+        bottom: 0;
+        margin: 0;
+    }
+}
+#register-Page{
+
+
+    .features-Home,
+    .login-Home{
+        a{
+            color: #FFF;
+        }
+        p{
+            margin-bottom: 0;
+        }
+    }
+
+    .register-box{
+        width: 300px;
+        min-height: 320px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        //margin-top: -160px;
+        margin-top: -219px;
+        margin-left: -150px;   
+        @media(max-width: 450px){
+        position: relative;
+        top: 0;
+        margin-top: 0px;
+        }
+
+        h1{
+            color: #FFF;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .formRegister{
+            .popover{
+                color: #000;
+            }
+            .col-xs-6{
+                &:first-child{
+                    padding-left: 0;
+                    padding-right: 5px;
+                }
+            }
+            .col-xs-6{
+                &:last-child{
+                    padding-left: 5px;
+                    padding-right: 0;   
+                }
+            }
+            .form-group{
+                margin-bottom: 10px;
+            }
+
+            .registerButtons{
+                text-align: center;
+                .facebook-btn,
+                .twitter-btn,
+                .linkedin-btn,
+                .google-btn{
+                    background: #fff;
+                    border: 0 none;
+                    border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    color: #000;
+                    width: 30px;
+                    height: 30px;
+                    margin: 0 8px;
+                    font-size: 20px;
+                }
+            }
+            .registerButtonSubmit{
+                margin: 10px 0;
+                text-align: center;
+
+                button{
+                    color: #FFF;
+                    background-color: #84bd00;
+                    border: 1px solid #000;
+                    border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    line-height: 18px;
+                    font-size: 14px;
+                    padding: 10px 65px
+                }
+            }
+
+            .terms{
+                text-align: center;
+                font-size: 10px;
+                a{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+
+//Confirm-register
+#confirmReg{
+    color: #50616D;
+    margin-top: 50px;
+    text-align: center;
+}
+
+//task3 page
+
+.task-page-heading{
+    font-size: 32px;
+    line-height: 32px;
+    font-weight: bold;
+    color: #50616d;
+    display: inline-block;
+}
+
+.small-green{
+    color: #84bd00;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+#task3-page{
+    background: #fff;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border: 1px solid #DDD;
+
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    .col-sm-6{
+        &:first-child{
+            border-right: 1px solid #DDD;
+            margin-left: -1px;
+        }
+    }
+    .left-side-task{
+        margin-left: -15px;
+        margin-right: -15px;
+        h1{
+            color: #50616d;
+            font-size: 21px;
+            line-height: 32px;
+            margin: 13px 30px;
+        }
+        .col-sm-1,
+        .col-sm-5{
+            padding: 0;
+        }
+        .task-container{
+            .task-heading{
+                display: inline-block;
+                border-right: 1px solid #DDD;
+                border-top: 1px solid #DDD;
+                margin-top: -1px;
+                .task-title{
+                    color: #0083fb;
+                    font-size: 14px;
+                    line-height: 18px;
+                    font-weight: bold;
+                    margin: 7px 5px 7px 30px;
+                }
+            }
+            .task-content{
+                border-top: 1px solid #DDD;
+                border-right: 1px solid #DDD;
+                padding: 0 0 0 30px;
+                line-height: 25px;
+                margin-right: 25px;
+                &:last-child{
+                    border-bottom: 1px solid #DDD;
+                }
+                &:hover{
+                    background-color: #0083fb;
+                    .sub-task-title{
+                        color: #FFF;
+                    }
+                    .action-plus,
+                    .action-more{
+                        color: #5E5E5E;
+                    }
+                }
+                .row{ margin: 0;}
+                input{ margin: 6px 0px 0px 0px;}
+                .sub-task-title{
+    
+                }
+                .task-ppl{
+                    text-align: right;
+                    margin-right: 15px;
+                    a{
+                        display: inline-block;
+                        margin-left: 2px;
+                        img{
+                            width: 15px;
+                            height: 15px;
+                            border-radius: 50%;
+                            -webkit-border-radius: 50%;
+                            -moz-border-radius: 50%;
+                        }
+                    }
+                }
+                .task-actions{
+                    a{}
+                }
+            }
+        }
+    }
+    .right-side-task{}
+
+    .action-plus,
+    .action-more{
+        display: inline-block;
+        font-size: 10px;
+        margin: 0 3px;
+    }
+    .add-task{
+        color: #84bd00;
+        font-size: 10px;
+        margin-left: 5px;
+    }
+
+    .add-new-task-group{
+        margin-left: 50px;
+        margin-bottom: 50px;
+        margin-top: 5px;
+        span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        p{
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 20px;
+            margin-left: 5px;
+        }
+    }
 }

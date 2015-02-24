@@ -352,6 +352,11 @@ body.body-Home {
         text-decoration: none;
         line-height: 1;
         display: inline-block;
+        &.help_translate{
+            color: #707070;
+            display: block;
+            line-height: 22px;
+        }
     }
 
 }
@@ -444,9 +449,7 @@ body.body-Home {
 
         &:hover{
             p{
-                color: #4d4747;
-                text-shadow: 2px 0px 2px #FFF;
-                -webkit-text-shadow: 2px 0px 2px #FFF;
+                color: #FFF;
                 border-bottom: 1px solid #FFF;
                 padding-bottom: 5px;
              
@@ -477,6 +480,12 @@ body.body-Home {
         color: #FFF;
         font-weight: 700;
         margin: 0;
+
+        animation: fadeInDown 1s both;
+        -webkit-animation: fadeInDown 1s both;
+        -moz-animation: fadeInDown 1s both;
+
+
     }
     h2{
         font-size: 40px;
@@ -484,6 +493,11 @@ body.body-Home {
         color: #FFF;
         font-weight: 400;
         margin: 0;
+
+        animation: fadeInDown 1s both;
+        -webkit-animation: fadeInDown 1s both;
+        -moz-animation: fadeInDown 1s both;
+
     }
     p{
         font-size: 16px;
@@ -505,6 +519,10 @@ body.body-Home {
             -moz-transition: 0.2s;
             -o-transition: 0.2s;
         }
+
+        animation: fadeInUp 1s both;
+        -webkit-animation: fadeInUp 1s both;
+        -moz-animation: fadeInUp 1s both;
     }
     @media(max-width: 768px){
         h1{
@@ -547,11 +565,15 @@ body.body-Home {
             }
         }
     }
+    @media(max-width: 480px){
+        width: 100%;
+    }
 }
 
 .footerLang{
     position: fixed;
-    bottom: -3px;
+    //bottom: -3px;
+    bottom: 1px;
     margin-left: 20%;
     font-size: 12px;
     line-height: 12px;
@@ -579,6 +601,15 @@ body.body-Home {
                 }
             }
         }
+    }
+    @media(max-width: 830px){
+        margin-left: 20px;
+    }
+    @media(max-width: 480px){
+        display: block;
+        width: 100%;
+        bottom: 50px;
+        text-align: center;
     }
 }
 

@@ -4,22 +4,24 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.http import HttpResponseNotFound
-from django.views.generic import View
+from django.views.generic import TemplateView, View
 
 
 PAGE_DIR = os.path.join(settings.BASE_DIR, 'staticpages/templates/staticpages/pages/')
 
 
-class HomeView(View):
+class HomeView(TemplateView):
     """
     Widok głównej strony. W zależności od tego, czy użytkownik jest już zalogo-
     wanym użytkownikiem, czy nie, prezentuje formularz rejestracji lub stronę
     aktywności użytkownika.
     """
+    template_name = 'staticpages/pages/home.html'
+
     def get(self, request):
-        if request.user.is_anonymous():
-            return redirect('user:register')
-        return redirect('user:profile', request.user.username)
+        if request.user.is_authenticated():
+            return redirect('/activity/')
+        return super(HomeView, self).get(request)
 
 
 class PageView(View):

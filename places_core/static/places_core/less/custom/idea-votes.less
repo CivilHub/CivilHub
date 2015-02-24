@@ -24,6 +24,10 @@
       font-size: 21px;
       height: 40px;
       line-height: 40px;
+      @media(max-width: 768px){
+        height: 40px !important;
+        line-height: 40px !important;
+      }
     }
     .vote-controls {
       width: 30px;
@@ -36,6 +40,7 @@
         box-sizing: border-box;
         border-left: 0px;
         border-color: #dedede;
+        height: 20px;
         span {
           color: #464646;
           font-size: 20px;
@@ -47,9 +52,6 @@
         &:last-child {
           border-top: 1px solid #b1b1b1;
         }
-      }
-      button{
-        height: 20px;
       }
     }
   }
@@ -101,11 +103,21 @@
       list-style-type: none;
       li {
         margin-bottom: 5px;
+        .counter-entry{
+            img{
+                max-width: 30px;
+                width: 100%;
+                height: auto;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+            }
+        }
       }
     }
     .label {
       float: right;
-      margin-top: 5px;
+      margin-top: 7px;
     }
     .row {
       &.vote-summary {

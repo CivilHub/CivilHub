@@ -61,10 +61,10 @@ function ($, _, Backbone, CounterWindow) {
             }
         },
 
-        voteCounterWindow: function () {
+        voteCounterWindow: function (e) {
             // Extend counter window to pass model ID.
             var CW = CounterWindow.extend({
-                'ideaId': this.model.get('id')
+                'ideaId': $(e.currentTarget).attr('data-target')
             });
             var cc = new CW();
         }

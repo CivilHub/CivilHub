@@ -1,6 +1,8 @@
 {% load i18n %}{% load staticfiles %}
 
+{% for a in articles %}
 <section>
-  <hgroup><h1>{{ article.title }}</h1></hgroup>
-  <article>{{ article.content | safe }}</article>
+  <hgroup><h1>{{ a.title }}</h1></hgroup>
+  <article>{{ a.content | safe }}</article>
 </section>
+{% endfor %}

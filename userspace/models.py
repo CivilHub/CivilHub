@@ -22,7 +22,7 @@ from actstream.models import following, followers
 
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sort_by_locale
-from locations.models import Location
+from locations.models import Location, BackgroundModelMixin
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
@@ -43,7 +43,7 @@ def get_upload_path(instance, filename):
 
 
 @python_2_unicode_compatible
-class UserProfile(models.Model):
+class UserProfile(models.Model, BackgroundModelMixin):
     """
     Profil użytkownika.
     """
@@ -98,7 +98,7 @@ class UserProfile(models.Model):
         default = 'img/avatars/30x30_anonymous.png',
         storage = OverwriteStorage()
     )
-    background_image = models.ImageField(
+    image = models.ImageField(
         upload_to = get_upload_path,
         default = 'img/backgrounds/background.jpg'
     )
@@ -117,9 +117,9 @@ class UserProfile(models.Model):
         if self.pk:
             try:
                 orig = UserProfile.objects.get(pk=self.pk)
-                if not u'background.jpg' in orig.background_image.name and orig.background_image != self.background_image:
-                    delete_image(orig.background_image.path)
-                    delete_image(rename_background_file(orig.background_image.path))
+                if not u'background.jpg' in orig.image.name and orig.image != self.image:
+                    delete_image(orig.image.path)
+                    delete_image(rename_background_file(orig.image.path))
             except UserProfile.DoesNotExist:
                 pass
         super(UserProfile, self).save(*args, **kwargs)
@@ -150,7 +150,7 @@ class UserProfile(models.Model):
 
     def get_cropped_image(self):
         """ Method to get cropped background for list views. """
-        return rename_background_file(self.background_image.url)
+        return rename_background_file(self.image.url)
 
     def get_absolute_url(self):
         return reverse('user:profile', kwargs={'username': self.clean_username})

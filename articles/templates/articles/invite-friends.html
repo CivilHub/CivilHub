@@ -1,7 +1,11 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n %}
+{% load staticfiles i18n civil_tags %}
 
 {% comment %} Invite friends jest zrobione dla zalogowanych uzytkownikow przez g+, places_core/../{% endcomment %}
+
+{% block require_scripts %}
+<script data-main="{% static 'places_core' %}/js/{% js_path %}/invite-friends.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% endblock %}
 
 {% block header %}
 <div class="headerBGaInvi headerBGInvite">
@@ -19,60 +23,31 @@
 
 <div class="invitePage">
 
-
-<div id="invite-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Zaproś znajomych</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" method="post" action="" >
-                    <div class="form-group">
-                        <label for="invite-emails" class="control-label">Wpisz adresy email rozdzielone przecinkami</label>
-                        <p class="help-block">Podaj adresy email rozdzielone przecinkami</p>
-                        <input type="text" id="invite-emails" name="emails" class="form-control" data-defaulttext="Dodaj email" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
-                <button type="button" class="btn btn-primary submit-btn">Wyślij</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-    
-
 	<div class="inviteFriends">
-		<h2>Zaproś znajomego poprzez wysłanie mu wiadomości, aby miał możliwość przekonać się co to znaczy siła CivilHub.</h2>
-		<h3>Terms and Conditions</h3>
+		<h2>{% trans "Invite a friend by sending him a message, to have the opportunity to find out what it means to force CivilHub." %}</h2>
+		<h3>{% trans "Terms and Conditions" %}</h3>
 	</div>
 	<div class="inviteForm">
 		<form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">
 
-
 		<div class="inviteInputL">
-			<input type="email" class="form-control" placeholder="Add your friend’s email addresses">
-			<p class="text-left">Separate the adressees with commas</p>
+			<input type="email" class="form-control" placeholder="{% trans "Add your friend’s email addresses" %}">
+			<p class="text-left">{% trans "Separate the adressees with commas" %}</p>
 		</div>
 
 
 		<div class="inviteSubmit">
-			<button type="submit" class="btn btn-saveBig">Send</button>
+			<button type="submit" class="btn btn-saveBig">{% trans "Send" %}</button>
 		</div>
-
 
 		<div class="inviteInputR">
 			<input type="text" class="form-control" placeholder="www.civilhub.org/">
-		<div class="text-left">Share: 
+		<div class="text-left">{% trans "Share:" %} 
 			<div class="fb-share-button" data-href="https://civilhub.org" data-layout="icon"></div>{% comment %}<span class="fa fa-facebook"></span>  <a href="#"><span class="fa fa-twitter"></span></a> {% endcomment %}</div>
 		</div>
 
 	</form>
 	</div>
-
 
 </div>
 <div id="fb-root"></div>

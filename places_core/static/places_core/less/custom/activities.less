@@ -73,10 +73,9 @@
             padding-left: 0px;
             padding-right: 0px;
             margin-top: 0px;
-
-    text-align: left;
-    padding: 15px 15px 12px 15px;
-    position: relative;
+            text-align: left;
+            padding: 15px 15px 12px 15px;
+            position: relative;
 
             &:hover{
             background: #F3F3F3;
@@ -94,7 +93,7 @@
             .actiAvatar{
                 width: 30px;
                 max-width: 19%;
-                height: 30px;
+                //height: 30px;
                 border-radius: 50%;
                 -webkit-border-radius: 50%;
                 -moz-border-radius: 50%;
@@ -105,6 +104,10 @@
                 img{
                     max-width: 100%;
                     height: auto;
+                }
+                @media(min-width: 768px) and (max-width: 991px){
+                    margin: 0;
+
                 }
             }
             .actiNick{
@@ -290,11 +293,18 @@
             width: 100%;
             max-width: 200px;
             display: inline-block;
+            vertical-align: top;
         }
         @media(max-width: 650px){
             max-width: none;
+            width: 33%;
 
-
+        }
+        @media(max-width: 500px){
+            width: 100%;
+            max-width: 270px;
+            display: block;
+            margin: 0 auto !important;
         }
     }
 
@@ -315,9 +325,9 @@
 }
     .locBoxHeader{
         background-image: url('../img/locationBox.png');
-        background-position: center center;
+        background-position: center center !important;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: cover !important;
         background-color: #0083fb !important;
         padding: 10px;
 
@@ -397,13 +407,16 @@
             position: absolute;
             bottom: 15px;
             z-index: 2;
+            @media(min-width: 500px) and (max-width: 1200px){
+                width: 100%;
+                padding-right: 15px;
+            }
             .locBoxAuthor{
                 display: inline-block;
                 height: 40px;
                 width: 40px;
                 vertical-align: middle;
                 margin-left: 5px;
-
                 padding-right: 53px;
                 border-right: 1px solid #FFF;
 
@@ -412,25 +425,34 @@
                     width: 40px;
                     height: 40px;
                 }
+                @media(min-width: 500px) and (max-width: 1200px){
+                    display: block;
+                    padding-right: 5px;
+                    border-right: 0 none;
+                    margin: 0;
+                    text-align: center;
+                    width: 100%;
+                }
 
             }
             .locBoxTitle{
                 display: inline-block;
                 font-size: 14px;
                 font-weight: bold;
-
                 padding-left: 10px;
-
-
                 padding-right: 15px;
                 max-width: 74%;
                 vertical-align: middle;
                 a{
                     color: #FFF;
                 }
+                @media(min-width: 500px) and (max-width: 1200px){
+                    max-width: 100%;
+                    padding-left: 0;
+                    padding-right: 5px;
+                }
             }
         }
-
     }
     .locBoxCat{
         background-color: #84bd00;
@@ -450,6 +472,11 @@
         max-height: 54px;
         min-height: 54px;
         overflow: hidden;
+        p{
+            img{
+                display: none;
+            }
+        }
         @media(max-width: 991px){
             max-height: none;
         }

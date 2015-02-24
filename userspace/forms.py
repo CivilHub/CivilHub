@@ -10,9 +10,7 @@ from .models import UserProfile
 
 
 class RegisterForm(forms.Form):
-    """
-    Register new user
-    """
+    """ Register new user """
     username = forms.CharField(
         label = _('Username'),
         max_length = 32,
@@ -43,7 +41,19 @@ class RegisterForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
-    
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email and User.objects.filter(email=email).count():
+            raise forms.ValidationError(_(u'User with this email address already exists.'))
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username and User.objects.filter(username=username).count():
+            raise forms.ValidationError(_(u"User with this username already exists"))
+        return username
+
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(RegisterForm, self).__init__(*args, **kwargs)

@@ -12,7 +12,7 @@
     {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
         <div class="col-sm-3">
             <div class="sublocation">
-                <img src="{{ sublocation.get_cropped_image }}" />
+                <img src="{{ sublocation.thumb_url }}" />
                 <div class="sublocation-content">
                     <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
                 </div>
