@@ -1,0 +1,17 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+
+{% block header %}
+
+<div class="headerBGa headerBGSupport">
+<h1 class="headerTitleBG">{% trans "Support" %}</h1>
+</div>
+
+{% endblock %}
+
+{% block content %}
+
+ <div>{{ article.content | safe }}</div>
+
+
+{% endblock %}

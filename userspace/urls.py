@@ -20,6 +20,7 @@ router.add_api_view('locations', url(r'locations/$', views.UserFollowedLocations
 
 urlpatterns = patterns('',
     url(r'^$', views.ProfileUpdateView.as_view(), name='index'),
+    url(r'register_credentials_check', views.register_credentials_check, name='register_credentials_check'),
     url(r'confirm-register/', views.confirm_registration, name='message_sent'),
     url(r'twitter-email/', views.SetTwitterEmailView.as_view(), name='twitter_email'),
     url(r'test/', views.test_view, name='test'),

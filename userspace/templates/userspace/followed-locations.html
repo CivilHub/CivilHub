@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container sublocations">
     {% for l in profile.followed_locations %}
-    <div class="col-lg-3">
+    <div class="col-lg-3 col-sm-3">
         <div class="sublocation">
             <img src="{{ l.get_cropped_image }}" />
             <div class="sublocation-content">

@@ -384,6 +384,24 @@ class UserActivityView(TemplateView):
         return super(UserActivityView, self).get(request)
 
 
+def register_credentials_check(request):
+    """
+    Sprawdzamy nazwę użytkownika oraz email na potrzeby formularza rejestracji.
+    """
+    if not request.method == 'POST':
+        raise Http404
+    email = request.POST.get('email')
+    uname = request.POST.get('uname')
+    ctx = {'errors': []}
+    if email and User.objects.filter(email=email).count():
+        ctx['errors'].append({'label': 'email',
+            'message': u"User with this email address already exists"})
+    if uname and User.objects.filter(username=uname).count():
+        ctx['errors'].append({'label': 'username',
+            'message': u"User with this username already exists"})
+    return HttpResponse(json.dumps(ctx), content_type="application/json")
+
+
 class SetTwitterEmailView(FormView):
     """
     W tym widoku użytkownik, który rejestruje się przy pomocy konta na Twitterze
@@ -556,51 +574,67 @@ def register(request):
             user.first_name = request.POST.get('first_name')
             user.last_name  = request.POST.get('last_name')
             user.is_active = False
-            # try:
-            #     user.save()
-            #     # Create auth token for REST api:
-            #     token = Token.objects.create(user=user)
-            #     token.save()
-            # except Exception as ex:
+            try:
+                user.save()
+                # Create auth token for REST api:
+                token = Token.objects.create(user=user)
+                token.save()
+            except Exception as ex:
 
-            #     logger.error(u"[{}]: {}".format(timezone.now(), ex))
+                logger.error(u"[{}]: {}".format(timezone.now(), ex))
 
-            #     # Form valid, but user already exists
-            #     ctx = {
-            #         'form': RegisterForm(initial={
-            #             'username': request.POST.get('username'),
-            #             'email':    request.POST.get('email')
-            #         }),
-            #         'title' : _("Registration"),
-            #         'errors': _("Selected username already exists. Please provide another one."),
-            #     }
-            #     return render(request, 'userspace/register.html', ctx)
+                # Form valid, but user already exists
+                ctx = {
+                    'form': RegisterForm(initial={
+                        'username': request.POST.get('username'),
+                        'email':    request.POST.get('email')
+                    }),
+                    'title' : _("Registration"),
+                    'errors': _("Selected username already exists. Please provide another one."),
+                }
+                return render(request, 'userspace/register.html', ctx)
 
-            user.save()
-            # Create auth token for REST api:
-            token = Token.objects.create(user=user)
-            token.save()
+            try:
+                # Create register demand object in DB
+                salt = hashlib.md5()
+                salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+                register_demand = RegisterDemand.objects.create(
+                    activation_link = salt.hexdigest(),
+                    ip_address      = get_ip(request),
+                    user            = user,
+                    email           = user.email,
+                    lang            = translation.get_language()
+                )
+            except Exception as ex:
+                # if something goes wrong, delete created user to avoid future
+                # name conflicts (and allow another registration).
+                user.delete()
 
-            # Create register demand object in DB
-            salt = hashlib.md5()
-            salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-            register_demand = RegisterDemand.objects.create(
-                activation_link = salt.hexdigest(),
-                ip_address      = get_ip(request),
-                user            = user,
-                email           = user.email,
-                lang            = translation.get_language()
-            )
+                logger.error(u"[{}]: {}".format(timezone.now(), ex))
+
+                return render(request, 'userspace/register-failed.html', {
+                    'title': _("Registration failed")
+                })
 
             # Create activation link
             site_url = request.build_absolute_uri('/user/activate/')
             link = site_url + str(register_demand.activation_link)
 
-            # Send email with activation link.
-            translation.activate(register_demand.lang)
-            email = emails.ActivationLink()
-            email.send(register_demand.email, {'link':link})
+            try:
+                # Send email with activation link.
+                translation.activate(register_demand.lang)
+                email = emails.ActivationLink()
+                email.send(register_demand.email, {'link':link})
+            except Exception as ex:
+                # User is registered and link is created, but there was errors
+                # during sanding email, so just show static page with link.
 
+                logger.error(u"[{}]: {}".format(timezone.now(), ex))
+
+                return render(request, 'userspace/register-errors.html', {
+                    'title': _("Registration"),
+                    'link' : link,
+                })
             # Show confirmation
             return redirect('user:message_sent')
     

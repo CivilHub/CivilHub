@@ -11,14 +11,14 @@
                 <form role="form" method="post" action="{% url 'civmail:invite' %}" >
                     <div class="form-group">
                         <label for="invite-emails" class="control-label">{% trans "Enter email addresses" %}</label>
-                        <p class="help-block">{% trans "Enter email addressess divided with commas" %}</p>
+                        <p class="help-block">{% comment %}{% trans "Enter email addressess divided with commas" %}{% endcomment %} {% trans "We'll send them an invitation to join CivilHub.org." %}</p>
                         <input type="text" id="invite-emails" name="emails" class="form-control" data-defaulttext="{% trans "Add address" %}" />
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                <button type="button" class="btn btn-primary submit-btn">{% trans "Send" %}</button>
+                <button type="button" class="btn btn-cancelBig" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-saveBig submit-btn">{% trans "Send" %}</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

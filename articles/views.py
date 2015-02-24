@@ -89,8 +89,23 @@ class SupportEntryView(DetailView):
         context = super(SupportEntryView, self).get_context_data(**kwargs)
         context['articles'] = self.get_object().category.article_set.all()
         return context
+        
+# Support bez generowania menu categorie itd
+#--------------------------------------------
+class SupportArticleView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/support-list.html"
 
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
 
+    def get_context_data(self, **kwargs):
+        context = super(SupportArticleView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
 # blog
 #-------------------------------------------------------------------------------    
 
@@ -166,7 +181,7 @@ class FeaturesArticleView(DetailView):
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
 
-# Features
+# InviteFriends
 #-------------------------------------------------------------------------------
 
 class InviteFriendsView(DetailView):
@@ -181,5 +196,41 @@ class InviteFriendsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(InviteFriendsView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
+
+# Vector-map
+#-------------------------------------------------------------------------------
+
+class VectorMapView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/vector-map.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(VectorMapView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
+
+# Vector-map
+#-------------------------------------------------------------------------------
+
+class TestArticleView(DetailView):
+    """ Show any article in top-level url hierarchy (as static page). """
+    model = Article
+    article_slug = None
+    template_name = "articles/clear.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(TestArticleView, self).get_context_data(**kwargs)
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
