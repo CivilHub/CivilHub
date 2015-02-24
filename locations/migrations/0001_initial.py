@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
             options={
                 'ordering': ['name'],
             },
-            bases=(models.Model,),
+            bases=(models.Model, locations.models.BackgroundModelMixin),
         ),
         migrations.AddField(
             model_name='country',

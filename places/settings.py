@@ -36,7 +36,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 SITE_ID = 1
 
@@ -80,7 +80,7 @@ INSTALLED_APPS = (
     # http://django-modeltranslation.readthedocs.org/en/latest/
     'modeltranslation',
 
-    # Core program modules
+    #Core program modules
     'places_core', # for common templates and static files
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
     'userspace',   # panel użytkownika
@@ -322,7 +322,7 @@ LANGUAGES = (
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': 'redis:6379:1',
+        'LOCATION': 'localhost:6379:1',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }

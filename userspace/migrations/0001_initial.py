@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 import places_core.storage
+import locations.models
+from django.conf import settings
 import userspace.models
 
 
@@ -69,12 +70,12 @@ class Migration(migrations.Migration):
                 ('linkedin_url', models.URLField(max_length=255, null=True, verbose_name='LinkedIn profile url', blank=True)),
                 ('avatar', models.ImageField(default='img/avatars/anonymous.png', storage=places_core.storage.OverwriteStorage(), upload_to='img/avatars/')),
                 ('thumbnail', models.ImageField(default='img/avatars/30x30_anonymous.png', storage=places_core.storage.OverwriteStorage(), upload_to='img/avatars/')),
-                ('background_image', models.ImageField(default='img/backgrounds/background.jpg', upload_to=userspace.models.get_upload_path)),
+                ('image', models.ImageField(default='img/backgrounds/background.jpg', upload_to=userspace.models.get_upload_path)),
                 ('mod_areas', models.ManyToManyField(related_name='locations', to='locations.Location', blank=True)),
             ],
             options={
             },
-            bases=(models.Model,),
+            bases=(models.Model, locations.models.BackgroundModelMixin),
         ),
         migrations.AddField(
             model_name='logindata',
