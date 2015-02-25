@@ -45,16 +45,27 @@ class SearchResultsAPIViewSet(viewsets.ViewSet):
     serializer_class = PaginatedSearchSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,)
 
+    def _get_model_labels(self, ct_list):
+        if not len(ct_list):
+            return None
+        return [ContentType.objects.get(pk=x).model_class() for x in ct_list]
+
     def get_queryset(self):
         from haystack.query import SearchQuerySet
         try:
             query_term = unquote(self.request.QUERY_PARAMS.get('q'))
-            return SearchQuerySet().filter(content=query_term)
+            sqs = SearchQuerySet().filter(content=query_term)
+            types = self.request.QUERY_PARAMS.get('ct', '').split(',')
+            models = self._get_model_labels([int(x) for x in types if x])
+            if models is not None:
+                sqs = sqs.models(*models)
         except Exception:
-            return []
+            sqs = []
+        return sqs
 
     def list(self, request):
-        paginator = Paginator(self.get_queryset(), settings.LIST_PAGINATION_LIMIT)
+        sqs = [x for x in self.get_queryset() if x.object is not None]
+        paginator = Paginator(sqs, settings.LIST_PAGINATION_LIMIT)
         page = request.QUERY_PARAMS.get('page')
         try:
             results = paginator.page(page)

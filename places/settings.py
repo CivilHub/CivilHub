@@ -80,7 +80,7 @@ INSTALLED_APPS = (
     # http://django-modeltranslation.readthedocs.org/en/latest/
     'modeltranslation',
 
-    #Core program modules
+    # Core program modules
     'places_core', # for common templates and static files
     'geonames',    # To, co powinno być w powyższym, tylko dobrze
     'userspace',   # panel użytkownika
@@ -97,7 +97,7 @@ INSTALLED_APPS = (
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
-    
+
     'raven.contrib.django.raven_compat',
     'analytical',
     # django-activity-stream - powinien być ostatni na liście

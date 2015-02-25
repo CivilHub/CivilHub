@@ -12,6 +12,8 @@ class SearchResultsSerializer(serializers.Serializer):
     object_pk = serializers.Field(source='pk')
 
     def get_verbose_name(self, obj):
+        if obj.object is None:
+            return ''
         return obj.object.__unicode__()
 
     def get_content_type(self, obj):
