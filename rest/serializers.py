@@ -16,6 +16,7 @@ from topics.models import Category as ForumCategory
 from topics.models import Discussion, Entry
 from places_core.models import AbuseReport
 from places_core.helpers import truncatehtml
+from places_core.serializers import ImagableModelSerializer
 from userspace.models import Badge
 from gallery.models import LocationGalleryItem, UserGalleryItem
 from locations.models import Location
@@ -252,7 +253,7 @@ class NewsSimpleSerializer(serializers.ModelSerializer):
         model = News
 
 
-class NewsSerializer(serializers.ModelSerializer):
+class NewsSerializer(ImagableModelSerializer, serializers.ModelSerializer):
     """
     News serializer - API endpoint for news Backbone application.
     """
@@ -281,7 +282,7 @@ class NewsSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'slug', 'link', 'content', 'date_created', 
                   'date_edited', 'username', 'user_id', 'avatar', 'location',
                   'category', 'category_url', 'edited', 'tags', 'comment_count',
-                  'user_full_name', 'creator_url', 'comment_meta')
+                  'user_full_name', 'creator_url', 'comment_meta', 'image',)
 
     def get_tags(self, obj):
         tags = []
@@ -307,15 +308,17 @@ class NewsSerializer(serializers.ModelSerializer):
         return len(comments.filter(object_pk=pk))
 
     def category_search_url(self, obj):
-        return reverse('locations:category_search', kwargs={
-            'slug'    : obj.location.slug,
-            'app'     : 'blog',
-            'model'   : 'news',
-            'category': obj.category.pk
-        })
+        if obj.category is not None:
+            return reverse('locations:category_search', kwargs={
+                'slug'    : obj.location.slug,
+                'app'     : 'blog',
+                'model'   : 'news',
+                'category': obj.category.pk
+            })
+        return u""
 
 
-class PollSerializer(serializers.ModelSerializer):
+class PollSerializer(ImagableModelSerializer, serializers.ModelSerializer):
     """ Standard poll serializer. """
     id = serializers.Field(source='pk')
     title = serializers.CharField()
@@ -334,7 +337,7 @@ class PollSerializer(serializers.ModelSerializer):
         model = Poll
         fields = ('id', 'title', 'question', 'url', 'creator_id', 'creator_username',
                   'creator_fullname', 'creator_url', 'creator_avatar', 'date_created',
-                  'tags', 'answers_url',)
+                  'tags', 'answers_url', 'image',)
 
     def get_answers_url(self, obj):
         return reverse('polls:results', kwargs={'pk': obj.pk})
@@ -418,7 +421,7 @@ class ForumCategorySerializer(serializers.ModelSerializer):
         fields = ('name', 'description',)
 
 
-class DiscussionSerializer(serializers.ModelSerializer):
+class DiscussionSerializer(ImagableModelSerializer, serializers.ModelSerializer):
     """ Basic serializer for discussions. """
     id = serializers.Field(source='pk')
     question = serializers.CharField()
@@ -443,7 +446,7 @@ class DiscussionSerializer(serializers.ModelSerializer):
         fields = ('id', 'question', 'intro', 'url', 'creator_id', 'answers',
                   'creator_fullname', 'creator_url', 'creator_avatar', 'category_name',
                   'date_created', 'date_edited', 'status', 'category_url', 'tags',
-                  'creator_username', 'location',)
+                  'creator_username', 'location', 'image',)
 
     def get_tags(self, obj):
         tags = []
@@ -457,12 +460,14 @@ class DiscussionSerializer(serializers.ModelSerializer):
         return tags
 
     def category_search_url(self, obj):
-        return reverse('locations:category_search', kwargs={
-            'slug'    : obj.location.slug,
-            'app'     : 'topics',
-            'model'   : 'discussion',
-            'category': obj.category.pk
-        })
+        if obj.category is not None:
+            return reverse('locations:category_search', kwargs={
+                'slug'    : obj.location.slug,
+                'app'     : 'topics',
+                'model'   : 'discussion',
+                'category': obj.category.pk
+            })
+        return u""
 
     def get_answer_count(self, obj):
         return obj.entry_set.count()

@@ -34,3 +34,11 @@ class ContentTypeSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = ContentType
+
+
+class ImagableModelSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField('get_image')
+    def get_image(self, obj):
+        if obj.has_default_image:
+            return False
+        return obj.image_url
