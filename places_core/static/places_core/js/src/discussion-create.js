@@ -15,7 +15,7 @@ require.config({
     
     paths: {
         jquery             : "includes/jquery/jquery",
-        "jqueryui": "includes/jqueryui/jquery-ui",
+        "jqueryui": "includes/jquery-ui/jquery-ui",
         jpaginate          : "includes/jquery/jquery.paginate",
         jqueryui           : "includes/jquery-ui/jquery-ui",
         tagsinput          : "includes/jquery/jquery.tagsinput",
