@@ -39,8 +39,12 @@ def token_check(request):
     """
     import logging
     from django.utils import timezone
+    from django.http import Http404
+    if not request.method == 'POST':
+        raise Http404
     logger = logging.getLogger('tokens')
     logger.info(u"[{}]: {}".format(timezone.now(), request.POST.get(token)))
+    return HttpResponse(json.dumps({success: True}), content_type="application/json")
 
 
 class SearchResultsAPIViewSet(viewsets.ViewSet):
