@@ -85,7 +85,7 @@
                         <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
                     </small>
                 </div>
-                <div class="articleBoxImg"><img src="{{ idea.image.url }}"></div>
+                <div class="articleBoxImg">{% if not idea.has_default_image %}<img src="{{ idea.image.url }}">{% endif %}</div>
                 <div class="acticle-content">{{ idea.description | safe }}</div>
     <p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}

@@ -47,13 +47,30 @@ from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
-from .helpers import profile_activation
+from .helpers import profile_activation, random_username
 from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
             BookmarkSerializer
 
-import logging
-logger = logging.getLogger('userspace')
+
+def user_dict(user):
+    """
+    Helper przydatny w dwóch poniższych funkcjach. Przedstawia podsumowanie
+    informacji o użytkowniku w formacie apetycznym dla mobilnej aplikacji.
+    """
+    if not isinstance(user, User):
+        raise Error(u"user must be django.contrib.auth.user instance")
+    return {
+        'success'   : True,
+        'id'        : user.pk,
+        'token'     : user.auth_token.key,
+        'username'  : user.username,
+        'email'     : user.email,
+        'first_name': user.first_name,
+        'last_name' : user.last_name,
+        'avatar'    : user.profile.avatar.url,
+    }
+
 
 @csrf_exempt
 def obtain_auth_token(request):
@@ -71,19 +88,58 @@ def obtain_auth_token(request):
             system_user = User.objects.get(email=email)
             user = auth.authenticate(username=system_user.username, password=password)
             if user is not None:
-                context.update({
-                    'success'   : True,
-                    'id'        : system_user.pk,
-                    'token'     : system_user.auth_token.key,
-                    'username'  : system_user.username,
-                    'email'     : system_user.email,
-                    'first_name': system_user.first_name,
-                    'last_name' : system_user.last_name,
-                    'avatar'    : system_user.profile.avatar.url,
-                })
+                context.update(user_dict(system_user))
         except User.DoesNotExist:
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+class SocialApiView(rest_views.APIView):
+    """
+    Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
+    korzysta z backendu Python Social Auth w celu ułatwienia integracji.
+    Domyślnie prezentowana jest lista wszystkich kont.
+    
+    Logowanie/rejestracja przez API wymaga podania jednego z backendów:
+    `twitter`, `facebook`, `google-plus`, `linkedin`.
+    
+    Przykładowe dane do zapytania (server_response to odpowiedzi od providera): 
+    
+    <pre><code>{
+        provider: 'facebook',
+        uid: '8777323423',
+        details: encodeURI(server_response_1),
+        response: encodeURI(server_response_2)
+    }</code></pre>
+    
+    Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
+    usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
+    sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
+    tworzy nowe. W odpowiedzi otrzymamy obiekt z id oraz tokenem uwierzytelnia-
+    jącym użytkownika.
+    """
+    permission_classes = (rest_permissions.AllowAny,)
+
+    def post(self, request):
+
+        from social.apps.django_app.utils import load_strategy
+        from urllib2 import unquote
+
+        strategy = load_strategy()
+        uid      = request.POST.get('uid')
+        provider = request.POST.get('provider')
+        details  = json.loads(unquote(request.DATA.get('details')))
+        response = json.loads(unquote(request.DATA.get('response')))
+
+        try:
+            social = UserSocialAuth.objects.get(provider=provider,uid=uid)
+            return Response(user_dict(social.user))
+        except UserSocialAuth.DoesNotExist:
+            manager = SocialAuthManager(provider, uid, details)
+            if manager.user.pk:
+                profile = profile_activation(manager.user)
+            manager_data = manager.is_valid()
+            return Response(user_dict(manager.user))
 
 
 class UserFollowedLocationsAPI(rest_views.APIView):
@@ -182,58 +238,6 @@ class UserFollowAPIView(rest_views.APIView):
             follow(request.user, target_user, actor_only=True)
 
         return Response({'follow': target_user in following(request.user)})
-
-
-class SocialApiView(rest_views.APIView):
-    """
-    Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
-    korzysta z backendu Python Social Auth w celu ułatwienia integracji.
-    Domyślnie prezentowana jest lista wszystkich kont.
-    
-    Logowanie/rejestracja przez API wymaga podania jednego z backendów:
-    `twitter`, `facebook`, `google-plus`, `linkedin`.
-    
-    Przykładowe dane do zapytania (server_response to odpowiedzi od providera): 
-    
-    <pre><code>{
-        provider: 'facebook',
-        uid: '8777323423',
-        details: encodeURI(server_response_1),
-        response: encodeURI(server_response_2)
-    }</code></pre>
-    
-    Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
-    usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
-    sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
-    tworzy nowe. W odpowiedzi otrzymamy obiekt z id oraz tokenem uwierzytelnia-
-    jącym użytkownika.
-    """
-    permission_classes = (rest_permissions.AllowAny,)
-
-    def get(self, request):
-        queryset = UserSocialAuth.objects.all()
-        serializer = SocialAuthSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        from social.apps.django_app.utils import load_strategy
-        from urllib2 import unquote
-        strategy = load_strategy()
-        uid = request.DATA.get('uid')
-        provider = request.DATA.get('provider')
-        details = json.loads(unquote(request.DATA.get('details')))
-        response = json.loads(unquote(request.DATA.get('response')))
-        try:
-            social = UserSocialAuth.objects.get(provider=provider,uid=uid)
-            return Response({'user_id': social.user.pk,
-                              'auth_token': social.user.auth_token.key})
-        except UserSocialAuth.DoesNotExist:
-            manager = SocialAuthManager(provider, uid, details)
-            if manager.user.pk:
-                profile = profile_activation(manager.user)
-            manager_data = manager.is_valid()
-            return Response({'user_id': manager.user.pk,
-                              'auth_token': manager.user.auth_token.key})
 
 
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -380,7 +384,8 @@ class UserActivityView(TemplateView):
         return context
 
     def get(self, request):
-        if request.user.is_anonymous(): return HttpResponseNotFound()
+        if request.user.is_anonymous():
+            return redirect('/')
         return super(UserActivityView, self).get(request)
 
 
@@ -561,12 +566,9 @@ def register(request):
         f = RegisterForm(request.POST)
 
         if f.is_valid():
-
-            logger.info(u"[{}]: Register request begin".format(timezone.now()))
-
             lang = translation.get_language()
             user = User()
-            username = request.POST.get('username')
+            username = random_username()
             password = request.POST.get('password')
             user.username = username
             user.set_password(password)
@@ -580,9 +582,6 @@ def register(request):
                 token = Token.objects.create(user=user)
                 token.save()
             except Exception as ex:
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 # Form valid, but user already exists
                 ctx = {
                     'form': RegisterForm(initial={
@@ -609,9 +608,6 @@ def register(request):
                 # if something goes wrong, delete created user to avoid future
                 # name conflicts (and allow another registration).
                 user.delete()
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 return render(request, 'userspace/register-failed.html', {
                     'title': _("Registration failed")
                 })
@@ -628,9 +624,6 @@ def register(request):
             except Exception as ex:
                 # User is registered and link is created, but there was errors
                 # during sanding email, so just show static page with link.
-
-                logger.error(u"[{}]: {}".format(timezone.now(), ex))
-
                 return render(request, 'userspace/register-errors.html', {
                     'title': _("Registration"),
                     'link' : link,
@@ -779,7 +772,7 @@ def pass_reset(request):
 
 
 @csrf_exempt
-@cache_page(60 * 60, key_prefix="login" + translation.get_language())
+#@cache_page(60 * 60, key_prefix="login" + translation.get_language())
 def login(request):
     """
     Login form. Performs user login and record login data with basic info

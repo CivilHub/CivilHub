@@ -10,8 +10,8 @@
         <div class="locBoxLoc"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></div>
         <div class="locBoxIcon">
             <div class="locBoxBookmark"> 
-                <a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
-                <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+                {% comment %}<a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+                <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>{% endcomment %}
             </div>
             {% comment %}<div class="locBoxMarker">
                 <a href="#" class="custom-tooltip-right" title="{% trans "Show on map" %}"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-ivnerse"></i></span></a>

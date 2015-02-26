@@ -54,6 +54,11 @@ class ImagableItemMixin(models.Model):
         """ Metoda sprawdza, czy obrazek dla elementu się zmienił. """
         return self.__initial != self.image
 
+    @property
+    def has_default_image(self):
+        """ Sprawdza, czy element ma domyślny obraz, czy zmieniony. """
+        return self.__initial.name == DEFAULT_PATH
+
     def __init__(self, *args, **kwargs):
         super(ImagableItemMixin, self).__init__(*args, **kwargs)
         self.__initial = self.image
