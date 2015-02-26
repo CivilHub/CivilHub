@@ -10,6 +10,7 @@ router.register('search', views.SearchResultsAPIViewSet, 'search')
 
 
 urlpatterns = patterns('',
+	url(r'^test_token_view/', views.token_check, name='test_token'),
     url(r'^sent/', views.report_sent),
     url(r'^(?P<app_label>.+)/(?P<model_label>.+)/(?P<object_pk>\d+)/',
         views.CreateAbuseReport.as_view(), name='report'),
