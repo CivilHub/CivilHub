@@ -15,6 +15,11 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'userspace.log'),
         },
+        'core': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'userspace.log'),
+        },
     },
     'loggers': {
         'django': {
@@ -27,5 +32,10 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'tokens': {
+            'handlers': ['core'],
+            'level': 'INFO',
+            'propagate': True,
+        }
     },
 }
