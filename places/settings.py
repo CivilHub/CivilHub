@@ -348,7 +348,7 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
-BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
+BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT    = ['json']
