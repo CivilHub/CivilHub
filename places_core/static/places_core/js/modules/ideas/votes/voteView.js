@@ -20,6 +20,7 @@ function ($, _, Backbone) {
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.markLabel(this.model.get('vote'));
+            this.$('.counter-entry').find('a').tooltip();
             return this;
         },
         

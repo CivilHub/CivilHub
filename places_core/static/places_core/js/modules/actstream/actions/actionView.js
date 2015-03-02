@@ -11,6 +11,8 @@ function (_, Backbone, moment) {
   "use strict";
   
   var ActionView = Backbone.View.extend({
+
+    id: 'tour-activity',
       
     tagName: 'div',
     

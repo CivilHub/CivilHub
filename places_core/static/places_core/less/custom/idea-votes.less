@@ -103,6 +103,8 @@
       list-style-type: none;
       li {
         margin-bottom: 5px;
+        display: inline-block;
+        margin-right: 5px;
         .counter-entry{
             img{
                 max-width: 30px;
@@ -130,4 +132,12 @@
       }
     }
   }
+}
+@media(min-width:768px){
+    .negative-votes{
+        border-right: 1px solid #DDD;
+    }
+    .positive-votes{
+        border-left: 1px solid #DDD;
+    }   
 }
