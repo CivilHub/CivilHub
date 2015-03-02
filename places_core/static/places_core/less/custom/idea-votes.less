@@ -1,0 +1,133 @@
+/*
+ * idea-votes.less
+ * 
+ * Wszystkie style związane z głosowaniem na idee. W tym pliku zdefiniowane
+ * są zarówno style dla listy (w miejscu, gdzie wybiera się głosy), jak i do-
+ * datkowe okno wyświetlające podsumowanie głosowania w modalu.
+ */
+
+/******************************************
+ *         FORMULARZ GŁOSOWANIA           *     
+ ******************************************/
+.idea-votes {
+  .vote-form {
+    position: relative;
+    padding-right: 30px;
+    height: 40px;
+    .votes {
+      float: none;
+      box-sizing: border-box;
+      width: 100%;
+      border-color: #dedede;
+      border-right: 1px solid #b1b1b1;
+      color: #50616d;
+      font-size: 21px;
+      height: 40px;
+      line-height: 40px;
+      @media(max-width: 768px){
+        height: 40px !important;
+        line-height: 40px !important;
+      }
+    }
+    .vote-controls {
+      width: 30px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      float: none;
+      .vote-btn {
+        width: 100%;
+        box-sizing: border-box;
+        border-left: 0px;
+        border-color: #dedede;
+        height: 20px;
+        span {
+          color: #464646;
+          font-size: 20px;
+          line-height: 13px;
+        }
+        &:first-child {
+          border-bottom: 0px;
+        }
+        &:last-child {
+          border-top: 1px solid #b1b1b1;
+        }
+      }
+    }
+  }
+  .idea-summary {
+    padding-top: 3px;
+    .idea-vote-count,
+    .idea-status-state label {
+      font-size: 12px;
+      background: #b7f862;
+      //color: #5e5e5e;
+      //font-weight: 400;
+      color: #5b5757;
+      font-weight: bold;
+      line-height: 17px;
+      margin-bottom: 2px;
+      min-height: 20px;
+      display: block;
+      border: 1px solid #dedede;
+      border-radius: 4px;
+    }
+    .idea-status-state label {
+      line-height: 15px;
+    }
+    
+    .idea-vote-count {
+        cursor: pointer;
+    }
+  }
+  
+}
+
+@media all and (max-width: 768px) {
+  .idea-votes {
+    .vote-form {
+      .votes {
+        height: 64px;
+        line-height: 64px;
+      }
+    }
+  }
+}
+
+/******************************************
+ *       PODSUMOWANIE GŁOSOWANIA          *     
+ ******************************************/
+#vote-counter-modal {
+  .modal-body {
+    .vote-list {
+      list-style-type: none;
+      li {
+        margin-bottom: 5px;
+        .counter-entry{
+            img{
+                max-width: 30px;
+                width: 100%;
+                height: auto;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+            }
+        }
+      }
+    }
+    .label {
+      float: right;
+      margin-top: 7px;
+    }
+    .row {
+      &.vote-summary {
+        margin-bottom: 15px;
+        .col-sm-6 {
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        } 
+      }
+    }
+  }
+}

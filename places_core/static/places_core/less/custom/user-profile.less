@@ -1,0 +1,121 @@
+/*
+ * user-profile.less
+ *
+ * Styles for user profile/activity stream page.
+ *
+ */
+.user-logo {
+    background-repeat: no-repeat;
+    background-position: center center;
+    text-align: center;
+    color: #fff;
+    height: 300px;
+    
+    .btn-default {
+        float: left;
+    }
+}
+
+.contacts-toggle {
+    display: none;
+}
+
+.ambasador-image {
+    background: url(/static/places_core/img/ambasador.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
+    width: 100%;
+    height: 200px;
+    
+    h3 {
+    margin-top: 0px;
+    padding: 10px;
+    padding-top: 30px;
+    font-weight: 300;
+    color: #fff;
+    text-shadow: 1px 1px 0px rgba(150, 150, 150, 1);
+    font-size: 32px !important;
+    }
+}
+
+.user-info {
+    display: table;
+    margin: 25px auto 0 auto;
+    
+    .profile-page-avatar {
+
+      img {
+        display: table;
+        margin: auto;
+        background: #fff;
+        width: 134px;
+        height: 134px;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        margin-bottom: 6px;
+        margin-top: 3px;
+        border: 3px solid #FFF;
+      }
+    }
+    
+    .user-fullname {
+        min-width: 140px;
+        background-color: rgba(0,0,0,0.5);
+        font-weight: 400;
+        font-size: 16px;
+        line-height:17px;
+        padding: 5px 30px;
+        margin-bottom: 8px;
+
+
+    }
+    
+    .btn-follow-user {
+        display: block;
+        height: 25px;
+        border: 0px;
+        width: 115px;
+        margin: 0px auto;
+        line-height: 25px;
+        cursor: pointer;
+        background-color: #85BE00;
+        color: #fff;
+    }
+    
+    .social-link-button {
+        background: none repeat scroll 0 0 #000;
+        border-radius: 50%;
+        color: #fff;
+        display: inline-block;
+        line-height: 27px;
+        margin: 10px 5px;
+        opacity: 0.6;
+        text-align: center;
+        width: 27px;
+        height: 27px;
+
+        span{
+            display: inline-block;
+            padding: 7px 7px;
+        }
+    }
+}
+
+.profileRankPKT{
+    margin-left: 13px;
+}
+.profileSidebarLeft{
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+}

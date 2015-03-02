@@ -1,0 +1,82 @@
+@entry-border-radius: 4px;
+
+.sublocations {
+    
+    margin-bottom: 15px;
+    
+    h1 {
+        text-align: center;
+        font-weight: 300;
+    }
+    
+    h2 {
+        text-align: center;
+        font-weight: 300;
+        font-size: 20px;
+    }
+    
+    .sublocation {
+        height: 250px;
+        //width: 270px;
+        width: 100%;
+        max-width: 270px;
+        line-height: 40px;
+        position: relative;
+        border: 1px solid #adadad;
+        border-radius: @entry-border-radius;
+        padding: 0;
+        margin-top: 20px;
+        margin-left: -5px;
+        margin-right: -5px;
+        
+        img {
+            //width: 268px; 
+            max-width: 268px;
+            width: 100%;
+            max-height: 149px;
+            border-top-left-radius: @entry-border-radius;
+            border-top-right-radius: @entry-border-radius;
+        }
+        
+        a {
+            font-weight: bold;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        .sublocation-content {
+            padding: 10px;
+            padding-top: 0;
+        }
+        
+        .btn-follow-location, .btn-unfollow-location {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60%;
+            height: 30px;
+            line-height: 30px;
+            padding: 0;
+            background: #fff;
+            border: 0px;
+            border-top: 1px solid #adadad;
+            border-right: 1px solid #adadad;
+            border-bottom-left-radius: 6px;
+        }
+        
+        .followers {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            text-align: center;
+            line-height: 30px;
+            width: 40%;
+            height: 30px;
+            border-top: 1px solid #adadad;
+            border-bottom-right-radius: 6px;
+        }
+    }
+
+}

@@ -1,0 +1,220 @@
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.idea-Content{
+    padding-right: 15px;
+    .submenu-toggle{
+        margin-left: -37px;
+    }
+}
+
+.idea-votesH{
+    //padding-right: 25px; zle wysiwetla ideas/pomysl
+}
+
+.idea-entry {
+
+    padding: 0px 10px;
+
+  .tag-list,
+  .category-list,
+  .comments-controls {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 25px;
+    a {
+      color: @link-hover-color;
+      font-weight: 400;
+    }
+  }
+  
+  .author-info {
+    margin-bottom: 10px;
+    a{
+        color: #0083fb;
+    }
+    .ideaDataCreated{
+        font-weight: 400;
+    }
+  }
+  .articleBoxImg{
+    width: 100%;
+    text-align: center;
+    margin: 0px 0px 10px;
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+  }
+  .acticle-content{
+    font-size: 15px !important;
+    line-height: 18px !important;
+    a{
+        color: #0083FB;
+    }
+  }
+
+  .ideaEntryTags{        
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 27px;
+    margin: 10px 0px;
+
+  }
+
+  .ideaEntryComments{
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+
+    border-bottom: 1px solid #5b5757;
+    margin-bottom: 25px;
+    .entryCommentsToggle{
+        float: right;
+        text-decoration: none;
+    }
+  }
+  
+  .full-link {
+    float: right;
+    font-size: 12px;
+    //font-weight: 200;
+  }
+
+  .totalComments{
+    font-size: 12px;
+    //font-weight: 200;
+  }
+
+  .ideaName{
+    color: #50616d;
+  }
+
+  .entry-submenu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background-color: #ffffff;
+    top: 56px;
+    
+    > ul {
+        
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0; // override default ul
+        list-style: none;
+        font-size: @font-size-base;
+        text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+        background-color: @dropdown-bg;
+        border: 1px solid @dropdown-fallback-border; // IE8 fallback
+        border: 1px solid @dropdown-border;
+        border-radius: @border-radius-base;
+        .box-shadow(0 6px 12px rgba(0,0,0,.175));
+        background-clip: padding-box;
+        
+        
+        > li > a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            list-style: none;
+            line-height: @line-height-base;
+            color: @dropdown-link-color;
+            white-space: nowrap; // prevent links from randomly breaking onto new lines
+        }
+        
+        > li > a {
+        &:hover, 
+        &:focus {
+                text-decoration: none;
+                color: @dropdown-link-hover-color;
+                background-color: @dropdown-link-hover-bg;
+            }
+        }
+        
+        > .active > a {
+            &, 
+            &:hover,    
+            &:focus {
+                color: @dropdown-link-active-color;
+                text-decoration: none;
+                outline: 0;
+                background-color: @dropdown-link-active-bg;
+            }
+        }
+        
+        > .disabled > a {
+            &,
+            &:hover,
+            &:focus {
+                color: @dropdown-link-disabled-color;
+            }
+        }
+        
+        > .disabled > a {
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                background-color: transparent;
+                background-image: none; // Remove CSS gradient
+                .reset-filter();
+                cursor: not-allowed;
+            }
+        }
+        
+    }
+    @media(max-width: 500px){
+        left: 250px !important;
+    }
+}
+}
+
+#idea-list-view {
+    //padding: 0px 10px;
+
+    h3.allHeadingThree{
+        margin-bottom:  5px;
+        a{
+            color: #50616d;
+            font-size: 21px;
+            font-weight: bold;
+        }
+    }
+
+    p.createBY{
+        font-size: 12px;
+        //font-weight: 200;
+        margin: 0;
+    }
+    .idea-summary {
+        &.acticle-content{
+            font-size: 15px;
+            text-align: left;
+        }
+    
+        a {
+            color: #666;
+        }
+        
+        a:hover {
+            color: #999;
+        }
+        
+        p {
+            text-align: justify;
+        }
+        
+    }
+}
+
+//edycja idei
+#content-create-form{
+    #image-clear_id,
+    #id_image{
+        display: inline-block;
+        margin-left: 15px;
+    }
+} 

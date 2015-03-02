@@ -1,0 +1,125 @@
+/*
+ * flash-messages.less
+ * ===================
+ *
+ * User notifications in form of bootstrap messages. This stylesheet works
+ * with scripts from `ui` section of the main application.
+ */
+
+
+/* http://tobiasahlin.com/spinkit/ */
+
+@-webkit-keyframes rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+@keyframes rotateplane {
+  0% { 
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+
+/* Custom animation to expand message after stop rotating. */
+
+@-webkit-keyframes expandpane {
+  from { width: 60px; }
+  to { width: 100%; }
+}
+@keyframes expandpane {
+  from { width: 60px; }
+  to { width: 100%; }
+}
+
+
+/* FLASH MESSAGES */
+
+#messages {
+  position: fixed;
+  left: 0px;
+  top: 50px;
+  width: 100%;
+  margin: 0px;
+  z-index: 500;
+
+  .alert {
+    opacity: 0.8;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+  @media(max-width: 768px){
+    top: 75px;
+  }
+}
+
+@media all and(min-width: 768px) {
+  #messages {
+    left: 100%;
+    width: 300px;
+    margin: 25px 0px 0px -325px;
+    .alert {
+      -webkit-animation: expandpane 1s;
+      animation: expandpane 1s;
+      height: 52px;
+      .message-content {
+        display: none;
+      }
+      .close {
+        display: none;
+      }
+    }
+    .animate {
+      -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+      animation: rotateplane 1.2s infinite ease-in-out;
+      color: transparent;
+      width: 60px;
+      height: 52px;
+      .close {
+        display: none;
+      }
+    }
+  }
+}
+
+
+/* COOKIE INFO WINDOW */
+
+#cookie-msg {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+  z-index: 500;
+  font-size: 12px;
+  //height: 40px;
+  line-height: 40px;
+    
+  .alert {
+    background: #7e7e7e;
+    border: 1px solid #696969;
+    color: #fff;
+    padding: 0 20px 0 20px;
+    margin: 0;
+            
+    a {
+      color: #fff;
+      font-size: 12px;
+    }
+      
+    .btn {  
+      background: #000;
+      margin: 5px 0px 5px 10px;
+      height: 30px;
+      padding: 5px 10px 5px 10px;
+    }
+  }
+}

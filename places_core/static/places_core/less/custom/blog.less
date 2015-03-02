@@ -1,0 +1,202 @@
+.all-entries {
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    padding: 0 15px 15px;
+}
+
+.blog-detail {
+	
+	padding-left: 0px;
+	
+    >.row{
+        padding-right: 25px;
+    }
+
+
+	.news-header {
+		margin-left: -30px;    
+
+        h1{
+            color: #50616d;
+        }
+        .submenu-toggle{
+            margin-left: -20px;
+        }
+
+        .blogNameCreator{
+            color: #0083FB;
+            font-weight: 600;
+        }
+	}
+    
+    .newsImageBlog{
+        text-align: center;
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+    }
+	.news-contetn {
+		padding-right: 25px;
+	}
+
+    .blogEntryComments{
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 18px;
+        border-bottom: 1px solid #5B5757;
+        margin-bottom: 25px;
+
+        .blogCommentsToggle{
+            float: right;
+            text-decoration: none;
+        }
+    }
+
+    .actionBlogDiv{
+
+        .recomenderBlogNews{
+            float: left;
+            margin-bottom: 5px;
+        }
+
+        .bookmarkBlogNews{
+            float: right;
+            margin-bottom: 5px;
+            .bookmarkIconBlog{
+                a{
+                    text-decoration: none;
+                    &:before{
+                        content:"\f097";
+                        font-family: FontAwesome;
+                        font-size: 16px;
+                        line-height: 25px;
+                        color: #827f7f;
+                        text-align: center;
+                        display: block;
+                        width: 25px;
+                        height: 25px;
+                        margin: 0 auto;
+                        border: 1px solid #827f7f;
+                        border-radius: 50%;
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+
+    }
+
+}
+
+
+.blogDivNews{
+
+    .news-entry{
+        border-bottom: 1px solid #DEDEDE;
+        padding: 15px 5px 15px 15px;
+        height: 180px;
+        margin: 0px 15px;
+
+        .row{
+            margin-left:-30px;
+            margin-right: 0px;
+            .col-xs-10{
+                padding-right: 30px;
+                margin-right: -15px;
+                @media(max-width: 991px){
+                    width: 73%;
+                }
+                @media(max-width: 768px){
+                    width: 80.5%;
+                }
+            }
+        }
+
+    }
+
+    .blogTitleNews{
+        margin-top: 0px;
+        font-size: 21px;
+        color: #50616d;
+        line-height:32px;
+        font-weight: bold;
+        a{
+            text-decoration: none;
+        }
+    }
+
+    .blogImageNews{
+        text-align: right;
+        padding: 0px;
+        .newsThumbnail{
+            img{
+                width: 150px;
+                height:150px;
+
+                @media(max-width: 1200px){
+                    max-width: 150px;
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .blogNewsContent{
+        font-size: 15px !important;
+        line-height: 18px !important;
+        &:first-letter{
+            font-size: 15px;
+            line-height: 18px;
+            font-weight: normal;
+            margin: 0px;
+        }
+
+    }
+
+    .blogAuthorDiv{
+        padding-left: 15px;
+        .blogAvatarDiv{
+            display: inline-block;
+            .minUserAvatar{
+                width: 40px;
+                height: 40px;
+                margin-bottom: 0px;
+            }
+        }
+
+        p{
+            display: inline-block;
+            .date-created{
+                font-size: 12px;
+                font-weight: 200;
+            }
+            a{
+                font-size: 12px;
+                color: #0083fb;
+            }
+        }
+
+    }
+
+}
+
+.headerBGBlog{
+    background-image:url('../img/headers/header_city.png');
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image:url('../img/headers/header_city@2x.png');
+    }
+}
+
+h3.articleBlogTitle{
+    font-size: 21px;
+    line-height: 32px;
+    color: #50616d;
+    font-weight: bold;
+}

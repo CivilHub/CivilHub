@@ -1,0 +1,176 @@
+.followers-sidebar {
+
+    .followers-box {
+    
+        .follower 
+        {
+            width: 30px;
+            height: 30px;
+            float: left;
+            margin: 1px;
+
+            img{
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    }
+    
+    .title {
+        font-size: 15px;
+        line-height: 25px;
+        margin-top: 0;
+        font-weight: 700;
+        color: #5e5e5e;
+    }
+}
+.followers-entry {
+    
+    margin-bottom: 15px;
+    
+    h1 {
+        text-align: center;
+        font-weight: 300;
+    }
+    
+    h2 {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 300;
+    }
+    
+    .row {
+        
+        margin-bottom: 15px;
+        
+        &:last-child {
+            
+            margin-bottom: 0px;
+            
+        }
+        
+    }
+    
+    .follower {
+        //width: 170px;
+        width: 100%;
+        max-width: 170px;
+        border: 1px solid #adadad;
+        border-radius: 4px;
+        padding: 0;
+        margin-top: 20px;
+        margin-left: -5px;
+        margin-right: -5px;
+        
+        .follower-header {
+            padding: 0;
+            
+            .follower-background {
+                img {
+                    //width: 168px;
+                    width: 100%;
+                    max-width: 168px;
+                    height: 80px;
+                    display: block;
+                    border-top-left-radius: 3px;
+                    border-top-right-radius: 3px;
+                }
+            }
+            
+            .follower-photo {
+                img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                    border: 1px solid #eee;
+                    padding: 4px;
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                    margin-top: -40px;
+                    background: #fff;
+                }
+            
+            }
+        }
+        
+        .follower-info {
+            
+            padding: 10px;
+            padding-top: 5px;
+            height: 78px;
+            
+            .follower-name {
+                margin-bottom: 0px; 
+                font-weight: bold;
+                text-align: center;
+            }
+            
+            .points {
+                text-align: center; 
+            }
+        }
+        
+        .btn-follow-location, .btn-unfollow-location {
+            bottom: 0;
+            right: 0;
+            line-height: 30px;
+            padding: 0;
+            background: #fff;
+            width: 100%;
+            height: 30px;
+            border: 0px;
+            border-top: 1px solid #adadad;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .follows-count {
+            
+            padding: 8px 10px 8px 10px;
+            margin-bottom: 0px;
+            font-size: 9px;
+            line-height: 12px;
+            
+        }
+        
+        .follows-places {
+            
+            padding: 0px 10px 15px 10px;
+            margin-bottom: 0px;
+            
+            font-size: 9px;
+            line-height: 12px;
+            
+            a {
+                
+                font-size: 9px;
+                line-height: 12px;
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+@media all and (max-width: 768px) {
+    
+    .followers-entry >.row>div {
+        
+        text-align: center;
+        
+        .follower {
+            
+            display: inline-block;
+            margin-bottom: 30px;
+            text-align: left;
+            
+        }
+        
+    }
+    
+}

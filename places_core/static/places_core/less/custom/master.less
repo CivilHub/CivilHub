@@ -1,0 +1,427 @@
+@import "sprites.less";
+
+@import "old.less";
+@import "style.less";
+@import "location-navbar.less";
+@import "location.less";
+@import "filter-navbar.less";
+@import "top.less";
+@import "main-page-content.less";
+@import "idea-votes.less";
+@import "comments.less";
+@import "idea.less";
+@import "followers.less";
+@import "discussion-list.less";
+@import "places.less";
+@import "login.less";
+@import "tags.less";
+@import "gallery.less";
+@import "media-uploader.less";
+@import "map.less";
+@import "user-profile.less";
+@import "flash-messages.less";
+@import "homepage.less";
+@import "footer.less";
+@import "blog.less";
+@import "staticpages.less";
+@import "sublocations.less";
+@import "search.less";
+@import "404.less";
+@import "social-buttons.less";
+@import "sidebar.less";
+@import "vector-map.less";
+@import "location-list.less";
+@import "activities.less";
+@import "location-modal.less";
+@import "scrollToTop.less";
+@import "create-form.less";
+@import "contact.less";
+@import "user-form.less";
+@import "modal-windows.less";
+@import "support.less";
+@import "bootstrap-tour.less";
+@import "animate.less";
+
+/* General classes to use in entire project */
+.custom-centered {
+  text-align: center;
+}
+.custom-align-l {
+  text-align: left;
+}
+.custom-align-r {
+  text-align: right;
+}
+.custom-justified {
+  text-align: justify;
+}
+.custom-important {
+  font-weight: bold;
+}
+.custom-clear {
+  font-size: 1px;
+  clear: both;
+}
+.custom-spacer {
+  font-size: 1px;
+  line-height: 1px;
+}
+
+/* List entries menu - e.g. news list or ideas list */
+.submenu-toggle {
+    position: absolute;
+    left: 100%;
+    top: 0px;
+    cursor: pointer;
+    display: block;
+    margin-top: -15px;
+    margin-left: -47px;
+    width: 47px;
+    background: url(/static/places_core/img/settings-line.png);
+    height: 48px;
+    background-size: 47px 48px;
+    background-repeat: no-repeat;
+    &.no-margin {
+        margin-top: 0px;
+    }
+}
+
+.entry-submenu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background-color: #ffffff;
+    
+    > ul {
+        
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0; // override default ul
+        list-style: none;
+        font-size: @font-size-base;
+        text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+        background-color: @dropdown-bg;
+        border: 1px solid @dropdown-fallback-border; // IE8 fallback
+        border: 1px solid @dropdown-border;
+        border-radius: @border-radius-base;
+        .box-shadow(0 6px 12px rgba(0,0,0,.175));
+        background-clip: padding-box;
+        
+        
+        > li > a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            list-style: none;
+            line-height: @line-height-base;
+            color: @dropdown-link-color;
+            white-space: nowrap; // prevent links from randomly breaking onto new lines
+        }
+        
+        > li > a {
+        &:hover, 
+        &:focus {
+                text-decoration: none;
+                color: @dropdown-link-hover-color;
+                background-color: @dropdown-link-hover-bg;
+            }
+        }
+        
+        > .active > a {
+            &, 
+            &:hover,    
+            &:focus {
+                color: @dropdown-link-active-color;
+                text-decoration: none;
+                outline: 0;
+                background-color: @dropdown-link-active-bg;
+            }
+        }
+        
+        > .disabled > a {
+            &,
+            &:hover,
+            &:focus {
+                color: @dropdown-link-disabled-color;
+            }
+        }
+        
+        > .disabled > a {
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                background-color: transparent;
+                background-image: none; // Remove CSS gradient
+                .reset-filter();
+                cursor: not-allowed;
+            }
+        }
+        
+    }
+}
+/* // List entries menu */
+
+/* User pop-up windows */
+.user-popup-window {
+    position: absolute;
+    clear: both;
+    //width: 330px;
+    width: 235px;
+    //min-height: 80px;
+    min-height: 125px;
+    
+    font-size: 10px;
+    background: #ffffff;
+    //border: 1px solid #8c8c8c;
+    //overflow: hidden;
+    border: 1px solid #bfbfbf;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 100;
+
+
+    &:after{
+        content: url('../img/msg_dzibuek_bottom.png');
+        position: absolute;
+        bottom: -12px;
+        left: 15px;
+    }
+
+
+    //.popupUserWindow{
+
+       /* &:after{
+            content: url('../img/msg_dzibuek_bottom.png');
+            display: block;
+            position: absolute;
+        } */
+
+        /*position: absolute;
+        clear: both;
+        //width: 330px;
+        width: 235px;
+        //min-height: 80px;
+        min-height: 125px;
+        
+        font-size: 10px;
+        background: #ffffff;
+        border: 1px solid #8c8c8c;
+        overflow: hidden;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        z-index: 100;*/
+
+        /*.user-popup-avatar {
+            //width: 80px;
+            //float: left;
+            /*
+            display: block;
+            margin: 0 auto;
+            wight: 50px;
+            border-radius: 50%;
+            border: 2px solid #FFF;
+            
+
+            .avatarPopup{
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                -webkit-boder-radius: 50%;
+                -moz-border-radius: 50%;
+                border: 2px solid #FFF;
+            }
+
+           img {
+                width: 80px;
+                height: 80px;
+            }
+        
+        }*/
+
+        .userPopupTop{
+
+            max-height: 82px;
+            min-height: 82px;
+            text-align: center;
+
+            .user-popup-avatar {
+            padding-top: 10px;
+                .avatarPopup{
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    -webkit-boder-radius: 50%;
+                    -moz-border-radius: 50%;
+                    border: 2px solid #FFF;
+                    margin: 0 auto;
+
+                    img{
+                        max-width: 100%;
+                        border-radius: 50%;
+                        -webkit-border-radius: 50%;
+                        -moz-border-radius: 50%;
+                    }
+                }
+
+                .userPopupBg{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 67%;
+                    z-index: -1;
+                    width: 100%;
+                    background-size: cover !important;
+                    
+                }
+
+
+            }
+
+            .userPopupName{
+            
+                a{
+                    font-size: 12px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    background: rgba(0,0,0,0.55);
+                    color: #FFF;
+                }
+            }
+        }
+
+        .userPopupBottom{
+
+
+            border-top: 1px solid #CCC;
+            background-color:#FFF;
+            min-height: 40px;
+            max-height: 40px;
+            padding: 7px;
+
+            .user-popup-details {
+                //width: 245px;
+                //float: right;
+                //padding: 5px 0px 0px 5px;
+
+                .user-popup-personals {
+                    font-weight: bold;
+                    color: #000000;                
+                }
+
+                .userPopupDetails{
+                    font-size: 12px;
+
+                }
+            }
+        }
+
+        /*.user-popup-details {
+            //width: 245px;
+            //float: right;
+            //padding: 5px 0px 0px 5px;
+
+            .user-popup-personals {
+                font-weight: bold;
+                color: #000000;                
+            }
+
+            .userPopupName{
+                text-align: center;
+                a{
+                    font-size: 12px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    padding: 2px 8px;
+                    background: rgba(0,0,0,0.55);
+                    color: #FFF;
+                }
+            }
+
+            .userPopupDetails{
+                border-top: 1px solid #CCC;
+                background-color: #FFF;
+                font-size: 12px;
+                padding: 7px;
+                max-height: 40px;
+                min-height: 40px;
+
+
+            }
+        }*/
+        .user-popup-close {
+            //float: right;
+            cursor: pointer;
+            margin-right: 5px;
+            font-size: 14px;
+            position: absolute;
+            top: 2px;
+            right: 0px;
+        }
+    //}
+}
+/* // User popup window */
+
+/* Pagination - custom paginator */
+.pagination {
+    display: table;
+    //margin: 20px auto 0 auto;
+    margin: 20px auto 20px auto;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    
+    a {
+        margin: 0px 2px 0px 0px;
+        padding: 2px;
+        color: #adadad;
+        background-color: #ffffff;
+        border: 1px solid #adadad;
+        &.paginator-active, &:hover {
+            color: #ffffff;
+            background-color: #adadad;
+        }
+    }
+    
+    > li {
+    display: inline; // Remove list-style and block-level defaults
+        &.active{
+            a{
+                color: #3399F3 !important;
+                font-weight: 700;
+                background: transparent !important;
+
+            }
+            
+        }
+        > a,
+        > span {
+          position: relative;
+          float: left; // Collapse white-space
+          padding: @padding-base-vertical @padding-base-horizontal;
+          line-height: @line-height-base;
+          text-decoration: none;
+          color: @pagination-color;
+          background-color: @pagination-bg;
+          border: 1px solid @pagination-border;
+          margin-left: -3px;
+        }
+    }
+}
+/* // Pagination */
+
+
+//do polls wyswietlanie tagow
+div.tagsinput{
+    width: 100%!important;
+    height: 38px !important;
+    min-height: 0px !important;
+    overflow: hidden !important;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}

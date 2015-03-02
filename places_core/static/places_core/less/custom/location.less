@@ -1,0 +1,107 @@
+.location-logo {
+    
+    background-repeat: no-repeat;
+    background-size: 1920px 300px;
+    background-position: center center;
+    text-align: center;
+    color: #fff;
+    height: 300px;
+
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-size: cover;
+        background-repeat: repeat-x;
+    }
+    
+    .title-container {
+        display: table;
+        margin: 0 auto;
+        margin: 100px auto 0 auto;
+        
+        .location-name-title {
+            min-width: 350px;
+            background-color: rgba(0,0,0,0.5);
+            font-weight: 700;
+            font-size: 36px;
+            margin-bottom: 8px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        
+        .followers {
+            display: inline-block;
+            height: 25px;
+            line-height: 25px;
+            vertical-align: middle;
+            width: 49%;
+            background-color: rgba(0,0,0,0.5);
+            float: left;
+        }
+        
+        .btn-follow-location {
+            height: 25px;
+            width: 49%;
+            border: 0px;
+            padding: 0px;
+            float: right;
+            background-color: #85be00;
+        }
+        
+        .btn-unfollow-location {
+            height: 25px;
+            width: 49%;
+            border: 0px;
+            padding: 0px;
+            float: right;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+    }
+    
+    .change-background-btn {
+        margin-top: -34px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    
+    .location-logo {
+    
+        .title-container {
+            min-width: 200px;
+            max-width: 98%;
+            
+            .location-name-title,
+            .followers,
+            .btn-follow-location,
+            .btn-unfollow-location {
+                min-width: 200px;
+                width: 100%;
+                margin: 0px auto 8px auto;
+            }
+        }
+    }
+}
+
+input[type="checkbox"]#id_multiple{
+    margin: 13px 0 0;
+}
+#new-location-form{
+    .control-label{
+        padding-top: 0px;
+    }
+     @media(min-width: 991px){
+            label{
+                white-space: nowrap;
+            }
+            .control-label{
+                padding-top:9px;
+            }
+    }
+}
+
+.headerBGLocationFrom{
+    background-image: url('../img/headers/header_location_form.png');
+}

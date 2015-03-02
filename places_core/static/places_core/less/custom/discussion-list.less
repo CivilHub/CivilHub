@@ -1,0 +1,236 @@
+/*
+ * Discussions stylesheet.
+ */
+
+.discussionHeading{
+    margin-top: 0px;
+    color: #50616d;
+}
+.discussionTags{
+    font-size: 13px;
+    color: #4d4747;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+/* Discussion list */
+.discussion-list-entry {
+  //padding-top: 15px;
+
+  .submenuHeading{
+    margin: 0px;
+  }
+
+  .custom-label-list{
+    padding: 5px 0 20px;
+    //border-bottom: 1px solid #EAEAEA;
+  }
+  
+  .submenu-toggle {
+    margin-top: 0px;
+  }
+  
+  .custom-label-list {
+  
+    span {
+      line-height: 26px;
+      &.fa-list {
+        font-size: 14px;
+        line-height: 26px;
+        color: #999;
+        margin-right: 10px;
+        &:before {
+          line-height: 26px;
+        }
+      }
+      &.custom-label-entry.custom-main-label-entry {
+        line-height: 20px;
+        padding-top: 2px;
+        padding-bottom: 3px;
+        border: 1px solid #eaeaea;
+        border-radius: 4px;
+        a {
+          color: #354059;
+          font-size: 12px;
+          line-height: 20px;
+        }
+      }
+      &.custom-label-entry {
+        a {
+          color: #999999;
+          font-weight: 700;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  
+  .custom-tablelike .row {
+    border-bottom: 0px;
+    padding: 2px;
+  }
+  
+  .topic-list-entry {
+    margin-left: 0px;
+    margin-right: 0px;
+    //border-bottom: 1px solid #eaeaea;
+    border-top: 1px solid #eaeaea;
+    .excerpt {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        padding: 0;
+      a {
+        color: @link-color;
+        font-size: 15px;
+        line-height: 21px;
+        overflow: hidden;
+      }
+
+
+    }
+      
+    .category {
+      label {
+        background: transparent;
+        border: 1px solid #999999;
+        border-radius: 3px;
+        color: @link-color;
+        text-transform: uppercase;
+        font-weight: 400;
+        min-height: 19px;
+        line-height: 19px;
+      }
+
+    }  
+
+    .custom-align-r{
+        padding: 0;
+    }
+    
+    .user-window-toggle,
+    .count {
+      font-size: 15px;
+      line-height: 21px;
+    }
+    .date-created{
+        font-size: 12px;
+        //font-weight: 200;
+    }
+
+  }
+}
+
+@media all and (max-width: 768px) {
+  .discussion-list-entry {
+    .topic-list-entry {
+      .row {
+        >div {
+          padding: 10px 0;
+          text-align: center;
+        }
+      }
+    } 
+  }
+}
+/* // Discussion list */
+
+
+/* Discussion detail view */
+@eb_width:  1px;
+@eb_color:  #ebebeb;
+@eb_style:  solid;
+@eb_radius: 5px;
+@e_bgcolor: #ffffff;
+
+#minimap {
+  float: left;
+  width: 100%;
+  height: 500px;
+  margin: 0px;
+}
+.detail-label-list {
+  padding-top: 20px;
+}
+.reply-entry {
+  position: relative;
+  .discussion-entry-content {
+    border: @eb_width @eb_style @eb_color;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    z-index: 10;
+    width: 84% !important;
+    margin: 0px 0px 25px 30px;
+    padding: 0px !important;
+    .entry-meta {
+      margin: 10px 0px 10px 0px;
+      padding: 0px 15px 0px 15px;
+      
+        .user-window-toggle-detail{
+            color: #0083FB;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .topic-date-col{
+            font-size: 12px;
+        }
+    }
+    .entry-content {
+      padding: 0px 15px 0px 15px;
+      //font-size: 16px;
+      font-size: 15px;
+      line-height: 26px;
+    }
+    .entry-footer {
+      padding: 0px 15px 0px 15px;
+      border-top: @eb_width @eb_style @eb_color;
+      font-size: 10px;
+      a {
+        color: #686868;
+        cursor: pointer;
+        font-size: 10px;
+        line-height: 28px;
+        &.quote-reply-link {
+          float: right;
+        }
+        .fa {
+          font-size: 10px;
+
+          &.fa-angle-down,
+          &.fa-angle-up{
+            font-size: 14px;
+          }
+        }
+
+      }
+    }
+  }
+  .blobfish-left {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    //left: 70px;
+    left: 75px;
+    top: 25px;
+    transform        : rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform   : rotate(-45deg);
+    border-left: @eb_width @eb_style @eb_color;
+    border-top: @eb_width @eb_style @eb_color;
+    background-color: @e_bgcolor;
+    z-index: 11;
+  }
+  /* Rank points */
+  .custom-centered {
+    margin: 10px 0px 0px 20px;
+    font-size: 9px;
+    &.discussionPH{
+        margin: 10px 0 0 10px;
+    }
+  }
+  img {
+    margin-top: 0px !important;
+  }
+}
+/* // Discussion detail view */
