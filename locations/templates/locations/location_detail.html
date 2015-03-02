@@ -127,13 +127,13 @@
 </div><!--./col-sm-9-->
 
 
-<div class="col-sm-3 colHline colHlineL" id="tour-activity">
+<div class="col-sm-3 colHline colHlineL">
     
     <div class="activity-stream">
     
         <noscript>{% for action in actions %}
         
-            <div class="row action-entry">
+            <div class="row action-entry"  id="tour-activity">
                 
                 <div class="col-xs-2 entry-avatar-col">
                     <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="user-avatar" />
