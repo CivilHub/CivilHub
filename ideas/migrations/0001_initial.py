@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('locations', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('taggit', '0002_auto_20150217_1534'),
+        ('taggit', '0002_auto_20150130_1502'),
         ('places_core', '0001_initial'),
     ]
 
@@ -21,7 +21,23 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
+                ('name_en', models.CharField(max_length=64, null=True)),
+                ('name_pl', models.CharField(max_length=64, null=True)),
+                ('name_es', models.CharField(max_length=64, null=True)),
+                ('name_de', models.CharField(max_length=64, null=True)),
+                ('name_pt', models.CharField(max_length=64, null=True)),
+                ('name_fr', models.CharField(max_length=64, null=True)),
+                ('name_it', models.CharField(max_length=64, null=True)),
+                ('name_cz', models.CharField(max_length=64, null=True)),
                 ('description', models.TextField(max_length=1024)),
+                ('description_en', models.TextField(max_length=1024, null=True)),
+                ('description_pl', models.TextField(max_length=1024, null=True)),
+                ('description_es', models.TextField(max_length=1024, null=True)),
+                ('description_de', models.TextField(max_length=1024, null=True)),
+                ('description_pt', models.TextField(max_length=1024, null=True)),
+                ('description_fr', models.TextField(max_length=1024, null=True)),
+                ('description_it', models.TextField(max_length=1024, null=True)),
+                ('description_cz', models.TextField(max_length=1024, null=True)),
             ],
             options={
                 'ordering': ['name'],
