@@ -90,12 +90,12 @@ img{
     #section0,
     #section1{
         background-image:url('/static/places_core/img/features/header_features_BG.png');
+            @media 
+        (-webkit-min-device-pixel-ratio: 2), 
+        (min-resolution: 192dpi) { 
+            background-image: url('/static/places_core/img/features/header_features_BG@2x.png');
+        }
     }
-
-
-
-
-
 
     #section0{
         .s1-top{
@@ -118,11 +118,14 @@ img{
             }
             .civilhub_logo_section0{
                 //padding: 64px 0;
-                padding: 4.571em 0;
+                padding: 4.571em 0; 
                 @media(max-width: 768px){
                     margin-top: 25px;
                     width: 11%;
                     display: inline-block;
+                }
+                img{
+                    max-width: 59px;
                 }
             }
         }
@@ -155,7 +158,9 @@ img{
             padding-left: 100px;
             width: 49%;
             margin-top: -25px;
-
+            @media(max-height: 750px){
+                padding-left: 170px;
+            }
             .mockupPoint1_section1,
             .mockupPoint2_section1,
             .mockupPoint3_section1{
@@ -507,7 +512,11 @@ img{
             width: 100%;
             padding-bottom: 36.69%;
             margin: 50px auto 0;
-
+            @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+                background-image: url('../img/features/features_api@2x.png');
+            }
             @media(max-width: 650px){
                 margin: 50px auto 50px;
             }
@@ -838,7 +847,11 @@ img{
             -webkit-perspective: 1000;
 
             margin-top: 50px;
-
+                img{
+                    max-width: 949px;
+                    width: 100%;
+                    height: auto;
+                }
             &.moveDown{
                 transform: translate3d(-13%, 60%, 0);
                 -webkit-transform: translate3d(-13%, 60%, 0);
@@ -961,6 +974,66 @@ img{
     }
 }
 
+}
+
+.mockup_safari,
+.mockup_discussion,
+.mockup_ideas,
+.mockup_polls,
+.mockup_project,
+.mockup_documents{
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: auto 100%;
+    padding-bottom: 36%;
+}
+.mockup_safari{
+    background-image: url('/static/places_core/img/features/mockup_safari.png');
+    @media
+    (-webkit-min-device-pixel-ratio),
+    (min-resolution: 192dpi){
+        background-image: url('/static/places_core/img/features/mockup_safari@2x.png');
+    }
+}
+.mockup_discussion{
+    background-image: url('/static/places_core/img/features/mockup_discussion.png');
+    @media 
+    (-webkit-min-device-pixel-ratio),
+    (min-resolution: 192dpi){
+        background-image: url('/static/places_core/img/features/mockup_discussion@2x.png')
+    }
+}
+.mockup_ideas{
+    background-image: url('/static/places_core/img/features/mockup_ideas.png');
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+        background-image: url('/static/places_core/img/features/mockup_ideas@2x.png');
+    }
+}
+.mockup_polls{
+    background-image: url('/static/places_core/img/features/mockup_polls.png');
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('/static/places_core/img/features/mockup_polls@2x.png');
+    }
+}
+.mockup_project{
+    background-image: url('/static/places_core/img/features/mockup_project.png');
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('/static/places_core/img/features/mockup_project@2x.png');
+    }
+}
+.mockup_documents{
+    background-image: url('/static/places_core/img/features/mockup_documents.png');
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('/static/places_core/img/features/mockup_documents@2x.png')
+    }
 }
 
 //Invite Friends
@@ -1416,6 +1489,9 @@ background-position: center 13%;
                     height: 30px;
                     margin: 0 8px;
                     font-size: 20px;
+                    display: inline-block;
+                    padding: 2px 7px;
+                    cursor: pointer;
                 }
             }
             .registerButtonSubmit{
@@ -1453,8 +1529,76 @@ background-position: center 13%;
     text-align: center;
 }
 
-//task3 page
+//task3 page PROJEKTY
+#task-page-header-block{
+    .title-container{
+        margin: 21px auto 0 auto;
+        .project-name{
+            background-color: rgba(0,0,0,0.5);
+            display: inline-block;
+            margin: 8px 0;
+            h1{
+                padding: 14px 17px;
+                margin: 0;
+                font-size: 25px;
+                line-height: 25px;
+                color: #FFF;
+            }
+        }
+        .project-content{
+            max-width: 570px;
+            width: 100%;
+            background-color: rgba(0,0,0,0.5);
+            p{
+                padding: 10px 12px;
+                text-align: left;
+            }
+        }
+        .join-project-btn{
+            a{
+                max-width: 250px;
+                width: 100%;
+                float: none;
+                display: inline-block;
+                font-weight: 400;
+                border-radius: 0;
+                -webkit-border-radius: 0;
+                margin: 0;
+            }
+        }
+        .projectparticipants-icons-top{
+            margin: 15px 0 0;
+            p{
+                color: #FFF;
+                font-weight: bold;
+                margin-bottom: 0;
+            }
+            .task-ppl;
+            text-align: center;
 
+            @media(max-width: 600px){
+                display: none;
+            }
+        }
+    }
+}
+
+
+.task-ppl{
+    text-align: right;
+    margin-right: 15px;
+    a{
+        display: inline-block;
+        margin-left: 2px;
+        img{
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+        }
+    }
+}
 .task-page-heading{
     font-size: 32px;
     line-height: 32px;
@@ -1463,11 +1607,9 @@ background-position: center 13%;
     display: inline-block;
 }
 
-.small-green{
+small.green{
     color: #84bd00;
-    display: inline-block;
     vertical-align: top;
-    margin-top: 20px;
     margin-left: 5px;
 }
 
@@ -1483,7 +1625,17 @@ background-position: center 13%;
     .col-sm-6{
         &:first-child{
             border-right: 1px solid #DDD;
+            @media(max-width: 768px){
+                border-right: 0 none;
+            }
+        }
+        &:last-child{
+            border-left: 1px solid #DDD;
             margin-left: -1px;
+            @media(max-width: 768px){
+                border-left: 0 none;
+                margin-left: 0px;
+            }
         }
     }
     .left-side-task{
@@ -1537,28 +1689,97 @@ background-position: center 13%;
                 .sub-task-title{
     
                 }
-                .task-ppl{
-                    text-align: right;
-                    margin-right: 15px;
-                    a{
-                        display: inline-block;
-                        margin-left: 2px;
-                        img{
-                            width: 15px;
-                            height: 15px;
-                            border-radius: 50%;
-                            -webkit-border-radius: 50%;
-                            -moz-border-radius: 50%;
-                        }
+                .task-actions{
+                    .action-more:hover,
+                    .action-plus:hover{
+                        color:#FFF;
                     }
                 }
-                .task-actions{
-                    a{}
+                @media(max-width: 768px){
+                    .col-sm-1{
+                        display: inline-block;
+
+                    }
+                    .col-sm-5{
+                        display: inline-block;
+                        width: 45%;
+                        @media(max-width: 615px){
+                            width: 41%;
+                        }
+                    }
+
                 }
             }
         }
     }
-    .right-side-task{}
+    .right-side-task{
+        padding: 27px 40px;
+        .task-Container-right{
+            .task-headline-right{
+                p{
+
+                }
+            }
+            .text-block-right{
+                h1{
+                    font-size: 21px;
+                    margin: 10px 0;
+                    color: #50616d;
+                    font-weight: bold;
+                }
+                p{
+                    line-height: 18px;
+                }
+                .created{
+                    font-weight: 300;
+                    margin-bottom: 20px;
+                }
+                .footer-text-block-right{
+                    .project-participants{  
+                        .task-ppl;
+                        display: inline-block; 
+                        width: 74%;
+                        vertical-align: top;
+                        text-align: left;
+                        p{
+                            margin-bottom: 0;
+                        }
+                    }
+                    .join-btn-task{
+                        display: inline-block;
+                        width: 22%;
+                        text-align: right;
+                        vertical-align: top;
+                        a{
+                            font-weight: 400;
+                            display: inline-block;
+                            float: none;
+                            margin: 8px 0;
+                        }
+                    }
+                }
+                .task-comments-right{
+                    margin-top: 10px;
+                    .top-Comments{
+                        font-size: 12px;
+                        font-weight: bold;
+                        line-height: 18px;
+                        border-bottom: 1px solid #5B5757;
+                        margin-bottom: 25px;
+                        p{
+                            a{
+                                float: right;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #user-comment-form{
+            margin-left: 10px;
+        }
+
+    }
 
     .action-plus,
     .action-more{

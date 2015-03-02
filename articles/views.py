@@ -217,14 +217,14 @@ class VectorMapView(DetailView):
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
 
-# Vector-map
+# TestArticle
 #-------------------------------------------------------------------------------
 
 class TestArticleView(DetailView):
     """ Show any article in top-level url hierarchy (as static page). """
     model = Article
     article_slug = None
-    template_name = "articles/clear.html"
+    template_name = "articles/test.html"
 
     def get_object(self, queryset=None):
         article = get_object_or_404(Article, slug=self.article_slug)
