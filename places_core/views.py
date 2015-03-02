@@ -31,6 +31,22 @@ def flush_page_cache():
             cache.delete(key)
 
 
+@csrf_exempt
+def token_check(request):
+    """
+    Sprawdzamy i logujemy tokeny uwierzytelniające z zewnętrznych serwisów.
+    Trzeba pamiętać, żeby to potem usunąć!!!
+    """
+    import json, logging
+    from django.utils import timezone
+    from django.http import Http404
+    if request.method != 'POST':
+        raise Http404
+    logger = logging.getLogger('tokens')
+    logger.info(u"[{}]: {}".format(timezone.now(), request.POST.get('token')))
+    return HttpResponse(json.dumps({'success': True}), content_type="application/json")
+
+
 class SearchResultsAPIViewSet(viewsets.ViewSet):
     """
     Wyszukiwarka dla aplikacji mobilnej. Umożliwia sprawdzenie wyników wyszukiwania
