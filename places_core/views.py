@@ -37,14 +37,17 @@ def token_check(request):
     Sprawdzamy i logujemy tokeny uwierzytelniające z zewnętrznych serwisów.
     Trzeba pamiętać, żeby to potem usunąć!!!
     """
-    import logging
+    import json, logging
     from django.utils import timezone
-    from django.http import Http404
-    if not request.method == 'POST':
-        raise Http404
+
     logger = logging.getLogger('tokens')
-    logger.info(u"[{}]: {}".format(timezone.now(), request.POST.get(token)))
-    return HttpResponse(json.dumps({success: True}), content_type="application/json")
+
+    if request.method == 'POST':
+        token = request.POST.get('token')
+        logger.info(u"[{}]: {}".format(timezone.now(), token))
+        return HttpResponse(json.dumps({'token': token}),
+                            content_type="application/json")
+    return render(request, 'places_core/fbtest.html', {})
 
 
 class SearchResultsAPIViewSet(viewsets.ViewSet):

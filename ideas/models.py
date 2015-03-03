@@ -18,7 +18,7 @@ from taggit.managers import TaggableManager
 from comments.models import CustomComment
 from locations.models import Location
 from gallery.image import adjust_uploaded_image
-from places_core.helpers import truncatehtml, sanitizeHtml
+from places_core.helpers import truncatehtml, truncatesmart, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
 
@@ -68,13 +68,33 @@ class Idea(ImagableItemMixin, models.Model):
 
     def save(self, *args, **kwargs):
         self.name = strip_tags(self.name)
+        if len(self.name) >= 64:
+            self.name = truncatesmart(self.name, 60)
         self.description = sanitizeHtml(self.description)
-        if not self.pk:
-            to_slug_entry = self.name
-            chk = Idea.objects.filter(name=self.name)
-            if len(chk) > 0:
-                to_slug_entry = self.name + '-' + str(len(chk))
-            self.slug = slugify(to_slug_entry)
+
+        slug = slugify(self.name)
+        self.slug = slug
+        success = False
+        retries = 0
+        while not success:
+            check = self.__class__.objects.filter(slug=self.slug)\
+                                          .exclude(pk=self.pk).count()
+            if not check:
+                success = True
+            else:
+                # We assume maximum number of 50 elements with the same name.
+                # But the loop should be breaked if something went wrong.
+                if retries >= 50:
+                    raise ValidationError(u"Maximum number of retries exceeded")
+                retries += 1
+                self.slug = "{}-{}".format(slug, retries)        
+
+        # if not self.pk:
+        #     to_slug_entry = self.name
+        #     chk = Idea.objects.filter(name=self.name)
+        #     if len(chk) > 0:
+        #         to_slug_entry = self.name + '-' + str(len(chk))
+        #     self.slug = slugify(to_slug_entry)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):

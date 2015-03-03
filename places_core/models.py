@@ -65,6 +65,8 @@ class ImagableItemMixin(models.Model):
 
     def save(self, *args, **kwargs):
         """ Upewniamy się, że jeżeli zmieniamy obrazek, usuniemy stary. """
+        if not self.image:
+            self.image = DEFAULT_PATH
         if self.__initial.name != DEFAULT_PATH:
             if self.has_image_changed:
                 try:

@@ -97,7 +97,7 @@ INSTALLED_APPS = (
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
-    
+
     'raven.contrib.django.raven_compat',
     'analytical',
     # django-activity-stream - powinien być ostatni na liście
@@ -211,7 +211,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
+    'places_core.social_auth.get_username',
     'places_core.social_auth.set_twitter_email',
     'places_core.social_auth.validate_email',
     'social.pipeline.user.create_user',

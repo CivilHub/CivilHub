@@ -35,7 +35,7 @@ LOGGING = {
         'tokens': {
             'handlers': ['core'],
             'level': 'INFO',
-            'propagate': True,
+            'propagate': False,
         }
     },
 }
