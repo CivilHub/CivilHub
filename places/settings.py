@@ -279,7 +279,7 @@ REST_FRAMEWORK = {
 
 # CORS settings
 # IMPORTANT - Be sure to change this settings in production
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
     'content-type',
@@ -340,7 +340,8 @@ EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
 EMAIL_HOST_USER     = config['email_user']
 EMAIL_HOST_PASSWORD = config['email_pass']
-EMAIL_USE_TLS       = False
+EMAIL_USE_TLS       = True
+EMAIL_USE_SSL       = False
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
