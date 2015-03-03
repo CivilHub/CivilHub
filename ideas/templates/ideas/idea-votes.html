@@ -30,9 +30,10 @@
 {% comment %}
     Pojedynczy wpis na liście głosujących użytkowników.
     <a href="<%= user_url %>"><%= user_full_name %></a> <span class="label vote-result-label"><span class="fa">&nbsp;</span></span>
+    <img src="<%= user_avatar %>" alt="<%= username %>" /></a>
 {% endcomment %}
 <script type="text/template" id="vote-counter-entry">
     <div class="counter-entry">
-        <a href="<%= user_url %>" class="custom-tooltip" title="<%= username %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
+        <a href="<%= user_url %>" class="custom-tooltip" title="<%= user_full_name %>"><img src="<%= user_avatar %>" alt="<%= user_full_name %>" /></a>
     </div>
 </script>

@@ -11,8 +11,8 @@
 
     <div class="locBox loc-box-poll">
 
-    <div class="locBoxHeader" style="background: url(http://84.10.12.178:8888/media/img/item.jpg) 0% 0% no-repeat;">
-        <div class="locBoxLoc"><a href="/warsaw-pl/">{{ location }}</a></div>
+    <div class="locBoxHeader">
+        <div class="locBoxLoc"><a href="{{ location.get_absolute_url }}">{{ location }}</a></div>
         <div class="locBoxIcon">
             <div class="locBoxBookmark"> 
                 <a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="" data-original-title="Dodaj do zakładek"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
@@ -35,7 +35,7 @@
 
     <div class="locBoxCat"><a href="{{ item.get_absolute_url }}">{{ ctype }}</a></div>
 
-    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description | safe }} {{ item.question | safe }}</a></div>
+    <div class="locBoxBody" id="test"><a href="{{ item.get_absolute_url }}">{{ item.description | safe |truncatechars:115 }} {{ item.question | safe |truncatechars:115 }}</a></div>
 
 </div><!-- /.locBox -->
 </div>
@@ -49,6 +49,7 @@
 {% block sidebar %}
 <div class="col-sm-3 boxPX">
     <div class="sidebar">
+        <div class="sidebar-label">{% trans "Tags" %}:</div>
         <div class="sidebar-content tags">
             <ul>
             {% for tag, counter in tags %}

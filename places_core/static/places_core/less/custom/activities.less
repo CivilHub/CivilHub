@@ -53,21 +53,13 @@
     padding-right: 0px;
 
     .action-entry {
-        //.default-box-shadow;
-        //font-size: 12px;
         background: transparent;
-        //border-radius: 5px;
-        //border: 1px solid #dedede;
-        //padding: 15px;
-        //margin-bottom: 15px;
-        //padding-left: 15px;
         margin-left: 0px;
-    background: #FFF;
+        background: #FFF;
         margin-bottom: 20px;
-
         border-radius: 4px;
-            -webkit-border-radius: 4px;
-    border: 1px solid #F0EFEF;
+        -webkit-border-radius: 4px;
+        border: 1px solid #F0EFEF;
 
         .entry-avatar-col {
             padding-left: 0px;
@@ -122,7 +114,6 @@
                 }
             }
         }
-        
         .entry-meta-col {
             border-top: 1px solid #F0EFEF;
             //min-height: 78px;
@@ -133,13 +124,9 @@
             p{
                 margin: 0;
             }
-            
             .entry-header {
                 margin-bottom: 7px;  
                 font-size: 15px; 
-
-
-
                 p{
                     margin-bottom: 0px;
                     font-size: 11px;
@@ -155,11 +142,8 @@
                     font-size: 10px;
                     line-height: 18px;
                 }
-
-             
                 a {
                     //font-weight: bold;
-
                 }
                 a.activitesName{
                     color: #0083FB;
@@ -171,12 +155,10 @@
             }
             
             .entry-body {
-                //margin-bottom: 20px;
                 font-size: 13px;
                 img {
                     max-width: 100%;
                     height: auto;
-
                 }
             }
             .entry-footer {
@@ -193,7 +175,13 @@
                 line-height: 30px;
                 color: #fff;
                 font-size: 14px;
-                font-weight: 600;
+                margin: 0 auto;
+                border-radius: 25px;
+                -webkit-border-radius: 25px;
+                a{
+                    color:#FFF;
+                    text-decoration: none;
+                }
             }
             
             .vote-up {
@@ -203,7 +191,7 @@
                 background: -ms-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* IE10+ */
                 background: linear-gradient(to bottom,  #afeb4d 0%,#8ad111 100%); /* W3C */
                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afeb4d', endColorstr='#8ad111',GradientType=0 ); /* IE6-9 */
-                border: 1px solid #C5EF7F;
+                //border: 1px solid #C5EF7F;
             }
             
             .vote-down {
@@ -213,8 +201,7 @@
                 background: -ms-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* IE10+ */
                 background: linear-gradient(to bottom,  #ec5c73 0%,#f00924 100%); /* W3C */
                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ec5c73', endColorstr='#f00924',GradientType=0 ); /* IE6-9 */
-
-                border: 1px solid #F38699;
+                //border: 1px solid #F38699;
             }
         }
 
@@ -324,7 +311,7 @@
     -moz-border-top-right-radius: 4px;
 }
     .locBoxHeader{
-        background-image: url('../img/locationBox.png');
+        //background-image: url('../img/locationBox.png');
         background-position: center center !important;
         background-repeat: no-repeat;
         background-size: cover !important;
@@ -455,7 +442,7 @@
         }
     }
     .locBoxCat{
-        background-color: #84bd00;
+        //background-color: #84bd00;
         font-size: 10px;
         color: #FFF;
         text-transform: uppercase;
@@ -465,6 +452,27 @@
             text-decoration: none;
         }
     }
+    &.loc-box-idea{
+        .locBoxCat{
+            background-color: #639f25;
+        }
+    }
+    &.loc-box-news{
+        .locBoxCat{
+            background-color: #3743bb;
+        }
+    }
+    &.loc-box-discussion{
+        .locBoxCat{
+            background-color: #0d6336;
+        }
+    }
+    &.loc-box-poll{
+        .locBoxCat{
+            background-color: #efa101;
+        }
+    }
+
     .locBoxBody{
         font-size: 10px;
         padding: 10px;
