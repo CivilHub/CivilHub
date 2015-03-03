@@ -8,7 +8,7 @@
     {% for l in profile.followed_locations %}
     <div class="col-lg-3 col-sm-3">
         <div class="sublocation">
-            <img src="{{ l.get_cropped_image }}" />
+            <img src="{{ l.thumb_url }}" />
             <div class="sublocation-content">
                 <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
             </div>

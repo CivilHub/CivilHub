@@ -87,14 +87,7 @@ class Idea(ImagableItemMixin, models.Model):
                 if retries >= 50:
                     raise ValidationError(u"Maximum number of retries exceeded")
                 retries += 1
-                self.slug = "{}-{}".format(slug, retries)        
-
-        # if not self.pk:
-        #     to_slug_entry = self.name
-        #     chk = Idea.objects.filter(name=self.name)
-        #     if len(chk) > 0:
-        #         to_slug_entry = self.name + '-' + str(len(chk))
-        #     self.slug = slugify(to_slug_entry)
+                self.slug = "{}-{}".format(slug, retries)
         super(Idea, self).save(*args, **kwargs)
     
     def get_absolute_url(self):

@@ -143,7 +143,8 @@ class UserProfile(models.Model, BackgroundModelMixin):
 
     def followed_locations(self):
         """ Metoda zwraca listę lokalizacji obserwowanych przez użytkownika. """
-        return sort_by_locale(following(self.user, Location), lambda x: x.name, get_language())
+        follows = [x for x in following(self.user, Location) if x is not None]
+        return sort_by_locale(follows, lambda x: x.name, get_language())
 
     def followers(self):
         return followers(self.user)
