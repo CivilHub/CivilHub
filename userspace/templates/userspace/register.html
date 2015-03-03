@@ -25,7 +25,7 @@ window.GOOGLE_DATA = {
 	        <a href="/features/"><p>{% trans "Features" %}</p></a>
 	    </div>
     <div class="login-Home">
-        <a href="{% url 'user:login' %}"><p>{% trans "Login" %}</p></a>
+        <a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a>
     </div>
      
     {{ errors }}
@@ -58,7 +58,7 @@ window.GOOGLE_DATA = {
             <a id="googleplus" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>       
     	</div>
     	<div class="registerButtonSubmit">
-    		<button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
+    		<button id="signup_button" type="submit" class="long signup-button antiman">{% trans "Sign up" %}</button>
 		</div>
 	    <p class="terms">
 	    {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.

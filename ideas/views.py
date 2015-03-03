@@ -122,7 +122,7 @@ def vote(request):
         if len(votes_check) > 0:
             response = {
                 'success': False,
-                'message': 'You voted already on this idea',
+                'message': _('You voted already on this idea'),
                 'votes': get_votes(idea),
             }
         else:
@@ -134,13 +134,13 @@ def vote(request):
             user_vote.save()
             response = {
                 'success': True,
-                'message': 'Vote saved',
+                'message': _('Vote saved'),
                 'votes': get_votes(idea),
             }
             action.send(
                 request.user,
                 action_object=idea,
-                verb='voted on',
+                verb= _('voted on'),
                 vote = True if request.POST.get('vote') == 'up' else False
             )
             request.user.profile.rank_pts += 1
