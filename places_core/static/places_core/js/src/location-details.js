@@ -75,6 +75,13 @@ require(['jquery',
 
 function($) {
 
+    "use strict";
+
+    $(document).ready(function(){
+        $('.col-sm-3.colHline').addClass('colHlineL');
+        $('.col-sm-9.colHline').addClass('colHlineR');
+    });
+
     $(document).trigger('load');
     
 });

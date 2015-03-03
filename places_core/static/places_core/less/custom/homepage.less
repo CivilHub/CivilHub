@@ -8,7 +8,7 @@ body {
 }
 
 .signup-view-background {
-    background: url(/static/places_core/img/civilhome.jpg) no-repeat center center fixed; 
+    background: url('/static/places_core/img/civilhome.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -357,9 +357,13 @@ body.body-Home {
             display: block;
             line-height: 22px;
         }
+        &.top-logo-home{
+            display: block;
+        }
     }
 
 }
+
 
 .logo-Home{
     position: fixed;
@@ -402,6 +406,7 @@ body.body-Home {
     -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
+    line-height: 20px;
         &:hover{
             background: #FFF;
             color: #4d4747;
@@ -411,8 +416,6 @@ body.body-Home {
             -o-transition: 0.2s;
         }
     }
-
-
 }
     @media(max-width: 750px){
         .login-Home,
@@ -500,17 +503,17 @@ body.body-Home {
 
     }
     p{
-        font-size: 16px;
-        line-height: 16px;
+        font-size: 14px;
+        line-height: 28px;
         margin: auto;
         text-align: center;
         padding: 5px 25px 5px 25px;
         border: 1px solid #FFF;
-        border-radius: 15px;
-        -webkit-border-radius: 15px;
-        -moz-border-radius: 15px;
+        border-radius: 25px;
+        -webkit-border-radius: 25px;
+        -moz-border-radius: 25px;
         //width: 70px;
-        width: 122px;
+        //width: 122px;
         &:hover{
             background-color: #FFF;
             color: #4d4747;
@@ -628,27 +631,17 @@ body.body-Home {
     overflow: hidden;
 }
 
-
-@media only screen and (-webkit-device-pixel-ratio: 1){
-    .volume {
+.volume {
     position: relative;
     bottom: -1px;
     float: left;
     width: 6px;
     height: 10px;
     background-image: url("../img/volume-Home.png");
-    }
-}
-
-@media only screen and (-webkit-device-pixel-ratio: 2){
-    .volume {
-    position: relative;
-    bottom: -1px;
-    float: left;
-    width: 6px;
-    height: 10px;
-    background-image: url("../img/volume-Home@2x.png");
-    background-size: 6px 10px;
-
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        background-image: url('../img/volume-Home@2x.png');
+        background-size: 6px 10px;
     }
 }
