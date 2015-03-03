@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 14:31+0100\n"
+"POT-Creation-Date: 2015-03-03 17:02+0100\n"
 "PO-Revision-Date: 2015-02-15 18:45+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/civilhub/"
@@ -69,6 +69,7 @@ msgid "Contact"
 msgstr ""
 
 #: articles/templates/articles/features.html:28
+#: articles/templates/articles/test.html:58
 #: locations/templates/locations/index.html:83
 #: places_core/templates/places_core/navigation.html:13
 #: userspace/templates/userspace/profile.html:70
@@ -219,6 +220,73 @@ msgstr ""
 
 #: articles/templates/articles/invite-friends.html:47
 msgid "Share:"
+msgstr ""
+
+#: articles/templates/articles/test.html:35
+msgid "Park Construction"
+msgstr ""
+
+#: articles/templates/articles/test.html:43
+msgid "Join the Project"
+msgstr ""
+
+#: articles/templates/articles/test.html:45
+msgid "Project Participants"
+msgstr ""
+
+#: articles/templates/articles/test.html:66
+msgid "Information"
+msgstr ""
+
+#: articles/templates/articles/test.html:67
+msgid "Tasks"
+msgstr ""
+
+#: articles/templates/articles/test.html:68
+#: locations/templates/locations/index.html:93
+#: locations/templates/locations/location_detail.html:38
+#: locations/templates/locations/location_forum.html:4 locations/views.py:539
+#: locations/views.py:606 maps/templates/maps/index.html:111
+#: templates/activity/actor.html:104
+#: userspace/templates/userspace/profile.html:80
+msgid "Discussions"
+msgstr ""
+
+#: articles/templates/articles/test.html:69
+msgid "Photos"
+msgstr ""
+
+#: articles/templates/articles/test.html:80
+#: ideas/templates/ideas/idea_basic.html:21
+#: ideas/templates/ideas/idea_detail.html:49
+#: ideas/templates/ideas/ideas.html:29
+#: locations/templates/locations/location_forum.html:36
+#: locations/templates/locations/location_ideas.html:26
+msgid "Active"
+msgstr ""
+
+#: articles/templates/articles/test.html:84
+msgid "Task"
+msgstr ""
+
+#: articles/templates/articles/test.html:255
+msgid "Add new group"
+msgstr ""
+
+#: articles/templates/articles/test.html:264
+msgid "Planned completion: "
+msgstr ""
+
+#: articles/templates/articles/test.html:269
+msgid "Created by Adam Thompson"
+msgstr ""
+
+#: articles/templates/articles/test.html:272
+msgid "Project participants"
+msgstr ""
+
+#: articles/templates/articles/test.html:285
+msgid "Join"
 msgstr ""
 
 #: articles/views.py:74
@@ -441,7 +509,7 @@ msgstr ""
 #: ideas/templates/ideas/idea-category.html:25
 #: ideas/templates/ideas/idea-votes.html:24
 #: locations/templates/locations/category-form.html:31
-#: locations/templates/locations/location_followers.html:99
+#: locations/templates/locations/location_followers.html:91
 #: locations/templates/locations/location_news.html:98
 #: maps/templates/maps/minimap.html:26 maps/templates/maps/minimap.html:34
 #: maps/templates/maps/pointer-modal-form.html:22
@@ -553,7 +621,7 @@ msgstr ""
 
 #: gallery/templates/gallery/location-gallery.html:42
 #: gallery/templates/gallery/user-gallery.html:44
-#: locations/templates/locations/location_followers.html:62
+#: locations/templates/locations/location_followers.html:54
 #: locations/templates/locations/sublocation-list.html:36
 #: topics/templates/topics/discussion_detail.html:149
 msgid "previous"
@@ -561,7 +629,7 @@ msgstr ""
 
 #: gallery/templates/gallery/location-gallery.html:50
 #: gallery/templates/gallery/user-gallery.html:52
-#: locations/templates/locations/location_followers.html:70
+#: locations/templates/locations/location_followers.html:62
 #: locations/templates/locations/sublocation-list.html:44
 #: topics/templates/topics/discussion_detail.html:157
 msgid "next"
@@ -625,7 +693,7 @@ msgid "Gallery"
 msgstr ""
 
 #: gallery/templates/gallery/media-uploader.html:48
-#: locations/templates/locations/location_followers.html:100
+#: locations/templates/locations/location_followers.html:92
 msgid "Select"
 msgstr ""
 
@@ -669,7 +737,8 @@ msgstr ""
 #: ideas/forms.py:53 ideas/templates/ideas/idea_basic.html:46
 #: ideas/templates/ideas/idea_detail.html:90 locations/forms.py:113
 #: locations/forms.py:145 locations/forms.py:175
-#: locations/templates/locations/sidebar.html:63 polls/forms.py:31
+#: locations/templates/locations/sidebar.html:63
+#: locations/templates/locations/tag-search.html:52 polls/forms.py:31
 #: topics/templates/topics/discussion_detail.html:68
 msgid "Tags"
 msgstr ""
@@ -692,14 +761,6 @@ msgstr ""
 
 #: ideas/templates/ideas/idea-votes.html:16
 msgid "Positive"
-msgstr ""
-
-#: ideas/templates/ideas/idea_basic.html:21
-#: ideas/templates/ideas/idea_detail.html:49
-#: ideas/templates/ideas/ideas.html:29
-#: locations/templates/locations/location_forum.html:36
-#: locations/templates/locations/location_ideas.html:26
-msgid "Active"
 msgstr ""
 
 #: ideas/templates/ideas/idea_basic.html:23
@@ -738,6 +799,18 @@ msgstr ""
 
 #: ideas/templates/ideas/ideas.html:52
 msgid "See full version"
+msgstr ""
+
+#: ideas/views.py:125
+msgid "You voted already on this idea"
+msgstr ""
+
+#: ideas/views.py:137 rest/views.py:390 topics/views.py:406
+msgid "Vote saved"
+msgstr ""
+
+#: ideas/views.py:143
+msgid "voted on"
 msgstr ""
 
 #: ideas/views.py:164 locations/templates/locations/category-form.html:16
@@ -833,15 +906,6 @@ msgstr ""
 
 #: locations/templates/locations/index.html:91
 msgid "Summary"
-msgstr ""
-
-#: locations/templates/locations/index.html:93
-#: locations/templates/locations/location_detail.html:38
-#: locations/templates/locations/location_forum.html:4 locations/views.py:539
-#: locations/views.py:606 maps/templates/maps/index.html:111
-#: templates/activity/actor.html:104
-#: userspace/templates/userspace/profile.html:80
-msgid "Discussions"
 msgstr ""
 
 #: locations/templates/locations/index.html:94
@@ -995,15 +1059,15 @@ msgstr ""
 msgid "ago"
 msgstr ""
 
-#: locations/templates/locations/location_followers.html:20
+#: locations/templates/locations/location_followers.html:12
 msgid "People"
 msgstr ""
 
-#: locations/templates/locations/location_followers.html:21
+#: locations/templates/locations/location_followers.html:13
 msgid "People who follow this place"
 msgstr ""
 
-#: locations/templates/locations/location_followers.html:95
+#: locations/templates/locations/location_followers.html:87
 msgid "Select badge for user"
 msgstr ""
 
@@ -1558,10 +1622,12 @@ msgid ""
 msgstr ""
 
 #: places_core/templates/places_core/paginator.html:14
+#: templates/search/search.html:71
 msgid "Previous"
 msgstr ""
 
 #: places_core/templates/places_core/paginator.html:18
+#: templates/search/search.html:73
 msgid "Next"
 msgstr ""
 
@@ -1578,11 +1644,11 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: places_core/views.py:172
+#: places_core/views.py:175
 msgid "Send abuse report"
 msgstr ""
 
-#: places_core/views.py:193
+#: places_core/views.py:196
 msgid "Report sent"
 msgstr ""
 
@@ -1647,10 +1713,6 @@ msgstr ""
 msgid "Changes saved"
 msgstr ""
 
-#: rest/views.py:390 topics/views.py:406
-msgid "Vote saved"
-msgstr ""
-
 #: rest/views.py:395
 msgid "Already voted on this comment"
 msgstr ""
@@ -1673,6 +1735,18 @@ msgstr ""
 
 #: rest/views.py:655
 msgid "gave badge to"
+msgstr ""
+
+#: staticpages/templates/staticpages/pages/404.html:24 templates/404.html:23
+msgid "404 Page"
+msgstr ""
+
+#: staticpages/templates/staticpages/pages/404.html:25 templates/404.html:24
+msgid "We lost something"
+msgstr ""
+
+#: staticpages/templates/staticpages/pages/404.html:30 templates/404.html:29
+msgid "Back to Home Page"
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-b.html:4
@@ -1939,18 +2013,6 @@ msgstr ""
 msgid "Term of Service"
 msgstr ""
 
-#: templates/404.html:23
-msgid "404 Page"
-msgstr ""
-
-#: templates/404.html:24
-msgid "We lost something"
-msgstr ""
-
-#: templates/404.html:29
-msgid "Back to Home Page"
-msgstr ""
-
 #: templates/activity/actor.html:18
 msgid "UNFOLLOW"
 msgstr ""
@@ -2182,6 +2244,10 @@ msgstr ""
 
 #: templates/search/search.html:24
 msgid "location in"
+msgstr ""
+
+#: templates/search/search.html:32 templates/search/search.html.py:54
+msgid "More..."
 msgstr ""
 
 #: templates/search/search.html:38
