@@ -2,6 +2,8 @@
 
 {% include 'places_core/header.html' %}
 
+{% include 'places_core/script-templates.html' %}
+
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script>
 (function () {
@@ -70,7 +72,8 @@
     
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/map-main.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/map-main.js"></script>
 
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>

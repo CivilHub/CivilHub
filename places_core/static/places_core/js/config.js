@@ -1,6 +1,20 @@
-{
-	"baseUrl": "./",
+//
+// config.js
+// =========
+//
+// Konfiguracja dla plików wejściowych dla skryptów, znajdujących się w katalogu
+// js/src. Osobna konfiguracja dla buildów znajduje się w pliku config.json.
+// Niestety, 'path' i 'shim' muszą się powtarzać, więc jak dodajemy coś do jednego
+// pliku, trzeba wprowadzić zmianę w drugim.
 
+require.config({
+    
+    baseUrl: window.STATIC_URL,
+    
+    urlArgs: "bust=" + (new Date()).getTime(),
+    
+    waitSeconds: 200,
+    
     "paths": {
         "jquery": "includes/jquery/jquery",
         "jqueryui": "includes/jquery-ui/jquery-ui",
@@ -37,7 +51,7 @@
     },
 
     "shim": {
-        
+
         "jqueryui": {
             "deps": ["jquery"]
         },
@@ -45,7 +59,7 @@
         "tagsinput": {
             "deps": ["jqueryui"]
         },
-
+        
         "jpaginate": {
             "deps": ["jquery"]
         },
@@ -67,10 +81,6 @@
         "bootbox": {
             "deps": ["bootstrap"],
             "exports": "bootbox"
-        },
-        
-        "tagsinput": {
-            "deps": ["jquery"]
         },
 
         "bootstrap-switch": {
@@ -127,4 +137,12 @@
         "categoryAxisRenderer": { "deps": ["plot"] },
         "barRenderer": { "deps": ["plot"] }
     }
-}
+});
+
+// Tutaj można umieścić skrypty i konfiguracje, które mają się uruchomić
+// przed załadowaniem wszystkich innych skryptów na stronie. W przykładzie
+// poniżej ustawiamy globalnie język dla moment.js.
+
+require(['moment'], function (moment) {
+    moment.locale(CivilApp.language);
+});

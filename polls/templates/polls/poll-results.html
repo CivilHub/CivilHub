@@ -1,12 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles i18n civil_tags %}
 
-{% block extra_styles %}
-
-    <link rel="stylesheet" href="{% static 'places_core/includes/jqplot/jquery.jqplot.css' %}" />
-    
-{% endblock %}
-
 {% block require_scripts %}
 <script>
 (function () {
@@ -18,7 +12,7 @@
     window.POLLS = pollapp;
 })();
 </script>
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/poll-results.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/poll-results.js"></script>
 {% endblock %}
 
 

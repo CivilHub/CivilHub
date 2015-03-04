@@ -1,0 +1,628 @@
+{% load staticfiles i18n bookmark_tags %}
+
+{% comment %}
+
+    Szablony do skryptów. Poprzednio były porozbijane po plikach przynależących
+    do konkretnych aplikacji, ale to zbyt kłopotliwe. Dlatego wszystkie templatki
+    do skryptów wrzucajmy tutaj, ten plik trzeba później dołączyć od razy za
+    sekcją HEAD.
+
+    BTW tutaj są szablony zebrane na szybko. Przy dodawaniu nowych warto zostawić
+    jakiś komentarz kto, po co i który skrypt z tego korzysta (na przykład).
+
+{% endcomment %}
+
+<script type="text/template" id="news-entry-tpl">
+<div class="row">
+
+    <div class="col-xs-10">
+        <h3 class="blogTitleNews"><a href="<%= slug %>"><%= title %></a></h3>
+
+
+        <p class="custom-booklike acticle-content blogNewsContent"><%= description %></p>
+        <div class="clear">&nbsp;</div>
+        
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="blogAuthorDiv">
+                    <div class="blogAvatarDiv"><img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar user-window-toggle minUserAvatar" /></div>
+
+                    <p>
+                        <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a> <span class="date-created"><%= date_created %></span>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-xs-2 blogImageNews">
+        <div class="newsThumbnail"><img src="<%= image %>"></div>
+    </div>
+
+</div>
+</script>
+
+
+<script type="text/template" id="comment-template">
+    <div class="row comment-row comment-entry-heading commentNext">
+        <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
+        <div class="comment-main-col">
+            <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a> 
+            <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
+            <span class="comment-controls">
+                <% if (username === $('#target-user').val()) { %>
+                    <a href="#" class="comment-edit" title="{% trans "Edit entry" %}">
+                        <span class="fa fa-edit"> </span>
+                    </a>
+                <% } else { %>
+                    <a class="report-abuse-link" href="#" data-id="<%= id %>" data-content="<%= ct %>" title="{% trans "Report abuse" %}" class="report-abuse-comment-link">
+                        <span class="fa fa-exclamation-triangle"> </span>
+                    </a>
+                <% } %>
+            </span>
+            <div class="comment-content"><%= comment %></div>
+            <div class="comment-meta-options">
+                {% if user.is_authenticated %}
+                <% if (username !== $('#target-user').val()) { %>
+                    <p>
+                        <span class="comment-total-votes"><%= total_votes %></span>
+                        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
+                        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="{% trans "Bad Idea, Vote NO" %}" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
+                <% } else { %>
+                    <p><span class="comment-total-votes"><%= total_votes %></span>
+                <% } %>
+                {% endif %}
+                
+                {% comment %}
+                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %}) </a>
+                {% endcomment %}
+                
+                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> {% endif %} 
+                
+                <% if (replies) { %> &bull; <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a><% } %> 
+
+                </p>
+                <div class="comment-votes-detail">
+                    <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
+                    <label class="alert-danger"><span class="fa fa-long-arrow-down"> </span><%= downvotes %></label>
+                    <label class="alert-info"><span class="fa fa-bar-chart-o"> </span><%= upvotes + downvotes %></label>
+                </div>
+            </div>
+            <div class="subcomments"></div>
+        </div>
+    </div>
+</script>
+
+{% comment %} ~~~~~~~~~~~~~~ FORMA DO ODPOWIEDZI  ~~~~~~~~~~~~ {% endcomment %}
+<script type="text/template" id="comment-form-template">
+    <div class="col-xs-1 comment-avatar-col">
+        <img src="{{ user.profile.thumbnail_small }}" alt="{{ user.get_full_name }}" class="comment-author-avatar user-window-toggle" />
+    </div>
+    <div class="comment-main-col">
+        <form role="presentation" class="comment-form-body">
+            <div class="form-group">
+                <label for="comment" class="control-label">Comment</label>
+                <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+                <button class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
+            </div>
+        </form>
+    </div>
+</script>
+
+{% comment %} ~~~~~~~~~~~~~~~ FORMA DO EDYCJI  ~~~~~~~~~~~~~~~ {% endcomment %}
+<script type="text/template" id="comment-edit-template">
+    <form role="presentation" class="comment-form-body">
+        <div class="form-group">
+            <label for="comment" class="control-label">Comment</label>
+            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+            <button type="submit" class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
+        </div>
+    </form>
+</script>
+
+
+<script type="text/template" id="media-item-tpl">
+    <img src="<%= thumbnail %>" alt="<%= picture_name %>" />
+    <a href="#" class="delete-item-button"><span class="fa fa-times-circle-o">&nbsp;</span></a>
+</script>
+
+
+<script type="text/template" id="vote-counter-entry">
+    <div class="counter-entry">
+        <a href="<%= user_url %>" class="custom-tooltip" title="<%= username %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
+    </div>
+</script>
+
+<script type="text/template" id="idea-entry-tpl">
+    <div class="idea-votes col-sm-3" id="tour-votes">
+        <div class="vote-form">
+            <div class="votes"><%= meta.votes %></div>
+            <div class="vote-controls">
+                {% if user.is_authenticated %}
+                    <button data-target-id="<%= pk %>" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+                    <button data-target-id="<%= pk %>" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
+                {% else %}
+                    <a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
+                    <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="idea-summary">
+            <div class="idea-status-state">
+                <% if (status) { %>
+                    <label class="label label-success">{% trans "Active" %}</label>
+                <% } else { %>
+                    <label class="label label-danger">{% trans "Inactive" %}</label>
+                <% } %>
+            </div>
+            <div class="idea-vote-count" data-target=<%= pk %>><%= meta.votes %> {% trans "votes" %}</div>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <h3 class="allHeadingThree"><a href="<%= url %>"><%= title %></a></h3>
+
+        <p class="createBY">
+            {% trans "Created by" %} <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a> <span class="date-created"><%= date_created %></span>
+            {% comment %}<% if (edited) { %>
+                {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
+            <% } %>{% endcomment %}
+        </p>
+        
+        <div class="idea-summary acticle-content">
+            <%= description.substring(0,320) %>...
+        </div> 
+        <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a>
+        <div class="clear">&nbsp;</div>
+        <div>
+            {% comment %}<a href="<%= url %>" class="totalComments"><span class="fa fa-comments"> </span> <%= total_comments %> {% trans "comments" %}</a>{% endcomment %}
+            {% comment %}<% if (category_name) { %>
+            <span class="fa fa-star"> </span>{% trans "Category" %}:
+                <a href="<%= category_url %>"><%= category_name %></a>
+            <% } %>{% endcomment %}
+        </div>
+    </div>
+</script>
+
+
+<script type="text/template" id="new-category-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Create new category" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="presentation" method="post" action="" >
+                    <div class="form-group">
+                        <label for="category-name" class="control-label">{% trans "Name" %}</label>
+                        <input type="text" id="category-name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="category-description">{% trans "Description" %}</label>
+                        <textarea id="category-description" cols="10" rows="10" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="button" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</script><!-- /.modal -->
+
+
+<script type="text/template" id="input-tpl">
+    <div class="btn btn-createLocation custom-btn-full-width input-indicator"></div>
+    <ul class="sublist">
+        <li class="filter-entry">
+            <form role="presentation">
+                <input type="text" class="search-filter form-control input-sm" placeholder="{% trans "Filter" %}...">
+            </form>
+        </li>
+    </ul>
+</script>
+
+
+<script type="text/template" id="empty-tpl">
+    <div class="is-empty-list">{% trans "No sublocations found" %}.</div>
+</script>
+
+<script type="text/template" id="list-col-tpl">
+
+     <% if (tier > 0) { %><form class="haystack-entry-form" role="presentation">
+     <% } else { %><form class="haystack-entry-form" role="presentation"><% } %>
+        <input type="text" class="search-entry form-control" placeholder="{% trans "Filter" %}" />
+    </form>
+    <!--<% if (tier > 0) { %><a href="#" class="col-sm-2 close-col"><span class="fa fa-times-circle-o"></span></a><% } %>-->
+</script>
+
+<script type="text/template" id="location-entry-tpl">
+    <span class="col-description expand-entry" data-target="<%= id %>"><%= name %></span>
+    <div class="list-entry-details" style="display:none;">
+        <div style="transform: translate(0, 50%);">
+        <h4><%= name %></h4>
+            
+            <% if (followed) { %>
+                <button type="button" class="btn-unfollow-location unfollow-entry" data-target="<%= id %>">{% trans "You are following" %}</button>
+            <% } else { %>
+                <button type="button" class="btn-follow-location follow-entry" data-target="<%= id %>">{% trans "Follow" %}</button>
+            <% } %>
+        <form action="/<%= slug %>">
+            <button type="submit" class="btn-goto btn-unfollow-location" data-target="<%= id %>">{% trans "Go to" %}</button>
+        </form>
+        </div>
+        
+        <a href="#" class="hide-details sprite-icon"><span class="ch-icon ch-close">&nbsp;</span></a>
+        
+    </div>
+</script>
+
+
+<script type="text/template" id="form-modal">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><%= title %></h4>
+        </div>
+        <div class="modal-body"><%= form %></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+            <button type="button" class="btn btn-primary btn-modal-submit">{% trans "Save changes" %}</button>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/template" id="category-form">
+<form role="form" method="post" action="">
+    <div class="form-group">
+        <label for="name" class="control-label">{% trans "Name" %}</label>
+        <input type="text" name="name" id="name" placeholder="{% trans "Title" %}" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="control-label">{% trans "Description" %}</label>
+        <textarea name="description" id="description" cols="10" rows="10" class="form-control">{% trans "Category description goes here..." %}</textarea>
+    </div>
+</form>
+</script>
+
+
+<script type="text/template" id="no-results-tpl">
+  <p>{% blocktrans %}No results mathing query found.{% endblocktrans %}</p>
+</script>
+
+
+<script type="text/template" id="minimap-tpl">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
+                <h4 class="modal-title">{% trans "Minimap" %}</h4>
+            </div>
+            <div class="modal-body">
+                <div id="minimap"></div>
+                <div style="clear:both;">&nbsp;</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</script>
+
+
+<script type="text/template" id="map-marker-form-template">
+<div class="modal fade" id="pointer-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Create map marker" %}</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" action="#">
+                    {{ marker_form }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                <button type="submit" class="btn btn-primary submit-btn">{% trans "Save" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+</script>
+
+
+<script type="text/template" id="pageable-view-tpl">
+    <p class="page-info"></p>
+    <% if (totalPages > 1) { %>
+        <ul class="pagination">
+            <li class="first-page"><a>&laquo;</a></li>
+            <li class="prev-page"><a rel="prev">{% trans "Previous" %}</a></li>
+            <% for (var i = 1; i <= totalPages; i++) { %>
+                <li class="page" data-index="<%= i %>"><a><%= i %></a></li>
+            <% } %>
+            <li class="next-page"><a rel="next">{% trans "Next" %}</a></li>
+            <li class="last-page"><a>&raquo;</a></li>
+        </ul>
+    <% } %>
+</script>
+
+
+<script type="text/template" id="action-template">
+    <div class="entry-avatar-col">
+       <div class="actiAvatar"> <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" /> </div>
+        {% comment %}<%= actor.rank_pts %>{% endcomment %}
+        <div class="actiNick"><a href="<%= actor.user_link %>" class="locActorNick"><h5><%= actor.fullname %></h5></a>
+
+        <p>
+           <%= verb %>
+            <% if (!_.isEmpty(object_ct)) { %>
+               <span class="actiAction">  <%= object_ct %> </span>
+                <% if (_.isEmpty(target_ct)) { %>
+                    <span class="actiTitle"><a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></span>
+                <% } else { %>
+                    <span class="actiTitle"> <a href="<%= object.url %>" class="locObjectName"><%= object.name %></a></span>
+                    <span class="actiCategory"> {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a></span>
+                <% } %>
+            <% } else if (!_.isEmpty(target_ct)) { %>
+                <span class="actiCategory"><a href="<%= target.url %>" class="locTargetName"><%= target.name %></a></span>
+            <% } %>
+        </p>
+            <div class="actiClock"><span class="custom-tooltip" title="<%= moment(timestamp).fromNow() %>"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd"><%= moment(timestamp).fromNow() %> {% trans "ago" %}</span> {% endcomment %}</span></span></div>
+        </div>
+    </div>
+    <% if (!_.isEmpty(object_ct)) { %>
+    <div class="entry-meta-col">
+        <div class="entry-header"></div>
+        
+        <div class="entry-body"><a href="<%= object.url %>"><%= description %></a></div>
+
+        
+        <div class="clear">&nbsp;</div>
+        <div class="entry-footer"></div>
+    </div><!-- // .entry-meta-col -->
+    <% } else {%>
+       <div class="entry-meta-col rwdShow "></div>
+    <% } %>
+
+</script>
+
+
+<script type="text/template" id="content-item-tpl">
+<div id="tour-summary-box">
+    <div class="locBox loc-box-<%= type %>">
+
+    <div class="locBoxHeader">
+        <div class="locBoxLoc"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></div>
+        <div class="locBoxIcon">
+            <div class="locBoxBookmark"> 
+                {% comment %}<a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
+                <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>{% endcomment %}
+            </div>
+            {% comment %}<div class="locBoxMarker">
+                <a href="#" class="custom-tooltip-right" title="{% trans "Show on map" %}"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-ivnerse"></i></span></a>
+                {% endif %}
+            </div>{% endcomment %}
+        </div>
+
+        <div class="locBoxContainer">
+            <div class="locBoxAuthor">
+                <a href="<%= creator.url %>" ><span class="user-window-toggle" data-target="<%= creator.id %>">
+                    <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH "></span>
+                </a>
+            </div>
+            <div class="locBoxTitle">
+               <a href="<%= url %>"><%= title %></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="locBoxCat"><a href="<%= url %>"><%= type %></a></div>
+
+    <div class="locBoxBody"><a href="<%= url %>"><%= description %></a></div>
+
+</div><!-- /.locBox -->
+</div>
+</script>
+
+
+<script type="text/template" id="flash-msg-tpl">
+
+    <div class="avatarMessageAlert"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}"></div>
+
+    <span class="message-content"><p class="messageName">{{ user.get_full_name }}</p><%= message %></span>
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span> 
+        <span class="sr-only">Close</span>
+    </button>
+
+</script>
+
+
+<script type="text/template" id="ancestors-menu-tpl">
+    <div class="dropdown-title">
+        <h4>
+            <span class="text-title">{% trans "Sublocations" %}</span>
+              <button type="button" class="close" data-dismiss="dropdown-menu">
+                <span aria-hidden="true"><i class="fa fa-times"></i></span>         
+                <span class="sr-only">Close</span>
+            </button>
+            <a href="#"><span class="fa fa-search">&nbsp;</span></a>         
+        </h4>
+        <span class="search-title">
+            <form role="presentation" class="sublocation-search form-inline">
+                <input type="text" class="sublocation-search-input form-control input-sm" placeholder="{% trans "Search" %}..." />
+            </form>
+        </span>
+    </div>
+    <ul></ul>
+</script>
+
+
+<script type="text/template" id="user-popup-tpl">
+
+<div class="userPopupTop">
+    <div class="user-popup-avatar">
+        <div class="userPopupBg" style="background:url({{ usr.profile.background_image.url }});">
+
+        </div>
+        <div class="avatarPopup">
+            <img src="<%= avatar %>" alt="<%= username %>" />
+        </div>
+
+    </div>
+    <div class="userPopupName"><a href="<%= user_link %>"><%= fullname %></a></div>
+</div>
+<div class="userPopupBottom">           
+    <div class="user-popup-details">
+        <div class="userPopupDetails"><% for (var i = 0; i < follows.length; i++) { %>
+            <%= follows[i].name %>,&nbsp;
+        <% } %>
+        </div>
+    </div>
+</div>
+
+</script>
+
+
+<script type="text/template" id="answer-entry-tpl">
+    <div>
+        <div class="form-group">
+            <label for="answer-txt-<%= id %>" class="control-label col-sm-2">{% trans "Answer text" %}</label>
+            <div class="col-sm-9">
+                <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-minusDelete delete-entry-btn"><span class="fa fa-minus"> </span></button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/template" id="poll-entry">
+    {% if user == poll.creator or is_moderator %}
+        <div class="btn-group list-entry-controls">
+            <a href="">
+                <button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button>
+            </a>
+            <button data-target="<%= pk %>" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}">
+                <span class="fa fa-times-circle-o"> </span></button>
+        </div>
+    {% endif %}
+    <div class="col-xs-6 custom-align-l"><a href="<%= url %>"><%= title %></a></div>
+    <div class="col-xs-6 custom-align-r">
+        <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
+        <a href="<%= creator.url %>" class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></a>
+        <span class="date-created"><%= date_created %></span>
+        <div class="pollEye"><a href="<%= url %>"><span class="fa fa-eye"></span></a></div>
+    </div>
+
+</script>
+
+
+<script type="text/template" id="action-template">
+    <div class="col-md-2 entry-avatar-col">
+        <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
+        <%= actor.rank_pts %>
+    </div>
+    
+    <div class="col-md-10 entry-meta-col">
+        <div class="entry-header">
+            <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+            <%= verb %>
+            <% if (!_.isEmpty(object_ct)) { %>
+                <%= object_ct %>
+                <% if (_.isEmpty(target_ct)) { %>
+                    <a href="<%= object.url %>"><%= object.name %></a>
+                <% } else { %>
+                    <a href="<%= object.url %>"><%= object.name %></a>
+                    {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a>
+                <% } %>
+            <% } else if (!_.isEmpty(target_ct)) { %>
+                <a href="<%= target.url %>"><%= target.name %></a>
+            <% } %>
+            <%= timestamp %> {% trans "ago" %}
+        </div>
+        <div class="entry-body"><%= description %></div>
+        <div class="clear">&nbsp;</div>
+        <div class="entry-footer"></div>
+    </div><!-- // .entry-meta-col -->
+</script>
+
+
+<script type="text/template" id="topic-entry">
+    <div class="row">
+        <div class="col-sm-5 excerpt">
+            <a href="<%= url %>"><%= title %></a>
+        </div>
+        <div class="col-sm-3 category">
+            {% comment %}<a href="<%= category.url %>">{% endcomment %}<label class="label label-default"><%= category.name %></label>{% comment %}</a>{% endcomment %}
+        </div>
+        <div class="col-sm-4 custom-align-r">
+            <span class="count"><%= meta.answers %></span>
+            <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
+            <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a>
+            <span class="date-created"><%= date_created %></span>
+        </div>
+    </div>
+</script>
+
+
+<script type="text/template" id="reply-tpl">
+    <div class="row">
+        <div class="blobfish-left">&nbsp;</div>
+        <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+            <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar user-window-toggle" data-target="<%= creator_id %>" />
+            <p class="custom-centered discussionPH"></p>
+        </div>
+        <div class="col-xs-11 discussion-entry-content">
+            <p class="entry-meta">
+                <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a> 
+                <span class="topic-date-col">
+                    <span class="date-created"><%= date_created %></span>
+                    <% if (is_edited) { %>
+                        <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <span class="date-edited"><%= date_edited %></span>
+                    <% } %>
+                </span>
+                <span class="entry-controls"></span>
+            </p>
+            <div class="entry-content"><%= content %></div>
+            <div class="custom-clear">&nbsp;</div>
+            <div class="entry-footer">
+                <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+                {% if user == entry.creator %}
+                    <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
+                    <a href="" class="link-entry-edit" title="{% trans "Edit entry" %}">
+                        <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+                    </a>
+                {% else %}
+                    <span class="entry-vote-count"><%= vote_count %></span>
+                    <a href="" class="entry-vote entry-vote-up">
+                        <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
+                    </a> |
+                    <a href="" class="entry-vote entry-vote-down">
+                        <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+                    </a> |
+                    <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
+                        <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+                    </a> 
+                {% endif %}
+                | {% bookmark_form for discussion %}
+            </div>
+        </div>
+    </div>
+</script>

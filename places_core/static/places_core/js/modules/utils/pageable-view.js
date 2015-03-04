@@ -3,7 +3,7 @@
 // ================
 // Klasa do rozszerzenia przez wszystkie list widoki korzystające z paginatora,
 // czyli lista dyskusji, lista ankiet, sekcja blog oraz sekcja pomysły.
-//
+
 define(['jquery',
         'underscore',
         'backbone'],
