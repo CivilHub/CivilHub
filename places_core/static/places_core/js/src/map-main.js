@@ -58,8 +58,7 @@ require(['jquery',
          'js/modules/maps/map',
          'js/modules/maps/autocomplete',
          'bootstrap',
-         'js/modules/common/bookmarks',
-         'tour'],
+         'js/modules/common/bookmarks'],
 
 function ($, CivilMap) {
     

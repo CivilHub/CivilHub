@@ -116,6 +116,8 @@ class Idea(ImagableItemMixin, models.Model):
 
     class Meta:
         ordering = ['name',]
+        verbose_name = _(u"idea")
+        verbose_name_plural = _(u"ideas")
 
 
 @python_2_unicode_compatible

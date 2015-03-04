@@ -75,6 +75,11 @@ class Discussion(ImagableItemMixin, models.Model):
     def __str__(self):
         return self.question
 
+    class Meta:
+        ordering = ['question',]
+        verbose_name = _(u"discussion")
+        verbose_name_plural = _(u"discussions")
+
 
 class Entry(MPTTModel):
     """

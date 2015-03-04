@@ -60,6 +60,8 @@ class Poll(ImagableItemMixin, models.Model):
 
     class Meta:
         ordering = ['title',]
+        verbose_name = _(u"poll")
+        verbose_name_plural = _(u"polls")
 
 
 @python_2_unicode_compatible

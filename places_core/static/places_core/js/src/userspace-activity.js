@@ -72,7 +72,7 @@ function($, ActionList) {
     
     $(document).ready(function(){
         $('.col-sm-3.colHline').addClass('colHlineL');
-        $('.col-sm-9.colHline').addClass('.colHlineR');
+        $('.col-sm-9.colHline').addClass('colHlineR');
     });
 
     var actions = new ActionList();
