@@ -7,8 +7,8 @@
 
 {% block content %}
 
-    <div class="col-sm-8 main-content">
-        <div class="create-form">
+    <div class="col-sm-9 main-content contentPX">
+        <div class="create-form newFormCreate">
             <h3>{% trans "Create poll in " %} {{ location }}</h3>
             <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" role="form" id="poll-create-form">
                 {% csrf_token %}
@@ -78,7 +78,7 @@
     
     {% if user.is_authenticated %}{% include 'gallery/media-uploader.html' %}{% endif %}
     
-    <div class="col-sm-4">
+    <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
     

@@ -88,7 +88,7 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
     Custom form for Idea - autocomplete value of location field.
     """
     name = forms.CharField(
-        label = ("Name"),
+        label = _("Name"),
         required = True,
         max_length = 64,
         widget = forms.TextInput(attrs={'class': 'form-control'})
@@ -119,7 +119,7 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
 
 class NewsLocationForm(forms.ModelForm, BootstrapBaseForm):
     """
-    Custom form for Idea - autocomplete value of location field.
+    Custom form for News - autocomplete value of location field.
     """
     title = forms.CharField(
         label = _("Title"),
