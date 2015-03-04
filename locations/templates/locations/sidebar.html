@@ -50,7 +50,7 @@
             {% for usr in location.users.all %}
             <div class="follower">
                 <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-                <img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumbnail_small }}">
+                <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
                 </a>
             </div>
             {% endfor %}

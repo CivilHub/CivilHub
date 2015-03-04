@@ -832,7 +832,7 @@ class LocationListView(ListView):
     template_name = 'location_list.html'
     def get_context_data(self, **kwargs):
         context = super(LocationListView, self).get_context_data(**kwargs)
-        context['title'] = 'Locations'
+        context['title'] = _('Locations')
         return context
 
 

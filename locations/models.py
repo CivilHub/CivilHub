@@ -169,6 +169,8 @@ class Location(models.Model, BackgroundModelMixin):
 
     class Meta:
         ordering = ['name',]
+        verbose_name = _(u"location")
+        verbose_name_plural = _(u"locations")
 
     def country_name(self):
         """ Get location's country name. """
