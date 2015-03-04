@@ -9,6 +9,7 @@
 // -----------------------------------------------------------------------------
 
 require(['jquery',
+         'jqueryui',
          'redactor',
          'js/modules/ui/mapinput',
          'js/modules/content/content-form',

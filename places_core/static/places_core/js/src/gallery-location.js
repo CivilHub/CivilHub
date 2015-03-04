@@ -1,70 +1,27 @@
-/*
- * gallery-location.js
- * ===================
- * 
- * Galeria pojedynczej lokalizacji.
- */
+//
+// gallery-location.js
+// ===================
+// 
+// Galeria pojedynczej lokalizacji.
 
-require.config({
-    
-    baseUrl: window.STATIC_URL,
-    
-    urlArgs: "bust=" + (new Date()).getTime(),
-    
-    waitSeconds: 200,
-    
-    paths: {
-        jquery     : "includes/jquery/jquery",
-        jpaginate  : "includes/jquery/jquery.paginate",
-        underscore : "includes/underscore/underscore",
-        backbone   : "includes/backbone/backbone",
-        bootstrap  : "includes/bootstrap/bootstrap",
-        bootbox    : "includes/bootstrap/bootbox"
-    },
-    
-    shim: {
-        
-        jpaginate: {
-            deps: ["jquery"]
-        },
-        
-        underscore: {
-            deps: ["jquery"],
-            exports: "_"
-        },
-        
-        backbone: {
-            deps: ["underscore"],
-            exports: "Backbone"
-        },
-        
-        bootstrap: {
-            deps: ["jquery"]
-        },
-        
-        bootbox: {
-            deps: ["bootstrap"],
-            exports: "bootbox"
-        }
-    }
-});
+require([window.STATIC_URL + "/js/config.js"], function () {
+  require(['jquery',
+           'js/modules/ui/ui',
+           'js/modules/locations/follow',
+           'js/modules/common'],
 
-require(['jquery',
-         'js/modules/ui/ui',
-         'js/modules/locations/follow',
-         'js/modules/common'],
-
-function ($, ui) {
-    
+  function ($, ui) {
+      
     "use strict";
     
     $('.control-delete').on('click', function (e) {
-        e.preventDefault();
-        var href = $(this).attr('href');
-        ui.confirmWindow(function () {
-            document.location.href = href;
-        });
+      e.preventDefault();
+      var href = $(this).attr('href');
+      ui.confirmWindow(function () {
+        document.location.href = href;
+      });
     });
     
     $(document).trigger('load');
+  });
 });

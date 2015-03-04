@@ -6,6 +6,10 @@
 (function () {
     
   "use strict";
+
+  // Avoid 'redactorPlugins is undefined' error
+  if (typeof(window.RedactorPlugins) === 'undefined')
+    window.RedactorPlugins = {};
   
   /* 
    * Create new object from given arguments. Takes any number of other objects

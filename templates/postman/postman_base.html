@@ -11,6 +11,8 @@
 {% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
 {% block extra_styles %}{% endblock %}
 
+{% include 'places_core/script-templates.html' %}
+
 {% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
 {% block require_scripts %}
 
@@ -20,7 +22,7 @@
         faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
     {% endcomment %}
     
-    <script data-main="{% static 'places_core' %}/js/{% js_path %}/default.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+    <script src="{% static 'places_core' %}/js/{% js_path %}/default.js"></script>
     
 {% endblock %}
 

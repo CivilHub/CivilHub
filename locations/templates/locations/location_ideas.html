@@ -3,10 +3,13 @@
 {% block title %} {{ location }}, {% trans "Ideas" %} | CivilHub {% endblock %}
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/idea-list.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/idea-list.js"></script>
 {% endblock %}
 
 {% block topbar %}
+
+<input type="hidden" id="rest-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=idea" />
+
 <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
         <ul class="nav navbar-nav">

@@ -20,7 +20,7 @@
 {% block require_scripts %}
 {% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>
 {% endblock %}
 
 {% block content %}

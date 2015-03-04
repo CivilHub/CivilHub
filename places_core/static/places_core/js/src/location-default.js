@@ -1,73 +1,20 @@
-/*
- * location-default.js
- * ===================
- * 
- * Domyślne skrypty dla wszystkich podstron lokalizacji, które nie deklarują
- * własnej konfiguracji.
- */
+//
+// location-default.js
+// ===================
+// 
+// Domyślne skrypty dla wszystkich podstron lokalizacji, które nie deklarują
+// własnej konfiguracji.
 
-require.config({
-    
-    baseUrl: window.STATIC_URL,
-    
-    urlArgs: "bust=" + (new Date()).getTime(),
-    
-    waitSeconds: 200,
-    
-    paths: {
-        jquery     : "includes/jquery/jquery",
-        jpaginate  : "includes/jquery/jquery.paginate",
-        bootstrap  : "includes/bootstrap/bootstrap",
-        underscore : "includes/underscore/underscore",
-        backbone   : "includes/backbone/backbone",
-        tagsinput  : "includes/jquery/jquery.tagsinput",
-        bootbox    : "includes/bootstrap/bootbox",
-        tour       : "includes/tour/bootstrap-tour"
-    },
-    
-    shim: {
-        
-        jpaginate: {
-            deps: ["jquery"]
-        },
-        
-        underscore: {
-            deps: ["jquery"],
-            exports: "_"
-        },
-        
-        backbone: {
-            deps: ["underscore"],
-            exports: "Backbone"
-        },
-        
-        bootstrap: {
-            deps: ["jquery"]
-        },
-        
-        bootbox: {
-            deps: ["bootstrap"],
-            exports: "bootbox"
-        },
-        
-        tagsinput: {
-            deps: ["jquery"]
-        },
+require([window.STATIC_URL + "/js/config.js"], function () {
+  require(['jquery',
+           'js/modules/common',
+           'js/modules/locations/follow'],
 
-        tour: {
-            deps: ["jquery"]
-        },
-    }
-});
-
-require(['jquery',
-         'js/modules/common',
-         'js/modules/locations/follow'],
-
-function($) {
-    
+  function($) {
+      
     "use strict";
 
     $(document).trigger('load');
-    
+      
+  });
 });

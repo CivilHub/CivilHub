@@ -10,7 +10,7 @@ window.COUNTRIES = [];
 window.COUNTRIES.push({id:"{{ c.location.pk }}",name:"{{ c.location.name }}"});
 {% endfor %}
 </script>
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/location-create.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/location-create.js"></script>
 {% endblock %}
 
 

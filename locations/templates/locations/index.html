@@ -3,7 +3,19 @@
 
 {% cache 600 header location.slug %}
 
-{% block extra_styles %}
+{% block geometa %}{% if location.latitude and location.longitude %}
+<meta name="DC.title" content="{{ location }}" />
+<meta name="geo.region" content="{{ location.country_code }}" />
+<meta name="geo.placename" content="{{ location.name }}" />
+<meta name="geo.position" content="{{ location.latitude }};{{ location.longitude }}" />
+<meta name="ICBM" content="{{ location.latitude }}, {{ location.longitude }}" />
+{% endif %}{% endblock %}
+
+{% block require_scripts %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/location-default.js"></script>
+{% endblock %}
+
+{% block header %}
 <style type="text/css">
 .location-logo {
     background-image: url({{ location.background_url }});
@@ -16,21 +28,6 @@
     }
 }
 </style>
-{% endblock %}
-
-{% block geometa %}{% if location.latitude and location.longitude %}
-<meta name="DC.title" content="{{ location }}" />
-<meta name="geo.region" content="{{ location.country_code }}" />
-<meta name="geo.placename" content="{{ location.name }}" />
-<meta name="geo.position" content="{{ location.latitude }};{{ location.longitude }}" />
-<meta name="ICBM" content="{{ location.latitude }}, {{ location.longitude }}" />
-{% endif %}{% endblock %}
-
-{% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/location-default.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
-{% endblock %}
-
-{% block header %}
 <nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
 <div class="container">
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">

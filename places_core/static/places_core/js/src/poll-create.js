@@ -1,74 +1,21 @@
-/*
- * poll-create.js
- * ==============
- * 
- * Interaktywny formularz do tworzenia ankiet.
- */
+//
+// poll-create.js
+// ==============
+// 
+// Interaktywny formularz do tworzenia ankiet.
 
-require.config({
-    
-    baseUrl: window.STATIC_URL,
-    
-    urlArgs: "bust=" + (new Date()).getTime(),
-    
-    waitSeconds: 200,
-    
-    paths: {
-        jquery     : "includes/jquery/jquery",
-        jpaginate  : "includes/jquery/jquery.paginate",
-        jqueryui   : "includes/jquery-ui/jquery-ui",
-        tagsinput  : "includes/jquery/jquery.tagsinput",
-        bootstrap  : "includes/bootstrap/bootstrap",
-        bootbox    : "includes/bootstrap/bootbox",
-        underscore : "includes/underscore/underscore",
-        backbone   : "includes/backbone/backbone"
-    },
-    
-    shim: {
-        
-        jpaginate: {
-            deps: ["jquery"]
-        },
-        
-        underscore: {
-            deps: ["jquery"],
-            exports: "_"
-        },
-        
-        jqueryui: {
-            deps: ["jquery"]
-        },
-        
-        backbone: {
-            deps: ["underscore"],
-            exports: "Backbone"
-        },
-        
-        bootstrap: {
-            deps: ["jquery"]
-        },
-        
-        bootbox: {
-            deps: ["bootstrap"],
-            exports: "bootbox"
-        },
-        
-        tagsinput: {
-            deps: ["jqueryui"]
-        }
-    }
-});
+require([window.STATIC_URL + "/js/config.js"], function () {
+  require(['jquery',
+           'js/modules/common',
+           'js/modules/locations/follow',
+           'js/modules/inviter/userinviter',
+           'js/modules/polls/poll-form/create-poll'],
 
-require(['jquery',
-         'js/modules/common',
-         'js/modules/locations/follow',
-         'js/modules/inviter/userinviter',
-         'js/modules/polls/poll-form/create-poll'],
-
-function ($) {
-    
+  function ($) {
+      
     "use strict";
     
     $(document).trigger('load');
-    
+      
+  });
 });

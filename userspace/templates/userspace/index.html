@@ -1,7 +1,11 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles i18n civil_tags %}
 
-{% block extra_styles %}
+{% block require_scripts %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-form.js"></script>
+{% endblock %}
+
+{% block header %}
 <style type="text/css">
 .user-logo {
     background-image: url({{ profile.background_url }});
@@ -14,13 +18,7 @@
     }
 }
 </style>
-{% endblock %}
 
-{% block require_scripts %}
-<script data-main="{% static 'places_core' %}/js/{% js_path %}/userspace-form.js" src="{% static 'places_core' %}/includes/require/require.js"></script>
-{% endblock %}
-
-{% block header %}
 <!--     <div class="user-logo" style="background-image:url({{ profile.background_image.url }})"> -->
     <div class="user-logo">
         <div class="container" style="height: 100%; position: relative;">

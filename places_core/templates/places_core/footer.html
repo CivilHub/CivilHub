@@ -114,6 +114,7 @@
 {% include 'places_core/abuse-window-modal.html' %}
 {% include 'places_core/sublocation-dropdown.html' %}
 {% include 'places_core/user-popup.html' %}
+{% include 'gallery/media-uploader.html' %}
 
 </div><!-- /.footer -->
 
@@ -127,7 +128,7 @@
     ga('create', 'UA-51512403-1', 'auto');
     ga('require', 'linkid', 'linkid.js');
     ga('send', 'pageview');
-    {% if user.is_authenticated %}ga(‘set’, ‘&uid’, {{ user.get_username }});{% endif %}
+    {% if user.is_authenticated %}ga('set', 'uid', '{{ user.get_username }}');{% endif %}
  </script>
 
 {% comment %}Quantcast{% endcomment %}

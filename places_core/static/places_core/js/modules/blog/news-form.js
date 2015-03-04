@@ -3,6 +3,7 @@
 // ============
 
 require(['jquery',
+         'js/modules/editor/plugins/uploader',
          'redactor',
          'tagsinput',
          'js/modules/content/content-form'],
