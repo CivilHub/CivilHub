@@ -6,14 +6,6 @@
 <div class="col-sm-12">
     
 {% comment %} List of all location followers. {% endcomment %}
-
-{% comment %}
-<ul>
-{% for follower in top_followers %}
-    <li><a href="{{ follower.user.get_absolute_url }}">{{ follower.user.get_full_name }}</a> - {{ follower.count }}</li>
-{% endfor %}
-</ul>
-{% endcomment %}
     
 <div class="followers-entry">
 <h1>{% trans "People" %}
@@ -26,7 +18,7 @@
                 
                 <div class="follower-header">
                 <a href="{{ usr.profile.get_absolute_url }}">
-                    <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.get_cropped_image }}"></div>
+                    <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumb_url }}"></div>
                     <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
                     </a>
                 </div>
