@@ -9,7 +9,7 @@
 {% block content %}
 
     <div class="col-sm-9 main-content contentPX">
-        <div class="create-form">
+        <div class="create-form newFormCreate">
             <h3>{% trans "Create discussion in" %} {{ location }}</h3>
             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" id="content-create-form">
                 {% csrf_token %}

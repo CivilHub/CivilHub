@@ -9,6 +9,7 @@ from django.conf import settings
 from django.contrib.comments.models import BaseCommentAbstractModel
 from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 
 from gallery.image import adjust_uploaded_image, thumb_name, crop_thumb
 
@@ -37,7 +38,7 @@ def remove_image(sender, instance, **kwargs):
 
 class ImagableItemMixin(models.Model):
     """ Klasa dodająca do modelu pole przechowujące obraz. """
-    image = models.ImageField(blank=True,
+    image = models.ImageField(blank=True, verbose_name=_(u"image"),
         upload_to=get_image_upload_path, default=DEFAULT_PATH)
 
     @property
