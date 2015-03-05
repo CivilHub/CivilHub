@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
 from userspace.models import UserProfile
-from userspace.helpers import random_string
+from userspace.helpers import random_string, create_username
 
 
 def obtain_user_social_profile(response):
@@ -125,21 +125,21 @@ def create_user_profile(strategy, details, response, user=None, *args, **kwargs)
         except Token.DoesNotExist:
             token = Token.objects.create(user=user)
             token.save()
-        try: profile = UserProfile.objects.get(user=user)
+        try:
+            profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
-            profile = UserProfile(user = user)
+            profile = UserProfile(user=user)
             if 'gender' in response:
                 profile.gender = obtain_user_gender(response)
             profile.save()
 
 
 def get_username(strategy, details, user=None, *args, **kwargs):
-    """ Ustawiamy losową nazwę użytkownika, wg naszego schematu. """
+    """ Ustawiamy nazwę użytkownika wg naszego schematu. """
     storage = strategy.storage
     if user:
         final_username = storage.user.get_username(user)
     else:
-        final_username = random_string(30)
-        while storage.user.user_exists(username=final_username):
-            final_username = random_string(30)
+        final_username = create_username(details.get('first_name'),
+                                         details.get('last_name'))
     return {'username': final_username}

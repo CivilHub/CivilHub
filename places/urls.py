@@ -81,8 +81,12 @@ urlpatterns = patterns('',
     url(r'^api-gallery/', include(gallery_router.urls)),
 )
 
-from places_core.views import set_language
+from civmail.views import InviteFriendsView
+urlpatterns += patterns('',
+    url(r'^invite-friends/', InviteFriendsView.as_view(), name="invite_friends"),
+)
 
+from places_core.views import set_language
 urlpatterns += patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),

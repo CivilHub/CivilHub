@@ -1,12 +1,20 @@
-# -*- conding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import json
+
 from django.http import HttpResponse
-from django.shortcuts import render
-from django.views.generic import View
+from django.contrib import auth, messages
+from django.shortcuts import render, redirect
+from django.views.generic import View, TemplateView
 from django.utils import translation
 from django.utils.translation import ugettext as _
+
 from places_core.mixins import LoginRequiredMixin
 from civmail import messages as mails
+
+
+class InviteFriendsView(LoginRequiredMixin, TemplateView):
+    """ Widok pozwalający zapraszać znajomych. """
+    template_name = 'civmail/invite-friends.html'
 
 
 class InviteToContentView(LoginRequiredMixin, View):
@@ -18,6 +26,7 @@ class InviteToContentView(LoginRequiredMixin, View):
     """
     http_method_names = [u'get', u'post']
     template_name = 'civmail/invite-users.html'
+    success_message = _(u"All messages sent successfully")
 
     def get(self, request):
         """ Show modal form. """
@@ -41,9 +50,12 @@ class InviteToContentView(LoginRequiredMixin, View):
                 email.send(address, message)
             except:
                 print address, "is not valid email."
-        context = {
-            'success': True,
-            'message': _("All messages sent successfully"),
-            'level'  : 'success',
-        }
-        return HttpResponse(json.dumps(context))
+        if request.is_ajax():
+            context = {
+                'success': True,
+                'message': self.success_message,
+                'level'  : 'success',
+            }
+            return HttpResponse(json.dumps(context), content_type="application/json")
+        messages.add_message(request, messages.SUCCESS, self.success_message)
+        return redirect('/invite-friends/')
