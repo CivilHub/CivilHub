@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.conf import settings
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -116,6 +116,16 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def list(self, request):
+        username = request.QUERY_PARAMS.get('username')
+        if username is None:
+            return super(UserViewSet, self).list(request)
+        try:
+            user = User.objects.get(username=username)
+            return redirect('/rest/users/%s/' % user.pk)
+        except User.DoesNotExist:
+            raise Http404
 
 
 class CurrentUserViewSet(viewsets.ModelViewSet):
@@ -317,15 +327,15 @@ class CommentsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.GET.get('content-type'):
             order = self.set_element_order()
-            content_label = self.request.GET['content-label']
-            content_type = ContentType.objects.get(pk=self.request.GET['content-type'])
-            content_id = int(self.request.GET['content-id'])
-            total_comments = CustomComment.objects.filter(content_type=content_type)
-            total_comments = total_comments.filter(object_pk=content_id)
-            total_comments = total_comments.filter(parent__isnull=True)
+            content_label = self.request.GET.get('content-label')
+            total_comments = CustomComment.objects.filter(
+                content_type = ContentType.objects.get(pk=self.request.GET['content-type']),
+                object_pk = int(self.request.GET['content-id']),
+                parent__isnull = True
+            )
             return total_comments.order_by(order)
         else:
-            queryset = super(CommentsViewSet, self).get_queryset()
+            return super(CommentsViewSet, self).get_queryset()
 
     def partial_update(self, request, pk=None):
         if not pk: return False
@@ -664,12 +674,11 @@ class GalleryViewSet(viewsets.ModelViewSet):
     queryset = LocationGalleryItem.objects.all()
     serializer_class = GalleryItemSerializer
     permission_classes = (IsModeratorOrReadOnly,)
-    
+
     def get_queryset(self):
         if self.request.QUERY_PARAMS.get('pk'):
             pk = self.request.QUERY_PARAMS.get('pk')
-            location = get_object_or_404(Location, pk=pk)
-            queryset = LocationGalleryItem.objects.filter(location=location)
+            queryset = LocationGalleryItem.objects.filter(location__pk=pk)
         else:
             queryset = LocationGalleryItem.objects.all()
         return queryset

@@ -47,7 +47,7 @@ from rest_framework import views as rest_views
 from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
-from .helpers import profile_activation, random_username
+from .helpers import profile_activation, random_username, create_username
 from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
             BookmarkSerializer
@@ -568,9 +568,10 @@ def register(request):
         if f.is_valid():
             lang = translation.get_language()
             user = User()
-            username = random_username()
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
             password = request.POST.get('password')
-            user.username = username
+            user.username = create_username(first_name, last_name)
             user.set_password(password)
             user.email = request.POST.get('email')
             user.first_name = request.POST.get('first_name')

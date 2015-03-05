@@ -14,7 +14,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
   function($, ActionList) {
       
     "use strict";
-
+    
     var actions = new ActionList();
     
     // Check if there is a better way to handle external events.

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os, time, hashlib, random, string
+from slugify import slugify
 from itertools import chain
 from uuid import uuid4 as uuid
 from actstream.models import Action, user_stream
@@ -49,6 +50,32 @@ def random_username():
     username = random_string(30)
     while (User.objects.filter(username=username).count() > 0):
         username = random_string(30)
+    return username
+
+
+def create_username(first_name, last_name):
+    """
+    Próbujemy utworzyć "czystą" nazwę użytkownika na podstawie imienia i nazwiska.
+    """
+    if first_name is None or not len(first_name):
+        first_name = None
+    if last_name is None or not len(last_name):
+        last_name = None
+
+    if first_name is None and last_name is None:
+        return random_username()
+    elif first_name is None:
+        raw_username = slugify(last_name)
+    elif last_name is None:
+        raw_username = slugify(first_name)
+    else:
+        raw_username = "{}_{}".format(slugify(first_name), slugify(last_name))
+
+    retries = 0
+    username = raw_username
+    while User.objects.filter(username=username).count():
+        retries += 1
+        username = "{}_{}".format(raw_username, retries)
     return username
 
 

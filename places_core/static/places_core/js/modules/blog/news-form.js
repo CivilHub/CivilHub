@@ -3,6 +3,7 @@
 // ============
 
 require(['jquery',
+         'jqueryui',
          'js/modules/editor/plugins/uploader',
          'redactor',
          'tagsinput',
