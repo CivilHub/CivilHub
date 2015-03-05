@@ -77,12 +77,6 @@ require(['jquery', 'tour'], function ($) {
           path: rootUrl + "followers/"
         }, {
           element: "",
-          title: gettext("Map"),
-          content: gettext("Thanks to the map you can quickly find out what is happening in your neighbourhood."),
-          path: "/maps/",
-          orphan: true
-        }, {
-          element: "",
           title: gettext("Country"),
           content: gettext("Choose the place which you want to alter. Remember that you have the power to change what is happening within your surroundings."),
           path: "/places/",

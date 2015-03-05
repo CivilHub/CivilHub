@@ -15,6 +15,11 @@ require([window.STATIC_URL + "/js/config.js"], function () {
 
   function($) {
 
+    "use strict";
+
+    $('.col-sm-9.colHline').addClass('colHlineR');
+    $('.col-sm-3.colHline').addClass('colHlineL');
+
     $(document).trigger('load');
       
   });
