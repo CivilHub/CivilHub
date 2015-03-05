@@ -47,7 +47,7 @@ def create_object_action_hook(sender, instance, created, **kwargs):
         action.send(
             instance.creator,
             action_object = instance,
-            verb = _('created'),
+            verb = _(u"created"),
             target = instance.location
         )
 
@@ -66,7 +66,7 @@ def create_raw_object_action_hook(sender, instance, created, **kwargs):
         action.send(
             instance.creator,
             action_object = instance,
-            verb = _('created'),
+            verb = _(u"created"),
             target = instance.location
         )
 
@@ -87,7 +87,7 @@ def comment_action_hook(sender, instance, created, **kwargs):
         action.send(
             instance.user,
             action_object = instance.content_object,
-            verb = _('commented'),
+            verb = _(u"commented"),
             comment = instance.comment,
             comment_url = instance.content_object.get_absolute_url() + '#comment-' + str(instance.pk)
         )

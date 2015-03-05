@@ -21,7 +21,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       height: '100%',
       animate: true,
       sidebar: true,
-      minimap: true,
+      minimap: false,
       locations: true,
       deeplinking: true,
       fullscreen: false,
@@ -33,7 +33,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
 
     $(window).load(function() {
 
-      $('.mapplic-sidebar').prepend('<div class="mapplicCountry"><p class="mappCountry">' + gettext("Country") + '</p><p>' + gettext("Search by location") + '<span class="fa fa-caret-down"></span></p></div>');
+      //$('.mapplic-sidebar').prepend('<div class="mapplicCountry"><p class="mappCountry">' + gettext("Country") + '</p><p>' + gettext("Search by location") + '<span class="fa fa-caret-down"></span></p></div>');
 
       $('.mapplicCountry').click(function(){
         $('.mapplic-search-form, .mapplic-list-container').toggle();
