@@ -15,6 +15,9 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     "use strict";
     
+    $('.col-sm-9.colHline').addClass('colHlineR');
+    $('.col-sm-3.colHline').addClass('colHlineL');
+
     var actions = new ActionList();
     
     // Check if there is a better way to handle external events.
