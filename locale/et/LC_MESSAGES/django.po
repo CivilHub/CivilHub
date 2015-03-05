@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-05 16:54+0100\n"
+"POT-Creation-Date: 2015-03-05 17:05+0100\n"
 "PO-Revision-Date: 2015-03-03 16:03+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/projects/p/civilhub/"
@@ -50,7 +50,7 @@ msgstr ""
 #: articles/templates/articles/blog.html:41
 #: locations/templates/locations/index.html:89
 #: places_core/templates/places_core/footer.html:29
-#: userspace/templates/userspace/profile.html:79
+#: userspace/templates/userspace/profile.html:78
 msgid "Blog"
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 #: articles/templates/articles/test.html:58
 #: locations/templates/locations/index.html:80
 #: places_core/templates/places_core/navigation.html:13
-#: userspace/templates/userspace/profile.html:70
+#: userspace/templates/userspace/profile.html:69
 msgid "Toggle navigation"
 msgstr ""
 
@@ -87,7 +87,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:477
 #: places_core/templates/places_core/sublocation-dropdown.html:21
 #: templates/search/search.html:11
-#: userspace/templates/userspace/profile.html:90
+#: userspace/templates/userspace/profile.html:89
 msgid "Search"
 msgstr ""
 
@@ -111,7 +111,7 @@ msgid "Logged in as"
 msgstr ""
 
 #: articles/templates/articles/features.html:65
-#: articles/templates/articles/invite-friends.html:10
+#: civmail/templates/civmail/invite-friends.html:5
 #: places_core/templates/places_core/navigation.html:49
 #: userspace/templates/userspace/sidebar.html:20
 msgid "Invite friends"
@@ -149,7 +149,7 @@ msgstr ""
 #: articles/templates/articles/features.html:80
 #: maps/templates/maps/index.html:111
 #: places_core/templates/places_core/navigation.html:65
-#: userspace/templates/userspace/profile.html:111
+#: userspace/templates/userspace/profile.html:110
 msgid "Places"
 msgstr ""
 
@@ -183,46 +183,6 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: articles/templates/articles/invite-friends.html:11
-msgid "You must be logged by Google"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:11
-msgid "Invite friends from Gmail"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:25
-msgid ""
-"Invite a friend by sending him a message, to have the opportunity to find "
-"out what it means to force CivilHub."
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:26
-msgid "Terms and Conditions"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:32
-msgid "Add your friend’s email addresses"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:33
-msgid "Separate the adressees with commas"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:38
-#: civmail/templates/civmail/invite-users.html:22
-#: locations/templates/locations/invite-users.html:16
-#: places_core/templates/places_core/abuse-report.html:8
-#: polls/templates/polls/poll-details.html:55
-#: templates/postman/base_write.html:35
-#: userspace/templates/userspace/twitter-email-form.html:55
-msgid "Send"
-msgstr ""
-
-#: articles/templates/articles/invite-friends.html:43
-msgid "Share:"
-msgstr ""
-
 #: articles/templates/articles/test.html:35
 msgid "Park Construction"
 msgstr ""
@@ -249,7 +209,7 @@ msgstr ""
 #: locations/templates/locations/location_forum.html:4 locations/views.py:546
 #: locations/views.py:613 maps/templates/maps/index.html:114
 #: templates/activity/actor.html:104
-#: userspace/templates/userspace/profile.html:80
+#: userspace/templates/userspace/profile.html:79
 msgid "Discussions"
 msgstr ""
 
@@ -509,7 +469,47 @@ msgstr ""
 msgid "Bookmark removed"
 msgstr ""
 
-#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:24
+#: civmail/templates/civmail/invite-friends.html:6
+msgid "You must be logged by Google"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:6
+msgid "Invite friends from Gmail"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:12
+msgid ""
+"Invite a friend by sending him a message, to have the opportunity to find "
+"out what it means to force CivilHub."
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:13
+msgid "Terms and Conditions"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:17
+msgid "Add your friend’s email addresses"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:18
+msgid "Separate the adressees with commas"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:21
+#: civmail/templates/civmail/invite-users.html:22
+#: locations/templates/locations/invite-users.html:16
+#: places_core/templates/places_core/abuse-report.html:8
+#: polls/templates/polls/poll-details.html:55
+#: templates/postman/base_write.html:35
+#: userspace/templates/userspace/twitter-email-form.html:55
+msgid "Send"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:25
+msgid "Share:"
+msgstr ""
+
+#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:33
 #: locations/templates/locations/sidebar.html:37
 msgid "Invite people"
 msgstr ""
@@ -547,7 +547,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: civmail/views.py:46
+#: civmail/views.py:29
 msgid "All messages sent successfully"
 msgstr ""
 
@@ -732,7 +732,7 @@ msgstr ""
 #: gallery/templates/gallery/user-gallery-form.html:4
 #: gallery/templates/gallery/user-gallery.html:13 gallery/views.py:179
 #: gallery/views.py:294 locations/templates/locations/index.html:98
-#: userspace/templates/userspace/profile.html:83
+#: userspace/templates/userspace/profile.html:82
 msgid "Gallery"
 msgstr ""
 
@@ -962,14 +962,14 @@ msgstr ""
 #: userspace/templates/userspace/followed-locations.html:17
 #: userspace/templates/userspace/index.html:34
 #: userspace/templates/userspace/index.html:37
-#: userspace/templates/userspace/profile.html:45
-#: userspace/templates/userspace/profile.html:48
+#: userspace/templates/userspace/profile.html:44
+#: userspace/templates/userspace/profile.html:47
 msgid "Follow"
 msgstr ""
 
 #: locations/templates/locations/index.html:71
 #: userspace/templates/userspace/index.html:52
-#: userspace/templates/userspace/profile.html:62
+#: userspace/templates/userspace/profile.html:61
 msgid "Change background image"
 msgstr ""
 
@@ -981,7 +981,7 @@ msgstr ""
 #: locations/templates/locations/location_detail.html:39
 #: locations/templates/locations/location_ideas.html:3 locations/views.py:475
 #: maps/templates/maps/index.html:112 templates/activity/actor.html:109
-#: userspace/templates/userspace/profile.html:81
+#: userspace/templates/userspace/profile.html:80
 msgid "Ideas"
 msgstr ""
 
@@ -989,7 +989,7 @@ msgstr ""
 #: locations/templates/locations/location_detail.html:36
 #: locations/templates/locations/location_polls.html:4 locations/views.py:760
 #: maps/templates/maps/index.html:113 templates/activity/actor.html:114
-#: userspace/templates/userspace/profile.html:82
+#: userspace/templates/userspace/profile.html:81
 msgid "Polls"
 msgstr ""
 
@@ -1125,7 +1125,7 @@ msgstr ""
 #: topics/templates/topics/discussion_detail.html:81
 #: topics/templates/topics/discussion_detail.html:111
 #: topics/templates/topics/discussion_detail.html:113
-#: userspace/templates/userspace/profile.html:165
+#: userspace/templates/userspace/profile.html:164
 msgid "ago"
 msgstr ""
 
@@ -2153,7 +2153,7 @@ msgid "Zostań ambasadorem"
 msgstr ""
 
 #: templates/activity/actor.html:124 userspace/forms.py:129
-#: userspace/templates/userspace/profile.html:106
+#: userspace/templates/userspace/profile.html:105
 msgid "About me"
 msgstr ""
 
@@ -2601,7 +2601,7 @@ msgid "My places"
 msgstr ""
 
 #: userspace/templates/userspace/index.html:40
-#: userspace/templates/userspace/profile.html:51
+#: userspace/templates/userspace/profile.html:50
 msgid "Following"
 msgstr ""
 
@@ -2660,7 +2660,7 @@ msgstr ""
 msgid "Reset password"
 msgstr ""
 
-#: userspace/templates/userspace/profile.html:78
+#: userspace/templates/userspace/profile.html:77
 msgid "Everything"
 msgstr ""
 
