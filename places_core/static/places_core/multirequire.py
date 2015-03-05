@@ -43,7 +43,7 @@ def compress_file(filename):
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    for name in os.listdir(SRC_DIR):
+    for name in sorted(os.listdir(SRC_DIR)):
         if args.module is None or name == args.module + '.js':
             compress_file (os.path.join(SRC_DIR, name))
     try:
