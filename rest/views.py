@@ -392,7 +392,7 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
             action.send(
                 request.user,
                 action_object=vote.comment,
-                verb='voted on',
+                verb= _(u"voted on"),
                 vote = True if request.POST.get('vote') == 'up' else False
             )
             return Response({

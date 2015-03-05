@@ -74,7 +74,7 @@ svg a {
 
 .mapplic-map {
     position: absolute;
-    left: 0 !important;
+    left: 0;
     top: 0;
 }
 
@@ -286,7 +286,7 @@ svg a {
     position: absolute;
     width: 242px;
     /*height: 300px;*/
-    top: 110px;
+    top: 180px;
     left: 50px;
     border: 1px solid #DDD;
     border-bottom: 0 none;
@@ -297,7 +297,8 @@ svg a {
 
 @media all and (max-width: 768px) {
     .mapplic-sidebar{
-        top: 50px;
+       /* top: 50px;*/
+       top: 180px;
     }
 }
 @media all and (max-width: 479px){
@@ -317,8 +318,26 @@ svg a {
 /* Search */
 .mapplicCountry{
     padding: 10px 15px;
-    border-bottom: 1px solid #DDD;
+    /*border-bottom: 1px solid #DDD;*/
     cursor: pointer;
+
+    display: inline-block;
+    position: absolute;
+    top: 120px;
+    left: 50px;
+    z-index: 5;
+    border: 1px solid #DDD;
+    background-color: #FFFFFF;
+    width: 242px;
+}
+@media all and (max-width: 479px){
+    .mapplicCountry{
+        display: none;
+        position: relative;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
 }
 
 .mapplicCountry:hover{

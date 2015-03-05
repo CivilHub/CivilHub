@@ -100,6 +100,8 @@
         border-bottom: 1px solid #DEDEDE;
         padding: 15px 5px 15px 15px;
         height: 180px;
+        max-height: 180px;
+        overflow: hidden;
         margin: 0px 15px;
 
         .row{
@@ -108,6 +110,16 @@
             .col-xs-10{
                 padding-right: 30px;
                 margin-right: -15px;
+                .clearTextBlogContent{
+                    max-height: 40px;
+                    overflow: hidden;
+                    p{
+                        margin-bottom: 0;
+                    }
+                    img{
+                        display: none;
+                    }
+                }
                 @media(max-width: 991px){
                     width: 73%;
                 }
@@ -160,6 +172,7 @@
 
     .blogAuthorDiv{
         padding-left: 15px;
+        margin-top: 10px;
         .blogAvatarDiv{
             display: inline-block;
             .minUserAvatar{

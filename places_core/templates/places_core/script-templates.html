@@ -19,7 +19,7 @@
         <h3 class="blogTitleNews"><a href="<%= slug %>"><%= title %></a></h3>
 
 
-        <p class="custom-booklike acticle-content blogNewsContent"><%= description %></p>
+        <div class="clearTextBlogContent"><p class="custom-booklike acticle-content blogNewsContent"><%= description %></p></div>
         <div class="clear">&nbsp;</div>
         
         <div class="row">
@@ -136,7 +136,7 @@
 
 <script type="text/template" id="vote-counter-entry">
     <div class="counter-entry">
-        <a href="<%= user_url %>" class="custom-tooltip" title="<%= username %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
+        <a href="<%= user_url %>" class="custom-tooltip" title="<%= user_full_name %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
     </div>
 </script>
 
