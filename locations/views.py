@@ -220,7 +220,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     def list(self, request):
         code = request.QUERY_PARAMS.get('code', None)
         if code:
-            location = Location.objects.get(country__code=code.upper())
+            location = get_object_or_404(Location, country__code=code.upper())
             serializer = self.serializer_class(location)
             serializer.data['followed'] = request.user in location.users.all()
             return Response(serializer.data)

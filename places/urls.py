@@ -15,7 +15,7 @@ from rest import views
 router = routers.DefaultRouter()
 
 # Widoki dla API
-router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
+#router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
 router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')
 
 # Widoki dla strony
