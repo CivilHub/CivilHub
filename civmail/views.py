@@ -36,12 +36,14 @@ class InviteToContentView(LoginRequiredMixin, View):
         """ Send emails. """
         emails = request.POST.get('emails').split(',')
         translation.activate(request.user.profile.lang)
+        user_url = request.build_absolute_uri(request.user.profile.get_absolute_url())
         message = {
             'link': {
                 'name': request.POST.get('name'),
                 'href': request.POST.get('link'),
             },
-            'inviting_user': request.user
+            'user_link': user_url,
+            'user_name': request.user.get_full_name()
         }
         for address in emails:
             address = address.strip()
