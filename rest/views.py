@@ -9,7 +9,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.conf import settings
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -116,6 +116,16 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def list(self, request):
+        username = request.QUERY_PARAMS.get('username')
+        if username is None:
+            return super(UserViewSet, self).list(request)
+        try:
+            user = User.objects.get(username=username)
+            return redirect('/rest/users/%s/' % user.pk)
+        except User.DoesNotExist:
+            raise Http404
 
 
 class CurrentUserViewSet(viewsets.ModelViewSet):

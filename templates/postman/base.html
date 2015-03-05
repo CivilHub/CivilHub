@@ -1,16 +1,18 @@
 {% extends "postman/postman_base.html" %}
 {% load url from future %}
-{% load i18n postman_tags %}
+{% load staticfiles i18n postman_tags civil_tags %}
 
 {% block title %}{% trans "Messaging" %}{% endblock %}
 
 {% block extrahead %}{{ block.super }}{% endblock %}
 
+{% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/postman-write.js"></script>{% endblock %}
+
 {% block sidebar %}<div class="col-sm-3"><div class="sidebar inboxSidebar">
   <ul id="postman_menu">{% postman_unread as unread_count %}
     <li><a href="{% url 'postman_inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
     <li><a href="{% url 'postman_sent' %}">{% trans "Sent Messages" %}</a></li>
-    <li><a href="{% url 'postman_write' %}">{% trans "Write" %}</a></li>
+    {% comment %}<li><a href="{% url 'postman_write' %}">{% trans "Write" %}</a></li>{% endcomment %}
     <li><a href="{% url 'postman_archives' %}">{% trans "Archives" %}</a></li>
     <li><a href="{% url 'postman_trash' %}">{% trans "Trash" %}</a></li>
   </ul>
