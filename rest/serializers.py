@@ -217,11 +217,15 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     follows  = serializers.SerializerMethodField('get_followed_locations')
     #follows  = serializers.Field(source='profile.get_biggest_locations')
     user_link= serializers.CharField(source='profile.get_absolute_url')
+    image = serializers.SerializerMethodField('get_background')
 
     class Meta:
         model = User
         fields = ('id', 'username', 'fullname', 'rank_pts', 'avatar',
-                  'follows', 'user_link')
+                  'follows', 'user_link', 'image')
+
+    def get_background(self, obj):
+        return obj.profile.thumb_url()
 
     def get_followed_locations(self, obj):
         locations = obj.profile.get_biggest_locations()

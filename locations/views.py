@@ -229,7 +229,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         if request.user.is_anonymous():
             return super(LocationAPIViewSet, self).retrieve(request, pk)
-        location = Location.objects.get(pk=pk)
+        location = get_object_or_404(Location, pk=pk)
         serializer = self.serializer_class(location)
         serializer.data['followed'] = request.user in location.users.all()
         return Response(serializer.data)

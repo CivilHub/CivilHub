@@ -1,4 +1,4 @@
 {% load i18n %}
 
 <h1>{% trans "New invitation" %}</h1>
-<a href="{{ inviting_user.profile.get_absolute_url }}">{{ inviting_user.get_full_name }}</a> {% blocktrans %}Invited you to browse{% endblocktrans %} <a href="{{ link.href }}">{{ link.name }}</a>
+<a href="{{ user_link }}">{{ user_name }}</a> {% blocktrans %}Invited you to browse{% endblocktrans %} <a href="{{ link.href }}">{{ link.name }}</a>
