@@ -1,18 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles i18n civil_tags %}
 
-{% block meta %} 
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="CivilHub">
-<meta name="twitter:title" content="{{ title }}">
-
-<meta property="og:title" content="{{ title }}"/>
-<meta property="og:image" content="https://civilhub.org{{ location.image.url }}"/>
-<meta property="og:site_name" content="CivilHub"/>
-<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
-<meta name="keywords" content="{{ title }}, {{ location.name }}">
-{% endblock %}
-
 {% block require_scripts %}
 <script>window.pageSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/news-list.js"></script>

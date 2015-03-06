@@ -220,6 +220,13 @@
     border-top: @eb_width @eb_style @eb_color;
     background-color: @e_bgcolor;
     z-index: 11;
+    @media(max-width: 1200px){
+        left: 65px;
+    }
+    @media(max-width: 991px){
+        display: none;
+    }
+
   }
   /* Rank points */
   .custom-centered {
@@ -227,6 +234,12 @@
     font-size: 9px;
     &.discussionPH{
         margin: 10px 0 0 10px;
+        @media(max-width: 991px){
+            margin: 10px 0 0 20px;
+        }
+        @media(max-width: 450px){
+            margin: 0;
+        }
     }
   }
   img {
@@ -234,3 +247,9 @@
   }
 }
 /* // Discussion detail view */
+.entry-avatar-nomg{
+    @media(max-width: 450px){
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}
