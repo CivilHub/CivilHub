@@ -30,7 +30,7 @@ function ($, _, L) {
         // Początkowe opcje mapy
         detectRetina: true, 
         //Retina
-        startZoom: 10,
+        startZoom: 12,
         center: [0, 0],
         attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
     };

@@ -4,20 +4,8 @@
 {% block content %}
 <div class="col-sm-9 main-content contentPX tags-Box-Search">
     <div class="row">
-
-
-    {% for item in items %}
-    {% with item|content_type as ctype %}
-
-
-{% if item == ctype %}
-    <div class="">TEST</div>                 
-{% endif %}
-
-    <div class="col-sm-4 locBoxH">
-
-    <div class="locBox loc-box-{{ ctype }}">
-
+    {% for item in items %}{% with item|content_type as ctype %}<div class="col-sm-4 locBoxH">
+    <div class="locBox loc-box-{{ ctype.name }}">
     <div class="locBoxHeader" style="background-image:url({{ item.image.url }})">
         <div class="locBoxLoc"><a href="{{ location.get_absolute_url }}">{{ location }}</a></div>
         <div class="locBoxIcon">
@@ -25,9 +13,7 @@
                 {% comment %}<a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="" data-original-title="Dodaj do zakładek"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
                 <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="" style="display: none;" data-original-title="Usuń zakładkę"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a> {% endcomment %}
             </div>
-            
         </div>
-
         <div class="locBoxContainer">
             <div class="locBoxAuthor">
                 <a href="{{ item.creator.profile.get_absolute_url }}">
@@ -45,14 +31,10 @@
     <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description | safe |truncatechars:115 }} {{ item.question | safe |truncatechars:115 }} {{ item.content | safe |truncatechars:115 }}</a></div>
 
 </div><!-- /.locBox -->
-</div>
-
-    {% endwith %}
-    {% endfor %}
+</div>{% endwith %}{% endfor %}
   </div>
 </div>
 {% endblock %}
-
 
 {% block sidebar %}
 <div class="col-sm-3 boxPX">

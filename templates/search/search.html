@@ -57,7 +57,7 @@
                     <!-- search results for users -->
                     {% if result.content_type == "auth.user" %}
                     <li>
-                        <h4><a href="{% url 'user:profile' result.object.username %}">{{ result.object.get_full_name }}</a></h4>
+                        <h4><a href="{{ result.object.profile.get_absolute_url }}">{{ result.object.get_full_name }}</a></h4>
                     </li>
                     {% endif %}
                     
