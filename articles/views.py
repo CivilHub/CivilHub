@@ -181,24 +181,6 @@ class FeaturesArticleView(DetailView):
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
 
-# InviteFriends
-#-------------------------------------------------------------------------------
-
-class InviteFriendsView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/invite-friends.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(InviteFriendsView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
 # Vector-map
 #-------------------------------------------------------------------------------
 

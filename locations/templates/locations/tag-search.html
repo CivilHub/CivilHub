@@ -4,8 +4,15 @@
 {% block content %}
 <div class="col-sm-9 main-content contentPX tags-Box-Search">
     <div class="row">
+
+
     {% for item in items %}
     {% with item|content_type as ctype %}
+
+
+{% if item == ctype %}
+    <div class="">TEST</div>                 
+{% endif %}
 
     <div class="col-sm-4 locBoxH">
 
