@@ -1,0 +1,77 @@
+{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-default.js"></script>{% endblock %}
+
+{% block header %}<style type="text/css">
+.location-logo {
+    background-image: url({{ object.background_url }});
+}
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) {
+    .location-logo {
+        background-image: url({{ object.retina_background_url }});
+    }
+}
+</style>
+<nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
+<div class="container">
+<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+    
+    <ul class="nav navbar-nav">
+        <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"><img src="{% static 'places_core' %}/img/globe_point.png"></div></a></li>
+        {% for parent in location.get_parent_chain %}
+        <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+        <li class="breaker">
+            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></li>
+        {% endfor %}
+        <li><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>
+        <li class="breaker"><a href="#">&gt;</a></li>
+        <li class="active"><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+    </ul>
+    
+</div>
+</div>
+</nav>
+
+<div class="location-logo" id="task-page-header-block">
+    <div class="container">
+        <div class="title-container">
+            <div class="project-name"><h1>{{ object }}</h1></div>
+            <div class="project-content">{{ object.description|safe }}</div>
+            {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
+              {% if user.profile in object.participants.all %}<div class="join-project-btn">
+                <button type="submit" class="submit-button">{% trans "Leave the Project" %}</button>
+              </div>
+              {% else %}<div class="join-project-btn">
+                <button type="submit" class="submit-button">{% trans "Join the Project" %}</button>
+              </div>{% endif %}
+            </form>
+            {% else %}<a href="{% url 'user:login' %}?next={{ object.get_absolute_url }}">{% trans "Log in" %}</a> {% trans "if you want to join this project" %}{% endif %}
+            <div class="projectparticipants-icons-top">
+                <p>{% trans "Project Participants" %}</p>
+                {% for p in object.participants.all %}<a href="{{ p.get_absolute_url }}" class="custom-tooltip" title="{{ p }}"><img src="{{ p.avatar.url }}"></a>{% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav id="location-navbar" class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+              <span class="sr-only">{% trans "Toggle navigation" %}</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+        <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'locations:project_summary' location.slug object.slug %}">{% trans "Summary" %}</a></li>
+                <li><a href="{{ object.get_absolute_url }}"></span>{% trans "Tasks" %}</a></li>
+                <li><a href="{% url 'locations:project_participants' location.slug object.slug %}">{% trans "Participants" %}</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<input type="hidden" id="current-location-pk" value="{{ location.pk }}" />{% endblock %}

@@ -2,6 +2,8 @@
 from __future__ import absolute_import
 
 import sys
+reload(sys);
+sys.setdefaultencoding("utf8")
 import os
 
 import djcelery
@@ -36,7 +38,9 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = config['internal_ips']
+
+ALLOWED_HOSTS = config['allowed_hosts']
 
 SITE_ID = 1
 
@@ -62,8 +66,6 @@ INSTALLED_APPS = (
     'djmail',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
-    # https://github.com/SmileyChris/easy-thumbnails
-    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # http://www.django-rest-framework.org
@@ -79,6 +81,10 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     # http://django-modeltranslation.readthedocs.org/en/latest/
     'modeltranslation',
+    # https://github.com/bfirsh/django-ordered-model
+    'ordered_model',
+    # https://django-debug-toolbar.readthedocs.org/en/
+    'debug_toolbar',
 
     # Core program modules
     'places_core', # for common templates and static files
@@ -97,6 +103,7 @@ INSTALLED_APPS = (
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
+    'projects',    # Projekty i inicjatywy
 
     'raven.contrib.django.raven_compat',
     'analytical',
@@ -130,6 +137,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -207,7 +215,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
     'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
+    'places_core.social_auth.get_username',
     'places_core.social_auth.set_twitter_email',
     'places_core.social_auth.validate_email',
     'social.pipeline.user.create_user',

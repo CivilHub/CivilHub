@@ -143,13 +143,15 @@
                             <a href="{{ action.actor.get_absolute_url }}" class="activitesName">{{ action.actor.get_full_name }}</a>
                             {{ action.verb }}
                             {% if action.action_object_content_type %}
-                                &nbsp;{{ action.action_object_content_type }}&nbsp;
+                                &nbsp;{{ action.action_object_content_type.model }}&nbsp;
                             {% endif %}
                             {% if action.action_object %}
                                 {% if action.action_object.get_absolute_url %}
                                     <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+                                {% elif action.action_object_content_type.model == 'task_group' or action.action_object_content_type.model == 'task' %}
+                                    {{ action.action_object }}
                                 {% else %}
-                                    <a href="{{ action.target_url }}">{{ action.action_object }}</a>
+                                    {{ action.action_object }}
                                 {% endif %}
                             {% endif %}
                             {% if action.action_object and action.target %}to{% endif %}

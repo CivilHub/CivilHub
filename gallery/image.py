@@ -97,7 +97,7 @@ def resize_background_image(sender, instance, created, **kwargs):
     Resize background image to fit for sizes defined in settings file. Method
     takes model instance as argument and performs resizing and cropping.
     """
-    fieldname = get_fieldname(instance)
+    fieldname = instance.image
 
     if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
         return False

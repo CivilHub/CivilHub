@@ -1,0 +1,21 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ object }}</h1>
+<div class="followers-entry">
+  {% for participant in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
+    <div class="col-sm-3">
+      <div class="follower">
+        <div class="follower-header">
+        <a href="{{ participant.get_absolute_url }}">
+          <div class="follower-background"><img alt="{{ participant }}" src="{{ participant.thumb_url }}"></div>
+          <div class="follower-photo"><img alt="{{ participant }}" src="{{ participant.avatar.url }}"></div>
+        </a>
+        </div>
+        <div class="follower-info">
+          <p class="follower-name">{{ participant }}</p>
+          <div class="points"><span class="points-count">{{ participant.rank_pts }}</span> pkt</div>
+        </div>
+      </div>
+    </div>
+  {% if forloop.counter|divisibleby:4 or forloop.counter == object_list.count %}</div>{% endif %}{% endfor %}
+  {% include 'places_core/pagination.html' %}
+</div>{% endblock %}

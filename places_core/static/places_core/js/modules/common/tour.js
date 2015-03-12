@@ -1,15 +1,20 @@
 //
 // tour.js
 // =======
-//
+
 // Tworzy samouczek na podstawie lokalizacji w jakiej znajduje się użytkownik.
 // Z API pobieramy stolicę kraju, na jaki wskazuje IP użytkownika.
 
-require(['jquery', 'tour'], function ($) {
+require(['jquery',
+         'underscore',
+         'js/modules/utils/utils',
+         'tour'],
+
+function ($, _, utils) {
 
   "use strict";
 
-  function createTour () {
+  function createTour (template, fn) {
     $.get('/api-locations/capital/', function (data) {
 
       var rootUrl = "/{}/".replace("{}", data.slug);
@@ -83,25 +88,58 @@ require(['jquery', 'tour'], function ($) {
           orphan: true
         }],
         //storage: false,
-        template: '<div class="popover" role="tooltip" id="TourDiv"> <div class="arrow"></div> <h3 class="popover-title"></h3> <div class="popover-content"></div> <div class="popover-navigation"> <div class="btn-group"> <button class="btn btn-sm btn-tour" data-role="prev">&laquo; Prev</button>&nbsp; <button class="btn btn-sm btn-tour" data-role="next">Next &raquo;</button> <button class="btn btn-sm btn-tour" data-role="pause-resume" data-pause-text="Pause" data-resume-text="Resume">Pause</button> </div> <button class="btn btn-sm btn-tour" data-role="end">End tour</button> </div> </div>'
+        template: template
       });
 
       tour.init();
 
-      $('.main-page-content').append('<div class="tourBox"><a href="#" class="btn btn-saveBig" id="startTour"><span class="fa fa-play">Start Tour</span></a></div>');
-
-      $("#startTour").on('click', function (e) {
-        e.preventDefault();
-        tour.restart();
-        tour.start();
-      });
-
-      return tour;
+      if (_.isFunction(fn)) {
+        fn(tour);
+      }
     });
   }
 
-  $(document).ready(function () {
-    var tour = createTour();
-  });
+  // Sprawdzamy, czy tour został już "ubity"
+
+  function checkTour () {
+    var check;
+    if (Modernizr.localstorage) {
+      check = localStorage.getItem('civilTour');
+    } else {
+      check = utils.getCookie('civilTour');
+    }
+    return check;
+  }
+
+  function initTour () {
+    if (!_.isNull(checkTour())) {
+      return false;
+    }
+    return createTour($('#tour-div-tpl').html(), 
+      function (tour) {
+        var $toggle = $($('#tour-button-tpl').html());
+        $toggle.appendTo('.main-page-content');
+        $toggle.find('#startTour')
+          .on('click', function () {
+            e.preventDefault(e);
+            tour.restart();
+            tour.start();
+          });
+        $toggle.find('#killTour')
+          .on('click', function (e) {
+            e.preventDefault();
+            if (Modernizr.localstorage) {
+              localStorage.setItem('civilTour', true);
+              localStorage.removeItem('tour_current_step');
+            } else {
+              utils.setCookie('civilTour', true, 360);
+            }
+            $toggle.empty().remove();
+          });
+      }
+    );
+  }
+
+  $(document).ready(initTour);
 
 });

@@ -1,0 +1,7 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}<ul>{% for item in object_list %}
+	<li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+{% endfor %}</ul>
+{% if user.is_authenticated %}<a href="{% url 'locations:project_create' location.slug %}">
+  {% trans "Create new project" %}
+</a>{% endif %}{% endblock %}

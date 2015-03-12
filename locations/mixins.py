@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
+from django.shortcuts import get_object_or_404
+from django.views.generic.base import ContextMixin
+
 from rest_framework import viewsets
+
 from places_core.helpers import get_time_difference
+from places_core.permissions import is_moderator
+from .models import Location
 
 
 class LocationContentMixin(viewsets.ModelViewSet):
@@ -41,4 +47,22 @@ class CategoryFilteredContentMixin(viewsets.ModelViewSet):
 class ContentMixin(LocationContentMixin,
                    DateFilteredContentMixin,
                    CategoryFilteredContentMixin):
+    """
+    Kombinowany mixin dla wszystkich widoków REST API prezentujących
+    zawartość w ramach jednej lokalizacji.
+    """
     pass
+
+
+class LocationContextMixin(ContextMixin):
+    """ Uzupełniamy kontekst w widokach powiązanych z lokalizacją. """
+    def get_context_data(self, object=None, form=None):
+        context = super(LocationContextMixin, self).get_context_data()
+        location_slug = self.kwargs.get('location_slug')
+        if location_slug is not None:
+            location = get_object_or_404(Location, slug=location_slug)
+            context.update({
+                'location': location,
+                'is_moderator': is_moderator(self.request.user, location),
+            })
+        return context

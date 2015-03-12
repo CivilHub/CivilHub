@@ -71,7 +71,7 @@
                                 {% trans "Report abuse" %}</a></li>
                             {% endif %}
                             {% if user.is_authenticated and user == news.creator or is_moderator %}
-                            <li><a href="{% url 'blog:update' news.slug %}">{% trans "Edit" %}</a></li>
+                            <li><a href="{% url 'locations:news_update' location.slug news.slug %}">{% trans "Edit" %}</a></li>
                             <li><a href="{% url 'locations:remove_content' ctype.pk news.pk %}">{% trans "Delete" %}</a></li>
                             <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
                             {% endif %}{% endwith %}

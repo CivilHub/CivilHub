@@ -1707,7 +1707,9 @@ small.green{
                 .row{ margin: 0;}
                 input{ margin: 6px 0px 0px 0px;}
                 .sub-task-title{
-    
+                    &.active {
+                        background-color: #0083FB;
+                    }
                 }
                 .task-actions{
                     .action-more:hover,
@@ -1828,4 +1830,37 @@ small.green{
             margin-left: 5px;
         }
     }
+}
+
+/* PROJEKTY */
+
+/**
+ * Dla formularzy wykorzystywanych jak linki,
+ * które nie mają wyglądać jak formularze.
+ */
+.custom-inline-form {
+  display: inline;
+  button[type=submit] {
+    display: inline;
+    border: none;
+    background-color: transparent;  
+  }
+}
+
+/**
+ * Pokazujemy/ukrywamy kontrolki.
+ */
+.custom-controls {
+  opacity: 0;
+  transition: opacity 0.3s;
+  a, input, button {
+    display: inline-block;
+  }
+}
+.task-heading:hover, .task-content:hover {
+  &:hover {
+    .custom-controls {
+      opacity: 1;
+    }
+  }
 }
