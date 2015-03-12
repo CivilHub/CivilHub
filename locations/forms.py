@@ -117,38 +117,6 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
         fields = ('name', 'description', 'location', 'tags', 'category', 'image')
 
 
-class NewsLocationForm(forms.ModelForm, BootstrapBaseForm):
-    """
-    Custom form for News - autocomplete value of location field.
-    """
-    title = forms.CharField(
-        label = _("Title"),
-        widget = forms.TextInput(attrs={'class': 'form-control'})
-    )
-    content = forms.CharField(
-        label = _("Content"),
-        required = True,
-        max_length = 10248,
-        widget = forms.Textarea(attrs={'class': 'form-control'})
-    )
-    category = forms.ModelChoiceField(
-        label = _("Category"),
-        required = True,
-        queryset = BlogCategory.objects.all(),
-        widget = forms.Select(attrs={'class': 'form-control'})
-    )
-    location = forms.ModelChoiceField(
-        required = True,
-        queryset = Location.objects.all(),
-        widget = forms.HiddenInput()
-    )
-    tags = TagField(label=_("Tags"), required=False)
-
-    class Meta:
-        model = News
-        fields = ('title', 'content', 'category', 'location', 'tags', 'image')
-
-
 class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
     """
     Custom form for Discussion - autocomplete value of location field.

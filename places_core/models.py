@@ -60,10 +60,6 @@ class ImagableItemMixin(models.Model):
         """ Sprawdza, czy element ma domyślny obraz, czy zmieniony. """
         return self.__initial.name == DEFAULT_PATH
 
-    def __init__(self, *args, **kwargs):
-        super(ImagableItemMixin, self).__init__(*args, **kwargs)
-        self.__initial = self.image
-
     def save(self, *args, **kwargs):
         """ Upewniamy się, że jeżeli zmieniamy obrazek, usuniemy stary. """
         if not self.image:
@@ -75,6 +71,10 @@ class ImagableItemMixin(models.Model):
                 except Exception:
                     pass
         super(ImagableItemMixin, self).save(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super(ImagableItemMixin, self).__init__(*args, **kwargs)
+        self.__initial = self.image
 
 
 @python_2_unicode_compatible

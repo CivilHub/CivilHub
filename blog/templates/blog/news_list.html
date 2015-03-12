@@ -1,36 +1,47 @@
-{% load staticfiles i18n %}
+{% extends 'locations/index.html' %}
+{% load staticfiles i18n civil_tags %}
 
-<script type="text/template" id="news-entry-tpl">
-<div class="row">
+{% block topbar %}{% include 'blog/blog_navbar.html' %}{% endblock %}
 
-    <div class="col-xs-10">
-        <h3 class="blogTitleNews"><a href="<%= slug %>"><%= title %></a></h3>
-
-
-        <p class="custom-booklike acticle-content blogNewsContent"><%= description %></p>
+{% block content %}{% if object_list.count %}<div class="col-sm-9 content-container contentPX blogDivNews">
+  <div id="entries">
+    {% for entry in object_list %}<div class="row">
+      <div class="col-xs-10">
+        <h3 class="blogTitleNews"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h3>
+        <p class="custom-booklike acticle-content blogNewsContent">{{ entry.description|safe }}</p>
         <div class="clear">&nbsp;</div>
-        
         <div class="row">
-            <div class="col-xs-12">
-                <div class="blogAuthorDiv">
-                    <div class="blogAvatarDiv"><img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar user-window-toggle minUserAvatar" /></div>
-
-                    <p>
-                        <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a> <span class="date-created"><%= date_created %></span>.
-                    </p>
-                </div>
+          <div class="col-xs-12">
+            <div class="blogAuthorDiv">
+              <div class="blogAvatarDiv"><img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator.profile }}" class="user-avatar user-window-toggle minUserAvatar" /></div>
+              <p>
+                <a href="{{ entry.creator.profile.url }}"><span class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.profile }}</span></a> <span class="date-created">{{ entry.date_created|timesince }}</span>.
+              </p>
             </div>
+          </div>
         </div>
+      </div>
+      <div class="col-xs-2 blogImageNews">
+        <div class="newsThumbnail"><img src="{{ entry.image.url }}"></div>
+      </div>
+    </div>{% endfor %}
+  </div>
+  {% include 'places_core/pagination.html' %}
+</div>{% else %}<div class="col-sm-9 no-entries contentPX">
+    <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+    <h2>
+      {% trans "We didn't find any news" %} {% trans "in" %} {{ location }}.<br /> 
+      {% trans "Please" %}
+      {% if user.is_authenticated %}
+        <a href="{% url 'locations:news_create' location.slug %}" >
+      {% else %}
+        <a href="/users/login" >
+      {% endif %}{% trans "add first news" %}</a>.
+    </h2>
+</div>{% endif %}{% endblock %}
 
-    </div>
-
-    <div class="col-xs-2 blogImageNews">
-        <div class="newsThumbnail"><img src="<%= image %>"></div>
-    </div>
-
-</div>
-</script>
-
-{% include 'places_core/paginator.html' %}
-
-{% include 'locations/category-form.html' %}
+{% block sidebar %}
+  <div class="col-sm-3 boxPX">
+    {% include 'locations/sidebar.html' %}
+  </div>
+{% endblock %}

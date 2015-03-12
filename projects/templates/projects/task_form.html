@@ -1,0 +1,7 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<form method="post" action="" class="form-horizontal">{% csrf_token %}
+  {{ form.as_p }}
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+  </div>
+</form>{% endblock %}

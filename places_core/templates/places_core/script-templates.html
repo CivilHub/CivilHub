@@ -12,6 +12,7 @@
 
 {% endcomment %}
 
+{% comment %} Szablon dla listy aktualności w lokalizacji. {% endcomment %}
 <script type="text/template" id="news-entry-tpl">
 <div class="row">
 
@@ -43,7 +44,7 @@
 </div>
 </script>
 
-
+{% comment %} Szablon dla komentarza {% endcomment %}
 <script type="text/template" id="comment-template">
     <div class="row comment-row comment-entry-heading commentNext">
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
@@ -127,19 +128,20 @@
     </form>
 </script>
 
-
+{% comment %} Plugin z galerią do edytora WYSIWYG {% endcomment %}
 <script type="text/template" id="media-item-tpl">
     <img src="<%= thumbnail %>" alt="<%= picture_name %>" />
     <a href="#" class="delete-item-button"><span class="fa fa-times-circle-o">&nbsp;</span></a>
 </script>
 
-
+{% comment %} Modal z podsumowanie głosów dla idei. {% endcomment %}
 <script type="text/template" id="vote-counter-entry">
     <div class="counter-entry">
         <a href="<%= user_url %>" class="custom-tooltip" title="<%= user_full_name %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
     </div>
 </script>
 
+{% comment %} Lista pomysłów - szablon dla wpisu {% endcomment %}
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3" id="tour-votes">
         <div class="vote-form">
@@ -625,4 +627,31 @@
             </div>
         </div>
     </div>
+</script>
+{% comment %} TOUR {% endcomment %}
+<script type="text/template" id="tour-div-tpl">
+  <div class="popover" role="tooltip" id="TourDiv">
+    <div class="arrow"></div>
+    <h3 class="popover-title"></h3>
+    <div class="popover-content"></div>
+    <div class="popover-navigation">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-tour" data-role="prev">&laquo; Prev</button>&nbsp;
+        <button class="btn btn-sm btn-tour" data-role="next">Next &raquo;</button>
+        <button class="btn btn-sm btn-tour" data-role="pause-resume" data-pause-text="Pause" data-resume-text="Resume">Pause</button>
+      </div>
+      <button class="btn btn-sm btn-tour" data-role="end">End tour</button>
+    </div>
+  </div>
+</script>
+{% comment %} TOUR button {% endcomment %}
+<script type="text/template" id="tour-button-tpl">
+  <div class="tourBox">
+    <a href="#" class="btn btn-saveBig" id="startTour">
+      <span class="fa fa-play">Start Tour</span>
+    </a>
+    <a href="#" id="killTour">
+      <span class="fa fa-close">&nbsp;</span>
+    </a>
+  </div>
 </script>

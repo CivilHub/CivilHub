@@ -11,7 +11,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from easy_thumbnails.files import get_thumbnailer
 from actstream import action
 from userspace.models import UserProfile
 from locations.models import Location

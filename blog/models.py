@@ -22,12 +22,15 @@ from places_core.models import ImagableItemMixin, remove_image
 
 @python_2_unicode_compatible
 class Category(models.Model):
-    """
-    User Blog Categories basic model
-    """
+    """ """
     name = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64)
     description = models.TextField(max_length=1024, blank=True, null=True, default="")
+
+    class Meta:
+        ordering = ['name',]
+        verbose_name = _(u"category")
+        verbose_name_plural = _(u"categories")
     
     def get_absolute_url(self):
         return reverse('blog:category', kwargs={'slug':self.slug})
@@ -43,57 +46,63 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ['name',]
-        verbose_name = _(u"category")
-        verbose_name_plural = _(u"categories")
-
 
 @python_2_unicode_compatible
-class News(ImagableItemMixin, models.Model):
-    """
-    Blog for Places
-    """
+class News(ImagableItemMixin):
+    """ """
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64, unique=True)
     content = models.TextField(max_length=10248, null=True, blank=True,)
-    category = models.ForeignKey(
-        Category,
-        verbose_name=_('category'),
-        null=True,
-        blank=True,
-    )
+    category = models.ForeignKey(Category, verbose_name=_(u'category'), null=True, blank=True)
     location = models.ForeignKey(Location)
     edited = models.BooleanField(default=False)
-    tags = TaggableManager() #http://django-taggit.readthedocs.org/en/latest/
+
+    tags = TaggableManager()
+
+    class Meta:
+        ordering = ['title',]
+        verbose_name = _(u"news")
+        verbose_name_plural = _(u"newses")
 
     def save(self, *args, **kwargs):
         self.title = strip_tags(self.title)
         self.content = sanitizeHtml(self.content)
         if self.pk:
             self.edited = True
-        else:
-            to_slug_entry = self.title
-            chk = News.objects.filter(title=self.title)
-            if len(chk):
-                to_slug_entry = self.title + '-' + str(len(chk))
-            self.slug = slugify(to_slug_entry)
+        slug = slugify(self.title)
+        if not self.slug:
+            self.slug = slug
+        success = False
+        retries = 0
+        while not success:
+            check = self.__class__.objects.filter(slug=self.slug)\
+                                          .exclude(pk=self.pk).count()
+            if not check:
+                success = True
+            else:
+                # We assume maximum number of 50 elements with the same name.
+                # But the loop should be breaked if something went wrong.
+                if retries >= 50:
+                    raise ValidationError(u"Maximum number of retries exceeded")
+                retries += 1
+                self.slug = "{}-{}".format(slug, retries)
         super(News, self).save(*args, **kwargs)
     
     def get_absolute_url(self):
         return reverse('locations:news_detail', kwargs={
-            'place_slug': self.location.slug,
+            'location_slug': self.location.slug,
             'slug':self.slug,
         })
 
     def get_comment_count(self):
+        """ Zwraca liczbę komentarzy dla pojedynczego wpisu. """
         content_type = ContentType.objects.get_for_model(self)
-        comments = CustomComment.objects.filter(object_pk=self.pk).filter(
-                                                content_type=content_type)
-        return len(comments)
+        return CustomComment.objects.filter(object_pk=self.pk)\
+                                    .filter(content_type=content_type)\
+                                    .count()
 
     def get_entry_introtext(self):
         clean_content = strip_tags(self.content)
@@ -104,11 +113,6 @@ class News(ImagableItemMixin, models.Model):
     
     def __str__(self):
         return self.title
-
-    class Meta:
-        ordering = ['title',]
-        verbose_name = _(u"news")
-        verbose_name_plural = _(u"newses")
 
 
 models.signals.post_save.connect(adjust_uploaded_image, sender=News)

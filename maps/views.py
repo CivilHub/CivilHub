@@ -170,5 +170,5 @@ class IndexView(TemplateView):
         context['title'] = _("Map")
         context['content_types'] = ContentType.objects.all()
         context['position'] = {'lat': position[1], 'lng': position[0]}
-        context['icons'] = ['location','idea','news','poll','discussion',]
+        context['icons'] = ['location','idea','news','poll','discussion','socialproject']
         return context

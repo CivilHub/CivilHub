@@ -42,13 +42,27 @@ class MapObjectSerializer(serializers.ModelSerializer):
             'id': obj.content_object.pk,
             'title': obj.content_object.__unicode__(),
             'url': obj.content_object.get_absolute_url(),
-            'img': obj.content_object.creator.profile.thumbnail_medium(),
             'type': obj.content_object._meta.verbose_name,
             'desc': obj.content_object.get_description(),
             'date': timesince(obj.content_object.date_created),
-            'user': obj.content_object.creator.get_full_name(),
-            'profile': obj.content_object.creator.profile.get_absolute_url(),
         }
+
+        # check if object is project-related
+        if hasattr(obj.content_object.creator, 'profile'):
+            tmpobj.update({
+                'profile': obj.content_object.creator.profile,
+                'img': obj.content_object.creator.profile.thumbnail_medium(),
+                'user': obj.content_object.creator.get_full_name(),
+                'profile': obj.content_object.creator.profile.get_absolute_url(),
+            })
+        else:
+            # it is
+            tmpobj.update({
+                'profile': obj.content_object.creator,
+                'img': obj.content_object.creator.thumbnail_medium(),
+                'user': obj.content_object.creator.user.get_full_name(),
+                'profile': obj.content_object.creator.get_absolute_url(),
+            })
 
         # only for locations
         if hasattr(obj.content_object, 'kind'):

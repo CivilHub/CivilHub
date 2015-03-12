@@ -1,0 +1,107 @@
+{% extends 'projects/index.html' %}{% load i18n civil_tags %}
+{% block content %}
+<h1 class="task-page-heading">
+  {{ object }} {% if not object.is_done %}<small class="green">{% trans 'Active' %}</small>{% endif %}
+  {% if is_moderator or user.profile == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edytuj" %}</a>{% endif %}
+</h1>
+<div id="task3-page" class="row">
+  <div class="col-sm-6">
+    <div class="left-side-task">
+      <h1>{% trans "Tasks" %}</h1>
+      {% for group in object.taskgroup_set.all %}<div class="task-container">
+        <div class="task-heading">
+          <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}">{{ group }}</a></h4>
+          <div class="custom-controls">{% if user.is_authenticated %}
+            <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task"></span></a>
+            <form class="custom-inline-form" action="{% url 'locations:project_delete_group' location.slug object.slug group.pk %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-minus-square add-task">&nbsp;</button>
+            </form>
+            {% with group|content_type as ctype %}<form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'UP' %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-plus-square">&nbsp;</button>
+            </form>
+            <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'DOWN' %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-minus-square">&nbsp;</button>
+            </form>{% endwith %}
+          {% endif %}</div>
+        </div>
+        {% for task in group.task_set.all %}<div class="task-content">
+          <div class="row">
+            <div class="col-sm-1">
+              {% if user.is_authenticated %}<form class="custom-inline-form" action="{% url 'projects:toggle_task' task.pk %}" method="post">{% csrf_token %}
+                <input type="checkbox"{% if task.is_done %} checked="checked"{% endif %} name="checkbox-task"></input>
+              </form>{% elif task.is_done %}<p class="label label-success label-sm"><span class="fa fa-check">&nbsp;</span></p>
+              {% else %}<p class="label label-danger label-sm"><span class="fa fa-close">&nbsp;</span></p>{% endif %}
+            </div>
+            <div class="col-sm-5">
+              <span class="sub-task-title{% if task.pk == active_task.pk %} active{% endif %}"><a href="{{ task.get_absolute_url }}">{{ task }}</a></span>
+            </div>
+            <div class="col-sm-5">
+              <div class="task-ppl">{% for participant in task.participants.all %}
+                <a href="{{ participant.get_absolute_url }}"><img src="{{ participant.avatar.url }}"></a>
+              {% endfor %}</div>
+            </div>
+            <div class="col-sm-1">
+              <div class="custom-controls">{% if user.is_authenticated %}
+                <form class="custom-inline-form" action="{% url 'locations:task_join' location.slug object.slug task.pk %}" method="post">{% csrf_token %}
+                  <button type="submit" class="action-plus fa fa-plus">&nbsp;</button>
+                </form>
+                <form class="custom-inline-form" action="{% url 'locations:task_delete' location.slug object.slug task.pk %}" method="post">{% csrf_token %}
+                  <button type="submit" class="action-plus fa fa-minus-square">&nbsp;</button>
+                </form>
+                <a href="{% url 'locations:task_update' location.slug object.slug task.pk %}"><span class="action-more fa fa-chevron-right"></span></a>
+                {% with task|content_type as ctype %}<form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk task.pk 'UP' %}" method="post">{% csrf_token %}
+                  <button type="submit" class="action-plus fa fa-plus-square">&nbsp;</button>
+                </form>
+                <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk task.pk 'DOWN' %}" method="post">{% csrf_token %}
+                  <button type="submit" class="action-plus fa fa-minus-square">&nbsp;</button>
+                </form>{% endwith %}
+              {% endif %}</div>
+            </div>
+          </div>
+        </div><!--./task-content -->{% endfor %}
+      </div><!--./task-container-->{% endfor %}
+      <div class="add-new-task-group">
+        <a href="{% url 'locations:project_create_task_group' location.slug object.slug %}"><span class="fa fa-plus-square add-task"></span><p>{% trans "Add new group" %}</p></a>
+      </div>
+    </div>
+  </div><!-- ./col-sm-6 -->
+  <div class="col-sm-6">
+    <div class="right-side-task">
+
+      <div class="task-Container-right">{% if active_task %}
+        <div class="task-headline-right">{% if active_task.date_limited %}{% trans "Planned completion" %}: {{ active_task.date_limited|date:'d.m.Y' }}{% endif %}</div>
+        <div class="text-block-right">
+          <h1>{{ active_task }}</h1>
+          <div>{{ active_task.description|safe }}</div>
+          <p class="created">{% trans "Created by" %}, <a href="{{ active_task.get_absolute_url }}">{{ active_task.creator }}</a> {{ active_task.date_created|date:'d.m.Y' }}</p>
+          <div class="footer-text-block-right">
+            <div class="project-participants">
+              <p>{% trans "Task participants" %}</p>{% for p in active_task.participants.all %}
+              <a href="{{ p.get_absolute_url }}" class="custom-tooltip" title="{{ p }}"><img src="{{ p.avatar.url }}"></a>{% endfor %}
+            </div>
+            <form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post">{% csrf_token %}
+              <div class="join-btn-task">
+              {% if user.profile in active_task.participants.all %}<button type="submit" class="submit-button">{% trans "Leave" %}</button></div>
+              {% else %}<button type="submit" class="submit-button">{% trans "Join" %}</button></div>{% endif %}
+            </form>
+          </div>
+        </div>
+      {% endif %}</div><!-- ./ .task-Container-right -->
+
+      {% if active_task %}{% with active_task|content_type as ctype %}<div>
+        <p>
+          {% trans "Comments" %}: <span class="badge comment-count">{{ active_task.customcomment_set.count }}</span>
+          <a class="comment-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
+        </p>
+      </div>
+      <input type="hidden" id="target-id" value="{{ active_task.pk }}" />
+      <input type="hidden" id="target-label" value="projects" />
+      <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
+      <input type="hidden" id="target-user" value="{{ user.username }}" />
+      <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+      <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
+      {% include 'comments/commentlist.html' %}{% endwith %}{% endif %}
+
+    </div>
+  </div>
+</div><!-- ./ #task3-page -->{% endblock %}

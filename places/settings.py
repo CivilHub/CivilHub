@@ -38,7 +38,9 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = config['internal_ips']
+
+ALLOWED_HOSTS = config['allowed_hosts']
 
 SITE_ID = 1
 
@@ -64,8 +66,6 @@ INSTALLED_APPS = (
     'djmail',
     # http://django-haystack.readthedocs.org/en/latest/
     'haystack',
-    # https://github.com/SmileyChris/easy-thumbnails
-    'easy_thumbnails',
     # http://django-mptt.github.io/django-mptt/
     'mptt',
     # http://www.django-rest-framework.org
@@ -81,6 +81,8 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     # http://django-modeltranslation.readthedocs.org/en/latest/
     'modeltranslation',
+    # https://github.com/bfirsh/django-ordered-model
+    'ordered_model',
     # https://django-debug-toolbar.readthedocs.org/en/
     'debug_toolbar',
 
@@ -101,6 +103,7 @@ INSTALLED_APPS = (
     'civmail',     # Newsletter i obsługa maili
     'articles',    # Statyczne artykuły - support etc.
     'bookmarks',   # Zakładki do treści dla użytkowników
+    'projects',    # Projekty i inicjatywy
 
     'raven.contrib.django.raven_compat',
     'analytical',
@@ -430,9 +433,6 @@ COMMENT_PAGINATOR_LIMIT = 10
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
 USE_CACHE = False
-
-
-INTERNAL_IPS = "84.10.12.178"
 
 RAVEN_CONFIG = {
     'dsn': config['raven_dsn']

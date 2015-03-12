@@ -1,0 +1,14 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ object }}</h1>
+<div>{{ object.description|safe }}</div>
+<ul>{% for action in actions %}
+  <li>
+  	<a href="{{ action.actor.get_absolute_url }}">{{ action.actor.profile }}</a>
+  	{{ action.verb }} {% if action.action_object %}
+  	  {% if action.action_object.get_absolute_url %}<a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
+  	  {% else %}{{ action.action_object }}{% endif %}
+  	{% trans "to" %}{% endif %}
+  	<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
+  	{{ action.timestamp|timesince }} {% trans "ago" %}
+  </li>
+{% endfor %}</ul>{% endblock %}

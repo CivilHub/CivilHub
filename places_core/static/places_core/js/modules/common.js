@@ -14,7 +14,8 @@ define(['jquery',
         'bootstrap',
         'jpaginate',
         'js/modules/common/bookmarks',
-        'js/modules/common/tour'],
+        'js/modules/common/tour',
+        'js/modules/ui/widgets'],
 
 function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
