@@ -1,155 +1,27 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
 
-{% block meta %} 
-<meta name="twitter:card" content="summary" />
+{% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
-
 <meta property="og:title" content="{{ location.name }}"/>
 <meta property="og:image" content="https://civilhub.org{{ location.image.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
-<meta name="keywords" content="{{ location.name }}">
-{% endblock %}
+<meta name="keywords" content="{{ location.name }}">{% endblock %}
 
-{% block require_scripts %}
-<script>window.API_URL = "/api-locations/actions/";</script>
+{% block require_scripts %}<script>window.API_URL = "/api-locations/actions/";</script>
 <script>window.USER_ID = "{{ location.id }}";</script>
 <script>window.LOCATION_ID = "{{ location.pk }}";</script>
 <script>window.CONTENT_API_URL = "/api-locations/contents/";</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/location-details.js"></script>
-{% endblock %}
-
+<script src="{% static 'places_core' %}/js/{% js_path %}/location-details.js"></script>{% endblock %}
 
 {% block title %} {{ location }} | CivilHub {% endblock %}
 
+{% block topbar %}{% include 'locations/navbar.html' %}{% endblock %}
 
-{% block topbar %}
-<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
-    <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-        <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li><a href="" class="list-controller active" data-target="all" data-control="content">{% trans "All" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="poll" data-control="content">{% trans "Polls" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="news" data-control="content">{% trans "Articles" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="discussion" data-control="content">{% trans "Discussions" %}</a></li>
-                    <li><a href="" class="list-controller" data-target="idea" data-control="content">{% trans "Ideas" %}</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav">
-        <li class="navbar-text"> {% trans "When" %}:</li>
-            <li><a href="{% url 'locations:discussions' slug=location.slug %}" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
-            <li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
-        <li class="navbar-text-narrow">{% trans "Past" %}:</li>
-            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
-        <li class="navbar-text-narrow">|</li>
-            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
-        <li class="navbar-text-narrow">|</li>
-            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
-        <li class="navbar-text-narrow">|</li>
-            <li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
-        </ul>
-
-    <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
-        <li class="navbar-text">{% trans "Stats" %}</li>
-        {%comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
-        </ul>
-
-        <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
-            <div class="form-group">
-                <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
-            </div>
-            <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
-        </form>
-    </div>
-</nav>
-{% endblock %}
-
-
-{% block content %}
-<!-- Main content -->
-
-<div class="col-sm-9 colHline colHP">
-
-    <div id="location-content-collection" class="containerLocationCollection"></div>
-
-</div><!--./col-sm-9-->
-
-
-<div class="col-sm-3 colHline">
-    
-    <div class="activity-stream">
-    
-        <noscript>{% for action in actions %}
-        
-            <div class="row action-entry"  id="tour-activity">
-                
-                <div class="col-xs-2 entry-avatar-col">
-                    <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="user-avatar" />
-                    {{ action.actor.profile.rank_pts }}
-                </div>
-                
-                <div class="col-xs-10 entry-meta-col">
-                    <div class="entry-header">
-                        <a href="{{ action.actor.get_absolute_url }}">{{ action.actor.get_full_name }}</a>
-                        {{ action.verb }}
-                        {% if action.action_object_content_type %}
-                            &nbsp;{{ action.action_object_content_type }}&nbsp;
-                        {% endif %}
-                        {% if action.action_object %}
-                            {% if action.action_object.get_absolute_url %}
-                                <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-                            {% else %}
-                                <a href="{{ action.target_url }}">{{ action.action_object }}</a>
-                            {% endif %}
-                        {% endif %}
-                        {% if action.action_object and action.target %}to{% endif %}
-                        {% if action.target %}
-                            {% if action.target.get_absolute_url %}
-                                <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-                            {% else %}
-                                <a href="{{ action.target_url }}">{{ action.target }}</a>
-                            {% endif %}
-                        {% endif %}
-                        {{ action.timestamp|timesince }} {% trans "ago" %}
-                    </div>
-                    <div class="entry-body">
-                        {% if action.action_object_content_type.model == 'poll' %}
-                            {{ action.action_object.question | safe | truncatewords_html:25 }}
-                        {% endif %}
-                        
-                        {% if action.action_object_content_type.model == 'idea' %}
-                            {{ action.action_object.description | safe | truncatewords_html:25 }}
-                        {% endif %}
-                        
-                        {% if action.action_object_content_type.model == 'news' %}
-                            {{ action.action_object.content | safe | truncatewords_html:25 }}
-                        {% endif %}
-                        
-                        {% if action.action_object_content_type.model == 'location' %}
-                            {{ action.action_object.description | safe | truncatewords_html:25 }}
-                        {% endif %}
-                    </div>
-                    <div class="clear">&nbsp;</div>
-                    <div class="entry-footer"></div>
-                </div>
-                
-            </div>
-        {% endfor %}</noscript>
-        
-    </div>
-
-</div><!--./col-sm-3-->
-
+{% block content %}<div class="col-sm-12 colHline colHP">
+  <div id="location-content-collection" class="containerLocationCollection"></div>
+</div><!--./col-sm-12-->
 {% include 'places_core/script-templates/action-template.html' %}
-
 {% include 'places_core/script-templates/content-item-template.html' %}
-
-<input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />
-
-{% endblock %}
+<input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />{% endblock %}

@@ -7,7 +7,6 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFoun
                         Http404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core import cache
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -43,18 +42,6 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
-# REST views
-from rest_framework import viewsets
-from rest_framework.views import APIView
-from rest_framework import permissions as rest_permissions
-from rest_framework.response import Response
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from locations.serializers import MapLocationSerializer
-from .serializers import SimpleLocationSerializer, LocationListSerializer, \
-                          CountrySerializer, ContentPaginatedSerializer
-from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
-
-redis_cache = cache.get_cache('default')
 
 
 class LocationIdeasList(DetailView):

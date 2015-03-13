@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, DetailView
+from django.views.generic import View, DetailView, ListView
 from django.views.generic.edit import UpdateView
 from django.views.decorators.http import require_http_methods, require_POST
 from django.contrib.auth.decorators import login_required
@@ -20,191 +20,42 @@ from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
 from maps.models import MapPointer
+from locations.mixins import LocationContextMixin
 from locations.models import Location
 from locations.links import LINKS_MAP as links
 from .models import Discussion, Entry, EntryVote, Category
 from .forms import DiscussionForm, ReplyForm, ConfirmDeleteForm
 
-# REST API
-from rest_framework import viewsets
-from rest_framework import permissions as rest_permissions
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
-                              IsSuperuserOrReadOnly
-from serializers import ForumCategorySimpleSerializer, \
-                         ForumTopicSimpleSerializer, ForumEntrySimpleSerializer, \
-                         ForumCategorySerializer
+
+class TopicsContextMixin(LocationContextMixin):
+    """ """
+    def get_context_data(self):
+        context = super(TopicsContextMixin, self).get_context_data()
+        context['links'] = links['discussions']
+        return context
 
 
-class ForumCategoryAPIViewSet(viewsets.ModelViewSet):
-    """ Kategorie na forum. """
-    queryset = Category.objects.all()
-    paginate_by = None
-    serializer_class = ForumCategorySerializer
-    permission_classes = (IsSuperuserOrReadOnly,)
-
-
-class ForumTopicAPIViewSet(viewsets.ModelViewSet):
-    """
-    This is simplified discussion view set for mobile app.
-    """
-    queryset = Discussion.objects.all()
-    serializer_class = ForumTopicSimpleSerializer
-    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsModeratorOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def pre_save(self, obj):
-        obj.creator = self.request.user
-
-
-class ForumEntryAPIViewSet(viewsets.ModelViewSet):
-    """
-    Simple view to manage topic answers.
-    """
-    queryset = Entry.objects.all()
-    serializer_class = ForumEntrySimpleSerializer
-    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsModeratorOrReadOnly,
-                          IsOwnerOrReadOnly,)
+class DiscussionListView(TopicsContextMixin, ListView):
+    """ """
+    model = Discussion
+    paginate_by = 25
 
     def get_queryset(self):
-        discussion_id = self.request.QUERY_PARAMS.get('pk', None)
-        if discussion_id:
-            discussion = get_object_or_404(Discussion, pk=discussion_id)
-            return Entry.objects.filter(discussion=discussion)
-        return super(ForumEntryAPIViewSet, self).get_queryset()
-
-    def pre_save(self, obj):
-        obj.creator = self.request.user
-
-
-class BasicDiscussionSerializer(object):
-    """
-    This is simple serializer to convert Discussion object instances into
-    JSON format.
-    """
-    data = {}
-
-    def __init__(self, obj):
-        tags = []
-
-        for tag in obj.tags.all():
-            tags.append({
-                'name': tag.name,
-                'url': reverse('locations:tag_search',
-                               kwargs={'slug':obj.location.slug,
-                                       'tag':tag.name})
-            })
-
-        self.data = {
-            'id'           : obj.pk,
-            'question'     : truncatesmart(obj.question, 28),
-            'intro'        : truncatehtml(obj.intro, 240),
-            'url'          : obj.get_absolute_url(),
-            'date_created' : timesince(obj.date_created),
-            'creator'      : obj.creator.get_full_name(),
-            'creator_id'   : obj.creator.pk,
-            'creator_url'  : obj.creator.get_absolute_url(),
-            'avatar'       : obj.creator.profile.thumbnail.url,
-            'status'       : obj.status,
-            'category_id'  : obj.category.pk,
-            'category_name': obj.category.name,
-            'answers'      : obj.entry_set.count(),
-            'tags'         : tags,
-        }
-
-        if obj.category:
-            self.data['category']     = obj.category.name
-            self.data['category_url'] = reverse('locations:category_search',
-                kwargs={
-                    'slug'    : obj.location.slug,
-                    'app'     : 'topics',
-                    'model'   : 'discussion',
-                    'category': obj.category.pk,
-                })
+        location_slug = self.kwargs.get('location_slug')
+        if location_slug is not None:
+            qs = self.model.objects.filter(location__slug=location_slug)
         else:
-            self.data['category'] = ''
-            self.data['category_url'] = ''
+            qs = self.model.objects.all()
+        return qs
 
-
-class DiscussionListView(View):
-    """
-    Basic view for discussions REST api.
-    """
-    def get_queryset(self, request, queryset):
-        order    = request.GET.get('order')
-        time     = request.GET.get('time')
-        status   = request.GET.get('state')
-        category = request.GET.get('category')
-        haystack = request.GET.get('haystack')
-
-        if category and category != 'all':
-            category = Category.objects.get(pk=request.GET.get('category'))
-            queryset = queryset.filter(category=category)
-
-        time_delta = None
-
-        if time == 'day':
-            time_delta = datetime.date.today() - datetime.timedelta(days=1)
-        if time == 'week':
-            time_delta = datetime.date.today() - datetime.timedelta(days=7)
-        if time == 'month':
-            time_delta = datetime.date.today() - relativedelta(months=1)
-        if time == 'year':
-            time_delta = datetime.date.today() - relativedelta(years=1)
-
-        if time_delta:
-            queryset = queryset.filter(date_created__gte=time_delta)
-
-        if haystack and haystack != 'false':
-            queryset = queryset.filter(question__icontains=haystack)
-
-        if status == 'False':
-            queryset = queryset.filter(status=False)
-        elif status == 'True':
-            queryset = queryset.filter(status=True)
-        
-        if order == 'question':
-            return queryset.order_by('question')
-        elif order == 'latest':
-            return queryset.order_by('-date_created')
-        elif order == 'oldest':
-            return queryset.order_by('date_created')
-        elif order == 'category':
-            return queryset.order_by('category__name')
-        elif order == 'username':
-            l = list(queryset);
-            # Order by last name - we assume that every user has full name
-            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
-            return l
-
-        return queryset.order_by('-date_created')
-
-    def get(self, request, slug=None):
-        if slug:
-            location = Location.objects.get(slug=slug)
-            topics = Discussion.objects.filter(location=location)
-        else:
-            topics = Discussion.objects.all()
-        context = {'results': []}
-        topics = self.get_queryset(request, topics)
-        for topic in topics:
-            context['results'].append(BasicDiscussionSerializer(topic).data)
-        paginator = SimplePaginator(context['results'], settings.LIST_PAGINATION_LIMIT)
-        if request.GET.get('page'):
-            page = request.GET.get('page')
-        else:
-            page = 1
-        context['results'] = paginator.page(page)
-        context['current_page'] = page
-        context['total_pages'] = paginator.count()
-        return HttpResponse(json.dumps(context))
+    def get_context_data(self):
+        context = super(DiscussionListView, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class DiscussionDetailView(DetailView):
-    """
-    Single discussion page as forum page.
-    """
+    """ Single discussion page as forum page. """
     model = Discussion
 
     def get_context_data(self, **kwargs):
@@ -242,9 +93,7 @@ class DiscussionDetailView(DetailView):
 
 
 class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
-    """
-    Allow owner user to update and change their discussions.
-    """
+    """ Allow owner user to update and change their discussions. """
     model = Discussion
     form_class = DiscussionForm
     template_name = 'locations/location_forum_create.html'
@@ -264,9 +113,7 @@ class DiscussionUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class DeleteDiscussionView(LoginRequiredMixin, View):
-    """
-    Delete single discussion in 'classic' way.
-    """
+    """ Delete single discussion in 'classic' way. """
     template_name = 'topics/delete.html'
 
     def get(self, request, pk):
@@ -299,9 +146,7 @@ class DeleteDiscussionView(LoginRequiredMixin, View):
 
 
 class EntryUpdateView(LoginRequiredMixin, View):
-    """
-    Update entry in static form.
-    """
+    """ Update entry in static form. """
     def post(self, request, slug, pk):
         entry = get_object_or_404(Entry, pk=pk)
         entry.content = request.POST.get('content')
@@ -314,9 +159,7 @@ class EntryUpdateView(LoginRequiredMixin, View):
 @transaction.non_atomic_requests
 @transaction.autocommit
 def delete_topic(request):
-    """
-    Delete topic from discussion list via AJAX request.
-    """
+    """ Delete topic from discussion list via AJAX request. """
     pk = request.POST.get('object_pk')
 
     if not pk:
@@ -359,9 +202,7 @@ def delete_topic(request):
 
 
 def reply(request, slug):
-    """
-    Create forum reply.
-    """
+    """ Create forum reply. """
     if request.method == 'POST' and request.POST:
         post = request.POST
         topic = Discussion.objects.get(slug=post['discussion'])

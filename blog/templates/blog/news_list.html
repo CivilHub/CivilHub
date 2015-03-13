@@ -1,9 +1,6 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
-
-{% block topbar %}{% include 'blog/blog_navbar.html' %}{% endblock %}
-
-{% block content %}{% if object_list.count %}<div class="col-sm-9 content-container contentPX blogDivNews">
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block content %}{% include 'blog/blog_navbar.html' %}
+{% if object_list.count %}<div class="col-sm-9 content-container contentPX blogDivNews main-content">
   <div id="entries">
     {% for entry in object_list %}<div class="row">
       <div class="col-xs-10">
@@ -38,10 +35,7 @@
         <a href="/users/login" >
       {% endif %}{% trans "add first news" %}</a>.
     </h2>
-</div>{% endif %}{% endblock %}
-
-{% block sidebar %}
-  <div class="col-sm-3 boxPX">
-    {% include 'locations/sidebar.html' %}
-  </div>
-{% endblock %}
+</div>{% endif %}
+<div class="col-sm-3 boxPX">
+  {% include 'locations/sidebar.html' %}
+</div>{% endblock %}

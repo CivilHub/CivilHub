@@ -1,19 +1,47 @@
-{% extends 'places_core/base.html' %}
-{% load i18n %}
-{% block content %}
-    
-{% if ideas %}
-    <ul>
-    {% for idea in ideas %}
-        <li><a href="{{ idea.get_absolute_url }}">{{ idea.name }}</a> 
-        by <a href="{% url 'user:profile' idea.creator %}">{{ idea.creator }}</a>
-        in <a href="{% url 'locations:details' idea.location.id %}">{{ idea.location }}</a></li>
-    {% endfor %}
-    </ul>
-{% endif %}
-
-{% if user.is_authenticated %}
-<p><a href="{% url 'ideas:create' %}"><button class="btn btn-primary">{% trans "Create" %}</button></a></p>
-{% endif %}
-    
-{% endblock %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/idea-list.js"></script>{% endblock %}
+{% block content %}{% include 'ideas/navbar.html' %}
+{% if object_list %}<div class="col-sm-9 content-container contentPX main-content">
+  <div id="idea-list-view">
+    {% for idea in object_list %}<div class="row idea-entry">
+      <div class="idea-votes col-sm-3" id="tour-votes">
+        <div class="vote-form">
+          <div class="votes">{{ idea.get_votes }}</div>
+          <div class="vote-controls">
+            {% if user.is_authenticated %}<button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
+            <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
+            {% else %}<a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
+            <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>{% endif %}
+          </div>
+        </div>
+        <div class="clear">&nbsp;</div>
+        <div class="idea-summary">
+          <div class="idea-status-state">
+            {% if idea.status %}<label class="label label-success">{% trans "Active" %}</label>
+            {% else %}<label class="label label-danger">{% trans "Inactive" %}</label>{% endif %}
+          </div>
+          <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.count }} {% trans "votes" %}</div>
+        </div>
+      </div>
+      <div class="col-sm-9">
+        <h3 class="allHeadingThree"><a href="{{ idea.get_absolute_url }}">{{ idea }}</a></h3>
+        <p class="createBY">
+          {% trans "Created by" %}<a href="{{ idea.creator.profile.get_absolute_url %}">
+          <span class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.profile }}</span></a>
+          <span class="date-created">{{ idea.date_created|timesince }}</span>
+        </p>
+        <div class="idea-summary acticle-content">{{ idea.get_description|safe }}</div>
+        <a class="full-link" href="{{ idea.get_absolute_url }}">{% trans "See full version" %}</a>
+      </div>
+    </div>{% endfor %}
+  </div>
+  {% include 'places_core/pagination.html' %}
+</div>{% else %}<div class="col-sm-9 no-entries contentPX">
+  <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+  <h2>
+    {% trans "We didn't find any ideas" %} {% trans "in" %} {{ location }}.<br /> 
+    {% trans "Please" %}{% if user.is_authenticated %}<a href="{% url 'locations:new_idea' location.slug %}" >
+    {% else %}<a href="/users/login" >{% endif %}{% trans "add first idea" %}</a>.
+  </h2>
+</div>{% endif %}
+<div class="col-sm-3 boxPX">{% include 'locations/sidebar.html' %}</div>{% endblock %}

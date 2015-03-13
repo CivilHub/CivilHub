@@ -8,7 +8,7 @@
 // Ten skrypt obsługuje pełen zestaw filtrów oraz lazy-loading.
 
 require(['jquery',
-         'js/modules/content/content-collection'],
+         'js/modules/locations/contents/content-collection'],
 
 function ($, ContentList) {
 
@@ -51,6 +51,28 @@ function ($, ContentList) {
     return opts;
   };
 
+  function getMinimalPtr () {
+    var h = $(document).height();
+    if (h <= 5000) {
+      return 50;
+    } else if (h <= 10000) {
+      return 60;
+    } else {
+      return 75;
+    }
+  }
+
+  function checkSrcrollPosition () {
+    var ptr = ($(window).scrollTop() / $(document).height()) * 100;
+    if (ptr > getMinimalPtr()) {
+      contents.getPage();
+      $(window).off('scroll', checkSrcrollPosition);
+      setTimeout(function () {
+        $(window).on('scroll', checkSrcrollPosition);
+      }, 2000);
+    }
+  }
+
   $(document).ready(function () {
 
     // Check if there is a better way to handle external events.
@@ -68,13 +90,9 @@ function ($, ContentList) {
       $(this).addClass('active');
       contents.filter(filterListContent());
     });
-
+    
     // Enable lazy-loading on page scrolling
-
-    $(window).scroll(function() {
-      if($(window).scrollTop() + $(window).height() == $(document).height()) {
-        contents.getPage();
-      }
-    });
+    
+    $(window).on('scroll', checkSrcrollPosition);
   });
 });

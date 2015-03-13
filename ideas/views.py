@@ -22,100 +22,28 @@ from forms import IdeaForm, CategoryForm
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
+from locations.mixins import LocationContextMixin
 from locations.links import LINKS_MAP as links
 from places_core.mixins import LoginRequiredMixin
-from places_core.helpers import SimplePaginator, truncatehtml
+from places_core.helpers import SimplePaginator, truncatehtml, get_time_difference
 # Custom comments
 from comments.models import CustomComment
 # Custom permissions
 from places_core.permissions import is_moderator
-# REST API
-from serializers import IdeaSimpleSerializer, IdeaVoteSerializer, \
-                         IdeaCategorySerializer
-from rest_framework import permissions, viewsets
-from rest_framework.views import APIView
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly, \
-                              IsSuperuserOrReadOnly
 
 
-class IdeaCategoryAPIViewSet(viewsets.ModelViewSet):
-    """ """
-    queryset = Category.objects.all()
-    serializer_class = IdeaCategorySerializer
-    paginate_by = None
-    permission_classes = (IsSuperuserOrReadOnly,)
-
-
-class IdeaAPIViewSet(viewsets.ModelViewSet):
+class IdeasContextMixin(LocationContextMixin):
     """
-    Zarządzanie listą pomysłów. Domyślnie widok prezentuje listę wszystkich
-    pomysłów.
-    
-    Tworzenie idei (pola wymagane):
-        name        string, max_length=64
-        description string/html, max_length=20480
-        location    int, Location object pk
+    Zapewnia dodatkowe zmienne w kontekście powiązane z lokalizacją obiektu/ów.
     """
-    model = Idea
-    serializer_class = IdeaSimpleSerializer
-    paginate_by = 5
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsModeratorOrReadOnly,
-                          IsOwnerOrReadOnly,)
-
-    def pre_save(self, obj):
-        obj.creator = self.request.user
-
-
-class IdeaVoteAPIViewSet(viewsets.ModelViewSet):
-    """
-    Widok dla głosów na idee. Domyślnie prezentuje listę wszystkich głosów.
-    Możliwe jest filtrowanie wyników na podstawie ID użytkownika oraz ID idei,
-    poprzez wprowadzenie odpowiednich parametrów w zapytaniu, np.:
-    
-        `/api-ideas/votes/?user=1&idea=3`
-    
-    Tworzenie idei (pola obowiązkowe):
-        user (int)     pk użytkownika
-        idea (int)     pk idei
-        vote (boolean) Vote up/down
-        
-    Widok nie obsługuje paginacji.
-    """
-    model = Vote
-    paginate_by = None
-    serializer_class = IdeaVoteSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsModeratorOrReadOnly,)
-
-    def get_queryset(self):
-        queryset = Vote.objects.all()
-        user = self.request.QUERY_PARAMS.get('user')
-        idea = self.request.QUERY_PARAMS.get('idea')
-        try:
-            if idea:
-                queryset = queryset.filter(idea=Idea.objects.get(pk=idea))
-            if user:
-                queryset = queryset.filter(user=User.objects.get(pk=user))
-        except Exception:
-            queryset = []
-        return queryset
-
-
-def get_votes(idea):
-    """
-    Get total votes calculated for particular Idea object.
-    """
-    votes_total = Vote.objects.filter(idea=idea)
-    votes_up    = len(votes_total.filter(vote=True))
-    votes_down  = len(votes_total.filter(vote=False))
-    return votes_up - votes_down
+    def get_context_data(self):
+        context = super(IdeasContextMixin, self).get_context_data()
+        context['links'] = links['ideas']
+        return context
 
 
 def vote(request):
-    """
-    Make vote (up/down) on idea
-    """
+    """ Make vote (up/down) on idea. """
     if request.method == 'POST':
         idea = Idea.objects.get(pk=request.POST['idea'])
         votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
@@ -123,7 +51,7 @@ def vote(request):
             response = {
                 'success': False,
                 'message': _('You voted already on this idea'),
-                'votes': get_votes(idea),
+                'votes': idea.get_votes(),
             }
         else:
             user_vote = Vote(
@@ -135,7 +63,7 @@ def vote(request):
             response = {
                 'success': True,
                 'message': _('Vote saved'),
-                'votes': get_votes(idea),
+                'votes': idea.get_votes(),
             }
             action.send(
                 request.user,
@@ -145,7 +73,7 @@ def vote(request):
             )
             request.user.profile.rank_pts += 1
             request.user.profile.save()
-        return HttpResponse(json.dumps(response))
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
 
 class CreateCategory(LoginRequiredMixin, CreateView):
@@ -165,167 +93,29 @@ class CreateCategory(LoginRequiredMixin, CreateView):
         return context
 
 
-class BasicIdeaSerializer(object):
-    """
-    This is custom serializer for ideas. It passes properly formatted objects
-    that they can be later dumped to JSON format. It gets Idea object instance
-    as mandatory argument.
-    
-    For now this method supports only serializing - deserializing should be
-    added later if needed.
-    """
-    def __init__(self, idea):
-        tags = []
-
-        for tag in idea.tags.all():
-            tags.append({
-                'name': tag.name,
-                'url': reverse('locations:tag_search',
-                               kwargs={'slug':idea.location.slug,
-                                       'tag':tag.name})
-            })
-
-        self.data = {
-            'id'            : idea.pk,
-            'name'          : idea.name,
-            'status'        : idea.status,
-            'link'          : idea.get_absolute_url(),
-            'description'   : truncatehtml(idea.description, 240),
-            'creator'       : idea.creator.get_full_name(),
-            'creator_url'   : idea.creator.profile.get_absolute_url(),
-            'creator_id'    : idea.creator.pk,
-            'avatar'        : idea.creator.profile.avatar.url,
-            'date_created'  : timesince(idea.date_created),
-            'edited'        : idea.edited,
-            'total_votes'   : idea.get_votes(),
-            'total_comments': idea.get_comment_count(),
-            'tags'          : tags,
-        }
-
-        self.data['edit_url'] = reverse('ideas:update', kwargs={
-            'slug': idea.slug,
-        })
-
-        try:
-            self.data['date_edited'] = timesince(idea.date_edited)
-        except Exception:
-            self.data['date_edited'] = ''
-
-        if idea.category:
-            self.data['category']     = idea.category.name
-            self.data['category_url'] = reverse('locations:category_search',
-                kwargs={
-                    'slug'    : idea.location.slug,
-                    'app'     : 'ideas',
-                    'model'   : 'idea',
-                    'category': idea.category.pk,
-                })
-        else:
-            self.data['category'] = ''
-            self.data['category_url'] = ''
-
-    def as_array(self):
-        return self.data
-
-
-class BasicIdeaView(View):
-    """
-    This is view for idea collection of one location. It is intended to return
-    list of ideas formatted as JSON.
-    """
-    @classmethod
-    def get_queryset(cls, request, queryset):
-        """
-        Filter queryset according to search options provided by user. This me-
-        thod takes request and queryset to sort as parameters. All filters 
-        should be set in GET parameters.
-        """
-        status = request.GET.get('status')
-        if status == 'False':
-            queryset = queryset.filter(status=False)
-        elif status == 'True':
-            queryset = queryset.filter(status=True)
-
-        category = request.QUERY_PARAMS.get('category')
-        if category: queryset = queryset.filter(category__pk=category)
-        print category
-
-        time_delta = None
-        time = request.GET.get('time')
-
-        if time == 'day':
-            time_delta = datetime.date.today() - datetime.timedelta(days=1)
-        if time == 'week':
-            time_delta = datetime.date.today() - datetime.timedelta(days=7)
-        if time == 'month':
-            time_delta = datetime.date.today() - relativedelta(months=1)
-        if time == 'year':
-            time_delta = datetime.date.today() - relativedelta(years=1)
-
-        if time_delta:
-            queryset = queryset.filter(date_created__gte=time_delta)
-
-        haystack = request.GET.get('haystack')
-        if haystack and haystack != 'false':
-            queryset = queryset.filter(name__icontains=haystack)
-
-        order = request.GET.get('order')
-        if order == 'title':
-            return queryset.order_by('name')
-        elif order == 'date':
-            return queryset.order_by('-date_created')
-        elif order == 'category':
-            return queryset.order_by('category__name')
-        elif order == 'username':
-            l = list(queryset);
-            # Order by last name - we assume that every user has full name
-            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
-            return l
-        elif order == 'votes':
-            l = list(queryset);
-            l.sort(key=lambda x: x.get_votes())
-            return l
-        else:
-            return queryset
-
-    def get(self, request, slug=None, *args, **kwargs):
-        """
-        Get list of all ideas or just idea set for one location if 'slug' is
-        provided (default None).
-        """
-        if not slug:
-            ideas = Idea.objects.all()
-        else:
-            location = Location.objects.get(slug=slug)
-            ideas = Idea.objects.filter(location=location)
-
-        ideas = self.get_queryset(request, ideas)
-        ctx = {'results': []}
-
-        for idea in ideas:
-            ctx['results'].append(BasicIdeaSerializer(idea).data)
-
-        paginator = SimplePaginator(ctx['results'], 15)
-        page = request.GET.get('page') if request.GET.get('page') else 1
-        ctx['current_page'] = page
-        ctx['total_pages'] = paginator.count()
-        ctx['results'] = paginator.page(page)
-
-        return HttpResponse(json.dumps(ctx))
-
-
-class IdeasListView(ListView):
-    """
-    List all ideas
-    """
+class IdeasListView(IdeasContextMixin, ListView):
+    """ List all ideas """
     model = Idea
-    context_object_name = 'ideas'
+    paginate_by = 15
+
+    def get_queryset(self):
+        location_slug = self.kwargs.get('location_slug')
+        if location_slug is None:
+            qs = self.model.objects.all()
+        else:
+            qs = self.model.objects.filter(location__slug=location_slug)
+        haystack = self.request.GET.get('haystack')
+        if haystack is not None:
+            qs = qs.filter(name__icontains=haystack)
+        time_limit = get_time_difference(self.request.GET.get('time', 'all'))
+        if time_limit is not None:
+            qs = qs.filter(date_created__gte=time_limit)
+        order = self.request.GET.get('order', '-date_created')
+        return qs.order_by(order)
 
 
 class IdeasDetailView(DetailView):
-    """
-    Detailed idea view
-    """
+    """ Detailed idea view. """
     model = Idea
 
     def get_object(self):
@@ -406,11 +196,3 @@ class UpdateIdeaView(UpdateView):
         form.instance.edited = True
         form.date_edited = timezone.now()
         return super(UpdateIdeaView, self).form_valid(form)
-
-
-class DeleteIdeaView(DeleteView):
-    """
-    Allow users to delete their ideas (or not? Still not working).
-    """
-    model = Idea
-    success_url = reverse_lazy('ideas:index')

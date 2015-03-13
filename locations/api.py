@@ -4,9 +4,10 @@ from ipware.ip import get_ip
 from django.conf import settings
 from django.utils import translation
 from django.shortcuts import get_object_or_404
+from django.core import cache
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.contenttypes.models import ContentType
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -27,9 +28,16 @@ from .serializers import SimpleLocationSerializer, \
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
+redis_cache = cache.get_cache('default')
+
+
 class CapitalAPI(APIView):
-    """ """
+    """
+    Widok wyszukujący stolicę kraju najbardziej odpowiedniego dla lokalizacji
+    aktualnego użytkownika. Nie trzeba tutaj przekazywać żadnych parametrów.
+    """
     permission_classes = (rest_permissions.AllowAny,)
+
     def get(self, request):
         code = GeoIP().country(get_ip(self.request))\
                       .get('country_code', settings.DEFAULT_COUNTRY_CODE)
@@ -37,11 +45,7 @@ class CapitalAPI(APIView):
         try:
             country = Country.objects.get(code=code)
         except Country.DoesNotExist:
-            pass
-        try:
-            country = Country.objects.get(code=settings.DEFAULT_COUNTRY_CODE)
-        except Country.DoesNotExist:
-            raise Http404
+            country = get_object_or_404(Country, code=settings.DEFAULT_COUNTRY_CODE)
         capital = country.get_capital()
         if capital is not None:
             serializer = LocationListSerializer(capital)

@@ -6,7 +6,7 @@ define(['jquery',
         'underscore',
         'backbone',
         'js/modules/actstream/actions/actionCollection',
-        'js/modules/content/content-view',
+        'js/modules/locations/contents/content-view',
         'jpaginate'],
 
 function ($, _, Backbone, ActionCollection, ActionView) {
@@ -108,7 +108,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
         .appendTo(this.$el.find('.row:last'))
         .find('.locBoxHeader:first')
         .css('background', "url(" + item.get('image') + ") left top no-repeat");
-      if (this.$el.find('.row:last').find('.locBoxH').length >= 3) {
+      if (this.$el.find('.row:last').find('.locBoxH').length >= 4) {
         this.$el.append('<div class="row"></div>');
       }
     }

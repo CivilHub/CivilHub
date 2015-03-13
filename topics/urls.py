@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from topics.views import *
+import api
 
 # mobile API
 from rest_framework import routers
 router = routers.DefaultRouter()
-router.register('topic', ForumTopicAPIViewSet, 'topic')
-router.register('entry', ForumEntryAPIViewSet, 'entry')
-router.register('categories', ForumCategoryAPIViewSet, 'categories')
+router.register('topic', api.ForumTopicAPIViewSet, 'topic')
+router.register('entry', api.ForumEntryAPIViewSet, 'entry')
+router.register('categories', api.ForumCategoryAPIViewSet, 'categories')
 
 urlpatterns = patterns('',
     url('^delete/', delete_topic, name='delete'),

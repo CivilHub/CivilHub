@@ -7,6 +7,8 @@ def check_access(obj, user):
     obiektu przekazanego jako argument. Obiektem musi być instancja modelu 
     z tej aplikacji, tzn projekt, grupa zadań lub zadanie. Zwraca True/False.
     """
+    if user.is_anonymous:
+        return False
     # "Twórca" zawsze może usunąć swoje "dzieło"
     access = user.profile == obj.creator
     # Superadmin może wszystko

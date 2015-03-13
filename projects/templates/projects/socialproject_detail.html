@@ -65,9 +65,9 @@
           </div>
         </div><!--./task-content -->{% endfor %}
       </div><!--./task-container-->{% endfor %}
-      <div class="add-new-task-group">
+      {% if user.is_authenticated %}<div class="add-new-task-group">
         <a href="{% url 'locations:project_create_task_group' location.slug object.slug %}"><span class="fa fa-plus-square add-task"></span><p>{% trans "Add new group" %}</p></a>
-      </div>
+      </div>{% endif %}
     </div>
   </div><!-- ./col-sm-6 -->
   <div class="col-sm-6">

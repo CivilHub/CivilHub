@@ -1,0 +1,51 @@
+{% load i18n %}<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+		<div class="collapse navbar-collapse" id="bs-navbar-collapse">
+				<ul class="nav navbar-nav">
+						<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Sort by" %}: <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+										<input type="hidden" id="discussion-target-url" value="{% url 'locations:ajaxlist' slug=location.slug %}">
+										<li><a href="" class="list-controller" data-target="question" data-control="sortby">{% trans "Question" %}</a></li>
+										<li><a href="" class="list-controller active" data-target="latest" data-control="sortby">{% trans "Latest" %}</a></li>
+										<li><a href="" class="list-controller" data-target="oldest" data-control="sortby">{% trans "Oldest" %}</a></li>
+										<li><a href="" class="list-controller" data-target="category" data-control="sortby">{% trans "Category" %}</a></li>
+										<li><a href="" class="list-controller" data-target="creator" data-control="sortby">{% trans "Username" %}</a></li>
+								</ul>
+						</li>
+						<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+										<li><a href="#" class="list-state-switch list-controller" data-target="True" data-control="state">{% trans "Active" %}</a></li>
+										<li><a href="#" class="list-state-switch list-controller" data-target="False" data-control="state">{% trans "Closed" %}</a></li>
+										<li><a href="#" class="list-state-switch list-controller active" data-target="all" data-control="state">{% trans "All" %}</a></li>
+								</ul>
+						</li>
+				</ul>
+				<ul class="nav navbar-nav">
+				<li class="navbar-text"> {% trans "When" %}:</li>
+						<li><a href="" class="list-controller active navbar-time" data-control="time" data-target="any">{% trans "Anytime" %}</a></li>
+						<li class="navbar-text-narrow"><span id="navbar-space">|</span></li>
+				<li class="navbar-text-narrow">{% trans "Past" %}:</li>
+						<li><a href="" class="list-controller navbar-time" data-control="time" data-target="day">{% trans "Day" %}</a></li>
+				<li class="navbar-text-narrow">|</li>
+						<li><a href="" class="list-controller navbar-time" data-control="time" data-target="week">{% trans "Week" %}</a></li>
+				<li class="navbar-text-narrow">|</li>
+						<li><a href="" class="list-controller navbar-time" data-control="time" data-target="month">{% trans "Month" %}</a></li>
+				<li class="navbar-text-narrow">|</li>
+						<li><a href="" class="list-controller navbar-time" data-control="time" data-target="year">{% trans "Year" %}</a></li>
+				</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+				<li class="navbar-icon"><span class="ch-icon ch-chart"></span></li>
+				<li class="navbar-text">{% trans "Stats" %}</li>
+				{%comment %}<span class="bs-navbar-soon">(soon)</span>{% endcomment %}
+				</ul>
+
+				<form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
+						<div class="form-group">
+								<input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
+						</div>
+						<button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+				</form>
+		</div>
+</nav>

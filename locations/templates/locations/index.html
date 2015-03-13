@@ -89,7 +89,7 @@
                 <li><a href="{% url 'locations:discussions' location.slug %}" id="tour-Discussions">{% trans "Discussions" %}</a></li>
                 <li><a href="{% url 'locations:ideas' location.slug %}" id="tour-Ideas">{% trans "Ideas" %}</a></li>
                 <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls">{% trans "Polls" %}</a></li>
-                <li><a href="#">{% trans "Projects" %}</a>{% comment %}<span class="navbar-soon">(soon)</span>{% endcomment %}</li>
+                <li><a href="{% url 'locations:project_list' location.slug %}">{% trans "Projects" %}</a></li>
                 <li><a href="#"> {% trans "Documents" %}</a>{% comment %}<span class="navbar-soon">(soon)</span>{% endcomment %}</li>
                 <!--<li><a href="#"><span class="ch-icon ch-polls"></span><span class="ch-icon ch-videos"></span>{% trans "Videos" %}</a></li>-->
                 <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery">{% trans "Gallery" %}</a></li>
