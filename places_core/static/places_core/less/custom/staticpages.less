@@ -1584,10 +1584,14 @@ background-position: center 13%;
                 border-radius: 0;
                 -webkit-border-radius: 0;
                 margin: 0;
+                line-height: 1;
             }
         }
         .projectparticipants-icons-top{
-            margin: 15px 0 0;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            margin-right: 0px !important;
+            margin-left: 0;
             p{
                 color: #FFF;
                 font-weight: bold;
@@ -1610,6 +1614,8 @@ background-position: center 13%;
     a{
         display: inline-block;
         margin-left: 2px;
+        vertical-align: top;
+        line-height: 24px;
         img{
             width: 15px;
             height: 15px;
@@ -1767,31 +1773,22 @@ small.green{
                             margin-bottom: 0;
                         }
                     }
+                    form{
+                        display: inline-block;
+                    }
                     .join-btn-task{
                         display: inline-block;
                         width: 22%;
                         text-align: right;
                         vertical-align: top;
-                        a{
+                        button{
                             font-weight: 400;
                             display: inline-block;
                             float: none;
                             margin: 8px 0;
-                        }
-                    }
-                }
-                .task-comments-right{
-                    margin-top: 10px;
-                    .top-Comments{
-                        font-size: 12px;
-                        font-weight: bold;
-                        line-height: 18px;
-                        border-bottom: 1px solid #5B5757;
-                        margin-bottom: 25px;
-                        p{
-                            a{
-                                float: right;
-                            }
+                            border-radius: 25px;
+                            -webkit-border-radius: 25px;
+                            line-height: 1;
                         }
                     }
                 }
@@ -1831,7 +1828,25 @@ small.green{
         }
     }
 }
-
+.task-comments-right{
+    margin-top: 10px;
+    .top-Comments{
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 18px;
+        border-bottom: 1px solid #5B5757;
+        margin-bottom: 25px;
+        p{
+            .badge{
+                color: #5E5E5E;
+                background-color: transparent;
+            }
+            a{
+                float: right;
+            }
+        }
+    }
+}
 /* PROJEKTY */
 
 /**
@@ -1846,21 +1861,51 @@ small.green{
     background-color: transparent;  
   }
 }
-
-/**
- * Pokazujemy/ukrywamy kontrolki.
- */
-.custom-controls {
-  opacity: 0;
-  transition: opacity 0.3s;
-  a, input, button {
-    display: inline-block;
-  }
-}
-.task-heading:hover, .task-content:hover {
-  &:hover {
-    .custom-controls {
-      opacity: 1;
+.custom-controls-box,
+.custom-controls-box-task-content{
+  position: relative;
+  cursor: pointer;
+  &:hover{
+    .custom-controls{
+      display: block;
     }
   }
+  .custom-controls{
+    position: absolute;
+    z-index: 5;
+    text-align: center;
+    background-color: #FFF;
+    display: none;
+  }
+}
+
+.custom-controls-box{
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 5px;
+    .custom-controls{
+        left: 14px;
+        top: -2px;  
+        min-width: 100px;
+        a, input, button{
+            display: inline-block;
+            font-size: 10px;
+        }
+    }
+}
+.custom-controls-box-task-content{
+    padding-bottom: 1px;
+    &:hover{
+      color:#FFF;
+    }
+    .custom-controls{
+        right: -2px;
+        top: 26px;
+        width: 150px;
+        border: 1px solid #DDD;        
+        form, a{
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
 }
