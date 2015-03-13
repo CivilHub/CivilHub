@@ -69,7 +69,7 @@ class LocationSummaryAPI(APIView):
         `category` - ID kategorii do przeszukania (jeżeli dotyczy)<br>
         `per_page` - Ilość elementów do pokazania na jednej stronie (max 100)<br>
     """
-    paginate_by = 24
+    paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):

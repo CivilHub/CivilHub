@@ -97,8 +97,8 @@ class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
     """
     def get(self, request, location_slug=None, slug=None, group_id=None, task_id=None):
         # TODO: można pokazać coś bardziej odpowiedniego niż 403.
-        if not check_access(self.get_object(), request.user):
-            raise PermissionDenied
+        # if not check_access(self.get_object(), request.user):
+        #     raise PermissionDenied
         return super(ProjectAccessMixin, self).get(request)
 
     def post(self, request, slug=None, location_slug=None, group_id=None, task_id=None):
@@ -160,7 +160,7 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
         }))
 
 
-class CreateTaskGroupView(ProjectAccessMixin, CreateView):
+class CreateTaskGroupView(ProjectContextMixin, CreateView):
     """ Tworzenie nowej grupy dla zadań. Widok przyjmuje tylko POST. """
     model = TaskGroup
     form_class = TaskGroupForm

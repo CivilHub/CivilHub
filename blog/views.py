@@ -48,7 +48,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 class NewsListView(BlogContextMixin, ListView):
     """ Lista projektów w ramach jednej lokalizacji. """
     model = News
-    paginate_by = 15
+    paginate_by = 25
 
     def get_queryset(self):
         location_slug = self.kwargs.get('location_slug')

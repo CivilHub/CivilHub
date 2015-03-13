@@ -96,7 +96,7 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 class IdeasListView(IdeasContextMixin, ListView):
     """ List all ideas """
     model = Idea
-    paginate_by = 15
+    paginate_by = 25
 
     def get_queryset(self):
         location_slug = self.kwargs.get('location_slug')

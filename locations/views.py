@@ -460,25 +460,25 @@ def get_latest(location, item_type):
     return lset.order_by('-date_created')[:5]
 
 
-class LocationDetailView(DetailView):
-    """ Detailed location view. """
+class LocationViewMixin(DetailView):
+    """ """
     model = Location
-    
+
     def get_context_data(self, **kwargs):
-        #location = super(LocationDetailView, self).get_object()
-        context = super(LocationDetailView, self).get_context_data(**kwargs)
-        #content_type = ContentType.objects.get_for_model(location)
-        #actions = Action.objects.filter(target_content_type=content_type)
-        #actions = actions.filter(target_object_id=location.pk)
+        context = super(LocationViewMixin, self).get_context_data(**kwargs)
         context['title'] = self.object.name
-        #context['actions'] = actions
-        #context['tags'] = TagFilter(self.object).get_items()
-        # context['blog'] = get_latest(location, 'blog')
-        # context['ideas'] = get_latest(location, 'ideas')
-        # context['topics'] = get_latest(location, 'topics')
-        # context['polls'] = get_latest(location, 'polls')
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         return context
+
+
+class LocationDetailView(LocationViewMixin):
+    """ Detailed location view. """
+    template_name = 'locations/location_detail.html'
+
+
+class LocationActionsView(LocationViewMixin):
+    """ Różne "wariacje na temat" czyli "podwidoki" dla lokalizacji. """
+    template_name = 'locations/location_summary.html'
 
 
 class LocationBackgroundView(FormView):

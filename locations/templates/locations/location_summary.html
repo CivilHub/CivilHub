@@ -13,14 +13,14 @@
 <script>window.USER_ID = "{{ location.id }}";</script>
 <script>window.LOCATION_ID = "{{ location.pk }}";</script>
 <script>window.CONTENT_API_URL = "/api-locations/contents/";</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/location-details.js"></script>{% endblock %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/location-activity.js"></script>{% endblock %}
 
 {% block title %} {{ location }} | CivilHub {% endblock %}
 
 {% block topbar %}{% include 'locations/navbar.html' %}{% endblock %}
 
-{% block content %}<div class="col-sm-12 colHline colHP">
-  <div id="location-content-collection" class="containerLocationCollection"></div>
-</div><!--./col-sm-12-->
-{% include 'places_core/script-templates/content-item-template.html' %}
+{% block content %}<div class="col-sm-12 colHline">
+  <div class="activity-stream"></div>
+</div>
+{% include 'places_core/script-templates/action-template.html' %}
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />{% endblock %}

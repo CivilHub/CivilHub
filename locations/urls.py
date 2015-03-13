@@ -84,7 +84,10 @@ urlpatterns = patterns('',
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/(?P<task_id>\d+)/', project_views.ProjectDetailView.as_view(), name='task_details'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/', project_views.ProjectDetailView.as_view(), name='project_details'),
     url(r'^(?P<location_slug>[\w-]+)/projects/', project_views.ProjectListView.as_view(), name='project_list'),
+
     # Generic location views
+    url(r'^(?P<slug>[\w-]+)/activity/', LocationActionsView.as_view(), name='activity'),
+    url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
     # Ajaxy functions - follow/unfollow location actions

@@ -160,7 +160,7 @@ class UserSummaryAPI(rest_views.APIView):
     ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
     lokacji obserwowanych przez użytkownika.
     """
-    paginate_by = 50
+    paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
