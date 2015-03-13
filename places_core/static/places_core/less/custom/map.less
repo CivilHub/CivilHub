@@ -140,17 +140,20 @@
 @placecolor: #0183fd;
 @ideacolor: #639f25;
 @newscolor: #3743bb;
+@projectscolor: #202020;
 @discussionimage: url(/static/maps/icons/map-discussion-icon.png);
 @pollimage: url(/static/maps/icons/map-poll-icon.png);
 @placeimage: url(/static/maps/icons/map-location-icon.png);
 @ideaimage: url(/static/maps/icons/map-idea-icon.png);
 @newsimage: url(/static/maps/icons/map-news-icon.png);
+@projectsimage: url(/static/maps/icons/map-socialproject-icon.png);
 //retina
 @discussionimage2x: url(/static/maps/icons/map-discussion-icon@2x.png);
 @pollimage2x: url(/static/maps/icons/map-poll-icon@2x.png);
 @placeimage2x: url(/static/maps/icons/map-location-icon@2x.png);
 @ideaimage2x: url(/static/maps/icons/map-idea-icon@2x.png);
 @newsimage2x: url(/static/maps/icons/map-news-icon@2x.png);
+@projectsimage2x: url(/static/maps/icons/map-socialproject-icon@2x.png);
 
 .gm-style-iw {
     left: 0px !important;
@@ -286,6 +289,19 @@
             }                       
         }
         .go-to { background: @newscolor; }
+    }
+    &.socialproject{
+        .type{
+            background-image: @projectsimage;
+            background-color: @projectscolor;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: @projectsimage2x;
+                background-size: 55px 55px;
+            }
+        }
+        .go-to{ background-color: @projectscolor; }
     }
     
     .content {

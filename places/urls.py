@@ -103,6 +103,8 @@ urlpatterns += patterns('',
     # django-discussions (e.g. user messages)
     # disabled because of lack South integrity
     #url('^messages/', include('discussions.urls', namespace='messages')),
+    # Podstawowe widoki projektów - reszta jest w lokalizacjach
+    url('^projects/', include('projects.urls', namespace='projects')),
     # Discussions (e.g. forum)
     url('^discussion/', include('topics.urls', namespace='discussion')),
     # comments
