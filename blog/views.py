@@ -11,9 +11,10 @@ from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.links import LINKS_MAP as links
 from locations.models import Location
-from locations.mixins import ContentMixin, LocationContextMixin
+from locations.mixins import LocationContextMixin, SearchableListMixin
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
+from places_core.helpers import get_time_difference, sort_by_locale
 
 from .models import Category, News
 from .forms import NewsForm
@@ -45,16 +46,19 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     fields = ['name', 'description']
 
 
-class NewsListView(BlogContextMixin, ListView):
+class NewsListView(BlogContextMixin, SearchableListMixin):
     """ Lista projektów w ramach jednej lokalizacji. """
     model = News
     paginate_by = 25
 
+    def get_context_data(self):
+        context = super(NewsListView, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        return context
+
     def get_queryset(self):
-        location_slug = self.kwargs.get('location_slug')
-        if location_slug is None:
-            return self.model.objects.all()
-        return self.model.objects.filter(location__slug=location_slug)
+        qs = super(NewsListView, self).get_queryset()
+        return qs.filter(title__icontains=self.request.GET.get('haystack', ''))
 
     
 class NewsDetailView(BlogContextMixin, DetailView):

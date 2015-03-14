@@ -7,6 +7,7 @@ from ideas.models import Idea
 from topics.models import Discussion
 from blog.models import News
 from polls.models import Poll
+from projects.models import SocialProject
 
 
 class LocationSitemap(Sitemap):
@@ -53,3 +54,11 @@ class PollsSitemap(Sitemap):
 
     def items(self):
         return Poll.objects.all()
+
+
+class ProjectsSitemap(Sitemap):
+    changefreq = "hourly"
+    priority = 0.5
+
+    def items(self):
+        return SocialProject.objects.all()

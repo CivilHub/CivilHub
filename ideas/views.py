@@ -22,7 +22,7 @@ from forms import IdeaForm, CategoryForm
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
 from locations.models import Location
-from locations.mixins import LocationContextMixin
+from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
 from places_core.mixins import LoginRequiredMixin
 from places_core.helpers import SimplePaginator, truncatehtml, get_time_difference
@@ -93,25 +93,19 @@ class CreateCategory(LoginRequiredMixin, CreateView):
         return context
 
 
-class IdeasListView(IdeasContextMixin, ListView):
+class IdeasListView(IdeasContextMixin, SearchableListMixin):
     """ List all ideas """
     model = Idea
     paginate_by = 25
 
+    def get_context_data(self):
+        context = super(IdeasListView, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        return context
+
     def get_queryset(self):
-        location_slug = self.kwargs.get('location_slug')
-        if location_slug is None:
-            qs = self.model.objects.all()
-        else:
-            qs = self.model.objects.filter(location__slug=location_slug)
-        haystack = self.request.GET.get('haystack')
-        if haystack is not None:
-            qs = qs.filter(name__icontains=haystack)
-        time_limit = get_time_difference(self.request.GET.get('time', 'all'))
-        if time_limit is not None:
-            qs = qs.filter(date_created__gte=time_limit)
-        order = self.request.GET.get('order', '-date_created')
-        return qs.order_by(order)
+        qs = super(IdeasListView, self).get_queryset()
+        return qs.filter(name__icontains=self.request.GET.get('haystack', ''))
 
 
 class IdeasDetailView(DetailView):

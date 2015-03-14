@@ -47,7 +47,8 @@ require.config({
         "hammer": "includes/mapplic/hammer",
         "jeasing": "includes/mapplic/jquery.easing",
         "mapplic": "includes/mapplic/mapplic",
-        "jmousewheel": "includes/mapplic/jquery.mousewheel"
+        "jmousewheel": "includes/mapplic/jquery.mousewheel",
+        "CUri": "includes/curi"
     },
 
     "shim": {

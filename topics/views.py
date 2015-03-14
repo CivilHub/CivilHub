@@ -20,7 +20,7 @@ from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
 from places_core.helpers import SimplePaginator, truncatehtml, truncatesmart
 from maps.models import MapPointer
-from locations.mixins import LocationContextMixin
+from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.models import Location
 from locations.links import LINKS_MAP as links
 from .models import Discussion, Entry, EntryVote, Category
@@ -41,12 +41,8 @@ class DiscussionListView(TopicsContextMixin, ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        location_slug = self.kwargs.get('location_slug')
-        if location_slug is not None:
-            qs = self.model.objects.filter(location__slug=location_slug)
-        else:
-            qs = self.model.objects.all()
-        return qs
+        qs = super(DiscussionListView, self).get_queryset()
+        return qs.filter(question__icontains=self.request.GET.get('haystack', ''))
 
     def get_context_data(self):
         context = super(DiscussionListView, self).get_context_data()
