@@ -35,7 +35,7 @@ class TopicsContextMixin(LocationContextMixin):
         return context
 
 
-class DiscussionListView(TopicsContextMixin, ListView):
+class DiscussionListView(TopicsContextMixin, SearchableListMixin):
     """ """
     model = Discussion
     paginate_by = 25

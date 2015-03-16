@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from ideas.views import IdeasListView, IdeasDetailView
 from blog.views import NewsDetailView, NewsListView, NewsCreateView, NewsUpdateView
 from topics.views import DiscussionDetailView, DiscussionListView
-from polls.views import PollDetails, PollResults
+from polls.views import PollDetails, PollResults, PollListView
 from gallery.views import LocationGalleryView, PlacePictureView, \
                            LocationGalleryCreateView, location_gallery_delete, \
                            LocationGalleryUpdateView
@@ -52,11 +52,12 @@ urlpatterns = patterns('',
     url(r'^(?P<location_slug>[\w-]+)/discussion/', DiscussionListView.as_view(), name='discussions'),
     url(r'^(?P<slug>[\w-]+)/discussions/', ajax_discussion_list, name='ajaxlist'),
 
-    # Location polls (create, edit, delete etc. just for this location)
+    # ANKIETY
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)/results/', PollResults.as_view(), name='results'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)', PollDetails.as_view(), name='poll'),
-    url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
+    url(r'^(?P<location_slug>[\w-]+)/polls/', PollListView.as_view(), name='polls'),
+
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
     # Delete content from location collections
