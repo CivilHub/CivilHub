@@ -274,7 +274,7 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         queryset = self.get_queryset(pk, ct)
         
         page = request.QUERY_PARAMS.get('page')
-        paginator = Paginator(queryset, 12)
+        paginator = Paginator(queryset, 48)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:

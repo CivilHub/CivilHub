@@ -5,10 +5,11 @@
 # tutaj z lokalizacji. Widoki są zaprojektowane pod konkretny układ URL-i.
 
 import json
+from PIL import Image
 
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import PermissionDenied
@@ -25,6 +26,8 @@ from locations.models import Location
 from userspace.models import UserProfile
 from places_core.mixins import LoginRequiredMixin
 from maps.models import MapPointer
+from gallery.forms import BackgroundForm
+from gallery.image import handle_tmp_image
 
 import actions as project_actions
 from .permissions import check_access
@@ -208,7 +211,7 @@ class CreateTaskView(ProjectContextMixin, CreateView):
 
     def get_initial(self):
         initial = super(CreateTaskView, self).get_initial()
-        initial['creator'] = self.request.user.profile
+        initial['creator'] = self.request.user
         group_id = self.kwargs.get('group_id')
         if group_id is not None:
             initial['group'] = get_object_or_404(TaskGroup, pk=group_id)
@@ -218,7 +221,7 @@ class CreateTaskView(ProjectContextMixin, CreateView):
         obj = form.save()
         obj.participants.add(obj.creator)
         obj.save()
-        follow(obj.creator.user, obj.group.project, actor_only=False)
+        follow(obj.creator, obj.group.project, actor_only=False)
         return super(CreateTaskView, self).form_valid(form)
 
 
@@ -271,7 +274,7 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         obj = form.save()
         obj.participants.add(obj.creator)
         obj.save()
-        follow(obj.creator.user, obj, actor_only=False)
+        follow(obj.creator, obj, actor_only=False)
         try:
             for m in json.loads(self.request.POST.get('markers')):
                 marker = MapPointer.objects.create(
@@ -290,7 +293,7 @@ class ProjectUpdateView(ProjectAccessMixin, UpdateView):
     template_name = 'projects/socialproject_update.html'
 
 
-class ProjectSummaryView(LocationContextMixin, DetailView):
+class ProjectSummaryView(ProjectContextMixin, DetailView):
     """ Podsumowanie najważniejszych informacji o projekcie. """
     model = SocialProject
     template_name = 'projects/socialproject_summary.html'
@@ -322,7 +325,7 @@ class ProjectParticipantsView(LocationContextMixin, ListView):
         return context
 
 
-class ProjectDetailView(LocationContextMixin, DetailView):
+class ProjectDetailView(ProjectContextMixin, DetailView):
     """ Strona podsumowania zadań w ramach projektu. """
     model = SocialProject
 
@@ -339,3 +342,40 @@ class ProjectDetailView(LocationContextMixin, DetailView):
                 # Brak zadań w ramach tego projektu
                 pass
         return context
+
+
+class ProjectBackgroundView(ProjectAccessMixin, FormView):
+    """ Zmiana tła dla całego projektu. """
+    form_class = BackgroundForm
+    template_name = 'projects/socialproject_background.html'
+
+    def get_object(self):
+        slug = self.kwargs.get('slug')
+        return get_object_or_404(SocialProject, slug=slug)
+
+    def get_context_data(self, form=None):
+        context = super(ProjectBackgroundView, self).get_context_data()
+        if form is not None:
+            context['form'] = form
+        context['object'] = self.get_object()
+        context['location'] = self.get_object().location
+        return context
+
+    def form_valid(self, form):
+        box = (
+            form.cleaned_data['x'],
+            form.cleaned_data['y'],
+            form.cleaned_data['x2'],
+            form.cleaned_data['y2'],
+        )
+        obj = self.get_object()
+        image = Image.open(form.cleaned_data['image'])
+        image = image.crop(box)
+        obj.image = handle_tmp_image(image)
+        obj.save()
+        return redirect(reverse('locations:project_details',
+            kwargs={
+                'location_slug': obj.location.slug,
+                'slug': obj.slug,
+            }
+        ))
