@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from ideas.views import IdeasDetailView
+from ideas.views import IdeasListView, IdeasDetailView
 from blog.views import NewsDetailView, NewsListView, NewsCreateView, NewsUpdateView
-from topics.views import DiscussionDetailView
-from polls.views import PollDetails, PollResults
+from topics.views import DiscussionDetailView, DiscussionListView
+from polls.views import PollDetails, PollResults, PollListView
 from gallery.views import LocationGalleryView, PlacePictureView, \
                            LocationGalleryCreateView, location_gallery_delete, \
                            LocationGalleryUpdateView
@@ -34,11 +34,12 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
     # wyszukiwanie treści w/g kategorii
     url(r'^(?P<slug>[\w-]+)/filter/(?P<app>[\w-]+)/(?P<model>[\w-]+)/(?P<category>\d+)/$', LocationContentFilter.as_view(), name='category_search'),
-    # Location ideas sub-views
-    url(r'^(?P<slug>[\w-]+)/ideas/create', LocationIdeaCreate.as_view(), name='new_idea'),
-    url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)', IdeasDetailView.as_view(), name='idea_detail'),
-    url(r'^(?P<slug>[\w-]+)/ideas', LocationIdeasList.as_view(), name='ideas'),
-    
+
+    # POMYSŁY
+    url(r'^(?P<slug>[\w-]+)/ideas/create/', LocationIdeaCreate.as_view(), name='new_idea'),
+    url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/', IdeasDetailView.as_view(), name='idea_detail'),
+    url(r'^(?P<location_slug>[\w-]+)/ideas/', IdeasListView.as_view(), name='ideas'),
+
     # BLOG
     url(r'^(?P<location_slug>[\w-]+)/news/create', NewsCreateView.as_view(), name='news_create'),
     url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)/update/', NewsUpdateView.as_view(), name='news_update'),
@@ -48,14 +49,15 @@ urlpatterns = patterns('',
     # FORUM (dyskusje)
     url(r'^(?P<slug>[\w-]+)/discussion/create/', LocationDiscussionCreate.as_view(), name='new_topic'),
     url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)/', DiscussionDetailView.as_view(), name='topic'),
-    url(r'^(?P<slug>[\w-]+)/discussion/', LocationDiscussionsList.as_view(), name='discussions'),
+    url(r'^(?P<location_slug>[\w-]+)/discussion/', DiscussionListView.as_view(), name='discussions'),
     url(r'^(?P<slug>[\w-]+)/discussions/', ajax_discussion_list, name='ajaxlist'),
-    #url(r'^(?P<slug>[\w-]+)/discussions/(?P<limit>[\w-]+)/', location_discussion_list, name='dsublist'),
-    # Location polls (create, edit, delete etc. just for this location)
+
+    # ANKIETY
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)/results/', PollResults.as_view(), name='results'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)', PollDetails.as_view(), name='poll'),
-    url(r'^(?P<slug>[\w-]+)/polls/', LocationPollsList.as_view(), name='polls'),
+    url(r'^(?P<location_slug>[\w-]+)/polls/', PollListView.as_view(), name='polls'),
+
     # Location followers list
     url(r'^(?P<slug>[\w-]+)/followers/', LocationFollowersList.as_view(), name='followers'),
     # Delete content from location collections
@@ -83,7 +85,10 @@ urlpatterns = patterns('',
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/(?P<task_id>\d+)/', project_views.ProjectDetailView.as_view(), name='task_details'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/', project_views.ProjectDetailView.as_view(), name='project_details'),
     url(r'^(?P<location_slug>[\w-]+)/projects/', project_views.ProjectListView.as_view(), name='project_list'),
+
     # Generic location views
+    url(r'^(?P<slug>[\w-]+)/activity/', LocationActionsView.as_view(), name='activity'),
+    url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
     # Ajaxy functions - follow/unfollow location actions

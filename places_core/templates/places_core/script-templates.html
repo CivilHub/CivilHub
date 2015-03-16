@@ -655,3 +655,32 @@
     </a>
   </div>
 </script>
+{% comment %} IDEE - Modal dla listy głosujących użytkowników. {% endcomment %}
+<div class="modal fade" id="vote-counter-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans "Votes Summary" %}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row vote-summary">
+                    <div class="col-sm-6">{% trans "Negative" %}: <span class="negative-counter"> </span></div>
+                    <div class="col-sm-6">{% trans "Positive" %}: <span class="positive-counter"> </span></div>
+                </div>
+                <div class="row">
+                    <ul class="col-sm-6 vote-list negative-votes"></ul>
+                    <ul class="col-sm-6 vote-list positive-votes"></ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancelBig" data-dismiss="modal">{% trans "Close" %}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/template" id="vote-counter-entry">
+    <div class="counter-entry">
+        <a href="<%= user_url %>" class="custom-tooltip" title="<%= user_full_name %>"><img src="<%= user_avatar %>" alt="<%= user_full_name %>" /></a>
+    </div>
+</script>

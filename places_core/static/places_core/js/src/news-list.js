@@ -1,7 +1,7 @@
 //
 // news-list.js
 // ============
-// 
+
 // Lista wszystkich wpisów w sekcji "News" dla pojedynczej lokalizacji.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -9,14 +9,10 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
-           'js/modules/blog/category-creator',
-           'js/modules/blog/news-list/blog'], 
+           'js/modules/ui/active-form'], 
            
   function ($) {
-
     "use strict";
-
     $(document).trigger('load');
-      
   });
 });

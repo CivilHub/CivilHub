@@ -1,0 +1,26 @@
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+<meta property="og:title" content="{{ location.name }}"/>
+<meta property="og:image" content="https://civilhub.org{{ location.image.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta name="keywords" content="{{ location.name }}">{% endblock %}
+
+{% block require_scripts %}<script>window.API_URL = "/api-locations/actions/";</script>
+<script>window.USER_ID = "{{ location.id }}";</script>
+<script>window.LOCATION_ID = "{{ location.pk }}";</script>
+<script>window.CONTENT_API_URL = "/api-locations/contents/";</script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/location-activity.js"></script>{% endblock %}
+
+{% block title %} {{ location }} | CivilHub {% endblock %}
+
+{% block topbar %}{% include 'locations/navbar.html' %}{% endblock %}
+
+{% block content %}<div class="col-sm-12 colHline">
+  <div class="activity-stream"></div>
+</div>
+{% include 'places_core/script-templates/action-template.html' %}
+<input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />{% endblock %}

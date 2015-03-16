@@ -1,6 +1,6 @@
-/**
- *
- */
+//
+// content-collection.js
+// =====================
 
 define(['jquery',
         'underscore',

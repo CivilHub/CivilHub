@@ -7,7 +7,6 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFoun
                         Http404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core import cache
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -43,18 +42,6 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
-# REST views
-from rest_framework import viewsets
-from rest_framework.views import APIView
-from rest_framework import permissions as rest_permissions
-from rest_framework.response import Response
-from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
-from locations.serializers import MapLocationSerializer
-from .serializers import SimpleLocationSerializer, LocationListSerializer, \
-                          CountrySerializer, ContentPaginatedSerializer
-from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
-
-redis_cache = cache.get_cache('default')
 
 
 class LocationIdeasList(DetailView):
@@ -473,25 +460,25 @@ def get_latest(location, item_type):
     return lset.order_by('-date_created')[:5]
 
 
-class LocationDetailView(DetailView):
-    """ Detailed location view. """
+class LocationViewMixin(DetailView):
+    """ """
     model = Location
-    
+
     def get_context_data(self, **kwargs):
-        #location = super(LocationDetailView, self).get_object()
-        context = super(LocationDetailView, self).get_context_data(**kwargs)
-        #content_type = ContentType.objects.get_for_model(location)
-        #actions = Action.objects.filter(target_content_type=content_type)
-        #actions = actions.filter(target_object_id=location.pk)
+        context = super(LocationViewMixin, self).get_context_data(**kwargs)
         context['title'] = self.object.name
-        #context['actions'] = actions
-        #context['tags'] = TagFilter(self.object).get_items()
-        # context['blog'] = get_latest(location, 'blog')
-        # context['ideas'] = get_latest(location, 'ideas')
-        # context['topics'] = get_latest(location, 'topics')
-        # context['polls'] = get_latest(location, 'polls')
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         return context
+
+
+class LocationDetailView(LocationViewMixin):
+    """ Detailed location view. """
+    template_name = 'locations/location_detail.html'
+
+
+class LocationActionsView(LocationViewMixin):
+    """ Różne "wariacje na temat" czyli "podwidoki" dla lokalizacji. """
+    template_name = 'locations/location_summary.html'
 
 
 class LocationBackgroundView(FormView):

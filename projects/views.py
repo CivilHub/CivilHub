@@ -49,7 +49,6 @@ def set_element_order(request, content_type, object_id, direction):
     else:
         # Grupa zadań
         redirect_url = obj.project.get_absolute_url()
-    print check_access(obj, request.user)
     return redirect(redirect_url)
 
 

@@ -1,0 +1,47 @@
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/discussion-list.js"></script>{% endblock %}
+{% block title %} {{ location }}, {% trans "Discussions" %} | CivilHub {% endblock %}
+{% block content %}<div class="container">
+	{% include 'topics/navbar.html' %}
+	{% if object_list.count %}<div class="col-sm-9 content-container contentPX main-content">
+		<div class="discussion-list-entry">
+			<div class="custom-label-list">
+				<span class="fa fa-list custom-fa"> </span>
+				<span class="custom-label-entry custom-main-label-entry">
+					<a href="#" class="list-controller" data-target="all" data-control="category">{% trans "All channels" %}</a>
+				</span>
+				{% for category in categories %}<span class="custom-label-entry">
+					<a href="#" class="list-controller custom-tooltip" title="{{ category.description }}" data-target="{{ category.pk }}" data-control="category">{{ category }}</a>
+				</span>{% endfor %}
+			</div>
+			<div id="discussions" class="discussion-list custom-tablelike">
+				{% for discussion in object_list %}<div class="topic-list-entry custom-list-entry">
+					<div class="row">
+		        <div class="col-sm-5 excerpt">
+	            <a href="{{ discussion.get_absolute_url }}">{{ discussion }}</a>
+		        </div>
+		        <div class="col-sm-3 category">
+	            <label class="label label-default">{{ discussion.category.name }}</label>
+		        </div>
+		        <div class="col-sm-4 custom-align-r">
+	            <span class="count">{{ discussion.entry_set.count }}</span>
+	            <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.profile }}" class="user-avatar-minithumb" />
+	            <a href="{{ discussion.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.profile }}</span></a>
+	            <span class="date-created">{{ discussion.date_created|timesince }}</span>
+		        </div>
+		      </div>
+				</div>{% endfor %}
+			</div>
+		</div>
+		{% include 'places_core/pagination.html' %}
+	</div>
+	{% else %}<div class="col-sm-9 no-entries contentPX">
+		<img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+		<h2>
+			{% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
+			{% trans "Please" %}{% if user.is_authenticated %}<a href="{% url 'locations:new_topic' location.slug %}" >
+			{% else %}<a href="/users/login" >{% endif %}{% trans "add first discussion" %}</a>.
+		</h2>
+	</div>{% endif %}
+	<div class="col-sm-3 boxPX">{% include 'locations/sidebar.html' %}</div>
+</div>{% endblock %}

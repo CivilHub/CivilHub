@@ -12,7 +12,7 @@ from taggit.models import Tag
 
 from django.conf import settings
 from django.core.files import File
-from django.utils import timezone
+from django.utils import timezone, translation
 
 
 def get_time_difference(period):
@@ -168,7 +168,7 @@ def truncatehtml(string, length, ellipsis='...'):
     return "".join(output)
 
 
-def sort_by_locale(queryset, key, language):
+def sort_by_locale(queryset, key, language=None):
     """
     Prosta funkcja, która korzysta z biblioteki PyICU do sortowania wyników
     wyszukiwania alfabetycznie z uwzględnieniem znaków UTF konkretnego języka.
@@ -181,6 +181,8 @@ def sort_by_locale(queryset, key, language):
     Parametr language również jest wymagany. To kod języka w standardzie ISO
     (pl, en etc.) podany jako string.
     """
+    if language is None:
+        language = translation.get_language()
     code = language.lower() + '_' + language.upper() + '.' + 'UTF-8'
     collator = icu.Collator.createInstance(icu.Locale(code))
     q = list(queryset)
