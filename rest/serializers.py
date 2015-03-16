@@ -14,6 +14,9 @@ from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
 from topics.models import Category as ForumCategory
 from topics.models import Discussion, Entry
+from projects.serializers import ProjectActionSerializer, \
+                                 TaskGroupActionSerializer, \
+                                 TaskActionSerializer
 from places_core.models import AbuseReport
 from places_core.helpers import truncatehtml
 from places_core.serializers import ImagableModelSerializer
@@ -102,10 +105,19 @@ class MyActionsSerializer(serializers.Serializer):
             serializer = DiscussionSerializer(instance)
             serializer.data['name'] = serializer.data['question']
             return serializer.data
+        elif content_type.model == 'socialproject':
+            serializer = ProjectActionSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'taskgroup':
+            serializer = TaskGroupActionSerializer(instance)
+            return serializer.data
+        elif content_type.model == 'task':
+            serializer = TaskActionSerializer(instance)
+            return serializer.data
         else:
             data = {
                 'id': instance.pk,
-                'url': self.get_object_url(obj),
+                'url': self.get_object_url(instance),
             }
             return data
 
@@ -140,6 +152,12 @@ class MyActionsSerializer(serializers.Serializer):
             elif ct.model == 'locationgalleryitem':
                 return '<a href="' + target.get_absolute_url() + '">' + \
                     '<img src="' + target.get_thumbnail((256,256)) + '" /></a>'
+            elif ct.model == 'socialproject':
+                return truncatehtml(target.description, 140)
+            elif ct.model == 'taskgroup':
+                return truncatehtml(target.description, 140)
+            elif ct.model == 'task':
+                return truncatehtml(target.description, 140)
             else:
                 return u''
         except Exception:

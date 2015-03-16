@@ -1,8 +1,8 @@
 //
-// location-background.js
-// ======================
+// project-background.js
+// =====================
 
-// Ustawianie zdjęcia tła dla lokalizacji.
+// Ustawianie zdjęcia tła dla projektu.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
@@ -15,7 +15,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     
     $(document).ready(function () {
       var form = new ImageForm({
-        $el: $('#user-background-form'),
+        $el: $('#project-background-form'),
         orientation: 'landscape'
       });
     });

@@ -99,7 +99,7 @@ def resize_background_image(sender, instance, created, **kwargs):
     """
     fieldname = instance.image
 
-    if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path:
+    if u'nowhere.jpg' in fieldname.path or u'background.jpg' in fieldname.path or u'default.jpg' in fieldname.path:
         return False
 
     max_width, max_height = settings.BACKGROUND_IMAGE_SIZE

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import os
+from uuid import uuid4
 from slugify import slugify
 
 from django.db import models
@@ -14,6 +16,7 @@ from ordered_model.models import OrderedModel
 from places_core.helpers import sanitizeHtml
 from locations.models import Location, BackgroundModelMixin
 from userspace.models import UserProfile
+from gallery.image import resize_background_image
 
 from .signals import project_created_action, project_task_action
 
@@ -153,6 +156,7 @@ class Task(OrderedModel):
         return self.name
 
 
+models.signals.post_save.connect(resize_background_image, sender=SocialProject)
 models.signals.post_save.connect(project_created_action, sender=SocialProject)
 models.signals.post_save.connect(project_task_action, sender=TaskGroup)
 models.signals.post_save.connect(project_task_action, sender=Task)
