@@ -35,7 +35,7 @@
       <div class="project-content">{{ object.description|safe|slice:'300' }}</div>
       <div class="join-project-btn">
         {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
-          {% if user.profile in object.participants.all %}<div class="join-project-btn">
+          {% if user in object.participants.all %}<div class="join-project-btn">
             <button type="submit" class="submit-button">{% trans "Leave the Project" %}</button>
           </div>
           {% else %}<div class="join-project-btn">
@@ -46,7 +46,7 @@
       </div>
       <div class="projectparticipants-icons-top">
         <p>{% trans "Project Participants" %}</p>
-        {% for p in object.participants.all %}<a href="{{ p.get_absolute_url }}" class="custom-tooltip" title="{{ p }}"><img src="{{ p.avatar.url }}"></a>{% endfor %}
+        {% for p in object.participants.all %}<a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
       </div>
     </div>
     {% if project_access %}<a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a>{% endif %}

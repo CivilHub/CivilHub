@@ -7,7 +7,7 @@ from actstream import action
 def project_created_action(sender, instance, created, **kwargs):
 	""" Utworzenie projektu powinno być widoczne dla obserwatorów lokacji. """
 	if created:
-		action.send(instance.creator.user, verb=_(u"created"),
+		action.send(instance.creator, verb=_(u"created"),
 			action_object=instance, target=instance.location)
 
 
@@ -22,5 +22,5 @@ def project_task_action(sender, instance, created, **kwargs):
 		else:
 			# Utworzono zadanie
 			action_target = instance.group.project
-		action.send(instance.creator.user, verb=_(u"created"),
+		action.send(instance.creator, verb=_(u"created"),
 			action_object=instance, target=action_target)

@@ -10,12 +10,12 @@ from django.utils.html import strip_tags
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from ordered_model.models import OrderedModel
 
 from places_core.helpers import sanitizeHtml
 from locations.models import Location, BackgroundModelMixin
-from userspace.models import UserProfile
 from gallery.image import resize_background_image
 
 from .signals import project_created_action, project_task_action
@@ -33,11 +33,11 @@ class SocialProject(BackgroundModelMixin, models.Model):
     slug = models.CharField(max_length=210, verbose_name=(u"slug"))
     description = models.TextField(blank=True, default='', verbose_name=_(u"description"))
     location = models.ForeignKey(Location, verbose_name=_(u"location"), related_name="projects")
-    participants = models.ManyToManyField(UserProfile, verbose_name=_(u"participants"), blank=True, null=True)
+    participants = models.ManyToManyField(User, verbose_name=_(u"participants"), blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
     date_changed = models.DateTimeField(auto_now=True, verbose_name=_(u"date changed"))
     is_done = models.BooleanField(default=False, verbose_name=_(u"finished"))
-    creator = models.ForeignKey(UserProfile, verbose_name=_(u"created by"), related_name="projects")
+    creator = models.ForeignKey(User, verbose_name=_(u"created by"), related_name="projects")
     image = models.ImageField(blank=True, upload_to=get_upload_path, default='img/projects/default.jpg')
 
     class Meta:
@@ -102,7 +102,7 @@ class TaskGroup(OrderedModel):
     name = models.CharField(max_length=200, verbose_name=_(u"name"))
     description = models.TextField(blank=True, default='', verbose_name=_(u"description"))
     project = models.ForeignKey(SocialProject, verbose_name=_(u"project"))
-    creator = models.ForeignKey(UserProfile, verbose_name=_(u"created by"), related_name="task_groups")
+    creator = models.ForeignKey(User, verbose_name=_(u"created by"), related_name="task_groups")
 
     order_with_respect_to = 'project'
 
@@ -129,9 +129,9 @@ class Task(OrderedModel):
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
     date_changed = models.DateTimeField(auto_now=True, verbose_name=_(u"date changed"))
     date_limited = models.DateTimeField(blank=True, null=True, verbose_name=_(u"time limit"))
-    participants = models.ManyToManyField(UserProfile, verbose_name=_(u"participants"), blank=True, null=True)
+    participants = models.ManyToManyField(User, verbose_name=_(u"participants"), blank=True, null=True)
     is_done = models.BooleanField(default=False, verbose_name=_(u"finished"))
-    creator = models.ForeignKey(UserProfile, verbose_name=_(u"created by"), related_name="tasks")
+    creator = models.ForeignKey(User, verbose_name=_(u"created by"), related_name="tasks")
 
     order_with_respect_to = 'group'
 

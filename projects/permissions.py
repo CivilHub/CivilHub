@@ -10,7 +10,7 @@ def check_access(obj, user):
     if user.is_anonymous():
         return False
     # "Twórca" zawsze może usunąć swoje "dzieło"
-    access = user.profile == obj.creator
+    access = user == obj.creator
     # Superadmin może wszystko
     if not access and user.is_superuser:
         access = True

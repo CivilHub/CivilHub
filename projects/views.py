@@ -211,7 +211,7 @@ class CreateTaskView(ProjectContextMixin, CreateView):
 
     def get_initial(self):
         initial = super(CreateTaskView, self).get_initial()
-        initial['creator'] = self.request.user.profile
+        initial['creator'] = self.request.user
         group_id = self.kwargs.get('group_id')
         if group_id is not None:
             initial['group'] = get_object_or_404(TaskGroup, pk=group_id)
@@ -221,7 +221,7 @@ class CreateTaskView(ProjectContextMixin, CreateView):
         obj = form.save()
         obj.participants.add(obj.creator)
         obj.save()
-        follow(obj.creator.user, obj.group.project, actor_only=False)
+        follow(obj.creator, obj.group.project, actor_only=False)
         return super(CreateTaskView, self).form_valid(form)
 
 
@@ -274,7 +274,7 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         obj = form.save()
         obj.participants.add(obj.creator)
         obj.save()
-        follow(obj.creator.user, obj, actor_only=False)
+        follow(obj.creator, obj, actor_only=False)
         try:
             for m in json.loads(self.request.POST.get('markers')):
                 marker = MapPointer.objects.create(

@@ -5,14 +5,14 @@
     <div class="col-sm-3">
       <div class="follower">
         <div class="follower-header">
-        <a href="{{ participant.get_absolute_url }}">
-          <div class="follower-background"><img alt="{{ participant }}" src="{{ participant.thumb_url }}"></div>
-          <div class="follower-photo"><img alt="{{ participant }}" src="{{ participant.avatar.url }}"></div>
+        <a href="{{ participant.profile.get_absolute_url }}">
+          <div class="follower-background"><img alt="{{ participant.profile }}" src="{{ participant.profile.thumb_url }}"></div>
+          <div class="follower-photo"><img alt="{{ participant.profile }}" src="{{ participant.profile.avatar.url }}"></div>
         </a>
         </div>
         <div class="follower-info">
-          <p class="follower-name">{{ participant }}</p>
-          <div class="points"><span class="points-count">{{ participant.rank_pts }}</span> pkt</div>
+          <p class="follower-name">{{ participant.profile }}</p>
+          <div class="points"><span class="points-count">{{ participant.profile.rank_pts }}</span> pkt</div>
         </div>
       </div>
     </div>
