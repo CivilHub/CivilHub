@@ -33,7 +33,7 @@
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
     
     <ul class="nav navbar-nav">
-        <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"><img src="{% static 'places_core' %}/img/globe_point.png"></div></a></li>
+        <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"><img src="{% static 'places_core' %}/img/globe_point.png" alt="Browse places"></div></a></li>
         {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
         <li class="breaker">

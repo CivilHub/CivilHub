@@ -28,6 +28,7 @@
           </div>
      
         {% for task in group.task_set.all %}<div class="task-content {% if task.pk == active_task.pk %} active{% endif %}">
+        <a href="{{ task.get_absolute_url }}#location-navbar" id="task-link-absolute">&nbsp;</a>
           <div class="row">
             <div class="col-sm-1">
               {% if user.is_authenticated %}<form class="custom-inline-form" action="{% url 'projects:toggle_task' task.pk %}" method="post">{% csrf_token %}
