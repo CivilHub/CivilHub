@@ -1575,15 +1575,19 @@ background-position: center 13%;
             }
         }
         .join-project-btn{
-            a{
-                max-width: 250px;
-                width: 100%;
+            max-height: 30px;
+            a, button{
+                //max-width: 250px;
+                width: auto;
                 float: none;
                 display: inline-block;
                 font-weight: 400;
                 border-radius: 0;
                 -webkit-border-radius: 0;
-                margin: 0;
+                margin: 0 auto;
+                padding: 0 10px;
+            }
+            button{
                 line-height: 1;
             }
         }
@@ -1616,6 +1620,8 @@ background-position: center 13%;
         margin-left: 2px;
         vertical-align: top;
         line-height: 24px;
+        position: relative;
+        z-index: 1;
         img{
             width: 15px;
             height: 15px;
@@ -1697,13 +1703,16 @@ small.green{
                 padding: 0 0 0 30px;
                 line-height: 25px;
                 margin-right: 25px;
+                position: relative;
                 &:last-child{
                     border-bottom: 1px solid #DDD;
                 }
                 &:hover{
                     background-color: #0083fb;
                     .sub-task-title{
-                        color: #FFF;
+                        a{
+                            color: #FFF;
+                        }
                     }
                     .action-plus,
                     .action-more{
@@ -1712,6 +1721,17 @@ small.green{
                 }
                 .row{ margin: 0;}
                 input{ margin: 6px 0px 0px 0px;}
+                #task-link-absolute{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 1;
+                    width: 100%;
+                }
+                .custom-inline-form{
+                    position: relative;
+                    z-index: 1;
+                }
                 .sub-task-title{
                     &.active {
                         background-color: #0083FB;
@@ -1865,14 +1885,16 @@ small.green{
 .custom-controls-box-task-content{
   position: relative;
   cursor: pointer;
+  z-index: 1;
   &:hover{
+    z-index: 2;
     .custom-controls{
       display: block;
     }
   }
   .custom-controls{
     position: absolute;
-    z-index: 5;
+    z-index: 3;
     text-align: center;
     background-color: #FFF;
     display: none;
@@ -1902,10 +1924,41 @@ small.green{
         right: -2px;
         top: 26px;
         width: 150px;
-        border: 1px solid #DDD;        
+        border: 1px solid #DDD; 
         form, a{
             display: inline-block;
             vertical-align: top;
         }
+    }
+}
+
+//kolor box przy podsumowanieu location/project
+.loc-box-project{
+    .locBoxCat{
+        background-color: #202020;
+    }
+}
+.project-new-create{
+    margin: 5px 0 20px;
+    a{
+        &:hover{
+            color: #FFF;
+        }
+    }
+}
+
+//Project summary
+.main-project-content{
+    border: 1px solid #F0EFEF;
+    background: #FFF;
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    h1{
+        margin-top: 0;
+    }
+    p{
+        text-align: justify;
     }
 }

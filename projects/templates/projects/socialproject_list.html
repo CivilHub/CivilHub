@@ -1,7 +1,47 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<ul>{% for item in object_list %}
-	<li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
-{% endfor %}</ul>
-{% if user.is_authenticated %}<a href="{% url 'locations:project_create' location.slug %}">
+{% block content %}
+
+{% comment %}<ul>
+	{% for item in object_list %}
+		<li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+	{% endfor %}
+</ul>{% endcomment %}
+
+{% if user.is_authenticated %}<div class="project-new-create"><a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">
   {% trans "Create new project" %}
-</a>{% endif %}{% endblock %}
+</a></div>{% endif %}
+
+<div class="row">
+{% for item in object_list %}
+
+	<div class="col-sm-3">
+		<div class="locBox loc-box-project">
+
+		    <div class="locBoxHeader" style="background-image: url({{ item.image }})">
+		        <div class="locBoxLoc"><a href="#">LOKALIZACJA?</a></div>
+		       
+		        <div class="locBoxContainer">
+		            <div class="locBoxAuthor">
+		                <a href="{{ item.creator.get_absolute_url }}">
+		                    <img src="{{ item.creator.avatar.url }}" alt="{{ item.creator }}" class="user-avatar avatarH">
+		                </a>
+		            </div>
+		            <div class="locBoxTitle">
+		               <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+		            </div>
+		        </div>
+		    </div>
+
+		    <div class="locBoxCat"><a href="{{ item.get_absolute_url }}">KATEGORIA?</a></div>
+
+		    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars:115 }}</a></div>
+
+		</div>
+
+
+	</div>
+
+{% endfor %}
+</div>
+
+{% endblock %}
