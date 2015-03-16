@@ -22,15 +22,46 @@ from .signals import project_created_action, project_task_action
 
 
 def get_upload_path(instance, filename):
-    """ Ustawia ścieżkę i losową nazwę dla obrazu. """
+    """ Ustawia ścieżkę i losową nazwę dla obrazu tła projektu. """
     return 'img/projects/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
-@python_2_unicode_compatible
-class SocialProject(BackgroundModelMixin, models.Model):
-    """ """
+class SlugifiedModelMixin(models.Model):
+    """
+    Provides 'clean' slug for this object, adding number of such
+    elements to base name. Additionaly, we sanitize input from user.
+    """
     name = models.CharField(max_length=200, verbose_name=_(u"name"))
     slug = models.CharField(max_length=210, verbose_name=(u"slug"))
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.name = strip_tags(self.name)
+        slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slug
+        success = False
+        retries = 0
+        while not success:
+            check = self.__class__.objects.filter(slug=self.slug)\
+                                          .exclude(pk=self.pk).count()
+            if not check:
+                success = True
+            else:
+                # We assume maximum number of 50 elements with the same name.
+                # But the loop should be breaked if something went wrong.
+                if retries >= 50:
+                    raise ValidationError(u"Maximum number of retries exceeded")
+                retries += 1
+                self.slug = "{}-{}".format(slug, retries)
+        super(SlugifiedModelMixin, self).save(*args, **kwargs)
+
+
+@python_2_unicode_compatible
+class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
+    """ """
     description = models.TextField(blank=True, default='', verbose_name=_(u"description"))
     location = models.ForeignKey(Location, verbose_name=_(u"location"), related_name="projects")
     participants = models.ManyToManyField(User, verbose_name=_(u"participants"), blank=True, null=True)
@@ -67,29 +98,7 @@ class SocialProject(BackgroundModelMixin, models.Model):
         })
 
     def save(self, *args, **kwargs):
-        """
-        Provides 'clean' slug for this object, adding number of such elements
-        to base name. Additionaly, we sanitize input from user.
-        """
-        self.name = strip_tags(self.name)
         self.description = sanitizeHtml(self.description)
-        slug = slugify(self.name)
-        if not self.slug:
-            self.slug = slug
-        success = False
-        retries = 0
-        while not success:
-            check = self.__class__.objects.filter(slug=self.slug)\
-                                          .exclude(pk=self.pk).count()
-            if not check:
-                success = True
-            else:
-                # We assume maximum number of 50 elements with the same name.
-                # But the loop should be breaked if something went wrong.
-                if retries >= 50:
-                    raise ValidationError(u"Maximum number of retries exceeded")
-                retries += 1
-                self.slug = "{}-{}".format(slug, retries)
         super(SocialProject, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -154,6 +163,56 @@ class Task(OrderedModel):
 
     def __str__(self):
         return self.name
+
+
+@python_2_unicode_compatible
+class SocialForumTopic(SlugifiedModelMixin):
+    """ Każda instancja to poszczególny temat na forum. """
+    project = models.ForeignKey(SocialProject, verbose_name=_(u"project"), related_name="discussions")
+    description = models.TextField(verbose_name=_(u"description"), default="", blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
+    date_changed = models.DateTimeField(auto_now=True, verbose_name=_("date edited"))
+    is_closed = models.BooleanField(default=False, verbose_name=_(u"closed"), blank=True)
+    creator = models.ForeignKey(User, verbose_name=_(u"creator"), related_name="social_topics")
+
+    class Meta:
+        verbose_name = (u"discussion")
+        verbose_name_plural = _(u"discussions")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('projects:discussion', 
+            kwargs={
+                'project_slug': self.project.slug,
+                'discussion_slug': self.slug,
+            }
+        )
+
+    def save(self, *args, **kwargs):
+        self.description = sanitizeHtml(self.description)
+        super(SocialForumTopic, self).save(*args, **kwargs)
+
+
+class SocialForumEntry(models.Model):
+    """ Odpowiedzi do konkretnego tematu, czyli wpisy na forum. """
+    topic = models.ForeignKey(SocialForumTopic, verbose_name=_(u"discussion"))
+    creator = models.ForeignKey(User, verbose_name=_(u"author"), related_name="social_entries")
+    content = models.TextField(verbose_name=_(u"content"), default="")
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
+    date_changed = models.DateTimeField(auto_now=True, verbose_name=_("date edited"))
+
+    order_with_respect_to = 'topic'
+
+    class Meta:
+        ordering = ['date_created',]
+        verbose_name = _(u"forum entry")
+        verbose_name_plural = _(u"forum entries")
+
+    def save(self, *args, **kwargs):
+        self.content = sanitizeHtml(self.content)
+        super(SocialForumEntry, self).save(*args, **kwargs)
 
 
 models.signals.post_save.connect(resize_background_image, sender=SocialProject)

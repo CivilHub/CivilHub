@@ -1,19 +1,9 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}
-
-{% comment %}<ul>
-	{% for item in object_list %}
-		<li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
-	{% endfor %}
-</ul>{% endcomment %}
-
-{% if user.is_authenticated %}<div class="project-new-create"><a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">
+{% block content %}{% if user.is_authenticated %}<div class="project-new-create"><a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">
   {% trans "Create new project" %}
 </a></div>{% endif %}
-
 <div class="row">
 {% for item in object_list %}
-
 	<div class="col-sm-3">
 		<div class="locBox loc-box-project">
 
