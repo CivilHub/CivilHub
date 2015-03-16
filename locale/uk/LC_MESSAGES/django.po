@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-13 16:55+0100\n"
+"POT-Creation-Date: 2015-03-16 21:02+0100\n"
 "PO-Revision-Date: 2015-02-15 18:45+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/civilhub/"
@@ -73,24 +73,25 @@ msgstr ""
 #: articles/templates/articles/test.html:58
 #: locations/templates/locations/index.html:79
 #: places_core/templates/places_core/navigation.html:13
-#: projects/templates/projects/index.html:64
+#: projects/templates/projects/index.html:59
 #: userspace/templates/userspace/profile.html:69
 msgid "Toggle navigation"
 msgstr ""
 
 #: articles/templates/articles/features.html:43
-#: blog/templates/blog/blog_navbar.html:48
+#: blog/templates/blog/blog_navbar.html:41
 #: ideas/templates/ideas/navbar.html:51
 #: locations/templates/locations/location_forum.html:65
 #: locations/templates/locations/location_ideas.html:67
 #: locations/templates/locations/location_news.html:57
 #: locations/templates/locations/location_polls.html:50
-#: locations/templates/locations/navbar.html:38
+#: locations/templates/locations/navbar.html:36
 #: maps/templates/maps/index.html:72
 #: places_core/templates/places_core/navigation.html:27
 #: places_core/templates/places_core/script-templates.html:484
 #: places_core/templates/places_core/sublocation-dropdown.html:21
-#: templates/search/search.html:11 topics/templates/topics/navbar.html:47
+#: polls/templates/polls/navbar.html:41 templates/search/search.html:11
+#: topics/templates/topics/navbar.html:47
 #: userspace/templates/userspace/profile.html:89
 msgid "Search"
 msgstr ""
@@ -192,12 +193,12 @@ msgid "Park Construction"
 msgstr ""
 
 #: articles/templates/articles/test.html:43
-#: projects/templates/projects/index.html:47
+#: projects/templates/projects/index.html:42
 msgid "Join the Project"
 msgstr ""
 
 #: articles/templates/articles/test.html:45
-#: projects/templates/projects/index.html:53
+#: projects/templates/projects/index.html:48
 msgid "Project Participants"
 msgstr ""
 
@@ -206,7 +207,7 @@ msgid "Information"
 msgstr ""
 
 #: articles/templates/articles/test.html:67
-#: projects/templates/projects/index.html:73
+#: projects/templates/projects/index.html:68
 #: projects/templates/projects/socialproject_detail.html:10
 msgid "Tasks"
 msgstr ""
@@ -216,8 +217,8 @@ msgstr ""
 #: locations/templates/locations/location_forum.html:4
 #: locations/templates/locations/navbar.html:10 locations/views.py:157
 #: locations/views.py:224 maps/templates/maps/index.html:84
-#: templates/activity/actor.html:104
-#: topics/templates/topics/discussion_list.html:2
+#: projects/templates/projects/index.html:70 templates/activity/actor.html:104
+#: topics/templates/topics/discussion_list.html:3
 #: userspace/templates/userspace/profile.html:79
 msgid "Discussions"
 msgstr ""
@@ -227,7 +228,7 @@ msgid "Photos"
 msgstr ""
 
 #: articles/templates/articles/test.html:80
-#: ideas/templates/ideas/idea_basic.html:21
+#: ideas/templates/ideas/idea_basic.html:20
 #: ideas/templates/ideas/idea_detail.html:49
 #: ideas/templates/ideas/idea_list.html:20 ideas/templates/ideas/ideas.html:29
 #: ideas/templates/ideas/navbar.html:17
@@ -244,7 +245,7 @@ msgid "Task"
 msgstr ""
 
 #: articles/templates/articles/test.html:255
-#: projects/templates/projects/socialproject_detail.html:69
+#: projects/templates/projects/socialproject_detail.html:70
 msgid "Add new group"
 msgstr ""
 
@@ -261,7 +262,7 @@ msgid "Project participants"
 msgstr ""
 
 #: articles/templates/articles/test.html:285
-#: projects/templates/projects/socialproject_detail.html:90
+#: projects/templates/projects/socialproject_detail.html:91
 msgid "Join"
 msgstr ""
 
@@ -297,161 +298,164 @@ msgstr ""
 msgid "newses"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:6 ideas/templates/ideas/navbar.html:5
+#: blog/templates/blog/blog_navbar.html:5 ideas/templates/ideas/navbar.html:5
 #: locations/templates/locations/location_forum.html:23
 #: locations/templates/locations/location_ideas.html:17
 #: locations/templates/locations/location_news.html:15
 #: locations/templates/locations/location_polls.html:17
 #: locations/templates/locations/navbar.html:5
-#: topics/templates/topics/navbar.html:5
+#: polls/templates/polls/navbar.html:5 topics/templates/topics/navbar.html:5
 msgid "Sort by"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:8 ideas/templates/ideas/navbar.html:7
+#: blog/templates/blog/blog_navbar.html:7 ideas/templates/ideas/navbar.html:7
 #: locations/templates/locations/location_ideas.html:19
 #: locations/templates/locations/location_news.html:17
 #: locations/templates/locations/location_news.html:97
 #: locations/templates/locations/location_polls.html:67
 #: places_core/templates/places_core/script-templates.html:304
-#: polls/forms.py:15
+#: polls/forms.py:15 polls/templates/polls/navbar.html:7
+#: polls/templates/polls/poll_list.html:7
 msgid "Title"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:9
+#: blog/templates/blog/blog_navbar.html:8
 #: comments/templates/comments/commentlist.html:23
 #: locations/templates/locations/location_news.html:18
+#: polls/templates/polls/navbar.html:8
 msgid "Newest"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:10
+#: blog/templates/blog/blog_navbar.html:9
 #: comments/templates/comments/commentlist.html:24
 #: locations/templates/locations/location_forum.html:28
 #: locations/templates/locations/location_news.html:19
 #: locations/templates/locations/location_polls.html:22
-#: topics/templates/topics/navbar.html:10
+#: polls/templates/polls/navbar.html:9 topics/templates/topics/navbar.html:10
 msgid "Oldest"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:11
-#: blog/templates/blog/blog_navbar.html:16 ideas/forms.py:50
-#: ideas/templates/ideas/idea_basic.html:51
+#: blog/templates/blog/blog_navbar.html:10
+#: blog/templates/blog/blog_navbar.html:15 ideas/forms.py:50
+#: ideas/templates/ideas/idea_basic.html:50
 #: ideas/templates/ideas/navbar.html:9 ideas/templates/ideas/navbar.html:23
 #: locations/forms.py:103 locations/forms.py:134
 #: locations/templates/locations/location_forum.html:29
 #: locations/templates/locations/location_ideas.html:21
 #: locations/templates/locations/location_ideas.html:35
 #: locations/templates/locations/location_news.html:20
-#: locations/templates/locations/location_news.html:25 topics/forms.py:24
-#: topics/templates/topics/navbar.html:11
+#: locations/templates/locations/location_news.html:25
+#: polls/templates/polls/navbar.html:10 polls/templates/polls/navbar.html:15
+#: topics/forms.py:24 topics/templates/topics/navbar.html:11
 msgid "Category"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:12
+#: blog/templates/blog/blog_navbar.html:11
 #: ideas/templates/ideas/navbar.html:10
 #: locations/templates/locations/location_forum.html:30
 #: locations/templates/locations/location_ideas.html:22
 #: locations/templates/locations/location_news.html:21
 #: locations/templates/locations/location_polls.html:23
-#: topics/templates/topics/navbar.html:12 userspace/forms.py:63
+#: polls/templates/polls/navbar.html:11 topics/templates/topics/navbar.html:12
+#: userspace/forms.py:63
 msgid "Username"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:18
+#: blog/templates/blog/blog_navbar.html:17
 #: ideas/templates/ideas/navbar.html:19 ideas/templates/ideas/navbar.html:25
 #: locations/templates/locations/location_forum.html:38
 #: locations/templates/locations/location_ideas.html:31
 #: locations/templates/locations/location_ideas.html:37
 #: locations/templates/locations/location_news.html:27
 #: locations/templates/locations/navbar.html:7
-#: topics/templates/topics/navbar.html:20
+#: polls/templates/polls/navbar.html:17 topics/templates/topics/navbar.html:20
 msgid "All"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:26
+#: blog/templates/blog/blog_navbar.html:23
 #: ideas/templates/ideas/navbar.html:33
 #: locations/templates/locations/location_forum.html:43
 #: locations/templates/locations/location_ideas.html:45
 #: locations/templates/locations/location_news.html:35
 #: locations/templates/locations/location_polls.html:28
 #: locations/templates/locations/navbar.html:16
-#: topics/templates/topics/navbar.html:25
+#: polls/templates/polls/navbar.html:23 topics/templates/topics/navbar.html:25
 msgid "When"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:27
+#: blog/templates/blog/blog_navbar.html:24
 #: ideas/templates/ideas/navbar.html:34
 #: locations/templates/locations/location_forum.html:44
 #: locations/templates/locations/location_ideas.html:46
 #: locations/templates/locations/location_news.html:36
 #: locations/templates/locations/location_polls.html:29
 #: locations/templates/locations/navbar.html:17
-#: topics/templates/topics/navbar.html:26
+#: polls/templates/polls/navbar.html:24 topics/templates/topics/navbar.html:26
 msgid "Anytime"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:29
+#: blog/templates/blog/blog_navbar.html:26
 #: ideas/templates/ideas/navbar.html:36
 #: locations/templates/locations/location_forum.html:46
 #: locations/templates/locations/location_ideas.html:48
 #: locations/templates/locations/location_news.html:38
 #: locations/templates/locations/location_polls.html:31
 #: locations/templates/locations/navbar.html:19
-#: topics/templates/topics/navbar.html:28
+#: polls/templates/polls/navbar.html:26 topics/templates/topics/navbar.html:28
 msgid "Past"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:30
+#: blog/templates/blog/blog_navbar.html:27
 #: ideas/templates/ideas/navbar.html:37
 #: locations/templates/locations/location_forum.html:47
 #: locations/templates/locations/location_ideas.html:49
 #: locations/templates/locations/location_news.html:39
 #: locations/templates/locations/location_polls.html:32
 #: locations/templates/locations/navbar.html:20
-#: topics/templates/topics/navbar.html:29
+#: polls/templates/polls/navbar.html:27 topics/templates/topics/navbar.html:29
 msgid "Day"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:32
+#: blog/templates/blog/blog_navbar.html:29
 #: ideas/templates/ideas/navbar.html:39
 #: locations/templates/locations/location_forum.html:49
 #: locations/templates/locations/location_ideas.html:51
 #: locations/templates/locations/location_news.html:41
 #: locations/templates/locations/location_polls.html:34
 #: locations/templates/locations/navbar.html:22
-#: topics/templates/topics/navbar.html:31
+#: polls/templates/polls/navbar.html:29 topics/templates/topics/navbar.html:31
 msgid "Week"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:34
+#: blog/templates/blog/blog_navbar.html:31
 #: ideas/templates/ideas/navbar.html:41
 #: locations/templates/locations/location_forum.html:51
 #: locations/templates/locations/location_ideas.html:53
 #: locations/templates/locations/location_news.html:43
 #: locations/templates/locations/location_polls.html:36
 #: locations/templates/locations/navbar.html:24
-#: topics/templates/topics/navbar.html:33
+#: polls/templates/polls/navbar.html:31 topics/templates/topics/navbar.html:33
 msgid "Month"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:36
+#: blog/templates/blog/blog_navbar.html:33
 #: ideas/templates/ideas/navbar.html:43
 #: locations/templates/locations/location_forum.html:53
 #: locations/templates/locations/location_ideas.html:55
 #: locations/templates/locations/location_news.html:45
 #: locations/templates/locations/location_polls.html:38
 #: locations/templates/locations/navbar.html:26
-#: topics/templates/topics/navbar.html:35
+#: polls/templates/polls/navbar.html:33 topics/templates/topics/navbar.html:35
 msgid "Year"
 msgstr ""
 
-#: blog/templates/blog/blog_navbar.html:41
+#: blog/templates/blog/blog_navbar.html:37
 #: ideas/templates/ideas/navbar.html:47
 #: locations/templates/locations/location_forum.html:58
 #: locations/templates/locations/location_ideas.html:60
 #: locations/templates/locations/location_news.html:50
 #: locations/templates/locations/location_polls.html:43
-#: locations/templates/locations/navbar.html:31
-#: topics/templates/topics/navbar.html:40
+#: polls/templates/polls/navbar.html:37 topics/templates/topics/navbar.html:40
 msgid "Stats"
 msgstr ""
 
@@ -470,6 +474,9 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:230
 #: places_core/templates/places_core/script-templates.html:353
 #: polls/templates/polls/create-poll.html:76
+#: projects/templates/projects/socialforumentry_form.html:6
+#: projects/templates/projects/socialforumentry_list.html:15
+#: projects/templates/projects/socialproject_background.html:8
 #: projects/templates/projects/socialproject_form.html:21
 #: projects/templates/projects/socialproject_update.html:13
 #: projects/templates/projects/task_form.html:9
@@ -521,12 +528,13 @@ msgstr ""
 #: blog/templates/blog/news_detail.html:74
 #: gallery/templates/gallery/location-gallery.html:27
 #: gallery/templates/gallery/user-gallery.html:30
-#: ideas/templates/ideas/idea_basic.html:34
+#: ideas/templates/ideas/idea_basic.html:33
 #: ideas/templates/ideas/idea_detail.html:70
 #: locations/templates/locations/location_polls.html:76
 #: places_core/templates/places_core/script-templates.html:537
 #: polls/templates/polls/poll-list.html:13
-#: projects/templates/projects/socialproject_detail.html:55
+#: polls/templates/polls/poll_list.html:12
+#: projects/templates/projects/socialproject_detail.html:56
 #: topics/templates/topics/discussion_detail.html:42
 msgid "Edit"
 msgstr ""
@@ -541,6 +549,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:539
 #: polls/templates/polls/poll-details.html:41
 #: polls/templates/polls/poll-list.html:15
+#: polls/templates/polls/poll_list.html:13
 #: templates/postman/base_folder.html:42 templates/postman/view.html:16
 #: topics/templates/topics/discussion_detail.html:45
 msgid "Delete"
@@ -556,14 +565,14 @@ msgstr ""
 #: blog/templates/blog/news_detail.html:131
 #: gallery/templates/gallery/picture-view.html:29
 #: ideas/templates/ideas/idea_detail.html:108
-#: projects/templates/projects/socialproject_detail.html:99
+#: projects/templates/projects/socialproject_detail.html:100
 msgid "Comments"
 msgstr ""
 
 #: blog/templates/blog/news_detail.html:132
 #: gallery/templates/gallery/picture-view.html:30
 #: ideas/templates/ideas/idea_detail.html:109
-#: projects/templates/projects/socialproject_detail.html:100
+#: projects/templates/projects/socialproject_detail.html:101
 msgid "Hide comments"
 msgstr ""
 
@@ -590,50 +599,53 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: blog/templates/blog/news_list.html:28
+#: blog/templates/blog/news_list.html:29
 #: gallery/templates/gallery/location-gallery.html:61
 #: ideas/templates/ideas/idea_list.html:40
 #: locations/templates/locations/location_forum.html:102
 #: locations/templates/locations/location_ideas.html:95
 #: locations/templates/locations/location_news.html:112
 #: locations/templates/locations/location_polls.html:105
-#: topics/templates/topics/discussion_list.html:38
+#: polls/templates/polls/poll_list.html:26
+#: topics/templates/topics/discussion_list.html:39
 msgid "Sad Civilian"
 msgstr ""
 
-#: blog/templates/blog/news_list.html:30
+#: blog/templates/blog/news_list.html:31
 #: locations/templates/locations/location_news.html:114
 msgid "We didn't find any news"
 msgstr ""
 
-#: blog/templates/blog/news_list.html:30
+#: blog/templates/blog/news_list.html:31
 #: gallery/templates/gallery/location-gallery.html:63
 #: ideas/templates/ideas/idea_list.html:42
 #: locations/templates/locations/location_forum.html:104
 #: locations/templates/locations/location_ideas.html:97
 #: locations/templates/locations/location_news.html:114
 #: locations/templates/locations/location_polls.html:107
-#: topics/templates/topics/discussion_list.html:40
+#: polls/templates/polls/poll_list.html:28
+#: topics/templates/topics/discussion_list.html:41
 msgid "in"
 msgstr ""
 
-#: blog/templates/blog/news_list.html:31
+#: blog/templates/blog/news_list.html:32
 #: gallery/templates/gallery/location-gallery.html:64
 #: ideas/templates/ideas/idea_list.html:43
 #: locations/templates/locations/location_forum.html:105
 #: locations/templates/locations/location_ideas.html:98
 #: locations/templates/locations/location_news.html:115
 #: locations/templates/locations/location_polls.html:108
-#: topics/templates/topics/discussion_list.html:41
+#: polls/templates/polls/poll_list.html:29
+#: topics/templates/topics/discussion_list.html:42
 msgid "Please"
 msgstr ""
 
-#: blog/templates/blog/news_list.html:36
+#: blog/templates/blog/news_list.html:37
 #: locations/templates/locations/location_news.html:120
 msgid "add first news"
 msgstr ""
 
-#: blog/views.py:119 comments/templates/comments/commentlist.html:58
+#: blog/views.py:123 comments/templates/comments/commentlist.html:58
 #: places_core/templates/places_core/script-templates.html:58
 #: places_core/templates/places_core/script-templates.html:628
 #: places_core/templates/places_core/script-templates.html:629
@@ -953,7 +965,7 @@ msgstr ""
 msgid "uploaded"
 msgstr ""
 
-#: ideas/forms.py:53 ideas/templates/ideas/idea_basic.html:46
+#: ideas/forms.py:53 ideas/templates/ideas/idea_basic.html:45
 #: ideas/templates/ideas/idea_detail.html:90 locations/forms.py:113
 #: locations/forms.py:143 locations/templates/locations/sidebar.html:63
 #: locations/templates/locations/tag-search.html:43 polls/forms.py:31
@@ -973,7 +985,7 @@ msgstr ""
 msgid "vote"
 msgstr ""
 
-#: ideas/models.py:118 ideas/templates/ideas/idea_basic.html:26
+#: ideas/models.py:118 ideas/templates/ideas/idea_basic.html:25
 #: ideas/templates/ideas/idea_detail.html:54
 #: ideas/templates/ideas/idea_list.html:23 ideas/templates/ideas/ideas.html:34
 #: places_core/templates/places_core/script-templates.html:176
@@ -1003,26 +1015,27 @@ msgstr ""
 msgid "Positive"
 msgstr ""
 
-#: ideas/templates/ideas/idea_basic.html:23
+#: ideas/templates/ideas/idea_basic.html:22
 #: ideas/templates/ideas/idea_detail.html:51
 #: ideas/templates/ideas/idea_list.html:21 ideas/templates/ideas/ideas.html:31
 #: places_core/templates/places_core/script-templates.html:173
 msgid "Inactive"
 msgstr ""
 
-#: ideas/templates/ideas/idea_basic.html:39
+#: ideas/templates/ideas/idea_basic.html:38
 #: ideas/templates/ideas/idea_list.html:29 ideas/templates/ideas/ideas.html:42
 #: locations/templates/locations/location_polls.html:68
 #: places_core/templates/places_core/script-templates.html:184
-#: projects/templates/projects/socialproject_detail.html:81
+#: polls/templates/polls/poll_list.html:8
+#: projects/templates/projects/socialproject_detail.html:82
 msgid "Created by"
 msgstr ""
 
-#: ideas/templates/ideas/idea_basic.html:40
+#: ideas/templates/ideas/idea_basic.html:39
 msgid "Last edited"
 msgstr ""
 
-#: ideas/templates/ideas/idea_basic.html:45
+#: ideas/templates/ideas/idea_basic.html:44
 msgid "comments"
 msgstr ""
 
@@ -1074,7 +1087,7 @@ msgstr ""
 msgid "You voted already on this idea"
 msgstr ""
 
-#: ideas/views.py:65 rest/views.py:400 topics/views.py:247
+#: ideas/views.py:65 rest/views.py:400 topics/views.py:243
 msgid "Vote saved"
 msgstr ""
 
@@ -1087,11 +1100,11 @@ msgstr ""
 msgid "Create new category"
 msgstr ""
 
-#: ideas/views.py:133
+#: ideas/views.py:127
 msgid "no votes yet"
 msgstr ""
 
-#: ideas/views.py:162
+#: ideas/views.py:156
 msgid "create new idea"
 msgstr ""
 
@@ -1143,7 +1156,7 @@ msgstr ""
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:172 projects/models.py:32
+#: locations/models.py:172 projects/models.py:66
 msgid "location"
 msgstr ""
 
@@ -1180,13 +1193,14 @@ msgid "Follow"
 msgstr ""
 
 #: locations/templates/locations/index.html:70
+#: projects/templates/projects/index.html:52
 #: userspace/templates/userspace/index.html:52
 #: userspace/templates/userspace/profile.html:61
 msgid "Change background image"
 msgstr ""
 
 #: locations/templates/locations/index.html:87
-#: projects/templates/projects/index.html:72
+#: projects/templates/projects/index.html:67
 msgid "Summary"
 msgstr ""
 
@@ -1290,17 +1304,17 @@ msgstr ""
 
 #: locations/templates/locations/location_forum.html:84
 #: topics/templates/topics/discussion_detail.html:57
-#: topics/templates/topics/discussion_list.html:10
+#: topics/templates/topics/discussion_list.html:11
 msgid "All channels"
 msgstr ""
 
 #: locations/templates/locations/location_forum.html:104
-#: topics/templates/topics/discussion_list.html:40
+#: topics/templates/topics/discussion_list.html:41
 msgid "We didn't find any discussions"
 msgstr ""
 
 #: locations/templates/locations/location_forum.html:110
-#: topics/templates/topics/discussion_list.html:42
+#: topics/templates/topics/discussion_list.html:43
 msgid "add first discussion"
 msgstr ""
 
@@ -1538,11 +1552,17 @@ msgid "There are no polls yet"
 msgstr ""
 
 #: locations/templates/locations/location_polls.html:107
+#: polls/templates/polls/poll_list.html:28
 msgid "We didn't find any polls"
 msgstr ""
 
 #: locations/templates/locations/location_polls.html:113
+#: polls/templates/polls/poll_list.html:30
 msgid "add first poll"
+msgstr ""
+
+#: locations/templates/locations/navbar.html:30
+msgid "Activities"
 msgstr ""
 
 #: locations/templates/locations/no-results-tpl.html:8
@@ -1800,7 +1820,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:392
 #: places_core/templates/places_core/script-templates.html:570
 #: places_core/templates/places_core/script-templates/action-template.html:21
-#: projects/templates/projects/socialproject_summary.html:10
+#: projects/templates/projects/socialproject_summary.html:20
 #: templates/activity/actor.html:148
 msgid "to"
 msgstr ""
@@ -1811,7 +1831,7 @@ msgid "Answer text"
 msgstr ""
 
 #: places_core/templates/places_core/script-templates.html:575
-#: projects/templates/projects/socialproject_summary.html:12
+#: projects/templates/projects/socialproject_summary.html:23
 #: templates/activity/action.html:27 templates/activity/actor.html:67
 #: templates/activity/actor.html.py:153
 #: templates/emails/activities-body-html.html:19
@@ -1891,16 +1911,16 @@ msgstr ""
 msgid "results"
 msgstr ""
 
-#: polls/views.py:217
+#: polls/views.py:240
 msgid "You already voted on this poll."
 msgstr ""
 
-#: polls/views.py:258
+#: polls/views.py:281
 msgid "Permission required"
 msgstr ""
 
-#: polls/views.py:266 topics/templates/topics/delete-confirm.html:6
-#: topics/views.py:133 topics/views.py:193
+#: polls/views.py:289 topics/templates/topics/delete-confirm.html:6
+#: topics/views.py:129 topics/views.py:189
 msgid "Entry deleted"
 msgstr ""
 
@@ -1920,79 +1940,117 @@ msgstr ""
 msgid "leaved project"
 msgstr ""
 
-#: projects/models.py:29 projects/models.py:99 projects/models.py:123
+#: projects/models.py:34 projects/models.py:111 projects/models.py:135
 msgid "name"
 msgstr ""
 
-#: projects/models.py:31 projects/models.py:100 projects/models.py:124
+#: projects/models.py:65 projects/models.py:112 projects/models.py:136
+#: projects/models.py:172
 msgid "description"
 msgstr ""
 
-#: projects/models.py:33 projects/models.py:129
+#: projects/models.py:67 projects/models.py:141
 msgid "participants"
 msgstr ""
 
-#: projects/models.py:34 projects/models.py:126
+#: projects/models.py:68 projects/models.py:138 projects/models.py:173
+#: projects/models.py:203
 msgid "date created"
 msgstr ""
 
-#: projects/models.py:35 projects/models.py:127
+#: projects/models.py:69 projects/models.py:139
 msgid "date changed"
 msgstr ""
 
-#: projects/models.py:36 projects/models.py:130
+#: projects/models.py:70 projects/models.py:142
 msgid "finished"
 msgstr ""
 
-#: projects/models.py:37 projects/models.py:102 projects/models.py:131
+#: projects/models.py:71 projects/models.py:114 projects/models.py:143
 msgid "created by"
 msgstr ""
 
-#: projects/models.py:41 projects/models.py:101
+#: projects/models.py:75 projects/models.py:113 projects/models.py:171
 msgid "project"
 msgstr ""
 
-#: projects/models.py:42
+#: projects/models.py:76
 msgid "projects"
 msgstr ""
 
-#: projects/models.py:108
+#: projects/models.py:120
 msgid "task group"
 msgstr ""
 
-#: projects/models.py:109
+#: projects/models.py:121
 msgid "task groups"
 msgstr ""
 
-#: projects/models.py:125
+#: projects/models.py:137
 msgid "group"
 msgstr ""
 
-#: projects/models.py:128
+#: projects/models.py:140
 msgid "time limit"
 msgstr ""
 
-#: projects/models.py:137
+#: projects/models.py:149
 msgid "task"
 msgstr ""
 
-#: projects/models.py:138
+#: projects/models.py:150
 msgid "tasks"
 msgstr ""
 
-#: projects/templates/projects/index.html:44
+#: projects/models.py:174 projects/models.py:204
+msgid "date edited"
+msgstr ""
+
+#: projects/models.py:175
+msgid "closed"
+msgstr ""
+
+#: projects/models.py:176
+msgid "creator"
+msgstr ""
+
+#: projects/models.py:180 topics/models.py:81
+msgid "discussions"
+msgstr ""
+
+#: projects/models.py:200 templates/search/search.html:52 topics/models.py:80
+msgid "discussion"
+msgstr ""
+
+#: projects/models.py:201
+msgid "author"
+msgstr ""
+
+#: projects/models.py:202
+msgid "content"
+msgstr ""
+
+#: projects/models.py:210
+msgid "forum entry"
+msgstr ""
+
+#: projects/models.py:211
+msgid "forum entries"
+msgstr ""
+
+#: projects/templates/projects/index.html:39
 msgid "Leave the Project"
 msgstr ""
 
-#: projects/templates/projects/index.html:50
+#: projects/templates/projects/index.html:45
 msgid "Log in"
 msgstr ""
 
-#: projects/templates/projects/index.html:50
+#: projects/templates/projects/index.html:45
 msgid "if you want to join this project"
 msgstr ""
 
-#: projects/templates/projects/index.html:74
+#: projects/templates/projects/index.html:69
 msgid "Participants"
 msgstr ""
 
@@ -2016,36 +2074,36 @@ msgstr ""
 msgid "Move group down"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:50
+#: projects/templates/projects/socialproject_detail.html:51
 msgid "Join/Leave the task"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:53
+#: projects/templates/projects/socialproject_detail.html:54
 msgid "Delete task"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:57
+#: projects/templates/projects/socialproject_detail.html:58
 msgid "Move task up"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:60
+#: projects/templates/projects/socialproject_detail.html:61
 msgid "Move task down"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:77
+#: projects/templates/projects/socialproject_detail.html:78
 msgid "Planned completion"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:84
+#: projects/templates/projects/socialproject_detail.html:85
 msgid "Task participants"
 msgstr ""
 
-#: projects/templates/projects/socialproject_detail.html:89
+#: projects/templates/projects/socialproject_detail.html:90
 msgid "Leave"
 msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:12
-#: projects/templates/projects/socialproject_list.html:6
+#: projects/templates/projects/socialproject_list.html:3
 msgid "Create new project"
 msgstr ""
 
@@ -2057,39 +2115,39 @@ msgstr ""
 msgid "Create new group"
 msgstr ""
 
-#: projects/views.py:62
+#: projects/views.py:66
 msgid "Task marked as undone"
 msgstr ""
 
-#: projects/views.py:65
+#: projects/views.py:69
 msgid "Task marked as finished"
 msgstr ""
 
-#: projects/views.py:120
+#: projects/views.py:124
 msgid "You are no longer in this project"
 msgstr ""
 
-#: projects/views.py:125
+#: projects/views.py:129
 msgid "You have joined to this project"
 msgstr ""
 
-#: projects/views.py:143
+#: projects/views.py:147
 msgid "You are no longer in this task"
 msgstr ""
 
-#: projects/views.py:152
+#: projects/views.py:156
 msgid "You have joined this task"
 msgstr ""
 
-#: rest/serializers.py:120
+#: rest/serializers.py:132
 msgid "More"
 msgstr ""
 
-#: rest/serializers.py:124
+#: rest/serializers.py:136
 msgid "Voted yes"
 msgstr ""
 
-#: rest/serializers.py:127
+#: rest/serializers.py:139
 msgid "Voted no"
 msgstr ""
 
@@ -2633,20 +2691,12 @@ msgstr ""
 msgid "More..."
 msgstr ""
 
-#: templates/search/search.html:52 topics/models.py:80
-msgid "discussion"
-msgstr ""
-
 #: templates/search/search.html:85
 msgid "Additional informations"
 msgstr ""
 
 #: topics/forms.py:44
 msgid "Content"
-msgstr ""
-
-#: topics/models.py:81
-msgid "discussions"
 msgstr ""
 
 #: topics/templates/topics/delete.html:6
@@ -2666,35 +2716,35 @@ msgstr ""
 msgid "This topic is closed. You can't post answers."
 msgstr ""
 
-#: topics/views.py:108
+#: topics/views.py:104
 msgid "Edit this topic"
 msgstr ""
 
-#: topics/views.py:123
+#: topics/views.py:119
 msgid "Delete discussion"
 msgstr ""
 
-#: topics/views.py:141
+#: topics/views.py:137
 msgid "Error"
 msgstr ""
 
-#: topics/views.py:168
+#: topics/views.py:164
 msgid "No entry ID provided"
 msgstr ""
 
-#: topics/views.py:185
+#: topics/views.py:181
 msgid "Permission required!"
 msgstr ""
 
-#: topics/views.py:210
+#: topics/views.py:206
 msgid "This discussion is closed."
 msgstr ""
 
-#: topics/views.py:222
+#: topics/views.py:218
 msgid "posted"
 msgstr ""
 
-#: topics/views.py:260
+#: topics/views.py:256
 msgid "You already voted on this entry."
 msgstr ""
 
