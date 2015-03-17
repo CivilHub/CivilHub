@@ -73,9 +73,6 @@
       <input type="hidden" id="target-id" value="{{ idea.pk }}" />
       <input type="hidden" id="target-label" value="ideas" />
       <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
-      <input type="hidden" id="target-user" value="{{ user.username }}" />
-      <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-      <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
       {% include 'comments/commentlist.html' %}
     </div>
   </div>

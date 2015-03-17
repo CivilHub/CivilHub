@@ -2,8 +2,7 @@
 {% block content %}
 <h1 class="task-page-heading">
   {{ object }} {% if not object.is_done %}<small class="green">{% trans 'Active' %}</small>{% endif %}
-  </h1>{% if is_moderator or user == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edit" %}</a>{% endif %}
-
+</h1>{% if is_moderator or user == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edit" %}</a>{% endif %}
 <div id="task3-page" class="row">
   <div class="col-sm-6">
     <div class="left-side-task">
@@ -12,21 +11,20 @@
         <div class="task-heading">
           <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}">{{ group }}</a></h4>
         </div>
-          <div class="custom-controls-box"><span class="fa fa-cog">&nbsp;</span>
-            <div class="custom-controls">{% if user.is_authenticated %}
-              <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task custom-tooltip-bottom" title="{% trans 'Create task' %}"></span></a>
-              <form class="custom-inline-form" action="{% url 'locations:project_delete_group' location.slug object.slug group.pk %}" method="post">{% csrf_token %}
-                <button type="submit" class="fa fa-minus-square add-task custom-tooltip-bottom" title="{% trans 'Delete group' %}">&nbsp;</button>
-              </form>
-              {% with group|content_type as ctype %}<form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'UP' %}" method="post">{% csrf_token %}
-                <button type="submit" class="fa fa-arrow-up custom-tooltip-bottom" title="{% trans 'Move group up' %}">&nbsp;</button>
-              </form>
-              <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'DOWN' %}" method="post">{% csrf_token %}
-                <button type="submit" class="fa fa-arrow-down custom-tooltip-bottom" title="{% trans 'Move group down' %}">&nbsp;</button>
-              </form>{% endwith %}
-            {% endif %}</div>
-          </div>
-     
+        <div class="custom-controls-box"><span class="fa fa-cog">&nbsp;</span>
+          <div class="custom-controls">{% if user.is_authenticated %}
+            <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task custom-tooltip-bottom" title="{% trans 'Create task' %}"></span></a>
+            <form class="custom-inline-form" action="{% url 'locations:project_delete_group' location.slug object.slug group.pk %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-minus-square add-task custom-tooltip-bottom" title="{% trans 'Delete group' %}">&nbsp;</button>
+            </form>
+            {% with group|content_type as ctype %}<form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'UP' %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-arrow-up custom-tooltip-bottom" title="{% trans 'Move group up' %}">&nbsp;</button>
+            </form>
+            <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'DOWN' %}" method="post">{% csrf_token %}
+              <button type="submit" class="fa fa-arrow-down custom-tooltip-bottom" title="{% trans 'Move group down' %}">&nbsp;</button>
+            </form>{% endwith %}
+          {% endif %}</div>
+        </div>
         {% for task in group.task_set.all %}<div class="task-content {% if task.pk == active_task.pk %} active{% endif %}">
         <a href="{{ task.get_absolute_url }}#location-navbar" id="task-link-absolute">&nbsp;</a>
           <div class="row">
@@ -73,7 +71,6 @@
   </div><!-- ./col-sm-6 -->
   <div class="col-sm-6">
     <div class="right-side-task">
-
       <div class="task-Container-right">{% if active_task %}
         <div class="task-headline-right">{% if active_task.date_limited %}{% trans "Planned completion" %}: {{ active_task.date_limited|date:'d.m.Y' }}{% endif %}</div>
         <div class="text-block-right">
@@ -91,9 +88,8 @@
               {% else %}<button type="submit" class="submit-button">{% trans "Join" %}</button></div>{% endif %}
             </form>
           </div>
-        </div>
-      {% endif %}</div><!-- ./ .task-Container-right -->
-
+        </div>{% endif %}
+      </div><!-- ./ .task-Container-right -->
       {% if active_task %}{% with active_task|content_type as ctype %}<div class="task-comments-right">
       <div class="top-Comments">
         <p>
@@ -101,15 +97,11 @@
           <a class="comment-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
         </p>
       </div>
-      </div>
       <input type="hidden" id="target-id" value="{{ active_task.pk }}" />
       <input type="hidden" id="target-label" value="projects" />
       <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
-      <input type="hidden" id="target-user" value="{{ user.username }}" />
-      <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-      <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
       {% include 'comments/commentlist.html' %}{% endwith %}{% endif %}
-
     </div>
   </div>
+</div>
 </div><!-- ./ #task3-page -->{% endblock %}

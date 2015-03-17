@@ -33,9 +33,6 @@
         <input type="hidden" id="target-id" value="{{ picture.pk }}" />
         <input type="hidden" id="target-label" value="gallery" />
         <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
-        <input type="hidden" id="target-user" value="{{ user.username }}" />
-        <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-        <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
         {% include 'comments/commentlist.html' %}
     </div>
     

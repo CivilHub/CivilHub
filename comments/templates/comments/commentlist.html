@@ -1,5 +1,8 @@
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
 <input type="hidden" id="comment-page-size" value="{% page_size %}" />
+<input type="hidden" id="target-user" value="{{ user.profile.clean_username }}" />
+<input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
+<input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
 <div class="commentformarea row">    
   <p id="comment-order-controls">{% trans "Order by" %}:
     <a class="change-order-link" href="#" data-order="-votes">{% trans "Most voted" %}</a> | 
