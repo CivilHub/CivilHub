@@ -3,7 +3,7 @@ from django import forms
 
 from places_core.forms import BootstrapBaseForm
 
-from .models import SocialProject, TaskGroup, Task, SocialForumEntry
+from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
 
 
 class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
@@ -55,6 +55,29 @@ class TaskForm(forms.ModelForm, BootstrapBaseForm):
             'date_limited': forms.TextInput(attrs={'class': 'form-control custom-datepicker'}),
             'creator': forms.HiddenInput(),
             'group': forms.HiddenInput(),
+        }
+
+
+class SocialForumCreateForm(forms.ModelForm, BootstrapBaseForm):
+    """ Tworzenie/edycja dyskusji w ramach projektu. """
+    class Meta:
+        model = SocialForumTopic
+        exclude = ('slug', 'is_closed', 'creator', 'project',)
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control custom-wysiwyg-no-gallery'}),
+        }
+
+
+class SocialForumUpdateForm(forms.ModelForm, BootstrapBaseForm):
+    """ Formularz podobny do powyższego, ale oferujący opcję zamknięcia dyskusji. """
+    class Meta:
+        model = SocialForumTopic
+        exclude = ('slug', 'creator', 'project',)
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control custom-wysiwyg-no-gallery'}),
+            'is_closed': forms.CheckboxInput(attrs={'class': 'custom-bs-switch'}),
         }
 
 
