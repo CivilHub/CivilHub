@@ -1,0 +1,5 @@
+{% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block content %}<ul>{% for topic in object_list %}
+  <li><a href="{{ topic.get_absolute_url }}">{{ topic }}</a></li>
+{% endfor %}</ul>
+{% include 'places_core/pagination.html' %}{% endblock %}

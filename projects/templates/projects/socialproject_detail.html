@@ -2,7 +2,7 @@
 {% block content %}
 <h1 class="task-page-heading">
   {{ object }} {% if not object.is_done %}<small class="green">{% trans 'Active' %}</small>{% endif %}
-  </h1>{% if is_moderator or user == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edytuj" %}</a>{% endif %}
+  </h1>{% if is_moderator or user == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edit" %}</a>{% endif %}
 
 <div id="task3-page" class="row">
   <div class="col-sm-6">

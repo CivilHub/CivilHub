@@ -15,7 +15,7 @@ from rest import views
 router = routers.DefaultRouter()
 
 # Widoki dla API
-router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
+#router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
 router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')
 
 # Widoki dla strony
@@ -81,8 +81,12 @@ urlpatterns = patterns('',
     url(r'^api-gallery/', include(gallery_router.urls)),
 )
 
-from places_core.views import set_language
+from civmail.views import InviteFriendsView
+urlpatterns += patterns('',
+    url(r'^invite-friends/', InviteFriendsView.as_view(), name="invite_friends"),
+)
 
+from places_core.views import set_language
 urlpatterns += patterns('',
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
@@ -157,9 +161,9 @@ urlpatterns += patterns('',
     
     # Default URL - Nie wstawiać nic poniżej!!!
     #url(r'^$', PageView.as_view(page='home')),
-    #url(r'^$', HomeView.as_view()),
+    url(r'^$', HomeView.as_view()),
     
-    url(r'^$', register),
+    #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
 )

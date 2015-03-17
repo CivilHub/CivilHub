@@ -1,0 +1,9 @@
+{% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block content %}<form class="form-horizontal" method="post" action="">{% csrf_token %}
+  {{ form.as_p }}
+  <div class="form-group">
+    <div class="col-sm-10 col-sm-offset-2">
+      <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+    </div>
+  </div>
+</form>{% endblock %}

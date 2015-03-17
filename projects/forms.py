@@ -3,7 +3,7 @@ from django import forms
 
 from places_core.forms import BootstrapBaseForm
 
-from .models import SocialProject, TaskGroup, Task
+from .models import SocialProject, TaskGroup, Task, SocialForumEntry
 
 
 class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
@@ -55,4 +55,16 @@ class TaskForm(forms.ModelForm, BootstrapBaseForm):
             'date_limited': forms.TextInput(attrs={'class': 'form-control custom-datepicker'}),
             'creator': forms.HiddenInput(),
             'group': forms.HiddenInput(),
+        }
+
+
+class DiscussionAnswerForm(forms.ModelForm, BootstrapBaseForm):
+    """ Odpowiadanie na dyskusje - tworzenie i edycja wpisów. """
+    class Meta:
+        model = SocialForumEntry
+        fields = ('content', 'topic', 'creator',)
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
+            'topic': forms.HiddenInput(),
+            'creator': forms.HiddenInput(),
         }

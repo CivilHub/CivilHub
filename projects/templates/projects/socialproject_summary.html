@@ -1,35 +1,28 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% block content %}
 <div class="col-sm-9 main-project-content">
-	<h1>{{ object }}</h1>
-	<div>{{ object.description|safe }}</div>
+  <h1>{{ object }}</h1>
+  <div>{{ object.description|safe }}</div>
 </div>
-
 <div class="col-sm-3">
-	<div class="activity-stream">
-		{% for action in actions %}
-		<div class="row action-entry">
-		  <div class="entry-avatar-col">
-		    <div class="actiAvatar"> <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.profile }}" /> </div>
-		    <div class="actiNick"><a href="{{ action.actor.profile.get_absolute_url }}" class="locActorNick"><h5>{{ action.actor.profile }}</h5></a>
-		      <p>
-		        {{ action.verb }}
-		        {% if action.action_object %}
-			  	  {% if action.action_object.get_absolute_url %}
-		          <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>
-		          {% else %}
-		          <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>{% endif %}
-		          <span class="actiCategory"> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
-		        {% endif %}
-		      </p>
-		      <div class="actiClock"><span class="custom-tooltip" title="{{ action.timestamp|timesince }} {% trans "ago" %}"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd">{{ action.timestamp|timesince }} {% trans "ago" %}</span> {% endcomment %}</span></span></div>
-		    </div>
-		  </div>
-		</div>
-		{% endfor %}
-	</div>
-</div>
-
-
-
-{% endblock %}
+  <div class="activity-stream">
+    {% for action in actions %}<div class="row action-entry">
+      <div class="entry-avatar-col">
+        <div class="actiAvatar"> <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.profile }}" /> </div>
+        <div class="actiNick"><a href="{{ action.actor.profile.get_absolute_url }}" class="locActorNick"><h5>{{ action.actor.profile }}</h5></a>
+          <p>
+            {{ action.verb }}
+            {% if action.action_object %}
+              {% if action.action_object.get_absolute_url %}
+              <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>
+              {% else %}
+              <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>{% endif %}
+              <span class="actiCategory"> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
+            {% endif %}
+          </p>
+          <div class="actiClock"><span class="custom-tooltip" title="{{ action.timestamp|timesince }} {% trans "ago" %}"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd">{{ action.timestamp|timesince }} {% trans "ago" %}</span> {% endcomment %}</span></span></div>
+        </div>
+      </div>
+    </div>{% endfor %}
+  </div>
+</div>{% endblock %}

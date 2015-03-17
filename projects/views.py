@@ -31,8 +31,9 @@ from gallery.image import handle_tmp_image
 
 import actions as project_actions
 from .permissions import check_access
-from .models import SocialProject, TaskGroup, Task
-from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm
+from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
+from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm, \
+                   DiscussionAnswerForm
 
 
 @require_POST
@@ -114,17 +115,17 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
     """ Dołączanie/odłączanie użytkownika od całego projektu. """
     def post(self, request, location_slug=None, slug=None):
         project = get_object_or_404(SocialProject, slug=slug)
-        if request.user.profile in project.participants.all():
-            project.participants.remove(request.user.profile)
+        if request.user in project.participants.all():
+            project.participants.remove(request.user)
             for group in project.taskgroup_set.all():
                 for task in group.task_set.all():
-                    if request.user.profile in task.participants.all():
-                        task.participants.remove(request.user.profile)
+                    if request.user in task.participants.all():
+                        task.participants.remove(request.user)
             message = _("You are no longer in this project")
             project_actions.leaved_project(request.user, project)
             unfollow(request.user, project)
         else:
-            project.participants.add(request.user.profile)
+            project.participants.add(request.user)
             message = _("You have joined to this project")
             project_actions.joined_to_project(request.user, project)
             follow(request.user, project, actor_only=False)
@@ -141,13 +142,13 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
     """ Dołączanie/odłączanie użytkowników od konkretnego zadania. """
     def post(self, request, location_slug=None, slug=None, task_id=None):
         task = get_object_or_404(Task, pk=task_id)
-        if request.user.profile in task.participants.all():
-            task.participants.remove(request.user.profile)
+        if request.user in task.participants.all():
+            task.participants.remove(request.user)
             message = _("You are no longer in this task")
         else:
-            task.participants.add(request.user.profile)
-            if not request.user.profile in task.group.project.participants.all():
-                task.group.project.participants.add(request.user.profile)
+            task.participants.add(request.user)
+            if not request.user in task.group.project.participants.all():
+                task.group.project.participants.add(request.user)
                 project_actions.joined_to_project(request.user, task.group.project)
                 follow(request.user, task.group.project, actor_only=False)
             else:
@@ -379,3 +380,80 @@ class ProjectBackgroundView(ProjectAccessMixin, FormView):
                 'slug': obj.slug,
             }
         ))
+
+
+class ProjectForumContextMixin(ProjectContextMixin):
+    """ Mixin dla podstron z dyskusjami do projektu. """
+    def get_context_data(self, form=None):
+        context = super(ProjectForumContextMixin, self).get_context_data()
+        project_slug = self.kwargs.get('project_slug')
+        if project_slug is not None:
+            context['object'] = get_object_or_404(SocialProject, slug=project_slug)
+            context['location'] = context['object'].location
+        if form is not None:
+            context['form'] = form
+        discussion_slug = self.kwargs.get('discussion_slug')
+        if discussion_slug is not None:
+            context['discussion'] = get_object_or_404(SocialForumTopic, slug=discussion_slug)
+        return context
+
+
+class ProjectForumListView(ProjectForumContextMixin, ListView):
+    """ Lista dyskusji w ramach jednego projektu. """
+    model = SocialForumTopic
+    paginate_by = 25
+
+    def get_queryset(self):
+        qs = super(ProjectForumListView, self).get_queryset()
+        project_slug = self.kwargs.get('project_slug')
+        if project_slug is not None:
+            qs = qs.filter(project__slug=project_slug)
+        return qs
+
+
+class ProjectForumDetailView(ProjectForumContextMixin, ListView):
+    """ Jedna dyskusja, wraz z odpowiedziami. """
+    model = SocialForumEntry
+    paginate_by = 25
+
+    def get_queryset(self):
+        qs = super(ProjectForumDetailView, self).get_queryset()
+        discussion_slug = self.kwargs.get('discussion_slug')
+        if discussion_slug is not None:
+            qs = qs.filter(topic__slug=discussion_slug)
+        return qs
+
+    def get_context_data(self):
+        context = super(ProjectForumDetailView, self).get_context_data()
+        discussion_slug = self.kwargs.get('discussion_slug')
+        if discussion_slug is not None:
+            context['answer_form'] = DiscussionAnswerForm(initial={
+                'topic': context['discussion'],
+                'creator': self.request.user,
+            })
+        return context
+
+
+class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView, ProjectForumContextMixin):
+    """
+    Odpowiadanie na dyskusję - GET jest tutaj tylko do celów testowych, decelowo
+    formularz ma się znajdować przy liście wszystkich odpowiedzi, a tutaj
+    obsługujemy tylko samo tworzenie nowego obiektu.
+    """
+    model = SocialForumEntry
+    form_class = DiscussionAnswerForm
+
+    def get_success_url(self):
+        return self.object.topic.get_absolute_url()
+
+    def get_initial(self):
+        initial = super(ProjectForumAnswerCreateView, self).get_initial()
+        discussion_slug = self.kwargs.get('discussion_slug')
+        if discussion_slug is not None:
+            initial['topic'] = get_object_or_404(SocialForumTopic, slug=discussion_slug)
+        initial['creator'] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super(ProjectForumAnswerCreateView, self).form_valid(form)

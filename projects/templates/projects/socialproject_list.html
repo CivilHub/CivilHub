@@ -1,47 +1,24 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}
-
-{% comment %}<ul>
-	{% for item in object_list %}
-		<li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
-	{% endfor %}
-</ul>{% endcomment %}
-
-{% if user.is_authenticated %}<div class="project-new-create"><a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">
-  {% trans "Create new project" %}
-</a></div>{% endif %}
-
-<div class="row">
-{% for item in object_list %}
-
-	<div class="col-sm-3">
-		<div class="locBox loc-box-project">
-
-		    <div class="locBoxHeader" style="background-image: url({{ item.image }})">
-		        <div class="locBoxLoc"><a href="#">LOKALIZACJA?</a></div>
-		       
-		        <div class="locBoxContainer">
-		            <div class="locBoxAuthor">
-		                <a href="{{ item.creator.profile.get_absolute_url }}">
-		                    <img src="{{ item.creator.profile.avatar.url }}" alt="{{ item.creator }}" class="user-avatar avatarH">
-		                </a>
-		            </div>
-		            <div class="locBoxTitle">
-		               <a href="{{ item.get_absolute_url }}">{{ item }}</a>
-		            </div>
-		        </div>
-		    </div>
-
-		    <div class="locBoxCat"><a href="{{ item.get_absolute_url }}">KATEGORIA?</a></div>
-
-		    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars:115 }}</a></div>
-
-		</div>
-
-
-	</div>
-
-{% endfor %}
+{% block content %}{% if user.is_authenticated %}<div class="project-new-create">
+  <a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">{% trans "Create new project" %}</a>
+</div>{% endif %}
+{% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}<div class="col-sm-3">
+  <div class="locBox loc-box-project">
+    <div class="locBoxHeader" style="background-image: url({{ item.image }})">
+      <div class="locBoxLoc"><a href="#">{{ location }}</a></div>
+      <div class="locBoxContainer">
+        <div class="locBoxAuthor">
+          <a href="{{ item.creator.profile.get_absolute_url }}">
+            <img src="{{ item.creator.profile.avatar.url }}" alt="{{ item.creator }}" class="user-avatar avatarH">
+          </a>
+        </div>
+        <div class="locBoxTitle">
+          <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+        </div>
+      </div>
+    </div>
+    <div class="locBoxCat">{% comment %}<a href="{{ item.get_absolute_url }}">KATEGORIA? Jaka kategoria?</a>{% endcomment %}</div>
+    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars:115 }}</a></div>
+  </div>
 </div>
-
-{% endblock %}
+{% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}{% endblock %}
