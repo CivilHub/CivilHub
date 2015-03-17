@@ -23,7 +23,7 @@ function ($, _) {
   
   ActiveAnswer.prototype.render = function () {
     this.$el.html(this.tpl({id: this.id}));
-    this.$el.find('.delete-entry-btn').on('click', function (e) {
+    this.$el.find('.delete-entry-btn').tooltip().on('click', function (e) {
       e.preventDefault();
       this.$el.fadeOut('slow', function () {
         this.$el.empty().remove();
