@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^support/', views.SupportArticleView.as_view(article_slug='support'), name='support'),
     url(r'^vector-map/', views.VectorMapView.as_view(article_slug='vector-map'), name='vector-map'),
     url(r'^do-testowania/', views.TestArticleView.as_view(article_slug='do-testowania'), name='do-testowania'),
+    url(r'^brief/', views.FeaturesBriefArticleView.as_view(article_slug='brief'), name='brief')
 )

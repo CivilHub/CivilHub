@@ -1,0 +1,230 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+{% comment %}
+- Templatka dla Brief (skrócona wersja features). 
+{% endcomment %}
+{% block header %}{% endblock %}
+{% block container_main %}
+  {% block content %}
+  <div id="brief-page">
+    <div class="brief-container">
+      <div class="container brief-s1">
+        <div class="col-sm-6">
+          <h1>CivilHub</h1>
+          <p>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</p>
+          <a href="#" class="btn-greenBig">Dołącz do nas</a>
+        </div>
+        <div class="col-sm-6">
+          <div class="bg-people"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s2 text-center">
+        <h1>Sed consequat fringilla nisi</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        <a href="#" class="btn-brief-show">Zobacz wszystkie funkcje</a>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s3 text-center">
+        <h1>Pomysł</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        <div class="row">
+          <div class="col-sm-2 text-left">
+            <h2>Głosuj</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+          </div>
+          <div class="col-sm-10">
+            <div class="bg-slide3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s4">
+        <div class="col-sm-6">
+          <h1>Dyskusje</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        </div>
+        <div class="col-sm-6">
+          <div class="bg-slide4"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s5">
+        <div class="col-sm-7">
+          <div class="bg-slide5"></div>
+        </div>
+        <div class="col-sm-5">
+          <h1>Aktualności</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s6">
+        <div class="col-sm-5">
+          <h1>Ankieta</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        </div>
+        <div class="col-sm-7">
+          <div class="bg-slide6"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s7 text-center">
+        <h1>Projekt</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        <div class="bg-slide7">
+          <div class="bs7-left text-left">
+            <h2>Zadania</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+          </div>
+          <div class="bs7-right text-left">
+            <h2>Komentarze</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row brief-s8">
+        <div class="col-sm-6">
+          <div class="bg-slide8"></div>
+        </div>
+        <div class="col-sm-6">
+          <h1>Mapa</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s9 text-center">
+        <h1>Miasta</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+        <div class="brief-slide-container">
+          <div class="brief-slide-content"></div>
+          <div class="brief-slide-controls">
+            <a href="#" class="bg-control bg-control-s1"></a>
+            <a href="#" class="bg-control bg-control-s2"></a>
+            <a href="#" class="bg-control bg-control-s3"></a>
+            <a href="#" class="bg-control bg-control-s4"></a>
+            <a href="#" class="bg-control bg-control-s5"></a>
+            <a href="#" class="bg-control bg-control-s6"></a>
+            <a href="#" class="bg-control bg-control-s7"></a>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s10 text-center">
+        <h1>Szybkie spojrzenie na CivilHub</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="brief-thumb-container">
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Pomysł</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+ 
+ 
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Ankieta</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+     
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Aktualności</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Dyskucje</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+    
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Projekty</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+                        <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Pomysł</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+ 
+ 
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Ankieta</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+     
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Aktualności</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Dyskucje</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+    
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Projekty</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+                        <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Pomysł</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+ 
+ 
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Ankieta</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+     
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Aktualności</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+
+
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Dyskucje</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+    
+            <div class="brief-thumb-s10">
+              <span class="fa fa-cog"></span>
+              <h3>Projekty</h3>
+              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+            </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="container brief-s11 text-center">
+        <h1>Lorem ipsum dolor!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat.</p>
+        <a href="#" class="btn-greenBig">Dołącz do nas</a>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+{% endblock %}

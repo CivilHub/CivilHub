@@ -478,8 +478,7 @@
 
 <div class="userPopupTop">
     <div class="user-popup-avatar">
-        <div class="userPopupBg" style="background:url({{ usr.profile.background_image.url }});">
-
+        <div class="userPopupBg" style="background:url(<%= image %>) center;">
         </div>
         <div class="avatarPopup">
             <img src="<%= avatar %>" alt="<%= username %>" />
@@ -508,7 +507,7 @@
                 <input type="text" name="answer_txt_<%= id %>" id="answer-txt-<%= id %>" class="form-control" />
             </div>
             <div class="col-sm-1">
-                <button type="button" class="btn btn-minusDelete delete-entry-btn"><span class="fa fa-minus"> </span></button>
+                <button type="button" class="btn btn-minusDelete delete-entry-btn" title="{% trans "Delete answer" %}"><span class="fa fa-minus"> </span></button>
             </div>
         </div>
     </div>

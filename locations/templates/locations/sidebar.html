@@ -1,84 +1,79 @@
 {% load staticfiles %}{% load i18n %}
 {% comment %}
-    Uniwersalny widok dla sidebara, dołączany do każdej templatki w ramach
-    widoku lokalizacji (forum, dyskusje, etc.). Opcje wypełniane są przez
-    kontroler, tutaj sprawdzamy, jakie linki są dostępne i wyświetlamy tylko
-    te.
+  Uniwersalny widok dla sidebara, dołączany do każdej templatki w ramach
+  widoku lokalizacji (forum, dyskusje, etc.). Opcje wypełniane są przez
+  kontroler, tutaj sprawdzamy, jakie linki są dostępne i wyświetlamy tylko
+  te.
 {% endcomment %}
-
-    <div class="sidebar">
-        <div class="sidebar-label">{% trans "Actions" %}:</div>
-        <ul class="sidebar-content custom-sidebar-nav">  
-            {% if user.is_authenticated %}                 
-            {% if 'new_discussion' in links %}<li>
-                <a href="{% url 'locations:new_topic' location.slug %}">
-                    {% trans "New discussion" %}
-                </a>
-            </li>{% endif %}
-            {% if 'new_poll' in links %}<li>
-                <a href="{% url 'locations:new_poll' location.slug %}">
-                   {% trans "Create poll" %}
-                </a>
-            </li>{% endif %}
-            {% if 'new_location' in links %}<li>
-                <a href="{% url 'locations:news_create' location.slug %}">
-                    {% trans "Add news" %}
-                </a>
-            </li>{% endif %}
-            {% if 'new_idea' in links %}<li>
-                <a href="{% url 'locations:new_idea' location.slug %}">
-                    {% trans "New idea" %}</button>
-                </a>
-            </li>{% endif %}
-            {% if 'upload' in links %}<li>
-                <a href="{% url 'locations:upload' location.slug %}">Upload Images </a>
-            </li>{% endif %}
-            {% if 'invite' in links %}<li>
-                <a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a>
-            </li>{% endif %}
-            {% if 'add_news' in links %}<li>
-                <a href="{% url 'locations:news_create' location.slug %}">
-                    {% trans "Add news" %}
-                </a>
-            </li>{% endif %}
-            {% endif %}
-        </ul>
-    
+  <div class="sidebar">
+    <div class="sidebar-label">{% trans "Actions" %}:</div>
+    <ul class="sidebar-content custom-sidebar-nav">  
+      {% if user.is_authenticated %}                 
+      {% if 'new_discussion' in links %}<li>
+        <a href="{% url 'locations:new_topic' location.slug %}">
+          {% trans "New discussion" %}
+        </a>
+      </li>{% endif %}
+      {% if 'new_poll' in links %}<li>
+        <a href="{% url 'locations:new_poll' location.slug %}">
+         {% trans "Create poll" %}
+        </a>
+      </li>{% endif %}
+      {% if 'new_location' in links %}<li>
+        <a href="{% url 'locations:news_create' location.slug %}">
+          {% trans "Add news" %}
+        </a>
+      </li>{% endif %}
+      {% if 'new_idea' in links %}<li>
+        <a href="{% url 'locations:new_idea' location.slug %}">
+          {% trans "New idea" %}</button>
+        </a>
+      </li>{% endif %}
+      {% if 'upload' in links %}<li>
+        <a href="{% url 'locations:upload' location.slug %}">Upload Images </a>
+      </li>{% endif %}
+      {% if 'invite' in links %}<li>
+        <a href="/invite-friends/">{% trans "Invite people" %}</a>
+        {% comment %}<a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a>{% endcomment %}
+      </li>{% endif %}
+      {% if 'add_news' in links %}<li>
+        <a href="{% url 'locations:news_create' location.slug %}">
+          {% trans "Add news" %}
+        </a>
+      </li>{% endif %}
+      {% endif %}
+    </ul>
     <div class="followers-sidebar">
-        <div class="sidebar-label">{% trans "Most active users" %}:</div>
-        <div class="sidebar-content followers-box">
-            {% for usr in location.users.all %}
-            <div class="follower">
-                <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-                <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
-                </a>
-            </div>
-            {% endfor %}
+      <div class="sidebar-label">{% trans "Most active users" %}:</div>
+      <div class="sidebar-content followers-box">
+        {% for usr in location.users.all %}
+        <div class="follower">
+          <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+            <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
+          </a>
         </div>
+        {% endfor %}
+      </div>
     </div>
-    
     <div class="clear"></div>
-
     {% if tags %}
     <div class="sidebar-label">{% trans "Tags" %}:</div>
     <div class="sidebar-content tags">
-        <ul>
-        {% for tag, counter in tags %}
-            <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
-        {% endfor %}
-        </ul>
+      <ul>
+      {% for tag, counter in tags %}
+        <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
+      {% endfor %}
+      </ul>
     </div>
-
     {% endif %}
-    
-    </div>
+  </div>
 
 
 {% if user.is_authenticated %}
-    {% comment %}
-        Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
-    {% endcomment %}
-    
-    {% include 'civmail/invite-users.html' %}
-    
+  {% comment %}
+    Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
+  {% endcomment %}
+  
+  {% include 'civmail/invite-users.html' %}
+  
 {% endif %}

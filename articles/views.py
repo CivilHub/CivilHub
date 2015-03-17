@@ -216,3 +216,21 @@ class TestArticleView(DetailView):
         context = super(TestArticleView, self).get_context_data(**kwargs)
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context
+
+#Brief - Features - wersja skrócona
+#-------------------------------------------------------------------------------
+
+class FeaturesBriefArticleView(DetailView):
+    """ Szablon dla Brief ( Wersja skrócona Features ). """
+    model = Article
+    article_slug = None
+    template_name = "articles/brief.html"
+
+    def get_object(self, queryset=None):
+        article = get_object_or_404(Article, slug=self.article_slug)
+        return article
+
+    def get_context_data(self, **kwargs):
+        context = super(FeaturesBriefArticleView, self).get_context_data(**kwargs)
+        context['content_type'] = ContentType.objects.get_for_model(Article).pk
+        return context
