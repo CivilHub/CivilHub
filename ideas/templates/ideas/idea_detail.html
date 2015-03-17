@@ -38,7 +38,7 @@
         </div>
         <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
       </div>
-      {% include 'locations/share_buttons.html' %}            
+      {% include 'locations/share_buttons.html' %}
     </div>
     <div class="col-sm-9 idea-Content">
       <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
