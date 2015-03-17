@@ -154,7 +154,7 @@ class FileServeView(View):
             f.close()
         except IOError:
             return HttpResponseNotFound()
-        return HttpResponse(content)
+        return HttpResponse(content, content_type="text/plain")
 
 
 class CreateAbuseReport(CreateView):
