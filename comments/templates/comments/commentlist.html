@@ -1,125 +1,23 @@
 {% load staticfiles %}{% load i18n %}{% load civil_tags %}
-
-{% comment %} ~~~~~~~~~~~~~ METADANE DO SKRYPTÓW  ~~~~~~~~~~~~ {% endcomment %}
 <input type="hidden" id="comment-page-size" value="{% page_size %}" />
-
-{% comment %} ~~~~~~~~~~ TWORZENIE NOWEGO KOMENTARZA  ~~~~~~~~ {% endcomment %}
-<div class="commentformarea row">
-
- 
-{% comment %} ~~~~~~~~~~~~~~~~~~~~ FILTRY  ~~~~~~~~~~~~~~~~~~~ {% endcomment %}    
-    <p id="comment-order-controls">{% trans "Order by" %}:
-    {% comment %}
-    
-        UWAGA: filtry są "odwrotnie" (tzn. najwięcej głosów będzie `-votes`), bo elementy na stronie
-        są dodawane przez `prepend`.
-        
-    {% endcomment %}
-        <a class="change-order-link" href="#" data-order="-votes">{% trans "Most voted" %}</a> | 
-        <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
-        <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
-    </p>
-
-    {% if user.is_authenticated %}
-    <div class="col-sm-1 avatarCommentsAutor">
-        <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar" />
-    </div>
-    <div class="col-sm-11">
-        <form id="user-comment-form" role="presentation" class="comment-form-body">
-            <div class="form-group">
-                <textarea name="comment" id="comment" class="form-control" cols="15" rows="1"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-sendBlue btn-submit-comment-main">{% trans "Submit comment" %}</button>
-            </div>
-        </form>
-    </div>
-    {% endif %}    
-</div>
-
-{% comment %} ~~~~~~~~~~~~~~~~~~ KOMENTARZE  ~~~~~~~~~~~~~~~~~ {% endcomment %}
-<div id="comments"></div>
-
-{% comment %} ~~~~~~~~~~~~~~ SZABLON KOMENTARZA  ~~~~~~~~~~~~~ {% endcomment %}
-<script type="text/template" id="comment-template">
-    <div class="row comment-row comment-entry-heading commentNext">
-        <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
-        <div class="comment-main-col">
-            <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a> 
-            <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
-            <span class="comment-controls">
-                <% if (username === $('#target-user').val()) { %>
-                    <a href="#" class="comment-edit" title="{% trans "Edit entry" %}">
-                        <span class="fa fa-edit"> </span>
-                    </a>
-                <% } else { %>
-                    <a class="report-abuse-link" href="#" data-id="<%= id %>" data-content="<%= ct %>" title="{% trans "Report abuse" %}" class="report-abuse-comment-link">
-                        <span class="fa fa-exclamation-triangle"> </span>
-                    </a>
-                <% } %>
-            </span>
-            <div class="comment-content"><%= comment %></div>
-            <div class="comment-meta-options">
-                {% if user.is_authenticated %}
-                <% if (username !== $('#target-user').val()) { %>
-                    <p>
-                        <span class="comment-total-votes"><%= total_votes %></span>
-                        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
-                        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="{% trans "Bad Idea, Vote NO" %}" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
-                <% } else { %>
-                    <p><span class="comment-total-votes"><%= total_votes %></span>
-                <% } %>
-                {% endif %}
-                
-                {% comment %}
-                Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %}) </a>
-                {% endcomment %}
-                
-                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> {% endif %} 
-                
-                <% if (replies) { %> &bull; <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a><% } %> 
-
-                </p>
-                <div class="comment-votes-detail">
-                    <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
-                    <label class="alert-danger"><span class="fa fa-long-arrow-down"> </span><%= downvotes %></label>
-                    <label class="alert-info"><span class="fa fa-bar-chart-o"> </span><%= upvotes + downvotes %></label>
-                </div>
-            </div>
-            <div class="subcomments"></div>
-        </div>
-    </div>
-</script>
-
-{% comment %} ~~~~~~~~~~~~~~ FORMA DO ODPOWIEDZI  ~~~~~~~~~~~~ {% endcomment %}
-<script type="text/template" id="comment-form-template">
-    <div class="col-xs-1 comment-avatar-col">
-        <img src="{{ user.profile.thumbnail_small }}" alt="{{ user.get_full_name }}" class="comment-author-avatar user-window-toggle" />
-    </div>
-    <div class="comment-main-col">
-        <form role="presentation" class="comment-form-body">
-            <div class="form-group">
-                <label for="comment" class="control-label">Comment</label>
-                <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
-                <button class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
-            </div>
-        </form>
-    </div>
-</script>
-
-{% comment %} ~~~~~~~~~~~~~~~ FORMA DO EDYCJI  ~~~~~~~~~~~~~~~ {% endcomment %}
-<script type="text/template" id="comment-edit-template">
-    <form role="presentation" class="comment-form-body">
-        <div class="form-group">
-            <label for="comment" class="control-label">Comment</label>
-            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
-            <button type="submit" class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
-        </div>
+<div class="commentformarea row">    
+  <p id="comment-order-controls">{% trans "Order by" %}:
+    <a class="change-order-link" href="#" data-order="-votes">{% trans "Most voted" %}</a> | 
+    <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
+    <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
+  </p>
+  {% if user.is_authenticated %}<div class="col-sm-1 avatarCommentsAutor">
+    <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar" />
+  </div>
+  <div class="col-sm-11">
+    <form id="user-comment-form" role="presentation" class="comment-form-body">
+      <div class="form-group">
+        <textarea name="comment" id="comment" class="form-control" cols="15" rows="1"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-sendBlue btn-submit-comment-main">{% trans "Submit comment" %}</button>
+      </div>
     </form>
-</script>
+  </div>{% endif %}
+</div>
+<div id="comments"></div>

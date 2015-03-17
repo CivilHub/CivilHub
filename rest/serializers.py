@@ -377,14 +377,12 @@ class PollSerializer(ImagableModelSerializer, serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """
-    Custom comments
-    """
+    """ Custom comments. """
     id = serializers.Field()
     comment = serializers.CharField(max_length=1024)
     submit_date = serializers.DateTimeField(required=False)
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    username = serializers.Field(source='user.username')
+    username = serializers.Field(source='user.profile.clean_username')
     user_full_name = serializers.Field(source='user.get_full_name')
     avatar = serializers.Field(source='user.profile.avatar.url')
     content_type = serializers.PrimaryKeyRelatedField()
