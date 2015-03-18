@@ -33,10 +33,10 @@
       <div class="clear">&nbsp;</div>
       <div class="idea-summary">
         <div class="idea-status-state">
-          {% if idea.status %}<label class="label label-success">{% trans "Active" %}</label>
-          {% else %}<label class="label label-danger">{% trans "Inactive" %}</label>{% endif %}
+          {% if idea.status %}<label class="label label-success custom-tooltip-right" title="{% trans "Status" %}">{% trans "Active" %}</label>
+          {% else %}<label class="label label-danger custom-tooltip-right" title="{% trans "Status" %}">{% trans "Inactive" %}</label>{% endif %}
         </div>
-        <div class="idea-vote-count" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
+        <div class="idea-vote-count custom-tooltip-right" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
       </div>
       {% include 'locations/share_buttons.html' %}
     </div>

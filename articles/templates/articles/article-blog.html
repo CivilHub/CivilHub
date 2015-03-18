@@ -1,0 +1,65 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+{% block meta %}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+<meta property="og:title" content="{{ article.title }}"/>
+<meta property="og:url " content="https://civilhub.org{{ article.get_absolute_url }}" />
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:description" content="{{ article.content|striptags|slice:":100" }}..." />
+<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">
+{% endblock %}
+{% block require_scripts %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="blog-page">
+  <article>
+    <div class="blog-img"><img src="/static/places_core/img/brief/pl_slide_1.png"></div>
+    <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</h2></a></h2>
+    <div class="blog-meta">{{ article.created }}</div>
+    <div class="social-box">
+      <!-- Twitter -->
+      <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      
+      <!-- Facebook -->
+      {% if LANG == 'pl' %}
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+      {% else %}
+         <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+      {% endif %}
+      <div class="fb-like" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+      
+      <!-- Google 1+ -->
+      <div class="g-plus" data-action="share" data-annotation="bubble"></div>
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'pl'};
+
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </div>
+    <p>{{ article.content|safe }}</p>
+    
+  </article>
+</div> 
+{% endblock %}

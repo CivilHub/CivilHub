@@ -119,7 +119,7 @@ class BlogListView(ListView):
 class BlogEntryView(DetailView):
     """ Display single blog entry. """
     queryset = Article.objects.filter(category__name='Blog')
-    template_name = "articles/article.html"
+    template_name = "articles/article-blog.html"
 
     def get_context_data(self, **kwargs):
         context = super(BlogEntryView, self).get_context_data(**kwargs)
