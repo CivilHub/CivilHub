@@ -3,16 +3,24 @@
 {% comment %}
 - Templatka dla Brief (skrócona wersja features). 
 {% endcomment %}
+{% block require_scripts %}
+
+<script src="{% static 'places_core' %}/js/{% js_path %}/brief.js"></script>
+{% endblock %}
 {% block header %}{% endblock %}
 {% block container_main %}
   {% block content %}
+  {{ article.content |safe }}
+  {% comment %}
   <div id="brief-page">
     <div class="brief-container">
       <div class="container brief-s1">
         <div class="col-sm-6">
-          <h1>CivilHub</h1>
-          <p>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</p>
-          <a href="#" class="btn-greenBig">Dołącz do nas</a>
+          <div>
+            <h1>CivilHub</h1>
+            <p>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</p>
+            <a href="#" class="btn-greenBig">Dołącz do nas</a>
+          </div>
         </div>
         <div class="col-sm-6">
           <div class="bg-people"></div>
@@ -84,7 +92,7 @@
         </div>
       </div>
       <div class="divider"></div>
-      <div class="row brief-s8">
+      <div class="brief-s8">
         <div class="col-sm-6">
           <div class="bg-slide8"></div>
         </div>
@@ -98,15 +106,19 @@
         <h1>Miasta</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
         <div class="brief-slide-container">
-          <div class="brief-slide-content"></div>
+          <div class="brief-slide-content custom-slider-wrapp">
+            <img src="/static/places_core/img/brief/pl_slide_9.png" id="brief-slider-img">
+          </div>
           <div class="brief-slide-controls">
-            <a href="#" class="bg-control bg-control-s1"></a>
-            <a href="#" class="bg-control bg-control-s2"></a>
-            <a href="#" class="bg-control bg-control-s3"></a>
-            <a href="#" class="bg-control bg-control-s4"></a>
-            <a href="#" class="bg-control bg-control-s5"></a>
-            <a href="#" class="bg-control bg-control-s6"></a>
-            <a href="#" class="bg-control bg-control-s7"></a>
+            <ul class="custom-slider-controls">
+              <li><a href="#" class="bg-control bg-control-s1"></a></li>
+              <li><a href="#" class="bg-control bg-control-s2"></a></li>
+              <li><a href="#" class="bg-control bg-control-s3"></a></li>
+              <li><a href="#" class="bg-control bg-control-s4"></a></li>
+              <li><a href="#" class="bg-control bg-control-s5"></a></li>
+              <li><a href="#" class="bg-control bg-control-s6"></a></li>
+              <li><a href="#" class="bg-control bg-control-s7"></a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -117,100 +129,93 @@
         <div class="brief-thumb-container">
 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
+              <span class="fa fa-lightbulb-o"></span>
               <h3>Pomysł</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
  
  
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
+              <span class="fa fa-bar-chart"></span>
               <h3>Ankieta</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
      
 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
+              <span class="fa fa-bullhorn"></span>
               <h3>Aktualności</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
 
 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
+              <span class="fa fa-comment-o"></span>
               <h3>Dyskucje</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
     
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
+              <span class="fa fa-tasks"></span>
               <h3>Projekty</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
                         <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Pomysł</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-picture-o"></span>
+              <h3>Galeria</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
  
  
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Ankieta</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-comments-o"></span>
+              <h3>Komentarze</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
      
 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Aktualności</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-globe"></span>
+              <h3>Mapa</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
 
 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Dyskucje</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-envelope-o"></span>
+              <h3>Wiadomości</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
     
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Projekty</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-bookmark-o"></span>
+              <h3>Zakładki</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
-                        <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Pomysł</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
-            </div>
- 
- 
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Ankieta</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-tag"></span>
+              <h3>Tagi</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
-     
-
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Aktualności</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-mobile"></span>
+              <h3>Każde urządzenie</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
-
-
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Dyskucje</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-cloud"></span>
+              <h3>Synchronizacja</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
-    
             <div class="brief-thumb-s10">
-              <span class="fa fa-cog"></span>
-              <h3>Projekty</h3>
-              <p>Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
+              <span class="fa fa-sort-alpha-asc"></span>
+              <h3>Sortowanie</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
+            </div>
+            <div class="brief-thumb-s10">
+              <span class="fa fa-user"></span>
+              <h3>Profile</h3>
+              <p>Praesent blandit nulla ac sodales ultricies fringilla.</p>
             </div>
         </div>
       </div>
@@ -225,6 +230,7 @@
       </div>
     </div>
   </div>
+  {% endcomment %}
   {% endblock %}
 
 {% endblock %}
