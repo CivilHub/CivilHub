@@ -1,30 +1,23 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags bookmark_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags %}
 
 {% block title %} {{ news.title }}, {{ location }} | CivilHub {% endblock %}
 
-{% block meta %} 
-<meta name="twitter:card" content="summary" />
+{% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
-
 <meta property="og:title" content="{{ title }}, {{ location.name }}"/>
 <meta property="og:image" content="https://civilhub.org{{ news.location.image.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
 <meta property="og:description" content="{{ news.content|striptags|slice:":100" }}..."/>
 <meta property="article:author" content="https://civilhub.org{{ news.creator.profile.get_absolute_url }}" />
-<meta name="keywords" content="{{ title }}, {{ location.name }}">
-{% endblock %}
+<meta name="keywords" content="{{ title }}, {{ location.name }}">{% endblock %}
 
-{% block require_scripts %}
-{% include 'maps/minimap.html' %}
+{% block require_scripts %}{% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/news-details.js"></script>
-{% endblock %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/news-details.js"></script>{% endblock %}
 
-{% block content %}
-
+{% block content %}{% with news as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
     {% include 'maps/pointer-modal-form.html' %}
 
 <div class="col-sm-9 main-content contentPX">
@@ -79,9 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="newsImageBlog"><img src="{{ news.image.url }}"></div>
-            </div>
+            {% if not news.has_default_image %}<div class="row content-image" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
             
             <!-- News content -->
             <div class="row">

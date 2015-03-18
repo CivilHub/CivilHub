@@ -5,8 +5,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 from .models import Category, Article
 
-# Helpers
-#-------------------------------------------------------------------------------
 
 def expand_category_tree(category):
     """
@@ -62,9 +60,6 @@ def print_menu(category):
     return html
 
 
-# Support
-#-------------------------------------------------------------------------------
-
 class SupportListView(TemplateView):
     """ Show list of support and help topics. """
     template_name = "articles/support.html"
@@ -89,25 +84,7 @@ class SupportEntryView(DetailView):
         context = super(SupportEntryView, self).get_context_data(**kwargs)
         context['articles'] = self.get_object().category.article_set.all()
         return context
-        
-# Support bez generowania menu categorie itd
-#--------------------------------------------
-class SupportArticleView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/support-list.html"
 
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(SupportArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-# blog
-#-------------------------------------------------------------------------------    
 
 class BlogListView(ListView):
     """ Manage list of all blog entries. """
@@ -127,11 +104,12 @@ class BlogEntryView(DetailView):
         return context
 
 
-# Stand-alone articles
-#-------------------------------------------------------------------------------
-
 class TopLevelArticleView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
+    """
+    Widok dla każdego artykułu, który ma zostać pokazany niezależnie od kategorii
+    lub supportu. Można go łatwo rozszerzyć podając 'article_slug' i ewentualnie
+    'template_name' w konfiguracji URL-i (patrz urls.py).
+    """
     model = Article
     article_slug = None
     template_name = "articles/article.html"
@@ -142,95 +120,5 @@ class TopLevelArticleView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TopLevelArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
-# Stand-alone clear page
-#-------------------------------------------------------------------------------
-
-class ClearArticleView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/clear.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(ClearArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-        
-# Features
-#-------------------------------------------------------------------------------
-
-class FeaturesArticleView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/features.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(FeaturesArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
-# Vector-map
-#-------------------------------------------------------------------------------
-
-class VectorMapView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/vector-map.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(VectorMapView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
-# TestArticle
-#-------------------------------------------------------------------------------
-
-class TestArticleView(DetailView):
-    """ Show any article in top-level url hierarchy (as static page). """
-    model = Article
-    article_slug = None
-    template_name = "articles/test.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(TestArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
-#Brief - Features - wersja skrócona
-#-------------------------------------------------------------------------------
-
-class FeaturesBriefArticleView(DetailView):
-    """ Szablon dla Brief ( Wersja skrócona Features ). """
-    model = Article
-    article_slug = None
-    template_name = "articles/brief.html"
-
-    def get_object(self, queryset=None):
-        article = get_object_or_404(Article, slug=self.article_slug)
-        return article
-
-    def get_context_data(self, **kwargs):
-        context = super(FeaturesBriefArticleView, self).get_context_data(**kwargs)
         context['content_type'] = ContentType.objects.get_for_model(Article).pk
         return context

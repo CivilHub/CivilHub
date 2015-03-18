@@ -36,11 +36,12 @@ def handle_tmp_image(image):
 def resize_image(image, size=None):
     """
     Funkcja przyjmuje obraz PIL jako argument i zwraca taki sam obiekt, ale ze
-    zmienionymi rozmiarami.
+    zmienionymi rozmiarami. Zmiana rozmiarów następuje odpowiednio do maksymalnej
+    szerokości.
     """
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE if size is None else size
     width, height = image.getdata().size
-    ratio = float(max_w)/float(width)
+    ratio = float(max_w) / float(width)
     return image.resize((max_w, int(height*ratio)), Image.ANTIALIAS)
 
 
@@ -209,14 +210,43 @@ def crop_thumb(filename, size):
     image.save(thumb_name(filename, size), 'JPEG')
 
 
+def get_image_size(imagepath):
+    """
+    Mały helper. Podajemy ścieżkę do obrazu, a funkcja zwraca tuplet z jego
+    wysokością i szerokością w pikselach. Zwracamy rozmiary obrazów już
+    dostosowanych.
+    """
+    try:
+        image = Image.open(os.path.splitext(imagepath)[0] + '_fx.jpg')
+        return image.getdata().size
+    except IOError:
+        # Element najwyraźniej ma ustawiony obrazek domyślny
+        return 0
+
+
 def adjust_uploaded_image(sender, instance, **kwargs):
     """
     Zunifikowana metoda obsługująca obrazy dla naszego modelu ImagableItemMixin.
+    Przygotowuje obrazy ustandardyzowanej wielkości oraz taki sam pod retinę.
+    Rozmiar obrazów ustawiamy w settings.DEFAULT_IMG_SIZE. Zachowujemy oryginał.
     """
+    # Ignoruj wpisy z domyślnymi obrazami
     if instance.image.name == settings.DEFAULT_IMG_PATH:
         return True
-    imagepath = instance.image.path
-    image = Image.open(imagepath)
-    image = resize_image(image, settings.DEFAULT_IMG_SIZE)
-    image.save(imagepath, 'JPEG')
-    crop_thumb(imagepath, (90,90))
+    # Zapisz kopię oryginału jako JPEG
+    base_image = Image.open(instance.image.path)
+    filename = os.path.splitext(instance.image.path)[0]
+    base_image.save("{}.jpg".format(filename), 'JPEG')
+    # Rozmiar obrazów i miniatur pobieramy z ustawień globalnych
+    width, height = settings.DEFAULT_IMG_SIZE
+    t_width, t_height = settings.DEFAULT_THUMB_SIZE
+    # Normalne obrazki w pełnych wymiarach
+    image = resize_image(base_image, (width * 2, height * 2))
+    image.save("{}_fx@2x.jpg".format(filename), 'JPEG')
+    image = resize_image(base_image, (width, height))
+    image.save("{}_fx.jpg".format(filename), 'JPEG')
+    # Miniatury do pokazania w widokach list i aktywności
+    image = resize_image(base_image, (t_width * 2, t_height * 2))
+    image.save("{}_thumbnail@2x.jpg".format(filename), 'JPEG')
+    image = resize_image(base_image, (t_width, t_height))
+    image.save("{}_thumbnail.jpg".format(filename), 'JPEG')

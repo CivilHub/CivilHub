@@ -11,7 +11,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/comments/comments',
            'js/modules/maps/pointer',
            'js/modules/inviter/userinviter',
-           'js/modules/locations/follow'],
+           'js/modules/locations/follow',
+           'js/modules/ui/run-lightbox'],
 
   function ($) {
     "use strict";

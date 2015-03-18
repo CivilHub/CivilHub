@@ -34,9 +34,14 @@
 <meta name="msapplication-TileImage" content="{% static 'places_core/favicons/mstile-144x144.png' %}">
 <meta name="msapplication-config" content="{% static 'places_core/favicons/browserconfig.xml' %}">
 
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" type="text/javascript"></script>
+<![endif]--> 
+
 <script src="{% static 'places_core/includes/modernizr/modernizr.js' %}"></script>
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core' %}/includes/require/require.js"></script>
+{% include 'places_core/script-templates.html' %}
 <script>
     (function(f,b){
         var c;

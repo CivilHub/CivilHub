@@ -29,9 +29,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class IdeaForm(forms.ModelForm, BootstrapBaseForm):
-    """
-    Edit/update/create idea form
-    """
+    """ Edit/update/create idea form. """
     name = forms.CharField(
         required = True,
         max_length = 64,
@@ -50,7 +48,7 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
         label = _("Category"),
         widget = forms.Select(attrs={'class': 'form-control'})
     )
-    tags = TagField(label=_("Tags"))
+    tags = TagField(label=_("Tags"), required=False)
 
     class Meta:
         model = Idea
