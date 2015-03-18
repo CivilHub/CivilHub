@@ -41,6 +41,9 @@ class ImagableItemMixin(models.Model):
     image = models.ImageField(blank=True, verbose_name=_(u"image"),
         upload_to=get_image_upload_path, default=DEFAULT_PATH)
 
+    class Meta:
+        abstract = True
+
     @property
     def image_url(self):
         """ Ponieważ zmieniamy ścieżki, potrzebujemy url obrazka. """
