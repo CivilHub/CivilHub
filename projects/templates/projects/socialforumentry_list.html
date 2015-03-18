@@ -1,13 +1,22 @@
 {% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block content %}<h1>{{ discussion }}</h1>
+{% block content %}<h1>{{ discussion }}</h1>{% if project_access or user == discussion.creator %}<a href="{% url 'projects:discussion_update' object.slug discussion.slug %}">{% trans "Edit" %}</a>{% endif %}
+<div>{{ discussion.description|safe }}</div>
 <ul>{% for entry in object_list %}
   <li>
     <h2><a href="{{ entry.creator.profile.get_absolute_url }}">{{ entry.creator.profile }}</a></h2>
+    <p class="meta">{% trans "Created" %} {{ entry.date_created|timesince }} {% trans "ago" %}{% if entry.is_edited %} <span class="label label-default">{% trans "Edited" %}</span>{% endif %}</p>
     <div>{{ entry.content|safe }}</div>
+    <div>
+      {% if project_access or user == entry.creator %}<a href="{% url 'projects:entry_update' project_slug=object.slug pk=entry.pk %}" class="custom-tooltip" title="{% trans "Edit" %}"><span class="fa fa-edit">&nbsp;</span></a>{% endif %}
+      {% if project_access %}<form class="custom-inline-form" action="" method="post">{% csrf_token %}
+        <button type="submit" class="custom-tooltip" title="{% trans 'Delete' %}"><span class="fa fa-remove">&nbsp;</span></button>
+      </form>{% endif %}
+      {% if user.is_authenticated and user != entry.creator %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with entry|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ entry.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
+    </div>
   </li>
 {% endfor %}</ul>
 {% include 'places_core/pagination.html' %}
-{% if user.is_authenticated %}<div class="row">
+{% if user.is_authenticated and not discussion.is_closed %}<div class="row">
   <form action="{% url 'projects:create_entry' project_slug=object.slug discussion_slug=discussion.slug %}" method="post" class="form-horizontal">{% csrf_token %}
     {{ answer_form.as_p }}
     <div class="form-group">

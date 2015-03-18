@@ -13,12 +13,10 @@
           <p>
             {{ action.verb }}
             {% if action.action_object %}
-              {% if action.action_object.get_absolute_url %}
-              <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>
-              {% else %}
-              <span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>{% endif %}
+              {% if action.action_object.get_absolute_url %}<span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>
+              {% else %}<span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>{% endif %}
               <span class="actiCategory"> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
-            {% endif %}
+            {% else %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span>{% endif %}
           </p>
           <div class="actiClock"><span class="custom-tooltip" title="{{ action.timestamp|timesince }} {% trans "ago" %}"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd">{{ action.timestamp|timesince }} {% trans "ago" %}</span> {% endcomment %}</span></span></div>
         </div>

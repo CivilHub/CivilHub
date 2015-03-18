@@ -1,20 +1,12 @@
-{% extends "postman/base.html" %}
-{% load i18n %}
-
+{% extends "postman/base.html" %}{% load i18n %}
 {% block extrahead %}{{ block.super }}{% endblock %}
-
-{% block content %}
-<div id="postman" class="col-sm-9 inboxWrite">
-
+{% block content %}<div id="postman" class="col-sm-9 inboxWrite">
   <div class="main-content">
     <form class="form-horizontal" action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
       {% block pm_write_recipient %}{% endblock %}
       <div class="form-group">
         <label for="id_recipients" class="col-sm-2">{% trans "Recipients" %}</label>
         <div class="col-sm-10">
-          <script id="fake-recipient-tpl" type="text/template">
-            <img src="<%= avatar %>" alt="<%= fullname %>"> <%= fullname %>
-          </script>
           <div id="fake_recipients">&nbsp;</div>
           <input id="id_recipients" class="form-control" type="hidden" name="recipients" value="{{ form.recipients.value|default_if_none:"" }}" />
         </div>
@@ -36,6 +28,4 @@
       </div>
     </form>
   </div>
-
-</div>
-{% endblock %}
+</div>{% endblock %}

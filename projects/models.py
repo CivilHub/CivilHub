@@ -32,7 +32,7 @@ class SlugifiedModelMixin(models.Model):
     elements to base name. Additionaly, we sanitize input from user.
     """
     name = models.CharField(max_length=200, verbose_name=_(u"name"))
-    slug = models.CharField(max_length=210, verbose_name=(u"slug"))
+    slug = models.CharField(max_length=210, verbose_name=_(u"slug"))
 
     class Meta:
         abstract = True
@@ -200,6 +200,7 @@ class SocialForumEntry(models.Model):
     topic = models.ForeignKey(SocialForumTopic, verbose_name=_(u"discussion"))
     creator = models.ForeignKey(User, verbose_name=_(u"author"), related_name="social_entries")
     content = models.TextField(verbose_name=_(u"content"), default="")
+    is_edited = models.BooleanField(default=False, verbose_name=_(u"edited"))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
     date_changed = models.DateTimeField(auto_now=True, verbose_name=_("date edited"))
 
@@ -212,10 +213,15 @@ class SocialForumEntry(models.Model):
 
     def save(self, *args, **kwargs):
         self.content = sanitizeHtml(self.content)
+        if self.pk:
+            # Właściciel lub moderator wyedytował wpis.
+            self.is_edited = True
         super(SocialForumEntry, self).save(*args, **kwargs)
 
 
 models.signals.post_save.connect(resize_background_image, sender=SocialProject)
 models.signals.post_save.connect(project_created_action, sender=SocialProject)
+models.signals.post_save.connect(project_task_action, sender=SocialForumTopic)
+models.signals.post_save.connect(project_task_action, sender=SocialForumEntry)
 models.signals.post_save.connect(project_task_action, sender=TaskGroup)
 models.signals.post_save.connect(project_task_action, sender=Task)

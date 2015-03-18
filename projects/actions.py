@@ -25,6 +25,7 @@ def joined_to_project(user, project):
     """ Tej funkcji przekazujemy instancję django usera oraz projekt. """
     action.send(user, verb=_(u"joined to project"), target=project)
 
+
 def leaved_project(user, project):
     """ J/w, ale tutaj informujemy innych, że użytkownik opuścił projekt. """
     action.send(user, verb=_(u"leaved project"), target=project)

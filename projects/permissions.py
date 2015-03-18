@@ -21,11 +21,14 @@ def check_access(obj, user):
             # Projekt
             location = obj.location
         elif hasattr(obj, 'project'):
-            # Grupa zadań
+            # Grupa zadań lub temat na forum
             location = obj.project.location
-        else:
+        elif hasattr(obj, 'group'):
             # Zadanie
             location = obj.group.project.location
+        else:
+            # Wpis na forum
+            location = obj.discussion.project.location
         if is_moderator(user, location):
             access = True
     return access

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#
+
 # Customowe uprawnienia dla użytkowników. Jeżeli zaistnieje
 # taka potrzeba, skorzystamy z jakiejś paczki w rodzaju django-guardian.
-#
+
 from django.contrib.auth.models import User, Group
 from userspace.models import UserProfile
 

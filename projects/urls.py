@@ -2,7 +2,11 @@ from django.conf.urls import patterns, include, url
 import views
 
 urlpatterns = patterns('',
+	url(r'^discussions/(?P<pk>\d+)/delete/', views.ProjectForumDeleteView.as_view(), name="discussion_delete"),
 	url(r'^(?P<slug>[\w-]+)/background/', views.ProjectBackgroundView.as_view(), name="background"),
+	url(r'^(?P<project_slug>[\w-]+)/discussions/create/', views.ProjectForumCreateView.as_view(), name="discussion_create"),
+	url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<pk>\d+)/', views.ProjectForumAnswerUpdateView.as_view(), name="entry_update"),
+	url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<discussion_slug>[\w-]+)/update/', views.ProjectForumUpdateView.as_view(), name="discussion_update"),
 	url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<discussion_slug>[\w-]+)/entry/', views.ProjectForumAnswerCreateView.as_view(), name="create_entry"),
 	url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<discussion_slug>[\w-]+)/', views.ProjectForumDetailView.as_view(), name="discussion"),
 	url(r'^(?P<project_slug>[\w-]+)/discussions/', views.ProjectForumListView.as_view(), name="discussions"),

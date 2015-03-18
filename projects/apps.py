@@ -8,3 +8,5 @@ class ProjectStreamConfig(AppConfig):
         registry.register(self.get_model('SocialProject'))
         registry.register(self.get_model('TaskGroup'))
         registry.register(self.get_model('Task'))
+        registry.register(self.get_model('SocialForumTopic'))
+        registry.register(self.get_model('SocialForumEntry'))

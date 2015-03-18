@@ -120,7 +120,7 @@ function ($, _, utils) {
         var $toggle = $($('#tour-button-tpl').html());
         $toggle.appendTo('.main-page-content');
         $toggle.find('#startTour')
-          .on('click', function () {
+          .on('click', function (e) {
             e.preventDefault(e);
             tour.restart();
             tour.start();

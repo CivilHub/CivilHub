@@ -122,10 +122,6 @@
                 <input type="hidden" id="target-id" value="{{ news.pk }}" />
                 <input type="hidden" id="target-label" value="blog" />
                 <input type="hidden" id="target-type" value="{{ content_type }}" />
-                <input type="hidden" id="target-user" value="{{ user.username }}" />
-                <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-                <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
-                               
                 <div class="blogEntryComments">
                 <p>{{ news.get_comment_count }} {% trans "Comments" %}: 
                     <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
