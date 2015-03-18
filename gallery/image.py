@@ -212,11 +212,23 @@ def crop_thumb(filename, size):
 def adjust_uploaded_image(sender, instance, **kwargs):
     """
     Zunifikowana metoda obsługująca obrazy dla naszego modelu ImagableItemMixin.
+    Przygotowuje obrazy ustandardyzowanej wielkości oraz taki sam pod retinę.
+    Rozmiar obrazów ustawiamy w settings.DEFAULT_IMG_SIZE. Zachowujemy oryginał.
     """
     if instance.image.name == settings.DEFAULT_IMG_PATH:
         return True
-    imagepath = instance.image.path
-    image = Image.open(imagepath)
-    image = resize_image(image, settings.DEFAULT_IMG_SIZE)
-    image.save(imagepath, 'JPEG')
-    crop_thumb(imagepath, (90,90))
+
+    base_image = Image.open(instance.image.path)
+    filename, ext = os.path.splitext(instance.image.path)
+
+    width, height = settings.DEFAULT_IMG_SIZE
+    retina_w, retina_h = (width * 2, height * 2)
+
+    image_path = "{}_{}x{}{}".format(filename, width, height, ext)
+    retina_path = "{}_{}x{}@2x{}".format(filename, width, height, ext)
+
+    image = resize_image(base_image, (retina_w, retina_h))
+    image.save(retina_path, 'JPEG')
+
+    image = resize_image(base_image, (width, height))
+    image.save(image_path, 'JPEG')
