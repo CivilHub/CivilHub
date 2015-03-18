@@ -17,7 +17,8 @@
 <script>window.commentListSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>{% endblock %}
 
-{% block content %}<div class="main-content col-sm-9 contentPX">
+{% block content %}{% with idea as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
+<div class="main-content col-sm-9 contentPX">
   {% include 'maps/pointer-modal-form.html' %}
   <div class="row idea-entry">
     <div class="idea-votes col-sm-3 idea-votesH">
@@ -59,7 +60,7 @@
           <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
         </small>
       </div>
-      <div class="articleBoxImg">{% if not idea.has_default_image %}<img src="{{ idea.image.url }}" alt="{{ idea.name }}">{% endif %}</div>
+      {% if not idea.has_default_image %}<div class="content-image">&nbsp;</div>{% endif %}
       <div class="acticle-content">{{ idea.description | safe }}</div>
       <p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}

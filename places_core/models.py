@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from gallery.image import adjust_uploaded_image, thumb_name, crop_thumb
+from gallery.image import adjust_uploaded_image, get_image_size
 
 DEFAULT_PATH = settings.DEFAULT_IMG_PATH
 
@@ -24,16 +24,29 @@ def get_image_upload_path(instance, filename):
     return 'img/{}s/{}.jpg'.format(model_name.lower(), uuid4().hex)
 
 
+def delete_image_files(base_name, model_name):
+    """
+    Do tej funkcji przekazujemy nazwę obrazu modelu (bez rozszerzenia i ścieżki)
+    oraz nazwę samej klasy modelu w lowercase (np. 'news' lub 'idea'). Funkcja
+    usuwa wszystkie obrazy zawierające wspólną nazwę.
+    """
+    dirname = os.path.join(settings.BASE_DIR, 'media/img', model_name + 's')
+    for fname in os.listdir(dirname):
+        if base_name in fname:
+            try:
+                os.unlink(os.path.join(dirname, fname))
+            except OSError:
+                pass
+
+
 def remove_image(sender, instance, **kwargs):
     """
     Sygnał wysyłany kiedy usuwamy modele z obrazkami. Django nie usuwa
     ich automatycznie. Należy go zastosować do post_delete.
     """
     if instance.image.name != DEFAULT_PATH:
-        try:
-            os.unlink(instance.image.path)
-        except Exception:
-            pass
+        delete_image_files(instance.image.name.split('/')[-1].split('.')[0],
+            instance.__class__.__name__.lower())
 
 
 class ImagableItemMixin(models.Model):
@@ -45,13 +58,34 @@ class ImagableItemMixin(models.Model):
         abstract = True
 
     @property
+    def image_height(self):
+        """ Zwraca wysokość w pikselach podstawowego obrazu. """
+        return get_image_size(self.image.path)[1]
+
+    @property
+    def retina_image_height(self):
+        """ Jak powyżej, ale zwracamy wysokość obrazka pod retinę. """
+        return get_image_size(self.image.path)[1] * 2
+
+    @property
     def image_url(self):
         """ Ponieważ zmieniamy ścieżki, potrzebujemy url obrazka. """
-        return settings.MEDIA_URL + self.image.name
+        return "{}_fx.jpg".format(os.path.splitext(self.image.url)[0])
+
+    @property
+    def retina_image_url(self):
+        """ Zwraca ścieżkę do pełnowymiarowego obrazka dla ekranów Retina. """
+        return "{}_fx@2x.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def thumbnail(self):
-        return settings.MEDIA_URL + thumb_name(self.image.name, (90,90))
+        """ Miniatura do wyświetlenia w widokach list i podsumowaniach. """
+        return "{}_thumbnail.jpg".format(os.path.splitext(self.image.url)[0])
+
+    @property
+    def retina_thumbnail(self):
+        """ J/W, z tym, że dla ekranów Retina. """
+        return "{}_thumbnail@2x.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def has_image_changed(self):
@@ -64,15 +98,14 @@ class ImagableItemMixin(models.Model):
         return self.__initial.name == DEFAULT_PATH
 
     def save(self, *args, **kwargs):
-        """ Upewniamy się, że jeżeli zmieniamy obrazek, usuniemy stary. """
+        # Upewniamy się, że jeżeli wyczyściliśmy pole, przywracamy default
         if not self.image:
             self.image = DEFAULT_PATH
-        if self.__initial.name != DEFAULT_PATH:
-            if self.has_image_changed:
-                try:
-                    os.unlink(self.__initial.path)
-                except Exception:
-                    pass
+        # Kiedy zmieniamy obrazek, usuwamy stary
+        if self.__initial != self.image and self.__initial != DEFAULT_PATH:
+            delete_image_files(
+                self.__initial.name.split('/')[-1].split('.')[0],
+                self.__class__.__name__.lower())
         super(ImagableItemMixin, self).save(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):

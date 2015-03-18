@@ -44,7 +44,7 @@
             </ul>
         </div>
         
-        <div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>
+        {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
         <div class="acticle-content">{{ poll.question | safe }}</div>
         
         {% if can_vote %}

@@ -1,0 +1,14 @@
+{% if not content_object.has_default_image %}<style type="text/css">
+  .content-image {
+    height: {{ content_object.image_height }}px;
+    background-image: url({{ content_object.image_url }});
+  }
+  @media
+  (-webkit-min-device-pixel-ratio: 2), 
+  (min-resolution: 192dpi) {
+    .content-image {
+      background-image: url({{ content_object.retina_background_url }});
+      background-size: 1144px {{ content_object.retina_image_height }}px;
+    }
+  }
+</style>{% endif %}

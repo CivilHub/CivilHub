@@ -110,7 +110,7 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
         queryset = Location.objects.all(),
         widget = forms.HiddenInput()
     )
-    tags = TagField(label=_("Tags"))
+    tags = TagField(label=_("Tags"), required=False)
 
     class Meta:
         model = Idea
