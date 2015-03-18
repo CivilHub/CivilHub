@@ -54,6 +54,10 @@ require.config({
 
     "shim": {
 
+        "tubular": {
+            "deps": ["jquery"]
+        },
+
         "jqueryui": {
             "deps": ["jquery"]
         },

@@ -682,7 +682,8 @@ def activate(request, activation_link=None):
         user.save()
         demand.delete()
         user = User.objects.get(pk=user_id)
-        profile = profile_activation(user)
+        profile = profile_activation(user,
+            language=translation.get_language_from_request(request))
         user = auth.authenticate(username=user.username,
                                       password=user.password)
         delta_t = timezone.now() + timedelta(days=3)

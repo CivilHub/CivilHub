@@ -1,40 +1,47 @@
 # -*- coding: utf-8 -*-
 import os, time, hashlib, random, string
+
 from slugify import slugify
 from itertools import chain
 from uuid import uuid4 as uuid
-from actstream.models import Action, user_stream
 from datetime import datetime
-from django.contrib.auth.models import User
-from django.contrib.contenttypes.models import ContentType
+from PIL import Image
+
 from django.core.files import File
 from django.conf import settings
-from PIL import Image
-from models import UserProfile
+from django.utils import translation
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+
+from actstream.models import Action, user_stream
+
+from .models import UserProfile
 
 
 AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
 
 
-def create_user_profile(user, extra_data=None):
+def create_user_profile(user, **kwargs):
     """
     Metoda przyjmuje jako argument instancję auth.user i tworzy profil użytkownika.
-
-    TODO: extra_data do zbierania informacji (język, IP itp.)
     """
     try:
-        profile = UserProfile.objects.create(user=user)
+        profile = UserProfile(user=user)
     except Exception:
-        profile = None
+        return None
+    language = kwargs.get('language', settings.LANGUAGE_CODE)
+    if translation.check_for_language(language):
+        profile.lang = language
+    profile.save()
     return profile
 
 
-def profile_activation(user):
+def profile_activation(user, **kwargs):
     """ Sprawdzamy, czy profil użytkownika istnieje lub tworzymy nowy. """
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
-        profile = create_user_profile(user)
+        profile = create_user_profile(user, **kwargs)
     if profile is None:
         raise Exception(u"Cannot create or fetch user profile")
     return profile
