@@ -60,7 +60,7 @@
           <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
         </small>
       </div>
-      {% if not idea.has_default_image %}<div class="content-image">&nbsp;</div>{% endif %}
+      {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
       <div class="acticle-content">{{ idea.description | safe }}</div>
       <p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}

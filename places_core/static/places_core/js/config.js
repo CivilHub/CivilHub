@@ -48,7 +48,8 @@ require.config({
         "jeasing": "includes/mapplic/jquery.easing",
         "mapplic": "includes/mapplic/mapplic",
         "jmousewheel": "includes/mapplic/jquery.mousewheel",
-        "CUri": "includes/curi"
+        "CUri": "includes/curi",
+        "lightbox": "includes/lightbox"
     },
 
     "shim": {
