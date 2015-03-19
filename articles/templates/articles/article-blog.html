@@ -1,21 +1,17 @@
-{% extends 'places_core/base.html' %}
-{% load i18n staticfiles civil_tags %}
-{% block meta %}
-<meta name="twitter:card" content="summary" />
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+
+{% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
 <meta property="og:title" content="{{ article.title }}"/>
 <meta property="og:url " content="https://civilhub.org{{ article.get_absolute_url }}" />
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:description" content="{{ article.content|striptags|slice:":100" }}..." />
-<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">
-{% endblock %}
-{% block require_scripts %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>
-{% endblock %}
+<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
 
-{% block content %}
-<div id="blog-page">
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>{% endblock %}
+
+{% block content %}<div id="blog-page">
   <article>
     <div class="blog-img"><img src="/static/places_core/img/brief/pl_slide_1.png"></div>
     <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</h2></a></h2>
@@ -28,7 +24,6 @@
   </article>
   <input type="hidden" id="target-id" value="{{ article.pk }}" />
   <input type="hidden" id="target-label" value="articles" />
-  <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
+  <input type="hidden" id="target-type" value="{% obj_ct_id 'article' %}" />
   {% include 'comments/commentlist.html' %}
-</div> 
-{% endblock %}
+</div>{% endblock %}
