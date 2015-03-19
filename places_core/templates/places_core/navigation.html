@@ -32,6 +32,23 @@
             
             <ul class="nav navbar-nav navbar-right navbarHeader">
                 {% if user.is_authenticated %}
+                <li><a href="#" class="cd-bouncy-nav-trigger">{% trans "Add content" %}</a></li>
+                <div class="cd-bouncy-nav-modal">
+                    <select{% if location %} data-location="{{ location.slug }}"{% endif %}>
+                      {% if location %}<option value="{{ location.slug }}">{{ location }}</option>{% endif %}
+                    </select>
+                    <nav>
+                        <ul class="cd-bouncy-nav">
+                            <li><a class="bouncy-option" data-content="news" href="#">{% trans "News" %}</a></li>
+                            <li><a class="bouncy-option" data-content="ideas" href="#">{% trans "Idea" %}</a></li>
+                            <li><a class="bouncy-option" data-content="discussion" href="#">{% trans "Discussion" %}</a></li>
+                            <li><a class="bouncy-option" data-content="polls" href="#">{% trans "Poll" %}</a></li>
+                            <li><a class="bouncy-option" data-content="projects" href="#">{% trans "Project" %}</a></li>
+                            <li><a class="bouncy-option" data-content="gallery" href="#">{% trans "Gallery" %}</a></li>
+                        </ul>
+                    </nav>
+                    <a href="#0" class="cd-close">Close modal</a>
+                </div>
                 <li class="user-hidden-link">
                     <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>
                     <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> {% trans "Logout" %}</a>
