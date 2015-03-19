@@ -1,28 +1,84 @@
 {% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block content %}<h1>{{ discussion }}</h1>{% if project_access or user == discussion.creator %}<a href="{% url 'projects:discussion_update' object.slug discussion.slug %}">{% trans "Edit" %}</a>{% endif %}
-<div>{{ discussion.description|safe }}</div>
-<ul>{% for entry in object_list %}
-  <li>
-    <h2><a href="{{ entry.creator.profile.get_absolute_url }}">{{ entry.creator.profile }}</a></h2>
-    <p class="meta">{% trans "Created" %} {{ entry.date_created|timesince }} {% trans "ago" %}{% if entry.is_edited %} <span class="label label-default">{% trans "Edited" %}</span>{% endif %}</p>
-    <div>{{ entry.content|safe }}</div>
-    <div>
-      {% if project_access or user == entry.creator %}<a href="{% url 'projects:entry_update' project_slug=object.slug pk=entry.pk %}" class="custom-tooltip" title="{% trans "Edit" %}"><span class="fa fa-edit">&nbsp;</span></a>{% endif %}
-      {% if project_access %}<form class="custom-inline-form" action="" method="post">{% csrf_token %}
-        <button type="submit" class="custom-tooltip" title="{% trans 'Delete' %}"><span class="fa fa-remove">&nbsp;</span></button>
-      </form>{% endif %}
-      {% if user.is_authenticated and user != entry.creator %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with entry|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ entry.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
-    </div>
-  </li>
-{% endfor %}</ul>
-{% include 'places_core/pagination.html' %}
-{% if user.is_authenticated and not discussion.is_closed %}<div class="row">
-  <form action="{% url 'projects:create_entry' project_slug=object.slug discussion_slug=discussion.slug %}" method="post" class="form-horizontal">{% csrf_token %}
-    {{ answer_form.as_p }}
-    <div class="form-group">
-      <div class="col-sm-10 col-sm-offset-2">
-        <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+{% block content %}
+<div class="col-sm-9 main-content contentPX">
+  <h1 class="discussionHeading mb20">{{ discussion }}</h1>
+  <div class="reply-entry">
+    <div class="row">
+      <div class="blobfish-left">&nbsp;</div>
+      <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+        <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.profile }}" class="user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}">
+        <p class="custom-centered discussionPH">{{ discussion.creator.profile.rank_pts }}</p>
+      </div>
+      <div class="col-xs-11 discussion-entry-content">
+        <p class="entry-meta">
+          <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.profile }}</a>
+          <span class="topic-date-col">
+            {{ discussion.date_created|timesince }} {% trans "ago" %}
+          </span>
+        </p>
+        <div class="entry-content">{{ discussion.description|safe }}</div>
+        <div class="custom-clear">&nbsp;</div>
+        {% if user.is_authenticated and user != discussion.creator %}<div class="entry-footer text-right"> <a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a></div>{% endif %}
       </div>
     </div>
-  </form>
-</div>{% endif %}{% endblock %}
+
+  </div>
+
+{% for entry in object_list %}
+<div class="reply-entry" id="reply-{{ entry.pk }}">
+  <div class="row">
+    <div class="blobfish-left">&nbsp;</div>
+    <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+      <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator.profile }}" class="user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}">
+      <p class="custom-centered discussionPH">{{ entry.creator.profile.rank_pts }}</p>
+      {% if entry.is_edited %} <span class="label label-default">{% trans "Edited" %}</span>{% endif %}
+    </div>
+    <div class="col-xs-11 discussion-entry-content">
+      <p class="entry-meta">
+        <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.profile }}</a>
+        <span class="topic-date-col">
+          {{ entry.date_created|timesince }} {% trans "ago" %}
+        </span>
+      </p>
+      <div class="entry-content">{{ entry.content|safe }}</div>
+      <div class="custom-clear">&nbsp;</div>
+      <div class="entry-footer">
+        {% if project_access or user == entry.creator %}<a href="{% url 'projects:entry_update' project_slug=object.slug pk=entry.pk %}" class="custom-tooltip" title="{% trans "Edit" %}"><span class="fa fa-edit">&nbsp;</span></a>{% endif %}
+        {% if project_access %}<form class="custom-inline-form" action="" method="post">{% csrf_token %}
+          <button type="submit" class="custom-tooltip" title="{% trans 'Delete' %}"><span class="fa fa-remove">&nbsp;</span></button>
+        </form>{% endif %}
+        {% if user.is_authenticated and user != entry.creator %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with entry|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ entry.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+  {% include 'places_core/pagination.html' %}
+  {% if user.is_authenticated and not discussion.is_closed %}
+  <div class="row">
+    <div class="col-sm-12">
+      <form action="{% url 'projects:create_entry' project_slug=object.slug discussion_slug=discussion.slug %}" method="post" class="form-horizontal">{% csrf_token %}
+        {{ answer_form.as_p }}
+        <div class="form-group">
+          <div class="col-sm-10 col-sm-offset-2">
+            <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Save" %}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+<div class="col-sm-3 boxPX">
+  <div class="sidebar">
+    <div class="sidebar-label">{% trans "Actions" %}:</div>
+    <ul class="custom-sidebar-nav">
+      <li>{% if project_access or user == discussion.creator %}<a href="{% url 'projects:discussion_update' object.slug discussion.slug %}">{% trans "Edit" %}</a>{% endif %}</li>
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

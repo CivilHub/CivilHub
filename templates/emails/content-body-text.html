@@ -1,4 +1,8 @@
 {% load i18n %}
-
-{% trans "New invitation" %}
-{{ user_name }} {% blocktrans %}Invited you to browse{% endblocktrans %} {{ link.href }}
+{%trans "You've received an invitation!" %}
+@{{ user_name }} {% trans "has invited you to join CivilHub!" %}
+@{{ user_name }} {% blocktrans %}"Hey, here's your invite! Come check out my CivilHub when you have a chance. You'll love it!"{% endblocktrans %}
+{%trans "Sign Up" %} https://civilhub.org/user/register/
+CivilHub.org
+Terms of Use - https://civilhub.org/terms/
+Privacy Policy - https://civilhub.org/privacy/

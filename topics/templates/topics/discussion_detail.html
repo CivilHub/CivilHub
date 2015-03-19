@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-xs-11 discussion-entry-content">
                     <p class="entry-meta">
-                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail wtf" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
+                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
                         <span class="topic-date-col">
                             {{ discussion.date_created | timesince }} {% trans "ago" %}
                         </span>

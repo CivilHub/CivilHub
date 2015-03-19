@@ -29,7 +29,7 @@
   </div>
 </nav>
 <div class="location-logo" id="task-page-header-block">
-  <div class="container">
+  <div class="container" style="height: 100%; position: relative;">
     <div class="title-container">
       <div class="project-name"><h1>{{ object }}</h1></div>
       <div class="project-content">{{ object.description|safe|slice:'300' }}</div>
@@ -66,8 +66,8 @@
       <ul class="nav navbar-nav">
         <li><a href="{% url 'locations:project_summary' location.slug object.slug %}">{% trans "Summary" %}</a></li>
         <li><a href="{{ object.get_absolute_url }}"></span>{% trans "Tasks" %}</a></li>
-        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}">{% trans "Participants" %}</a></li>
         <li><a href="{% url 'projects:discussions' object.slug %}">{% trans "Discussions" %}</a></li>
+        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}">{% trans "Participants" %}</a></li>
       </ul>
     </div>
   </div>
