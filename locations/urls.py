@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     # Delete content from location collections
     url(r'^remove_content/(?P<content_type>\d+)/(?P<object_pk>\d+)/', LocationContentDelete.as_view(), name='remove_content'),
     # Location media gallery
-    url(r'^(?P<slug>[\w-]+)/gallery/upload/', LocationGalleryCreateView.as_view(), name='upload'),
+    url(r'^(?P<slug>[\w-]+)/gallery/create/', LocationGalleryCreateView.as_view(), name='upload'),
     url(r'^(?P<slug>[\w-]+)/gallery/update/(?P<pk>\d+)/', LocationGalleryUpdateView.as_view(), name='gallery_update'),
     url(r'^(?P<slug>[\w-]+)/gallery/delete/(?P<pk>\d+)/', location_gallery_delete, name='remove_picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),

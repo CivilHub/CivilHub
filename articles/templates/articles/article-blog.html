@@ -26,5 +26,9 @@
     </div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>
   </article>
+  <input type="hidden" id="target-id" value="{{ article.pk }}" />
+  <input type="hidden" id="target-label" value="articles" />
+  <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
+  {% include 'comments/commentlist.html' %}
 </div> 
 {% endblock %}

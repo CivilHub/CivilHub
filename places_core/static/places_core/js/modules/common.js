@@ -15,7 +15,8 @@ define(['jquery',
         'jpaginate',
         'js/modules/common/bookmarks',
         'js/modules/common/tour',
-        'js/modules/ui/widgets'],
+        'js/modules/ui/widgets',
+        'js/modules/bouncy-navigation/main'],
 
 function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     
@@ -106,7 +107,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
         if (!_.isNull(dropdown)) {
             dropdown.destroy();
         }
-    };
+    }
     
     $('.sublocation-menu-toggle').on('click', function (e) {
         e.preventDefault();
@@ -140,7 +141,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
                 win.open();
             });
         })();
-    };
+    }
     
     // Cookie warning message
     // ----------------------
@@ -176,10 +177,10 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
         if (count > max_counter) {
             max_counter = count;
         }
-        if (min_counter == undefined || count < min_counter) {
+        if (min_counter === undefined || count < min_counter) {
             min_counter = count;
         }
-        i++
+        i++;
     });
 
     $('.tags > ul > li').each(function () {
