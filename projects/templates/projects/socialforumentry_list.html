@@ -42,7 +42,7 @@
       </p>
       <div class="entry-content">{{ entry.content|safe }}</div>
       <div class="custom-clear">&nbsp;</div>
-      <div class="entry-footer">
+      <div class="entry-footer text-right">
         {% if project_access or user == entry.creator %}<a href="{% url 'projects:entry_update' project_slug=object.slug pk=entry.pk %}" class="custom-tooltip" title="{% trans "Edit" %}"><span class="fa fa-edit">&nbsp;</span></a>{% endif %}
         {% if project_access %}<form class="custom-inline-form" action="" method="post">{% csrf_token %}
           <button type="submit" class="custom-tooltip" title="{% trans 'Delete' %}"><span class="fa fa-remove">&nbsp;</span></button>
