@@ -224,11 +224,20 @@
 /*# sourceMappingURL=lightbox.css.map */
 
 
-/* Obrazki dla różnych typów zawartości w widokach szczegółowych. */
+/*
+ * Obrazki dla różnych typów zawartości w widokach szczegółowych.
+ * Wysokość dodają skrypty, bo dla różnych modeli są różne wymiary.
+ */
 
 .content-image {
-  width: 572px;
-  background-position: left top;
+  max-width: 100%;
+  background-position: center center;
   background-repeat: no-repeat;
   cursor: pointer;
+  &.content-image-bg {
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 572px;
+    }
+  }
 }

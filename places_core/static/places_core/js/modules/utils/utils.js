@@ -160,6 +160,10 @@ function ($, _) {
     utils.isMobile = function () {
         return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     };
+
+    utils.isRetina = function () {
+        return window.devicePixelRatio > 1;
+    };
     
     return utils;
 });

@@ -16,18 +16,10 @@ function ($, _, Backbone, utils, CommentCollection, CommentView, CommentModel) {
 	
 "use strict";
 
-var incrementCommentCount = function () {
-	// Funkcja inkrementuje informację o liczbie komentarzy.
-	var $counter = $('.comment-count'),
-		value = parseInt($counter.text(), 10),
-		nVal = 1;
-	
-	if (!_.isNaN(value)) {
-		nVal = ++value;
-	}
-	
-	$counter.text(nVal);
-};
+function incrementCommentCount () {
+	var value = parseInt($('.comment-count').text(), 10);
+	$('.comment-count').text((_.isNaN(value)) ? 1 : ++value);
+}
 
 var CommentListView = Backbone.View.extend({
 	
@@ -84,8 +76,8 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	renderComment: function (item) {
-		// Funkcja dodaje komentarze na końcu listy, używana podczas inicja-
-		// lizacji i resetowania kolekcji.
+		// Funkcja dodaje komentarze na końcu listy, używana
+		// podczas inicjalizacji i resetowania kolekcji.
 		var comment = new CommentView({model:item});
 		comment.parentView = this;
 		$(comment.render().el).appendTo(this.$el);
@@ -93,8 +85,7 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	prependComment: function (item) {
-		// Funkcja dodaje komentarze na początku listy, np. kiedy tworzymy
-		// nowy.
+		// Funkcja dodaje komentarze na początku listy, np. kiedy tworzymy nowy.
 		var comment = new CommentView({model:item});
 		$(comment.render().el).prependTo(this.$el);
 	},
@@ -105,8 +96,8 @@ var CommentListView = Backbone.View.extend({
 			alert(gettext("Comment cannot be empty"));
 			return false;
 		}
-		// Utworzenie nowego komentarza - z formularza pobierany jest sam
-		// tekst, resztę dodają skrypty i server.
+		// Utworzenie nowego komentarza - z formularza pobierany
+		// jest sam tekst, resztę dodają skrypty i server.
 		var newComment = {
 			comment: $('#comment').val(),
 			content_type: $('#target-type').val(),

@@ -47,6 +47,7 @@ def obj_to_dict(obj):
         'title': obj.__unicode__(),
         'image': obj.image_url,
         'thumbnail': obj.thumbnail,
+        'retina_thumbnail': False,
         'location': obj.location.__unicode__(),
         'meta': {},
         'date_created': obj.date_created.isoformat(),
@@ -63,6 +64,9 @@ def obj_to_dict(obj):
             'pk': obj.category.pk,
             'name': obj.category.__unicode__(),
         }})
+
+    if hasattr(obj, 'retina_thumbnail') and not obj.has_default_image:
+        context['retina_thumbnail'] = obj.retina_thumbnail
 
     if content_type.model == 'idea':
         context.update({
