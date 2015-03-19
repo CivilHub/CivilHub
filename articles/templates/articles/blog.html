@@ -7,7 +7,7 @@
   <article>
     <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</h2></a></h2>
     <div class="blog-meta">{{ article.created }}</div>
-    <p>{{ article.content|safe|truncatewords:15 }}</p>
+    <div class="blog-content"><p>{{ article.content|safe|truncatewords:15 }}</p></div>
     <div class="blog-img"><img src="/static/places_core/img/brief/pl_slide_1.png"></div>
   </article>
 {% endfor %}

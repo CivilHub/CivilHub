@@ -174,7 +174,7 @@ h3.articleBlogTitle{
 */
 #blog-page{
     article{
-        max-width: 640px;
+/*        max-width: 640px;*/
         width: 100%;
         margin: 0 auto 100px;
         h2{
@@ -199,29 +199,50 @@ h3.articleBlogTitle{
                 color: #0083FB;
             }
         }
-        p{
-            color: #606060;
-            font-size: 16px;
-            line-height: 24px;
+        .blog-content{
+            max-width: 640px;
+            margin: 0 auto;
             text-align: center;
+            color: #606060;
+            p{
+                font-size: 16px;
+                line-height: 24px;
+            }
+        }
+        .article-blog-content{
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: left;
+            color: #606060;
+            p{
+                margin-bottom: 20px;
+                font-size: 16px;
+                line-height: 24px;
+            }
         }
         .blog-img{
-            margin-top: 50px;
+           /* margin-top: 50px;*/
+            max-width: 640px;
+            margin: 50px auto 0 auto;
             img{
                 max-width: 100%;
                 height: auto;
             }
         }
-        .social-box{
-            text-align: center;
-            max-height: 25px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            a, .fb-like, .g-plus{
-                display: inline-block;
-                vertical-align: top;
-                margin-right: 35px;
-            }
-        }
+
     }
+}
+.social-box{
+    text-align: center;
+    max-height: 25px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    overflow: hidden;
+    .social-tw, #fb-root, .fb-like, .g-plus{
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 35px;
+    }
+    #fb-root{ display: none; }
+    .social-tw{ margin-right: 0; }
 }
