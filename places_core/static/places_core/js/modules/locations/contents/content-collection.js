@@ -105,9 +105,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
     renderItem: function (item) {
       var view = new ActionView({model: item});
       $(view.render().el)
-        .appendTo(this.$el.find('.row:last'))
-        .find('.locBoxHeader:first')
-        .css('background', "url(" + item.get('thumbnail') + ") left top no-repeat");
+        .appendTo(this.$el.find('.row:last'));
       if (this.$el.find('.row:last').find('.locBoxH').length >= 4) {
         this.$el.append('<div class="row"></div>');
       }

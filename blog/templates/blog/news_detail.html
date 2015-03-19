@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            {% if not news.has_default_image %}<div class="row content-image" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
+            {% if not news.has_default_image %}<div class="row content-image content-image-bg" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
             
             <!-- News content -->
             <div class="row">
@@ -114,7 +114,7 @@
                 <input type="hidden" id="target-label" value="blog" />
                 <input type="hidden" id="target-type" value="{{ content_type }}" />
                 <div class="blogEntryComments">
-                <p>{{ news.get_comment_count }} {% trans "Comments" %}: 
+                <p>{% trans "Comments" %}: <span class="comment-count">{{ news.get_comment_count }}</span>
                     <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
                 </div>
                 {% include 'comments/commentlist.html' %}

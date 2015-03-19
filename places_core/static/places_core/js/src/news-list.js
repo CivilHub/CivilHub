@@ -9,7 +9,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
-           'js/modules/ui/active-form'], 
+           'js/modules/ui/active-form',
+           'js/modules/ui/run-lightbox'], 
            
   function ($) {
     "use strict";

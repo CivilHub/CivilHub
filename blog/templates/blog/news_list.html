@@ -5,7 +5,7 @@
   {% for entry in object_list %}<div class="row">
     <div class="col-sm-9">
       <h3 class="blogTitleNews"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h3>
-      <p class="custom-booklike acticle-content blogNewsContent">{{ entry.content|safe|truncatechars:150 }}</p>
+      <p class="custom-booklike acticle-content blogNewsContent">{{ entry.content|safe|truncatechars:200 }}</p>
       <div class="clear">&nbsp;</div>
       <p class="author">
         <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator.profile }}" class="user-avatar user-window-toggle minUserAvatar" />
@@ -13,7 +13,7 @@
         <span class="date-created">{{ entry.date_created|timesince }} {% trans "ago" %}</span>.
       </p>
     </div>
-    <div class="col-sm-3"><img class="thumb" src="{{ entry.image.url }}"></div>
+    <div class="col-sm-3">{% if not entry.has_default_image %}<img class="content-image" data-jslghtbx="{{ entry.image.url }}" src="{{ entry.thumbnail }}">{% endif %}</div>
   </div>{% endfor %}
   {% include 'places_core/pagination.html' %}
 </div>{% else %}<div class="col-sm-9 no-entries contentPX">

@@ -6,7 +6,7 @@
  * - Free for use in both personal and commercial projects
  *
  * Wersja została zmodyfikowana na potrzeby Civil Hub. Głównie dodałem
- * wsparcie dla AMD prze requirejs i przepisałem program na moduł.
+ * wsparcie dla AMD przez requirejs i przepisałem program na moduł.
  */
 
 define([], function () {
@@ -643,6 +643,8 @@ function Lightbox () {
     setOpt(opt)
 
     // Find all thumbnails & add clickhandlers
+    // Tutaj zmieniamy 'image' na nazwę naszej klasy.
+    // TODO: można to dodać jako opcję i wysłać gościowi na GitHub, będzie happy.
     var arr = document.getElementsByClassName('content-image');
     for(var i = 0; i < arr.length; i++)
     {

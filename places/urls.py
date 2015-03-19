@@ -46,6 +46,7 @@ sitemaps = {
     'news'     : sitemaps.NewsSitemap,
     'polls'    : sitemaps.PollsSitemap,
     'discussions': sitemaps.DiscussionSitemap,
+    'projects': sitemaps.ProjectsSitemap,
 }
 # Javascript translations catalog
 js_info_dict = {

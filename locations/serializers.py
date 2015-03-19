@@ -22,6 +22,7 @@ class ContentObjectSerializer(serializers.Serializer):
     title = serializers.Field(source='title')
     image = serializers.Field(source='image')
     thumbnail = serializers.Field(source='thumbnail')
+    retina_thumbnail = serializers.Field(source='retina_thumbnail')
     meta = serializers.Field(source='meta')
     creator = serializers.Field(source='creator')
     category = serializers.Field(source='category')
