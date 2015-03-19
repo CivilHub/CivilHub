@@ -13,7 +13,7 @@
         <span class="date-created">{{ entry.date_created|timesince }} {% trans "ago" %}</span>.
       </p>
     </div>
-    <div class="col-sm-3"><img class="content-image" data-jslghtbx="{{ entry.image.url }}" src="{{ entry.thumbnail }}"></div>
+    <div class="col-sm-3">{% if not entry.has_default_image %}<img class="content-image" data-jslghtbx="{{ entry.image.url }}" src="{{ entry.thumbnail }}">{% endif %}</div>
   </div>{% endfor %}
   {% include 'places_core/pagination.html' %}
 </div>{% else %}<div class="col-sm-9 no-entries contentPX">
