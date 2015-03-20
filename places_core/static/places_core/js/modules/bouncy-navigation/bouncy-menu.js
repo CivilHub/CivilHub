@@ -48,7 +48,7 @@ function createMenu ($select) {
 
 		// Jeżeli jesteśmy w aktywnej lokacji, ustawiamy ją na wybraną,
 		// w przeciwnym wypadku bierzemy pierwszą z pobranej listy.
-		if (_.isUndefined(slug)) {
+		if (_.isUndefined(slug) && locations.length) {
 			slug = locations[0].slug;
 		}
 

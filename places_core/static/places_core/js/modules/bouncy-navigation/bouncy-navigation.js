@@ -72,7 +72,6 @@ BouncyNavigation.prototype.initialize = function () {
 		this._trigger(false);
 	}.bind(this));
 	this.$modal.on('click', function (e) {
-		e.preventDefault();
 		if($(e.target).is('.cd-bouncy-nav-modal')) {
 			this._trigger(false);
 		}

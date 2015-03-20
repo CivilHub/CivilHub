@@ -10,7 +10,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
              'js/modules/maps/autocomplete',
              'bootstrap',
              'js/modules/common/bookmarks',
-             'tour'],
+             'tour',
+             'js/modules/bouncy-navigation/main'],
 
     function ($, CivilMap) {
         

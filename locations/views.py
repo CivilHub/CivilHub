@@ -720,9 +720,7 @@ class InviteUsersView(LoginRequiredMixin, View):
 @login_required
 @require_POST
 def add_follower(request, pk):
-    """
-    Add user to locations followers
-    """
+    """ Add user to locations followers. """
     location = get_object_or_404(Location, pk=pk)
     user = request.user
     location.users.add(user)
@@ -745,9 +743,7 @@ def add_follower(request, pk):
 @login_required
 @require_POST
 def remove_follower(request, pk):
-    """
-    Remove user from locations followers
-    """
+    """ Remove user from locations followers. """
     location = get_object_or_404(Location, pk=pk)
     user = request.user
     location.users.remove(user)
