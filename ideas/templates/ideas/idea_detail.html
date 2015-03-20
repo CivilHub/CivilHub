@@ -67,7 +67,7 @@
       </p>
       <div class="ideaEntryComments">
         <p>
-          {{ idea.comments }} {% trans "Comments" %}
+          {{ idea.comments }} {% trans "Comments" %} <span class="comment-count">{{ idea.get_comment_count }}</span>
           {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
         </p>
       </div>

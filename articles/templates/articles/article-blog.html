@@ -14,16 +14,24 @@
 {% block content %}<div id="blog-page">
   <article>
     <div class="blog-img"><img src="/static/places_core/img/brief/pl_slide_1.png"></div>
-    <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</h2></a></h2>
+    <h2><a href="{{ article.get_absolute_url }}"><strong>{{ article.title }}</strong> <br>{{ article.subtitle }}</a></h2>
     <div class="blog-meta">{{ article.created }}</div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>
+
     <div class="article-blog-content">
-      <p>{{ article.content|safe }}</p>
+      {{ article.content|safe }}
     </div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>
   </article>
-  <input type="hidden" id="target-id" value="{{ article.pk }}" />
-  <input type="hidden" id="target-label" value="articles" />
-  <input type="hidden" id="target-type" value="{% obj_ct_id 'article' %}" />
-  {% include 'comments/commentlist.html' %}
+  
+  <div class="blog-commentlist">
+    <input type="hidden" id="target-id" value="{{ article.pk }}" />
+    <input type="hidden" id="target-label" value="articles" />
+    <input type="hidden" id="target-type" value="{% obj_ct_id 'article' %}" />
+    <div class="customEntry-comments">
+        <p>{% trans "Comments" %}: <span class="comment-count">{{ article.customcomment_set.count }}</span>
+        <a class="comment-toggle custom-comments-toggle" data-target="{{ article.pk }}" href="#">{% trans "Hide comments" %}</a></p>
+    </div>
+    {% include 'comments/commentlist.html' %}
+  </div>
 </div>{% endblock %}

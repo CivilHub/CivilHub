@@ -78,7 +78,7 @@
                         </ul>
                     </nav>
                     <a href="#0" class="cd-close">Close modal</a>
-                </div>{% endif %}
+                </div>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">
@@ -96,7 +96,7 @@
                     </ul>
                 </li>
 
-                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>
+                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">
