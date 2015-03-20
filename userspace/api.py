@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest.permissions import IsOwnerOrReadOnly
 from rest.serializers import PaginatedActionSerializer
 from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
+from bookmarks.models import Bookmark
 
 from .helpers import profile_activation, random_username, create_username
 from .managers import SocialAuthManager

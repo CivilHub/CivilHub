@@ -17,7 +17,6 @@
     <h2><a href="{{ article.get_absolute_url }}"><strong>{{ article.title }}</strong> <br>{{ article.subtitle }}</a></h2>
     <div class="blog-meta">{{ article.created }}</div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>
-
     <div class="article-blog-content">
       {{ article.content|safe }}
     </div>

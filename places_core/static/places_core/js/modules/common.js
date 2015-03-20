@@ -23,7 +23,7 @@ function ($, _, Backbone, ui, utils, AbuseWindow, ListView) {
     "use strict";
     
     //transifex
-    $('#popover-lang-list').append('<a href="https://www.transifex.com/projects/p/civilhub/" target="_blank" class="help_translate">Help in translate</a>');
+    $('#popover-lang-list').append('<a href="https://www.transifex.com/projects/p/civilhub/" target="_blank" class="help_translate">' + gettext("Help in translate") + '</a>');
 
     // "Statyczna" paginacja
     // ---------------------
