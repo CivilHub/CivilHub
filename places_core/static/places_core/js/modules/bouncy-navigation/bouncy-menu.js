@@ -16,16 +16,6 @@ function ($, _, utils) {
 var url = '/api-userspace/locations/';
 var tpl = _.template('<option value="<%= slug %>"><%= name %></option>');
 
-// Pobieramy listę obserwowanych przez użytkownika lokacji
-//
-// @param { Function } Funkcja do wywołania po pobraniu danych.
-
-function getData (fn) {
-	$.get(url, function (data) {
-		if (_.isFunction(fn)) fn(data);
-	});
-}
-
 // Mały helper, który składa url
 //
 // @param { String } Slug wybranej lokalizacji
@@ -53,7 +43,7 @@ function switchOptions (e) {
 // @param { jQuery.DomElement } Element select w jQuery
 
 function createMenu ($select) {
-	getData(function (locations) {
+	$.get(url, function (locations) {
 		var slug = $select.attr('data-location'), $option;
 
 		// Jeżeli jesteśmy w aktywnej lokacji, ustawiamy ją na wybraną,
@@ -82,6 +72,11 @@ function createMenu ($select) {
 			this.href = createUrl(slug, $(this).attr('data-content'));
 		});
 		$select.on('change', switchOptions);
+
+		// Upewniamy się, że mamy co pokazać.
+		if ($select.find('option').length) {
+			$select.show();
+		}
 	});
 }
 

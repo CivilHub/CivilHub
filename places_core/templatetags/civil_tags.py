@@ -142,12 +142,15 @@ def langlist(request):
 @register.simple_tag
 def obj_ct_id(model_name):
 
+    from articles.models import Article
     from ideas.models import Idea
     from blog.models import News
     from polls.models import Poll
     from topics.models import Discussion
 
-    if model_name == 'idea':
+    if model_name == 'article':
+        model = Article
+    elif model_name == 'idea':
         model = Idea
     elif model_name == 'news':
         model = News

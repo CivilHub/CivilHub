@@ -16,40 +16,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='SocialForumEntry',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('content', models.TextField(default='', verbose_name='content')),
-                ('date_created', models.DateTimeField(auto_now_add=True, verbose_name='date created')),
-                ('date_changed', models.DateTimeField(auto_now=True, verbose_name='date edited')),
-                ('creator', models.ForeignKey(related_name='social_entries', verbose_name='author', to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-                'ordering': ['date_created'],
-                'verbose_name': 'forum entry',
-                'verbose_name_plural': 'forum entries',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='SocialForumTopic',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200, verbose_name='name')),
-                ('slug', models.CharField(max_length=210, verbose_name='slug')),
-                ('description', models.TextField(default='', verbose_name='description', blank=True)),
-                ('date_created', models.DateTimeField(auto_now_add=True, verbose_name='date created')),
-                ('date_changed', models.DateTimeField(auto_now=True, verbose_name='date edited')),
-                ('is_closed', models.BooleanField(default=False, verbose_name='closed')),
-                ('creator', models.ForeignKey(related_name='social_topics', verbose_name='creator', to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-                'verbose_name': 'discussion',
-                'verbose_name_plural': 'discussions',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='SocialProject',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -117,18 +83,6 @@ class Migration(migrations.Migration):
             model_name='task',
             name='participants',
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, null=True, verbose_name='participants', blank=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='socialforumtopic',
-            name='project',
-            field=models.ForeignKey(related_name='discussions', verbose_name='project', to='projects.SocialProject'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='socialforumentry',
-            name='topic',
-            field=models.ForeignKey(verbose_name='discussion', to='projects.SocialForumTopic'),
             preserve_default=True,
         ),
     ]

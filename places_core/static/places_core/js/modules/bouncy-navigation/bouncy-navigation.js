@@ -63,13 +63,16 @@ BouncyNavigation.prototype._trigger = function (open) {
 };
 
 BouncyNavigation.prototype.initialize = function () {
-	this.$trigger.on('click', function () {
+	this.$trigger.on('click', function (e) {
+		e.preventDefault();
 		this._trigger(true);
 	}.bind(this));
-	this.$modal.find('.cd-close').on('click', function () {
+	this.$modal.find('.cd-close').on('click', function (e) {
+		e.preventDefault();
 		this._trigger(false);
 	}.bind(this));
 	this.$modal.on('click', function (e) {
+		e.preventDefault();
 		if($(e.target).is('.cd-bouncy-nav-modal')) {
 			this._trigger(false);
 		}

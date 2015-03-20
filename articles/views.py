@@ -98,11 +98,6 @@ class BlogEntryView(DetailView):
     queryset = Article.objects.filter(category__name='Blog')
     template_name = "articles/article-blog.html"
 
-    def get_context_data(self, **kwargs):
-        context = super(BlogEntryView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context
-
 
 class TopLevelArticleView(DetailView):
     """
@@ -117,8 +112,3 @@ class TopLevelArticleView(DetailView):
     def get_object(self, queryset=None):
         article = get_object_or_404(Article, slug=self.article_slug)
         return article
-
-    def get_context_data(self, **kwargs):
-        context = super(TopLevelArticleView, self).get_context_data(**kwargs)
-        context['content_type'] = ContentType.objects.get_for_model(Article).pk
-        return context

@@ -31,6 +31,7 @@ class Article(models.Model):
     """ Basic model for different types of articles. """
     title = models.CharField(max_length=64)
     slug = models.SlugField(max_length=64)
+    subtitle = models.CharField(max_length=200, blank=True, default="", verbose_name=_(u"subtitle"))
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)

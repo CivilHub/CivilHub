@@ -5,7 +5,7 @@ class CategoryTranslationOptions(TranslationOptions):
     fields = ('name', 'description',)
 
 class ArticleTranslationOptions(TranslationOptions):
-    fields = ('title', 'content')
+    fields = ('title', 'content', 'subtitle')
 
 
 translator.register(Category, CategoryTranslationOptions)

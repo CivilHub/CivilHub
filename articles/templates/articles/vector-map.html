@@ -2,31 +2,19 @@
 {% load i18n staticfiles civil_tags %}
 
 {% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
-{% block extra_styles %}
-    <link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/map.css">
-    <link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/mapplic/mapplic.css">
-{% endblock %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/map.css">
+<link rel="stylesheet" type="text/css" href="/static/places_core/css/mapplic/mapplic/mapplic.css">{% endblock %}
 
-{% block require_scripts %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/vector-map.js"></script>
-{% endblock %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/vector-map.js"></script>{% endblock %}
 
-
-{% block main_page_content %}
-<div class="main-page-content wrap mapplicWparContent">
-    
-    <div id="messages"></div>
-    
-    {% block header %}{% endblock %}
-    
-    {% block container_main %}
-    <div class="mapplicDiv">
-    	<div class="mapplicCountry"><p class="mappCountry">{% trans "Country" %}</p><p>{% trans "Search by location" %}<span class="fa fa-caret-down"></span></p></div>
-    	
-        <div id="mapplic"></div>
-    </div>
-
-    {% endblock %}
-    
-</div>
-{% endblock %}
+{% block main_page_content %}<div class="main-page-content wrap mapplicWparContent">
+  <div id="messages"></div>
+  {% block header %}{% endblock %}  
+  {% block container_main %}<div class="mapplicDiv">
+    <div class="mapplicCountry">
+      <p class="mappCountry">{% trans "Country" %}</p>
+      <p>{% trans "Search by location" %}<span class="fa fa-caret-down"></span></p>
+    </div>	
+    <div id="mapplic"></div>
+  </div>{% endblock %}
+</div>{% endblock %}
