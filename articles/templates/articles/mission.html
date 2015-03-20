@@ -1,0 +1,61 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+
+
+{% comment %}
+- to jest czysta templatka pod creed. Nie zawiera klasy container na poczatku. 
+{% endcomment %}
+
+{% block header %}
+<div class="headerBGa headerBGMission">
+<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small> {{ article.title }}</h1>
+</div>
+{% endblock %}
+
+{% block container_main %}
+{% block content %}
+
+{{ article.content | safe }} 
+
+
+{%comment%}
+<div class="static-page-header">
+<div class="container">
+<ul>
+<li><a href="#">Privacy Policy</a></li>
+<li><a href="#">Terms of Use</a></li>
+<li><a href="#">Core Values</a></li>
+</ul>
+</div>
+</div>  
+<div class="mission-staticpage">
+  <div class="mission-section">
+    <div class="container">
+      <div class="mission-content"> 
+        <h1>Misją CivilHub jest zaangażowanie wszystkich obywateli w poprawę naszego kraju oraz miast i miejscowości w których żyjemy.</h1>
+
+        <div class="mission-entry">
+          <h2>Dla naszych wolontariuszy</h2>
+          <p>Pragniemy budować organizację wspierającą lokalnych wolontariuszy, którzy dzięki swojej pasji i zaangażowaniu wspólnie z lokalnymi społecznościami realizują oddolne lokalne inicjatywy.</p>
+        </div>
+        <div class="mission-entry">
+          <h2>Dla naszych społeczności</h2>
+          <p>Naszym celem jest aby CivilHub stał się naturalną lokalną platformą, dzięki której życie w lokalnych społecznościach znajdujących się w dowolnym miejscu na świecie będzie lepsze.</p>
+          <p>Naszym największym marzeniem jest, aby nasza organizacja choć w najmniejszym stopniu przyczyniła się do pozytywnego rozwoju naszych miast, miejscowości i całych państw zlokalizowanych w dowolnym miejscu na świecie.</p>
+        </div>
+        <div class="mission-user">
+          <div class="mission-avatar"><img src="https://civilhub.org/media/img/avatars/d00d8dd6-8699-47e9-92a3-4a500e499df179.png" alt="Grzegorz Warzecha"></div><p>W co głęboko wierzę, <br> Grzegorz Warzecha.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+</div>
+{%endcomment%}
+
+
+{% endblock %}
+
+{% endblock %}

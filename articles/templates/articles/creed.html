@@ -1,0 +1,130 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+
+
+{% comment %}
+- to jest czysta templatka pod creed. Nie zawiera klasy container na poczatku. 
+{% endcomment %}
+
+{% block header %}
+<div class="headerBGa headerBGBlog">
+<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small> {{ article.title }}</h1>
+</div>
+{% endblock %}
+
+{% block container_main %}
+{% block content %}
+
+{{ article.content | safe }} 
+
+
+{%comment%}
+<div class="static-page-header">
+<div class="container">
+<ul>
+<li><a href="#">Privacy Policy</a></li>
+<li><a href="#">Terms of Use</a></li>
+<li><a href="#">Core Values</a></li>
+</ul>
+</div>
+</div>  
+<div class="creed-staticpage">
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">I</span>
+        <h2>Zawsze poza polityką</h2>
+        <p>Nie wspieramy i nigdy nie będziemy wspierać żadnej partii politycznej, ugrupowania czy strefy wpływów. Zależy na na tym aby łączyć ludzi niezależnie od wyznawanych poglądów politycznych czy wartości.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">II</span>
+        <h2>Wspólne dobro</h2>
+        <p>Najbardziej zależy nam na realizacji projektów które łączą wszystkich obywateli. Jeżeli chcesz wspierać tylko jedną grupę społeczną to nie licz na naszą pomoc. Dobro wspólne ponad dobro jednostki.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">III</span>
+        <h2>Publiczne dane</h2>
+        <p>Wszystkie informacje w serwisie (oprócz prywatnych wiadomości między użytkownikami) są i będą publicznie dostępne. Daje to możliwość przejrzenia aktywności każdego z użytkowników. Wszystkie idee, aktualności, dyskusje, projekty, mogą być wykorzystywane przez twórców innych aplikacji na licencji Creative Commons BY-NC-SA</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">IV</span>
+        <h2>Darmowy dostęp</h2>
+        <p>Całość witryny i danych zawsze będzie darmowa, aby nie ograniczać dostępu do treści.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">V</span>
+        <h2>Wykluczamy wszystkie rozmowy które dotyczą religii oraz orientacji seksualnej</h2>
+        <p>W naszej opinii są to tematy które nigdy nie zostaną jednoznacznie rozwiązane, każdy z nas ma własną subiektywna opinię.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">VI</span>
+        <h2>Szacunek do opinii innych</h2>
+        <p>Trollom dziękujemy. Pragniemy przykładać dużą uwagę do formy i treści materiałów znajdujących się w serwisie.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">VII</span>
+        <h2>Łączymy obywateli</h2>
+        <p>Naszym celem jest budowanie kapitału społecznego, czyli zaufania nas obywateli do siebie nawzajem. Kapitał społeczny jest nadrzędnym dobrem o które powinniśmy dbać.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">VIII</span>
+        <h2>Transparentność</h2>
+        <p>Zależy nam na tym, aby każdy z nas przedstawiał się z imienia i nazwiska, aby można było nas lepiej zidentyfikować. Jeżeli nie chcesz pisać pod własnymi imieniem i nazwiskiem to wyjdź z portalu.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">IX</span>
+        <h2>Pomysły przekuwamy w projekty</h2>
+        <p>W myśl słów "Jedynie czyn ma znaczenie. Najlepsze chęci pozostają bez skutku, o ile nie pociągają za sobą następstw praktycznych." – J. Piłsudski do korespondenta „Le petit Jurnal”, 1919.</p>
+      </div>
+    </div>
+  </div>
+  <div class="creed-section">
+    <div class="container">
+      <div>
+        <span class="creed-section-pk">X</span>
+        <h2>Ralny, zorganiozowany nacisk na władzę</h2>
+        <p>Jako zorganiozowane jednostki możemy skutecznie dożyć do realnych zmian.</p>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endcomment %}
+
+
+{% endblock %}
+
+{% endblock %}
