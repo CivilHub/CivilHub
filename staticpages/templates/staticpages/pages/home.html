@@ -1,79 +1,54 @@
 {% extends 'staticpages/index.html' %}
 {% load staticfiles i18n civil_tags %}
-
-
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
-
 {% block require_scripts %}
 <script>
 window.GOOGLE_DATA = {
-    scope: '{{ plus_scope }}',
-    id: '{{ plus_id }}'
+  scope: '{{ plus_scope }}',
+  id: '{{ plus_id }}'
 }
 </script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
 {% endblock %}
-
 {% block navigation %}{% endblock %}
-
-
 {% block content %}
-
 <div id="wrapper-Home">
-            <a href="/" class="top-logo-home"><div class="logo-Home"></div></a>
-            <div class="brief-Home">
-                <a href="/brief/"><p>{% trans "Brief" %}</p></a>
-            </div>
-            <div class="features-Home">
-                <a href="/features/"><p>{% trans "Features" %}</p></a>
-            </div>
-            <div class="login-Home">
-                <a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a>
-            </div>
-
-        <div class="content_box-Home">
-            <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-            <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better." %}</h2>
-            <br>
-            <a href="{% url 'user:register' %}"><p class="alink-home antimanA">{% trans "Sign up" %}</p></a>
-        </div>
-
-        <div class="footerLang footer">   
-            
-            <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
-                <input type="text" name="next" value="{{ request.path }}" />
-                <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
-            </form>
-            <div id="lang-selector">
-                <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
-                <div id="popover-lang-list">
-                    <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
-                </div>
-            </div>
-            
-        </div>
-
-        <div class="footer-Home">
-            <ul>
-                <li><a href="http://maciejmargas.pl/" target="_blank" rel="nofollow">{% trans "About movie" %}</a></li>
-                <li><a href="/terms/">{% trans "Terms of Use" %}</a></li>
-                <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
-                <li><a href="#"><div class="mute_bg"><div class="volume float_left"></div><div class="tubular-mute">&nbsp;{% trans "Mute" %}</div></div></a></li>
-            </ul>
-        </div>
+  <a href="/" class="top-logo-home"><div class="logo-Home"></div></a>
+  <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
+  <div class="features-Home"><a href="/features/"><p>{% trans "Features" %}</p></a></div>
+  <div class="login-Home"><a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a></div>
+  <div class="content_box-Home">
+    <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
+    <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better." %}</h2><br>
+    <a href="{% url 'user:register' %}"><p class="alink-home antimanA">{% trans "Sign up" %}</p></a>
+  </div>
+  <div class="footerLang footer">   
+    <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+      <input type="text" name="next" value="{{ request.path }}" />
+      <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+    </form>
+    <div id="lang-selector">
+      <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
+      <div id="popover-lang-list">
+        <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
+      </div>
     </div>
-
+  </div>
+  <div class="footer-Home">
+    <ul>
+      <li><a href="http://maciejmargas.pl/" target="_blank" rel="nofollow">{% trans "About movie" %}</a></li>
+      <li><a href="/terms/">{% trans "Terms of Use" %}</a></li>
+      <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
+      <li><a href="#"><div class="mute_bg"><div class="volume float_left"></div><div class="tubular-mute">&nbsp;{% trans "Mute" %}</div></div></a></li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
-
-
 {% block footer %}
-
-{% include 'places_core/script-templates/flash-msg-tpl.html' %}
-{% include 'places_core/user-popup.html' %}
-{% include 'places_core/abuse-window-modal.html' %}
-{% include 'places_core/sublocation-dropdown.html' %}
-
-{% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
-{% include 'places_core/google-analytics.html' %}
-
+  {% include 'places_core/script-templates/flash-msg-tpl.html' %}
+  {% include 'places_core/user-popup.html' %}
+  {% include 'places_core/abuse-window-modal.html' %}
+  {% include 'places_core/sublocation-dropdown.html' %}
+  {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
+  {% include 'places_core/google-analytics.html' %}
 {% endblock %}

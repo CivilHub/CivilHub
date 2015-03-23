@@ -3,15 +3,12 @@
 {% comment %}
 - Templatka dla Brief (skrócona wersja features). 
 {% endcomment %}
-{% block require_scripts %}
 
-<script src="{% static 'places_core' %}/js/{% js_path %}/brief.js"></script>
-{% endblock %}
 {% block header %}{% endblock %}
 {% block container_main %}
   {% block content %}
-  {{ article.content |safe }}
-  {% comment %}
+   {{ article.content |safe }} 
+ {% comment %}
   <div id="brief-page">
     <div class="brief-container">
       <div class="container brief-s1">
@@ -106,20 +103,56 @@
         <h1>Miasta</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent blandit nulla ac sodales ultricies. Vestibulum eget quam sit amet purus aliquam fringilla.</p>
         <div class="brief-slide-container">
-          <div class="brief-slide-content custom-slider-wrapp">
-            <img src="/static/places_core/img/brief/pl_slide_9.png" id="brief-slider-img">
-          </div>
-          <div class="brief-slide-controls">
-            <ul class="custom-slider-controls">
-              <li><a href="#" class="bg-control bg-control-s1"></a></li>
-              <li><a href="#" class="bg-control bg-control-s2"></a></li>
-              <li><a href="#" class="bg-control bg-control-s3"></a></li>
-              <li><a href="#" class="bg-control bg-control-s4"></a></li>
-              <li><a href="#" class="bg-control bg-control-s5"></a></li>
-              <li><a href="#" class="bg-control bg-control-s6"></a></li>
-              <li><a href="#" class="bg-control bg-control-s7"></a></li>
-            </ul>
-          </div>
+          <div id="cities_pl" class="carousel"  data-interval="false" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="item active">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s1"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s2"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s3"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s4"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s5"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s6"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s7"></div>
+                </div>
+              </div>
+            </div>
+            <div class="brief-slide-controls">
+              <ol class="carousel-indicators custom-slider-controls">
+               <li data-target="#cities_pl" data-slide-to="0" class="active bg-control bg-control-s1"></li>
+                <li data-target="#cities_pl" data-slide-to="1" class="bg-control bg-control-s2"></li>
+                <li data-target="#cities_pl" data-slide-to="2" class="bg-control bg-control-s3"></li>
+                <li data-target="#cities_pl" data-slide-to="3" class="bg-control bg-control-s4"></li>
+                <li data-target="#cities_pl" data-slide-to="4"class="bg-control bg-control-s5"></li>
+                <li data-target="#cities_pl" data-slide-to="5" class="bg-control bg-control-s6"></li>
+                <li data-target="#cities_pl" data-slide-to="6" class="bg-control bg-control-s7"></li>
+              </ol>   
+            </div>
+          </div> 
         </div>
       </div>
       <div class="divider"></div>
@@ -230,7 +263,7 @@
       </div>
     </div>
   </div>
-  {% endcomment %}
+{% endcomment %}
   {% endblock %}
 
 {% endblock %}

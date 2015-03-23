@@ -8,9 +8,4 @@ require(['jquery'], function ($) {
 
   "use strict";
 
-  $('.bg-control').click(function(){
-  	event.preventDefault();
-  	$('#brief-slider-img').attr('src','/static/places_core/img/brief/pl_slide_9.png');
-  });
-
 });

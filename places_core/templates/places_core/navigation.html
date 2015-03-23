@@ -61,7 +61,7 @@
             </ul>
             
             <ul class="nav navbar-nav navbar-right navbarHeader">
-                {% if user.is_authenticated %}<li><a href="#" class="cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="fa fa-plus fa-fw"></span> {% trans "Add" %}</a></li>
+                {% if user.is_authenticated %}<li><a href="#" class="cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus"></span></a></li>
                 <div class="cd-bouncy-nav-modal">
                     <div class="cd-bouncy-select-location"><h2>{% trans "Actually creating in" %}:</h2>
                         <select{% if location %} data-location="{{ location.slug }}"{% endif %} class="form-control input-sm">

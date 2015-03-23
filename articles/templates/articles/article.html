@@ -1,22 +1,13 @@
 {% extends 'places_core/base.html' %}
 {% load i18n staticfiles civil_tags %}
-
 {% block require_scripts %}
 <script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>
 {% endblock %}
-
-
 {% block header %}
-
 <div class="headerBGa headerBGBlog">
-<h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small> {{ article.title }}</h1>
+  <h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small> {{ article.title }}</h1>
 </div>
-
-
 {% endblock %}
-
 {% block content %}
-
-    <div>{{ article.content | safe }}</div>
-    
+  <div>{{ article.content | safe }}</div>
 {% endblock %}
