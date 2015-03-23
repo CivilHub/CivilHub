@@ -11,7 +11,7 @@ require(['jquery'], function ($) {
 
 function SubMenu ($el) {
 	this.$el = $el;
-	this.is_menu_opened = false;
+	this.isMenuOpened = false;
 	this.$submenu = this.$el
 		.parent()
 		.next('.entry-submenu');
@@ -30,18 +30,18 @@ SubMenu.prototype.open = function () {
 		$('body').one('click', function () {
 			this.close();
 		}.bind(this));
-		this.is_menu_opened = true;
+		this.isMenuOpened = true;
 	}.bind(this));
 };
 
 SubMenu.prototype.close = function () {
 	this.$submenu.slideUp('fast', function () {
-		this.is_menu_opened = false;
+		this.isMenuOpened = false;
 	}.bind(this));
 };
 
 SubMenu.prototype.toggle = function () {
-	if (this.is_menu_opened)
+	if (this.isMenuOpened)
 		this.close();
 	else
 		this.open();

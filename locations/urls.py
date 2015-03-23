@@ -88,12 +88,11 @@ urlpatterns = patterns('',
     # Generic location views
     url(r'^(?P<slug>[\w-]+)/activity/', LocationActionsView.as_view(), name='activity'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
-    url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
-    # Ajaxy functions - follow/unfollow location actions
+
+    # Ajaxy functions
     url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
     url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
     url(r'background/(?P<pk>\d+)', LocationBackgroundView.as_view(), name='background'),
-    # Ajaxy functions - invite other users to follow location.
     url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite')
 )

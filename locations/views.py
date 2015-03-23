@@ -6,12 +6,14 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -42,6 +44,26 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
+
+
+class LocationAccessMixin(SingleObjectMixin):
+    """ Check user permissions for particular location. Made for update views. """
+    def get_object(self):
+        location = super(LocationAccessMixin, self).get_object()
+        if not is_moderator(self.request.user, location):
+            raise PermissionDenied
+        return location
+
+
+class LocationViewMixin(DetailView):
+    """ Provides common context data for all presentaion views. """
+    model = Location
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationViewMixin, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+        context['is_moderator'] = is_moderator(self.request.user, self.object)
+        return context
 
 
 class LocationIdeaCreate(LoginRequiredMixin, CreateView):
@@ -290,17 +312,6 @@ class LocationListView(ListView):
         return context
 
 
-class LocationViewMixin(DetailView):
-    """ """
-    model = Location
-
-    def get_context_data(self, **kwargs):
-        context = super(LocationViewMixin, self).get_context_data(**kwargs)
-        context['title'] = self.object.name
-        context['is_moderator'] = is_moderator(self.request.user, self.object)
-        return context
-
-
 class LocationDetailView(LocationViewMixin):
     """ Detailed location view. """
     template_name = 'locations/location_detail.html'
@@ -357,11 +368,9 @@ class LocationBackgroundView(FormView):
 
 
 class CreateLocationView(LoginRequiredMixin, CreateView):
-    """
-    Add new location
-    """
+    """ Add new location. """
     model = Location
-    fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    fields = ['name', 'description', 'latitude', 'longitude']
     form_class = LocationForm
 
     def get_context_data(self, **kwargs):
@@ -375,10 +384,8 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
         return super(CreateLocationView, self).form_valid(form)
 
 
-class UpdateLocationView(LoginRequiredMixin, UpdateView):
-    """
-    Update existing location
-    """
+class UpdateLocationView(LocationAccessMixin, UpdateView):
+    """ Update existing location. """
     model = Location
     form_class = LocationForm
 
@@ -386,13 +393,20 @@ class UpdateLocationView(LoginRequiredMixin, UpdateView):
         location = super(UpdateLocationView, self).get_object()
         context = super(UpdateLocationView, self).get_context_data(**kwargs)
         context['title'] = location.name
+        context['countries'] = Country.objects.all()
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
         return context
 
+    def form_valid(self, form):
+        """ We have to cleanup old markers to save changes. """
+        for mp in MapPointer.objects.for_model(form.instance):
+            mp.delete()
+        return super(UpdateLocationView, self).form_valid(form)
 
-class DeleteLocationView(LoginRequiredMixin, DeleteView):
+
+class DeleteLocationView(LocationAccessMixin, DeleteView):
     """ Delete location. """
     model = Location
     success_url = reverse_lazy('locations:index')

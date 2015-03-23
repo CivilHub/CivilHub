@@ -4,16 +4,21 @@ from django.forms.util import ErrorList
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+
 from taggit.forms import TagField
+from haystack.forms import SearchForm
+
+from maps.models import MapPointer
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from blog.models import News
 from blog.models import Category as BlogCategory
-from locations.models import Location, Country
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
-from haystack.forms import SearchForm
 from places_core.forms import BootstrapBaseForm
+
+from .models import Location, Country
 
 
 class LocationForm(forms.ModelForm, BootstrapBaseForm):
@@ -77,10 +82,22 @@ class LocationForm(forms.ModelForm, BootstrapBaseForm):
         
         return self.cleaned_data
 
+    def save(self, force_insert=False, force_update=False, commit=True):
+        location = super(LocationForm, self).save()
+        lat = self.cleaned_data.get('latitude')
+        lng = self.cleaned_data.get('longitude')
+        if lat and lng:
+            marker = MapPointer.objects.create(
+                content_type=ContentType.objects.get_for_model(location),
+                object_pk=location.pk,
+                latitude=lat, longitude=lng
+            )
+        return location
+
     class Meta:
         model = Location
-        fields = ('name', 'description', 'country_code', 'parent', 'population',
-                  'latitude', 'longitude', 'image',)
+        fields = ('name', 'description', 'country_code', 'parent',
+                  'population', 'latitude', 'longitude',)
 
 
 class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):

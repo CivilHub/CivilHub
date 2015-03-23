@@ -364,19 +364,20 @@ textarea{ resize: vertical; }
 }
 
 .change-background-btn, .change-background-btn:active, .change-background-btn:hover {
-    display: block;
-    min-width: 140px;
     background-color: rgba(0,0,0,0.5);
     color: #fff;
     height: 34px;
     line-height: 34px;
     text-align: center;
     padding: 0px 30px;
-    position: absolute;
-    left: 0px;
-    top: 100%;
-    margin-top: -54px;
     text-decoration: none;
+    display: inline-block;
+    @media(min-width: 768px) {
+        min-width: 140px;
+        float: left;
+        margin-top: 82px;
+        margin-right: 5px;
+    }
 }
 
 .btn-sendBlue, .btn-cancelGray{
