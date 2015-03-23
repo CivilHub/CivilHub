@@ -1,5 +1,4 @@
 {% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
-
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
@@ -8,12 +7,9 @@
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:description" content="{{ article.content|striptags|slice:":100" }}..." />
 <meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
-
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>{% endblock %}
-
 {% block content %}<div id="blog-page">
   <article>
-    <div class="blog-img"><img src="/static/places_core/img/brief/pl_slide_1.png"></div>
     <h2><a href="{{ article.get_absolute_url }}"><strong>{{ article.title }}</strong> <br>{{ article.subtitle }}</a></h2>
     <div class="blog-meta">{{ article.created }}</div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>

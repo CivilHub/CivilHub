@@ -1,14 +1,14 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% block content %}
 <div class="main-content">
-	<div class="create-form newFormCreate">
+  <div class="create-form newFormCreate">
     <h3>{% trans 'Create new group' %}</h3>
-		<form method="post" action="" class="form-horizontal">{% csrf_token %}
-		  {{ form.as_p }}
-		  <div class="form-group mb0 ml0">
-		    <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Save" %}</button>
-		  </div>
-		</form>
-	</div>
+    <form method="post" action="" class="form-horizontal">{% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-group mb0 ml0">
+        <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Save" %}</button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

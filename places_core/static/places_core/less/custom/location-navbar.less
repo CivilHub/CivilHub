@@ -31,7 +31,20 @@
     >li {
 
       .maker-globe-point{
-        margin-top: -3px;
+        margin-top: 12px;
+        margin-bottom: -4px;
+        height: 18px;
+        width: 18px;
+        display: inline-block;
+        background-image: url(../img/globe_point.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        @media 
+        (-webkit-min-device-pixel-ratio: 2), 
+        (min-resolution: 192dpi) { 
+            background-image: url(../img/globe_point@2x.png);
+        }
       }
         
       &>a, &>a {      

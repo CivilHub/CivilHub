@@ -4,102 +4,75 @@
 {% block content %}
 
 <div class="col-sm-12">
-    
 {% comment %} List of all location followers. {% endcomment %}
-    
-<div class="followers-entry">
-<h1>{% trans "People" %}</h1>
-<h2>{% blocktrans %}People who follow this place{% endblocktrans %}</h2>
-
-<div class="row">
-    {% for usr in followers %}
-        <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="follower">
-                
-                <div class="follower-header">
-                <a href="{{ usr.profile.get_absolute_url }}">
-                    <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumb_url }}"></div>
-                    <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
-                    </a>
-                </div>
-                
-                <div class="follower-info">
-                    <p class="follower-name">
-                        {{ usr.get_full_name }}
-                    </p>
-                    <div class="points">
-                        <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
-                    </div>
-                    {% comment %}
-                    {% if user.is_superuser or is_moderator %}
-                        {% if user != usr %}
-                            <p class="admin-extra-options">
-                                <a href="#" class="moderator-badge-add custom-tooltip" title="{% trans "Give badge" %}" data-target="{{ usr.pk }}"><span class="fa fa-paw">&nbsp;</span></a>
-                            </p>
-                        {% endif %}
-                    {% endif %}
-                    {% endcomment %}
-                </div>
+  <div class="followers-entry">
+    <h1>{% trans "People" %}</h1>
+    <h2>{% blocktrans %}People who follow this place{% endblocktrans %}</h2>
+    <div class="row">
+      {% for usr in followers %}<div class="col-md-2 col-sm-4 col-xs-6">
+        <div class="follower">
+          <div class="follower-header">
+          <a href="{{ usr.profile.get_absolute_url }}">
+            <div class="follower-background"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.thumb_url }}"></div>
+            <div class="follower-photo"><img alt="{{ usr.get_full_name }}" src="{{ usr.profile.avatar.url }}"></div>
+            </a>
+          </div>
+          <div class="follower-info">
+            <p class="follower-name">
+              <a href="{{ usr.profile.get_absolute_url }}">{{ usr.get_full_name }}</a>
+            </p>
+            <div class="points">
+              <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
             </div>
         </div>
-    {% endfor %}
-</div>
-
-{% if followers|length > 60 %}
-<ul class="pagination">
-    {% if followers.has_previous %}
+      </div>{% endfor %}
+    </div>
+    {% if followers|length > 60 %}<ul class="pagination">
+      {% if followers.has_previous %}
         <li><a href="?page=1">&laquo;</a></li>
         <li><a href="?page={{ followers.previous_page_number }}">{% trans "previous" %}</a></li>
-    {% endif %}    
-    
-    {% for page in followers.paginator.page_range %}
+      {% endif %}    
+      {% for page in followers.paginator.page_range %}
         <li{% if page == followers.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-    {% endfor %}
-
-    {% if followers.has_next %}
+      {% endfor %}
+      {% if followers.has_next %}
         <li><a href="?page={{ followers.next_page_number }}">{% trans "next" %}</a></li>
         <li><a href="?page={{ followers.paginator.num_pages }}">&raquo;</a></li>
-    {% endif %}
-</ul>
-{% endif %}
-
+      {% endif %}
+    </ul>{% endif %}
+  </div>
 </div>
-</div>
-
 {% if is_moderator %}
-{% comment %}
+  {% comment %}
     Wszystkie style są oczywiście do przeniesienia w odpowienie miejsca. Czekam
     na dołączenie deweloperskich plików less do repozytorium.
     Warning: Klasa .submit-btn jest ważna!!!
-{% endcomment %}
-<style>
-.badge-entry { border: 1px solid transparent; }
-.badge-selected { border: 1px solid red; }
-</style>
-<!-- Modal form to choose badge for user. -->
-<div id="select-badge-form" class="modal fade">
+  {% endcomment %}
+  <style>
+  .badge-entry { border: 1px solid transparent; }
+  .badge-selected { border: 1px solid red; }
+  </style>
+  <!-- Modal form to choose badge for user. -->
+  <div id="select-badge-form" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans "Select badge for user" %}</h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-                <button type="button" class="btn btn-primary submit-btn">{% trans "Select" %}</button>
-            </div>
-        </div><!-- /.modal-content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">{% trans "Select badge for user" %}</h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+          <button type="button" class="btn btn-primary submit-btn">{% trans "Select" %}</button>
+        </div>
+      </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<script type="text/tamplate" id="badge-tpl">
-<div class="col-sm-2">
+  </div><!-- /.modal -->
+  <script type="text/tamplate" id="badge-tpl">
+  <div class="col-sm-2">
     <img src="<%= thumbnail %>" alt="<%= name %>" />
-</div>
-<p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
-</script>
-
-{% endif %}
-
+  </div>
+  <p class="col-sm-10"><b><%= name %></b><br /><%= description %></p>
+  </script>
+  {% endif %}
 {% endblock %}
