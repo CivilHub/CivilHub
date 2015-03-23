@@ -1,4 +1,4 @@
-{% extends 'projects/index.html' %}{% load i18n civil_tags %}
+{% extends 'projects/index.html' %}{% load i18n civil_tags comment_tags %}
 {% block content %}
 <h1 class="task-page-heading">
   {{ object }} {% if not object.is_done %}<small class="green">{% trans 'Active' %}</small>{% endif %}
@@ -93,7 +93,7 @@
       {% if active_task %}{% with active_task|content_type as ctype %}<div class="task-comments-right">
       <div class="top-Comments">
         <p>
-          {% trans "Comments" %}: <span class="badge comment-count">{{ active_task.customcomment_set.count }}</span>
+          {% trans "Comments" %}: <span class="badge comment-count">{% get_comment_count active_task %}</span>
           <a class="comment-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
         </p>
       </div>
