@@ -37,6 +37,12 @@ class Article(models.Model):
     edited = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, blank=True, null=True)
 
+    class Meta:
+        ordering = ['title',]
+
+    def __str__(self):
+        return self.title
+
     def get_absolute_url(self):
         """ 
         We have to treat support entries differently then others. It's possible
@@ -57,10 +63,3 @@ class Article(models.Model):
             # wpisy na blogu
             urlentry = 'articles:blog_entry'
         return reverse(urlentry.lower(), kwargs={'slug':self.slug})
-        
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title',]

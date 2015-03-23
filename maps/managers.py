@@ -5,7 +5,7 @@ from django.utils.encoding import force_text
 
 
 class MapPointerManager(models.Manager):
-
+    """ Manager dla markerów na mapie - filtrujemy przez lokację lub obiekt. """
     def for_model(self, model):
         """ QuerySet for all pointers for a particular model. """
         ct = ContentType.objects.get_for_model(model)

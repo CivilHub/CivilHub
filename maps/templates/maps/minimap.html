@@ -7,14 +7,14 @@
     
     var newsapp = {markers:[]}
     
-    {% for m in map_markers %}
+    {% for m in MARKERS %}
     newsapp.markers.push({
         lat: '{{ m.latitude }}',
         lng: '{{ m.longitude }}',
         pk: '{{ m.pk }}'
     });
     {% endfor %}
-    
+
     window.MARKERS = newsapp.markers;
 })();
 </script>

@@ -24,16 +24,6 @@
             <div class="points">
               <span class="points-count">{{ usr.profile.rank_pts }}</span> pkt
             </div>
-            {% comment %}
-            {% if user.is_superuser or is_moderator %}
-              {% if user != usr %}
-                <p class="admin-extra-options">
-                  <a href="#" class="moderator-badge-add custom-tooltip" title="{% trans "Give badge" %}" data-target="{{ usr.pk }}"><span class="fa fa-paw">&nbsp;</span></a>
-                </p>
-              {% endif %}
-            {% endif %}
-            {% endcomment %}
-          </div>
         </div>
       </div>{% endfor %}
     </div>

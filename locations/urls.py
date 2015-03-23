@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from ideas.views import IdeasListView, IdeasDetailView
-from blog.views import NewsDetailView, NewsListView, NewsCreateView, NewsUpdateView
+from ideas import views as idea_views
+from blog import views as blog_views
 from topics.views import DiscussionDetailView, DiscussionListView
 from polls.views import PollDetails, PollResults, PollListView
 from gallery.views import LocationGalleryView, PlacePictureView, \
@@ -37,20 +37,19 @@ urlpatterns = patterns('',
 
     # POMYSŁY
     url(r'^(?P<slug>[\w-]+)/ideas/create/', LocationIdeaCreate.as_view(), name='new_idea'),
-    url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/', IdeasDetailView.as_view(), name='idea_detail'),
-    url(r'^(?P<location_slug>[\w-]+)/ideas/', IdeasListView.as_view(), name='ideas'),
+    url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/', idea_views.IdeasDetailView.as_view(), name='idea_detail'),
+    url(r'^(?P<location_slug>[\w-]+)/ideas/', idea_views.IdeasListView.as_view(), name='ideas'),
 
     # BLOG
-    url(r'^(?P<location_slug>[\w-]+)/news/create', NewsCreateView.as_view(), name='news_create'),
-    url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)/update/', NewsUpdateView.as_view(), name='news_update'),
-    url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)', NewsDetailView.as_view(), name='news_detail'),
-    url(r'^(?P<location_slug>[\w-]+)/news/', NewsListView.as_view(), name='news'),
+    url(r'^(?P<location_slug>[\w-]+)/news/create', blog_views.NewsCreateView.as_view(), name='news_create'),
+    url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)/update/', blog_views.NewsUpdateView.as_view(), name='news_update'),
+    url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)', blog_views.NewsDetailView.as_view(), name='news_detail'),
+    url(r'^(?P<location_slug>[\w-]+)/news/', blog_views.NewsListView.as_view(), name='news'),
 
     # FORUM (dyskusje)
     url(r'^(?P<slug>[\w-]+)/discussion/create/', LocationDiscussionCreate.as_view(), name='new_topic'),
     url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)/', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<location_slug>[\w-]+)/discussion/', DiscussionListView.as_view(), name='discussions'),
-    url(r'^(?P<slug>[\w-]+)/discussions/', ajax_discussion_list, name='ajaxlist'),
 
     # ANKIETY
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
@@ -89,13 +88,11 @@ urlpatterns = patterns('',
     # Generic location views
     url(r'^(?P<slug>[\w-]+)/activity/', LocationActionsView.as_view(), name='activity'),
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
-    url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
-    # Ajaxy functions - follow/unfollow location actions
+
+    # Ajaxy functions
     url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
     url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
-    #url(r'background/(?P<pk>\d+)', change_background, name='background'),
     url(r'background/(?P<pk>\d+)', LocationBackgroundView.as_view(), name='background'),
-    # Ajaxy functions - invite other users to follow location.
     url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite')
 )

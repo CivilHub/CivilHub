@@ -6,12 +6,14 @@ from django.shortcuts import render, get_object_or_404, redirect, render_to_resp
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.detail import SingleObjectMixin
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -44,52 +46,23 @@ from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
 
 
-class LocationIdeasList(DetailView):
-    """ Location ideas list. """
+class LocationAccessMixin(SingleObjectMixin):
+    """ Check user permissions for particular location. Made for update views. """
+    def get_object(self):
+        location = super(LocationAccessMixin, self).get_object()
+        if not is_moderator(self.request.user, location):
+            raise PermissionDenied
+        return location
+
+
+class LocationViewMixin(DetailView):
+    """ Provides common context data for all presentaion views. """
     model = Location
-    template_name = 'locations/location_ideas.html'
-
-    @classmethod
-    def list_ideas(cls, queryset, order):
-        """ Order ideas list by few different keys. """
-        if order == 'title':
-            return queryset.order_by('name')
-        elif order == 'date':
-            return queryset.order_by('-date_created')
-        elif order == 'category':
-            return queryset.order_by('category__name')
-        elif order == 'username':
-            l = list(queryset);
-            # Order by last name - we assume that every user has full name
-            l.sort(key=lambda x: x.creator.get_full_name().split(' ')[1])
-            return l
-        elif order == 'votes':
-            l = list(queryset);
-            l.sort(key=lambda x: x.get_votes())
-            return l
-        else:
-            return queryset
-
-    @classmethod
-    def filter_ideas(cls, queryset, filter):
-        """ Filter ideas queryset to exclude unnecessary entries. """
-        if filter == 'true':
-            return queryset.filter(status=True)
-        elif filter == 'false':
-            return queryset.filter(status=False)
-        else:
-            return queryset.filter(name__icontains=filter)
 
     def get_context_data(self, **kwargs):
-        context = super(LocationIdeasList, self).get_context_data(**kwargs)
-        ideas = self.object.idea_set.all()
-        context['title'] = self.object.name + ', ' + _("Ideas") + " | CivilHub"
-        context['form'] = IdeaCategoryForm()
-        context['ideas'] = True
-        context['links'] = links['ideas']
-        context['appname'] = 'idea-list'
-        context['categories'] = IdeaCategory.objects.all()
-        #context['tags'] = TagFilter(self.object).get_items()
+        context = super(LocationViewMixin, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+        context['is_moderator'] = is_moderator(self.request.user, self.object)
         return context
 
 
@@ -141,96 +114,6 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
                 'links': links['ideas'],
             }
         return render(self.request, self.template_name, ctx)
-
-
-class LocationDiscussionsList(DetailView):
-    """
-    Get list of all discussion topics related to this location.
-    """
-    model = Location
-    template_name = 'locations/location_forum.html'
-
-    def get_context_data(self, **kwargs):
-        location = super(LocationDiscussionsList, self).get_object()
-        context  = super(LocationDiscussionsList, self).get_context_data(**kwargs)
-        context['discussions'] = True
-        context['title']        = location.name + ", " + _("Discussions") + " | CivilHub"
-        context['categories']   = ForumCategory.objects.all()
-        context['search_form']  = SearchDiscussionForm()
-        context['is_moderator'] = is_moderator(self.request.user, location)
-        context['links']        = links['discussions']
-        context['tags'] = TagFilter(location).get_items()
-        return context
-
-
-def ajax_discussion_list(request, slug):
-    """
-    "Ulepszenie" filtrowania wyników dla klientów korzystających
-    z Javascript.
-    """
-    try:
-        location = Location.objects.get(slug=slug)
-        queryset = Discussion.objects.filter(location=location)
-        categories = ForumCategory.objects.all()
-        category = request.GET.get('category')
-        meta     = request.GET.get('meta')
-        state    = request.GET.get('state')
-        time     = request.GET.get('time')
-        page     = request.GET.get('page')
-        text     = request.GET.get('text')
-    except Location.DoesNotExist:
-        location = None
-    
-    if location is None or not request.is_ajax():
-        raise Http404()
-    
-    if category != 'all':
-        queryset = queryset.filter(category=category)
-
-    if state != 'all':
-        queryset = queryset.filter(status=state)
-
-    if text and text != 'false':
-        queryset = queryset.filter(question__contains=text)
-
-    time_delta = None
-
-    if time == 'day':
-        time_delta = datetime.date.today() - datetime.timedelta(days=1)
-    if time == 'week':
-        time_delta = datetime.date.today() - datetime.timedelta(days=7)
-    if time == 'month':
-        time_delta = datetime.date.today() - relativedelta(months=1)
-    if time == 'year':
-        time_delta = datetime.date.today() - relativedelta(years=1)
-
-    if time_delta:
-        queryset = queryset.filter(date_created__gte=time_delta)
-
-    if meta:
-        queryset = queryset.order_by(meta)
-
-    paginator = Paginator(queryset, settings.LIST_PAGINATION_LIMIT)
-
-    context = {}
-
-    try:
-        context['discussions'] = paginator.page(page)
-    except PageNotAnInteger:
-        context['discussions'] = paginator.page(1)
-    except EmptyPage:
-        context['discussions'] = paginator.page(paginator.num_pages)
-
-    context['title']        = location.name + ', ' + _('Discussions')
-    context['location']     = location
-    context['categories']   = categories
-    context['search_form']  = SearchDiscussionForm()
-    context['is_moderator'] = is_moderator(request.user, location)
-    context['links']        = links['discussions']
-    context['appname']      = 'discussion-list'
-    context['tags'] = TagFilter(location).get_items()
-
-    return render(request, 'locations/location_forum.html', context)
 
 
 class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
@@ -358,24 +241,6 @@ class LocationFollowersList(DetailView):
         return context
 
 
-class LocationPollsList(DetailView):
-    """
-    Show list of polls made in this location.
-    """
-    model = Location
-    template_name = 'locations/location_polls.html'
-
-    def get_context_data(self, **kwargs):
-        location = super(LocationPollsList, self).get_object()
-        context = super(LocationPollsList, self).get_context_data(**kwargs)
-        context['title'] = location.name + ', ' + _('Polls')
-        context['polls'] = Poll.objects.filter(location=location)
-        context['links'] = links['polls']
-        context['is_moderator'] = is_moderator(self.request.user, location)
-        context['tags'] = TagFilter(self.object).get_items()
-        return context
-
-
 class LocationPollCreate(LoginRequiredMixin, CreateView):
     """
     Create poll in currently selected location.
@@ -447,30 +312,6 @@ class LocationListView(ListView):
         return context
 
 
-def get_latest(location, item_type):
-    """ Get latest item from location set. """
-    if item_type == 'blog':
-        lset = location.news_set.all().distinct()
-    elif item_type == 'ideas':
-        lset = location.idea_set.all().distinct()
-    elif item_type == 'topics':
-        lset = location.discussion_set.all().distinct()
-    elif item_type == 'polls':
-        lset = location.poll_set.all().distinct()
-    return lset.order_by('-date_created')[:5]
-
-
-class LocationViewMixin(DetailView):
-    """ """
-    model = Location
-
-    def get_context_data(self, **kwargs):
-        context = super(LocationViewMixin, self).get_context_data(**kwargs)
-        context['title'] = self.object.name
-        context['is_moderator'] = is_moderator(self.request.user, self.object)
-        return context
-
-
 class LocationDetailView(LocationViewMixin):
     """ Detailed location view. """
     template_name = 'locations/location_detail.html'
@@ -527,11 +368,9 @@ class LocationBackgroundView(FormView):
 
 
 class CreateLocationView(LoginRequiredMixin, CreateView):
-    """
-    Add new location
-    """
+    """ Add new location. """
     model = Location
-    fields = ['name', 'description', 'latitude', 'longitude', 'image']
+    fields = ['name', 'description', 'latitude', 'longitude']
     form_class = LocationForm
 
     def get_context_data(self, **kwargs):
@@ -545,10 +384,8 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
         return super(CreateLocationView, self).form_valid(form)
 
 
-class UpdateLocationView(LoginRequiredMixin, UpdateView):
-    """
-    Update existing location
-    """
+class UpdateLocationView(LocationAccessMixin, UpdateView):
+    """ Update existing location. """
     model = Location
     form_class = LocationForm
 
@@ -556,16 +393,21 @@ class UpdateLocationView(LoginRequiredMixin, UpdateView):
         location = super(UpdateLocationView, self).get_object()
         context = super(UpdateLocationView, self).get_context_data(**kwargs)
         context['title'] = location.name
+        context['countries'] = Country.objects.all()
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
         return context
 
+    def form_valid(self, form):
+        """ We have to cleanup old markers to save changes. """
+        for mp in MapPointer.objects.for_model(form.instance):
+            mp.delete()
+        return super(UpdateLocationView, self).form_valid(form)
 
-class DeleteLocationView(LoginRequiredMixin, DeleteView):
-    """
-    Delete location
-    """
+
+class DeleteLocationView(LocationAccessMixin, DeleteView):
+    """ Delete location. """
     model = Location
     success_url = reverse_lazy('locations:index')
 
@@ -760,16 +602,3 @@ def remove_follower(request, pk):
             'message': _('Something, somewhere went terribly wrong'),
         }
     return HttpResponse(json.dumps(response))
-
-
-@login_required
-@require_POST
-def change_background(request, pk):
-    """ Change place picture with single button. """
-    location = Location.objects.get(pk=pk)
-    user = request.user
-    if not user.is_superuser and not is_moderator(user, location):
-        return HttpResponseForbidden()
-    location.image = request.FILES['image']
-    location.save()
-    return redirect(request.META['HTTP_REFERER'])

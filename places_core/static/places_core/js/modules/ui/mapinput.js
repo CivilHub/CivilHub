@@ -1,16 +1,15 @@
 //
 // mapinput.js
 // ===========
-//
+
+// Simple widget replacing form fields with map
+// powerede by Leaflet and Openstreetmaps.
 
 require(['jquery', 'leaflet'],
 
 function ($, L) {
         
 "use strict";
-
-// jquery.mapinput
-// ---------------
 
 $.fn.mapinput = function (options) {
 

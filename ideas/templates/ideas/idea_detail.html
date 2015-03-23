@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags %}
 
 {% block title %} {{ idea.name }}, {{ location }} | CivilHub {% endblock %}
 
@@ -13,7 +13,7 @@
 <meta property="og:description" content="{{ idea.description|striptags|slice:":100" }}..." />
 <meta name="keywords" content="{{ idea.name }}, {{ idea.location }}, {% for tag in idea.tags.all %}{{ tag.name }}, {% endfor %}">{% endblock %}
 
-{% block require_scripts %}{% include 'maps/minimap.html' %}
+{% block require_scripts %}{% get_map_pointers idea as MARKERS %}{% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>{% endblock %}
 
@@ -45,7 +45,7 @@
       <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
       <div class="entry-submenu">
         <ul>{% with idea|content_type as ctype %}
-            {% if map_markers %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
+            {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
             {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
             <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
             {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
@@ -67,7 +67,7 @@
       </p>
       <div class="ideaEntryComments">
         <p>
-          {{ idea.comments }} {% trans "Comments" %} <span class="comment-count">{{ idea.get_comment_count }}</span>
+          {% get_comment_count idea %} {% trans "Comments" %}
           {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
         </p>
       </div>

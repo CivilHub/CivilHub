@@ -1,11 +1,5 @@
 {% extends 'places_core/base.html' %}
 {% load i18n staticfiles civil_tags %}
-{% block require_scripts %}
-<script
-  data-main="{% static 'places_core/js' %}/{% js_path %}/support.js"
-  src="{% static 'places_core/includes/require/require.js' %}">
-</script>
-{% endblock %}
 {% block header %}
 <div class="headerBGa headerBGSupport">
   <h1 class="headerTitleBG">{{ title | capfirst }}<small>{{ subtitle | capfirst }}</small></h1>

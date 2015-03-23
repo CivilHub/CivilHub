@@ -6,8 +6,7 @@
 // listy lokalizacji obserwowanych przez użytkownika.
 
 require(['jquery',
-				 'underscore',
-				 'js/modules/utils/utils'],
+				 'underscore'],
 
 function ($, _, utils) {
 
@@ -54,7 +53,8 @@ function createMenu ($select) {
 
 		_.each(locations, function (location) {
 
-			// Jesteśmy na podstronie lokalizacji i jakaś jest wybrana
+			// Jesteśmy na podstronie lokalizacji i jakaś jest wybrana.
+			// W tym przypadku opcja już istnieje i nie robimy drugiej.
 			if (location.slug === $select.attr('data-location')) {
 				return true;
 			}

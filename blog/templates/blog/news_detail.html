@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags map_tags comment_tags %}
 
 {% block title %} {{ news.title }}, {{ location }} | CivilHub {% endblock %}
 
@@ -13,7 +13,7 @@
 <meta property="article:author" content="https://civilhub.org{{ news.creator.profile.get_absolute_url }}" />
 <meta name="keywords" content="{{ title }}, {{ location.name }}">{% endblock %}
 
-{% block require_scripts %}{% include 'maps/minimap.html' %}
+{% block require_scripts %}{% get_map_pointers news as MARKERS %}{% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/news-details.js"></script>{% endblock %}
 
@@ -56,7 +56,7 @@
 
                     <div class="entry-submenu">
                         <ul>{% with news|content_type as ctype %}
-                            {% if map_markers %}
+                            {% get_map_pointers news as MARKERS %}{% if MARKERS %}
                                 <li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>
                             {% endif %}
                             {% if user.is_authenticated and user != news.creator %}
@@ -114,7 +114,7 @@
                 <input type="hidden" id="target-label" value="blog" />
                 <input type="hidden" id="target-type" value="{{ content_type }}" />
                 <div class="blogEntryComments">
-                <p>{% trans "Comments" %}: <span class="comment-count">{{ news.get_comment_count }}</span>
+                <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
                     <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
                 </div>
                 {% include 'comments/commentlist.html' %}

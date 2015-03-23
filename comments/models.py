@@ -8,7 +8,6 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from mptt.models import MPTTModel, TreeForeignKey
 
-from userspace.models import UserProfile
 from places_core.helpers import sanitizeHtml
 
 
