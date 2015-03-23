@@ -3,18 +3,15 @@
     -webkit-animation: jump 5s infinite;
     -moz-animation: jump 5s infinite;
 }
-
 @keyframes jump {
   0% {
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
   }
-
   50% {
     -webkit-transform: translate3d(0,20px,0);
     transform: translate3d(0,20px,0);
   }
-
   100% {
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
@@ -25,7 +22,6 @@
         -webkit-transform: translate3d(0,0,0);
         transform: translate3d(0,0,0);
     }
-
     50%{
         -webkit-transform: translate3d(0,20px,0);
         transform: translate3d(0,20px,0);
@@ -35,7 +31,6 @@
         transform: translate3d(0,0,0);
     }
 }
-
 .jump-marker{
     animation: jumpMarker 3s infinite;
     -webkit-animation: jumpMarker 3s infinite;
@@ -63,7 +58,6 @@
         -webkit-transform: translateY(0);
     }
 }
-
 @keyframes fadeInCircle {
   0% {
     opacity: 0;
@@ -75,39 +69,32 @@
     width: 60px;
   }
 }
-
 @-webkit-keyframes fadeInCircle {
   0% {
     opacity: 0;
     width: 60px;
   }
-
   100% {
     opacity: 1;
     width: 60px;
   }
 }
-
 @keyframes resizeCircle {
   0% {
     width: 60px;
   }
-
   100% {
     width: 300px;
   }
 }
-
 @-webkit-keyframes resizeCircle {
   0% {
     width: 60px;
   }
-
   100% {
     width: 300px;
   }
 }
-
 @keyframes fadeInDown {
     0% {
         opacity: 0;
@@ -115,7 +102,6 @@
         -moz-transform: translateY(-20px);
         transform: translateY(-20px);
     }
-
     100% {
         opacity: 1;
         -webkit-transform: translateY(0px);
@@ -123,7 +109,6 @@
         -transform: translateY(0px);
     }
 }
-
 @-webkit-keyframes fadeInDown {
     0% {
         opacity: 0;
@@ -131,7 +116,6 @@
         -moz-transform: translateY(-20px);
         transform: translateY(-20px);
     }
-
     100% {
         opacity: 1;
         -webkit-transform: translateY(0px);
@@ -139,7 +123,6 @@
         transform: translateY(0px);
     }
 }
-
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -147,7 +130,6 @@
     -moz-transform: translateY(20px);
     transform: translateY(20px);
   }
-
   100% {
     opacity: 1;
     -webkit-transform: translateY(0px);
@@ -169,8 +151,19 @@
         transform: translateY(0px);
     }
 }
-
-
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+@-webkit-keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.fadeIn {
+  animation: fadeIn 1.5s ease-in-out;
+  -webkit-animation: fadeIn 1.5s ease-in-out;
+  -moz-animation: fadeIn 1.5s ease-in-out; 
+}
 /* Antiman  GREEN #84bd00*/
 .antimanA,
 .antiman {
@@ -178,7 +171,6 @@
     border: none !important;
     position: relative;
 }
-
 .antimanA::before,
 .antimanA::after,
 .antiman::before,
@@ -217,7 +209,6 @@
 .login-Home p.antiman:hover{
     color: #FFF;
 }
-
 .signup-button{
     &.antiman::after {
     background: #84bd00;
@@ -228,7 +219,6 @@
         background: transparent;
     }
 }
-
 .content_box-Home{
     p{
         color: #fff;
@@ -239,7 +229,6 @@
         }
     }
 }
-
 .antiman:hover::before {
     opacity: 1;
     color: red;
@@ -251,7 +240,6 @@
     -webkit-transform: scale3d(0.8, 0.8, 1);
     transform: scale3d(0.8, 0.8, 1);
 }
-
 /* zmiana Rejestracja Login top, home top i sign */
 .alink-home{
     &.antimanA::after {
@@ -261,14 +249,12 @@
         -webkit-transform: scale3d(1.2, 1.2, 1);
         transform: scale3d(1.2, 1.2, 1);
     }
-
     &.antimanA::before{
         border: 1px solid #FFF;
     }
     &.antimanA::before{
         background: transparent;
     }
-
     &.antimanA:hover::after {
         opacity: 1;
         background: #FFF;
@@ -282,3 +268,4 @@
         transform: scale3d(0.8, 0.8, 1);
     }
 }
+
