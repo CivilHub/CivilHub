@@ -206,6 +206,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.linkedin.LinkedinOAuth',
     'django.contrib.auth.backends.ModelBackend',
+    'userspace.auth_backend.PasswordlessAuthBackend',
 )
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'

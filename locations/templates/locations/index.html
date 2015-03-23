@@ -11,10 +11,6 @@
 <meta name="ICBM" content="{{ location.latitude }}, {{ location.longitude }}" />
 {% endif %}{% endblock %}
 
-{% block require_scripts %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/location-default.js"></script>
-{% endblock %}
-
 {% block header %}
 <style type="text/css">
 .location-logo {

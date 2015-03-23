@@ -16,7 +16,6 @@ class BaseAbstractMapPointer(models.Model):
     An abstract base class that any custom pointer models probably should
     subclass.
     """
-
     # Content-object field
     content_type = models.ForeignKey(ContentType,
             verbose_name=_('content type'),
@@ -30,13 +29,11 @@ class BaseAbstractMapPointer(models.Model):
 
 @python_2_unicode_compatible
 class MapPointer(BaseAbstractMapPointer):
-    """
-    Final MapPointer class.
-    """
+    """ Final MapPointer class. """
     latitude = models.FloatField()
     longitude = models.FloatField()
     location = models.ForeignKey(Location, null=True, blank=True)
-    # Manager
+
     objects = MapPointerManager()
 
     def __str__(self):

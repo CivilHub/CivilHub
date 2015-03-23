@@ -1,35 +1,27 @@
 # -*- coding: utf-8 -*-
-import json, datetime
-from dateutil.relativedelta import relativedelta
+import json
+
 from django.utils import timezone
-from django.http import HttpResponse, HttpResponseNotAllowed
-from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
-# Use generic django views
-from django.views.generic import View, DetailView
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.contenttypes.models import ContentType
+
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 from django.utils.translation import ugettext as _
-from django.utils.timesince import timesince
+
 from actstream import action
-# Application native models
-from userspace.models import UserProfile
-from models import Idea, Vote, Category
-from forms import IdeaForm, CategoryForm
+
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
-from locations.models import Location
 from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
 from places_core.mixins import LoginRequiredMixin
-from places_core.helpers import SimplePaginator, truncatehtml, get_time_difference
-# Custom comments
-from comments.models import CustomComment
-# Custom permissions
 from places_core.permissions import is_moderator
+from comments.models import CustomComment
+
+from .models import Idea, Vote, Category
+from .forms import IdeaForm, CategoryForm
 
 
 class IdeasContextMixin(LocationContextMixin):
@@ -87,7 +79,7 @@ class CreateCategory(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         if not self.request.user.is_superuser:
-            return HttpResponseNotAllowed
+            raise PermissionDenied
         context = super(CreateCategory, self).get_context_data(**kwargs)
         context['title'] = _('Create new category')
         return context
@@ -133,9 +125,6 @@ class IdeasDetailView(DetailView):
         context['title'] = self.object.name + " | " + self.object.location.name + " | CivilHub"
         context['location'] = self.object.location
         context['links'] = links['ideas']
-        context['map_markers'] = MapPointer.objects.filter(
-                content_type = ContentType.objects.get_for_model(self.object)
-            ).filter(object_pk=self.object.pk)
         if self.request.user == self.object.creator:
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(self.object),
@@ -145,9 +134,7 @@ class IdeasDetailView(DetailView):
 
 
 class CreateIdeaView(CreateView):
-    """
-    Allow users to create new ideas
-    """
+    """ Allow users to create new ideas. """
     model = Idea
     form_class = IdeaForm
 
@@ -168,9 +155,7 @@ class CreateIdeaView(CreateView):
 
 
 class UpdateIdeaView(UpdateView):
-    """
-    Update existing idea details
-    """
+    """ Update existing idea details. """
     model = Idea
     form_class = IdeaForm
     template_name = 'locations/location_idea_form.html'

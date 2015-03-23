@@ -7,10 +7,11 @@
 define(['jquery',
 		'underscore',
 		'backbone',
+		'js/modules/utils/abuse-window',
 		'js/modules/comments/comment-model',
 		'js/modules/comments/subcomment-collection'],
 
-function ($, _, Backbone, CommentModel, SubcommentCollection) {
+function ($, _, Backbone, AbuseWindow, CommentModel, SubcommentCollection) {
 	
 "use strict";
 
@@ -24,6 +25,10 @@ var CommentView = Backbone.View.extend({
 	
 	template: _.template($('#comment-template').html()),
 	
+	events: {
+		'click .report-abuse-link': 'reportAbuse'
+	},
+
 	initialize: function () {
 		var url = '/rest/comments/' + this.model.get('id') + '/replies/';
 		$.get(url, function (resp) {
@@ -95,6 +100,21 @@ var CommentView = Backbone.View.extend({
 		}
 			
 		return this;
+	},
+
+	reportAbuse: function (e) {
+		e.preventDefault();
+		var $link = $(e.currentTarget);
+		if (!_.isUndefined(this.win)) {
+			this.win.open();
+			return true;
+		}
+		this.win = new AbuseWindow({
+      'id': $link.attr('data-id') || 0,
+      'content': $link.attr('data-content') || '',
+      'label': $link.attr('data-label') || ''
+    });
+    this.win.open();
 	},
 	
 	editComment: function () {

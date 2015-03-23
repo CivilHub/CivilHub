@@ -1,17 +1,12 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
 
-{% block require_scripts %}
+{% block content %}
 <script>
 window.GOOGLE_DATA = {
     scope: '{{ plus_scope }}',
     id: '{{ plus_id }}'
 }
 </script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-login.js"></script>
-{% endblock %}
-
-{% block content %}
 <div class="login-page">
 
     {% if welcome_msg %}

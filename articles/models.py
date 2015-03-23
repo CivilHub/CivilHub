@@ -37,29 +37,29 @@ class Article(models.Model):
     edited = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, blank=True, null=True)
 
+    class Meta:
+        ordering = ['title',]
+
+    def __str__(self):
+        return self.title
+
     def get_absolute_url(self):
         """ 
         We have to treat support entries differently then others. It's possible
         to add support for nested categories and link them to urls if this will
         be desired.
         """
-        if self.category:
-            try:
-                c = Category.objects.get(name__icontains=u'support')
-            except Category.DoesNotExist:
-                c = None
-            # Category exists and article is descendant
-            if c is not None and self.category.is_descendant_of(c):
-                urlentry = 'articles:support_entry'
-            # Article belongs to other category, not nested to support tree
-            else:
-                urlentry = 'articles:{}_entry'.format(self.category.name)
-            return reverse(urlentry.lower(), kwargs={'slug':self.slug})
-        # stand-alone article - remember to configure urls properly!!!
-        return '/' + self.slug + '/'
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title',]
+        if self.category is None or not self.category.name in ['Blog', 'Support']:
+            category = None
+        else:
+            category = self.category.name.lower()
+        if category is None:
+            # stand-alone article - remember to configure urls properly!!!
+            return '/' + self.slug + '/'
+        elif category == 'support':
+            # wpisy w kategorii 'support' traktowane są unikalnie
+            urlentry = 'articles:support_entry'
+        elif category == 'blog':
+            # wpisy na blogu
+            urlentry = 'articles:blog_entry'
+        return reverse(urlentry.lower(), kwargs={'slug':self.slug})

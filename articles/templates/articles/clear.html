@@ -8,15 +8,22 @@
 
 {% block header %}{% endblock %}
 
-
 {% block container_main %}
 	{% block content %}
 
-		{{ article.content | safe }}
+		{{ article.content | safe }} 
 
-
-		{% comment %}
+{%comment%}
 		<div id="team-page">
+        <div class="static-page-header">
+    <div class="container">
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Core Values</a></li>
+      </ul>
+    </div>
+  </div>  
 			<div class="container">
 
 
@@ -30,9 +37,9 @@
 					<div class="topPpl">
 						<div class="top-teamPpl">
 							<div class="pplBox">
-								<div class="pplImage"><img src="/media/img/avatars/anonymous.png"></div>
-								<div class="pplName">Imie Nazwisko</div>
-								<div class="pplPos">Stanowisko</div>
+								<div class="pplImage"><img src="/static/places_core/img/team/grzesiek.jpg"></div>
+								<div class="pplName">Grzegorz</div>
+								<div class="pplPos">CEO	& Co-founder</div>
 								<div class="pplSocial">
 									<a href="#"><span class="fa-stack socLinkedin">
 									  <i class="fa fa-circle fa-stack-2x"></i>
@@ -51,9 +58,9 @@
 						</div>
 						<div class="top-teamPpl">
 							<div class="pplBox">
-								<div class="pplImage"><img src="/media/img/avatars/anonymous.png"></div>
-								<div class="pplName">Imie Nazwisko</div>
-								<div class="pplPos">Stanowisko</div>
+								<div class="pplImage"><img src="/static/places_core/img/team/kuba.jpg"></div>
+								<div class="pplName">Jakub</div>
+								<div class="pplPos">Web Developer</div>
 								<div class="pplSocial">
 									<a href="#"><span class="fa-stack socLinkedin">
 									  <i class="fa fa-circle fa-stack-2x"></i>
@@ -75,9 +82,9 @@
 					<div class="teamPpl">
 
 						<div class="pplBox">
-							<div class="pplImage"><img src="/media/img/avatars/anonymous.png"></div>
-							<div class="pplName">Imie Nazwisko</div>
-							<div class="pplPos">Stanowisko</div>
+							<div class="pplImage"><img src="/static/places_core/img/team/karol2.jpg"></div>
+							<div class="pplName">Karol</div>
+							<div class="pplPos">Web Developer</div>
 							<div class="pplSocial">
 									<a href="#"><span class="fa-stack socLinkedin">
 									  <i class="fa fa-circle fa-stack-2x"></i>
@@ -95,9 +102,9 @@
 						</div>
 
 						<div class="pplBox">
-							<div class="pplImage"><img src="/media/img/avatars/anonymous.png"></div>
-							<div class="pplName">Imie Nazwisko</div>
-							<div class="pplPos">Stanowisko</div>
+							<div class="pplImage"><img src="/static/places_core/img/team/bartek.jpg"></div>
+							<div class="pplName">Bartosz</div>
+							<div class="pplPos">Web Developer</div>
 							<div class="pplSocial">
 								<a href="#"><span class="fa-stack socLinkedin">
 									  <i class="fa fa-circle fa-stack-2x"></i>
@@ -200,7 +207,7 @@
 
 			</div>
 		</div>
-		{% endcomment %}
+{% endcomment %}
 
 
 

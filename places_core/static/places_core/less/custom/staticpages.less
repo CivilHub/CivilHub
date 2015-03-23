@@ -1212,14 +1212,15 @@ img{
 
 #team-page{
 
-background-image: url('/static/places_core/img/team_background.png');
+background-image: url('../img/team_background.png');
 background-repeat: no-repeat;
 background-size: cover;
 background-position: center 13%;
+padding-bottom: 40px;
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) { 
-    background-image: url('/static/places_core/img/team_background@2x.png');
+    background-image: url('../img/team_background@2x.png');
 }
 
 .teamHeader{
@@ -1429,7 +1430,7 @@ background-position: center 13%;
 
 }
 .body-register{
-    background-image:url('../img/register_bg.png');
+    background-image:url('../img/register_bg.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;      
@@ -1444,7 +1445,7 @@ background-position: center 13%;
     @media 
     (-webkit-min-device-pixel-ratio: 2), 
     (min-resolution: 192dpi) { 
-        background-image: url('../img/register_bg@2x.png');
+        background-image: url('../img/register_bg@2x.jpg');
     }
     @media(max-width: 450px) and (max-height:580px) {
         position: relative;
@@ -2515,4 +2516,118 @@ small.green{
         }
     }
  
+}
+
+/*#
+#   Page Creed
+#*/
+
+.creed-staticpage{
+    .creed-section{
+        padding: 4% 0;
+        border-bottom: 1px solid #bfbfbf;
+        &:last-child{
+            border-bottom: 0 none;
+        }
+        .container{
+            div{
+                max-width: 650px;
+                margin: 0 auto;
+                text-align: center;
+            }
+        }
+        h2{
+            color: #3c3c3c;
+            text-align: center;
+            font-size: 48px;
+            line-height: 58px;
+            
+            margin-bottom: 15px;
+            margin-top: 0px;
+        }
+        p{
+            text-align: center;
+            color: #666666;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 24px;
+        }
+        .creed-section-pk{
+            color: #3c3c3c;
+            font-size: 32px;
+            line-height: 55px;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border: 1px solid #3c3c3c;
+            display: inline-block;
+            width: 55px;
+            height: 55px;
+            letter-spacing: -3px;
+        }
+    }
+}
+
+/*#
+#   Page Misja
+#*/
+.headerBGa{
+    &.headerBGMission{
+        background-image: url('../img/headers/header_mission.jpg');
+        @media 
+        (-webkit-min-device-pixel-ratio: 2), 
+        (min-resolution: 192dpi) { 
+            background-image: url('../img/headers/header_mission@2x.jpg');
+        }
+    }
+}
+.mission-staticpage{
+    .mission-content{
+        max-width: 740px;
+        margin: 0 auto;
+        padding: 4% 0;
+    }
+    .mission-section{
+        h1{
+            color: #3c3c3c;
+            font-size: 32px;
+            line-height: 38px;
+            font-weight: 400;
+            margin: 0;
+        }
+    }        
+    p{
+        color: #666666;
+        margin-bottom: 20px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    .mission-entry{
+        margin-top: 50px;
+        h2{
+            color: #0083fb;
+            font-size: 28px;
+            line-height: 28px;
+        }
+
+    }
+    .mission-user{
+        .mission-avatar{
+            display: inline-block;
+            vertical-align: middle;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            width: 64px;
+            height: 64px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+        p{ display: inline-block; vertical-align: middle; margin-bottom: 0; }
+    }
 }

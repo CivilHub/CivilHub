@@ -1,8 +1,4 @@
-{% load staticfiles i18n civil_tags %}
-
-{% get_current_language as LANG %}
-
-<script>
+{% load staticfiles i18n civil_tags %}{% get_current_language as LANG %}<script>
 (function () {
     
   "use strict";
@@ -11,14 +7,12 @@
   if (typeof(window.RedactorPlugins) === 'undefined')
     window.RedactorPlugins = {};
   
-  /* 
-   * Create new object from given arguments. Takes any number of other objects
-   * to join together. If they declare same properties, they will be overwritten
-   * by last declaration. Objects are processed in order they are passed to 
-   * function
-   * 
-   * @returns { Obj } Plain object
-   */
+  // Create new object from given arguments. Takes any number of other objects
+  // to join together. If they declare same properties, they will be overwritten
+  // by last declaration. Objects are processed in order they are passed to 
+  // function
+  // 
+  // @returns { Obj } Plain object
   
   function extend () {
     var obj = {}, i = 0, j, prop;
