@@ -74,7 +74,7 @@ class LocationListSerializer(serializers.ModelSerializer):
         view_context = self.context.get('view')
         if view_context is not None:
             user = view_context.request.user
-            if user.is_authenticated() and user in obj.users.all():
+            if user.is_authenticated() and obj.users.filter(pk=user.pk).exists():
                 return True
         return False
 

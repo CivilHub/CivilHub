@@ -111,11 +111,11 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
     """ Dołączanie/odłączanie użytkownika od całego projektu. """
     def post(self, request, location_slug=None, slug=None):
         project = get_object_or_404(SocialProject, slug=slug)
-        if request.user in project.participants.all():
+        if project.participants.filter(pk=request.user.pk).exists():
             project.participants.remove(request.user)
             for group in project.taskgroup_set.all():
                 for task in group.task_set.all():
-                    if request.user in task.participants.all():
+                    if task.participants.filter(pk=request.user.pk).exists():
                         task.participants.remove(request.user)
             message = _("You are no longer in this project")
             project_actions.leaved_project(request.user, project)
@@ -138,12 +138,12 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
     """ Dołączanie/odłączanie użytkowników od konkretnego zadania. """
     def post(self, request, location_slug=None, slug=None, task_id=None):
         task = get_object_or_404(Task, pk=task_id)
-        if request.user in task.participants.all():
+        if task.participants.filter(pk=request.user.pk).exists():
             task.participants.remove(request.user)
             message = _("You are no longer in this task")
         else:
             task.participants.add(request.user)
-            if not request.user in task.group.project.participants.all():
+            if not task.group.project.participants.filter(pk=request.user.pk).exists():
                 task.group.project.participants.add(request.user)
                 project_actions.joined_to_project(request.user, task.group.project)
                 follow(request.user, task.group.project, actor_only=False)
