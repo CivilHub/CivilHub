@@ -16,7 +16,7 @@
   <div class="container">
     <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
       <ul class="nav navbar-nav">
-        <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"><img src="{% static 'places_core' %}/img/globe_point.png"></div></a></li>
+        <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"></div></a></li>
         {% for parent in location.get_parent_chain %}<li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
         <li class="breaker">
           <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a>

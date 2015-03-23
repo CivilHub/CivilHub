@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags comment_tags %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
@@ -11,7 +11,7 @@
 {% block content %}<div id="blog-page">
   <article>
     <h2><a href="{{ article.get_absolute_url }}"><strong>{{ article.title }}</strong> <br>{{ article.subtitle }}</a></h2>
-    <div class="blog-meta">{{ article.created }} <a href="#blog-discussion">{% trans 'Comments' %}</a></div>
+    <div class="blog-meta">{{ article.created }} - <a href="#blog-discussion">{% get_comment_count article %} {% trans 'Comments' %}</a></div>
     <div class="social-box">{% include 'articles/social-box.html' %}</div>
     <div class="article-blog-content">
       {{ article.content|safe }}
@@ -23,7 +23,7 @@
     <input type="hidden" id="target-label" value="articles" />
     <input type="hidden" id="target-type" value="{% obj_ct_id 'article' %}" />
     <div class="customEntry-comments">
-      <p>{% trans "Comments" %}: <span class="comment-count">{{ article.customcomment_set.count }}</span>{{ article.get_comment_count }}
+      <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count article %}</span>
       <a class="comment-toggle custom-comments-toggle" data-target="{{ article.pk }}" href="#">{% trans "Hide comments" %}</a></p>
     </div>
     {% include 'comments/commentlist.html' %}
