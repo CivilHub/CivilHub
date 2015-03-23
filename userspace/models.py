@@ -103,6 +103,11 @@ class UserProfile(models.Model, BackgroundModelMixin):
         default = 'img/backgrounds/background.jpg'
     )
 
+    @property
+    def has_default_avatar(self):
+        """ Check if user personally changed avatar picture. """
+        return u'anonymous' in self.avatar.name
+
     def save(self, *args, **kwargs):
         if self.description:
             self.description = strip_tags(self.description)

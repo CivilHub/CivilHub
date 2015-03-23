@@ -43,7 +43,7 @@ from locations.models import Location
 from locations.helpers import get_most_followed
 from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
 from forms import *
-from .helpers import profile_activation, random_username, create_username
+from .helpers import profile_activation, random_username, create_username, update_profile_picture
 
 
 class UserActivityView(TemplateView):
@@ -157,13 +157,7 @@ class ProfileUpdateView(UpdateView):
 @require_POST
 @login_required
 def upload_avatar(request):
-    """
-    Upload/change user avatar
-    """
-    from PIL import Image
-    from gallery.image import handle_tmp_image
-    from .helpers import crop_avatar, delete_thumbnails
-
+    """ Change user profile picture. """
     form = BackgroundForm(request.POST, request.FILES)
     if form.is_valid():
         profile = UserProfile.objects.get(user=request.user)
@@ -175,25 +169,7 @@ def upload_avatar(request):
         )
         image = Image.open(form.cleaned_data['image'])
         image = image.crop(box)
-        
-        if not u'anonymous' in profile.avatar.name:
-            try:
-                os.unlink(profile.avatar.path)
-                delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
-            except Exception:
-                pass
-
-        profile.avatar = crop_avatar(image)
-        size = 60, 60
-        path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-        file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
-        thumbname = '60x60_' + file + ext
-        tmp = image.copy()
-        tmp.thumbnail(size, Image.ANTIALIAS)
-        tmp.save(os.path.join(path, thumbname))
-        profile.thumbnail = 'img/avatars/' + thumbname
-        profile.save()
-
+        update_profile_picture(profile, image)
     return redirect(reverse('user:index'))
 
 

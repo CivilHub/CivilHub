@@ -136,6 +136,10 @@ def langlist(request):
                    .replace('{% active %}', active) \
                    .replace('{% url %}', addr) \
                    .replace('{% CODE %}', l[0].upper())
+    transifex_url = '//www.transifex.com/projects/p/civilhub/'
+    transifex_label = _(u"Help in translate")
+    tags += '<a href="{}" target="_blank" class="help_translate">{}</a>'\
+            .format(transifex_url, transifex_label)
     return tags
 
 

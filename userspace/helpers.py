@@ -155,6 +155,29 @@ def crop_avatar(imgfile):
     return File(open(imgpath))
 
 
+def update_profile_picture(profile, image):
+    """
+    This function takes user profile instance along with image file and
+    sets up proper avatars.
+    """
+    if not profile.has_default_avatar:
+        try:
+            os.unlink(profile.avatar.path)
+            delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
+        except Exception:
+            pass
+    profile.avatar = crop_avatar(image)
+    size = 60, 60
+    path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+    file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
+    thumbname = '60x60_' + file + ext
+    tmp = image.copy()
+    tmp.thumbnail(size, Image.ANTIALIAS)
+    tmp.save(os.path.join(path, thumbname))
+    profile.thumbnail = 'img/avatars/' + thumbname
+    profile.save()
+
+
 class UserActionStream(object):
     """
     Generic object for custom user stream. I've tried to use actstream's

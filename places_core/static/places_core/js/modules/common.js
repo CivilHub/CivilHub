@@ -23,9 +23,6 @@ function ($) {
 	
 "use strict";
 
-//transifex
-$('#popover-lang-list').append('<a href="https://www.transifex.com/projects/p/civilhub/" target="_blank" class="help_translate">Help in translate</a>');
-
 // "Statyczna" paginacja
 // ---------------------
 
@@ -39,12 +36,11 @@ $('textarea').keypress(function (e) {
   if(e.which == 13) {
 	// get control object to modify further
 	var control = e.target;
-		  
 	// get existing 'Height' of pressed control
 	var controlHeight = $(control).height();
-
-	//add some height to existing height of control, I chose 17 as my line-height was 17 for the control 
-	$(control).height(controlHeight+17);
+	// add some height to existing height of control, I chose 17
+	// as my line-height was 17 for the control.
+	$(control).height(controlHeight + 17);
   }
 });
 
