@@ -1,7 +1,7 @@
-Instalacja
+Installation
 ----------
 
-Programy do zainstalowania z apta:
+Apps to install from apta:
 
 	python-dev
 	virtualenvwrapper
@@ -22,12 +22,11 @@ Programy do zainstalowania z apta:
 	nodejs-legacy
 	npm
 
-`python-xapian` można zainstalować z innych źródeł. Trzeba go symlinkować do katalogu virtualenva.
-Jeżeli nie chcemy korzystać z buildów, `nodejs`, `nodejs-legacy` oraz `npm` są niepotrzebne. Podobnie z `virtualenv`, jeżeli nie chcemy z niego korzystać.
+`python-xapian` you can install from different sources. You must symlink to virtualenv folder.
+You do not have to use builds, `nodejs`, `nodejs-legacy`, `npm`, `virtualenv`.
 
-Wszystkie paczki pythona instalujemy za pomocą polecenia:
+App python packages install:
 	pip install -r requirements
-wywołanego w katalogu z projektem.
 
 Build
 -----
@@ -37,7 +36,7 @@ Dostępne opcje to:
 	-m &lt;nazwa_modułu&gt; Nazwa konkretnego modułu do skompresowania, np. `idea-detail`.
 	--css-only	kompresuje tylko pliki `less`
 
-Do przebudowania potrzebujemy dwóch paczek, które instalujemy poleceniami:
+To rebuild you need two packages:
 
 	npm install -g less
 	npm install -g requirejs
