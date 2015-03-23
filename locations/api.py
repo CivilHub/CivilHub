@@ -164,7 +164,7 @@ class LocationFollowAPIView(APIView):
         context = {}
         if pk:
             location = get_object_or_404(Location, pk=pk)
-            if not user in location.users.all():
+            if not location.users.filter(pk=user.pk).exists():
                 location.users.add(user)
                 location.save()
                 follow(user, location, actor_only = False)

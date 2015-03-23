@@ -207,7 +207,7 @@ class PollResults(DetailView):
             counter = 0
             answer = a.answer
             for aset in asets:
-                if a in aset.answers.all():
+                if aset.answers.filter(pk=a.pk).exists():
                     counter += 1
             result.append({
                 'answer': answer,

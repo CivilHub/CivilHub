@@ -24,7 +24,7 @@ def is_moderator(user, location):
         return False
 
     profile = UserProfile.objects.get(user = user)
-    if location in profile.mod_areas.all():
+    if profile.mod_areas.filter(pk=location.pk).exists():
         return True
 
     return False
