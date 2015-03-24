@@ -97,6 +97,11 @@ class IdeasListView(IdeasContextMixin, SearchableListMixin):
 
     def get_queryset(self):
         qs = super(IdeasListView, self).get_queryset()
+        status = self.request.GET.get('status', 'all')
+        if status == 'True':
+            qs = qs.filter(status=True)
+        elif status == 'False':
+            qs = qs.filter(status=False)
         return qs.filter(name__icontains=self.request.GET.get('haystack', ''))
 
 
