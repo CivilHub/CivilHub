@@ -6,18 +6,17 @@
 								<ul class="dropdown-menu">
 										<input type="hidden" id="discussion-target-url" value="">
 										<li><a href="" class="list-controller" data-target="question" data-control="sortby">{% trans "Question" %}</a></li>
-										<li><a href="" class="list-controller active" data-target="latest" data-control="sortby">{% trans "Latest" %}</a></li>
-										<li><a href="" class="list-controller" data-target="oldest" data-control="sortby">{% trans "Oldest" %}</a></li>
-										<li><a href="" class="list-controller" data-target="category" data-control="sortby">{% trans "Category" %}</a></li>
+										<li><a href="" class="list-controller active" data-target="-date_created" data-control="sortby">{% trans "Latest" %}</a></li>
+										<li><a href="" class="list-controller" data-target="date_created" data-control="sortby">{% trans "Oldest" %}</a></li>
 										<li><a href="" class="list-controller" data-target="creator" data-control="sortby">{% trans "Username" %}</a></li>
 								</ul>
 						</li>
 						<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Status" %}: <b class="caret"></b></a>
 								<ul class="dropdown-menu">
-										<li><a href="#" class="list-state-switch list-controller" data-target="True" data-control="state">{% trans "Active" %}</a></li>
-										<li><a href="#" class="list-state-switch list-controller" data-target="False" data-control="state">{% trans "Closed" %}</a></li>
-										<li><a href="#" class="list-state-switch list-controller active" data-target="all" data-control="state">{% trans "All" %}</a></li>
+										<li><a href="#" class="list-state-switch list-controller" data-target="True" data-control="status">{% trans "Active" %}</a></li>
+										<li><a href="#" class="list-state-switch list-controller" data-target="False" data-control="status">{% trans "Closed" %}</a></li>
+										<li><a href="#" class="list-state-switch list-controller active" data-target="all" data-control="status">{% trans "All" %}</a></li>
 								</ul>
 						</li>
 				</ul>

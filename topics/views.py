@@ -42,6 +42,11 @@ class DiscussionListView(TopicsContextMixin, SearchableListMixin):
 
     def get_queryset(self):
         qs = super(DiscussionListView, self).get_queryset()
+        status = self.request.GET.get('status', 'all')
+        if status.lower() == 'true':
+            qs = qs.filter(status=True)
+        elif status.lower() == 'false':
+            qs = qs.filter(status=False)
         return qs.filter(question__icontains=self.request.GET.get('haystack', ''))
 
     def get_context_data(self):
