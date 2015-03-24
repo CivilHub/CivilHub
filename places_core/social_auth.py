@@ -124,13 +124,8 @@ def get_username(strategy, details, user=None, *args, **kwargs):
     return {'username': final_username}
 
 
-def get_user_avatar(strategy, details, response, user=None, *args, **kwargs):
+def get_user_avatar(strategy, details, response, user, *args, **kwargs):
     """ Try to get user profile avatar from social networks. """
-
-    # We don't want to override user's personal settings.
-    if not user.profile.has_default_avatar:
-        return True
-
     image_url = None
     is_default = True
     TMP_FILE = os.path.join(settings.BASE_DIR, 'media/tmp/image')
@@ -152,14 +147,6 @@ def get_user_avatar(strategy, details, response, user=None, *args, **kwargs):
         is_default = response.get('image')['isDefault']
         if not is_default:
             image_url = response.get('image')['url'].replace('sz=50', 'sz=200')
-
-    # LinkedIn not working for now
-
-    # elif kwargs['backend'].name == 'linkedin':
-    #     req = urllib2.Request('http://api.linkedin.com/v1/people/~/picture-urls::(original)')
-    #     req.add_header('Authorization', 'Bearer ' + settings.SOCIAL_AUTH_LINKEDIN_KEY)
-    #     resp = urllib2.urlopen(req)
-    #     logger.info(resp.read())
 
     # Download image and replace profile avatar
     if image_url is not None and not is_default and user.profile.has_default_avatar:
