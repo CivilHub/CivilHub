@@ -43,7 +43,7 @@ User profiles - You can see all user activities and all users in the location yo
 
 About Us
 ----------
-We are a group of young people, living in Warsaw (Poland) who who want to live in a better country and city.
+We are a group of young people, living in Warsaw (Poland) who want to live in a better country and city. In our opinion, citizens should take responsibility for how our country, the region looks.
 
 Contact Us
 ----------
