@@ -5,6 +5,7 @@ CivilHub is a free and open-source platform written in Python & Django for the p
 Our biggest dream is to build a tool that helps us to collaborate and communicate in places we live in. In our opinion, citizens need a platform that will help them transform democracy and civil power onto a next level. 
 
 We believe that together we can create amazing things in our cities.
+Brief: https://civilhub.org/brief/
 
 Our Mission
 ----------
