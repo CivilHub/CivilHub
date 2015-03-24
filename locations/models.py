@@ -25,7 +25,7 @@ from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
-from .signals import update_parent_cache
+from .signals import update_parent_cache, adjust_created_location
 
 
 def get_upload_path(instance, filename):
@@ -342,13 +342,6 @@ class Country(models.Model):
 
     def __str__(self):
         return self.code
-
-
-def adjust_created_location(sender, instance, created, **kwargs):
-    """ Upewniamy się, że twórca lokacji będzie jej moderatorem. """
-    if created:
-        instance.creator.profile.mod_areas.add(instance)
-        instance.creator.profile.save()
 
 
 from maps.signals import create_marker
