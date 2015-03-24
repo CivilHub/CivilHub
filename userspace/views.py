@@ -31,7 +31,6 @@ from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
-from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
 from gallery.forms import BackgroundForm
 from blog.models import News
