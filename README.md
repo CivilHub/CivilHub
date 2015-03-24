@@ -27,19 +27,19 @@ Features
   - PostGIS for PostgreSQL database,
   - Our overlay clustering, server-side filtering displays only those points that you currently see on the screen.
 8. **Comments** - Disqus was our inspiration, the best comments that exist. You can comment on all of the portal’s content,
-User profiles - You can see all user activities and all users in the location you belong to.
+9. **User profiles** - You can see all user activities and all users in the location you belong to.
   - Login and registration via Facebook, Twitter, LinkedIn and Google+
-9. **Messages between users** - a simple system for communication between users, with anti spam security,
-10. **Categories** - all content can be categorized, 
-11. **Tags** - all content in the portal can be tagged,
-12. **Bookmarks** - all types of content can be bookmarked and later on accessed,
-13. **Filter and sort** -  all content type,
-14. **Search** - the ability to search through all available in the portal content is possible through Xapian & Haystack,
-15. **Redis cache** - for each language version we cache most of the content through Redis,
-16. **Mail** - we have created a simple and automatic, cyclic system that allows to send emails with information to users about locations they are currently following,
-17. **Invite friends** -  from Google+ contacts,
-18. **Multilingualism** - both the whole structure of the portal and the database models can be translated. Please help us translate CivilHub to Your language. portal: https://www.transifex.com/projects/p/civilhub/
-19. **REST API** - Access to all data stored in https://civilhub.org
+10. **Messages between users** - a simple system for communication between users, with anti spam security,
+11. **Categories** - all content can be categorized, 
+12. **Tags** - all content in the portal can be tagged,
+13. **Bookmarks** - all types of content can be bookmarked and later on accessed,
+14. **Filter and sort** -  all content type,
+15. **Search** - the ability to search through all available in the portal content is possible through Xapian & Haystack,
+16. **Redis cache** - for each language version we cache most of the content through Redis,
+17. **Mail** - we have created a simple and automatic, cyclic system that allows to send emails with information to users about locations they are currently following,
+18. **Invite friends** -  from Google+ contacts,
+19. **Multilingualism** - both the whole structure of the portal and the database models can be translated. Please help us translate CivilHub to Your language. portal: https://www.transifex.com/projects/p/civilhub/
+20. **REST API** - Access to all data stored in https://civilhub.org
 
 About Us
 ----------
