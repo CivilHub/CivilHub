@@ -2,6 +2,7 @@
 from ipware.ip import get_ip
 
 from django.conf import settings
+from django.http import Http404
 from django.utils import translation
 from django.shortcuts import get_object_or_404
 from django.core import cache
@@ -308,9 +309,7 @@ class LocationMapViewSet(viewsets.ModelViewSet):
 
 class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Prosty widok umożliwiający pobranie listy lokalizacji z podstawowymi informacjami.
-    Domyślnie prezentowana jest lista wszystkich lokalizacji. Do parametrów GET
-    możemy dodać `pk` lokalizacji, której bezpośrednie "dzieci" chcemy pobrać, np.:
+    Get sublocations in location with provided ID, for example:
     
     ```/api-locations/sublocations/pk=1```
     """
@@ -320,21 +319,14 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = None
 
     def get_queryset(self):
-        pk = self.request.QUERY_PARAMS.get('pk', None)
-        if pk:
-            try:
-                location = Location.objects.get(pk=pk)
-                key = "{}_{}_{}".format(location.slug,
-                    translation.get_language(), 'sub')
-                cached_qs = redis_cache.get(key, None)
-                if cached_qs is None or not settings.USE_CACHE:
-                    queryset = location.location_set.all()
-                    redis_cache.set(key, queryset)
-                else:
-                    queryset = cached_qs
-            except Location.DoesNotExist:
-                queryset = Location.objects.all()
-            return sort_by_locale(queryset, lambda x: x.__unicode__(),
-                                    translation.get_language())
-        return sort_by_locale(Location.objects.all(), lambda x: x.name,
-                                translation.get_language())
+        try:
+            pk = int(self.request.QUERY_PARAMS.get('pk'))
+        except (ValueError, UnicodeError):
+            raise Http404
+        location = get_object_or_404(Location, pk=pk)
+        key = "{}_{}_sub".format(location.slug, translation.get_language())
+        queryset = redis_cache.get(key)
+        if queryset is None:
+            queryset = location.location_set.all()
+            redis_cache.set(key, queryset)
+        return sort_by_locale(queryset, lambda x: x.name)

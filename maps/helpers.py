@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.core import cache
 from django.contrib.contenttypes.models import ContentType
+
 from locations.models import Country, Location
+
 from .models import MapPointer
 
 import logging

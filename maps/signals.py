@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+from django.core import cache
 from django.conf import settings
 from django.db.models import signals
-from django.core import cache
+
 from locations.models import Location
+
 from .models import MapPointer
 from .helpers import create_country_clusters
 

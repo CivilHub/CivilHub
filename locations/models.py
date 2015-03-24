@@ -25,6 +25,8 @@ from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
 
+from .signals import update_parent_cache
+
 
 def get_upload_path(instance, filename):
     return 'img/locations/' + uuid4().hex + os.path.splitext(filename)[1]
@@ -354,3 +356,4 @@ post_delete.connect(delete_background_image, sender=Location)
 post_save.connect(resize_background_image, sender=Location)
 post_save.connect(adjust_created_location, sender=Location)
 post_save.connect(create_marker, sender=Location)
+post_save.connect(update_parent_cache, sender=Location)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from ipware.ip import get_ip
+from ipware import ip
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -13,8 +13,8 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from models import MapPointer
-from helpers import filter_markers, create_clusters
+from .models import MapPointer
+from .helpers import filter_markers, create_clusters
 from .serializers import MapPointerSerializer, MapObjectSerializer, \
                           MapClusterSerializer
 
@@ -165,7 +165,7 @@ class IndexView(TemplateView):
         if active_marker is not None:
             position = (active_marker.longitude, active_marker.latitude,)
         else:
-            position = GeoIP().coords(get_ip(self.request)) or ("21.0030", "52.1356")
+            position = GeoIP().coords(ip.get_ip(self.request)) or ("21.0030", "52.1356")
 
         context['title'] = _("Map")
         context['content_types'] = ContentType.objects.all()
