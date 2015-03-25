@@ -5,8 +5,8 @@
 // Skrypt pozwalający nam automatycznie uzupełniać menu na podstawie
 // listy lokalizacji obserwowanych przez użytkownika.
 
-require(['jquery',
-				 'underscore'],
+define(['jquery',
+		 	  'underscore'],
 
 function ($, _, utils) {
 
@@ -88,5 +88,7 @@ $.fn.bouncyMenu = function () {
 		createMenu($(this));
 	});
 };
+
+return $.fn;
 
 });

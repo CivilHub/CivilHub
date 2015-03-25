@@ -4,15 +4,15 @@
 
 // Popover z opcjami wyboru języka.
 
-require(['jquery'], function ($) {
+require(['jquery', 'bootstrap'], function ($) {
 
 "use strict";
 
 $(document).ready(function () {
 	$('#lang-selector > a').popover({
-			html: true,
-			content: $('#popover-lang-list').html(),
-			placement: 'top'
+		html: true,
+		content: $('#popover-lang-list').html(),
+		placement: 'top'
 	});
 	
 	$('#lang-selector > a').on('shown.bs.popover', function () {

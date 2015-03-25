@@ -14,25 +14,24 @@
     <div class="login-Home">
       <a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a>
     </div>
-    {{ errors }}
     <div class="register-box">
       <h1>{% trans "Create a new account" %}</h1>
-      <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">{% csrf_token %}
+      <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">{% csrf_token %}
         <div class="form-group">
           <div class="col-xs-6">
-            <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "First name" %}" ></div>
+            <input id="name" class="short short-left form-control{% if form.errors.first_name %} error-popover" data-content="{% for error in form.errors.first_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="first_name" placeholder="{% trans "First name" %}" value="{{ form.first_name.value|default_if_none:"" }}"></div>
           <div class="col-xs-6">
-            <input id="surname" class="short form-control" type="text" name="last_name" placeholder="{% trans "Surname" %}" >
+            <input id="surname" class="short form-control{% if form.errors.last_name %} error-popover" data-content="{% for error in form.errors.last_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="last_name" placeholder="{% trans "Surname" %}" value="{{ form.last_name.value|default_if_none:"" }}">
           </div>
         </div>
         <div class="form-group">
-          <input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
+          <input id="email" class="long form-control{% if form.errors.email %} error-popover" data-content="{% for error in form.errors.email %}{{ error }}{% endfor %}"{% else %}"{% endif %} type="text" name="email" placeholder="{% trans "Your email" %}" value="{{ form.email.value|default_if_none:"" }}">
         </div>
         <div class="form-group">
-          <input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
+          <input id="pass1" class="long form-control{% if form.errors.password1 %} error-popover" data-content="{% for error in form.errors.password1 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password1" placeholder="{% trans "Create a password" %}">
         </div>
         <div class="form-group">
-          <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+          <input id="pass2" class="long form-control{% if form.errors.password2 %} error-popover" data-content="{% for error in form.errors.password2 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password2" placeholder="{% trans "Repeat password" %}">
         </div>
         <div class="registerButtons">
           <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>

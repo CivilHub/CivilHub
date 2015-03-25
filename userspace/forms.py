@@ -1,57 +1,39 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+
 from captcha.fields import CaptchaField
+
 from places_core.forms import BootstrapBaseForm
+
 from .models import UserProfile
 
 
-class RegisterForm(forms.Form):
-    """ Register new user """
-    email = forms.CharField(
-        label = _("Email"),
-        max_length = 128,
-        widget = forms.EmailInput(attrs={'class': 'form-control'})
-    )
-    first_name = forms.CharField(
-        label = _("First name"),
-        max_length = 36,
-        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'first-name',})
-    )
-    last_name = forms.CharField(
-        label = _("Last name"),
-        max_length = 36,
-        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'last-name',})
-    )
-    password = forms.CharField(
-        label = _('Password'),
-        max_length = 64,
-        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
-    )
-    passchk = forms.CharField(
-        label = _("Repeat password"),
-        max_length = 32,
-        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
-    )
+class RegisterForm(UserCreationForm):
+    """ Customized user creation form - we check that user email is unique. """
+    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    password1 = forms.CharField(required=True, widget=forms.PasswordInput())
+    password2 = forms.CharField(required=True, widget=forms.PasswordInput())
+
+    # This helps us save form without username - it will be auto-generated
+    username = forms.CharField(required=False, widget=forms.HiddenInput())
+
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name',
+                  'password1', 'password2', 'username')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email and User.objects.filter(email=email).count():
-            raise forms.ValidationError(_(u'User with this email address already exists.'))
+            raise forms.ValidationError(_(u'Email address already taken.'))
         return email
-
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if username and User.objects.filter(username=username).count():
-            raise forms.ValidationError(_(u"User with this username already exists"))
-        return username
-
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(RegisterForm, self).__init__(*args, **kwargs)
 
 
 class SocialAuthPassetForm(forms.Form):

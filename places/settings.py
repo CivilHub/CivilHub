@@ -137,9 +137,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'userspace.social_exceptions.CivilAuthExceptionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+if not DEBUG:
+    MIDDLEWARE_CLASSES += ('userspace.social_exceptions.CivilAuthExceptionMiddleware',)
 
 ROOT_URLCONF = 'places.urls'
 

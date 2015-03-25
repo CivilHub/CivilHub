@@ -6,9 +6,9 @@ from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 
 
 class CivilAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
+    """ Catch social auth exceptions instead of showing 500 page. """
     def process_exception(self, request, exception):
         if hasattr(social_exceptions, exception.__class__.__name__):
-            #return HttpResponse("catched: %s" % exception)
             ctx = {'exception': unicode(exception),}
             return render(request, 'userspace/social_exception.html', ctx)
         else:
