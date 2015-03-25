@@ -87,8 +87,10 @@ def cleanup_register_demands(forced=False):
     logger.info(u"[{}]: Finished register cleanup".format(timezone.now()))
 
 
-@periodic_task(run_every=datetime.timedelta(minutes=60))
+@periodic_task(run_every=datetime.timedelta(minutes=20))
 def update_indexes():
     """ Update haystack indexes. """
+    logger.info(u"[{}]: Started update indexes".format(timezone.now()))
     filename = os.path.join(settings.BASE_DIR, 'manage.py')
+    logger.info(u"[{}]: Finished update indexes".format(timezone.now()))
     return subprocess.call(['python', filename, 'update_index'])
