@@ -17,13 +17,12 @@ def update_marker_cache(sender, instance, **kwargs):
     Update cached pointer objects for map every time new map pointer is created.
     This way we can use redis-server as database with quick access.
     """
-
-    # Silent fail. Should be some info here
-    if not instance.location: return False
-
-    count = MapPointer.objects.filter(
-        location__in=instance.location.parent.get_children_id_list()).count()
-    redis_cache.set(str(instance.location.pk) + '_childlist', count, timeout=None)
+    if not instance.location:
+        return False
+    if instance.location.parent is not None:
+        count = MapPointer.objects.filter(
+            location__in=instance.location.parent.get_children_id_list()).count()
+        redis_cache.set(str(instance.location.pk) + '_childlist', count, timeout=None)
     redis_cache.set('allcountries', create_country_clusters(), timeout=None)
 
 
