@@ -55,6 +55,7 @@ def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
         system_user = User.objects.get(email=details.get('email'))
     except User.DoesNotExist:
         system_user = None
+        strategy.session_set('new_user', True)
     if user is None and system_user != None:
         return {'social': social,
                 'user': system_user,

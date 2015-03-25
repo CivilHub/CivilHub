@@ -1,68 +1,36 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
-
-{% block content %}
-<script>
-window.GOOGLE_DATA = {
-    scope: '{{ plus_scope }}',
-    id: '{{ plus_id }}'
-}
-</script>
-<div class="login-page">
-
-    {% if welcome_msg %}
-        <p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>
-    {% endif %}
-
-    <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" style="display:none;">
-        {% csrf_token %}
-        <input id="at" type="hidden" name="access_token" value="" />
-        <input id="code" type="hidden" name="code" value="" />
-    </form>
-    
-    {% if errors %}
-    <div class="alert alert-danger fade in" style="margin:0px auto;">{{ errors }}
-        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    </div>
-    {% endif %}
-    
-    <div id="login-form-validate" class="login-form">
-        <h1 class="login-form-header">{% trans "Sign In" %}</h1>
-        <div class="login-form-body">
-            <div class="login-social row">
-
-                <a class="facebook-button" href="{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Connect with Facebook</a>
-                    
-                <a class="twitter-button" href="{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Twitter" %}</a>
-                    
-                <a class="linkedin-button" href="{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Linkedin" %}</a>
-                        
-                <a id="googleplus" class="google-button" >{% trans "Connect with Google+" %}</a>
-                    
+{% block content %}<div class="login-page">
+  {% if welcome_msg %}<p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>{% endif %}    
+  {% if errors %}<div class="alert alert-danger fade in" style="margin:0px auto;">{{ errors }}
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  </div>{% endif %}
+  <div id="login-form-validate" class="login-form">
+    <h1 class="login-form-header">{% trans "Sign In" %}</h1>
+    <div class="login-form-body">
+      <div class="login-social row">
+        <a class="facebook-button" href="{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Connect with Facebook</a>
+        <a class="twitter-button" href="{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Twitter" %}</a>                
+        <a class="linkedin-button" href="{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Linkedin" %}</a>                    
+        <a class="google-button" href="{% url 'social:begin' 'google-plus' %}">{% trans "Connect with Google+" %}</a>
+      </div>
+      <form action="" method="post">
+        <div class="input-section row">
+          {{ form.errors }}
+          <form class="form-horizontal" action="{% url 'user:login' %}" method="post">{% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}" />
+            <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus>
+            <input class="form-control" id="password" maxlength="64" name="password" placeholder="{% trans "Password" %}" type="password">
+            <div class="remember-me">
+              <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
             </div>
-            <form action="" method="post">
-                <div class="input-section row">
-                    {{ form.errors }}
-                    <form class="form-horizontal" action="{% url 'user:login' %}" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.GET.next }}" />
-                        <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus>
-                        <input class="form-control" id="password" maxlength="64" name="password" placeholder="{% trans "Password" %}" type="password">
-                        <div class="remember-me">
-                            <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
-                        </div>
-                        <div class="submit-section row">
-                            <button type="submit" class="submit-button">{% trans "Login" %}</button>
-                        </div>
-                    </form>
-                    <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 
-                    <a href="{% url 'user:register' %}">{% trans "Don't have account" %}</a>
-                </div>
-                            
-            </form>
-        </div>
+            <div class="submit-section row">
+              <button type="submit" class="submit-button">{% trans "Login" %}</button>
+            </div>
+          </form>
+          <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 
+          <a href="{% url 'user:register' %}">{% trans "Don't have account" %}</a>
+        </div>    
+      </form>
     </div>
-</div>
-
-{% include 'places_core/google-login.html' %}
-
-{% endblock %}
+  </div>
+</div>{% endblock %}
