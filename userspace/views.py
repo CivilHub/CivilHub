@@ -47,9 +47,9 @@ from .helpers import profile_activation, random_username, create_username, updat
 
 class UserActivityView(TemplateView):
     """ 
-    Statyczny widok listy aktywności użytkownika (aka dashboard). Tutaj
-    wczytujemy szablon i listę ostatnich pięciu elementów z każdego typu
-    zawartości. Dodatkowo z osobnego widoku API ładowane są akcje.
+    Static view of user activity list (aka the dashboard). 
+    Loading a template and a list of the last five elements of each type
+    content. In addition, a separate view of the API are loaded user actions.
     """
     template_name = 'userspace/activity.html'
 
@@ -86,7 +86,7 @@ class UserActivityView(TemplateView):
 
 def register_credentials_check(request):
     """
-    Sprawdzamy nazwę użytkownika oraz email na potrzeby formularza rejestracji.
+    Check your username and email for the purpose of the registration form.
     """
     if not request.method == 'POST':
         raise Http404
@@ -104,9 +104,9 @@ def register_credentials_check(request):
 
 class SetTwitterEmailView(FormView):
     """
-    W tym widoku użytkownik, który rejestruje się przy pomocy konta na Twitterze
-    ustawia swój adres email. Adres jest wymagany i musi być unikalny dla
-    całego systemu.
+    In this view, the user who registers with Twitter accounts
+    sets your email address. The address is required and must be unique
+    the whole system.
     """
     form_class = TwitterEmailForm
     template_name = 'userspace/twitter-email-form.html'
@@ -358,9 +358,9 @@ def activate(request, activation_link=None):
 
 class NewUserView(TemplateView):
     """
-    Witamy nowego użytkownika i przedstawiamy mu lokalizacje, które mógłby chcieć
-    obserwować. Widok jest "jednorazowy", tzn. pokazujemy go tylko nowo-zalogowanym.
-    Przekierowanie znajduje się w metodzie GET.
+    Welcome new user and introduce him to locations that would want to
+    observe. The view is "one-use". It only show the newly-logged.
+    Redirect method is GET.
     """
     template_name = 'userspace/active.html'
 
@@ -409,8 +409,8 @@ def passet(request):
 @csrf_exempt
 def pass_reset(request):
     """
-    Pozwól zarejestrowanym użytkownikom zresetować zapomniane
-    hasło na podstawie adresu email.
+    Allow registered users to reset forgotten
+    password based on email address.
     """
     if request.user.is_authenticated():
         return redirect('/')
@@ -554,8 +554,8 @@ class UserFollowedLocations(DetailView):
 
 class UserBackgroundView(FormView):
     """
-    Widok statyczny pozwalający użytkownikowi wybrać i przyciąć zdjęcie tła dla
-    swojego profilu.
+    Static view allows the user to select and crop the image background for
+    user profile.
     """
     template_name = 'userspace/background-form.html'
     form_class = BackgroundForm

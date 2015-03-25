@@ -47,7 +47,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
 
 class NewsListView(BlogContextMixin, SearchableListMixin):
-    """ Lista projektów w ramach jednej lokalizacji. """
+    """ List of projects for one place. """
     model = News
     paginate_by = 25
 

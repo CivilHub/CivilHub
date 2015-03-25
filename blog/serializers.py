@@ -9,7 +9,7 @@ from .models import Category, News
 
 class NewsCategorySerializer(TranslatedModelSerializer):
     """
-    Prosty serializer dla kategorii newsów w blogu.
+    Simple serializer for Category News in Blog.
     """
     class Meta:
         model = Category

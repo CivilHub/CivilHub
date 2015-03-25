@@ -13,7 +13,7 @@ from civmail import messages as mails
 
 
 class InviteFriendsView(LoginRequiredMixin, TemplateView):
-    """ Widok pozwalający zapraszać znajomych. """
+    """ View allows you to invite your friends. """
     template_name = 'civmail/invite-friends.html'
 
 

@@ -13,7 +13,7 @@ GENDERS = ('male','female')
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
-    """ Serializer dla zakładek użytkownika. """
+    """ Serializer for user bookmarks. """
     url = serializers.SerializerMethodField('get_url')
     label = serializers.SerializerMethodField('get_label')
 
@@ -29,12 +29,12 @@ class BookmarkSerializer(serializers.ModelSerializer):
 
 class SocialAuthenticationDataSerializer(serializers.Serializer):
     """
-    Serializuje dane potrzebne podczas logowania/rejestracji użytkownika przez
-    jakiekolwiek portale społecznościowe.
-    
-    Uwaga - ten serializer dzedziczy z podstawowego serializera rest framework,
-    jednakże nie jest przeznaczony do podobnych zastosowań i metody, które nie
-    zostały tutaj redefiniowane, mogą nie działać zgodnie z oczekiwaniami!!!
+    Serializes the data needed when you log in / register as a user by
+    any social networking sites.
+    
+    Note - This serializer inherits rest framework serializer.
+    However, it is not intended for similar uses and methods, which do not
+    been here redefined, may not work as expected !!!
     """
     uid = serializers.CharField(max_length=255)
     provider = serializers.ChoiceField(choices=PROVIDERS)
@@ -85,8 +85,8 @@ class SocialAuthenticationDataSerializer(serializers.Serializer):
 
 class SocialAuthSerializer(serializers.ModelSerializer):
     """
-    Serializer dla kont social auth w systemie. Umożliwia tworzenie/edycję
-    oraz usuwanie kont powiązanych z portalami społecznościowymi.
+    Serializer auth social accounts in the system. Allows you to create / edit
+    and delete accounts that are associated with social networking.
     """
     class Meta:
         model = UserSocialAuth
@@ -94,8 +94,8 @@ class SocialAuthSerializer(serializers.ModelSerializer):
 
 class UserAuthSerializer(serializers.ModelSerializer):
     """
-    Serializer używany przy autoryzacji użytkowników logujących się przez api
-    zewnętrznych dostawców.
+    Serializer used to authenticate users logging in through the api
+    external suppliers.
     """
     token = serializers.Field(source='auth_token')
 
@@ -106,9 +106,9 @@ class UserAuthSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """
-    Pełny serializer dla użytkownika. W zamierzeniu ma umożliwić tworzenie
-    użytkowników przez mobilną aplikację. Definiuje metodę walidowania unikal-
-    nych adresów email oraz ustawia hasło nowo utworzonego użytkownika.
+    Full serializer for the user. It is intended to help you create
+    users through the mobile application. Defines a method of validating a unique i
+    of email addresses and sets the newly created user password.
     """
     email = serializers.EmailField(required=True)
     first_name = serializers.CharField(max_length=30, required=True)
