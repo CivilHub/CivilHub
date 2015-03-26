@@ -5,10 +5,7 @@ from actstream import action
 
 
 def task_action(user, task, verb):
-    """ Ogólna akcja związana z zadaniem. Składamy tutaj całe polecenie
-    wysłania odpowiedniej akcji. Do funkcji należy przekazać instancję
-    django.contrib.auth.models.User, projects.models.Task oraz verb. 
-
+    """
     A general action that contains tasks. Here we form whole send orders
     of a given action. A django.contrib.auth.models.User, projects.models.Task
     and verb instance needs to be passed to the function.

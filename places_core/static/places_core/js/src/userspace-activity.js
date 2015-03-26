@@ -51,4 +51,5 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     $(window).on('scroll', checkSrcrollPosition);
       
   });
+
 });

@@ -278,7 +278,7 @@ class ImageView(View):
 # ------------------------------------------------------------------------------
 
 class LocationGalleryView(ListView):
-    """ Główna strona galerii dla lokalizacji. The main site of the location gallery. """
+    """ The main site of the location gallery. """
     queryset = LocationGalleryItem.objects.all()
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'

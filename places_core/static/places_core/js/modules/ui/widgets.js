@@ -1,7 +1,7 @@
 //
 // widgets.js
 // =============
-//
+
 // A collection of widgets that connect jQuery plugins
 // and other widgets that are suited for the project or
 // were created with the application in mind. 

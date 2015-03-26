@@ -1,7 +1,7 @@
 //
 // userspace-profile.js
 // ====================
-// 
+
 // User profile that is available to see by other people.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -12,10 +12,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/userspace/enable-contacts'],
 
   function($) {
-
     "use strict";
-
     $(document).trigger('load');
-
   });
 });

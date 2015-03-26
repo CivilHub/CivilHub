@@ -45,10 +45,7 @@ def user_dict(user):
 
 @csrf_exempt
 def obtain_auth_token(request):
-    """
-    A mobile application view that allows us to log in
-    a user through an email and password.
-    """
+    """ Login mobile app user with system email and password. """
     context = {'success': False,}
     if request.method != 'POST':
         context.update({'error': _("Only POST requests allowed"),})
@@ -127,9 +124,8 @@ class UserFollowedLocationsAPI(rest_views.APIView):
 
 class UserSummaryAPI(rest_views.APIView):
     """
-    A summary view for the user. It works alike the module that displays the last 
-    entries in location summary, the difference lies in the fact that this module
-    gathers entries from all locations that the user is following.
+    Content summary for user. Similar to summary for location, the difference
+    is that we present content created by currently logged in user.
     """
     paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
@@ -292,9 +288,8 @@ class CredentialCheckAPIView(rest_views.APIView):
 
 class ActivityAPIViewSet(rest_views.APIView):
     """
-    A substitue for the standard view 'django-activity-stream'. It presents
-    the so called feed of the user that is logged-in right now. If the user
-    is anonymous he/she will receive a 404 in return.
+    Replacement for standard activity stream view. Displays actions for
+    currently logged in user. If user is anonymous, it returns 404.
     """
     permission_classes = (rest_permissions.AllowAny,)
 

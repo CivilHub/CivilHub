@@ -1,7 +1,7 @@
 //
 // vector-map.js
 // =============
-// 
+
 // A script that is responsible for the correct display of the vector-map
 
 require([window.STATIC_URL + "/js/config.js"], function () {

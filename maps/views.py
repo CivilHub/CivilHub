@@ -83,36 +83,27 @@ class MapDataViewSet(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
-        import json
-        lat  = self.request.QUERY_PARAMS.get('lat', None)
-        lng  = self.request.QUERY_PARAMS.get('lng', None)
-        zoom = self.request.QUERY_PARAMS.get('zoom', None)
-        filters = self.request.QUERY_PARAMS.get('filters', None)
-        location = self.request.QUERY_PARAMS.get('location', None)
-
+        lat  = self.request.QUERY_PARAMS.get('lat')
+        lng  = self.request.QUERY_PARAMS.get('lng')
+        zoom = self.request.QUERY_PARAMS.get('zoom')
+        filters = self.request.QUERY_PARAMS.get('filters')
+        location = self.request.QUERY_PARAMS.get('location')
         if lat is not None and lng is not None and zoom is not None:
-
             if int(zoom) >= 10:
                 markers = filter_markers(lat, lng, 2.0, filters, location)
                 serializer = MapPointerSerializer(markers, many=True)
                 context = serializer.data
-
             else:
                 clusters = create_clusters(lat, lng, zoom)
                 serializer = MapClusterSerializer(clusters, many=True)
                 context = serializer.data
-
         else:
             context = {'count': MapPointer.objects.count()}
-
         return Response(context)
 
 
 class MapinputAPI(APIView):
-    """
-    We create markers for a certain element with the usage of the map
-    that allows to create more than one object at the same time.
-    """
+    """ Create markers for content element. """
     queryset = MapPointer.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -121,11 +112,11 @@ class MapinputAPI(APIView):
         ct = ContentType.objects.get(pk=int(request.POST.get('content_type')))
         markers = request.POST.get('markers')
 
-        # Zastępujemy całkowicie stare punkty nowymi
+        # FIXME: we replace all markers with new set.
         for map_pointer in MapPointer.objects.filter(content_type=ct, object_pk=pk):
             map_pointer.delete()
 
-        # FIXME: sprawdzenie punktów bez niepotrzebnego powtarzania
+        # FIXME: check pointers without unnecessary repeating.
         for marker in json.loads(markers):
             map_pointer = MapPointer.objects.create(
                 content_type = ct,
@@ -146,12 +137,11 @@ class IndexView(TemplateView):
     main map and center it on user's position or it shows main map with some
     marker highlighted when 'show on map' option is used for some content type.
     """
-    http_method_names = [u'get', u'head', u'options', u'trace']
     template_name = 'maps/index.html'
 
     def get_context_data(self, **kwargs):
-        ct = self.kwargs.get('ct', None)
-        pk = self.kwargs.get('pk', None)
+        ct = self.kwargs.get('ct')
+        pk = self.kwargs.get('pk')
         active_marker = None
         context = super(IndexView, self).get_context_data(**kwargs)
 

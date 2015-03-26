@@ -252,7 +252,7 @@ class ProjectListView(LocationContextMixin, ListView):
 
 
 class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
-    """ Tworzenie nowego projektu dla zalogowanych użytkowników. New project creation for logged-in users. """
+    """ New project creation for logged-in users. """
     model = SocialProject
     form_class = CreateProjectForm
 

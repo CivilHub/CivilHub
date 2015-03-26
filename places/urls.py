@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView, HomeView
-from userspace.views import register, UserActivityView
+from userspace.views import UserActivityView
 from places_core.views import FileServeView
 admin.autodiscover()
 # include action hooks globally
