@@ -206,20 +206,18 @@ def save_settings(request):
     return HttpResponse(_('Form invalid'))
 
 
-def profile(request, username):
+class UserProfileView(DetailView):
     """ Show user info to other allowed users. """
-    prof = get_object_or_404(UserProfile, clean_username=username)
-    user = prof.user
-    # Custom action stream
-    stream  = UserActionStream(user)
-    actions = stream.get_actions(action_type  = 'actor')
-    ctx = {
-        'cuser'  : user,
-        'profile': prof,
-        'title'  : user.first_name + " " + user.last_name + " | CivilHub",
-        'stream' : actions,
-    }
-    return render(request, 'userspace/profile.html', ctx)
+    model = UserProfile
+    context_object_name = 'profile'
+    slug_field = 'clean_username'
+    slug_url_kwarg = 'username'
+    template_name = 'userspace/profile.html'
+
+    def get_context_data(self, object=None):
+        context = super(UserProfileView, self).get_context_data()
+        context['cuser'] = object.user
+        return context
 
 
 class RegisterFormView(FormView):
@@ -263,111 +261,6 @@ class RegisterFormView(FormView):
         translation.deactivate()
         return render(self.request, 'userspace/register-success.html',
                                         {'title': _("Message send"),})
-
-
-# def register(request):
-#     """ Register new user via django system. """
-#     from rest_framework.authtoken.models import Token
-
-#     if request.user.is_authenticated():
-#         return redirect('/activity')
-    
-#     if request.method == 'POST':
-#         f = RegisterForm(request.POST)
-
-#         if f.is_valid():
-#             lang = translation.get_language()
-#             user = User()
-#             first_name = request.POST.get('first_name')
-#             last_name = request.POST.get('last_name')
-#             password = request.POST.get('password')
-#             user.username = create_username(first_name, last_name)
-#             user.set_password(password)
-#             user.email = request.POST.get('email')
-#             user.first_name = request.POST.get('first_name')
-#             user.last_name  = request.POST.get('last_name')
-#             user.is_active = False
-#             try:
-#                 user.save()
-#                 # Create auth token for REST api:
-#                 token = Token.objects.create(user=user)
-#                 token.save()
-#             except Exception as ex:
-#                 # Form valid, but user already exists
-#                 ctx = {
-#                     'form': RegisterForm(initial={
-#                         'username': request.POST.get('username'),
-#                         'email':    request.POST.get('email')
-#                     }),
-#                     'title' : _("Registration"),
-#                     'errors': _("Selected username already exists. Please provide another one."),
-#                 }
-#                 return render(request, 'userspace/register.html', ctx)
-
-#             try:
-#                 # Create register demand object in DB
-#                 salt = hashlib.md5()
-#                 salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-#                 register_demand = RegisterDemand.objects.create(
-#                     activation_link = salt.hexdigest(),
-#                     ip_address      = ip.get_ip(request),
-#                     user            = user,
-#                     email           = user.email,
-#                     lang            = translation.get_language()
-#                 )
-#             except Exception as ex:
-#                 # if something goes wrong, delete created user to avoid future
-#                 # name conflicts (and allow another registration).
-#                 user.delete()
-#                 return render(request, 'userspace/register-failed.html', {
-#                     'title': _("Registration failed")
-#                 })
-
-#             # Create activation link
-#             site_url = request.build_absolute_uri('/user/activate/')
-#             link = site_url + str(register_demand.activation_link)
-
-#             try:
-#                 # Send email with activation link.
-#                 translation.activate(register_demand.lang)
-#                 email = emails.ActivationLink()
-#                 email.send(register_demand.email, {'link':link})
-#             except Exception as ex:
-#                 # User is registered and link is created, but there was errors
-#                 # during sanding email, so just show static page with link.
-#                 return render(request, 'userspace/register-errors.html', {
-#                     'title': _("Registration"),
-#                     'link' : link,
-#                 })
-#             # Show confirmation
-#             return redirect('user:message_sent')
-    
-#         else:
-#             ctx = {
-#                 'form': RegisterForm(initial={
-#                     'username': request.POST.get('username'),
-#                     'email':    request.POST.get('email')
-#                 }),
-#                 'title': _("Registration"),
-#                 'errors': f.errors,
-#             }
-#             return render(request, 'userspace/register.html', ctx)
-
-#     # Display registration form.
-#     ctx = {
-#         'form' : RegisterForm,
-#         'title': _("Registration"),
-#         'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
-#         'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
-#     }
-#     return render(request, 'userspace/register.html', ctx)
-
-
-# def confirm_registration(request):
-#     """ Show confirmation about successfull registration. """
-#     return render(request, 'userspace/register-success.html', {
-#         'title': _("Message send"),
-#     })
 
 
 def activate(request, activation_link=None):

@@ -32,7 +32,7 @@ class RegisterForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email and User.objects.filter(email=email).count():
-            raise forms.ValidationError(_(u'Email address already taken.'))
+            raise forms.ValidationError(_(u'User with this email address already exists.'))
         return email
 
 

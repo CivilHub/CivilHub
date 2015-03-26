@@ -13,7 +13,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     "use strict";
     $(document).ready(function () {
       // Show video in background
-      if ($(window).width() > 768 ) {
+      if ($(window).width() >= 768 ) {
         $("#wrapper-Home").tubular({
           videoId: "H-q1wZcUHhk",
           mute: false,
@@ -22,7 +22,6 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       }
       // Display registration form errors
       $('.error-popover').popover({
-        content: 'somecontent',
         placement: 'left'
       });
       $('.error-popover').popover('show');

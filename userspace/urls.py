@@ -31,5 +31,5 @@ urlpatterns = patterns('',
     url(r'locations/(?P<pk>\d+)/', views.UserFollowedLocations.as_view(), name='locations'),
     url(r'background/', views.UserBackgroundView.as_view(), name='background'),
     url(r'dashboard/', views.UserActivityView.as_view(), name='dashboard'),
-    url(r'(?P<username>[-\w.]+)/$', views.profile, name='profile'),
+    url(r'(?P<username>[-\w.]+)/$', views.UserProfileView.as_view(), name='profile'),
 )
