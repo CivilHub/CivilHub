@@ -53,7 +53,7 @@ Grzegorz Warzecha - https://www.facebook.com/gwarzecha or grzegorz@civilhub.org
 Installation
 ----------
 
-Apps to install from apta:
+Apps to install with apt-get install (on Debian-based distros):
 
 	python-dev
 	virtualenvwrapper
