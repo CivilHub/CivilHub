@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -126,24 +127,19 @@ class UserFollowedLocationsAPI(rest_views.APIView):
 
 class UserSummaryAPI(rest_views.APIView):
     """
-    Widok podsumowania dla użytkownika. Działa podobnie, jak moduł wyświetlający
-    ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
-    lokacji obserwowanych przez użytkownika.
+    Content summary for user. Similar to summary for location, the difference
+    is that we present content created by currently logged in user.
     """
     paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
+        if request.user.is_anonymous():
+            raise Http404
 
-        # Id lokacji, z której pobieramy wpisy
-        location_pk = request.QUERY_PARAMS.get('pk', 0)
-        # Numer strony do wyświetlenia
         page = request.QUERY_PARAMS.get('page', 1)
-        # Rodzaj typu zawartości (albo wszystkie)
         content = request.QUERY_PARAMS.get('content', 'all')
-        # Zakres dat do wyszukiwania
         time = request.QUERY_PARAMS.get('time', 'any')
-        # Wyszukiwanie po tytułach wpisów
         haystack = request.QUERY_PARAMS.get('haystack', None)
         
         content_objects = []
@@ -294,14 +290,14 @@ class CredentialCheckAPIView(rest_views.APIView):
 
 class ActivityAPIViewSet(rest_views.APIView):
     """
-    Zastępstwo dla standardowego widoku `django-activity-stream`. Prezentuje
-    tzw. feed użytkownika, który jest aktualnie zalogowany. Jeżeli użytkownik
-    jest anonimowy, dostanie w odpowiedzi 404.
+    Replacement for standard activity stream view. Displays actions for
+    currently logged in user. If user is anonymous, it returns 404.
     """
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
-        if request.user.is_anonymous(): return HttpResponseNotFound()
+        if request.user.is_anonymous():
+            raise Http404
         if len(following(request.user)) > 0:
             actstream = user_stream(request.user)
         else:
