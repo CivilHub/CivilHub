@@ -4,13 +4,13 @@
 //
 // Allow registered users to send abuse reports related to content.
 //
-// Tworząc okno, przekazujemy do konstruktora obiekt z podstawowymi parametrami,
-// które stają się naszymi 'defaultowymi' wartościami. Obiekt powinien zawierać:
+// By creating a window we pass to the constructor an object with basic
+// parameters that become our 'default' values. The object should contain:
 //
-//   - id      => id obiektu, który oznaczamy (object_pk)
-//   - content => id dla typu zawartości (ContentType) oznaczanego obiektu
+//   - id      => object id that we mark as object_pk)
+//   - content => id for the content type (ContentType) of the marked object
 //
-// TODO: Warto pomyśleć nad przechwytywaniem błędów z serwera.
+// TODO: It is worthwhile to think about cathing errors from the server.
 //
 
 define(['jquery',

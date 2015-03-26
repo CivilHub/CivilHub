@@ -1,8 +1,8 @@
 //
 // gallery-location.js
 // ===================
-// 
-// Galeria pojedynczej lokalizacji.
+//
+// A gallery of a single location
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

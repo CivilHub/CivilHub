@@ -15,9 +15,9 @@ from .helpers import random_password
 
 class SocialAuthManager(object):
     """
-    Uzupełnienie Python Social Auth umożliwiające logowanie przez aplikację
-    mobilną. Klasa stanowi niejako dodatkowy wrapper na funkcje z pipeline,
-    które wywołuje jako swoje metody.
+    Fills in Python Social Auth that allows to log in through the mobile
+    application. This class is somewhat an additional wrapper for pipeline
+    functions that evokes its own methods.
     """
     def __init__(self, provider, uid, data):
         self.strategy = load_strategy()

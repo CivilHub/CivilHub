@@ -2,7 +2,7 @@
 // discussion-list.js
 // ==================
 
-// Lista tematów na forum dla pojedynczej lokalizacji.
+// A list of elements on the forum for a single location.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

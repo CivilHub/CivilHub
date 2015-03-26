@@ -2,7 +2,7 @@
 // gallery-user.js
 // ===============
 // 
-// Strona galerii użytkownika.
+// User gallery page
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

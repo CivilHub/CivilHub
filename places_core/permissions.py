@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
 
-# Customowe uprawnienia dla użytkowników. Jeżeli zaistnieje
-# taka potrzeba, skorzystamy z jakiejś paczki w rodzaju django-guardian.
-
+# Custom user permissions. If such a need arises, we will use
+# some package such a django-guardian.
 from django.contrib.auth.models import User, Group
 from userspace.models import UserProfile
 
 
 def is_moderator(user, location):
     """
-    Funkcja sprawdza, czy użytkownik jest moderatorem
-    w danej lokalizacji. Zwraca 'True' również dla
-    superadminów i "supermoderatorów".
+    This function check whether the user is a mod of
+    a given location. Returns 'True' also for superadmins
+    and 'supermoderators'.
     """
     if user.is_superuser:
         return True
 
-    # Nazwa grupy jest przypisana "na sztywno" !!!
+    # The group name is written "non-dynamically" !!!
     if 'Editor' in [x.name for x in Group.objects.all()]:
         return True
 

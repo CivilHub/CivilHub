@@ -18,10 +18,9 @@ class IdeaCategoryAPIViewSet(viewsets.ModelViewSet):
 
 class IdeaAPIViewSet(viewsets.ModelViewSet):
     """
-    Zarządzanie listą pomysłów. Domyślnie widok prezentuje listę wszystkich
-    pomysłów.
-    
-    Tworzenie idei (pola wymagane):
+    Managing the list with ideas. By default the view presents a list of all ideas.
+
+    Creation of idea (required fields):
         name        string, max_length=64
         description string/html, max_length=20480
         location    int, Location object pk
@@ -39,18 +38,18 @@ class IdeaAPIViewSet(viewsets.ModelViewSet):
 
 class IdeaVoteAPIViewSet(viewsets.ModelViewSet):
     """
-    Widok dla głosów na idee. Domyślnie prezentuje listę wszystkich głosów.
-    Możliwe jest filtrowanie wyników na podstawie ID użytkownika oraz ID idei,
-    poprzez wprowadzenie odpowiednich parametrów w zapytaniu, np.:
+    A View for idea vote counts. By default it presents a list of all votes.
+    It is possible to filter the results throught user ID and idea ID,
+    through the introduction of certain parameters in query, e.g.:
+
+            `/api-ideas/votes/?user=1&idea=3`
     
-        `/api-ideas/votes/?user=1&idea=3`
-    
-    Tworzenie idei (pola obowiązkowe):
-        user (int)     pk użytkownika
-        idea (int)     pk idei
+    Idea creation (compulsory field):
+        user (int)     pk of the user
+        idea (int)     pk of the idea
         vote (boolean) Vote up/down
-        
-    Widok nie obsługuje paginacji.
+
+    The view does not support pagination
     """
     model = Vote
     paginate_by = None

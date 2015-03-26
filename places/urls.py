@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from staticpages.views import PageView, HomeView
-from userspace.views import UserActivityView
+from userspace.views import register, UserActivityView
 from places_core.views import FileServeView
 admin.autodiscover()
 # include action hooks globally
@@ -14,11 +14,11 @@ from rest_framework import routers
 from rest import views
 router = routers.DefaultRouter()
 
-# Widoki dla API
+# Api Views
 #router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
 router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')
 
-# Widoki dla strony
+# Site Views
 router.register(r'users', views.UserViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'comments', views.CommentsViewSet, base_name=r'comment')
@@ -109,7 +109,7 @@ urlpatterns += patterns('',
     # django-discussions (e.g. user messages)
     # disabled because of lack South integrity
     #url('^messages/', include('discussions.urls', namespace='messages')),
-    # Podstawowe widoki projektów - reszta jest w lokalizacjach
+    # Basic project views - the rest is within locations
     url('^projects/', include('projects.urls', namespace='projects')),
     # Discussions (e.g. forum)
     url('^discussion/', include('topics.urls', namespace='discussion')),
@@ -131,20 +131,20 @@ urlpatterns += patterns('',
     }),
     # REST server
     url(r'^rest/', include(router.urls, namespace='rest')),
-    # Haystack - wyszukiwarka
+    # Haystack - search engine
     url(r'^search/', include('haystack.urls', namespace='search')),
-    # django-messages: wiadomości pomiędzy użytkownikami
+    # django-messages: messages between users
     url(r'^messages/', include('postman.urls')),
-    # Obsługa języków
+    # Language support
     url(r'^i18n/setlang', set_language, name='set_language'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    # Dla robotów - indeksiarzy :)
+    # For robots - indexers :)
     url(r'^robots.txt$', FileServeView.as_view(filename='robots.txt')),
     # Captcha
     url(r'^captcha/', include('captcha.urls')),
     # Static Pages
-    # Definicje stron statycznych idą tutaj, metodą kopiego i pejsta można
-    # dodawać kolejne.
+    # Definition of static pages go here, you can add new ones by
+    # copy-paste method.
     url(r'^home/', PageView.as_view(page='home')),
     url(r'^home-b/', PageView.as_view(page='home-b')),
     #url(r'^about/', PageView.as_view(page='about')),
@@ -161,7 +161,7 @@ urlpatterns += patterns('',
     #url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
     
-    # Default URL - Nie wstawiać nic poniżej!!!
+    # Default URL - Do not add anything below!!!
     #url(r'^$', PageView.as_view(page='home')),
     url(r'^$', HomeView.as_view()),
     

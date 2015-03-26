@@ -2,7 +2,7 @@
 // run-lightbox.js
 // ===============
 
-// Uruchamia jsOnlyLightbox dla wybranych elementów.
+// Launches jsOnlyLightbox for chosen elements.
 
 require(['jquery', 'lightbox'],
 

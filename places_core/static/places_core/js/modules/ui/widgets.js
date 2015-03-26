@@ -1,9 +1,10 @@
 //
 // widgets.js
 // =============
-
-// Zbiór widgetów łączący pluginy jQuery i inne widgety
-// dopasowane do projektu lub utworzone z myślą o nim.
+//
+// A collection of widgets that connect jQuery plugins
+// and other widgets that are suited for the project or
+// were created with the application in mind. 
 
 require(['jquery',
          'jqueryui',
@@ -15,10 +16,10 @@ function ($) {
 
   "use strict";
 
-  // Nakładka na jquery-ui.Datepicker, pozwalająca nam
-  // odpowiednio formatować datę i zakładać widget
-  // na podstawie klasy 'custom-datepicker' wykrytej
-  // w atrybutach elementu.
+  // A jquery-ui.Datepicker overlay that allows us to
+  // format the date correctly and to create a widget
+  // based on 'custom-datepicker' class detected in
+  // the attributed of the element.
 
   $.fn.customDatepicker = function (options) {
     return $(this).each(function () {
@@ -34,9 +35,10 @@ function ($) {
     $('.custom-datepicker').customDatepicker();
   });
 
-  // Nakładka na edytor WYSIWYG Redaktor.
+  // A WYSIWYG Redaktor overlay
 
-  // Opcja 'gallery' (true/false) plugin z galerią (domyślnie true).
+  // The 'gallery' option (true/false) plugin along with the
+  // gallery (set to true by default)
 
   $.fn.customRedactor = function (options) {
     var settings = $.extend({'gallery': true}, options);
@@ -58,8 +60,8 @@ function ($) {
     });
   });
 
-  // Zmieniamy checkboxy na bootstrap-swich. Należy zastosować
-  // klasę 'custom-bs-switch' na elemencie.
+  // We change checkboxes into bootstrap-swich.
+  // 'custom-bs-switch' needs to be used on the element.
 
   $(document).ready(function () {
     $('.custom-bs-switch').bootstrapSwitch({

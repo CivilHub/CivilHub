@@ -4,7 +4,7 @@ import os
 
 
 def resize_image(image, max_width):
-    """ Skaluje obraz do podanej szerokości z zachowaniem proporcji. """
+    """ Scales the image to the given width, preserving proportions. """
     img_width, img_height = image.getdata().size
     if img_width >= max_width and img_width >= img_height:
         # Obrazek do przeskalowania przez `thumbnail`
@@ -16,7 +16,7 @@ def resize_image(image, max_width):
 
 
 def perform_smart_cut(image, size):
-    """ Przycina obraz do dokładnych rozmiarów, zachowując jak największą część. """
+    """ Crops the image to the exact sizes, preserves as much as it can. """
     if size[0] >= size[1]:
         image = resize_image(image, size[0])
         new_width, new_height = image.getdata().size
@@ -30,7 +30,7 @@ def perform_smart_cut(image, size):
 
 
 def crop_thumbnail(image, size):
-    """ Wycina miniaturkę z przyciętego już obrazu tła. """
+    """ Cuts out a minature from the cropped background image """
     max_w, max_h = size
     width, height = image.getdata().size
     new_width = int(width * float(max_h)/float(height))
@@ -42,26 +42,26 @@ def crop_thumbnail(image, size):
 
 class ImageManager(object):
     """
-    Manager ułatwiający manipulowanie obrazami uploadowanymi na serwer. Pozwala
-    tworzyć miniatury oraz przycinać "inteligentnie" obrazy do określonych
-    rozmiarów. Tworzy też standardowe nazwy i rozszerzenia plików. Wszystkie
-    utworzone obrazy konwertowane są do formatu JPEG.
+    A manager that facilitates the manipulation of images uploaded onto the server.
+    Allows to create minatures and to crop "intelligently" images to the given
+    sizes. It also standarizes names and file extensions. ALl created images
+    are converted into JPEG formet.
     """
     @classmethod
     def _open_image(cls, filename):
-        """ Zwraca obraz PIL jeżeli jest to możliwe. """
+        """ Returns PIL image if it is possible. """
         try:
             return Image.open(filename)
         except (IOError, OSError):
             raise Exception(u"Cannot open image file '%s'" % filename)
 
     def create_filename(self, suffix, format='jpg'):
-        """ Helper, który tworzy odpowiednią nazwę dla pliku. """
+        """ A Helper that will create a proper name for the file"""
         file, ext = os.path.splitext(self.filename)
         return os.path.join(self.dir, "{}_{}.{}".format(file, suffix, format))
 
     def resize(self, width, height):
-        """ Skalujemy obraz z zachowaniem proporcji. """
+        """ We scale the image and preserve the proportions"""
         image_w, image_h = self.image.size
         aspect_ratio = image_w / float(image_h)
 
@@ -74,14 +74,14 @@ class ImageManager(object):
 
     def smart_cut(self, width, height):
         """
-        Przycinamy i skalujemy obraz z zachowaniem proporcji. Przydatne dla
-        miniaturek o równych proporcjach. Metoda upewnia się, że jak największa
-        część oryginalnego obrazu będzie widoczna.
+        We crop and scale the image and preserve the proportions. Useful for
+        minatures with equal proportions. The method makes sure that as much
+        as possible of the original image will be visible.
         """
         return perform_smart_cut(self.image, (width, height))
 
     def fixed_thumb(self, width, height):
-        """ Tworzy miniaturkę zoptymalizowaną dla konkretnego rozmiaru. """
+        """ Creates a minature optimized for a given size. """
         img = self.smart_cut(width * 2, height * 2)
         img.save(self.create_filename("{}x{}@2x".format(width, height)), 'JPEG')
         img = img.resize((width, height), Image.ANTIALIAS)
@@ -99,7 +99,7 @@ class ImageManager(object):
 
 
 def fix_images():
-    """ Tworzy miniatury zdjęć i przycięte tła dla oryginałów na serwerze. """
+    """ Creates image minatures and cropped background images for original files on the server."""
     import re
     from django.conf import settings
 

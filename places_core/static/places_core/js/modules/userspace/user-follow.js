@@ -2,7 +2,7 @@
  * user-follow.js
  * ==============
  * 
- * Skrypt obsługujący przycisk podążania za użytkownikiem.
+ * A script that manages the follow user button
  */
 
 define(['jquery', 'js/modules/ui/ui'],

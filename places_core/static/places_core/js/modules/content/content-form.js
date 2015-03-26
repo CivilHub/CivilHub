@@ -3,9 +3,9 @@
 // ===============
 //
 
-// Dodajemy te skrypty do formularzy w których jest mapa.
-// Warunek działania skryptu jest taki, że formularz musi
-// mieć ID 'content-create-form'.
+// We add those scripts to forms that have a map.
+// The condition for the script to work is that the form
+// must have the ID 'content-create-form'.
 
 require(['jquery',
          'js/modules/utils/utils',
@@ -17,13 +17,13 @@ function ($, utils) {
 
   $(document).ready(function () {
 
-    // UWAGA: zakładam, że w formularzu jest JEDNA mapa!
+    // NOTE: UWAGA: I presume that in the form there is only ONE map!
     var map = null;
 
-    // Edytując istniejący obiekt, wysyłamy markery osobno
+    // Edition of non-existing object, we send markers separately
     //
-    // @param { Number } ID typu zawartości
-    // @param { Number } ID obiektu
+    // @param { Number } content type ID
+    // @param { Number } object ID
 
     function submitMarkers (ct, pk) {
       var url = '/api-maps/mapinput/';
@@ -43,7 +43,7 @@ function ($, utils) {
 
     if (window.civapp !== undefined) {
 
-      // Edytujemy istniejący obiekt
+      // We edit an non-existing object
 
       var url = ('/api-maps/objects/?ct={ct}&pk={pk}')
         .replace(/{ct}/g, civapp.ct)
@@ -65,8 +65,8 @@ function ($, utils) {
 
     } else {
 
-      // Dodajemy nowy obiekt - w tym przypadku przesyłamy dodatkowe
-      // pole w formularzu, a w nim (JSON-ENCODED(!!!)) markery.
+      // We add a new object - in this case we send an additional
+      // field in the form and in it (JSON-ENCODED(!!!)) markers. 
 
       var $i = $('<input type="hidden" name="markers" />');
 

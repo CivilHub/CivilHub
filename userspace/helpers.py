@@ -23,7 +23,7 @@ AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
 
 def create_user_profile(user, **kwargs):
     """
-    Metoda przyjmuje jako argument instancję auth.user i tworzy profil użytkownika.
+    This method takes auth.user instance as an argument and creates a user profile.
     """
     try:
         profile = UserProfile(user=user)
@@ -37,7 +37,7 @@ def create_user_profile(user, **kwargs):
 
 
 def profile_activation(user, **kwargs):
-    """ Sprawdzamy, czy profil użytkownika istnieje lub tworzymy nowy. """
+    """ We check whether the user porfile already exists or we create a new one. """
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -48,12 +48,12 @@ def profile_activation(user, **kwargs):
 
 
 def random_string(length=8):
-    """ Funkcja tworzy ciąg losowych znaków alfanumerycznych. """
+    """ This function creates a string of random alphanumeric symbols """
     return ''.join(random.choice(string.letters + string.digits) for _ in range(length))
 
 
 def random_username():
-    """ Funkcja tworząca losową i unikalną nazwę użytkownika. """
+    """ A function that creates a random and unique user name. """
     username = random_string(30)
     while (User.objects.filter(username=username).count() > 0):
         username = random_string(30)
@@ -62,7 +62,7 @@ def random_username():
 
 def create_username(first_name, last_name):
     """
-    Próbujemy utworzyć "czystą" nazwę użytkownika na podstawie imienia i nazwiska.
+    We try to create a "clear" user name based on the name and surname of the user.
     """
     if first_name is None or not len(first_name):
         first_name = None
@@ -88,7 +88,7 @@ def create_username(first_name, last_name):
 
 def random_password():
     """
-    Funkcja tworzy losowy ciąg znaków zakodowany w MD5 (32 znaki).
+    This function creates a strong of random symbols coded in MD5 (32 symbols)
     """
     salt = hashlib.md5()
     salt.update(settings.SECRET_KEY + str(datetime.now().time))

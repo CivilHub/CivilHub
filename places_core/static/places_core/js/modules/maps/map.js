@@ -2,7 +2,7 @@
 // map.js
 // ======
 //
-// Główny obiekt obsługujący mapę.
+// The main object that takes care of the map
 
 define(['jquery',
         'underscore',
@@ -12,10 +12,10 @@ function ($, _, L) {
     
     "use strict";
     
-    var icons = {}; // Ikony pobieramy ze skryptu w templatce
+    var icons = {}; // Icons are downloaded from the script in the template
     
     var defaults = {
-        // ID DOM elementu dla mapy
+        // ID DOM elementu for the mapy
         elementID: 'map',
         // Base url to get marker data
         apiURL: '/api-maps/data/',
@@ -23,11 +23,11 @@ function ($, _, L) {
         infoURL: '/api-maps/objects/',
         // URL dla map tails
         mapTailURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        // Minimalne zbliżenie, przy jakim pokazujemy pojedyncze markery:
+        // The minimum zoom with which we show single markers
         minZoom: 10,
-        // Maksymalne możliwe zbliżenie - ze względu na openmaps
+        // The maximum possible zoom - due to openmaps
         maxZoom: 18,
-        // Początkowe opcje mapy
+        // Starting map options
         detectRetina: true, 
         //Retina
         startZoom: 12,

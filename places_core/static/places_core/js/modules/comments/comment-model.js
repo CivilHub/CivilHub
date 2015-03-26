@@ -2,7 +2,7 @@
 // comment-model.js
 // ================
 
-// Podstawowy model dla komentarza.
+// A basic model for comments
 
 define(['jquery',
 				'underscore',
@@ -16,7 +16,7 @@ function ($, _, Backbone, moment) {
 var CommentModel = Backbone.Model.extend({
 	
 	defaults: {
-		user: 0, // Konieczne - unikamy `Undefined error`
+		user: 0, // This is necessary - we avoid 'Undefined error`
 		comment: 'Lorem ipsum',
 		content_id: $('#target-id').val(),
 		content_type: $('#target-type').val(),

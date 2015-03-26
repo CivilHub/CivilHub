@@ -9,10 +9,10 @@ from .image_manager import ImageManager
 
 def rename_background_file(filepath, pref="s_"):
     """
-    Funkcja przyjmuje absolutną ścieżkę systemową do pliku obrazu tła (głównie
-    z myślą o lokalizacjach i użytkownikach) i podstawia nazwę dla przyciętego
-    pliku (prefiks). Prefiks możemy sobie ustawić dowolnie, ale tylko "s_"
-    zadziała później w templatach.
+    The function takes an absolute system path to the background image (mainly
+    with location and users in mind) and adds/changes the name for the cropped
+    file (prefix). The prefix can be set in any way, but only "s_" will work
+    later on in the templates.
     
     TODO: global cropped image prefix.
     """
@@ -22,10 +22,9 @@ def rename_background_file(filepath, pref="s_"):
 
 def handle_tmp_image(image):
     """
-    Funkcja, która pozwala 'obrabiać' zdjęcia zanim zostaną uploadowane i przekazane
-    do silnika Django. Wykorzystywana przy uploadzie zdjęć tla i avatarów do
-    tworzenia tymczasowych plików, które mogą być wykorzystane w ImageField
-    modelu Django.
+    A function that allows to "change" the images before they get uploaded and send 
+    to Django enginge. Used while uploading background images and avatars to create
+    temporary files that can be used in ImageField model of Django.
     """
     img_io = StringIO.StringIO()
     image.save(img_io, format='JPEG')
@@ -35,9 +34,9 @@ def handle_tmp_image(image):
 
 def resize_image(image, size=None):
     """
-    Funkcja przyjmuje obraz PIL jako argument i zwraca taki sam obiekt, ale ze
-    zmienionymi rozmiarami. Zmiana rozmiarów następuje odpowiednio do maksymalnej
-    szerokości.
+    The function take the PIL image as an argument and returns the same object
+    but with changed dimensions. The change of dimensions takes place to the 
+    maximum width.
     """
     max_w, max_h = settings.BACKGROUND_IMAGE_SIZE if size is None else size
     width, height = image.getdata().size
@@ -47,7 +46,7 @@ def resize_image(image, size=None):
 
 def delete_image(imagepath):
     """
-    Prosta funkcja "wyciszająca" błędy podczas usuwania nieistniejących plików.
+    A simple function that "silences" errors while deleting files that don't exist.
     """
     try:
         os.unlink(imagepath)
@@ -57,8 +56,9 @@ def delete_image(imagepath):
 
 def get_fieldname(instance):
     """
-    Metoda przyjmuje instancję obiektu jako argument i zwraca prawidłową nazwę
-    pola przechowującego obrazek tła. Działa dla modeli UserProfile oraz Location.
+    A Method that takes an instance of an object as an argument and returns the
+    correct name of the filed that stores the background image. Works for UserProfile
+    model and Location. 
     """
     field_names = ('background_image', 'image')
     fieldname = None
@@ -110,7 +110,7 @@ def resize_background_image(sender, instance, created, **kwargs):
 
 def delete_background_image(sender, instance, **kwargs):
     """
-    Metoda usuwająca obraz tła dla modeli lokalizacji oraz profilu użytkownika.
+    A Method that deletes the background image for location and user profile models
     """
     fieldname = get_fieldname(instance)
     
@@ -130,7 +130,7 @@ def delete_background_image(sender, instance, **kwargs):
 
 def crop_gallery_thumb(sender, instance, **kwargs):
     """
-    Przycinamy obraz, żeby pokazać go na głównej stronie galerii.
+    We crop the image to show it on the main site of the gallery.
     """
     filename = 'cropped_' + instance.picture_name
     if hasattr(instance, 'location'):
@@ -164,7 +164,7 @@ def crop_gallery_thumb(sender, instance, **kwargs):
 
 def delete_cropped_thumb(sender, instance, **kwargs):
     """
-    Sygnał usuwający przycięty obrazek dla elementu galerii.
+    The signal that deletes the cropped image for gallery element.
     """
     filename = 'cropped_' + instance.picture_name
     if hasattr(instance, 'location'):
@@ -182,8 +182,9 @@ def thumb_name(filename, size):
 
 def crop_thumb(filename, size):
     """
-    Funkcja przyjmuje ścieżkę do pliku obrazu jako argument i tworzy miniaturę
-    o podanych wymiarach. Obraz zostanie pomniejszony i przycięty "inteligentnie".
+    The function takes the path to the image file as an argument and creates
+    a minature with the given (typed) dimensions. The image will be shrunk and
+    cropped "intelligently".
     """
     image = Image.open(filename)
     max_w, max_h = size
@@ -212,9 +213,9 @@ def crop_thumb(filename, size):
 
 def get_image_size(imagepath):
     """
-    Mały helper. Podajemy ścieżkę do obrazu, a funkcja zwraca tuplet z jego
-    wysokością i szerokością w pikselach. Zwracamy rozmiary obrazów już
-    dostosowanych.
+    A small helper. We give the path to the image and the function returns
+    a tuplet with its height and width in pixels. We return the sizes of
+    the images already matched (changed).
     """
     try:
         image = Image.open(os.path.splitext(imagepath)[0] + '_fx.jpg')
@@ -226,9 +227,10 @@ def get_image_size(imagepath):
 
 def adjust_uploaded_image(sender, instance, **kwargs):
     """
-    Zunifikowana metoda obsługująca obrazy dla naszego modelu ImagableItemMixin.
-    Przygotowuje obrazy ustandardyzowanej wielkości oraz taki sam pod retinę.
-    Rozmiar obrazów ustawiamy w settings.DEFAULT_IMG_SIZE. Zachowujemy oryginał.
+    A unified method that manages images for our model ImagableItemMixin.
+    Readies images of standarized sizes and the same for retina.
+    The size of the image is set in settings.DEFAULT_IMG_SIZE. We preserve
+    the original.
     """
     # Ignoruj wpisy z domyślnymi obrazami
     if instance.image.name == settings.DEFAULT_IMG_PATH:

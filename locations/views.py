@@ -173,8 +173,8 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
 
 class SublocationList(DetailView):
     """
-    Strona zawiera listę lokalizacji, dla których bieżąca lokalizacja
-    jest lokalizacją macierzystą.
+    The site contains a list of locations for which the current location
+    is the parent location.
     """
     model = Location
     template_name = 'locations/sublocation-list.html'
@@ -318,14 +318,13 @@ class LocationDetailView(LocationViewMixin):
 
 
 class LocationActionsView(LocationViewMixin):
-    """ Różne "wariacje na temat" czyli "podwidoki" dla lokalizacji. """
+    """ Various 'variations on the subject' i.e. 'subviews' for locations. """
     template_name = 'locations/location_summary.html'
 
 
 class LocationBackgroundView(FormView):
     """
-    Formularz statyczny umożliwiający upload i przycinanie zdjęć tła dla
-    lokalizacji.
+    A static form that allows to upload and crop background images for locations.
     """
     template_name = 'locations/background-form.html'
     form_class = BackgroundForm
@@ -414,8 +413,8 @@ class DeleteLocationView(LocationAccessMixin, DeleteView):
 
 class LocationContentSearch(View):
     """
-    Strona z wynikami sortowania treści dla jednego taga. Zbieramy treści tylko
-    z lokalizacji, którą aktualnie przegląda użytkownik.
+    A site with the results of sorting content for one tag. We gather content
+    only from the location that the user is currently viewing.
     """
     http_method_names = [u'get']
     template_name     = 'locations/tag-search.html'
@@ -444,9 +443,10 @@ class LocationContentSearch(View):
 
 class LocationContentFilter(View):
     """
-    Strona filtrowania treści w/g kategorii. Tego typu filtrowanie jest przy-
-    datne tylko dla poszczególnych rodzajów treści. Jak powyżej, zbieramy
-    treści tylko z aktualnie przeglądanej lokalizacji.
+    A content filter by category site.This type of filtering is
+    useful only for certain types of content. Same sa above, we 
+    only gather content from the location that the user is currently
+    viewing.
     """
     http_method_names = [u'get']
     template_name = 'locations/category-search.html'
@@ -473,8 +473,8 @@ class LocationContentFilter(View):
 
 class LocationContentDelete(View):
     """
-    Uniwersalny widok pozwalający administratorom oraz moderatorom usuwać treści
-    z "podlegajęcej" im lokalizacji.
+    A universal view that allows the admins and mods to delete the content from
+    "subject" locations. 
     """
     http_method_names = [u'get', u'post',]
     template_name = 'locations/content-remove.html'
@@ -502,9 +502,9 @@ class LocationContentDelete(View):
 
 class InviteUsersView(LoginRequiredMixin, View):
     """
-    Widok z myślą o formularzu zapraszania innych użytkowników do 'śledzenia'
-    lokalizacji. Definiuje metody, które zwracają formularz dla modala oraz
-    przesyłają maila do wybranych użytkowników.
+    A view with the from of invite a other users to 'follow' a location in mind.
+    It defines the methods that return the form for the modal and send an email
+    to the chosen users. 
     """
     http_method_names = [u'get', u'post']
     template_name = 'locations/invite-users.html'

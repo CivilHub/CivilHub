@@ -28,9 +28,9 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     list of all map objects created by users in proper format. They
     are then used to populate main map view with map pointers.
     
-    Możliwe jest wyszukiwanie konkretnych obiektów w/g ID oraz typu obiektu,
-    do którego odwołuje się marker. Należy w tym celu podać w parametrach GET
-    typ zawartości oraz ID obiektu, np:
+    It is possible to search through certain objects by ID and object type
+    to which the marker referes to. To do so, in the GET parameter of the
+    content type and the ID of the object, e.g.
     
     ```/api-maps/objects/?ct=23&pk=1```
     """
@@ -110,8 +110,8 @@ class MapDataViewSet(APIView):
 
 class MapinputAPI(APIView):
     """
-    Tworzymy markery dla konkretnego elementu z wykorzystaniem mapki,
-    która umożliwia utworzenie na raz więcej niż jednego obiektu.
+    We create markers for a certain element with the usage of the map
+    that allows to create more than one object at the same time.
     """
     queryset = MapPointer.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

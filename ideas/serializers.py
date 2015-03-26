@@ -13,7 +13,7 @@ class IdeaCategorySerializer(TranslatedModelSerializer):
 
 class IdeaVoteSerializer(serializers.ModelSerializer):
     """
-    Prosty serializer dla obiektów powiązanych z głosami na idee.
+    A simple serializer for object connected with votes in ideas.
     """
     class Meta:
         model = Vote

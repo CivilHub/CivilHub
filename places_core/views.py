@@ -22,7 +22,7 @@ from .serializers import ContentTypeSerializer, PaginatedSearchSerializer
 
 
 def flush_page_cache():
-    """ Funkcja usuwa zapisane w cache szablony kiedy zmieniamy język witryny. """
+    """ This function clears the cache saved in the template when we change the language of the site. """
     langs = [x[0] for x in settings.LANGUAGES]
     sections = ['home',]
     for l in langs:
@@ -34,8 +34,8 @@ def flush_page_cache():
 @csrf_exempt
 def token_check(request):
     """
-    Sprawdzamy i logujemy tokeny uwierzytelniające z zewnętrznych serwisów.
-    Trzeba pamiętać, żeby to potem usunąć!!!
+    We check and log authentication tokens from external servers.
+    We need to rememebr to delete this later!!!
     """
     import json, logging
     from django.utils import timezone
@@ -52,13 +52,12 @@ def token_check(request):
 
 class SearchResultsAPIViewSet(viewsets.ViewSet):
     """
-    Wyszukiwarka dla aplikacji mobilnej. Umożliwia sprawdzenie wyników wyszukiwania
-    przez podanie odpowiedniego hasła do wyszukania (oczywiście w formie url-friendly).
-    Zwraca listę znalezionych obiektów zawierającą pola `name`, `content_type`
-    oraz `object_pk`. System rozpoznaje frazy przepuszczone przez funkcje takie
-    jak `encodeURI`, `encodeURIComponent` albo `urlencode`.
-    
-    #### Przykład zapytania:
+    A serch enginge for the mobile application. It allows to check search results
+    by specifing the correct entry for the search (of course in a url-friendly manner).
+    It returns a list of found objects that contain the fields 'name', 'content_type'
+    and 'object_pk'. The system recognizes phrases passed through such functions as
+    'encodeURI', 'encodeURIComponent' or 'urlencode'.
+    #### Sample query:
     ```/api-core/search/?q=warszawa```
     """
     serializer_class = PaginatedSearchSerializer
@@ -99,13 +98,12 @@ class SearchResultsAPIViewSet(viewsets.ViewSet):
 
 class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    Widok umożliwiający pobieranie ID typów zawartości na podstawie nazwy
-    aplikacji lub modelu i vice-versa. Tylko zapytania GET! Domyślnie listowane
-    są wszystkie typy zawartości.
-    
-    Wyszukiwać można na dwa sposoby, dodając parametry GET do zapytania:
-        1. Podać ID konkretnego typu zawartości (np. ?id=8)
-        2. Podać nazwę aplikacji i modelu (np. ?app_label=ideas&model=idea)
+    A view that allows to download content ID types based on the application name
+    or model and vice-versa. Only GET queries! By default all types are listed.
+
+    It is possible to search in two ways, by adding GET parameters to the query:
+        1. Pass an ID of a concrete content type (e.g. ?id=8)
+        2. Pass the name of the application and model (e.g. ?app_label=ideas&model=idea)
     """
     queryset = ContentType.objects.all()
     serializer_class = ContentTypeSerializer
@@ -142,7 +140,7 @@ def set_language(request):
 
 
 class FileServeView(View):
-    """ Widok serwujący pliki statyczne. """
+    """ A view that serves static files. """
     http_method_names = [u'get', u'head', u'options', u'trace']
     filename = None
 

@@ -2,7 +2,7 @@
 // userspace-profile.js
 // ====================
 // 
-// Profil użytkownika udostępniony do przeglądania przez inne osoby.
+// User profile that is available to see by other people.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

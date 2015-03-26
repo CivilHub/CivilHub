@@ -34,8 +34,8 @@ def get_upload_path(instance, filename):
 
 def obj_to_dict(obj):
     """
-    Helper który zamienia nam rózne typy zawartości na zunifikowany format, co
-    ułatwi nam wyświetlanie ich w templatach. Działa jak prosty serializer.
+    A helper that changes various types of content into a unified format,
+    that will help us show them in templates. Works as a simple serializer. 
     """
     content_type = ContentType.objects.get_for_model(obj)
 
@@ -107,8 +107,8 @@ class AlterLocationName(models.Model):
 
 class LocationLocaleManager(models.Manager):
     """
-    Manager umożliwiający porządkowanie lokalizacji alfabetycznie z uwzględnieniem
-    lokalnych znaków utf-8.
+    A manager that allows to order locations albhabetically with local utf-8 signs
+    taken into account.
     """
     def get_queryset(self):
         return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
@@ -116,7 +116,7 @@ class LocationLocaleManager(models.Manager):
 
 
 class BackgroundModelMixin(object):
-    """ Mixin dla modeli obsługujących obraz tła. """
+    """ A mixin for models that take care of the background image."""
     def get_image_url(self, size=(1920,300), retina=False):
 
         # Get first part of image url
@@ -166,7 +166,7 @@ class Location(models.Model, BackgroundModelMixin):
     date_created = models.DateTimeField(auto_now_add=True)
     country_code = models.CharField(max_length=10)
     image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg')
-    # Tutaj oznaczamy regiony/miasta/stolice itp. oznaczeniami z geonames
+    # Here we mark regions/cities/capitals etc. with geonames
     kind = models.CharField(max_length=10)
 
     # custom managers
@@ -202,14 +202,14 @@ class Location(models.Model, BackgroundModelMixin):
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
-        # Generujemy odpowiedni slug
+        # We generate the appropriate slug
         if not self.slug:
             slug_entry = slugify('-'.join([self.name, self.country_code]))
             chk = Location.objects.filter(slug__icontains=slug_entry).count()
             if chk:
                 slug_entry = slug_entry + '-' + str(chk)
             self.slug = slug_entry
-        # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
+        # We check whether the image has changed and if needed, we delete the old one
         try:
             orig = Location.objects.get(pk=self.pk)
             if not u'nowhere' in orig.image.name and orig.image != self.image:
@@ -308,8 +308,8 @@ class Location(models.Model, BackgroundModelMixin):
         return rename_background_file(self.image.url)
 
     def content_objects(self):
-        """ Zwraca listę obiektów powiązanych z tą lokalizacją (idee, dyskusje,
-        newsy i ankiety), sortowane od najnowszych. """
+        """ Returns a list of objects connected with this location (idea, discussion,
+        news and poll), sorts from latest. """
         qs = [obj_to_dict(x) for x in self.poll_set.all()]
         qs += [obj_to_dict(x) for x in self.news_set.all()]
         qs += [obj_to_dict(x) for x in self.idea_set.all()]

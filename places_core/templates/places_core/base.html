@@ -2,22 +2,22 @@
     
 {% include 'places_core/header.html' %}
     
-{% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGI ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~~~~~~~ TAGS ~~~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block meta %}{% endblock %}
 
-{% comment %} ~~~~~~~~~~~~~~~~~~~ TAGI GEO ~~~~~~~~~~~~~~~~~~~ {% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~~~~~ GEO TAGS ~~~~~~~~~~~~~~~~~~~ {% endcomment %}
 {% block geometa %}{% endblock %}
 
-{% comment %} ~~~~~~~~~~~~~ DODATKOWE PLIKI CSS ~~~~~~~~~~~~~~ {% endcomment %}
+{% comment %} ~~~~~~~~~~~~~ ADDITIONAL CSS FILES ~~~~~~~~~~~~~~ {% endcomment %}
 {% block extra_styles %}{% endblock %}
 
 {% comment %} ~~~~~~~~~~~~~~ REQUIRE.JS CONFIG ~~~~~~~~~~~~~~~ {% endcomment %}
 {% block require_scripts %}
 
     {% comment %}
-        W tym bloku definiujemy inicjalizator dla Require.js, e.g. 'require.config'
-        i startową funkcję dla aplikacji. Zależności w Require powinny odzwierciedlać
-        faktycznie wszystkie wykorzystywane na stronie biblioteki i pluginy.
+        Here we define Require.js initializator, e.g. 'require.config' and
+        a starting function for the application. Dependencies in Require should
+        reflect all used in the plugin and library site.  
     {% endcomment %}
     
     <script src="{% static 'places_core' %}/js/{% js_path %}/default.js"></script>
@@ -67,7 +67,7 @@
 
 {% include 'places_core/footer.html' %}
 
-{% comment %}tpl dla powiadomien (alert){% endcomment %}
+{% comment %}template for notificatioins (alert){% endcomment %}
 {% include 'places_core/script-templates/flash-msg-tpl.html' %}
 
 {% comment %} ~~~~~~~~~~~~~~~~ FOOTER SCRIPTS ~~~~~~~~~~~~~~~~ {% endcomment %}

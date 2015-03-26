@@ -2,7 +2,7 @@
 // userspace-form.js
 // =================
 // 
-// Formularz do edycji profilu użytkownika.
+// A form for user profile edition.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

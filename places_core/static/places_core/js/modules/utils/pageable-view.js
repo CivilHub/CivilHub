@@ -1,8 +1,8 @@
 //
 // pageable-view.js
 // ================
-// Klasa do rozszerzenia przez wszystkie list widoki korzystające z paginatora,
-// czyli lista dyskusji, lista ankiet, sekcja blog oraz sekcja pomysły.
+// A class to broaden by all list views that make use of paginators, i. e.
+// a list of discussions, polls, blog section and the idea section.
 
 define(['jquery',
         'underscore',
@@ -14,7 +14,7 @@ function ($, _, Backbone) {
     
     // Helper functions
     // ================
-    // Funkcja pobierająca dodatkowe dane z formularza 'search'.
+    // This function downloads additional data from the 'search' form
     // ---------------------------------------------------------
     var getSearchText = function () {
         var $field = $('#haystack'),
@@ -27,10 +27,10 @@ function ($, _, Backbone) {
         return txt;
     };
     
-    // Wczytanie wybranych opcji.
+    // Load selected options.
     // ---------------------------
-    // Sprawdzenie aktywnych elementów (klikniętych linków)
-    // w celu "pozbierania" opcji wyszukiwarki.
+    // Check the selected elements (clicked links)
+    // in order to "gather" search options
     //
     var getListOptions = function () {
         var $sel = $('.list-controller'),

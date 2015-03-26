@@ -25,20 +25,20 @@ var CommentListView = Backbone.View.extend({
 	
 	el: '#comments',
 	
-	// Referencje do widoków komentarzy. Wspólnym kluczem jest ID modelu.
+	// References to comments views. They both share the same key - ID model.
 	items: {}, 
 	
 	initialize: function (options) {
 		
-		var self = this; // FIXME: pozbyć się tego
+		var self = this; // FIXME: delete this
 		
-		// Konieczne ze względu na Django CSRF Protection
+		// Necessary due to Django CSRF Protection
 		$.ajaxSetup({
 			headers: {'X-CSRFToken': utils.getCookie('csrftoken')}
 		});
 		
-		// Wywołanie paginowalnej kolekcji, ustalenie liczby elementów na
-		// jednej stronie i wyświetlenie pierwszej strony.
+		// Evocation of a paginable collection, setting the number of elements
+		// on one site and displaying the first one.
 		this.collection = new CommentCollection(options);
 		this.collection.state.pageSize = window.pageSize;
 		this.collection.fetch({
@@ -47,23 +47,23 @@ var CommentListView = Backbone.View.extend({
 			}
 		});
 		
-		// Dodawanie nowych komentarzy (nie zagnieżdżonych)
+		// Adding new commnets (unnested)
 		$('#user-comment-form').on('submit', function (e) {
 			e.preventDefault();
 			this.addComment();
 		}.bind(this));
 		
-		// Usuwamy referencje widoków kiedy resetujemy kolekcję/wczytujemy nową
+		// We delete the view references when we restart the collection/load a new one
 		this.listenTo(this.collection, 'sync', this.cleanup);
 	},
 	
 	render: function () {
-		// Wyświetla listę komentarzy.
+		// Displays a list of comments.
 		this.collection.each(function (item) {
 			this.renderComment(item);
 		}, this);
-		// Off i on są tutaj konieczne ze względu na problemy z późniejszym
-		// doczytywaniem listy. Enable lazy-loading on page scrolling
+		// Off and on are complusory here due to later list loading problems
+		// Enable lazdy-loading on page scrolling
 		$(window).off('scroll');
 		$(window).scroll(function() {
 			if($(window).scrollTop() + $(window).height() == $(document).height()) {
@@ -76,8 +76,8 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	renderComment: function (item) {
-		// Funkcja dodaje komentarze na końcu listy, używana
-		// podczas inicjalizacji i resetowania kolekcji.
+		// This function adds comments at the end of the list,
+		// it is used during inicialization and reset of collection
 		var comment = new CommentView({model:item});
 		comment.parentView = this;
 		$(comment.render().el).appendTo(this.$el);
@@ -85,7 +85,8 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	prependComment: function (item) {
-		// Funkcja dodaje komentarze na początku listy, np. kiedy tworzymy nowy.
+		// This function adds comments at the beginning of the list, e.g. when we
+		// create a new one.
 		var comment = new CommentView({model:item});
 		$(comment.render().el).prependTo(this.$el);
 	},
@@ -96,8 +97,9 @@ var CommentListView = Backbone.View.extend({
 			alert(gettext("Comment cannot be empty"));
 			return false;
 		}
-		// Utworzenie nowego komentarza - z formularza pobierany
-		// jest sam tekst, resztę dodają skrypty i server.
+		// Creation of a new comment - from the from we download
+		// only the text, the rest is added through scripts
+		// and the server. 
 		var newComment = {
 			comment: $('#comment').val(),
 			content_type: $('#target-type').val(),
@@ -111,16 +113,16 @@ var CommentListView = Backbone.View.extend({
 				self.prependComment(model);
 			}
 		});
-		// Wyczyść formularz.
+		// Clear the form
 		$('#comment').val('');
-		// Zwiększ liczbę komentarzy w oknie informacyjnym
+		// Increase the number of comments in the information window
 		incrementCommentCount();
 	},
 	
 	filter: function (filter) {
 		// Reset
 		this.$el.empty();
-		// Aplikujemy jeden z filtrów: `votes`, `submit_date`, `-submit_date`.
+		// We use one of the filters: 'votes', 'submit_date', '-submit_date'/
 		this.collection.state.currentPage = null;
 		_.extend(this.collection.queryParams, {
 			filter: filter
@@ -128,15 +130,16 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	nextPage: function () {
-		// Pobranie następnej strony po przewinięciu ekranu. Ta funkcja cza-
-		// sami rzuca błąd lub zwraca 404, ale nie należy się tym przejmować :)
-		// Backbone.pageableCollection ma jakiś błąd, który sprawia, że nie
-		// można polegać na funkcji hasNextPage.
+		// We download the next page after scrolling. This function
+		// sometimes throws an error or returns a 404, you shouldn't 
+		// wory about it :)
+		// Backbone.pageableCollection has some sort of an error that
+		// makes hasNextPage useless.
 		var self = this,
 			model = null;
 		
 		this.collection.getNextPage({
-			// Pobieramy nową stronę i wyświetlamy komentarze.
+			// We download a new site and display the comments.
 			success: function (collection, response, method) {
 				_.each(response.results, function (item) {
 					var model = new CommentModel(item);
@@ -147,6 +150,7 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	cleanup: function () {
+		// This method clear the list of views connected with the models in order
 		// Metoda "czyści" listę widoków powiązanych z modelami w kolekjci
 		this.items = {};
 	}

@@ -2,11 +2,12 @@
 // uploader.js
 // ===========
 //
-// Plugin dla edytora Redaktor umożliwiający zarządzanie zdjęciami w galerii
-// użytkownika przez zewnętrzne okno modala. Abu uruchomić plugin, musimy
-// "odpalić" edytor z odpowiednimi opcjami. Należy pamiętać o tym, że ten plik
-// musi zostać wczytany ZANIM wczytany zostanie sam edytor (plik redactor.js).
-// Inaczej wywali nam błąd 'RedactorPlugins is undefined'.
+// A Plugin for the editor Redaktor that allows for managing images in the gallery
+// of the user through an external window modal. To launch the plugin we must
+// "launch" the editor with certain options. It is worth mentioning that this
+// file must be loaded BEFORE the editor itself will be loaded (redactor.js file)
+// Else we will get an error "RedactorPlugins is undefined".
+
 
 define(['js/modules/ui/media-uploader'],
 

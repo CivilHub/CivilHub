@@ -2,8 +2,8 @@
 // static-default.js
 // =================
 // 
-// Domyślne skrypty stosowane dla wszystkich widoków w aplikacji
-// "staticpages", które nie deklarują własnej konfiguracji.
+// Default scripts used for all views in an "staticpages" application,
+// that do not deklare their own configuration.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

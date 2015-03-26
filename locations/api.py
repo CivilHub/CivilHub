@@ -34,8 +34,8 @@ redis_cache = cache.get_cache('default')
 
 class CapitalAPI(APIView):
     """
-    Widok wyszukujący stolicę kraju najbardziej odpowiedniego dla lokalizacji
-    aktualnego użytkownika. Nie trzeba tutaj przekazywać żadnych parametrów.
+    A view that searches for a capital of a country most suitable for the location
+    of the current user. You don't have to pass in any parameters.
     """
     permission_classes = (rest_permissions.AllowAny,)
 
@@ -55,54 +55,54 @@ class CapitalAPI(APIView):
 
 class LocationSummaryAPI(APIView):
     """ 
-    Widok pozwalający pobierać listę wszystkich elementów w danej lokalizacji 
-    (idee, dyskusje, ankiety oraz blog). W zapytaniu podajemy pk interesującego
-    nas miejsca, np:
+    A view that allows to download a list of all elements in a given location
+    (idea, discussion, poll, news). In the query we give the pk of the location
+    we are interested in, e.g:
 
-    `/api-locations/contents/?pk=756135`
+        `/api-locations/contents/?pk=756135`
 
-    Dodatkowe parametry:<br>
-        `page`     - Numer strony do pobrania<br>
-        `content`  - Tylko jeden typ zawartości (idea, news, poll, discussion)
-                    Domyślna wartość to `all`<br>
-        `time`     - Zakres czasowy (year, week, month, day). Domyślnie `any`<br>
-        `haystack` - Fraza do wyszukania w tytułach<br>
-        `category` - ID kategorii do przeszukania (jeżeli dotyczy)<br>
-        `per_page` - Ilość elementów do pokazania na jednej stronie (max 100)<br>
+    Additional parameters:<br>
+        `page`     - number of page after download<br>
+        `content`  - Only one type of content (idea, news, poll, discussion)
+                    The default value is 'all'<br>
+        `time`     - Time scope (year, week, month, day). By default: `any`<br>
+        `haystack` - The phrase to be searched for in the titles<br>
+        `category` - ID of the category that we want to look in (if applicable)<br>
+        `per_page` - Number of elements to show on one page (max 100)<br>
     """
     paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
 
-        # Id lokacji, z której pobieramy wpisy
+        # Location Id from which we gather entries
         try:
             location_pk = int(request.QUERY_PARAMS.get('pk'))
         except (ValueError, TypeError):
             location_pk = None
 
-        # Numer strony do wyświetlenia
+        # Number of page that is going to be displayed
         try:
             page = int(request.QUERY_PARAMS.get('page'))
         except (ValueError, TypeError):
             page = 1
 
-        # Ilość elementów na stronę
+        # Number of elements on the site
         try:
             per_page = int(request.QUERY_PARAMS.get('per_page'))
         except (ValueError, TypeError):
             per_page = self.paginate_by
 
-        # Rodzaj typu zawartości (albo wszystkie)
+        # Type of content (or all)
         content = request.QUERY_PARAMS.get('content', 'all')
 
-        # Przedział czasowy do przeszukania
+        # Time duration for search
         time = get_time_difference(request.QUERY_PARAMS.get('time', 'any'))
 
-        # Wyszukiwanie po tytułach wpisów
+        # Search by entries' titles
         haystack = request.QUERY_PARAMS.get('haystack')
 
-        # Wyszukiwanie poprzez ID kategorii (jeżeli dotyczy)
+        # Search through category ID (if applicable)
         try:
             category = int(request.QUERY_PARAMS.get('category'))
         except (ValueError, TypeError):
@@ -122,7 +122,7 @@ class LocationSummaryAPI(APIView):
         if category is not None:
             content_objects = [x for x in content_objects if x['category']['pk']==category]
 
-        # Opcje sortowania wyników (dotyczy konkretnych obiektów)
+        # Sort results option (Opcje sortowania wyników (is applicable to concrete objects)
         sortby = self.request.QUERY_PARAMS.get('sortby')
         if sortby == 'title':
             content_objects = sort_by_locale(content_objects,
@@ -146,16 +146,15 @@ class LocationSummaryAPI(APIView):
 
 class LocationFollowAPIView(APIView):
     """
-    Wyjście REST na funkcję obserwowania lokalizacji. Generalnie wysyłamy tutaj
-    POST z jednym parametrem - `pk` lokalizacji. Jeżeli użytkownik już obserwuje
-    tę lokalizację, zostanie usunięty z listy obserwatorów i vice-versa.
-    Za każdym razem w odpowiedzi otrzymujemy obiekt z wartością follow ustawioną
-    na `true` lub `false` w zależności od faktycznego stanu po zmianie,tzn. jeżeli
-    użytkownik zaczął obserwować lokalizację, otrzymamy coś takiego:
-    
-    ```{
+    Exit REST on the follow location function. Generally, we send here POST
+    with one parameter - 'pk' of the location. If the user is already observing
+    this location he will be deleted from the list of followers and vice-versa.
+    Each time in return we get an object with the value of follow set to either
+    'ture' or 'fale' depending on the actual state after the change, i.e. if the
+    user started following a location, we receive something like this:
+     ```{
         follow: true
-    }```
+    }```   
     """
     permission_classes = (rest_permissions.IsAuthenticated,)
 
@@ -180,13 +179,14 @@ class LocationFollowAPIView(APIView):
 
 class LocationAPIViewSet(viewsets.ModelViewSet):
     """
-    REST view for mobile app. Provides a way to manage and add new locations.
-    Możliwe jest wyszukanie konkretnego kraju na podstawie codu kraju (TYLKO
-    lokacji powiązanej z krajem). W tym celu dodajemy parametr `code`, np:
-    
+    Rest view for mobile app. Provides a way to manage and add new locations.
+    It is possible to search for a certain country on the basis of the country's
+    code (ONLY a location bound with the country). To do this, we add a parameter
+    'code', e.g.
+
     ```/api-locations/locations/?code=pl```
-    
-    W wyniku otrzymamy wówczas pojedynczy obiekt lokacji (w tym przypadku Polska)
+
+    In the result we will receive a single location object (here, Poland)
     """
     model = Location
     serializer_class = SimpleLocationSerializer
@@ -215,10 +215,10 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
 
 class CountryAPIViewSet(viewsets.ModelViewSet):
     """
-    Tutaj kojarzymy kod państwa z GeoIP z naszym modelem lokalizacji. Model
-    przechowuje informacje o startowej lokalizacji i powiększeniu mapy etc.
-    Domyślnie prezentowana jest lista wszystkich państw w bazie. Umożliwia
-    wyszukiwanie na podstawie country code (np. ?code=pl).
+    Here we "connect" the country kode with the GeoIP with our location's model.
+    The model stores information about the starting location and the zoom of
+    the map etc. By default a list of all countries in the database is presented.
+    It allows to search by country code (e.g. ?code=pl)
     """
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
@@ -234,17 +234,17 @@ class CountryAPIViewSet(viewsets.ModelViewSet):
 
 class LocationActionsRestViewSet(viewsets.ViewSet):
     """
-    Zwraca listę akcji powiązanych z miejscami. Wymagane jest podanie `pk`
-    docelowej lokalizacji. Dodatkowo możemy przefiltrować listę pod względem
-    typów zawartości obiektu (`action_object`), dodając parametr `ct` w 
-    zapytaniu (id typu zawartości). Wyniki prezentowane są dokładnie w takiej
-    samej formie jak dla actstreamów użytkowników.
-    
+    Returns a list of action connected with the places. Providing the 'pk'
+    of the given location is required. We can additionally filter the list by
+    the object's conent ('action_object'), by adding the parameter 'ct' in
+    the query(id type of the contnet). The results are presented in the exact same
+    form as for users actstreams.
+
     #### Przykład:
     ```/api-locations/actions/?pk=2&ct=28```
-    
-    Widok tylko do odczytu. Jeżeli nie podamy `pk` żadnej lokalizacji, otrzymamy
-    w odpowiedzi pustą listę.
+
+    Read-only view. If we won't give a 'pk' of any location, we will receive an
+    empty list.
     """
     serializer_class = MyActionsSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
@@ -289,10 +289,10 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
 
 class LocationMapViewSet(viewsets.ModelViewSet):
     """
-    Entry point dla aplikacji pobierającej nazwy lokalizacji. Napisany głównie
-    z myślą o widgecie autocomplete w głównym widoku mapy. Wyszukując lokalizację
-    podajemy fragment jej nazwy, np:
-    
+    An entry point for the application that downloads the names of the locations.
+    Written mainly with the autocomplete widget in the main map view in mind.
+    Searching for a location we give part of its name, e.g.:
+
     ```/api-locations/markers/?term=awa```
     """
     queryset = Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)

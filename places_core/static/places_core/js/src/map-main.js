@@ -2,7 +2,7 @@
 // map-main.js
 // ===========
 // 
-// Główna mapa.
+// Main map.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
     require(['jquery',

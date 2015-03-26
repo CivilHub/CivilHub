@@ -2,7 +2,7 @@
 // lang-selector.js
 // ================
 
-// Popover z opcjami wyboru języka.
+// Popover with language selection.
 
 require(['jquery', 'bootstrap'], function ($) {
 

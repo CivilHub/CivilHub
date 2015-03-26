@@ -7,7 +7,7 @@ from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForu
 
 
 class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
-    """ Tworzenie nowych projektów - część danych jest autouzupełniana. """
+    """ Creation of new projects, part of the data is autocompleted. """
     class Meta:
         model = SocialProject
         fields = ('name', 'description', 'creator', 'location',)
@@ -20,7 +20,7 @@ class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class UpdateProjectForm(forms.ModelForm, BootstrapBaseForm):
-    """ Edycja istniejących projektów ma inny zestaw pól. """
+    """ The edition of already existing projects has a different field set. """
     class Meta:
         model = SocialProject
         fields = ('name', 'description', 'is_done',)
@@ -32,7 +32,7 @@ class UpdateProjectForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class TaskGroupForm(forms.ModelForm, BootstrapBaseForm):
-    """ Tworzenie oraz edycja grup zadań. """
+    """ Creation and edition of group tasks."""
     class Meta:
         model = TaskGroup
         fields = ('name', 'description', 'project', 'creator',)
@@ -45,7 +45,7 @@ class TaskGroupForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class TaskForm(forms.ModelForm, BootstrapBaseForm):
-    """ Tworzenie/edycja zadania. """
+    """ Creation/edition of a task. """
     class Meta:
         model = Task
         exclude = ('participants', 'is_done',)
@@ -59,7 +59,7 @@ class TaskForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class SocialForumCreateForm(forms.ModelForm, BootstrapBaseForm):
-    """ Tworzenie/edycja dyskusji w ramach projektu. """
+    """ Creation/edition of a discussion in a project. """
     class Meta:
         model = SocialForumTopic
         exclude = ('slug', 'is_closed', 'creator', 'project',)
@@ -70,7 +70,7 @@ class SocialForumCreateForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class SocialForumUpdateForm(forms.ModelForm, BootstrapBaseForm):
-    """ Formularz podobny do powyższego, ale oferujący opcję zamknięcia dyskusji. """
+    """ A form similar to the one above but this one offers an option to close the discussion. """
     class Meta:
         model = SocialForumTopic
         exclude = ('slug', 'creator', 'project',)
@@ -82,7 +82,7 @@ class SocialForumUpdateForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class DiscussionAnswerForm(forms.ModelForm, BootstrapBaseForm):
-    """ Odpowiadanie na dyskusje - tworzenie i edycja wpisów. """
+    """ Responding to discussions - creation and edition of entries. """
     class Meta:
         model = SocialForumEntry
         fields = ('content', 'topic', 'creator',)

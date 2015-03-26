@@ -2,11 +2,11 @@
 // main.js
 // =======
 
-// Skrypt uruchamiający bouncy-navigation w wersji dostosowanej
-// dla Civil Hub. Pobieramy listę lokalizacji obserwowanych przez
-// użytkownika i na tej podstawie tworzymy spersonalizowane menu.
-// Skrypt uruchamiający samo menu jest bardzo prosty, większość
-// siedzi w stylach.
+// The script that launches the bouncy-navigation in a version
+// adjusted to CivilHub. We download a list of followed locations
+// by the user and on this basis we create a personalized menu.
+// The script that  launches the menu itself if very simple,
+// most of it is in styles.
 
 require(['jquery',
 				 'underscore',

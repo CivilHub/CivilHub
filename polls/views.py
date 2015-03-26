@@ -86,7 +86,7 @@ class PollResults(DetailView):
 
     def calculate_answsers(self, **kwargs):
         """
-        Policz głosy za poszczególnymi odpowiedziami.
+        Count the votes of respective anwsers.
         """
         result = []
         obj = self.object

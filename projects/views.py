@@ -35,8 +35,10 @@ from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm
 @require_POST
 @login_required
 def set_element_order(request, content_type, object_id, direction):
-    """ Ustawiamy porządek dla grup lub zadań. Do funkcji należy przekazać
-    ID typu zawartości, ID obiektu oraz kierunek ('UP' lub 'DOWN'). """
+    """ We set an order for groups or tasks. The ID type of the content,
+    the ID of the object and the direction ('UP' or 'DOWN') need to
+    be passed to the function.
+    """
     model = ContentType.objects.get(pk=content_type).model_class()
     obj = model.objects.get(pk=object_id)
     if direction == 'UP':
@@ -44,10 +46,10 @@ def set_element_order(request, content_type, object_id, direction):
     else:
         obj.down()
     if hasattr(obj, 'get_absolute_url'):
-        # Zadanie
+        # Task
         redirect_url = obj.get_absolute_url()
     else:
-        # Grupa zadań
+        # Group of tasks
         redirect_url = obj.project.get_absolute_url()
     return redirect(redirect_url)
 
@@ -55,7 +57,7 @@ def set_element_order(request, content_type, object_id, direction):
 @require_POST
 @login_required
 def toggle_task_state(request, pk):
-    """ Zmieniamy stan zadania ukończony/nieukończony. """
+    """ We change the status of the task to finished/unfinished """
     task = get_object_or_404(Task, pk=pk)
     if task.is_done:
         task.is_done = False
@@ -76,7 +78,7 @@ def toggle_task_state(request, pk):
 
 
 class ProjectContextMixin(LocationContextMixin):
-    """ Mixin dla formularzy do tworzenia zadań oraz grup zadań. """
+    """ A mixin for forms that create tasks and groups of tasks. """
     def get_context_data(self, form=None):
         group_id = self.kwargs.get('group_id')
         project_slug = self.kwargs.get('slug')
@@ -93,10 +95,10 @@ class ProjectContextMixin(LocationContextMixin):
 
 class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
     """
-    Sprawdzamy, czy użytkownik ma odpowiednie prawa dostępu.
+    We check whether the user has the proper access rights.
     """
     def get(self, request, location_slug=None, slug=None, group_id=None, task_id=None):
-        # TODO: można pokazać coś bardziej odpowiedniego niż 403.
+        # TODO: We can show something more appropriate than 403.
         if not check_access(self.get_object(), request.user):
             raise PermissionDenied
         return super(ProjectAccessMixin, self).get(request)
@@ -108,7 +110,7 @@ class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
 
 
 class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
-    """ Dołączanie/odłączanie użytkownika od całego projektu. """
+    """ Adding/removing the user from the project (as a whole). """
     def post(self, request, location_slug=None, slug=None):
         project = get_object_or_404(SocialProject, slug=slug)
         if project.participants.filter(pk=request.user.pk).exists():
@@ -135,7 +137,7 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
 
 
 class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
-    """ Dołączanie/odłączanie użytkowników od konkretnego zadania. """
+    """ Adding/removing users from a conrete task. """
     def post(self, request, location_slug=None, slug=None, task_id=None):
         task = get_object_or_404(Task, pk=task_id)
         if task.participants.filter(pk=request.user.pk).exists():
@@ -161,7 +163,7 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
 
 
 class CreateTaskGroupView(ProjectContextMixin, CreateView):
-    """ Tworzenie nowej grupy dla zadań. Widok przyjmuje tylko POST. """
+    """ Creation of a new group of tasks. The view takes only POST. """
     model = TaskGroup
     form_class = TaskGroupForm
 
@@ -180,7 +182,7 @@ class CreateTaskGroupView(ProjectContextMixin, CreateView):
 
 
 class UpdateTaskGroupView(ProjectAccessMixin, UpdateView):
-    """ Edycja grupy dla zadań. """
+    """ Edition of a group of tasks. """
     model = TaskGroup
     form_class = TaskGroupForm
     pk_url_kwarg = 'group_id'
@@ -190,7 +192,7 @@ class UpdateTaskGroupView(ProjectAccessMixin, UpdateView):
 
 
 class DeleteTaskGroupView(ProjectAccessMixin, DeleteView):
-    """ Usuwamy grupy zadań. """
+    """ We remove a group of tasks. """
     model = TaskGroup
     pk_url_kwarg = 'group_id'
 
@@ -199,7 +201,7 @@ class DeleteTaskGroupView(ProjectAccessMixin, DeleteView):
 
 
 class CreateTaskView(ProjectContextMixin, CreateView):
-    """ Tworzenie nowego zadania. """
+    """ Creation of a new task. """
     model = Task
     form_class = TaskForm
 
@@ -223,14 +225,14 @@ class CreateTaskView(ProjectContextMixin, CreateView):
 
 
 class UpdateTaskView(ProjectAccessMixin, UpdateView):
-    """ Edycja istniejących zadań. """
+    """ Edition of existing elements. """
     model = Task
     form_class = TaskForm
     pk_url_kwarg = 'task_id'
 
 
 class DeleteTaskView(ProjectAccessMixin, DeleteView):
-    """ Usuwamy zadania. """
+    """ We remove tasks. """
     model = Task
     pk_url_kwarg = 'task_id'
 
@@ -239,7 +241,7 @@ class DeleteTaskView(ProjectAccessMixin, DeleteView):
 
 
 class ProjectListView(LocationContextMixin, ListView):
-    """ Lista projektów w ramach jednej lokalizacji. """
+    """ A list of projects in one location. """
     model = SocialProject
 
     def get_queryset(self):
@@ -250,7 +252,7 @@ class ProjectListView(LocationContextMixin, ListView):
 
 
 class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
-    """ Tworzenie nowego projektu dla zalogowanych użytkowników. """
+    """ Tworzenie nowego projektu dla zalogowanych użytkowników. New project creation for logged-in users. """
     model = SocialProject
     form_class = CreateProjectForm
 
@@ -278,20 +280,20 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
                     content_type=ContentType.objects.get_for_model(SocialProject),
                     object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
         except Exception:
-            # FIXME: silent fail, powinna być flash message
+            # FIXME: silent fail, should be a flash message
             pass
         return super(CreateProjectView, self).form_valid(form)
 
 
 class ProjectUpdateView(ProjectAccessMixin, UpdateView):
-    """ Edycja istniejących projektów - tylko twórcy i moderatorzy. """
+    """ Existing projects edition - only the creators and mods. """
     model = SocialProject
     form_class = UpdateProjectForm
     template_name = 'projects/socialproject_update.html'
 
 
 class ProjectSummaryView(ProjectContextMixin, DetailView):
-    """ Podsumowanie najważniejszych informacji o projekcie. """
+    """ A summary of key information about the project."""
     model = SocialProject
     template_name = 'projects/socialproject_summary.html'
 
@@ -305,7 +307,7 @@ class ProjectSummaryView(ProjectContextMixin, DetailView):
 
 
 class ProjectParticipantsView(LocationContextMixin, ListView):
-    """ Lista uczetników prjektu. """
+    """ Project participants list. """
     model = UserProfile
     template_name = 'projects/socialproject_participants.html'
     paginate_by = 24
@@ -323,7 +325,7 @@ class ProjectParticipantsView(LocationContextMixin, ListView):
 
 
 class ProjectDetailView(ProjectContextMixin, DetailView):
-    """ Strona podsumowania zadań w ramach projektu. """
+    """ Tasks summary page within a project. """
     model = SocialProject
 
     def get_context_data(self, object=None):
@@ -336,13 +338,13 @@ class ProjectDetailView(ProjectContextMixin, DetailView):
                 context['active_task'] = self.get_object()\
                                         .taskgroup_set.first().task_set.first()
             except AttributeError:
-                # Brak zadań w ramach tego projektu
+                # No tasks within this project
                 pass
         return context
 
 
 class ProjectBackgroundView(ProjectAccessMixin, FormView):
-    """ Zmiana tła dla całego projektu. """
+    """ Background image change for the whole project. """
     form_class = BackgroundForm
     template_name = 'projects/socialproject_background.html'
 
@@ -379,7 +381,7 @@ class ProjectBackgroundView(ProjectAccessMixin, FormView):
 
 
 class ProjectForumContextMixin(ProjectContextMixin):
-    """ Mixin dla podstron z dyskusjami do projektu. """
+    """ A mixin for discussion subpages for this project. """
     def get_context_data(self, form=None, **kwargs):
         context = super(ProjectForumContextMixin, self).get_context_data()
         project_slug = self.kwargs.get('project_slug')
@@ -396,7 +398,7 @@ class ProjectForumContextMixin(ProjectContextMixin):
 
 
 class ProjectForumUpdateMixin(LoginRequiredMixin, UpdateView, ProjectForumContextMixin):
-    """ Mixin dla formularzy do edycji dyskusji oraz wpisów do dyskusji. """
+    """ A mixin for discussion edition forms and discussion entries. """
     def permission_check_(self):
         if not check_access(self.get_object(), self.request.user):
             raise PermissionDenied
@@ -411,7 +413,7 @@ class ProjectForumUpdateMixin(LoginRequiredMixin, UpdateView, ProjectForumContex
 
 
 class ProjectForumListView(ProjectForumContextMixin, ListView):
-    """ Lista dyskusji w ramach jednego projektu. """
+    """ A list of discussions within one project. """
     model = SocialForumTopic
     paginate_by = 25
 
@@ -424,7 +426,7 @@ class ProjectForumListView(ProjectForumContextMixin, ListView):
 
 
 class ProjectForumDetailView(ProjectForumContextMixin, ListView):
-    """ Jedna dyskusja, wraz z odpowiedziami. """
+    """ One discussion with answers. """
     model = SocialForumEntry
     paginate_by = 25
 
@@ -449,7 +451,7 @@ class ProjectForumDetailView(ProjectForumContextMixin, ListView):
 
 
 class ProjectForumCreateView(LoginRequiredMixin, CreateView, ProjectForumContextMixin):
-    """ Tworzenie nowej dyskusji w ramach projektu. """
+    """ New discussion creation within a project. """
     model = SocialForumTopic
     form_class = SocialForumCreateForm
 
@@ -465,14 +467,14 @@ class ProjectForumCreateView(LoginRequiredMixin, CreateView, ProjectForumContext
 
 
 class ProjectForumUpdateView(ProjectForumUpdateMixin):
-    """ Edycja istniejących dyskusji. """
+    """ Existing discussion edition. """
     model = SocialForumTopic
     form_class = SocialForumUpdateForm
     slug_url_kwarg = 'discussion_slug'
 
 
 class ProjectForumDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContextMixin):
-    """ Usuwanie dyskusji - tylko dla adminów i moderatorów! """
+    """ Discussion deletion - only for admins and mods! """
     model = SocialForumTopic
 
     def get_success_url(self):
@@ -486,7 +488,7 @@ class ProjectForumDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContext
 
 
 class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView, ProjectForumContextMixin):
-    """ Odpowiadanie na dyskusję. """
+    """ Discussion answer. """
     model = SocialForumEntry
     form_class = DiscussionAnswerForm
 
@@ -507,7 +509,7 @@ class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView, ProjectForumC
 
 
 class ProjectForumAnswerUpdateView(ProjectForumUpdateMixin):
-    """ Edycja własnych odpowiedzi do dyskusji, ew. dla adminów. """
+    """ Edition of your own discussion answers, possibly for admins. """
     model = SocialForumEntry
     form_class = DiscussionAnswerForm
 
@@ -516,7 +518,7 @@ class ProjectForumAnswerUpdateView(ProjectForumUpdateMixin):
 
 
 class ProjectForumAnswerDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContextMixin):
-    """ Usuwanie wpisów w dyskusjach - admini, moderatorzy oraz właściciel projektu. """
+    """ Discussion entries deletion - admins, mods and project owners. """
     model = SocialForumEntry
 
     def get_success_url(self):

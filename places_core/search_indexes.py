@@ -10,7 +10,7 @@ from polls.models import Poll
 
 class LocationIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwarka dla lokalizacji.
+    Localization search engine.
     """
     text = indexes.EdgeNgramField(document=True)
     name = indexes.EdgeNgramField(model_attr='name')
@@ -25,7 +25,7 @@ class LocationIndex(indexes.SearchIndex, indexes.Indexable):
 
 class DiscussionIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwarka tematów forum.
+    Title search engine forum.
     """
     text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='question')
@@ -42,7 +42,7 @@ class DiscussionIndex(indexes.SearchIndex, indexes.Indexable):
 
 class NewsIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwarka newsów.
+    News search engine.
     """
     text = indexes.CharField(document=True)
     title = indexes.CharField(model_attr='title')
@@ -57,7 +57,7 @@ class NewsIndex(indexes.SearchIndex, indexes.Indexable):
 
 class IdeasIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwarka idei.
+    Idea search engine.
     """
     text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='name')
@@ -72,7 +72,7 @@ class IdeasIndex(indexes.SearchIndex, indexes.Indexable):
 
 class PollsIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwarka ankiet.
+    Poll search engine.
     """
     text = indexes.CharField(document=True)
     title = indexes.CharField(model_attr='title')
@@ -87,7 +87,7 @@ class PollsIndex(indexes.SearchIndex, indexes.Indexable):
 
 class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
     """
-    Wyszukiwanie użytkowników po nazwie użytkownika / imieniu / nazwisku.
+    User search engine by user name / name / surname.
     """
     text = indexes.CharField(document=True)
     username = indexes.CharField(model_attr='username')

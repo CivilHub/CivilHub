@@ -4,8 +4,7 @@ from rest_framework import permissions
 
 class IsSuperuserOrReadOnly(permissions.BasePermission):
     """
-    Klasa uprawnień dla obiektów, które są tylko do odczytu dla każdego poza 
-    superadminami.
+    Object rights class that are read-only with the exception of superadmins.
     """
     def has_object_permission(self, request, view, obj):
         # Read permissions are allowed to any request,

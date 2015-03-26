@@ -38,8 +38,8 @@ class RegisterForm(UserCreationForm):
 
 class SocialAuthPassetForm(forms.Form):
     """
-    Ustawienie nazwy użytkownika i hasła dla użytkowników
-    logujących się przez social auth.
+    Set the user name and pass for users who log in through
+    socail auth.
     """
     username = forms.CharField(
         label = _('Username'),
@@ -187,7 +187,7 @@ class PasswordResetForm(forms.Form, BootstrapBaseForm):
 
 class PasswordRemindForm(forms.Form):
     """
-    Formularz dla użytkowników, którzy zapomnieli hasła.
+    A form for users who forgot their password.
     """
     email = forms.EmailField(
         label = '',
@@ -209,8 +209,8 @@ class AvatarUploadForm(forms.Form):
 
 class TwitterEmailForm(forms.Form):
     """
-    Prosty formularz do ustawienia adresu email użytkownika logującego się
-    przy pomocy konta na Twitterze.
+    A simple form that allows to set the email address of the user that logs
+    in through a Twitter account.
     """
     account_email = forms.EmailField(
         label = _("email address"),

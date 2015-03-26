@@ -3,15 +3,15 @@ define(['jquery', 'underscore'], function ($, _) {
     // Simplified autocomplete functionality to search for places - it allows
     // users to find and select single location to browse markers from.
     
-    // TODO: metoda setLocation powinna być uniwersalna, template też.
-    // TODO: timeout dla eventu 'keyup'
+    // TODO: setLocation method should be universal, the same applies to the template
+    // TODO: timeout for 'keyup' event
     
     $.fn.autocomplete = function (options) {
         
         var defaults = {
-            // Kliknięcie linku z listy podpowiedzi
+            // Clicking from a list of hints 
             onSelect: function (data) {console.log(data);},
-            // Wyczyszczenie pola input
+            // Input field clear
             onClear: function () {console.log("Input clear");}
         };
             
@@ -33,7 +33,7 @@ define(['jquery', 'underscore'], function ($, _) {
                 }
             }
             
-            // FIXME: this should be universal function
+            // FIXME: this should be a universal function
             
             function setLocation (data) {
                 clearItems();

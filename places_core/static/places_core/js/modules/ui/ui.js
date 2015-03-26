@@ -27,7 +27,7 @@ function ($, _, Backbone, bootbox) {
         tagName: 'div',
         
         className: 'alert',
-        // dodana templatka dla powiadomien jest w places_core/templates
+        // The added templated for notifications is in places_core/templates
         template: _.template($('#flash-msg-tpl').html()),
         
         events: {

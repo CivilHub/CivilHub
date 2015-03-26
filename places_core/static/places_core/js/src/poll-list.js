@@ -2,7 +2,7 @@
 // poll-list.js
 // ============
 
-// Lista wszystkich ankiet utworzonych w ramach jednej lokalizacji.
+// A list of all polls created within one location.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

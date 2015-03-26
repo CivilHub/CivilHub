@@ -2,7 +2,7 @@
 // default.js
 // ==========
 // 
-// Domyślne skrypty stosowane kiedy widok nie deklaruje własnej konfiguracji.
+// Default scripts when the view does not declare its own configuration.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

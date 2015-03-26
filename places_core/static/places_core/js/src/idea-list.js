@@ -2,7 +2,7 @@
 // idea-list.js
 // ============
 
-// Strona listy pomysłów w pojedynczej lokalizacji.
+// A site with a list of ideas in a single location.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

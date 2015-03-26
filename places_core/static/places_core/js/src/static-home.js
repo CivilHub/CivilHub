@@ -2,7 +2,7 @@
 // static-home.js
 // ==============
 
-// Show video on homepage and display register form errors in popups.
+// Home (site) and registration form.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

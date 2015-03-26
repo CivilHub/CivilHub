@@ -2,7 +2,7 @@
 // tasks.js
 // ========
 
-// Skrypt obsługujący formularz podsumowania projektu.
+// A script that handles the project summary.
 
 require(['jquery',
          'js/modules/ui/ui'],

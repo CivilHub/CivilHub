@@ -2,8 +2,8 @@
 // content-view.js
 // ===============
 
-// Widok pojedynczego elementu dla paginowalnej
-// kolekcji obsługującej filtry i lazy-loader.
+// A single element view for a paginable collection
+// that supports filters and lazy-loader.
 
 define(['underscore', 'backbone', 'js/modules/utils/utils'],
 

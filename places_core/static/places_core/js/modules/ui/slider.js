@@ -2,7 +2,7 @@
 // brief.js
 // ==============
 
-// Zmiana obrazka z miastami w slide9 na brief.html(article). Dopisać zmianę tak aby moża było wykorzystać ten slider w innych celach.
+// Change of the city image in slide9 in brief.html(article). Write a change so that this slider can be used elsewhere.
 
 require(['jquery'], function ($) {
 

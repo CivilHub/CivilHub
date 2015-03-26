@@ -2,14 +2,14 @@
 // image-form.js
 // =============
 //
-// Skrypty obsługujące formularz dodawania obrazów tła oraz avatara użytkownika.
+// A script that takes care of adding additional background images and user avatars.
 //
-// Do działania skryptu potrzebujemy gotowego formularza, który przekazujemy pod-
-// czas inicjalizacji jako parametr `$el` - jQuery selector. Formularz musi
-// mieć pole typu `file` z unikalnym parametrem `id` (obojętnie, jakim).
+// In order for the script to work, we need a ready form that we send during
+// initalization process as a parameter '$el' - jQuery selector. The form
+// must have the field 'file' with a unique 'id' parameter (doesn't matter which
+// exactly )
 //
-// Przykład zastosowania: var form = new ImageForm({$el: $('#myform')});
-
+// Sample use: var form = new ImageForm({$el: $('#myform')});
 
 define(['jquery',
         'underscore',
@@ -20,7 +20,7 @@ function ($, _) {
     
     "use strict";
     
-    // Opcje domyślne (będzie tego więcej)
+    // Default option (there is more to come)
     // -----------------------------------
     
     var defaults = {
@@ -28,7 +28,7 @@ function ($, _) {
         maxWidth: 1024
     };
     
-    // Oblicz rozmiar początkowej selekcji.
+    // calculate the base size of selection
     // ------------------------------------
     
     function calculateSelection (size, ratio) {
@@ -46,7 +46,7 @@ function ($, _) {
     
     // ImageForm
     // =========
-    // Główny obiekt formularza - inicjalizacja
+    // Main object form - initialization
     
     var ImageForm = function (options) {
         
@@ -85,8 +85,8 @@ function ($, _) {
     
     // getImageData
     // ------------
-    // Pobiera informacje o wybranym obrazie i wywołuje callback - zaznacza
-    // przesłany obraz jako wybrany.
+    // Downloads information about a certain image and calls a callback -
+    // marks the send image as selected.
     
     ImageForm.prototype.getImageData = function () {
         
@@ -106,9 +106,10 @@ function ($, _) {
     
     // selectImage
     // -----------
-    // Wybór nowego obrazu. Funkcja updatuje podgląd i tworzy nowy obiekt Jcrop.
+    // New image selection. This function updates the preview and creates a new
+    // Jcrop object. 
     //
-    // @param imageData { string } - odkodowane informacje o obrazie.
+    // @param imageData { string } - decodes information about the image.
     
     ImageForm.prototype.selectImage = function (imageData) {
         var $img = $(document.createElement('img'));
@@ -130,8 +131,8 @@ function ($, _) {
     
     // cleanup
     // -------
-    // "Czyścimy" DOM oraz eventy, w szczególności pozbywamy się istniejącej
-    // instancji Jcrop.
+    // We "clean" the DOM and the events, in particular, we get rid of
+    // existing jCrop instances
     
     ImageForm.prototype.cleanup = function () {
         if (!_.isNull(this.jcrop)) {
@@ -142,7 +143,7 @@ function ($, _) {
     
     // submit
     // ------
-    // Wysłanie formularza na serwer.
+    // Sends the from to the server.
     
     ImageForm.prototype.submit = function () {
         var formData = this.jcrop.tellSelect();

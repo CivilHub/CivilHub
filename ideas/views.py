@@ -26,7 +26,7 @@ from .forms import IdeaForm, CategoryForm
 
 class IdeasContextMixin(LocationContextMixin):
     """
-    Zapewnia dodatkowe zmienne w kontekście powiązane z lokalizacją obiektu/ów.
+    Provides additional variables in the context connected with the localization of object(s).
     """
     def get_context_data(self):
         context = super(IdeasContextMixin, self).get_context_data()

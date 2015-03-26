@@ -23,14 +23,14 @@ function ($) {
 	
 "use strict";
 
-// "Statyczna" paginacja
+// "Static" pagination
 // ---------------------
 
 $('.custom-static-pagination').pagination({
 	visibleEntries: 13
 });
 
-//textarea zwiekszanie wysokosci
+//textarea increases the height
 $('textarea').keypress(function (e) {
   // check if user pressed 'Enter'
   if(e.which == 13) {
