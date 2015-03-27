@@ -50,6 +50,6 @@ def delete_marker(sender, instance, **kwargs):
         marker.delete()
 
 
-if settings.USE_CACHE:
-    signals.post_save.connect(update_marker_cache, sender=MapPointer)
-    signals.post_delete.connect(update_marker_cache, sender=MapPointer)
+#if settings.USE_CACHE:
+#    signals.post_save.connect(update_marker_cache, sender=MapPointer)
+#    signals.post_delete.connect(update_marker_cache, sender=MapPointer)
