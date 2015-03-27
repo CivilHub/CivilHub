@@ -85,6 +85,9 @@ INSTALLED_APPS = (
     'ordered_model',
     # https://django-debug-toolbar.readthedocs.org/en/
     'debug_toolbar',
+    # http://django-filer.readthedocs.org/en/latest/
+    'filer',
+    'easy_thumbnails',
 
     # Core program modules
     'places_core', # for common templates and static files
