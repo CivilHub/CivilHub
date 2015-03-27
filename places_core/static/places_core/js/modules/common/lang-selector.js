@@ -16,7 +16,7 @@ $(document).ready(function () {
 	});
 	
 	$('#lang-selector > a').on('shown.bs.popover', function () {
-		$('.popover ul').find('a').on('click', function (e) {
+		$('.popover ul').find('a').not(':last').on('click', function (e) {
 			e.preventDefault();
 			$('#lang-selected-field')
 				.val($(this).parent().attr('data-code'));

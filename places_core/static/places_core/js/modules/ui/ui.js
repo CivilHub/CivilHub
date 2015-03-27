@@ -108,14 +108,8 @@ function ($, _, Backbone, bootbox) {
     // --------------------------------------------
     window.message = ui.message = new ui.MessageArea();
 
-
-    //
-    // Misc utils.
-    // -------------------------------------------------------------------------
-
-    //
     // Confirmation window
-    // -------------------
+    //
     // Mostly used when users try to delete model, to avoid
     // unintentional deletion. It is made to be used with bootbox
     // confirm window.
@@ -125,7 +119,7 @@ function ($, _, Backbone, bootbox) {
     // @param params   {void}     Additional params for function call
     //
     // @returns undefined
-    //
+
     ui.confirmWindow = function (callback, context, params) {
         var msg = gettext("Are you sure you want to do this?");
         context = context || {};
