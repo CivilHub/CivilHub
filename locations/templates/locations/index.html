@@ -64,9 +64,6 @@
         
         {% if user.is_superuser or is_moderator %}<a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
         <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>{% endif %}
-        {% if user.is_superuser %}<form style="display:inline;" method="post" action="{% url 'locations:delete' location.slug %}">{% csrf_token %}
-            <button type="submit" class="change-background-btn">{% trans 'Delete' %}</button>
-        </form>{% endif %}
         
     </div>
 </div>
