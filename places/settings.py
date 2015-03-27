@@ -352,9 +352,8 @@ CACHES = {
 EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
 EMAIL_HOST_USER     = config['email_user']
-EMAIL_HOST_PASSWORD = config['email_pass']
-EMAIL_USE_TLS       = True
-EMAIL_USE_SSL       = False
+EMAIL_HOST_PASSWORD = str(config['email_pass'])
+EMAIL_USE_TLS       = False
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
@@ -439,6 +438,7 @@ COMMENT_PAGINATOR_LIMIT = 10
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
 USE_CACHE = True
+
 
 RAVEN_CONFIG = {
     'dsn': config['raven_dsn']
