@@ -217,9 +217,15 @@ class LoginData(models.Model):
         ordering = ['-date',]
 
     def save(self, *args, **kwargs):
+        """ Ensure maximum number of entries per user in db. """
         super(LoginData, self).save(*args, **kwargs)
-        if LoginData.objects.filter(user=self.user).count() > 5:
-            LoginData.objects.first().delete()
+        max_entries = 5
+        if hasattr(settings, 'MAX_LOGIN_DATA'):
+            max_entries = settings.MAX_LOGIN_DATA
+        prx_entries = LoginData.objects.filter(user=self.user)
+        if len(prx_entries) > max_entries:
+            for i in range(1, len(prx_entries) - max_entries + 1):
+                LoginData.objects.last().delete()
 
 
 def activate_user_profile(sender, instance, **kwargs):
