@@ -207,20 +207,23 @@ class RegisterDemand(models.Model):
 
 class LoginData(models.Model):
     """
-    Table storing login information, including user name,
-    IP address and login date.
-    TODO: Storing only the last 5 sessions.
+    Table storing login information, including user name, IP address and login date.
     """
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
     address = models.IPAddressField()
 
+    class Meta:
+        ordering = ['-date',]
+
+    def save(self, *args, **kwargs):
+        super(LoginData, self).save(*args, **kwargs)
+        if LoginData.objects.filter(user=self.user).count() > 5:
+            LoginData.objects.first().delete()
+
 
 def activate_user_profile(sender, instance, **kwargs):
-    """
-    The signal is sent when the user is created / edited.
-    Make sure that you create the profile.
-    """
+    """ Creates new user profile when user register. """
     try:
         profile = UserProfile.objects.get(user=instance)
     except UserProfile.DoesNotExist:

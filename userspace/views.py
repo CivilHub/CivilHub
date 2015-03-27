@@ -249,7 +249,7 @@ class RegisterFormView(FormView):
             ip_address = ip.get_ip(self.request),
             user = form.instance,
             email = form.instance.email,
-            lang = translation.get_language()
+            lang = translation.get_language_from_request(self.request)
         )
         # Create full link to activation page for new user
         site_url = self.request.build_absolute_uri('/user/activate/')
@@ -258,7 +258,6 @@ class RegisterFormView(FormView):
         translation.activate(register_demand.lang)
         email = emails.ActivationLink()
         email.send(register_demand.email, {'link':link})
-        translation.deactivate()
         return render(self.request, 'userspace/register-success.html',
                                         {'title': _("Message send"),})
 
@@ -281,6 +280,8 @@ def activate(request, activation_link=None):
     if user is not None:
         user.is_active = True
         user.save()
+        user.profile.lang = lang
+        user.profile.save()
         demand.delete()
         system_user = auth.authenticate(username=user.username)
         if system_user is not None:
