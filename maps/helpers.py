@@ -8,7 +8,7 @@ from locations.models import Country, Location
 from .models import MapPointer
 
 import logging
-logger = logging.getLogger('django')
+logger = logging.getLogger('maps')
 
 redis_cache = cache.get_cache('default')
 
@@ -45,6 +45,7 @@ def make_region_cluster(city):
     count = MapPointer.objects.filter(
         location__in=city.parent.get_children_id_list()).count()
     redis_cache.set(str(city.pk) + '_childlist', count, timeout=None)
+    logger.info("Created cluster for region {} with {} items".format(city.pk, count))
     return count
 
 
@@ -104,6 +105,7 @@ def create_country_clusters():
             clusters.append(cluster)
         except Location.DoesNotExist:
             logger.info(u"Cannot find capital location for %s" % c.code)
+    redis_cache.set('allcountries', clusters, timeout=None)
     return clusters
 
 

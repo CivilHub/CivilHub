@@ -5,9 +5,11 @@ from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
+from django.core import cache
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -44,6 +46,16 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
+
+redis_cache = cache.get_cache('default')
+
+
+def update_parent_location_list(location):
+    """ Update cached sublocations for added or removed location parent. """
+    if location.parent is not None and settings.USE_CACHE:
+        for language in [x[0] for x in settings.LANGUAGES]:
+            key = "{}_{}_sub".format(location.parent.slug, language)
+            redis_cache.set(key, location.parent.location_set.all())
 
 
 class LocationAccessMixin(SingleObjectMixin):
@@ -380,6 +392,10 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        obj = form.save(commit=False)
+        obj.creator.profile.mod_areas.add(obj)
+        obj.creator.profile.save()
+        update_parent_location_list(obj)
         return super(CreateLocationView, self).form_valid(form)
 
 
@@ -414,6 +430,12 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
         if not request.user.is_superuser:
             raise Http404
         return super(DeleteLocationView, self).post(request, slug)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        update_parent_location_list(self.object)
+        return redirect(self.get_success_url())
 
 
 class LocationContentSearch(View):

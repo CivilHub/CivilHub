@@ -17,15 +17,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
-# Override system storage: 
-#http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
 from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
-
-from .signals import update_parent_cache, adjust_created_location
 
 
 def get_upload_path(instance, filename):
@@ -324,6 +320,8 @@ class Location(models.Model, BackgroundModelMixin):
         else:
             return alt[0].altername
 
+post_save.connect(resize_background_image, sender=Location)
+
 
 @python_2_unicode_compatible
 class Country(models.Model):
@@ -342,12 +340,3 @@ class Country(models.Model):
 
     def __str__(self):
         return self.code
-
-
-from maps.signals import create_marker, delete_marker
-#post_delete.connect(delete_background_image, sender=Location)
-post_save.connect(resize_background_image, sender=Location)
-post_save.connect(adjust_created_location, sender=Location)
-post_save.connect(create_marker, sender=Location)
-post_save.connect(update_parent_cache, sender=Location)
-post_delete.connect(delete_marker, sender=Location)
