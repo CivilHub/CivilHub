@@ -359,7 +359,7 @@ EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
 
 # Email settings for testing purposes
-#EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
+EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 # Uncomment below line to enable sending real emails.
 DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
