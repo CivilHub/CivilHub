@@ -2,6 +2,7 @@
 from django.core import cache
 from django.conf import settings
 from django.db.models import signals
+from django.contrib.contenttypes.models import ContentType
 
 from locations.models import Location
 
@@ -40,6 +41,13 @@ def create_marker(sender, instance, created, **kwargs):
                                        longitude = instance.longitude,
                                        location = location)
         mp.save()
+
+
+def delete_marker(sender, instance, **kwargs):
+    """ Delete all markers related to target model instance. """
+    ct = ContentType.objects.get_for_model(instance)
+    for marker in MapPointer.objects.filter(content_type=ct, object_pk=instance.pk):
+        marker.delete()
 
 
 if settings.USE_CACHE:

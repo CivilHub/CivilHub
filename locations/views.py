@@ -405,10 +405,15 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         return super(UpdateLocationView, self).form_valid(form)
 
 
-class DeleteLocationView(LocationAccessMixin, DeleteView):
+class DeleteLocationView(LoginRequiredMixin, DeleteView):
     """ Delete location. """
     model = Location
     success_url = reverse_lazy('locations:index')
+
+    def post(self, request, slug=None):
+        if not request.user.is_superuser:
+            raise Http404
+        return super(DeleteLocationView, self).post(request, slug)
 
 
 class LocationContentSearch(View):

@@ -344,9 +344,10 @@ class Country(models.Model):
         return self.code
 
 
-from maps.signals import create_marker
-post_delete.connect(delete_background_image, sender=Location)
+from maps.signals import create_marker, delete_marker
+#post_delete.connect(delete_background_image, sender=Location)
 post_save.connect(resize_background_image, sender=Location)
 post_save.connect(adjust_created_location, sender=Location)
 post_save.connect(create_marker, sender=Location)
 post_save.connect(update_parent_cache, sender=Location)
+post_delete.connect(delete_marker, sender=Location)
