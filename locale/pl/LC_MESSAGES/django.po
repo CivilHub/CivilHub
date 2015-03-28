@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-26 20:08+0100\n"
+"POT-Creation-Date: 2015-03-28 09:11+0100\n"
 "PO-Revision-Date: 2015-03-23 20:05+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/"
@@ -450,6 +450,7 @@ msgstr "Edytuj"
 #: gallery/templates/gallery/user-gallery.html:31
 #: ideas/templates/ideas/idea_detail.html:51
 #: locations/templates/locations/content-remove.html:14
+#: locations/templates/locations/location_form.html:30
 #: locations/templates/locations/location_polls.html:78
 #: places_core/templates/places_core/script-templates.html:537
 #: polls/templates/polls/poll-details.html:41
@@ -713,7 +714,7 @@ msgstr "Wybierz zdjęcie"
 #: ideas/forms.py:36 ideas/templates/ideas/idea-category.html:15
 #: locations/forms.py:31 locations/forms.py:108
 #: locations/templates/locations/category-form.html:21
-#: locations/templates/locations/location_form.html:37
+#: locations/templates/locations/location_form.html:42
 #: locations/templates/locations/location_news.html:96
 #: places_core/templates/places_core/script-templates.html:218
 #: places_core/templates/places_core/script-templates.html:302
@@ -726,7 +727,7 @@ msgstr "Nazwa"
 #: ideas/forms.py:42 ideas/templates/ideas/idea-category.html:19
 #: locations/forms.py:43 locations/forms.py:114
 #: locations/templates/locations/category-form.html:25
-#: locations/templates/locations/location_form.html:43
+#: locations/templates/locations/location_form.html:48
 #: locations/templates/locations/location_news.html:100
 #: places_core/templates/places_core/script-templates.html:222
 #: places_core/templates/places_core/script-templates.html:306
@@ -1006,11 +1007,11 @@ msgstr "brak głosów"
 msgid "create new idea"
 msgstr "stwórz nowy pomysł"
 
-#: locations/forms.py:36 locations/templates/locations/location_form.html:49
+#: locations/forms.py:36 locations/templates/locations/location_form.html:54
 msgid "Country code"
 msgstr "Kod kraju"
 
-#: locations/forms.py:47 locations/templates/locations/location_form.html:59
+#: locations/forms.py:47 locations/templates/locations/location_form.html:64
 msgid "Parent"
 msgstr "Rodzic"
 
@@ -1030,7 +1031,7 @@ msgstr "Latitude"
 msgid "Longitude"
 msgstr "Longitude"
 
-#: locations/forms.py:64 locations/templates/locations/location_form.html:65
+#: locations/forms.py:64 locations/templates/locations/location_form.html:70
 msgid "Population"
 msgstr "Ilość mieszkańców"
 
@@ -1052,19 +1053,19 @@ msgstr "Wstęp"
 msgid "Select users"
 msgstr "Wybierz użytkowników"
 
-#: locations/models.py:94
+#: locations/models.py:90
 msgid "Wrong model instance"
 msgstr "Zły rodzaj modelu"
 
-#: locations/models.py:178 projects/models.py:66
+#: locations/models.py:174 projects/models.py:66
 msgid "location"
 msgstr "lokalizacja"
 
-#: locations/models.py:179
+#: locations/models.py:175
 msgid "locations"
 msgstr "lokalizacje"
 
-#: locations/models.py:187
+#: locations/models.py:183
 msgid "Unknown"
 msgstr "Nieznany"
 
@@ -1101,7 +1102,7 @@ msgstr "Obserwuj"
 msgid "Change background image"
 msgstr "Zmień zdjęcie tła"
 
-#: locations/templates/locations/index.html:66 locations/views.py:396
+#: locations/templates/locations/index.html:66 locations/views.py:412
 msgid "Edit this location"
 msgstr "Edytuj lokalizacje"
 
@@ -1142,7 +1143,7 @@ msgstr "Ankiety"
 msgid "Projects"
 msgstr "Projekty"
 
-#: locations/templates/locations/index.html:92 locations/views.py:236
+#: locations/templates/locations/index.html:92 locations/views.py:248
 #: maps/templates/maps/index.html:131
 msgid "Followers"
 msgstr "Obserwatorzy"
@@ -1191,14 +1192,20 @@ msgstr "Utwórz nową lokalizację"
 msgid "Rules"
 msgstr "Zasady"
 
-#: locations/templates/locations/location_form.html:69
+#: locations/templates/locations/location_form.html:27
+#, fuzzy
+#| msgid "Edit this location"
+msgid "Delete this location"
+msgstr "Edytuj lokalizacje"
+
+#: locations/templates/locations/location_form.html:74
 #: locations/templates/locations/location_idea_form.html:22
 msgid "If this entry is about a specific location, you can mark it on the map"
 msgstr ""
 "Jeśli dotyczy konkretnego miejsca na mapie, możesz oznaczyć w celu "
 "łatwiejszego odnalezienia."
 
-#: locations/templates/locations/location_form.html:97
+#: locations/templates/locations/location_form.html:102
 #: locations/templates/locations/location_news.html:87
 #: places_core/templates/places_core/script-templates.html:293
 #: userspace/templates/userspace/index.html:97
@@ -1206,11 +1213,11 @@ msgstr ""
 msgid "Save changes"
 msgstr "Zapisz zmiany"
 
-#: locations/templates/locations/location_form.html:97
+#: locations/templates/locations/location_form.html:102
 msgid "Create new location"
 msgstr "Utwórz nową lokalizację"
 
-#: locations/templates/locations/location_form.html:108
+#: locations/templates/locations/location_form.html:113
 #: locations/templates/locations/location_list.html:51
 #: places_core/templates/places_core/script-templates.html:241
 #: places_core/templates/places_core/script-templates.html:256
@@ -1528,7 +1535,7 @@ msgid "Most active users"
 msgstr "Najbardziej aktywni"
 
 #: locations/templates/locations/sublocation-list.html:7
-#: locations/views.py:202
+#: locations/views.py:214
 #: places_core/templates/places_core/script-templates.html:474
 #: places_core/templates/places_core/sublocation-dropdown.html:12
 msgid "Sublocations"
@@ -1547,59 +1554,59 @@ msgstr ""
 "Działaj nie tylko globalnie ale również w skali mniejszej społeczności "
 "takiej jak małego miastu, bloku czy osiedla domków jednorodzinnych."
 
-#: locations/views.py:81 locations/views.py:108
+#: locations/views.py:93 locations/views.py:120
 msgid "Create new idea"
 msgstr "Dodaj nowy pomysł"
 
-#: locations/views.py:132 locations/views.py:169
+#: locations/views.py:144 locations/views.py:181
 msgid "Create new discussion"
 msgstr "Utwórz nową dyskusję"
 
-#: locations/views.py:256 locations/views.py:283 locations/views.py:297
+#: locations/views.py:268 locations/views.py:295 locations/views.py:309
 msgid "Create new poll"
 msgstr "Utwórz nową ankietę"
 
-#: locations/views.py:311
+#: locations/views.py:323
 msgid "Locations"
 msgstr "Lokalizacje"
 
-#: locations/views.py:378
+#: locations/views.py:390
 msgid "create new location"
 msgstr "Utwórz nową lokalizację"
 
-#: locations/views.py:437
+#: locations/views.py:464
 msgid "Search by tag"
 msgstr "Szukaj po tagu"
 
-#: locations/views.py:467
+#: locations/views.py:494
 msgid "Search by category"
 msgstr "Szukaj po kategori"
 
-#: locations/views.py:486
+#: locations/views.py:513
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: locations/views.py:546
+#: locations/views.py:573
 msgid "invited you to follow"
 msgstr "zaprosił Cię do obserwowania"
 
-#: locations/views.py:550
+#: locations/views.py:577
 msgid "Successfully send invitation"
 msgstr "Pomyślnie wysłano zaproszenie"
 
-#: locations/views.py:556
+#: locations/views.py:583
 msgid "User field cannot be empty"
 msgstr "Nazwa użytkownika nie może być pusta"
 
-#: locations/views.py:575
+#: locations/views.py:602
 msgid "You follow this location"
 msgstr "Obserwujesz tą lokalizację"
 
-#: locations/views.py:580 locations/views.py:602
+#: locations/views.py:607 locations/views.py:629
 msgid "Something, somewhere went terribly wrong"
 msgstr "Coś, gdzieś poszło źle"
 
-#: locations/views.py:597
+#: locations/views.py:624
 msgid "You stop following this location"
 msgstr "Przestałeś obserwować tą lokalizację"
 
@@ -1611,11 +1618,11 @@ msgstr "Typy zawartości"
 msgid "Object id"
 msgstr "ID obiektu"
 
-#: maps/models.py:21
+#: maps/models.py:20
 msgid "content type"
 msgstr "Typy zawartości"
 
-#: maps/models.py:23
+#: maps/models.py:22
 msgid "object ID"
 msgstr "ID obiektu"
 
@@ -2593,7 +2600,7 @@ msgstr ""
 
 #: templates/emails/content-body-html.html:405
 #: templates/emails/content-body-html.html:408
-#: templates/emails/content-body-text.html:5 userspace/views.py:271
+#: templates/emails/content-body-text.html:5 userspace/views.py:270
 msgid "Sign Up"
 msgstr "Zaloguj się"
 
@@ -3029,7 +3036,7 @@ msgid "Your feed"
 msgstr "Twoje aktywności"
 
 #: userspace/templates/userspace/followed-locations.html:4
-#: userspace/views.py:484
+#: userspace/views.py:485
 msgid "My places"
 msgstr "Moje miejsca"
 
@@ -3042,7 +3049,7 @@ msgstr "Obserwuj"
 msgid "Profile summary"
 msgstr "Podsumowanie profilu"
 
-#: userspace/templates/userspace/index.html:75 userspace/views.py:468
+#: userspace/templates/userspace/index.html:75 userspace/views.py:469
 msgid "Change password"
 msgstr "Zmień hasło"
 
@@ -3172,39 +3179,39 @@ msgstr "Wyślij email"
 msgid "User Area"
 msgstr "Konto użytkownika"
 
-#: userspace/views.py:204 userspace/views.py:459
+#: userspace/views.py:204 userspace/views.py:460
 msgid "Settings saved"
 msgstr "Zapisano ustawienia"
 
-#: userspace/views.py:206 userspace/views.py:465
+#: userspace/views.py:206 userspace/views.py:466
 msgid "Form invalid"
 msgstr "Błędy w formularzu"
 
-#: userspace/views.py:263
+#: userspace/views.py:262
 msgid "Message send"
 msgstr "Wiadomość została wysłana"
 
-#: userspace/views.py:278
+#: userspace/views.py:277
 msgid "Activation link invalid"
 msgstr "Link aktywacyjny jest błędny"
 
-#: userspace/views.py:318
+#: userspace/views.py:319
 msgid "Set your password"
 msgstr "Ustal hasło"
 
-#: userspace/views.py:402
+#: userspace/views.py:403
 msgid "Login credentials invalid"
 msgstr "Nieprawidłowe hasło lub nazwa użytkownika"
 
-#: userspace/views.py:423
+#: userspace/views.py:424
 msgid "Your account has not been activated"
 msgstr "Twoje konto nie zostało aktywowane"
 
-#: userspace/views.py:425
+#: userspace/views.py:426
 msgid "Fields can not be empty"
 msgstr "Pola nie mogą być puste"
 
-#: userspace/views.py:462
+#: userspace/views.py:463
 msgid "Your current password is invalid."
 msgstr "Twoje obecne hasło jest błędne"
 
