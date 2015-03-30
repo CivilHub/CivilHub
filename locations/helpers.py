@@ -40,8 +40,8 @@ def move_location_contents(old_location, new_location):
     # Find all old location followers and make them follow new place
     for user in old_location.users.all():
         unfollow(user, old_location)
-        follow(user, new_location)
         if not user in new_location.users.all():
+            follow(user, new_location)
             new_location.users.add(user)
     # Find all actions where old location acts as target and bind to new location.
     # This is not really good idea, but I hope it will be sufficient.

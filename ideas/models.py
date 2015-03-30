@@ -38,6 +38,13 @@ class Category(models.Model):
 @python_2_unicode_compatible
 class Idea(ImagableItemMixin, models.Model):
     """ """
+    STATUS_CHOICES = (
+        (1, _(u"active")),
+        (2, _(u"completed")),
+        (3, _(u"in progress")),
+        (4, _(u"project")),
+    )
+
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(blank=True, null=True, auto_now=True)
@@ -46,7 +53,7 @@ class Idea(ImagableItemMixin, models.Model):
     description = models.TextField(blank=True, default="")
     category = models.ForeignKey(Category, null=True, blank=True)
     location = models.ForeignKey(Location)
-    status = models.BooleanField(default=True)
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
     edited = models.BooleanField(default=False)
 
     tags = TaggableManager()
