@@ -34,7 +34,7 @@ LOGGING = loggers.LOGGING
 SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = False
 
@@ -85,6 +85,9 @@ INSTALLED_APPS = (
     'ordered_model',
     # https://django-debug-toolbar.readthedocs.org/en/
     'debug_toolbar',
+    # http://django-filer.readthedocs.org/en/latest/
+    'filer',
+    'easy_thumbnails',
 
     # Core program modules
     'places_core', # for common templates and static files
@@ -139,6 +142,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+if not DEBUG:
+    MIDDLEWARE_CLASSES += ('userspace.social_exceptions.CivilAuthExceptionMiddleware',)
 
 ROOT_URLCONF = 'places.urls'
 
@@ -208,7 +214,7 @@ LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/activity/'
 LOGOUT_URL = '/user/logout/'
 SOCIAL_AUTH_UID_LENGTH = 255
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/places/?new_user=true'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/active/'
 # Custom setting - dla użytkowników Twittera
 SOCIAL_AUTH_SET_TWITTER_EMAIL_URL = '/user/twitter_email/'
 SOCIAL_AUTH_PIPELINE = (
@@ -224,6 +230,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
     'places_core.social_auth.create_user_profile',
+    'places_core.social_auth.get_user_avatar',
     'places_core.social_auth.update_user_social_profile',
 )
 # New Google+ login
@@ -428,7 +435,7 @@ COMMENT_PAGINATOR_LIMIT = 10
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = False
+USE_CACHE = True
 
 
 RAVEN_CONFIG = {

@@ -3,9 +3,9 @@ from .models import Location
 
 def get_most_followed(country_code=None, limit=20):
     """
-    Pobieramy listę najchętniej obserwowanych lokalizacji. Możemy zawęzić
-    listę do konkretnego kraju, wówczas w pierwszej kolejności podajemy kraj
-    oraz jego stolicę. Zwraca LISTĘ, nie QuerySet!
+    We download a list of the most often followed location. We can narrow
+    the list to a certain country, to do so, we first type in the country
+    and its capital city. it returns a LIST, not a QuerySet!
     """
     qs = Location.objects
     kinds = ['PPLC', 'country',]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Tłumaczenia dla modeli, głównie z myślą o kategoriach.
+# Model translation, created mainly with categories in mind.
 #
 from modeltranslation.translator import translator, TranslationOptions
 from models import Category

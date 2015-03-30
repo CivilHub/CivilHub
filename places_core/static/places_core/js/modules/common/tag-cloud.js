@@ -2,7 +2,7 @@
 // tag-cloud.js
 // ============
 
-// Chmura tagów.
+// Tag cloud.
 
 require(['jquery'], function ($) {
 
@@ -14,7 +14,7 @@ $(document).ready(function () {
     min_counter, avg;
 
   $('.tags > ul > li').each(function () {
-    // Zbieramy wartości counterów dla każdego taga.
+    // We gather counter values for each tag.
     var count = parseInt($(this).attr('data-counter'), 10);
     if (count > max_counter) {
       max_counter = count;
@@ -26,8 +26,8 @@ $(document).ready(function () {
   });
 
   $('.tags > ul > li').each(function () {
-    // Kolejna pętla - przyporządkujemy klasy na podstawie
-    // zebranych wcześniej wartości.
+    // Another loop - we assign classes based
+    // on the values previously collected
     var count = parseInt($(this).attr('data-counter'), 10);
 
     if (count <= max_counter / 5) {

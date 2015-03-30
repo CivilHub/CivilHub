@@ -2,7 +2,7 @@
 // project-background.js
 // =====================
 
-// Ustawianie zdjęcia tła dla projektu.
+// Setting the background image for a project.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

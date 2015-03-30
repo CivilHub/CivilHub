@@ -2,8 +2,8 @@
 // poll-details.js
 // ===============
 // 
-// Szczegółowy widok ankiety - tutaj odpowiadamy na pytanie, jeżeli mamy
-// jeszcze taką możliwość.
+// A detailed poll view - here we answer the question, if wwe still have
+// that option available.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

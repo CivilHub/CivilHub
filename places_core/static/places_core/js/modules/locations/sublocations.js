@@ -2,7 +2,7 @@
 // sublocations.js
 // ===============
 
-// Uruchamia popover z sublokalizacjami.
+// Launches a popover with sublocations
 
 require(['jquery',
 				'js/modules/locations/sublocations-popover'],
@@ -11,7 +11,7 @@ function ($, ListView) {
 
 "use strict";
 
-var dropdown = null; // Aktywne menu
+var dropdown = null; // Active menu
     
 function clearDropdown () {
   if (!_.isNull(dropdown)) {

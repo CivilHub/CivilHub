@@ -27,11 +27,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
 from actstream.models import model_stream, user_stream, following
 from actstream.actions import follow, unfollow
+from rest_framework.authtoken.models import Token
+
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
-from places_core.tasks import send_poll_email
 from places_core.helpers import truncatesmart, process_background_image
 from gallery.forms import BackgroundForm
 from blog.models import News
@@ -43,14 +44,14 @@ from locations.models import Location
 from locations.helpers import get_most_followed
 from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
 from forms import *
-from .helpers import profile_activation, random_username, create_username
+from .helpers import profile_activation, random_username, create_username, update_profile_picture
 
 
 class UserActivityView(TemplateView):
     """ 
-    Statyczny widok listy aktywności użytkownika (aka dashboard). Tutaj
-    wczytujemy szablon i listę ostatnich pięciu elementów z każdego typu
-    zawartości. Dodatkowo z osobnego widoku API ładowane są akcje.
+    Static view of user activity list (aka the dashboard). 
+    Loading a template and a list of the last five elements of each type
+    content. In addition, a separate view of the API are loaded user actions.
     """
     template_name = 'userspace/activity.html'
 
@@ -87,7 +88,7 @@ class UserActivityView(TemplateView):
 
 def register_credentials_check(request):
     """
-    Sprawdzamy nazwę użytkownika oraz email na potrzeby formularza rejestracji.
+    Check your username and email for the purpose of the registration form.
     """
     if not request.method == 'POST':
         raise Http404
@@ -105,9 +106,9 @@ def register_credentials_check(request):
 
 class SetTwitterEmailView(FormView):
     """
-    W tym widoku użytkownik, który rejestruje się przy pomocy konta na Twitterze
-    ustawia swój adres email. Adres jest wymagany i musi być unikalny dla
-    całego systemu.
+    In this view, the user who registers with Twitter accounts
+    sets your email address. The address is required and must be unique
+    the whole system.
     """
     form_class = TwitterEmailForm
     template_name = 'userspace/twitter-email-form.html'
@@ -157,13 +158,7 @@ class ProfileUpdateView(UpdateView):
 @require_POST
 @login_required
 def upload_avatar(request):
-    """
-    Upload/change user avatar
-    """
-    from PIL import Image
-    from gallery.image import handle_tmp_image
-    from .helpers import crop_avatar, delete_thumbnails
-
+    """ Change user profile picture. """
     form = BackgroundForm(request.POST, request.FILES)
     if form.is_valid():
         profile = UserProfile.objects.get(user=request.user)
@@ -175,25 +170,7 @@ def upload_avatar(request):
         )
         image = Image.open(form.cleaned_data['image'])
         image = image.crop(box)
-        
-        if not u'anonymous' in profile.avatar.name:
-            try:
-                os.unlink(profile.avatar.path)
-                delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
-            except Exception:
-                pass
-
-        profile.avatar = crop_avatar(image)
-        size = 60, 60
-        path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-        file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
-        thumbname = '60x60_' + file + ext
-        tmp = image.copy()
-        tmp.thumbnail(size, Image.ANTIALIAS)
-        tmp.save(os.path.join(path, thumbname))
-        profile.thumbnail = 'img/avatars/' + thumbname
-        profile.save()
-
+        update_profile_picture(profile, image)
     return redirect(reverse('user:index'))
 
 
@@ -229,125 +206,60 @@ def save_settings(request):
     return HttpResponse(_('Form invalid'))
 
 
-def profile(request, username):
+class UserProfileView(DetailView):
     """ Show user info to other allowed users. """
-    prof = get_object_or_404(UserProfile, clean_username=username)
-    user = prof.user
-    # Custom action stream
-    stream  = UserActionStream(user)
-    actions = stream.get_actions(action_type  = 'actor')
-    ctx = {
-        'cuser'  : user,
-        'profile': prof,
-        'title'  : user.first_name + " " + user.last_name + " | CivilHub",
-        'stream' : actions,
-    }
-    return render(request, 'userspace/profile.html', ctx)
+    model = UserProfile
+    context_object_name = 'profile'
+    slug_field = 'clean_username'
+    slug_url_kwarg = 'username'
+    template_name = 'userspace/profile.html'
+
+    def get_context_data(self, object=None):
+        context = super(UserProfileView, self).get_context_data()
+        context['cuser'] = object.user
+        return context
 
 
-def register(request):
-    """ Register new user via django system. """
-    from rest_framework.authtoken.models import Token
+class RegisterFormView(FormView):
+    """ Register new user via standard form. """
+    form_class = RegisterForm
+    template_name = 'userspace/register.html'
 
-    if request.user.is_authenticated():
-        return redirect('/activity')
-    
-    if request.method == 'POST':
-        f = RegisterForm(request.POST)
+    def get(self, request):
+        if request.user.is_authenticated():
+            return redirect('/activity/')
+        return super(RegisterFormView, self).get(request)
 
-        if f.is_valid():
-            lang = translation.get_language()
-            user = User()
-            first_name = request.POST.get('first_name')
-            last_name = request.POST.get('last_name')
-            password = request.POST.get('password')
-            user.username = create_username(first_name, last_name)
-            user.set_password(password)
-            user.email = request.POST.get('email')
-            user.first_name = request.POST.get('first_name')
-            user.last_name  = request.POST.get('last_name')
-            user.is_active = False
-            try:
-                user.save()
-                # Create auth token for REST api:
-                token = Token.objects.create(user=user)
-                token.save()
-            except Exception as ex:
-                # Form valid, but user already exists
-                ctx = {
-                    'form': RegisterForm(initial={
-                        'username': request.POST.get('username'),
-                        'email':    request.POST.get('email')
-                    }),
-                    'title' : _("Registration"),
-                    'errors': _("Selected username already exists. Please provide another one."),
-                }
-                return render(request, 'userspace/register.html', ctx)
-
-            try:
-                # Create register demand object in DB
-                salt = hashlib.md5()
-                salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
-                register_demand = RegisterDemand.objects.create(
-                    activation_link = salt.hexdigest(),
-                    ip_address      = ip.get_ip(request),
-                    user            = user,
-                    email           = user.email,
-                    lang            = translation.get_language()
-                )
-            except Exception as ex:
-                # if something goes wrong, delete created user to avoid future
-                # name conflicts (and allow another registration).
-                user.delete()
-                return render(request, 'userspace/register-failed.html', {
-                    'title': _("Registration failed")
-                })
-
-            # Create activation link
-            site_url = request.build_absolute_uri('/user/activate/')
-            link = site_url + str(register_demand.activation_link)
-
-            try:
-                # Send email with activation link.
-                translation.activate(register_demand.lang)
-                email = emails.ActivationLink()
-                email.send(register_demand.email, {'link':link})
-            except Exception as ex:
-                # User is registered and link is created, but there was errors
-                # during sanding email, so just show static page with link.
-                return render(request, 'userspace/register-errors.html', {
-                    'title': _("Registration"),
-                    'link' : link,
-                })
-            # Show confirmation
-            return redirect('user:message_sent')
-    
-        else:
-            ctx = {
-                'form': RegisterForm(initial={
-                    'username': request.POST.get('username'),
-                    'email':    request.POST.get('email')
-                }),
-                'title': _("Registration"),
-                'errors': f.errors,
-            }
-            return render(request, 'userspace/register.html', ctx)
-
-    # Display registration form.
-    ctx = {
-        'form' : RegisterForm,
-        'title': _("Registration"),
-        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
-        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
-    }
-    return render(request, 'userspace/register.html', ctx)
-
-
-def confirm_registration(request):
-    """ Show confirmation about successfull registration. """
-    return render(request, 'userspace/register-success.html', {
-        'title': _("Message send"),
-    })
+    def form_valid(self, form):
+        # Create user instance with fixed username
+        form.instance.username = create_username(
+            form.instance.first_name,
+            form.instance.last_name
+        )
+        form.instance.is_active = False
+        form.instance.set_password(form.cleaned_data['password1'])
+        form.instance.save()
+        # Create token for mobile API
+        Token.objects.create(user=form.instance)
+        # Create registration link and save along with request params
+        salt = hashlib.md5()
+        salt.update(settings.SECRET_KEY + str(datetime.datetime.now().time))
+        register_demand = RegisterDemand.objects.create(
+            activation_link = salt.hexdigest(),
+            ip_address = ip.get_ip(self.request),
+            user = form.instance,
+            email = form.instance.email,
+            lang = translation.get_language_from_request(self.request)
+        )
+        # Create full link to activation page for new user
+        site_url = self.request.build_absolute_uri('/user/activate/')
+        link = site_url + str(register_demand.activation_link)
+        # Send email in user's own language if possible
+        translation.activate(register_demand.lang)
+        email = emails.ActivationLink()
+        email.send(register_demand.email, {'link':link})
+        return render(self.request, 'userspace/register-success.html',
+                                        {'title': _("Message send"),})
 
 
 def activate(request, activation_link=None):
@@ -366,26 +278,23 @@ def activate(request, activation_link=None):
     user = demand.user
     lang = demand.lang
     if user is not None:
-        user_id = user.pk
         user.is_active = True
         user.save()
+        user.profile.lang = lang
+        user.profile.save()
         demand.delete()
-        user = User.objects.get(pk=user_id)
-        profile = profile_activation(user,
-            language=translation.get_language_from_request(request))
         system_user = auth.authenticate(username=user.username)
         if system_user is not None:
             auth.login(request, system_user)
         request.session['new_user'] = True
         return redirect(reverse('user:active'))
-        #return render(request, 'userspace/active.html', ctx)
 
 
 class NewUserView(TemplateView):
     """
-    Witamy nowego użytkownika i przedstawiamy mu lokalizacje, które mógłby chcieć
-    obserwować. Widok jest "jednorazowy", tzn. pokazujemy go tylko nowo-zalogowanym.
-    Przekierowanie znajduje się w metodzie GET.
+    Welcome new user and introduce him to locations that would want to
+    observe. The view is "one-use". It only show the newly-logged.
+    Redirect method is GET.
     """
     template_name = 'userspace/active.html'
 
@@ -434,8 +343,8 @@ def passet(request):
 @csrf_exempt
 def pass_reset(request):
     """
-    Pozwól zarejestrowanym użytkownikom zresetować zapomniane
-    hasło na podstawie adresu email.
+    Allow registered users to reset forgotten
+    password based on email address.
     """
     if request.user.is_authenticated():
         return redirect('/')
@@ -579,8 +488,8 @@ class UserFollowedLocations(DetailView):
 
 class UserBackgroundView(FormView):
     """
-    Widok statyczny pozwalający użytkownikowi wybrać i przyciąć zdjęcie tła dla
-    swojego profilu.
+    Static view allows the user to select and crop the image background for
+    user profile.
     """
     template_name = 'userspace/background-form.html'
     form_class = BackgroundForm

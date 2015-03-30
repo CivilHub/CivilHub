@@ -7,15 +7,7 @@
           <li><a class="list-controller" data-control="sortby" data-target="title" href="">{% trans "Title" %}</a></li>
           <li><a class="list-controller" data-control="sortby" data-target="-date_created" href="">{% trans "Newest" %}</a></li>
           <li><a class="list-controller" data-control="sortby" data-target="date_created"  href="">{% trans "Oldest" %}</a></li>
-          <li><a class="list-controller" data-control="sortby" data-target="category" href="">{% trans "Category" %}</a></li>
-          <li><a class="list-controller" data-control="sortby" data-target="creator" href="">{% trans "Username" %}</a></li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Category" %}: <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#" class="list-controller active" data-control="category" data-target="all">{% trans "All" %}</a></li>
-          {% for category in categories %}<li><a href="#" class="list-controller" data-control="category" data-target="{{ category.pk }}">{{ category.name }}</a></li>{% endfor %}
+          <li><a class="list-controller" data-control="sortby" data-target="creator__profile" href="">{% trans "Username" %}</a></li>
         </ul>
       </li>
     </ul>

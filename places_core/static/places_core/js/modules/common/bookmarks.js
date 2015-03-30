@@ -2,7 +2,7 @@
 // bookmarks.js
 // ============
 
-// Obsługa zakładek dla użytkownika
+// Bookmark service for the users
 
 require(['jquery',
          'js/modules/utils/utils',
@@ -39,7 +39,7 @@ $(document).delegate('.btn-bookmark', 'click', function (e) {
   var postData = null, url = '';
 
   if ($this.hasClass('btn-add-bookmark')) {
-    // Dodajemy nową zakładkę
+    // We add a new bookmark
     postData = {
       object_id: $this.attr('data-id'),
       content_type: $this.attr('data-ct'),
@@ -56,7 +56,7 @@ $(document).delegate('.btn-bookmark', 'click', function (e) {
 
   } else {
 
-    // Usuwamy zakładkę
+    // We delete a bookmark
 
     url = '/bookmarks/delete/{}/'.replace(/{}/g, $this.attr('data-pk'));
     postData = {csrfmiddlewaretoken: utils.getCookie('csrftoken')};

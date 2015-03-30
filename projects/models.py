@@ -22,7 +22,7 @@ from .signals import project_created_action, project_task_action
 
 
 def get_upload_path(instance, filename):
-    """ Ustawia ścieżkę i losową nazwę dla obrazu tła projektu. """
+    """ I set a path and a random name for the background image of the project. """
     return 'img/projects/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
@@ -78,8 +78,9 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
     @property
     def progress(self):
         """
-        Zwraca przybliżoną wartość procentową "zaawansowania" projektu. Sposób
-        obliczania jest bardzo prosty, wyliczamy średnią ukończonych zadań.
+        Returns a approximated percentage value of how "advanced" the project it.
+        The way of counting this is very simple. we take the average of
+        the completed tasks.
         """
         all_tasks = sum([group.task_set.count() for group in self.taskgroup_set.all()])
         finished_tasks = sum([group.task_set.filter(is_done=True).count()\
@@ -196,7 +197,7 @@ class SocialForumTopic(SlugifiedModelMixin):
 
 
 class SocialForumEntry(models.Model):
-    """ Odpowiedzi do konkretnego tematu, czyli wpisy na forum. """
+    """ Answers to a concrete topic, i.e. entries in the forum. """
     topic = models.ForeignKey(SocialForumTopic, verbose_name=_(u"discussion"))
     creator = models.ForeignKey(User, verbose_name=_(u"author"), related_name="social_entries")
     content = models.TextField(verbose_name=_(u"content"), default="")
@@ -214,7 +215,7 @@ class SocialForumEntry(models.Model):
     def save(self, *args, **kwargs):
         self.content = sanitizeHtml(self.content)
         if self.pk:
-            # Właściciel lub moderator wyedytował wpis.
+            # The owner or the mod has edited the entry.
             self.is_edited = True
         super(SocialForumEntry, self).save(*args, **kwargs)
 

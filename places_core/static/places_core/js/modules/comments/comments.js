@@ -2,7 +2,7 @@
 // comments.js
 // ===========
 
-// Inicjalizuje aplikację komentarzy.
+// Initializes the comment application.
 
 require(['jquery',
          'js/modules/comments/comment-list-view'],
@@ -13,7 +13,7 @@ function ($, CommentList) {
 
 $(document).ready(function () {
 
-  // Tworzymy listę komentarzy.
+  // We create a list of comments
 
   var comments = new CommentList({
     totalRecords: 'count',
@@ -22,7 +22,7 @@ $(document).ready(function () {
     id: $('#target-id').val()
   });
   
-  // Pokaż/Ukryj komentarze
+  // Show/Hide comments
 
   $('.comment-toggle').on('click', function (e) {
     e.preventDefault();
@@ -37,7 +37,7 @@ $(document).ready(function () {
     }
   });
 
-  // Sortuj komentarze w odpowiedniej kolejności
+  // Sort the comments in a proper sequence
 
   $('.change-order-link').on('click', function (e) {
     e.preventDefault();

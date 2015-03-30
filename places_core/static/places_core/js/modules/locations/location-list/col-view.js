@@ -1,9 +1,9 @@
 //
 // col-view.js
 // ============
-// Widok pojedynczej kolumny powiązanej z jednym konkretnym miejscem. Tutaj
-// pokazujemy listę wszystkich lokalizacji "dziedziczących" z poprzednio wy-
-// branej (lub z wybranego kraju, jeżeli jest to pierwsza kolumna).
+// A single collumn view bound to a certain location. Here we show a list 
+// of all locations that "inherit" from the previously selected (or from
+// a selected country, if it is a single collumn).
 
 define(['jquery',
         'underscore',
@@ -28,10 +28,10 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
             'click .close-col': 'destroy'
         },
         
-        items: {}, // Placeholder dla viewsów powiązanych z modelami kolekcji.
+        items: {}, // A placeholder for views connected with collection models.
         
         initialize: function () {
-            // TODO: przechwytywanie błędów w przypadku podania złych argumentów.
+            // TODO: erorr interception when wrong arguments were passed.
             this.locationID = arguments[1];
             this.tier = arguments[2];
             this.collection = new LocationCollection();
@@ -71,8 +71,8 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
             var model = null;
             _.each(this.items, function (item, idx) {
                 model = this.collection.get(idx);
-                // FIXME: kolekcje kilku widoków zdają się łączyć w jedną, co
-                // skutkuje sprawdzaniem nieistniejących indexów elementów.
+                // FIXME: Views Collecions seem to join into one, which results
+                // in checking non-existing elements.
                 if (model === undefined) return false;
                 if (!re.test(model.get('name'))) {
                     item.hide();
@@ -84,18 +84,18 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
         
         expand: function (e) {
             e.preventDefault();
-            // Jeżeli lista sub-lokacji jest już otwarta, nie otwieramy nowej.
+            // If the sub-location list is opened, we do not open it again.
             if (this.sublist !== undefined) {
                 return false;
             }
             var id = $(e.currentTarget).attr('data-target');
             this.items[id].details();
-            this.$el.scrollTop(0); // Hack dla google-chrome
+            this.$el.scrollTop(0); // Hack for google-chrome
             this.sublist = new ColView([], id, this.tier + 1);
             this.listenTo(this.sublist.collection, 'sync', function () {
-                // Sprawdzamy, czy ten element ma jakieś inne zagnieżdżone
-                // lokacje. Jeżeli nie, kasujemy listę. Podobnie postępujemy
-                // w przypadku ostatniego zagnieżdżenia.
+                // We check if this element has any other nested locations
+                // IF not, we delete the lisst. Same thing applies to last
+                // last nested
                 if (!this.sublist.collection.length > 0 || this.tier >= 3) {
                     this.sublist.$el.empty().remove();
                     delete this.sublist;
@@ -124,13 +124,13 @@ function ($, _, Backbone, LocationCollection, LocationListView) {
                 this.sublist.destroy();
             }
             if (this.parentView != undefined) {
-                // Sublista - usuń ją z indexu nadrzędnej
+                // Sublist - delete it from the 'master' index 
                 delete this.parentView.sublist;
-                // Ukryj detale poprzednich elementów
+                // Hide details of previous elements
                 this.parentView.cleanDetails();
             } else {
-                // Pierwsza, podstawowa lista. Emitujemy sygnał i zamykamy
-                // okno z przeglądarką lokalizacji.
+                // First, basic list. We emit a signal and close
+                // the window with location browser.
                 this.trigger('destroyed');
             }
         }

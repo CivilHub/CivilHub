@@ -2,13 +2,12 @@
 
 {% comment %}
 
-    Szablony do skryptów. Poprzednio były porozbijane po plikach przynależących
-    do konkretnych aplikacji, ale to zbyt kłopotliwe. Dlatego wszystkie templatki
-    do skryptów wrzucajmy tutaj, ten plik trzeba później dołączyć od razy za
-    sekcją HEAD.
+    Templates for scripts. Previously they were divided in files that belonged
+    to concrete applications but that was troublesome. Therefore let's put all
+    templates here, this file should be later put right after the HEAD section.
 
-    BTW tutaj są szablony zebrane na szybko. Przy dodawaniu nowych warto zostawić
-    jakiś komentarz kto, po co i który skrypt z tego korzysta (na przykład).
+    BTW the templates here are gather in a hurry. After adding a new one, it
+    is worthwhile to add a comment, who, which and what script uses this (an example).
 
 {% endcomment %}
 
@@ -44,7 +43,7 @@
 </div>
 </script>
 
-{% comment %} Szablon dla komentarza {% endcomment %}
+{% comment %} Comment Template {% endcomment %}
 <script type="text/template" id="comment-template">
     <div class="row comment-row comment-entry-heading commentNext">
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
@@ -95,10 +94,10 @@
     </div>
 </script>
 
-{% comment %} ~~~~~~~~~~~~~~ FORMA DO ODPOWIEDZI  ~~~~~~~~~~~~ {% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~ REPLY FORM  ~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-form-template">
     <div class="col-xs-1 comment-avatar-col">
-        <img src="{{ user.profile.thumbnail_small }}" alt="{{ user.get_full_name }}" class="comment-author-avatar user-window-toggle" />
+        <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="comment-author-avatar user-window-toggle" />
     </div>
     <div class="comment-main-col">
         <form role="presentation" class="comment-form-body">
@@ -114,7 +113,7 @@
     </div>
 </script>
 
-{% comment %} ~~~~~~~~~~~~~~~ FORMA DO EDYCJI  ~~~~~~~~~~~~~~~ {% endcomment %}
+{% comment %} ~~~~~~~~~~~~~~~ EDITION FORM ~~~~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-edit-template">
     <form role="presentation" class="comment-form-body">
         <div class="form-group">
@@ -128,20 +127,20 @@
     </form>
 </script>
 
-{% comment %} Plugin z galerią do edytora WYSIWYG {% endcomment %}
+{% comment %} WYSIWYG editor plugin with a gallery {% endcomment %}
 <script type="text/template" id="media-item-tpl">
     <img src="<%= thumbnail %>" alt="<%= picture_name %>" />
     <a href="#" class="delete-item-button"><span class="fa fa-times-circle-o">&nbsp;</span></a>
 </script>
 
-{% comment %} Modal z podsumowanie głosów dla idei. {% endcomment %}
+{% comment %} A modal with a summary of votes for ideas. {% endcomment %}
 <script type="text/template" id="vote-counter-entry">
     <div class="counter-entry">
         <a href="<%= user_url %>" class="custom-tooltip" title="<%= user_full_name %>"><img src="<%= user_avatar %>" alt="<%= username %>" /></a>
     </div>
 </script>
 
-{% comment %} Lista pomysłów - szablon dla wpisu {% endcomment %}
+{% comment %} List of ideas - entry template {% endcomment %}
 <script type="text/template" id="idea-entry-tpl">
     <div class="idea-votes col-sm-3" id="tour-votes">
         <div class="vote-form">
@@ -654,7 +653,7 @@
     </a>
   </div>
 </script>
-{% comment %} IDEE - Modal dla listy głosujących użytkowników. {% endcomment %}
+{% comment %} IDEAS - a modal for a list of voting users. {% endcomment %}
 <div class="modal fade" id="vote-counter-modal">
     <div class="modal-dialog">
         <div class="modal-content">

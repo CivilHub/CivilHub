@@ -1,200 +1,81 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles i18n civil_tags %} 
-
-{% block meta %}
-<meta property="og:image" content="{{ profile.avatar.url }}"/>
+{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %} 
+{% block meta %}<meta property="og:image" content="{{ profile.avatar.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta name="keywords" content="{{ cuser.get_full_name }}, {{ cuser.username }}">
-{% endblock %}
-
-{% block extra_styles %}
-<style type="text/css">
+<meta name="keywords" content="{{ cuser.get_full_name }}, {{ cuser.username }}">{% endblock %}
+{% block extra_styles %}<style type="text/css">
 .user-logo {
-    background-image: url({{ profile.background_url }});
+  background-image: url({{ profile.background_url }});
 }
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) {
-    .user-logo {
-        background-image: url({{ profile.retina_background_url }});
-    }
+  .user-logo {
+    background-image: url({{ profile.retina_background_url }});
+  }
 }
-</style>
-{% endblock %}
-
-{% block require_scripts %}
-{% include 'places_core/google-contacts-modal.html' %}
+</style>{% endblock %}
+{% block require_scripts %}{% include 'places_core/google-contacts-modal.html' %}
 <script>window.API_URL = "{% url 'rest:my_actions-list' %}";</script>
 <script>window.USER_ID = "{{ cuser.pk }}";</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-profile.js"></script>
-{% endblock %}
-
-{% block header %}
-    <div class="user-logo">
-        <div class="container" style="height: 100%; position: relative;">
-            
-            <div class="user-info">
-                <div class="profile-page-avatar">
-                    <img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" />
-                </div>
-                <div class="user-fullname">
-                    {{ cuser.get_full_name }}
-                </div>
-                {% if request.user.is_anonymous %}
-                    <a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
-                {% else %}
-                    {% if request.user != cuser and request.user not in profile.followers %}
-                        <a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Follow" %}</a>
-                    {% endif %}
-                    {% if request.user != cuser and request.user in profile.followers %}
-                        <a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Following" %}</a>
-                    {% endif %}
-                {% endif %}
-                {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
-                {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
-                {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
-                {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
-                <a href="{% url 'postman_write' cuser.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a>
-            </div>
-            
-            {% if request.user == cuser %}
-                <a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>
-            {% endif %}
-        </div>
+<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-profile.js"></script>{% endblock %}
+{% block header %}<div class="user-logo">
+  <div class="container" style="height: 100%; position: relative;">        
+    <div class="user-info">
+      <div class="profile-page-avatar"><img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" /></div>
+      <div class="user-fullname">{{ cuser.get_full_name }}</div>
+      {% if request.user.is_anonymous %}<a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
+      {% else %}{% if request.user != cuser and request.user not in profile.followers %}<a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Follow" %}</a>{% endif %}
+      {% if request.user != cuser and request.user in profile.followers %}<a class="btn-follow-user" data-target="{{ cuser.pk }}">{% trans "Following" %}</a>{% endif %}{% endif %}
+      {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
+      {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
+      {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
+      {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
+      <a href="{% url 'postman_write' cuser.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a>
     </div>
-    <nav id="filter-navbar" class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
-                  <span class="sr-only">{% trans "Toggle navigation" %}</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-              </div>
-            <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
-        <ul class="nav navbar-nav navbar-nav-userspace">
-                    <li><a href="#" class="list-controller userspace active" data-control="content" data-target="">{% trans "Everything" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="news">{% trans "Blog" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion">{% trans "Discussions" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="idea">{% trans "Ideas" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="poll">{% trans "Polls" %}</a></li>
-                    <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery">{% trans "Gallery" %}</a></li>
-                </ul>
-
-                <ul class="nav navbar-nav navbar-right">
-                    
-                    <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
-                        <div class="form-group">
-                            <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
-                        </div>
-                        <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
-                    </form>
-        </ul>
-            </div>
-        </div>
-    </nav>
-
-{% endblock %}
-
-{% block content %}
-        
-        <div class="col-sm-3">
-            <div class="sidebar left">
-            {% if profile.description %}
-                <div class="sidebar-label">{% trans "About me"%}</div>
-                <div class="sidebar-content">
-                    {{ profile.description|striptags }}
-                </div>
-            {% endif %}
-                <div class="sidebar-label">{% trans "Places"%}</div>
-                <div class="sidebar-content">
-                    {% if profile.followed_locations %}
-                        <ul class="sprite-icon">
-                        {% for location in profile.followed_locations %}
-                            <li><span class="fa fa-map-marker"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-                
-                {% comment %}{% if profile.badges %}
-                        <ul class="user-badges-list">
-                        {% for badge in profile.badges.all %}
-                            <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="custom-tooltip badge-thumbnail" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
-                        {% endfor %}
-                        </ul>
-                {% endif %}{% endcomment %}
-            </div>
-        </div>
-        
-        <div class="col-sm-5" id="profActi">
-            <div class=" activity-stream">
-            {% for action in stream %}<noscript>
-                <div class="row action-entry">
-                    
-                    <div class="col-xs-2 entry-avatar-col">
-                        <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.fullname }}" class="user-avatar" />
-                        {{ action.actor.profile.rank_pts }}
-                    </div>
-                    
-                    <div class="col-xs-10 entry-meta-col">
-                        <div class="entry-header">
-                            <a href="{{ action.actor.get_absolute_url }}" class="activitesName">{{ action.actor.get_full_name }}</a>
-                            {{ action.verb }}
-                            {% if action.action_object_content_type %}
-                                &nbsp;{{ action.action_object_content_type.model }}&nbsp;
-                            {% endif %}
-                            {% if action.action_object %}
-                                {% if action.action_object.get_absolute_url %}
-                                    <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a>
-                                {% elif action.action_object_content_type.model == 'task_group' or action.action_object_content_type.model == 'task' %}
-                                    {{ action.action_object }}
-                                {% else %}
-                                    {{ action.action_object }}
-                                {% endif %}
-                            {% endif %}
-                            {% if action.action_object and action.target %}to{% endif %}
-                            {% if action.target %}
-                                {% if action.target.get_absolute_url %}
-                                    <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a>
-                                {% elif action.target_url %}
-                                    <a href="{{ action.target_url }}">{{ action.target }}</a>
-                                {% endif %}
-                            {% endif %}
-                            {{ action.timestamp|timesince }} {% trans "ago" %}
-                        </div>
-                        <div class="entry-body">
-                            {% if action.action_object_content_type.model == 'poll' %}
-                                {{ action.action_object.question | safe | truncatewords_html:25 }}
-                            {% endif %}
-                            
-                            {% if action.action_object_content_type.model == 'idea' %}
-                                {{ action.action_object.description | safe | truncatewords_html:25 }}
-                            {% endif %}
-                            
-                            {% if action.action_object_content_type.model == 'news' %}
-                                {{ action.action_object.content | safe | truncatewords_html:25 }}
-                            {% endif %}
-                            
-                            {% if action.action_object_content_type.model == 'location' %}
-                                {{ action.action_object.description | safe | truncatewords_html:25 }}
-                            {% endif %}
-                        </div>
-                        <div class="clear">&nbsp;</div>
-                        <div class="entry-footer"></div>
-                    </div><!-- // .entry-meta-col -->
-                    
-                </div><!-- // .user-action-entry -->
-            </noscript>{% endfor %}
-            </div>
-        </div><!-- // .user-activity-stream -->
-
-    <!-- // .user-activities -->
-    
-    {% include 'places_core/script-templates/action-template.html' %}
-
-
-    {% include 'userspace/sidebar.html' %}
-    
-{% endblock %}
+    {% if request.user == cuser %}<a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>{% endif %}
+  </div>
+</div>
+<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
+      <ul class="nav navbar-nav navbar-nav-userspace">
+        <li><a href="#" class="list-controller userspace active" data-control="content" data-target="">{% trans "Everything" %}</a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="news">{% trans "Blog" %}</a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="discussion">{% trans "Discussions" %}</a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="idea">{% trans "Ideas" %}</a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="poll">{% trans "Polls" %}</a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery">{% trans "Gallery" %}</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">
+          <div class="form-group">
+            <input type="text" name="haystack" id="haystack" placeholder="{% trans "Search" %}..." class="form-control" />
+          </div>
+          <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
+        </form>
+      </ul>
+    </div>
+  </div>
+</nav>{% endblock %}
+{% block content %}<div class="col-sm-3">
+  <div class="sidebar left">
+    {% if profile.description %}<div class="sidebar-label">{% trans "About me"%}</div>
+    <div class="sidebar-content">{{ profile.description|striptags }}</div>{% endif %}
+    <div class="sidebar-label">{% trans "Places"%}</div>
+    <div class="sidebar-content">
+      {% if profile.followed_locations %}<ul class="sprite-icon">
+        {% for location in profile.followed_locations %}<li><span class="fa fa-map-marker"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>{% endfor %}
+      </ul>{% endif %}
+    </div>
+  </div>
+</div>
+<div class="col-sm-5" id="profActi"><div class=" activity-stream"></div></div>
+{% include 'userspace/sidebar.html' %}{% endblock %}

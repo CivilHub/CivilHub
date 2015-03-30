@@ -17,8 +17,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
-# Override system storage: 
-#http://stackoverflow.com/questions/9522759/imagefield-overwrite-image-file
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from places_core.helpers import sanitizeHtml, sort_by_locale
 from gallery.image_manager import ImageManager as IM
@@ -32,8 +30,8 @@ def get_upload_path(instance, filename):
 
 def obj_to_dict(obj):
     """
-    Helper który zamienia nam rózne typy zawartości na zunifikowany format, co
-    ułatwi nam wyświetlanie ich w templatach. Działa jak prosty serializer.
+    A helper that changes various types of content into a unified format,
+    that will help us show them in templates. Works as a simple serializer. 
     """
     content_type = ContentType.objects.get_for_model(obj)
 
@@ -105,8 +103,8 @@ class AlterLocationName(models.Model):
 
 class LocationLocaleManager(models.Manager):
     """
-    Manager umożliwiający porządkowanie lokalizacji alfabetycznie z uwzględnieniem
-    lokalnych znaków utf-8.
+    A manager that allows to order locations albhabetically with local utf-8 signs
+    taken into account.
     """
     def get_queryset(self):
         return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
@@ -114,7 +112,7 @@ class LocationLocaleManager(models.Manager):
 
 
 class BackgroundModelMixin(object):
-    """ Mixin dla modeli obsługujących obraz tła. """
+    """ A mixin for models that take care of the background image."""
     def get_image_url(self, size=(1920,300), retina=False):
 
         # Get first part of image url
@@ -164,7 +162,7 @@ class Location(models.Model, BackgroundModelMixin):
     date_created = models.DateTimeField(auto_now_add=True)
     country_code = models.CharField(max_length=10)
     image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg')
-    # Tutaj oznaczamy regiony/miasta/stolice itp. oznaczeniami z geonames
+    # Here we mark regions/cities/capitals etc. with geonames
     kind = models.CharField(max_length=10)
 
     # custom managers
@@ -200,14 +198,14 @@ class Location(models.Model, BackgroundModelMixin):
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
-        # Generujemy odpowiedni slug
+        # We generate the appropriate slug
         if not self.slug:
             slug_entry = slugify('-'.join([self.name, self.country_code]))
             chk = Location.objects.filter(slug__icontains=slug_entry).count()
             if chk:
                 slug_entry = slug_entry + '-' + str(chk)
             self.slug = slug_entry
-        # Sprawdzamy, czy zmienił się obrazek i w razie potrzeby usuwamy stary
+        # We check whether the image has changed and if needed, we delete the old one
         try:
             orig = Location.objects.get(pk=self.pk)
             if not u'nowhere' in orig.image.name and orig.image != self.image:
@@ -306,8 +304,8 @@ class Location(models.Model, BackgroundModelMixin):
         return rename_background_file(self.image.url)
 
     def content_objects(self):
-        """ Zwraca listę obiektów powiązanych z tą lokalizacją (idee, dyskusje,
-        newsy i ankiety), sortowane od najnowszych. """
+        """ Returns a list of objects connected with this location (idea, discussion,
+        news and poll), sorts from latest. """
         qs = [obj_to_dict(x) for x in self.poll_set.all()]
         qs += [obj_to_dict(x) for x in self.news_set.all()]
         qs += [obj_to_dict(x) for x in self.idea_set.all()]
@@ -321,6 +319,8 @@ class Location(models.Model, BackgroundModelMixin):
             return self.name
         else:
             return alt[0].altername
+
+post_save.connect(resize_background_image, sender=Location)
 
 
 @python_2_unicode_compatible
@@ -340,17 +340,3 @@ class Country(models.Model):
 
     def __str__(self):
         return self.code
-
-
-def adjust_created_location(sender, instance, created, **kwargs):
-    """ Upewniamy się, że twórca lokacji będzie jej moderatorem. """
-    if created:
-        instance.creator.profile.mod_areas.add(instance)
-        instance.creator.profile.save()
-
-
-from maps.signals import create_marker
-post_delete.connect(delete_background_image, sender=Location)
-post_save.connect(resize_background_image, sender=Location)
-post_save.connect(adjust_created_location, sender=Location)
-post_save.connect(create_marker, sender=Location)

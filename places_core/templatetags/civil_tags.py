@@ -19,7 +19,7 @@ ALLOWABLE_VALUES = ("DEBUG", "COMMENT_PAGINATOR_LIMIT",)
 
 @register.filter
 def object_markers(obj):
-    """ Wyciąga punkty na mapie dla obiektu do skryptów. """
+    """ Fetches map points for objects for the usage of scripts. """
     if not obj or obj is None:
         return ""
     return mark_safe(json.dumps([{'lat': x.latitude, 'lng': x.longitude}\
@@ -52,7 +52,7 @@ def require_config():
 
 @register.simple_tag
 def google_data(user=None):
-    """ Prosty tag przechowujący dane uwierzytelniające dla Google. """
+    """ A simple tag that stores verification data for Google """
     if user is None or user.is_anonymous(): return ''
     template = """<script>
         window.GOOGLE_DATA = {
@@ -78,7 +78,7 @@ def google_data(user=None):
 
 @register.simple_tag
 def page_size(pg_type=None):
-    """ Prosty tag do przekazania limitu paginacji dla skryptów. """
+    """ A simple tag to to convey a limit of pagination for scripts. """
     if pg_type and pg_type == 'list':
         return settings.LIST_PAGINATION_LIMIT
     elif pg_type == 'stream':
@@ -89,9 +89,9 @@ def page_size(pg_type=None):
 @register.simple_tag
 def hreflang(request):
     """
-    Prosty tag wyświetląjący tagi 'hreflang' dla każdej podstrony i każdego
-    zarejestrowanego w systemie tłumaczenia. Jako parametr należy przekazać
-    aktualny url, który znajdzie się w znaczniku.
+    A simple tag that displays tags 'hrefland' for each subpage and for each
+    registered in the system translation. As a parameter the current url,
+    present in the marker should, be passed.
     """
     host = request.META.get('HTTP_HOST', '').split('.')
     protocol = 'https' if request.is_secure() else 'http'
@@ -110,8 +110,8 @@ def hreflang(request):
 @register.simple_tag
 def langlist(request):
     """
-    Tag, który automatycznie wypełnia menu z wyborem języków odnośnikami do
-    wszystkich zarejestrowanych języków.
+    A tag that automatically fills in the menu with links of language selection
+    for each registered language.
     """
     tags = ''
     tpl = """<li data-code="{% code %}"{% active %}>
@@ -136,6 +136,10 @@ def langlist(request):
                    .replace('{% active %}', active) \
                    .replace('{% url %}', addr) \
                    .replace('{% CODE %}', l[0].upper())
+    transifex_url = '//www.transifex.com/projects/p/civilhub/'
+    transifex_label = _(u"Help in translate")
+    tags += '<a href="{}" target="_blank" class="help_translate">{}</a>'\
+            .format(transifex_url, transifex_label)
     return tags
 
 

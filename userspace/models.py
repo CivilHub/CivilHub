@@ -45,7 +45,7 @@ def get_upload_path(instance, filename):
 @python_2_unicode_compatible
 class UserProfile(models.Model, BackgroundModelMixin):
     """
-    Profil użytkownika.
+    User profile.
     """
     user = models.OneToOneField(User, primary_key=True, related_name='profile')
     lang = models.CharField(
@@ -103,6 +103,11 @@ class UserProfile(models.Model, BackgroundModelMixin):
         default = 'img/backgrounds/background.jpg'
     )
 
+    @property
+    def has_default_avatar(self):
+        """ Check if user personally changed avatar picture. """
+        return u'anonymous' in self.avatar.name
+
     def save(self, *args, **kwargs):
         if self.description:
             self.description = strip_tags(self.description)
@@ -135,14 +140,14 @@ class UserProfile(models.Model, BackgroundModelMixin):
 
     def get_biggest_locations(self, limit=5):
         """
-        Funkcja zwraca listę największych lokalizacji, jakie subskrybuje
-        użytkownik. Długość listy określa parametr 'limit'.
+        This function returns a list of the greatest location that user subscribes.
+        Parameter specifies the length of the list 'limit'.
         """
         my_locations = self.user.location_set.all()
         return my_locations.order_by('users')[:limit]
 
     def followed_locations(self):
-        """ Metoda zwraca listę lokalizacji obserwowanych przez użytkownika. """
+        """ The method returns a list of locations follows by the user. """
         follows = [x for x in following(self.user, Location) if x is not None]
         return sort_by_locale(follows, lambda x: x.name, get_language())
 
@@ -163,8 +168,8 @@ class UserProfile(models.Model, BackgroundModelMixin):
 @python_2_unicode_compatible
 class Badge(models.Model):
     """
-    Odznaki dla użytkowników za osiągnięcia - np. zgłoszenie idei, która
-    została zaakceptowana i zrealizowana itp. itd.
+    Badges for users for achievements - eg. The application of ideas, which
+    has been accepted and implemented, etc., etc.
     """
     name = models.CharField(max_length=128)
     description = models.TextField()
@@ -185,8 +190,8 @@ class Badge(models.Model):
 
 class RegisterDemand(models.Model):
     """
-    Model przechowujący dane użytkowników zgłaszających chęć rejestracji
-    zanim konto zostanie aktywowane.
+    Model that stores user data indicating their willingness to registration
+    before the account is activated.
     """
     activation_link = models.CharField(max_length=1024)
     ip_address    = models.IPAddressField()
@@ -202,20 +207,29 @@ class RegisterDemand(models.Model):
 
 class LoginData(models.Model):
     """
-    Tabela przechowująca dane logowania włącznie z nazwą użytkownika,
-    adresem IP oraz datą logowania.
-    TODO: Przechowywanie tylko 5 ostatnich sesji.
+    Table storing login information, including user name, IP address and login date.
     """
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
     address = models.IPAddressField()
 
+    class Meta:
+        ordering = ['-date',]
+
+    def save(self, *args, **kwargs):
+        """ Ensure maximum number of entries per user in db. """
+        super(LoginData, self).save(*args, **kwargs)
+        max_entries = 5
+        if hasattr(settings, 'MAX_LOGIN_DATA'):
+            max_entries = settings.MAX_LOGIN_DATA
+        prx_entries = LoginData.objects.filter(user=self.user)
+        if len(prx_entries) > max_entries:
+            for i in range(1, len(prx_entries) - max_entries + 1):
+                LoginData.objects.last().delete()
+
 
 def activate_user_profile(sender, instance, **kwargs):
-    """
-    Sygnał wysyłany kiedy użytkownik jest tworzony/edytowany.
-    Upewniamy się, że zostanie utworzony jego profil.
-    """
+    """ Creates new user profile when user register. """
     try:
         profile = UserProfile.objects.get(user=instance)
     except UserProfile.DoesNotExist:

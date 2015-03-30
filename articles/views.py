@@ -101,9 +101,9 @@ class BlogEntryView(DetailView):
 
 class TopLevelArticleView(DetailView):
     """
-    Widok dla każdego artykułu, który ma zostać pokazany niezależnie od kategorii
-    lub supportu. Można go łatwo rozszerzyć podając 'article_slug' i ewentualnie
-    'template_name' w konfiguracji URL-i (patrz urls.py).
+    View for each item to be shown regardless of the category
+    or support work. It can be easily extended giving 'article_slug' and possibly
+    'template_name' in the configuration URL (see urls.py).
     """
     model = Article
     article_slug = None

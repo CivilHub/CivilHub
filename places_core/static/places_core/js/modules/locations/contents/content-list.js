@@ -2,10 +2,10 @@
 // content-list.js
 // ===============
 
-// Skrypty obsługujące paginowalną listę wpisów. Głównie
-// z myślą o podsumowaniu lokalizacji i stronie użytkownika.
+// Scripts that support paginable list of entries. Made mainly
+// with a summary of locations and the user site in mind.
 //
-// Ten skrypt obsługuje pełen zestaw filtrów oraz lazy-loading.
+// This script supports a full list of filters and lazy-loading.
 
 require(['jquery',
          'js/modules/locations/contents/content-collection'],

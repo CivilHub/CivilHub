@@ -2,7 +2,7 @@
 // userspace-background.js
 // =======================
 // 
-// Ustawianie zdjęcia tła dla profilu użytkownika.
+// Set background image for user profile. 
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

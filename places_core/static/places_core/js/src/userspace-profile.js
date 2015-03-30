@@ -1,8 +1,8 @@
 //
 // userspace-profile.js
 // ====================
-// 
-// Profil użytkownika udostępniony do przeglądania przez inne osoby.
+
+// User profile that is available to see by other people.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
@@ -12,10 +12,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/userspace/enable-contacts'],
 
   function($) {
-
     "use strict";
-
     $(document).trigger('load');
-
   });
 });

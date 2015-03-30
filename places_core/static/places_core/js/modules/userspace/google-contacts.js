@@ -2,8 +2,8 @@
 // google-contacts.js
 // ==================
 //
-// Aplikacja pozwalająca wysyłać zaproszenia na adresy z listy kontaktów Gmail
-// uwierzytelnionego użytkownika.
+// The application allows to send invites on Gmail contact addresses list
+// of the authenticated user
 
 define(['jquery',
         'underscore',

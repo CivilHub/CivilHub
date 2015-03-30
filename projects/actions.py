@@ -5,27 +5,29 @@ from actstream import action
 
 
 def task_action(user, task, verb):
-    """ Ogólna akcja związana z zadaniem. Składamy tutaj całe polecenie
-    wysłania odpowiedniej akcji. Do funkcji należy przekazać instancję
-    django.contrib.auth.models.User, projects.models.Task oraz verb. """
+    """
+    A general action that contains tasks. Here we form whole send orders
+    of a given action. A django.contrib.auth.models.User, projects.models.Task
+    and verb instance needs to be passed to the function.
+    """
     action.send(user, verb=verb, action_object=task, target=task.group.project)
 
 
 def finished_task(user, task):
-    """ Użytkownik ukończył zadanie. """
+    """ The user has finished the task. """
     task_action(user, task, _(u"finished task"))
 
 
 def joined_to_task(user, task):
-    """ Użytkownik dołączył do zadania. """
+    """ The user has joined the task."""
     task_action(user, task, _(u"joined to task"))
 
 
 def joined_to_project(user, project):
-    """ Tej funkcji przekazujemy instancję django usera oraz projekt. """
+    """ To this function we pass django user instance and project. """
     action.send(user, verb=_(u"joined to project"), target=project)
 
 
 def leaved_project(user, project):
-    """ J/w, ale tutaj informujemy innych, że użytkownik opuścił projekt. """
+    """ Same as above but here we inform other poeple that the user has left the project. """
     action.send(user, verb=_(u"leaved project"), target=project)

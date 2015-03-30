@@ -8,5 +8,5 @@ register = Library()
 
 @register.assignment_tag
 def get_map_pointers(obj):
-    """ Zwraca listę punktów na mapie powiązanych z obiektem. """
+    """ Returns a list of map points connected with the object. """
     return MapPointer.objects.for_model(obj)

@@ -82,11 +82,11 @@ def gallery_item_name():
 
 class UserGalleryAPIViewSet(viewsets.ModelViewSet):
     """
-    Wyjście dla galerii użytkownika. W tym wypadku serializer stosowany jest
-    tylko jako read only. Widok sam dba o utworzenie elementu w bazie danych
-    i przygotowanie wszystkich miniaturek. Zalogowany użytkownik może tutaj
-    przejrzeć swoją galerię. Anonimowi użytkownicy nie mają praw do tego widoku
-    i dostaną w odpowiedzi 403.
+    Exit for the user gallery. In this case, the serializer is used only as
+    a read only. The view takes care of creating the element in the data base
+    and prepares all minatures. A logged in user can view his/her gallery here.
+    Anonymous users don't have the permissions to this view and will get a 403
+    in return.
     """
     queryset = UserGalleryItem.objects.all()
     serializer_class = UserMediaSerializer
@@ -167,7 +167,7 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
 # ------------------------------------------------------------------------------
 
 class UserGalleryView(ListView):
-    """ Lista zdjęć w galerii użytkownika. """
+    """ A list of images in the gallery of the user. """
     queryset = UserGalleryItem.objects.all()
     template_name = 'gallery/user-gallery.html'
     context_object_name = 'files'
@@ -189,7 +189,7 @@ class UserGalleryView(ListView):
 
 
 class UserGalleryCreateView(FormView):
-    """ Upload nowego zdjęcia do galerii przez formularz statyczny. """
+    """ An upload of a new image to the gallery through the statistical form. """
     form_class = UserItemForm
     template_name = 'gallery/user-gallery-form.html'
 
@@ -221,7 +221,7 @@ class UserGalleryCreateView(FormView):
 
 
 class UserGalleryUpdateView(UpdateView):
-    """ Edycja zdjęcia, które znajduje się już w galerii. """
+    """ An edit of an image that is already in the gallery. """
     model = UserGalleryItem
     form_class = SimpleItemForm
     template_name = 'gallery/user-gallery-form.html'
@@ -241,7 +241,7 @@ class UserGalleryUpdateView(UpdateView):
 
 class ImageView(View):
     """
-    Edit photos. W tym momencie ten widok nie jest wykorzystywany.
+    Edit photos. As of now, this view is not in use.
     """
     def get(self, request, pk):
         username = request.user.username
@@ -278,7 +278,7 @@ class ImageView(View):
 # ------------------------------------------------------------------------------
 
 class LocationGalleryView(ListView):
-    """ Główna strona galerii dla lokalizacji. """
+    """ The main site of the location gallery. """
     queryset = LocationGalleryItem.objects.all()
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'
@@ -303,7 +303,7 @@ class LocationGalleryView(ListView):
 
 class LocationGalleryCreateView(FormView):
     """
-    Dodawanie nowych zdjęć do galerii miejsca.
+    Allows to add new images to the gallery of a location. 
     """
     form_class = LocationItemForm
     template_name = 'gallery/location-gallery-form.html'
@@ -354,7 +354,7 @@ class LocationGalleryCreateView(FormView):
 
 
 class LocationGalleryUpdateView(UpdateView):
-    """ Edycja zdjęcia, które znajduje się już w galerii. """
+    """ Edition of an image that is already in the gallery. """
     model = LocationGalleryItem
     form_class = SimpleItemForm
     template_name = 'gallery/location-gallery-form.html'
@@ -374,10 +374,9 @@ class LocationGalleryUpdateView(UpdateView):
 
 def location_gallery_delete(request, slug=None, pk=None):
     """
-    Widok umożliwiający usuwanie obrazów z galerii. Parametr `pk` jest wymagany
-    i jego brak zaskutkuje błędem. Parametr `slug` jest tylko po to, żeby
-    wpasować widok w urlconf z aplikacji `locations`.
-    Prawo do usuwania obrazów mają tylko superadmini oraz moderatorzy lokalizacji.
+    A view that allows to delete images from the gallery. The 'pk' parameter is
+    compulsory and when it is empty, an error will occur. The 'slug' parameter
+    is here only to match the view in urlconf with the 'locations' application.
     """
     item = get_object_or_404(LocationGalleryItem, pk=pk)
     if request.user.is_superuser or is_moderator(request.user, item.location):

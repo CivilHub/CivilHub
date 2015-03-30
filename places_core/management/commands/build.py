@@ -34,11 +34,11 @@ def compress_file(filename):
 
 class Command(BaseCommand):
     """
-    Program kompresujący wszystkie pliki less i js projektu.
+    The program minifies all less and js files of the project.
 
-    OPCJE
-        -m <nazwa_modułu> Wybrany moduł js do skompresowania (np. -m idea-create)
-        --only-css        Kompresuj tylko style CSS
+    OPTIONS
+        -m <name_of_the_model> A chosen js model subject to minification (e.g. -m idea-create)
+        --only-css        Minifies only style CSS 
     """
     option_list = BaseCommand.option_list + (
         make_option('-m', dest='module', help=u"Kompresuj wybrany moduł"),

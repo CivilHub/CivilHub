@@ -23,7 +23,7 @@ AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
 
 def create_user_profile(user, **kwargs):
     """
-    Metoda przyjmuje jako argument instancję auth.user i tworzy profil użytkownika.
+    This method takes auth.user instance as an argument and creates a user profile.
     """
     try:
         profile = UserProfile(user=user)
@@ -37,7 +37,7 @@ def create_user_profile(user, **kwargs):
 
 
 def profile_activation(user, **kwargs):
-    """ Sprawdzamy, czy profil użytkownika istnieje lub tworzymy nowy. """
+    """ We check whether the user porfile already exists or we create a new one. """
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
@@ -48,12 +48,12 @@ def profile_activation(user, **kwargs):
 
 
 def random_string(length=8):
-    """ Funkcja tworzy ciąg losowych znaków alfanumerycznych. """
+    """ This function creates a string of random alphanumeric symbols """
     return ''.join(random.choice(string.letters + string.digits) for _ in range(length))
 
 
 def random_username():
-    """ Funkcja tworząca losową i unikalną nazwę użytkownika. """
+    """ A function that creates a random and unique user name. """
     username = random_string(30)
     while (User.objects.filter(username=username).count() > 0):
         username = random_string(30)
@@ -62,7 +62,7 @@ def random_username():
 
 def create_username(first_name, last_name):
     """
-    Próbujemy utworzyć "czystą" nazwę użytkownika na podstawie imienia i nazwiska.
+    We try to create a "clear" user name based on the name and surname of the user.
     """
     if first_name is None or not len(first_name):
         first_name = None
@@ -88,7 +88,7 @@ def create_username(first_name, last_name):
 
 def random_password():
     """
-    Funkcja tworzy losowy ciąg znaków zakodowany w MD5 (32 znaki).
+    This function creates a strong of random symbols coded in MD5 (32 symbols)
     """
     salt = hashlib.md5()
     salt.update(settings.SECRET_KEY + str(datetime.now().time))
@@ -153,6 +153,29 @@ def crop_avatar(imgfile):
     img.save(imgpath, 'PNG')
     avatar_thumbnails(imgname)
     return File(open(imgpath))
+
+
+def update_profile_picture(profile, image):
+    """
+    This function takes user profile instance along with image file and
+    sets up proper avatars.
+    """
+    if not profile.has_default_avatar:
+        try:
+            os.unlink(profile.avatar.path)
+            delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
+        except Exception:
+            pass
+    profile.avatar = crop_avatar(image)
+    size = 60, 60
+    path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+    file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
+    thumbname = '60x60_' + file + ext
+    tmp = image.copy()
+    tmp.thumbnail(size, Image.ANTIALIAS)
+    tmp.save(os.path.join(path, thumbname))
+    profile.thumbnail = 'img/avatars/' + thumbname
+    profile.save()
 
 
 class UserActionStream(object):

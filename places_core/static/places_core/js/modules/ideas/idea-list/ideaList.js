@@ -1,7 +1,7 @@
 //
 // ideaList.js
 // ===========
-// Main list view. Dziedziczy z modelu 'PageableView'.
+// Main list view. Inherits from "PageableView" view
 define(['jquery',
         'underscore',
         'backbone',

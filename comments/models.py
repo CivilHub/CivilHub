@@ -12,9 +12,7 @@ from places_core.helpers import sanitizeHtml
 
 
 class CustomComment(MPTTModel, Comment):
-    """
-    Basic comment model extending mptt model so it could be nested
-    """
+    """ Basic comment model extending mptt model so it could be nested. """
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='children')
     
@@ -50,13 +48,16 @@ class CustomComment(MPTTModel, Comment):
 
 @python_2_unicode_compatible
 class CommentVote(models.Model):
-    """
-    Users can vote up or down on comments, but only once
-    """
+    """ Users can vote up or down on comments, but only once. """
     user = models.ForeignKey(User)
     vote = models.BooleanField(default=False)
     comment = models.ForeignKey(CustomComment, related_name='votes')
     date_voted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.vote
+        msg = 'negatively'
+        if self.vote:
+            msg = 'positively'
+        return u"{} voted {} for {}".format(
+            self.user.get_full_name(),
+            msg, self.comment)

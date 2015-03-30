@@ -1,8 +1,9 @@
 //
 // subcomment-collection.js
 // ========================
-// Kolekcja przechowująca odpowiedzi do konkretnego komentarza. Tutaj korzystamy
-// ze standardowej kolekcji Backbone, paginacja odpowiedzi nie będzie konieczna.
+
+// A collection that stores the answers to a given comment. Here we make use
+// of the standard Backbone collection, pagination of answers will not be necessary.
 
 define(['jquery',
         'underscore',

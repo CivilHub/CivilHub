@@ -2,8 +2,8 @@
 // tour.js
 // =======
 
-// Tworzy samouczek na podstawie lokalizacji w jakiej znajduje się użytkownik.
-// Z API pobieramy stolicę kraju, na jaki wskazuje IP użytkownika.
+// We create a tour based on the user's current location
+// We fetch the capital of the country (depening on the user's IP) from the API.
 
 require(['jquery',
          'underscore',
@@ -99,7 +99,7 @@ function createTour (template, fn) {
   });
 }
 
-// Sprawdzamy, czy tour został już "ubity"
+// We check whether the tour has allready been "killed/finished"
 
 function checkTour () {
   if (Modernizr.localstorage)

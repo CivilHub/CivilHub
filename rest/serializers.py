@@ -28,7 +28,7 @@ from polls.models import Poll
 
 class TranslatedModelSerializer(serializers.ModelSerializer):
     """
-    Serializer dla obiektów przerobionych przez django-modeltranslation.
+    A serializer for objects transformed by django-modeltranslation.
     """
     def __init__(self, *args, **kwargs):
         super(TranslatedModelSerializer, self).__init__(*args, **kwargs)
@@ -266,7 +266,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
 class NewsSimpleSerializer(serializers.ModelSerializer):
     """
-    Serializer przeznaczony dla API mobilnej aplikacji. Uproszczony POST itp.
+    A serializer intended for the mobile application API. A simplified POST etc.
     """
     slug = serializers.SlugField(required=False)
     creator = serializers.PrimaryKeyRelatedField(required=False)

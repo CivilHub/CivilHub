@@ -8,7 +8,7 @@ from .models import UserGalleryItem, LocationGalleryItem
 
 class BackgroundForm(forms.Form, BootstrapBaseForm):
     """
-    Formularz pozwalający użytkownikom wybrać/przyciąć obraz tła dla profilu.
+    Form allows users to select / crop the image background for the profile.
     """
     image = forms.ImageField(
         label = _("Image"),
@@ -22,7 +22,7 @@ class BackgroundForm(forms.Form, BootstrapBaseForm):
 
 class UserItemForm(forms.ModelForm, BootstrapBaseForm):
     """
-    Formularz dodawania/edycji obrazów w galerii użytkownika.
+    Form to add / edit images in user gallery's.
     """
     image = forms.ImageField(
         label=u'',
@@ -45,7 +45,7 @@ class UserItemForm(forms.ModelForm, BootstrapBaseForm):
 
 
 class SimpleItemForm(forms.ModelForm, BootstrapBaseForm):
-    """ Uproszczony formularz umożliwiający edycję metadanych o zdjęciu. """
+    """ Simplified form to edit the metadata of the photo. """
     name = forms.CharField(
         required = False,
         label = _("Name"),
@@ -64,7 +64,7 @@ class SimpleItemForm(forms.ModelForm, BootstrapBaseForm):
 
 class LocationItemForm(forms.ModelForm, BootstrapBaseForm):
     """
-    Formularz dodawania zdjęć do galerii lokalizacji.
+    Form to add photos to the gallery location.
     """
     image = forms.ImageField(
         label=u'',

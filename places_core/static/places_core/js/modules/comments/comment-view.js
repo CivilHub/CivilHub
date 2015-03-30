@@ -2,7 +2,7 @@
 // comment-view.js
 // ===============
 
-// Widok pojedynczego komentarza.
+// A single comment view
 
 define(['jquery',
 		'underscore',
@@ -38,31 +38,31 @@ var CommentView = Backbone.View.extend({
 	},
 	
 	render: function () {
-		//dodaje tooltip dla glosowania pod kazdym komentarzem
+		// adds a tooltip for voting under each comment
 		$('.comment-meta-options').find('a').tooltip();
 		
-		// Wyświetlenie bieżącego komentarza
+		// Displays the current comment
 		this.$el.html(this.template(this.model.toJSON()));
 		
-		// Głosowanie ZA
+		// Vote YES
 		this.$el.find('.vote-up-link').click(function (e) {
 			e.preventDefault();
 			this.voteUp();
 		}.bind(this));
 		
-		// Głosowanie PRZECIW
+		// Vote NO
 		this.$el.find('.vote-down-link').click(function (e) {
 			e.preventDefault();
 			this.voteDown();
 		}.bind(this));
 		
-		// Odpowiedz na komentarz
+		// Reply to a comment
 		this.$el.find('.comment-reply').on('click', function (e) {
 			e.preventDefault();
 			this.replyComment();
 		}.bind(this));
 		
-		// Pokaż/ukryj odpowiedzi do tego komentarza
+		// Show/hide answers to this comment
 		this.$el.find('.show-replies').on('click', function (e) {
 			e.preventDefault();
 			if (this.collection.length) {
@@ -72,7 +72,7 @@ var CommentView = Backbone.View.extend({
 			}
 		}.bind(this));
 		
-		// Pokaż/ukryj kontrolki
+		// Show/hide controlls
 		this.$ctrls = this.$el.find('.comment-controls:first');
 		this.$el.on('mouseover', function (e) {
 			e.stopPropagation();
@@ -91,7 +91,7 @@ var CommentView = Backbone.View.extend({
 			});
 		}.bind(this));
 		
-		// Edycja istniejącego komentarza
+		// Edition of an existing comment
 		if (this.$ctrls.find('.comment-edit').length > 0) {
 			this.$ctrls.find('.comment-edit').on('click', function (e) {
 				e.preventDefault();
@@ -118,39 +118,39 @@ var CommentView = Backbone.View.extend({
 	},
 	
 	editComment: function () {
-		// Nie otwieramy edycji, jeżeli już jest uruchomiona!
+		// We do not open the edition if it is already open!
 		if (this.nowEdited !== undefined) return false;
 		
-		// Edytujemy istniejący komentarz. Templatka dla edycji i dodawania
-		// jest inna!!!
+		// We edit a non-existing comment. A template for edition and adding
+		// is different!!!
 		var $ed = $(_.template($('#comment-edit-template').html(), {}));
 		var txt = this.model.get('comment');
 		
-		// Zaznaczamy komentarz jako aktualnie edytowany, żeby otwierać tylko
-		// jedno okienko edycji
+		// We select a comment as currently being edited, so that we open
+		// only one edition window
 		this.nowEdited = true;
 		
-		// Zastępujemy komentarz edytorem.
+		// We substitue the comment with an editor
 		this.$el.find('.comment-content:first').empty().append($ed);
-		// Uzupełniamy edytor starym komentarzem.
+		// We fill in the editor with the old comment
 		$ed.find('#comment').val(this.model.get('comment'));
 		
-		// Zapisz nową wersję komentarza
+		// Save the new version of the comment
 		$ed.find('.btn-submit-comment').on('click', function (e) {
 			e.preventDefault();
 			this.model.url = '/rest/comments/' + this.model.get('id') + '/';
 			this.model.save({
 				comment: $ed.find('#comment').val(),
 				submit_date: moment().format()
-			}, {patch: true}); // update przez PATCH
-			// Usuń edytor i pokaż zaktualizowany komentarz.
+			}, {patch: true}); // update through PATCH
+			// Delete the editor and show an updated comment.
 			$ed.empty().remove();
 			delete this.nowEdited;
 			this.$el.find('.comment-content:first')
 				.text(this.model.get('comment'));
 		}.bind(this));
 		
-		// Anulowanie akcji - przerwanie edycji
+		// Cancel action - edition cancellation
 		$ed.find('.btn-cancel-comment').on('click', function (e) {
 			e.preventDefault();
 			$ed.empty().remove();
@@ -160,50 +160,50 @@ var CommentView = Backbone.View.extend({
 	},
 	
 	renderReplies: function () {
-		// Wyświetla listę odpowiedzi tworząc widoki dla każdej odpowiedzi
-		// w kolekcji.
+		// Displays a list of answers by creation of views for each answer
+		// in collection.
 		this.collection.each(function (item) {
-			// Określamy listę, żeby nie dodawać odpowiedzi do odpowiedzi:
+			// We define the list so that we don't add answers to answers
 			var $list = this.$el.find('.subcomments:first');
 			var comment = new CommentView({model:item});
 			comment.parentView = this.parentView;
-			// Dodajemy komentarze do przygotowanej listy
+			// We add comments to a ready list
 			$(comment.render().el).appendTo($list);
 		}, this);
 	},
 	
 	replyComment: function () {
-		// Jak przy edycji upewniamy się że tylko jedno okienko jest otwarte
+		// Same as during edition, we make sure that only one window is open
 		if (this.parentView.nowAnswered !== undefined) {
 			if (this.parentView.nowAnswered === this) return false;
 			this.parentView.nowAnswered.$el.
 				find('form, .comment-avatar-col').empty().remove();
 		}
-		// Oznaczamy komentarz jako "otwarty" do odpowiedzi.
+		// We tag a comment as "open" to answer.
 		this.parentView.nowAnswered = this;
 		
-		// Odpowiedz na komentarz. Ta funkcja z pewnością może wyglądać lepiej.
+		// An answer to a comment. This function can definitely look better.
 		var $form = $(_.template($('#comment-form-template').html(), {}));
-		// Musimy się upewnić, że dodajemy elementy do parenta, a nie któ-
-		// rejś z odpowiedzi.
+		// We must be sure that we add elements to the parent and not
+		// to some answers
 		var $list = $(this.$el.find('.subcomments:first'));
-		// Pokaż formularz po naciśnięciu odnośnika
+		// Show the form after clicking on the link
 		$form.insertBefore($list);
-		// Submit formy - tworzymy faktyczny komentarz
+		// Form submit - we create an authentic comment
 		$form.on('submit', function (e) {
 			e.preventDefault();
 			var model = new CommentModel({
 				comment: $form.find('textarea').val(),
 				parent: this.model.get('id')
 			});
-			// Nie dopuszczamy pustych komentarzy
+			// We do not allow empty comments
 			if (model.get('comment').length <= 0) {
 				alert(gettext("Comment cannot be empty"));
 				return false;
 			}
-			// FIXME: model url przypisujemy ręcznie ze względu na problemy
-			// z kontrolowanie eventów na wewnętrznych elementach. Warto po-
-			// szukać lepszego rozwiązania i oddelegować te zadania kolekcji.
+			// FIXME: we assign the url model by hand due to problems
+			// with controlling inner events in elements. It is worth looking
+			// for a better solution and to delegate those taks to the collection.
 			model.url = '/rest/comments/';
 			var comment = new CommentView({
 				model: model
@@ -211,12 +211,12 @@ var CommentView = Backbone.View.extend({
 			this.collection.add(model);
 			model.save();
 			$form.empty().remove();
-			// Kolejny paskudny element - to powinno być wywołane po dodaniu
-			// nowego elementu do kolekcji.
+			// Another filthy element - this should be evoked after
+			// the adding a new element to the collection
 			$(comment.render().el).appendTo($list);
 			delete this.parentView.nowAnswered;
 		}.bind(this));
-		// Anulowanie czynności - zamykamy okienko edycji
+		// Action ancellation Anulowanie - we close the edition window
 		$form.find('.btn-cancel-comment').on('click', function (e) {
 			e.preventDefault();
 			$form.empty().remove();
@@ -225,7 +225,7 @@ var CommentView = Backbone.View.extend({
 	},
 	
 	toggleReplies: function () {
-		// Pokaż/ukryj odpowiedzi do tego komentarza.
+		// Show/hide answers to this comment
 		var $toggle = this.$el.find('.show-replies'),
 			$sublist = this.$el.find('.subcomments');
 
@@ -253,14 +253,14 @@ var CommentView = Backbone.View.extend({
 				vote: vote,
 				comment: self.model.get('id')
 			},
-			// Response zwraca error wyłącznie w przypadku błędu serwera,
-			// także w obiekcie `resp` przesyłamy dodatkowo informację
-			// `success` (true lub false) i wyświetlamy odpowiedni alert.
+			// Response returns an error only in the case of server error,
+			// also in 'resp' object we wend additional information 'success'
+			// (true or false) and we display an alert.
 			success: function (resp) {
 				if (resp.success === true) {
 					self.model.set('upvotes', votes);
 					self.model.set('total_votes', totalVotes);
-					// FIXME: przenieść to do jednej funkcji.
+					// FIXME: transfer this to one function
 					self.render();
 					self.renderReplies();
 					message.success(resp.message);

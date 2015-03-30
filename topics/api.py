@@ -14,7 +14,7 @@ from .serializers import ForumCategorySimpleSerializer, \
 
 
 class ForumCategoryAPIViewSet(viewsets.ModelViewSet):
-    """ Kategorie na forum. """
+    """ Forum categories. """
     queryset = Category.objects.all()
     paginate_by = None
     serializer_class = ForumCategorySerializer

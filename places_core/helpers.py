@@ -17,8 +17,8 @@ from django.utils import timezone, translation
 
 def get_time_difference(period):
     """
-    Mały helper, który przerabia dzień/rok/miesiąc na datetime w pythonie.
-    Przydatny we wszystkich widokach z filtrem daty.
+    A small helper that converts the day/year/month onto a datetime in python.
+    Useful in all views with data filters.
     """
     if period == 'day':
         time_delta = timezone.now() - datetime.timedelta(days=1)
@@ -34,7 +34,7 @@ def get_time_difference(period):
 
 
 def date_from_iso(isodate):
-    """ Zamienia datetime.isoformat z powrotem na datetime obiekt. """
+    """ Changes datetime.isoformat back to datetime object."""
     return datetime.datetime.strptime(isodate[:-7],'%Y-%m-%dT%H:%M:%S.%f')
 
 
@@ -170,16 +170,16 @@ def truncatehtml(string, length, ellipsis='...'):
 
 def sort_by_locale(queryset, key, language=None):
     """
-    Prosta funkcja, która korzysta z biblioteki PyICU do sortowania wyników
-    wyszukiwania alfabetycznie z uwzględnieniem znaków UTF konkretnego języka.
-    
-    Parametr `queryset` jest wymagany, może to być zarówno Django queryset jak
-    i zwykła pythonowa lista.
-    
-    Parametr `key` to funkcja, wq której będziemy sortować. 
-    
-    Parametr language również jest wymagany. To kod języka w standardzie ISO
-    (pl, en etc.) podany jako string.
+    A simple function that makes use of the PyICU library to sort search
+    results alphabetically with UTF sings of a given language.
+
+    The 'queryset' parameter is compulsory, it can be both a Django queryset
+    and a simple python list.
+
+    The 'key' parameter is a function by which we will sort.
+
+    The language parameter is also compulsory. It's the language code
+    in ISO format (pl, en etc.) given as a string.
     """
     if language is None:
         language = translation.get_language()
@@ -192,11 +192,11 @@ def sort_by_locale(queryset, key, language=None):
 
 class SimplePaginator(object):
     """
-    Prosty paginator wyników zapytań prezentowanych w formie JSON. Ta klasa
-    została stworzona z myślą o wykorzystaniu w widokach nie serwowanych
-    przez Django REST Server.
+    A simple result paginator of queries presented in JSON format. This
+    class was created with the use of views not served by Django REST
+    Server in mind.
     It takes 2 mandatory parameters - queryset to filter and total number of 
-    items to display per one page.
+    items to display per one page.   
     """
     queryset = None
     per_page = 0

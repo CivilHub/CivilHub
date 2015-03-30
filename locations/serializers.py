@@ -8,10 +8,10 @@ from .models import Location, Country
 
 class ContentObjectSerializer(serializers.Serializer):
     """
-    Proxy dla obiektów wyciąganych z listy relacji wybranej lokalizacji.
-    Metoda sama serializuje dane, ta klasa potrzebna jest, aby połączyć nasz
-    skrypt z REST API poprzez restowe APIView oraz PaginationSerializer.
-    Oczywiście działa tylko read-only.
+    A proxy for objects pull from the relation list of given locations.
+    The method itself does not serialize the data, this class is required
+    in order to connect our script with REST API through rest APIView and
+    PaginationSerializer. Of course, it is read-only.
     """
     type = serializers.Field(source='type')
     name = serializers.Field(source='name')
@@ -33,15 +33,16 @@ class ContentObjectSerializer(serializers.Serializer):
 
 class ContentPaginatedSerializer(PaginationSerializer):
     """
-    Nakładka pozwalająca nam wypuścić listę obiektów w
-    lokalizacji przez paginowalne APIView z Rest Framework.
+    An overlay that allows to send a list of objects
+    in a location through a paginal APIView from the Rest
+    Framework.
     """
     class Meta:
         object_serializer_class = ContentObjectSerializer
 
 
 class MapLocationSerializer(serializers.ModelSerializer):
-    """ Prosty serializer lokalizacji dla mapy. """
+    """ A simple location serializer for the map. """
     id = serializers.Field(source='pk')
     content_type = serializers.SerializerMethodField('get_content_type')
     object_pk = serializers.SerializerMethodField('get_object_pk')
@@ -62,8 +63,8 @@ class SimpleLocationSerializer(serializers.ModelSerializer):
 
 class LocationListSerializer(serializers.ModelSerializer):
     """
-    Serializer do wyświetlenia w widokach listy, zawierający nazwę lokacji, 
-    odnośnik bezpośredni i podstawowe informacje.
+    A serializer that displays in the views lists that contain the name
+    of the location, a direct link and basic information.
     """
     id = serializers.Field(source='pk')
     name = serializers.Field(source='__unicode__')
@@ -74,7 +75,7 @@ class LocationListSerializer(serializers.ModelSerializer):
         view_context = self.context.get('view')
         if view_context is not None:
             user = view_context.request.user
-            if user.is_authenticated() and user in obj.users.all():
+            if user.is_authenticated() and obj.users.filter(pk=user.pk).exists():
                 return True
         return False
 
@@ -85,9 +86,9 @@ class LocationListSerializer(serializers.ModelSerializer):
 
 class CountrySerializer(serializers.ModelSerializer):
     """
-    Serializer umożliwiający łatwiejsze namierzanie lokalizacji użytkownika.
-    Dla aplikacji mobilnej raczej bardziej przydatne będą natywne funkcje
-    geolokacji, ale dla porządku to też puszczam przez REST.
+    A serializer that allows for easier finding of the user's location.
+    For the mobile aplication, the native geolocation should prove
+    to be more useful, but for order I send it through REST as well.
     """
     capital = serializers.SerializerMethodField('get_capital_location')
 

@@ -2,7 +2,7 @@
 // idea-create.js
 // ==============
 // 
-// Formularz do tworzenia/edycji idei.
+// A form for creation/edition of ideas.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

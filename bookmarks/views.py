@@ -22,7 +22,7 @@ class LoginRequiredMixin(object):
 
 
 class BookmarkListView(LoginRequiredMixin, ListView):
-    """ Widok prezentujący listę zakładek użytkownika. """
+    """ View show list of user bookmarks. """
     model = Bookmark
     template_name = 'bookmarks/list.html'
     context_object_name = 'bookmarks'
@@ -34,9 +34,9 @@ class BookmarkListView(LoginRequiredMixin, ListView):
 
 class BookmarkCreateView(View):
     """
-    Tworzenie nowej zakładki. Widok powinien współpracować z jakimś formularzem
-    JS, przyjmuje tylko dane POST od zarejestrowanego użytkownika i zwraca
-    odpowiedź w formie JSON.
+    Adding new bookmark. Views should work with JS form, 
+    only accepts POST data of the registered user and returns
+    answer in the form of JSON.
     """
     def post(self, request):
         if request.user.is_anonymous():
@@ -66,7 +66,7 @@ class BookmarkCreateView(View):
 
 
 class BookmarkDeleteView(LoginRequiredMixin, DeleteView):
-    """ Widok pozwalający użytkownikom usuwać ich zakładki. """
+    """ View allows users to delete their bookmarks. """
     model = Bookmark
 
     def get_success_url(self):

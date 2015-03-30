@@ -2,13 +2,13 @@
 // sublocations-popover.js
 // =======================
 //
-// Skrypty odpowiadające za wyświetlanie/filtrowanie menu sub-lokalizacji
-// w pasku nawigacji w widoku lokalizacji.
-//
-// Fixme - dropdown z BS nie działa dokładnie w ten sam sposób - tworzony dyna-
-// micznie element nie ma dowiązanych eventów, które np. zamkną okienko. Dlatego
-// tutaj nie zajmujemy się zamykaniem okna - robimy to w skrypcie, który wywołuje
-// kolekcję (e.g. common.js).
+// Scripts responsible for displaying and filtering the menu of sub-locations
+// in the navigation bar in location view
+// 
+// Fixme - dropdown from BS does not work exactly in the same way - it creates
+// an element dynamically it does not have tied elements to it that e.g. close
+// a window. That is why we do not close the window here - we do it it another
+// script that evokes a collection (e.g. common.js)
 //
 
 define(['jquery',

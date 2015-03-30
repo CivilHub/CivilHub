@@ -24,7 +24,7 @@ class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
 
 class SubdomainMiddleware(object):
     """
-    Middleware, który ustawia język sesji w zależności od wybranej subdomeny.
+    Middleware that sets the session language depending on the subdomain.
     """
     def process_request(self, request):
         host = request.META.get('HTTP_HOST', '')

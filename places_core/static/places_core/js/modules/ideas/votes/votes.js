@@ -14,7 +14,7 @@ function ($, _, utils, ui, CounterWindow) {
 
   "use strict";
 
-  // Okienko z podsumowaniem głosowania.
+  // A window with vote summary.
 
   var cw = null;
 
@@ -27,7 +27,7 @@ function ($, _, utils, ui, CounterWindow) {
     });
   });
 
-  // Głosowanie Tak lub Nie.
+  // Vote Yes or No.
 
   $(document).delegate('.vote-btn-active', 'click', function () {
 

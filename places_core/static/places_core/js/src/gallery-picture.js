@@ -2,7 +2,7 @@
 // gallery-picture.js
 // ==================
 // 
-// Szczegółowy widok pojedynczego zdjęcia w galerii lokacji.
+// A detailed view of a single image in the location's gallery
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

@@ -1,9 +1,8 @@
 {% load staticfiles %}{% load i18n %}
 {% comment %}
-    Uniwersalny widok dla sidebara, dołączany do każdej templatki w ramach
-    widoku lokalizacji (forum, dyskusje, etc.). Opcje wypełniane są przez
-    kontroler, tutaj sprawdzamy, jakie linki są dostępne i wyświetlamy tylko
-    te.
+    A universal view for the sidebar, added to each template in the location
+    view (forum, discussion, etc.). The options are filled by the controller,
+    here we check what links are available and we display only those.
 {% endcomment %}
 
     <div class="sidebar">
@@ -76,7 +75,7 @@
 
 {% if user.is_authenticated %}
     {% comment %}
-        Link, który pozwala wysyłać masowe wiadomości z zaproszeniem do przeglądania bieżącej strony.
+        A link that allows to send a mass mail with invite to come and browse the current site.
     {% endcomment %}
     
     {% include 'civmail/invite-users.html' %}

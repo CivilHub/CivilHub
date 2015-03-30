@@ -2,8 +2,8 @@
 // abuse-report.js
 // ===============
 
-// Pozwala użytkownikom wysyłać powiadomienia o naruszeniu
-// regulaminu przy pomocy modalowego okienka.
+// Allows users to send notifications about breaches
+// in terms of use through a modal window
 
 require(['jquery', 'js/modules/utils/abuse-window'],
 

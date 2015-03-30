@@ -2,9 +2,9 @@
 // media-uploader.js
 // =================
 //
-// Okno w modalu z obsługą galerii użytkownika. Umożliwia upload i usuwanie
-// obrazów w galerii użytkownika, który ma aktywną sesję. Do działania potrzebuje
-// templatki z pliku /templates/gallery/media-uploader.html.
+// A modal window with user gallery service. Allows for uploading and deletion
+// of images in the user gallery that has an active sesion. In order to work
+// it needs a template from /templates/gallery/media-uploader.html file.
 // -----------------------------------------------------------------------------
 
 define(['jquery',
@@ -16,7 +16,7 @@ function ($, _, Backbone, Dropzone) {
     
     "use strict";
     
-    // Pozwala uniknąć błędu 'dropzone already attached'
+    // Allows to evade 'dropzone already attached' error
     Dropzone.autodiscover = false;
     
     //
@@ -24,7 +24,7 @@ function ($, _, Backbone, Dropzone) {
     // ==========
     
     var MediaModel = Backbone.Model.extend({
-        // Dodajemy slash na końcu adresu ze względu na zabezpieczenia Django
+        // We add a slash at the end of the address due to Django security
         url: function() {
             var original_url = Backbone.Model.prototype.url.call(this),
                 parsed_url = original_url + (original_url.charAt(original_url.length - 1) == '/' ? '' : '/');
@@ -44,7 +44,7 @@ function ($, _, Backbone, Dropzone) {
         url: '/api-gallery/usermedia/',
         
         initialize: function () {
-            // Konieczne ze względu na Django csrf protection
+            // Necessary due to Django csrf protection
             $.ajaxSetup({
                 headers: {'X-CSRFToken': getCookie('csrftoken')}
             });
@@ -54,7 +54,7 @@ function ($, _, Backbone, Dropzone) {
     //
     // MediaItem
     // =========
-    // Widok dla pojedynczego elementu kolekcji (zdjęcia)
+    // A view for a single element collection (images)
     
     var MediaItem = Backbone.View.extend({
         
@@ -68,15 +68,15 @@ function ($, _, Backbone, Dropzone) {
             'click .delete-item-button': 'remove'
         },
         
-        isActive: false, // Oznaczamy element jako aktywny/podświetlony
+        isActive: false, // We mark the element as active/highlighted
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            // Podświetl element wybrany przez użytkownika
+            // Highlight the element selected by the user
             this.$el.on('click', function (e) {
                 e.preventDefault();
-                // Odwołujemy się do widoku całego okna, zaznaczamy aktywny
-                // element i odznaczamy wszystkie pozostałe.
+                // We refer to the view of the whole window, we select the active
+                // element and we unselect all the other
                 this.parentView.markSelected(this);
             }.bind(this));
             return this;
@@ -93,8 +93,8 @@ function ($, _, Backbone, Dropzone) {
         },
         
         remove: function () {
-            // Usuwamy element. Sprawdzamy, czy jest aktualnie wybranym elemen-
-            // tem i jeżeli tak, resetujemy aktywny element.
+            // We delete the element. We check check whether it is the currently
+            // selected element, if yes we reset the active element.
             if (this.parentView.selected === this) {
                 this.parentView.selected = null;
             }
@@ -108,7 +108,7 @@ function ($, _, Backbone, Dropzone) {
     //
     // Uploader
     // ========
-    // Główny widok aplikacji powązany z oknem modalu.
+    // The main application view tided to the window model
     
     var Uploader = Backbone.View.extend({
         
@@ -116,50 +116,52 @@ function ($, _, Backbone, Dropzone) {
         
         selected: null,
         
-        items: {}, // Przechowuje listę widoków powiązanych z modelami przez ID
+        items: {}, // Stores a list view of moddels connected through ID
         
-        // Dodatkowe opcje dla uploadera. Tutaj możemy ustawić callback zewnętrz-
-        // nej aplikacji, np. funkcję dodającą wybrany obrazek w edytorze. Do
-        // funckcji zostanie przekazany aktualnie wybrany model.
+        // Additional options for the uploader. Here we can set the callback for
+        // an external application, e.g. a function that adds the selected image
+        // in the editor. The currently selected model will be passed into the
+        // model.
         options: {
             onSubmit: function (item) {
                 console.log(item);
             }
         },
         
-        // Inicjalizacj aplikacji. Do metody można przekazać dodatkowe parametry
-        // w postaci obiektu. Najczęściej wykorzystywaną będzie callback onSubmit.
+        // Initialization of the application. To this method, additional parameters
+        // in the form of an object can be passed. The most frequently used will be
+        // callback onSubmit.
         initialize: function (options) {
             
-            var url = ''; // Url kolekcji do przekazania dla Dropzone.
+            var url = ''; // Collection url that will be passed to the Dropzone.
             
-            // Nadpisujemy domyślne opcje jeżeli użytkownik zdefiniował własne.
+            // We overwrite the default options if the user has defined his/her own.
             _.extend(this.options, options);
             
-            // Przygotowanie DOM
+            // Redies the DOM
             this.$el.modal({show:false});
             this.$el.find('#tabs').tabs();
             this.collection = new MediaCollection();
             this.listenTo(this.collection, 'add', this.renderItem);
             this.$submit = this.$el.find('.submit-btn');
             this.collection.fetch();
-            // Submitowanie formularza - wybieramy obrazek i przekazujemy go
-            // do callbacku.
+            // Submits the form - we chose the image and we send it to the
+            // callback.
             this.$submit.on('click', function (e) {
                 e.preventDefault();
                 this.submit();
             }.bind(this));
             
-            // Przygotowanie elementu Dropzone (uploadera)
+            // Dropzone (uploader) element ready
             url = this.collection.url;
             this.dropzone = new Dropzone('#dropzone-input', {url: url});
             this.dropzone.on('complete', function () {
-                // Dodaj zdjęcia uploadowane przez użytkownika, wyświetl je
-                // w galerii i otwórz zakładkę ze zdjęciami.
+                // Add the images uploaded by the user, display them
+                // in the gallery and open a tab with images
                 this.collection.fetch();
                 this.$el.find('[href="#tabs-2"]').trigger('click');
             }.bind(this));
-            // Hack w celu uniknięcia błędu 'dropzone already attached'
+            // A hack to prevent 'dropzone already attached'
             $('#dropzone-input').addClass('dropzone');
         },
         
@@ -175,26 +177,26 @@ function ($, _, Backbone, Dropzone) {
             });
             picture.parentView = this;
             $(picture.render().el).appendTo(this.$el.find('#tabs-2'));
-            // Tutaj łączymy widok z elementem kolekcji.
+            // Here we join the view with the location element
             this.items[item.get('id')] = picture;
         },
         
         markSelected: function (view) {
-            // Metoda pozwalająca zaznaczyć (wybrać) obrazek z kolekcji. Jeżeli
-            // nie przekażemy żadnego widoku (z listy this.items), wszystkie
-            // aktywne elementy zostaną odznaczone.
+            // A method that allows to select (choose) an image from the
+            // collection. If we do not pass any view (from this.items list),
+            // all active elements will be deselected. 
             var view = view || false;
             
             this.seleted = null;
             
-            // Odznaczamy nieaktywne elementy.
+            // We deselect inactive elements
             _.each(this.items, function (item) {
                 if (item.isActive) {
                     item.deactivate();
                 }
             }, this);
             
-            // Jeżeli użytkownik kliknął na obrazek w galerii, wybieramy go.
+            // If the user clicked on an image in the gallery, we select it.
             if (view) {
                 this.selected = view;
                 view.activate();
@@ -202,7 +204,7 @@ function ($, _, Backbone, Dropzone) {
         },
         
         submit: function () {
-            // Użytkownik wybrał obrazek i submitował formularz.
+            // The user has chosen an image and has submitted the form.
             if (typeof(this.options.onSubmit) === 'function') {
                 var picture = {url: '', name: ''};
                 if (!_.isNull(this.selected)) {
@@ -213,13 +215,13 @@ function ($, _, Backbone, Dropzone) {
         },
         
         open: function () {
-            // Pokazuje okno uploadera.
+            // Show the uploaded window.
             this.$el.modal('show');
         },
         
         close: function () {
-            // Zamykamy okno i resetujemy stan. Z niewiadomych powodów metoda
-            // markSelected nie działa tutaj zgodnie z oczekiwaniami.
+            // We close the window and reset the state. From unknown reasons
+            // the markSelected method does not work here as expected
             this.$el.modal('hide');
             this.markSelected();
         }

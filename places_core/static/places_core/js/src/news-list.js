@@ -2,7 +2,7 @@
 // news-list.js
 // ============
 
-// Lista wszystkich wpisów w sekcji "News" dla pojedynczej lokalizacji.
+// A list of all entries in "News" section for a single location
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

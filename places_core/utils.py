@@ -7,8 +7,8 @@ DIR = os.path.join(settings.BASE_DIR, 'dump')
 
 
 def serialize_item(model):
-    """ Zamienia wartości pól modelu na zserializowane wartości. Przyjmuje
-    konkretną instancję modelu jako argument i zwraca słownik. """
+    """ Changes the values of model fields on a serialized value. It takes
+    a concrete instance of the model as an argument and returns a dictionary. """
     model_dict = {}
     for key, val in model.__dict__.iteritems():
         if key.startswith('_'):
@@ -24,8 +24,7 @@ def serialize_item(model):
 
 def serialize_models(model_class):
     """
-    Serializuje wszystkie obiekty z danego modelu i zwraca dane w formacie
-    json.
+    Serializes all objects from a given model and returns the data in json format.
     """
     model_data = []
     for item in model_class.objects.all():
@@ -34,9 +33,9 @@ def serialize_models(model_class):
 
 
 def export_items(model_class):
-    """ Eksportuje wszystkie obiekty powiązane z danym modelem (klasę obiektów
-    należy przekazać jako parametr do funkcji) do uniwersalnej postaci JSON
-    i zapisuje wyniki do pliku w odpowiednim folderze. """
+    """ Exports all objects connected with a given model (class objects need
+    to be passed as a function parameter) to a universal JSON format and
+    saves the results in a file in a proper folder. """
     dirname = os.path.join(DIR, model_class.__module__.split('.')[0].lower())
     if not os.path.isdir(dirname):
         os.mkdir(dirname)
@@ -47,8 +46,10 @@ def export_items(model_class):
 
 
 def load_ideas():
-    """ Przykład zastosowania powyższych funkcji w przypadku idei. Ta funkcja
-    jest napisana "na raz", w związku z czym bez poprawek nie zadziała. """
+    """ An example of a how the above function can be used in an idea. This
+    function is written 'as once', therefore it will not work without
+    corrections.
+    """
     from django.contrib.auth.models import User
     from locations.models import Location
     from ideas.models import Idea

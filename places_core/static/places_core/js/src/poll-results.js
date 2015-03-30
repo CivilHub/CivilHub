@@ -2,7 +2,7 @@
 // poll-results.js
 // ===============
 // 
-// Przeglądanie wyników jednej ankiety.
+// Single poll results review.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
