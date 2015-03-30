@@ -423,6 +423,9 @@ svg a {
     position: absolute;
     text-align: center;
     top: 100px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    padding: 10px 0;
 }
 
 /* List */
@@ -655,6 +658,8 @@ svg a {
 
 .mapplicWparContent{
     height: 100% !important;
+    margin: 20px auto 0 !important;
+    padding: 0 !important;
 }
 
 .mapplicDiv{
@@ -663,10 +668,11 @@ svg a {
     width: 100%;
 }
 
- path#pl{
+path#pl{
     fill: #3399F3;
     fill-opacity: 1;
 }
+
 path#pl:hover{
     fill-opacity: 0.5;
 }

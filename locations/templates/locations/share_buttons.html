@@ -68,6 +68,7 @@
     </div>
 
     {% if LANG == 'pl' %}
+    <!-- Wykop -->
         <script language="javascript">
         // wykopywarka wersja standardowa (59x60)
         var wykop_url=location.href;// Link do strony
@@ -78,6 +79,7 @@
         var widget_url='http://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent(wykop_url)+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type);
         document.write('<div class="share-button"><iframe src="'+widget_url+'" style="border:none;width:56px;height:60px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>');</script>
     {% else %}
+    <!-- Reddit -->
         <div class="share-button">
             <script type="text/javascript">
               reddit_newwindow='1';
