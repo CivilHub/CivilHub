@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
     OPTIONS
         -m <name_of_the_model> A chosen js model subject to minification (e.g. -m idea-create)
-        --only-css        Minifies only style CSS 
+        --css-only        Minifies only style CSS 
     """
     option_list = BaseCommand.option_list + (
         make_option('-m', dest='module', help=u"Kompresuj wybrany moduł"),

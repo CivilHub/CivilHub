@@ -5,7 +5,7 @@
 <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
 <div class="commentformarea row">    
   <p id="comment-order-controls">{% trans "Order by" %}:
-    <a class="change-order-link" href="#" data-order="-votes">{% trans "Most voted" %}</a> | 
+    <a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a> |
     <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
     <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
   </p>
