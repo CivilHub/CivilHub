@@ -3,9 +3,7 @@
 // ===============
 //
 
-// Dodajemy te skrypty do formularzy w których jest mapa.
-// Warunek działania skryptu jest taki, że formularz musi
-// mieć ID 'content-create-form'.
+// Add this scripts to forms with map inside. Form must have id 'content-form'.
 
 require(['jquery',
          'js/modules/utils/utils',
@@ -13,77 +11,76 @@ require(['jquery',
 
 function ($, utils) {
 
-  "use strict";
+"use strict";
 
-  $(document).ready(function () {
+$(document).ready(function () {
 
-    // UWAGA: zakładam, że w formularzu jest JEDNA mapa!
-    var map = null;
+  // WARNING: I suppose that there is only one map!
+  var map = null;
 
-    // Edytując istniejący obiekt, wysyłamy markery osobno
-    //
-    // @param { Number } ID typu zawartości
-    // @param { Number } ID obiektu
+  // Edit existing object - send markers via Ajax
+  //
+  // @param { Number } Content Type ID
+  // @param { Number } Object ID
 
-    function submitMarkers (ct, pk) {
-      var url = '/api-maps/mapinput/';
-      var data = {
-          csrfmiddlewaretoken: utils.getCookie('csrftoken'),
-          content_type: civapp.ct,
-          object_pk: civapp.pk,
-          markers: JSON.stringify(_.map(map.markers, function (m) {
-            return {lat: m.getLatLng().lat, lng: m.getLatLng().lng};
-          }))
-        };
+  function submitMarkers (ct, pk) {
+    var url = '/api-maps/mapinput/';
+    var data = {
+        csrfmiddlewaretoken: utils.getCookie('csrftoken'),
+        content_type: civapp.ct,
+        object_pk: civapp.pk,
+        markers: JSON.stringify(_.map(map.markers, function (m) {
+          return {lat: m.getLatLng().lat, lng: m.getLatLng().lng};
+        }))
+      };
 
-      $.post(url, data, function (response) {
-        console.log(response);
-      });
-    }
+    $.post(url, data, function (response) {
+      console.log(response);
+    });
+  }
 
-    if (window.civapp !== undefined) {
+  if (window.civapp !== undefined) {
 
-      // Edytujemy istniejący obiekt
+    // Edit existing object
 
-      var url = ('/api-maps/objects/?ct={ct}&pk={pk}')
-        .replace(/{ct}/g, civapp.ct)
-        .replace(/{pk}/g, civapp.pk);
+    var url = ('/api-maps/objects/?ct={ct}&pk={pk}')
+      .replace(/{ct}/g, civapp.ct)
+      .replace(/{pk}/g, civapp.pk);
 
-      $.get(url, function (markers) {
-        map = $('.mapinput').mapinput({
-          single: false,
-          width: 550,
-          height: 300,
-          markers: markers || [],
-          iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
-          tileUrl: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
-        }).data('mapinput');
-        $('#content-create-form').on('submit', function (e) {
-          submitMarkers(civapp.ct, civapp.pk);
-        });
-      });
-
-    } else {
-
-      // Dodajemy nowy obiekt - w tym przypadku przesyłamy dodatkowe
-      // pole w formularzu, a w nim (JSON-ENCODED(!!!)) markery.
-
-      var $i = $('<input type="hidden" name="markers" />');
-
-      $('#content-create-form').append($i);
-
+    $.get(url, function (markers) {
       map = $('.mapinput').mapinput({
         single: false,
         width: 550,
         height: 300,
+        markers: markers || [],
         iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
-        onchange: function (e, markers) {
-          $i.val(JSON.stringify(_.map(markers, function (m) {
-            return {'lat': m.getLatLng().lat, 'lng': m.getLatLng().lng};
-          })));
-        }
+        tileUrl: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
       }).data('mapinput');
-    }
-  });
+      $('#content-create-form').on('submit', function (e) {
+        submitMarkers(civapp.ct, civapp.pk);
+      });
+    });
+
+  } else {
+
+    // Create new object
+
+    var $i = $('<input type="hidden" name="markers" />');
+
+    $('#content-create-form').append($i);
+
+    map = $('.mapinput').mapinput({
+      single: false,
+      width: 550,
+      height: 300,
+      iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
+      onchange: function (e, markers) {
+        $i.val(JSON.stringify(_.map(markers, function (m) {
+          return {'lat': m.getLatLng().lat, 'lng': m.getLatLng().lng};
+        })));
+      }
+    }).data('mapinput');
+  }
+});
 
 });

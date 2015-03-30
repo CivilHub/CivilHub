@@ -3,31 +3,32 @@ from places_core.permissions import is_moderator
 
 def check_access(obj, user):
     """
-    Funkcja sprawdza, czy dany użytkownik ma możliwość usuwania lub modyfikacji
-    obiektu przekazanego jako argument. Obiektem musi być instancja modelu 
-    z tej aplikacji, tzn projekt, grupa zadań lub zadanie. Zwraca True/False.
+    This function checkes whether the user is allowed to delete or modify the
+    object passed in as an argument. Such an object must be a model instance
+    of this application. i.e. project, group of tasks or a task. Returns
+    True/False.
     """
     if user.is_anonymous():
         return False
-    # "Twórca" zawsze może usunąć swoje "dzieło"
+    # The "creator" can always delete his/her "work"
     access = user == obj.creator
-    # Superadmin może wszystko
+    # The Superadmin is omnipotent
     if not access and user.is_superuser:
         access = True
-    # Sprawdzamy prawa moderatora
+    # We check the mods rights
     if not access:
         location = None
         if hasattr(obj, 'location'):
-            # Projekt
+            # Project
             location = obj.location
         elif hasattr(obj, 'project'):
-            # Grupa zadań lub temat na forum
+            # A Group of taks or a topic in the forum
             location = obj.project.location
         elif hasattr(obj, 'group'):
-            # Zadanie
+            # Task
             location = obj.group.project.location
         else:
-            # Wpis na forum
+            # Entry in the forum
             location = obj.discussion.project.location
         if is_moderator(user, location):
             access = True

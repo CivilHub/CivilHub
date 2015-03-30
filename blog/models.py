@@ -98,7 +98,7 @@ class News(ImagableItemMixin):
         })
 
     def get_comment_count(self):
-        """ Zwraca liczbę komentarzy dla pojedynczego wpisu. """
+        """ Returns the number of comments for a single entry. """
         content_type = ContentType.objects.get_for_model(self)
         return CustomComment.objects.filter(object_pk=self.pk)\
                                     .filter(content_type=content_type)\

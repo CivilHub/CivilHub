@@ -2,7 +2,7 @@
 // cookie-warning.js
 // =================
 
-// Wyświetlenie ostrzeżenia o cookie.
+// Displays a cooky warning.
 
 require(['jquery', 'js/modules/utils/utils'],
 

@@ -2,7 +2,7 @@
 // news-create.js
 // ==============
 // 
-// Tworzenie/edycja wpisów w sekcji News lokalizacji.
+// Entries creation/edition in News location section.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

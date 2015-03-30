@@ -61,7 +61,7 @@
             </ul>
             
             <ul class="nav navbar-nav navbar-right navbarHeader">
-                {% if user.is_authenticated %}<li><a href="#" class="cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus"></span></a></li>
+                {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus"></span></a></li>
                 <div class="cd-bouncy-nav-modal">
                     <div class="cd-bouncy-select-location"><h2>{% trans "Actually creating in" %}:</h2>
                         <select{% if location %} data-location="{{ location.slug }}"{% endif %} class="form-control input-sm">
@@ -78,7 +78,7 @@
                         </ul>
                     </nav>
                     <a href="#0" class="cd-close">Close modal</a>
-                </div>
+                </div>{% endif %}
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
                     <ul class="dropdown-menu">

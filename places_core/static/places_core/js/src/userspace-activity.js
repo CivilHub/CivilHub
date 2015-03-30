@@ -2,7 +2,7 @@
 // userspace-activity.js
 // =====================
 // 
-// Podsumowanie aktywności związanej z obiektami śledzonymi przez użytkownika.
+// A summary of activities connected with objects followed by the user.
 // E.g. dashboard.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -51,4 +51,5 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     $(window).on('scroll', checkSrcrollPosition);
       
   });
+
 });

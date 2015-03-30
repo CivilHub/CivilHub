@@ -2,7 +2,7 @@
 // idea-detail.js
 // ==============
 // 
-// Szczegółowy widok pojedynczej idei.
+// A detailed view of a single idea.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

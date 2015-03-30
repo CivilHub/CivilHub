@@ -2,7 +2,7 @@
 // location-list.js
 // ================
 // 
-// Przeglądarka lokalizacji w formie mapy wektorowej.
+// Location browser in a form of a vector map.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
@@ -16,7 +16,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     // openPlaceholderWindow
     // ---------------------
-    // Helper function: otwiera główne okno przechowujące listy
+    // Helper function: opens the main window that stores lists
     // ---------------------------------------------------------------------
     var openPlaceholderWindow = function () {
       $('#list-placeholder')
@@ -30,7 +30,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     // openPlaceholderWindow
     // ---------------------
-    // Helper function: zamyka główne okno przechowujące listy
+    // Helper function: closes the main window that contains the lists
     // ---------------------------------------------------------------------
     var closePlaceholderWindow = function () {
       $('#list-placeholder').fadeOut('slow', function () {
@@ -41,24 +41,25 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     // openList
     // --------
-    // Właściwa funkcja, która otwiera pierwszy "poziom" listy albo wyświetla
-    // alert jeżeli w bazie nie ma kraju o podanym kodzie.
+    // The proper function that opens the first "level" of the list or displays
+    // an alert if in the database there is no country with that code
     //
-    // @param event { jQuery.event || vectorMap.event} przechwycony klik
-    // @param code  { string } Dwuliterowy kod kraju (case insensitive)
+    // @param event { jQuery.event || vectorMap.event} a caught click
+    // @param code  { string } A two-lettered code country (case insensitive)
     // ---------------------------------------------------------------------
     var openList = function (event, code) {
-      // Jeżeli jest już aktywna lista dla jakiegoś kraju, nie otwieraj
-      // nowego okna.
+      // If there is a list that is already active for a country, do not
+      // open a new window
       if (window.activeSublist !== undefined && window.activeSublist) {
         return false;
       }
-      // Sprawdzamy, czy kraj jest już w bazie. Jeżeli tak, otwieramy listę.
+      // We check whether the country is already in the database. If yes
+      // we open a list.
       $.get('/api-locations/countries/?code=' + code, function (resp) {
         if (resp.length) {
-          // Bezwzględnie koniecznie jako pierwszy argument podajemy
-          // pustą tabelę - Backbone zawsze traktuje pierwszy argument
-          // jako kolekcję, co tutaj prowadzi do błędów.
+          // We MUST pass an empty table as the first argument - Backbone
+          // always treats the first argument as a collection, which here,
+          // leads to errors
           var locationList = new ColView([], resp[0].location, 1);
           window.activeSublist = locationList;
           locationList.on('destroyed', function () {
@@ -66,7 +67,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           });
           openPlaceholderWindow();
         } else {
-          // TODO: coś tu trzeba pokazać.
+          // TODO: something needs to be shown here.
           //alert("There is no such place");
           var dialog = $('#no-place-dialog');
           dialog.fadeIn();
@@ -131,7 +132,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     // Mapa
     // ----
-    // Wyświetla mapę wektorową i uruchamia po kliknięciu odpowiednią listę.
+    // Displays a vector map and launches a certain list after a click
     // ---------------------------------------------------------------------
     $('#vector-map').vectorMap({
         
@@ -162,13 +163,13 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       
     // Custom Events
     // -------------
-    // Uruchamianie listy lokalizacji po kliknięciu na nazwę państwa.
+    // Opens a location list after the name of the country is clicked
     // ---------------------------------------------------------------------
     $('.country-entry').on('click', function (e) {
       e.preventDefault();
       var countryCode = $(this).attr('data-code');
       openList(e, countryCode);
-      // Sprawdzamy, czy kraj jest już w bazie. Jeżeli tak, otwieramy listę.
+      // We check whether the country is already in the database. If yes, we open a list
       showPopup(countryCode);
     });
 

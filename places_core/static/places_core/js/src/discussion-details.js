@@ -13,8 +13,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/ui/bookmark-form',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
-           'js/modules/topics/reply-form',
-           'js/modules/topics/category-creator'],
+           'js/modules/topics/reply-form'],
 
   function ($, ui, Minimap) {
       

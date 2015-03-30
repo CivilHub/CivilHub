@@ -2,7 +2,7 @@
 // civmail-invite.js
 // =================
 // 
-// Skrypty dla strony "Zaproś znajomych"
+// A scirpt for "Zaproś znajomych" [eng. invite a friend] site
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

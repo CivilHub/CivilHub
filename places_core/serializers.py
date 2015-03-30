@@ -6,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class SearchResultsSerializer(serializers.Serializer):
-    """ Serializer dla rezultatów wyszukiwania. """
+    """ A serializer for search results. """
     name = serializers.SerializerMethodField('get_verbose_name')
     content_type = serializers.SerializerMethodField('get_content_type')
     object_pk = serializers.Field(source='pk')
@@ -21,16 +21,16 @@ class SearchResultsSerializer(serializers.Serializer):
 
 
 class PaginatedSearchSerializer(PaginationSerializer):
-    """ Paginacja wyników wyszukiwania. """
+    """ Search results pagination. """
     class Meta:
         object_serializer_class = SearchResultsSerializer
 
 
 class ContentTypeSerializer(serializers.ModelSerializer):
     """
-    Serializer umożliwiający pobieranie id typu zawartości na podstawie nazwy
-    aplikacji/modelu i vice-versa. Przydatne kiedy chcemy ustalić typ zawartości
-    dla modeli relacyjnych (komentarze, zakładki itp.).
+    A serializer that allows to download id types of content based on
+    the application/model name and vice-versa. Useful when we want to establish
+    the type of content for relation models (comments, bookmarks etc.).
     """
     class Meta:
         model = ContentType

@@ -130,7 +130,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CurrentUserViewSet(viewsets.ModelViewSet):
     """
-    Przekazanie informacji o aktywnym użytkowniku do zewnętrznej aplikacji.
+    Sends information about an active user to an external application.
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -157,9 +157,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class SimpleNewsViewSet(viewsets.ViewSet):
     """
-    Widok dla aplikacji mobilnej. Podstawowy serializer dla bloga. Get można
-    brać spokojnie z następnego viewsa, tutaj ułatwiamy POST. Nie mam czasu
-    dopisywać funkcji zwrotnych.
+    A view for a mobile application. A basic serializer for a blog. Get can
+    be used from the next view, here we set POST. There is no time to write
+    return functions.
     """
     serializer_class = NewsSimpleSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
@@ -719,7 +719,7 @@ class MediaViewSet(viewsets.ModelViewSet):
 
 class LocationBasicViewSet(viewsets.ModelViewSet):
     """
-    Viewset dla lokalizacji - listuje podstawowe informacje.
+    Viewset for a location - lists basic information.
     """
     queryset = Location.objects.all()
     serializer_class = LocationBasicSerializer

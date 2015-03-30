@@ -166,7 +166,7 @@ class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
 
 class SearchDiscussionForm(SearchForm):
     """
-    Formularz wyszukiwania dyskusji w bieżącej lokalizacji.
+    A form for searching for discussion in the current location.
     """
     q = forms.CharField(
         label = "",
@@ -190,7 +190,7 @@ class SearchDiscussionForm(SearchForm):
 
 class InviteUsersForm(forms.Form):
     """
-    Formularz do wysyłania zaproszeń innym użytkownikom.
+    A form for sending invites to other users.
     """
     location = forms.ModelChoiceField(
         queryset = Location.objects.all(),

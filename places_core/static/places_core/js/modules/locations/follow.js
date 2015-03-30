@@ -2,7 +2,7 @@
 // follow.js
 // =========
 //
-// Obsługa przycisków 'follow location' i 'stop following'.
+// Service of 'follow location' and 'stop following buttons'
 
 require(['jquery',
          'js/modules/ui/ui'],

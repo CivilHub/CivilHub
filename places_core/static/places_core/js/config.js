@@ -2,10 +2,10 @@
 // config.js
 // =========
 //
-// Konfiguracja dla plików wejściowych dla skryptów, znajdujących się w katalogu
-// js/src. Osobna konfiguracja dla buildów znajduje się w pliku config.json.
-// Niestety, 'path' i 'shim' muszą się powtarzać, więc jak dodajemy coś do jednego
-// pliku, trzeba wprowadzić zmianę w drugim.
+// Configuration for entry files for the files that are in the js/src catalog.
+// A separate configuration for builds is located in config.json.
+// Unfortunately, 'path' and 'shim' have to be repeated therefore if we add
+// something in one file, we have to also include it in the other.
 
 require.config({
     
@@ -145,9 +145,9 @@ require.config({
     }
 });
 
-// Tutaj można umieścić skrypty i konfiguracje, które mają się uruchomić
-// przed załadowaniem wszystkich innych skryptów na stronie. W przykładzie
-// poniżej ustawiamy globalnie język dla moment.js.
+// Here you can place scripts and configurations that that will load
+// before all other scripts on the site. In the example below, we set
+// global languages for moment.js.
 
 require(['moment'], function (moment) {
     moment.locale(CivilApp.language);

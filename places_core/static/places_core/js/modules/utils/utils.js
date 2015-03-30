@@ -74,9 +74,9 @@ utils.setCookie = function (name, value, days) {
   document.cookie = name+"="+value+expires+"; path=/";
 };
 
-// Funkcja konwertuje zapytanie GET na JSON. (Deprecated)
+// This function converts GET query into JSON. (Deprecated)
 //
-// @param { String } Adres url z parametrami
+// @param { String } url address with parameters
 // @returns { plain Object }
 
 utils.urlToJSON = function (url) {
@@ -84,7 +84,7 @@ utils.urlToJSON = function (url) {
 		jsonData = {},
 		i, itm;
 	url = url.split('?')[1] || false;
-	if (!url) return {}; // Brak danych GET.
+	if (!url) return {}; // Lack of GET data.
 	url = url.split('&');
 	for (i = 0; i < url.length; i++) {
 		itm = url[i].split('=');
@@ -93,10 +93,10 @@ utils.urlToJSON = function (url) {
 	return jsonData;
 };
 
-// Funkcja serializuje proste obiekty do URL. (Deprecated)
+// This function serializes simple object into URL. (Deprecated)
 //
-// @param {JSON Obj} json Obiekt do konwersji
-// @returns { String } Parametry do adresu URL
+// @param {JSON Obj} json object to conversion
+// @returns { String } URL address parameters
 
 utils.JSONtoUrl = function (json) {
 	var pairs = _.pairs(json),
@@ -108,7 +108,7 @@ utils.JSONtoUrl = function (json) {
 	return urlitems.join('&');
 };
 
-// Funkcja pobierająca dodatkowe dane z formularza 'search'. (Deprecated)
+// This function gather additional data from the 'search' from. (Deprecated)
 
 utils.getSearchText = function () {
 	var $field = $('#haystack'),
@@ -119,10 +119,10 @@ utils.getSearchText = function () {
 	return txt;
 };
 
-// Wczytanie wybranych opcji. (Deprecated)
+// Loads selected options (Deprecated)
 //
-// Sprawdzenie aktywnych elementów (klikniętych linków)
-// w celu "pozbierania" opcji wyszukiwarki.
+// Checks selected elements (clicked links)
+// In order to "gather" browser options.
 
 utils.getListOptions = function () {
 	var $sel = $('.list-controller'),
@@ -144,7 +144,7 @@ utils.getListOptions = function () {
 	return opts;
 };
 
-// Metoda sprawdza, czy użytkownik korzsta z urządzenia mobilnego.
+// The methods check whether the user is using a mobile device.
 //
 // @returns { Boolean }
 
@@ -152,7 +152,7 @@ utils.isMobile = function () {
 	return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 };
 
-// Metoda sprawdza, czy użytkownik korzsta z ekranu Retina.
+// This method check whether the user has Retina display.
 //
 // @returns { Boolean }
 

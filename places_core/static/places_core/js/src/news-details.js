@@ -2,7 +2,7 @@
 // news-details.js
 // ===============
 
-// Szczegółowy widok artykułu w sekcji News lokalizacji.
+// A detailed article view in News location section
 
 require([window.STATIC_URL + "/js/config.js"], function () {
 	require(['jquery',

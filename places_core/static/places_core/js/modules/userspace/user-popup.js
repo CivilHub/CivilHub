@@ -1,9 +1,10 @@
 // user-popup.js
 // =============
 
-// Żeby wywołać okienko z informacjami, wystarczy do dowolnego linku 
-// związanego z użytkownikiem dodać parametr data-target równy 'pk' danego
-// użytkownika oraz klasę 'user-window-toggle'.
+// In order to evoke the window with information it is only necessary
+// to add a data-target parameter to any link connected with the user
+// that will be equal to 'pk' of the particular user and the class
+// 'user-window-toggle'.
 	
 require(['jquery', 'underscore', 'backbone'],
 

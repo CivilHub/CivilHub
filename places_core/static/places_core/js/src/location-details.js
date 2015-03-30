@@ -2,7 +2,7 @@
 // location-details.js
 // ===================
 
-// Strona podsumowania i aktywności w lokalizacji.
+// Summary and activities page in a location
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

@@ -12,9 +12,8 @@ PAGE_DIR = os.path.join(settings.BASE_DIR, 'staticpages/templates/staticpages/pa
 
 class HomeView(TemplateView):
     """
-    Widok głównej strony. W zależności od tego, czy użytkownik jest już zalogo-
-    wanym użytkownikiem, czy nie, prezentuje formularz rejestracji lub stronę
-    aktywności użytkownika.
+    Main site view. Depending on whether the user is already a logged-in user
+    or not, it presents a registration forum or a subpage of user activities. 
     """
     template_name = 'staticpages/pages/home.html'
 
@@ -26,13 +25,13 @@ class HomeView(TemplateView):
 
 class PageView(View):
     """
-    Podstawowy widok ładujący pojedynczą stronę.
+    A basic view that loads a single page.
     """
     page = None
 
     def get_all_pages(self):
         """
-        Przeszukuje folder w poszukiwaniu stron statycznych.
+        Searches through a folder in order to find static pages.
         """
         pages = []
         for page in os.listdir(PAGE_DIR):

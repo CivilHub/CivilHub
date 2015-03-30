@@ -2,8 +2,8 @@
 // contents.js
 // ===========
 
-// Lista różnych typów zawartości prezentowana
-// w ramach jednej lokalizacji.
+// A list of various content types displayed within
+// one location
 
 require(['jquery',
          'js/modules/locations/contents/content-collection'],

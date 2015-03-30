@@ -18,7 +18,7 @@ DEFAULT_PATH = settings.DEFAULT_IMG_PATH
 
 def get_image_upload_path(instance, filename):
     """
-    Zwraca ścieżkę dla plików obrazów różnych modeli, dodając nazwę modelu.
+    Return a path of files, images of different models and adds the model name.
     """
     model_name = instance.__class__.__name__
     return 'img/{}s/{}.jpg'.format(model_name.lower(), uuid4().hex)
@@ -26,9 +26,10 @@ def get_image_upload_path(instance, filename):
 
 def delete_image_files(base_name, model_name):
     """
-    Do tej funkcji przekazujemy nazwę obrazu modelu (bez rozszerzenia i ścieżki)
-    oraz nazwę samej klasy modelu w lowercase (np. 'news' lub 'idea'). Funkcja
-    usuwa wszystkie obrazy zawierające wspólną nazwę.
+    To this function we pass the model image's name (without the extension
+    and without the path) and the name of the model class itself in lowercase
+    (e.g. 'news' or 'idea'). This function deletes all images that contain a
+    common name.
     """
     dirname = os.path.join(settings.BASE_DIR, 'media/img', model_name + 's')
     for fname in os.listdir(dirname):
@@ -41,8 +42,8 @@ def delete_image_files(base_name, model_name):
 
 def remove_image(sender, instance, **kwargs):
     """
-    Sygnał wysyłany kiedy usuwamy modele z obrazkami. Django nie usuwa
-    ich automatycznie. Należy go zastosować do post_delete.
+    A signal that is sent when we delete models with images. Django
+    does not delete them automatically. It should be used in post_delete.
     """
     if instance.image.name != DEFAULT_PATH:
         delete_image_files(instance.image.name.split('/')[-1].split('.')[0],
@@ -50,7 +51,7 @@ def remove_image(sender, instance, **kwargs):
 
 
 class ImagableItemMixin(models.Model):
-    """ Klasa dodająca do modelu pole przechowujące obraz. """
+    """ A class that adds a field to the model that stores the image."""
     image = models.ImageField(blank=True, verbose_name=_(u"image"),
         upload_to=get_image_upload_path, default=DEFAULT_PATH)
 
@@ -59,49 +60,49 @@ class ImagableItemMixin(models.Model):
 
     @property
     def image_height(self):
-        """ Zwraca wysokość w pikselach podstawowego obrazu. """
+        """ Returns the height in pixels of the base image."""
         return get_image_size(self.image.path)[1]
 
     @property
     def retina_image_height(self):
-        """ Jak powyżej, ale zwracamy wysokość obrazka pod retinę. """
+        """ Same as above but the height is return for retina. """
         return get_image_size(self.image.path)[1] * 2
 
     @property
     def image_url(self):
-        """ Ponieważ zmieniamy ścieżki, potrzebujemy url obrazka. """
+        """ Because we change paths, we need the url of the image. """
         return "{}_fx.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def retina_image_url(self):
-        """ Zwraca ścieżkę do pełnowymiarowego obrazka dla ekranów Retina. """
+        """ Returns the path to a full-scale image for Retina screen. """
         return "{}_fx@2x.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def thumbnail(self):
-        """ Miniatura do wyświetlenia w widokach list i podsumowaniach. """
+        """ A minature to be displayed in list view and summary."""
         return "{}_thumbnail.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def retina_thumbnail(self):
-        """ J/W, z tym, że dla ekranów Retina. """
+        """ Same as above but for Retina. """
         return "{}_thumbnail@2x.jpg".format(os.path.splitext(self.image.url)[0])
 
     @property
     def has_image_changed(self):
-        """ Metoda sprawdza, czy obrazek dla elementu się zmienił. """
+        """ This method checks whether the image for the element was changed."""
         return self.__initial != self.image
 
     @property
     def has_default_image(self):
-        """ Sprawdza, czy element ma domyślny obraz, czy zmieniony. """
+        """ Checks whether the element has a default image or whether it was changed. """
         return self.__initial.name == DEFAULT_PATH
 
     def save(self, *args, **kwargs):
-        # Upewniamy się, że jeżeli wyczyściliśmy pole, przywracamy default
+        # We make sure that if we clear the field, the default will be brought back
         if not self.image:
             self.image = DEFAULT_PATH
-        # Kiedy zmieniamy obrazek, usuwamy stary
+        # When we change the image, we delete the old one
         if self.__initial != self.image and self.__initial != DEFAULT_PATH:
             delete_image_files(
                 self.__initial.name.split('/')[-1].split('.')[0],

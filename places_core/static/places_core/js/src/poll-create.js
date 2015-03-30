@@ -2,7 +2,7 @@
 // poll-create.js
 // ==============
 // 
-// Interaktywny formularz do tworzenia ankiet.
+// An interactive form for poll creation.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

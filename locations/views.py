@@ -5,9 +5,11 @@ from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
+from django.core import cache
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -44,6 +46,16 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
+
+redis_cache = cache.get_cache('default')
+
+
+def update_parent_location_list(location):
+    """ Update cached sublocations for added or removed location parent. """
+    if location.parent is not None and settings.USE_CACHE:
+        for language in [x[0] for x in settings.LANGUAGES]:
+            key = "{}_{}_sub".format(location.parent.slug, language)
+            redis_cache.set(key, location.parent.location_set.all())
 
 
 class LocationAccessMixin(SingleObjectMixin):
@@ -173,8 +185,8 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
 
 class SublocationList(DetailView):
     """
-    Strona zawiera listę lokalizacji, dla których bieżąca lokalizacja
-    jest lokalizacją macierzystą.
+    The site contains a list of locations for which the current location
+    is the parent location.
     """
     model = Location
     template_name = 'locations/sublocation-list.html'
@@ -318,14 +330,13 @@ class LocationDetailView(LocationViewMixin):
 
 
 class LocationActionsView(LocationViewMixin):
-    """ Różne "wariacje na temat" czyli "podwidoki" dla lokalizacji. """
+    """ Various 'variations on the subject' i.e. 'subviews' for locations. """
     template_name = 'locations/location_summary.html'
 
 
 class LocationBackgroundView(FormView):
     """
-    Formularz statyczny umożliwiający upload i przycinanie zdjęć tła dla
-    lokalizacji.
+    A static form that allows to upload and crop background images for locations.
     """
     template_name = 'locations/background-form.html'
     form_class = BackgroundForm
@@ -381,6 +392,10 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        obj = form.save(commit=False)
+        obj.creator.profile.mod_areas.add(obj)
+        obj.creator.profile.save()
+        update_parent_location_list(obj)
         return super(CreateLocationView, self).form_valid(form)
 
 
@@ -406,16 +421,27 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         return super(UpdateLocationView, self).form_valid(form)
 
 
-class DeleteLocationView(LocationAccessMixin, DeleteView):
+class DeleteLocationView(LoginRequiredMixin, DeleteView):
     """ Delete location. """
     model = Location
     success_url = reverse_lazy('locations:index')
 
+    def post(self, request, slug=None):
+        if not request.user.is_superuser:
+            raise Http404
+        return super(DeleteLocationView, self).post(request, slug)
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        update_parent_location_list(self.object)
+        return redirect(self.get_success_url())
+
 
 class LocationContentSearch(View):
     """
-    Strona z wynikami sortowania treści dla jednego taga. Zbieramy treści tylko
-    z lokalizacji, którą aktualnie przegląda użytkownik.
+    A site with the results of sorting content for one tag. We gather content
+    only from the location that the user is currently viewing.
     """
     http_method_names = [u'get']
     template_name     = 'locations/tag-search.html'
@@ -444,9 +470,10 @@ class LocationContentSearch(View):
 
 class LocationContentFilter(View):
     """
-    Strona filtrowania treści w/g kategorii. Tego typu filtrowanie jest przy-
-    datne tylko dla poszczególnych rodzajów treści. Jak powyżej, zbieramy
-    treści tylko z aktualnie przeglądanej lokalizacji.
+    A content filter by category site.This type of filtering is
+    useful only for certain types of content. Same sa above, we 
+    only gather content from the location that the user is currently
+    viewing.
     """
     http_method_names = [u'get']
     template_name = 'locations/category-search.html'
@@ -473,8 +500,8 @@ class LocationContentFilter(View):
 
 class LocationContentDelete(View):
     """
-    Uniwersalny widok pozwalający administratorom oraz moderatorom usuwać treści
-    z "podlegajęcej" im lokalizacji.
+    A universal view that allows the admins and mods to delete the content from
+    "subject" locations. 
     """
     http_method_names = [u'get', u'post',]
     template_name = 'locations/content-remove.html'
@@ -502,9 +529,9 @@ class LocationContentDelete(View):
 
 class InviteUsersView(LoginRequiredMixin, View):
     """
-    Widok z myślą o formularzu zapraszania innych użytkowników do 'śledzenia'
-    lokalizacji. Definiuje metody, które zwracają formularz dla modala oraz
-    przesyłają maila do wybranych użytkowników.
+    A view with the from of invite a other users to 'follow' a location in mind.
+    It defines the methods that return the form for the modal and send an email
+    to the chosen users. 
     """
     http_method_names = [u'get', u'post']
     template_name = 'locations/invite-users.html'

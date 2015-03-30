@@ -2,8 +2,8 @@
 // enable-contacts.js
 // ==================
 
-// Skrypt sprawdza, czy użytkownik jest zalogowany przez Google
-// i odblokowuje możliwość zapraszania znajomych ze skrzynki Gmail.
+// The script checks whether the user has logged in through Google
+// and unlocks the abbility to invite freind from Gmail mailbox
 
 require(['jquery', 'js/modules/userspace/google-contacts'],
 
@@ -11,7 +11,7 @@ function ($, ContactListView) {
 
   "use strict";
 
-  // Zapytanie do serwera o kontakty użytkownika.
+  // A query to the server about user contacts
 
   function fetchContacts (success) {
     $.ajax({
@@ -24,11 +24,11 @@ function ($, ContactListView) {
     });
   }
     
-  // Konwersja XML do obiektu JS
+  // XML conversion to JS object
   
   function parseContacts (xml) {
       
-    xml = xml.replace(/gd:email/g, 'email'); // Błąd w Google Chrome
+    xml = xml.replace(/gd:email/g, 'email'); // Error in Google Chrome
     
     var oParser = new DOMParser(),
         oDOM = oParser.parseFromString(xml, "text/xml"),
@@ -49,7 +49,7 @@ function ($, ContactListView) {
     return contacts;
   }
 
-  // Przypinamy wydarzenia i odpalamy skrypty
+  // We pin in the events and launch the scripts
   
   $(document).ready(function () {
       

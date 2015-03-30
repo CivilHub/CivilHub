@@ -2,7 +2,7 @@
 // idea-form.js
 // ============
 //
-// Formularz dodawania nowego pomysłu - skrypt inicjalizacyjny.
+// A form for adding a new idea - initialization script.
 // -----------------------------------------------------------------------------
 
 require(['jquery',

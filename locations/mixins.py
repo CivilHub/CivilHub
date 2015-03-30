@@ -12,7 +12,7 @@ from .models import Location
 
 
 class LocationContentMixin(viewsets.ModelViewSet):
-    """ Umożliwiamy filtrowanie zawartości pod kątem lokalizacji. """
+    """ We allow for filtering of content with locations in mind"""
     def get_queryset(self):
         qs = super(LocationContentMixin, self).get_queryset()
         try:
@@ -26,7 +26,7 @@ class LocationContentMixin(viewsets.ModelViewSet):
 
 
 class DateFilteredContentMixin(viewsets.ModelViewSet):
-    """ Filtrowanie na podstawie zdefiniowanych przedziałów czasowych. """
+    """ Filtering based on defined time intervals."""
     def get_queryset(self):
         qs = super(DateFilteredContentMixin, self).get_queryset()
         time = get_time_difference(self.request.QUERY_PARAMS.get('time'))
@@ -36,7 +36,7 @@ class DateFilteredContentMixin(viewsets.ModelViewSet):
 
 
 class CategoryFilteredContentMixin(viewsets.ModelViewSet):
-    """ Filtrowanie poprzez kategorię. """
+    """ Filtering through category"""
     def get_queryset(self):
         qs = super(CategoryFilteredContentMixin, self).get_queryset()
         try:
@@ -50,14 +50,14 @@ class ContentMixin(LocationContentMixin,
                    DateFilteredContentMixin,
                    CategoryFilteredContentMixin):
     """
-    Kombinowany mixin dla wszystkich widoków REST API prezentujących
-    zawartość w ramach jednej lokalizacji.
+    A combinated mixin for all EST API views that present the content
+    within one location.
     """
     pass
 
 
 class LocationContextMixin(ContextMixin):
-    """ Uzupełniamy kontekst w widokach powiązanych z lokalizacją. """
+    """ We complete the context in the views connected with the location."""
     def get_context_data(self, object=None, form=None):
         context = super(LocationContextMixin, self).get_context_data()
         location_slug = self.kwargs.get('location_slug')
@@ -71,16 +71,16 @@ class LocationContextMixin(ContextMixin):
 
 
 class SearchableListMixin(ListView):
-    """ Mixin pozwalający na przeszukiwanie widoków list. """
+    """ A mixin that allows to look through a list views."""
     def get_queryset(self):
-        # Ograniczamy wyniki tylko do jednej lokalizacji
+        # We narrow the results to only one location
         location_slug = self.kwargs.get('location_slug')
         if location_slug is None:
             qs = self.model.objects.all()
         else:
             qs = self.model.objects.filter(location__slug=location_slug)
 
-        # Filtrujemy wyniki tylko w ramach jednej kategorii
+        # We filter results only within one category
         try:
             category_pk = int(self.request.GET.get('category'))
         except (ValueError, TypeError):
@@ -88,12 +88,12 @@ class SearchableListMixin(ListView):
         if category_pk is not None:
             qs = qs.filter(category__pk=category_pk)
 
-        # Ustawiamy maksymalny przedział czasowy do przeszukania...
+        # We set a maximum time period we want to search...
         time_limit = get_time_difference(self.request.GET.get('time', 'all'))
         if time_limit is not None:
             qs = qs.filter(date_created__gte=time_limit)
 
-        # ...i kolejność wyświetlania wyników.
+        # ...and the order of results displayed.
         order = self.request.GET.get('sortby', '-date_created')
         try:
             self.model._meta.get_field_by_name(order.replace('-', ''))

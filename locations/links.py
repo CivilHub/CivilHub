@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# Mapujemy linki dla sidebaru dla różnych widoków. Zakładam, że sidebary będą
-# się różnić w zależności od modułu, ale w każdym module będziemy mieli ten
-# sam zestaw linków dla poszczególnych pod-widoków (edycja, usuwanie itp.).
+# We map sidebar links for various views. I presume that sidebars will vary
+# depending on the module but in each module we will have the same set of links
+# for each sub-view (edition, deletion etc.).
 #
 LINKS_MAP = {
     'summary': (

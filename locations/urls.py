@@ -27,15 +27,15 @@ urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
     url(r'^places/', LocationListView.as_view(), name='index'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
-    # lista sub-lokalizacji
+    # sub-location list
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),
-    # wyszukiwanie treści w/g tagów
+    # content search by tags
     url(r'^(?P<slug>[\w-]+)/search/(?P<tag>[\w-]+)$', LocationContentSearch.as_view(), name='tag_search'),
     url(r'^(?P<slug>[\w-]+)/search/$', LocationContentSearch.as_view(), name='tag_search_index'),
-    # wyszukiwanie treści w/g kategorii
+    # content search by category
     url(r'^(?P<slug>[\w-]+)/filter/(?P<app>[\w-]+)/(?P<model>[\w-]+)/(?P<category>\d+)/$', LocationContentFilter.as_view(), name='category_search'),
 
-    # POMYSŁY
+    # IDEAS
     url(r'^(?P<slug>[\w-]+)/ideas/create/', LocationIdeaCreate.as_view(), name='new_idea'),
     url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/', idea_views.IdeasDetailView.as_view(), name='idea_detail'),
     url(r'^(?P<location_slug>[\w-]+)/ideas/', idea_views.IdeasListView.as_view(), name='ideas'),
@@ -46,12 +46,12 @@ urlpatterns = patterns('',
     url(r'^(?P<location_slug>[\w-]+)/news/(?P<slug>[\w-]+)', blog_views.NewsDetailView.as_view(), name='news_detail'),
     url(r'^(?P<location_slug>[\w-]+)/news/', blog_views.NewsListView.as_view(), name='news'),
 
-    # FORUM (dyskusje)
+    # FORUM (discussions)
     url(r'^(?P<slug>[\w-]+)/discussion/create/', LocationDiscussionCreate.as_view(), name='new_topic'),
     url(r'^(?P<place_slug>[\w-]+)/discussion/(?P<slug>[\w-]+)/', DiscussionDetailView.as_view(), name='topic'),
     url(r'^(?P<location_slug>[\w-]+)/discussion/', DiscussionListView.as_view(), name='discussions'),
 
-    # ANKIETY
+    # POLLS
     url(r'^(?P<slug>[\w-]+)/polls/create/', LocationPollCreate.as_view(), name='new_poll'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)/results/', PollResults.as_view(), name='results'),
     url(r'^(?P<place_slug>[\w-]+)/polls/(?P<slug>[\w-]+)', PollDetails.as_view(), name='poll'),
@@ -68,7 +68,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
     
-    # PROJEKTY w ramach lokalizacji
+    # PROJECTS in locations
     url(r'^(?P<location_slug>[\w-]+)/projects/create/', project_views.CreateProjectView.as_view(), name='project_create'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/details/', project_views.ProjectSummaryView.as_view(), name='project_summary'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/participants/', project_views.ProjectParticipantsView.as_view(), name='project_participants'),
@@ -90,7 +90,7 @@ urlpatterns = patterns('',
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
 
-    # Ajaxy functions
+    # Ajaxs functions
     url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
     url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
     url(r'background/(?P<pk>\d+)', LocationBackgroundView.as_view(), name='background'),

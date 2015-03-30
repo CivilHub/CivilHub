@@ -2,7 +2,7 @@
 // discussion-form.js
 // ==================
 //
-// Formularz do tworzenia/edycji dyskusji
+// A form for creation/edition of a discussion
 //
 //  => /templates/locations/location_forum_create.html
 //

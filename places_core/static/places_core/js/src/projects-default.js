@@ -2,7 +2,7 @@
 // projects-default.js
 // ===================
 
-// Skrypty obsługujące strony i formularze powiązane z projektami.
+// Scripts that handle sites and forms connected with the project.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

@@ -2,7 +2,7 @@
 // location-background.js
 // ======================
 
-// Ustawianie zdjęcia tła dla lokalizacji.
+// Setting the background image for a location.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

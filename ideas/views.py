@@ -26,7 +26,7 @@ from .forms import IdeaForm, CategoryForm
 
 class IdeasContextMixin(LocationContextMixin):
     """
-    Zapewnia dodatkowe zmienne w kontekście powiązane z lokalizacją obiektu/ów.
+    Provides additional variables in the context connected with the localization of object(s).
     """
     def get_context_data(self):
         context = super(IdeasContextMixin, self).get_context_data()
@@ -97,6 +97,11 @@ class IdeasListView(IdeasContextMixin, SearchableListMixin):
 
     def get_queryset(self):
         qs = super(IdeasListView, self).get_queryset()
+        status = self.request.GET.get('status', 'all')
+        if status == 'True':
+            qs = qs.filter(status=True)
+        elif status == 'False':
+            qs = qs.filter(status=False)
         return qs.filter(name__icontains=self.request.GET.get('haystack', ''))
 
 

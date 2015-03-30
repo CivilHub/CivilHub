@@ -5,7 +5,7 @@ from .models import SocialProject, TaskGroup, Task
 
 
 class ProjectActionSerializer(serializers.ModelSerializer):
-    """ Zwraca podstawowe informacje o obiekcie do wykorzystania w activities. """
+    """ Returns basic information about the object to be used in activities. """
     url = serializers.Field(source='get_absolute_url')
 
     class Meta:
@@ -14,7 +14,7 @@ class ProjectActionSerializer(serializers.ModelSerializer):
 
 
 class TaskGroupActionSerializer(serializers.ModelSerializer):
-    """ J/w, z tym, że ma zastosowanie do grup zadań. """
+    """ As above, but this time it referes to a group of tasks. """
     url = serializers.SerializerMethodField('get_object_url')
 
     class Meta:
@@ -26,7 +26,7 @@ class TaskGroupActionSerializer(serializers.ModelSerializer):
 
 
 class TaskActionSerializer(serializers.ModelSerializer):
-    """ Serializer dla akcji powiązanych z zadaniem. """
+    """ A serializer for actions connected with the task. """
     url = serializers.Field(source='get_absolute_url')
 
     class Meta:

@@ -1,8 +1,8 @@
 {% load staticfiles i18n %}
 {% comment %}
-    Widok dla sidebara, dołączany do templatki w ramach
-    widoku profilu użytkownika. Widok ten widzi tylko zalogowany
-    użytkownik na stronie własnego profilu.
+    Sidebar view, appended to the templated in the user
+    profile view. This view is only visible for the logged-in user
+    in his/her own profile page.
 {% endcomment %}
 
 {% if user.is_authenticated and request.user == cuser %}   

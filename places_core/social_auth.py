@@ -1,60 +1,61 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
+import os
+import json
+import urllib
+
+from PIL import Image
+
 from django.conf import settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
+from rest_framework.authtoken.models import Token
+
 from userspace.models import UserProfile
-from userspace.helpers import random_string, create_username
+from userspace.helpers import random_string, create_username, update_profile_picture
 
 
 def obtain_user_social_profile(response):
-    """
-    Funkcja zwraca url profilu dla odpowiedniego social-backendu.
-    """
-    if 'link' in response: return response['link']
-    if 'url' in response: return response['url']
+    """ Get user social profile url. """
+    if 'link' in response:
+        return response['link']
+    elif 'url' in response:
+        return response['url']
     return u''
 
 
 def obtain_user_gender(response):
-    """
-    Pobranie płci w odpowiednim formacie.
-    """
+    """ Get user's gender and convert to proper format. """
     if not 'gender' in response:
         return None
-    else:
-        if response['gender'] == 'female': return 'F'
-        elif response['gender'] == 'male': return 'M'
+    elif response['gender'] == 'female':
+        return 'F'
+    elif response['gender'] == 'male':
+        return 'M'
     return 'U'
 
 
 def set_user_profile_birth_date(date_string):
-    """
-    Funkcja formatująca datę z ciągu JSON-a do natywnej pythonowej postaci.
-    Zwraca `datetime` obiekt albo None jeżeli nie może przekonwertować daty,
-    bo jest w złym formacie albo co.
-    """
-    birth_date = None
+    """ Try to get user's birth date and convert to python date format. """
     try:
-        birth_date = date_string.split(' ')[0]
+        return date_string.split(' ')[0]
     except Exception:
-        pass
-    return birth_date
+        return None
 
 
 def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
     """
-    Funkcja sprawdza, czy użytkownik o adresie email pobranym od dostawcy
-    usługi uwierzytelniającej istnieje już w systemie. Jeżeli tak, konto
-    social auth zostanie przypisane do tego użytkownika.
+    We binding user accounts via email. If user with this email already exists,
+    the new association will be bind to this user automatically. THIS IS WRONG!
     """
-    system_user = None
     try:
         system_user = User.objects.get(email=details.get('email'))
     except User.DoesNotExist:
-        pass
+        system_user = None
+        strategy.session_set('new_user', True)
     if user is None and system_user != None:
         return {'social': social,
                 'user': system_user,
@@ -63,10 +64,7 @@ def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
 
 @partial
 def set_twitter_email(strategy, details, user=None, is_new=False, *args, **kwargs):
-    """
-    Ustawienie adresu email dla użytkowników, którzy tworzą konto przez
-    API Twittera.
-    """
+    """ Get email address from users authorized via Twitter account. """
     if kwargs['backend'].name == 'twitter' and is_new:
         email = strategy.session_pop('account_email')
         if email:
@@ -76,14 +74,9 @@ def set_twitter_email(strategy, details, user=None, is_new=False, *args, **kwarg
 
 
 def update_user_social_profile(strategy, details, response, user, *args, **kwargs):
-    """
-    Funkcja sprawdza, czy w odpowiedzi serwera zawarty jest adres profilu do
-    któregokolwiek konta. Jeżeli tak, a w profilu użytkownika nie ma jeszcze
-    tej informacji, zostanie ona zapisana.
-    """
+    """ Try to get additional social links for this user. """
     changed = False
     profile = UserProfile.objects.get(user=user)
-    
     if kwargs['backend'].name == 'facebook' and not profile.fb_url:
         profile.fb_url = obtain_user_social_profile(response)
         changed = True
@@ -114,28 +107,15 @@ def update_user_social_profile(strategy, details, response, user, *args, **kwarg
 
 def create_user_profile(strategy, details, response, user=None, *args, **kwargs):
     """
-    Tworzenie tokenu uwierzytalniającego dla aplikacji mobilnej. Tutaj uzupełniamy
-    także dodatkowe informacje do profilu użytkownika.
+    Create token for user to be used in REST application. It allows users to
+    login with mobile application.
     """
-    from rest_framework.authtoken.models import Token
-    from userspace.models import UserProfile
-    token = None
     if user:
-        try: token = user.auth_token
-        except Token.DoesNotExist:
-            token = Token.objects.create(user=user)
-            token.save()
-        try:
-            profile = UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:
-            profile = UserProfile(user=user)
-            if 'gender' in response:
-                profile.gender = obtain_user_gender(response)
-            profile.save()
+        token = Token.objects.get_or_create(user=user)
 
 
 def get_username(strategy, details, user=None, *args, **kwargs):
-    """ Ustawiamy nazwę użytkownika wg naszego schematu. """
+    """ Create username. Try to join first an last name if possible. """
     storage = strategy.storage
     if user:
         final_username = storage.user.get_username(user)
@@ -143,3 +123,34 @@ def get_username(strategy, details, user=None, *args, **kwargs):
         final_username = create_username(details.get('first_name'),
                                          details.get('last_name'))
     return {'username': final_username}
+
+
+def get_user_avatar(strategy, details, response, user, *args, **kwargs):
+    """ Try to get user profile avatar from social networks. """
+    image_url = None
+    is_default = True
+    TMP_FILE = os.path.join(settings.BASE_DIR, 'media/tmp/image')
+
+    # Get image info from social sites
+    if kwargs['backend'].name == 'twitter':
+        image_url = response.get('profile_image_url_https').replace('_normal', '')
+        is_default = response.get('default_profile_image')
+
+    elif kwargs['backend'].name == 'facebook':
+        base_url = 'https://graph.facebook.com/{}/picture?{}'
+        data = json.loads(urllib.urlopen(base_url.format(response.get('id'),
+                                                    'redirect=false')).read())
+        if not data.get('is_silhouette'):
+            image_url = base_url.format(response.get('id'), 'type=large')
+            is_default = False
+
+    elif kwargs['backend'].name == 'google-plus':
+        is_default = response.get('image')['isDefault']
+        if not is_default:
+            image_url = response.get('image')['url'].replace('sz=50', 'sz=200')
+
+    # Download image and replace profile avatar
+    if image_url is not None and not is_default and user.profile.has_default_avatar:
+        urllib.urlretrieve(image_url, TMP_FILE)
+        image = Image.open(TMP_FILE)
+        update_profile_picture(user.profile, image)

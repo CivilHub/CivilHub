@@ -2,7 +2,7 @@
 // discussion-create.js
 // ====================
 // 
-// Formularz do tworzenia/edycji tematów na forum.
+// A form for creation/edition of topics on the forum.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',

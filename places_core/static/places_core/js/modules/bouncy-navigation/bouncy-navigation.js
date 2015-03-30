@@ -2,7 +2,7 @@
 // bouncy-navigation.js
 // ====================
 
-// Dostosowana do projektu wersja pluginu. Patrz:
+// An adjusted to the project version of the plugin. See:
 // http://codyhouse.co/gem/bouncy-navigation/
 
 define(['jquery',
@@ -11,14 +11,14 @@ define(['jquery',
 function ($, _) {
 "use strict";
 
-// Funkcja pozwalająca nam uniezależnić animację przygotowaną
-// przez autorów pluginu i wykorzystać na różnych elementach.
-// Oczywiście, elementy muszą się zgadzać z budową pluginu.
+// This function allows us to make independent the animation prepared
+// by the authors of the plugin and make use of it on certain
+// elements. Of course, the elements must fit the plugin's structure.
 //
-// @param { jQuery.DomElement } Okno modala do otwarcia/zamknięcia
-// @param { jQuery.DomElement } Przycisk uruchamiający animację menu
-// @param { Boolean }	true otwiera menu, false zamyka
-// @param { Function } Callback do wywołania po zakończeniu animacji
+// @param { jQuery.DomElement } Modal Windows to open/close
+// @param { jQuery.DomElement } A button that launches the animation
+// @param { Boolean }	true opens the menu, false closes it
+// @param { Function } Callback to call after the animation is completed
 
 function triggerAnimation ($modal, $trigg, open, fn) {
 	//toggle list items animation
@@ -41,8 +41,8 @@ function triggerAnimation ($modal, $trigg, open, fn) {
 	}
 }
 
-// Nawigacja musi zostać wywołana na $(document).ready.
-// Inaczej nie zadziała.
+// The navigation must be called on $(document).ready.
+// Else it will not work 
 
 function BouncyNavigation ($modal, $trigger) {
 	this.is_bouncy_nav_animating = false;

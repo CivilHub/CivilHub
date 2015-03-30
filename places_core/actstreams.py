@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# W tym pliku znajdują się tzw. 'action hooki' dla activity stream.
-# Rozszerzyłem ich działanie w ten sposób, że są również odpowiedzialne
-# za zwiększanie punktacji użytkownika przyznawanej za wykonywane
-# działania.
+# Here, the so-called 'action hooks' for the activity stream are located.
+# I have expanded their usage so that they are also responsible for increasing
+# user points that are awarded for action.
 #
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
@@ -36,9 +35,9 @@ post_save.connect(create_place_action_hook, sender=Location)
 
 def create_object_action_hook(sender, instance, created, **kwargs):
     """
-    Poinformuj o utworzeniu nowego obiektu. Można podłączyć wywołanie
-    tego zdarzenie do każdego obiektu, który posiada pola 'creator'
-    oraz 'location' - tzn. do modułów dziedziczących z lokacji.
+    Inform about the creation of a new object. It is possible
+    to plugg evocation of this idea for each object that has the field 
+    'creator' and 'location' - i.e. for modules that inherit from a location.
     """
     if created:
         prof = UserProfile.objects.get(user=instance.creator)
@@ -58,9 +57,9 @@ post_save.connect(create_object_action_hook, sender=News)
 
 def create_raw_object_action_hook(sender, instance, created, **kwargs):
     """
-    Ten zaczep jest wykorzystywany przez modele, które użytkownik
-    może tworzyć, ale nie są punktowane (np. dyskusje). Mogą z niego
-    korzystać wszystkie obiekty, które mają pola 'creator' oraz 'location'.
+    This anchor is used by models that the user can create but they are
+    not single-pointed (e.g. discussions). All objects that have the field
+    'creator' and 'location' can make use of it.
     """
     if created:
         action.send(
@@ -77,8 +76,9 @@ post_save.connect(create_object_action_hook, sender=Poll)
 
 def comment_action_hook(sender, instance, created, **kwargs):
     """
-    Action hook dla komentarzy - poinformuj innych o tym, że komentarz
-    został utworzony ora z zwiększ odpowiednio liczbę punktów użytkownika.
+    Action hook for comments - inform other people about the fact that
+    this comment was created and increase the amount of user points
+    accordingly.
     """
     if created:
         prof = UserProfile.objects.get(user=instance.user)

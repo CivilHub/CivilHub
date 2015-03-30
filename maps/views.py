@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
-from ipware.ip import get_ip
+from ipware import ip
 
 from django.conf import settings
 from django.utils.translation import ugettext as _
@@ -13,8 +13,8 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from models import MapPointer
-from helpers import filter_markers, create_clusters
+from .models import MapPointer
+from .helpers import filter_markers, create_clusters
 from .serializers import MapPointerSerializer, MapObjectSerializer, \
                           MapClusterSerializer
 
@@ -28,9 +28,9 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     list of all map objects created by users in proper format. They
     are then used to populate main map view with map pointers.
     
-    Możliwe jest wyszukiwanie konkretnych obiektów w/g ID oraz typu obiektu,
-    do którego odwołuje się marker. Należy w tym celu podać w parametrach GET
-    typ zawartości oraz ID obiektu, np:
+    It is possible to search through certain objects by ID and object type
+    to which the marker referes to. To do so, in the GET parameter of the
+    content type and the ID of the object, e.g.
     
     ```/api-maps/objects/?ct=23&pk=1```
     """
@@ -83,36 +83,27 @@ class MapDataViewSet(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
-        import json
-        lat  = self.request.QUERY_PARAMS.get('lat', None)
-        lng  = self.request.QUERY_PARAMS.get('lng', None)
-        zoom = self.request.QUERY_PARAMS.get('zoom', None)
-        filters = self.request.QUERY_PARAMS.get('filters', None)
-        location = self.request.QUERY_PARAMS.get('location', None)
-
+        lat  = self.request.QUERY_PARAMS.get('lat')
+        lng  = self.request.QUERY_PARAMS.get('lng')
+        zoom = self.request.QUERY_PARAMS.get('zoom')
+        filters = self.request.QUERY_PARAMS.get('filters')
+        location = self.request.QUERY_PARAMS.get('location')
         if lat is not None and lng is not None and zoom is not None:
-
             if int(zoom) >= 10:
                 markers = filter_markers(lat, lng, 2.0, filters, location)
                 serializer = MapPointerSerializer(markers, many=True)
                 context = serializer.data
-
             else:
                 clusters = create_clusters(lat, lng, zoom)
                 serializer = MapClusterSerializer(clusters, many=True)
                 context = serializer.data
-
         else:
             context = {'count': MapPointer.objects.count()}
-
         return Response(context)
 
 
 class MapinputAPI(APIView):
-    """
-    Tworzymy markery dla konkretnego elementu z wykorzystaniem mapki,
-    która umożliwia utworzenie na raz więcej niż jednego obiektu.
-    """
+    """ Create markers for content element. """
     queryset = MapPointer.objects.all()
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -121,11 +112,11 @@ class MapinputAPI(APIView):
         ct = ContentType.objects.get(pk=int(request.POST.get('content_type')))
         markers = request.POST.get('markers')
 
-        # Zastępujemy całkowicie stare punkty nowymi
+        # FIXME: we replace all markers with new set.
         for map_pointer in MapPointer.objects.filter(content_type=ct, object_pk=pk):
             map_pointer.delete()
 
-        # FIXME: sprawdzenie punktów bez niepotrzebnego powtarzania
+        # FIXME: check pointers without unnecessary repeating.
         for marker in json.loads(markers):
             map_pointer = MapPointer.objects.create(
                 content_type = ct,
@@ -146,12 +137,11 @@ class IndexView(TemplateView):
     main map and center it on user's position or it shows main map with some
     marker highlighted when 'show on map' option is used for some content type.
     """
-    http_method_names = [u'get', u'head', u'options', u'trace']
     template_name = 'maps/index.html'
 
     def get_context_data(self, **kwargs):
-        ct = self.kwargs.get('ct', None)
-        pk = self.kwargs.get('pk', None)
+        ct = self.kwargs.get('ct')
+        pk = self.kwargs.get('pk')
         active_marker = None
         context = super(IndexView, self).get_context_data(**kwargs)
 
@@ -165,7 +155,7 @@ class IndexView(TemplateView):
         if active_marker is not None:
             position = (active_marker.longitude, active_marker.latitude,)
         else:
-            position = GeoIP().coords(get_ip(self.request)) or ("21.0030", "52.1356")
+            position = GeoIP().coords(ip.get_ip(self.request)) or ("21.0030", "52.1356")
 
         context['title'] = _("Map")
         context['content_types'] = ContentType.objects.all()

@@ -2,8 +2,8 @@
 // toggle-menu.js
 // ==============
 
-// Otwiera menu z opcjami w widokach szczegółowych
-// różnych typów zawartości po kliknięciu w przycisk.
+// Opens a menu with options in detailed views
+// of various types of content after clicking a button
 
 require(['jquery'], function ($) {
 

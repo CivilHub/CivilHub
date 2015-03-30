@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.http import Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -25,8 +26,8 @@ from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerialize
 
 def user_dict(user):
     """
-    Helper przydatny w dwóch poniższych funkcjach. Przedstawia podsumowanie
-    informacji o użytkowniku w formacie apetycznym dla mobilnej aplikacji.
+    A helper useful in the 2 functions below. It presents a summary of
+    information about the user in a delectable for the mobile application form.
     """
     if not isinstance(user, User):
         raise Error(u"user must be django.contrib.auth.user instance")
@@ -44,10 +45,7 @@ def user_dict(user):
 
 @csrf_exempt
 def obtain_auth_token(request):
-    """
-    Widok dla aplikacji mobilnej pozwalający nam zalogować
-    użytkownika przy pomocy email i hasła.
-    """
+    """ Login mobile app user with system email and password. """
     context = {'success': False,}
     if request.method != 'POST':
         context.update({'error': _("Only POST requests allowed"),})
@@ -66,27 +64,27 @@ def obtain_auth_token(request):
 
 class SocialApiView(rest_views.APIView):
     """
-    Rejestracja/logowanie użytkowników portali społecznościowych. Ten widok
-    korzysta z backendu Python Social Auth w celu ułatwienia integracji.
-    Domyślnie prezentowana jest lista wszystkich kont.
-    
-    Logowanie/rejestracja przez API wymaga podania jednego z backendów:
+    Registration/logging in of social media portals. This view uses Python Social
+    Auth backend in order to facilitate integration. By default a list of all
+    accounts is presented.
+
+    Registration/loggin in through the API requires to specify one of the backends
     `twitter`, `facebook`, `google-plus`, `linkedin`.
-    
-    Przykładowe dane do zapytania (server_response to odpowiedzi od providera): 
-    
+
+    An example of such data for the query (server_response are the answers of the provider):
+
     <pre><code>{
         provider: 'facebook',
         uid: '8777323423',
         details: encodeURI(server_response_1),
         response: encodeURI(server_response_2)
     }</code></pre>
-    
-    Uwierzytelniając użytkownika, w parametrach POST podajemy response z serwera
-    usługi uwierzytelniającej wraz z nazwą usługi oraz uid użytkownika. System
-    sprawdza, czy konto o tych parametrach już istnieje i w razie potrzeby
-    tworzy nowe. W odpowiedzi otrzymamy obiekt z id oraz tokenem uwierzytelnia-
-    jącym użytkownika.
+
+    By authorizing the user, in the POST parameter we give the server response
+    of the authorizing service along with te name of the service and the uid of
+    the user. The system check whether the accound with those parameters already
+    exists and if necessary, creates a new one. In return we receive an object
+    with and id and an authorization token of the user.
     """
     permission_classes = (rest_permissions.AllowAny,)
 
@@ -113,7 +111,7 @@ class SocialApiView(rest_views.APIView):
 
 
 class UserFollowedLocationsAPI(rest_views.APIView):
-    """ Lista lokalizacji, które obserwuje użytkownik. """
+    """ A list of locations that the user is following. """
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
@@ -126,24 +124,19 @@ class UserFollowedLocationsAPI(rest_views.APIView):
 
 class UserSummaryAPI(rest_views.APIView):
     """
-    Widok podsumowania dla użytkownika. Działa podobnie, jak moduł wyświetlający
-    ostatnie wpisy w podsumowaniu lokalizacji, z tym, że zbiera wpisy ze wszystkich
-    lokacji obserwowanych przez użytkownika.
+    Content summary for user. Similar to summary for location, the difference
+    is that we present content created by currently logged in user.
     """
     paginate_by = 48
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
+        if request.user.is_anonymous():
+            raise Http404
 
-        # Id lokacji, z której pobieramy wpisy
-        location_pk = request.QUERY_PARAMS.get('pk', 0)
-        # Numer strony do wyświetlenia
         page = request.QUERY_PARAMS.get('page', 1)
-        # Rodzaj typu zawartości (albo wszystkie)
         content = request.QUERY_PARAMS.get('content', 'all')
-        # Zakres dat do wyszukiwania
         time = request.QUERY_PARAMS.get('time', 'any')
-        # Wyszukiwanie po tytułach wpisów
         haystack = request.QUERY_PARAMS.get('haystack', None)
         
         content_objects = []
@@ -170,7 +163,7 @@ class UserSummaryAPI(rest_views.APIView):
 
 
 class UserBookmarksViewSet(viewsets.ModelViewSet):
-    """ Pozwala użytkownikom manipulować zakładkami. """
+    """ Allows the users to manipulate bookmarks. """
     permission_classes = (IsOwnerOrReadOnly,)
     serializer_class = BookmarkSerializer
     paginate_by = None
@@ -181,12 +174,12 @@ class UserBookmarksViewSet(viewsets.ModelViewSet):
 
 class UserFollowAPIView(rest_views.APIView):
     """
-    Widok API obsługujący przycisk podążania za użytkownikiem. Tylko zapytania
-    typu POST. Wymagane jest podanie ID użytkownika, którego chcemy obserwować
-    w parametrze `pk` żądania. Zwracana wartość to true albo false w zależności
-    od tego, czy zaczynamy, czy przestajemy obserwować drugiego użytkownika.
-    Przykład odpowiedzi:
-        ```{'fallow': true }```
+    API view that manages the follow a user button. Only POST queries. It is
+    necessary to give the ID of the user that we want to follow in the 'pk'
+    request. It returns a true or false value depending on whether we start/stop
+    to follow another unser .
+    An example of such an answer:
+          ```{'fallow': true }```   
     
     """
     permission_classes = (rest_permissions.IsAuthenticated,)
@@ -212,15 +205,15 @@ class UserFollowAPIView(rest_views.APIView):
 
 class UserAPIViewSet(viewsets.ModelViewSet):
     """
-    Zarządzanie listą użytkowników z poziomu aplikacji mobilnej. Widok zapewnia
-    wszystkie operacje CRUD na liście użytkowników.
-    
-    ### Tworzenie użytkownika:
-    Pola wymagane: *username*, *first_name*, *last_name*, *password*, *email*
-    
-    **UWAGA**: Ten widok nie korzysta z polityki uprawnień Django (bo nie ma takiej
-    fizycznej możliwośći). Trzeba **UWAŻNIE** przemyśleć implementację systemu w
-    środowisku produkcyjnym.
+    Managing a user list from the mobile application level. This view provides
+    all CRUD operations on the user list.
+
+    ### User creation:
+    Required fields: *username*, *first_name*, *last_name*, *password*, *email*
+
+    **WARNING**: This view does not use Django authorization policy (because
+    it is impossible). It needs to be **CAREFULLY** thought over on how to 
+    implement this system in the production environment.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -230,17 +223,18 @@ class UserAPIViewSet(viewsets.ModelViewSet):
 
 class UserAuthAPIViewSet(viewsets.ViewSet):
     """
-    *Deprecated*: Lepiej korzystać z interfejsu pod adresem `/api-userspace/social_auth/`
-    
-    Tutaj wysyłamy nazwę providera oraz uid użytkownika social auth w celu
-    pobrania instancji użytkownika w systemie Django. Dane należy wysłać
-    getem, jeżeli użytkownik istnieje w systemie, zostaną zwrócone jego
-    zserializowane dane, w innym przypadku otrzymamy w odpowiedzi "Forbidden". 
-    Przykład:
-    
+    *Deprecated*: It is better to the the interface from the following address
+    `/api-userspace/social_auth/`
+
+    Here we send the provider's name and the uid user social auth in order
+    to download the instance of the user in Django system. The data need to 
+    be send via get, if the user exists in the system, his/her serialized 
+    data will be returned, in the other case we will receive the answer "Forbidden"
+    An example:
+
     ```/api-userspace/socials/?provider=google-plus?id=tester@gmail.com```
     
-    **TODO**: Warto pomyśleć o zaszyfrowaniu tego interfejsu!!!
+    **TODO**: It is worth to think about encripting this interface!!!    
     """
     queryset = User.objects.all()
     serializer_class = UserAuthSerializer
@@ -258,19 +252,19 @@ class UserAuthAPIViewSet(viewsets.ViewSet):
 
 class CredentialCheckAPIView(rest_views.APIView):
     """
-    Widok pozwalający w prosty sposób sprawdzić, czy podany adres email lub
-    nazwa użytkownika zostały już zarejestrowane w systemie. 
-    
-    #### Przykład zapytania o adres email:
+    A view that allows to easily check whether the given email address or
+    the user name is already registered in the system.
+
+    #### A sample query for an email address:
     
     ```/api-userspace/credentials/?email=tester@test.pl```
     
-    #### Przykład zapytania o nazwę użytkownika:
+    ####  sample query for a user name:
     
     ```/api-userspace/credentials/?uname=tester```
-    
-    W każdym przypadku otrzymujemy w odpowiedzi prosty obiekt z własnością 
-    `valid` ustawioną na `true` lub `false`.
+
+    In both cases we receive in return a simple object with the property of 
+    'valid' set to 'true' or 'false'.
     """
     queryset = User.objects.all()
     permission_classes = (rest_permissions.AllowAny,)
@@ -294,14 +288,14 @@ class CredentialCheckAPIView(rest_views.APIView):
 
 class ActivityAPIViewSet(rest_views.APIView):
     """
-    Zastępstwo dla standardowego widoku `django-activity-stream`. Prezentuje
-    tzw. feed użytkownika, który jest aktualnie zalogowany. Jeżeli użytkownik
-    jest anonimowy, dostanie w odpowiedzi 404.
+    Replacement for standard activity stream view. Displays actions for
+    currently logged in user. If user is anonymous, it returns 404.
     """
     permission_classes = (rest_permissions.AllowAny,)
 
     def get(self, request):
-        if request.user.is_anonymous(): return HttpResponseNotFound()
+        if request.user.is_anonymous():
+            raise Http404
         if len(following(request.user)) > 0:
             actstream = user_stream(request.user)
         else:

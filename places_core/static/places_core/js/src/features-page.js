@@ -28,7 +28,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         keepHistory: false,
 
         menu: '#menuSection',
-        responsive: 650, //wylacza caly skrypt przy tej rozdzielczosci
+        responsive: 650, //turns off the whole script at this resolution
 
         afterRender: function () {
           $.fn.fullpage.reBuild();

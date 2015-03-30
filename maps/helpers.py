@@ -1,44 +1,43 @@
 # -*- coding: utf-8 -*-
 from django.core import cache
+from django.shortcuts import get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+
 from locations.models import Country, Location
+
 from .models import MapPointer
 
 import logging
-logger = logging.getLogger('django')
+logger = logging.getLogger('maps')
 
 redis_cache = cache.get_cache('default')
 
 
-def filter_markers(lat, lng, factor=1.0, filters=None, location=None):
+def filter_markers(lat, lng, factor=1.0, filters=None, location_pk=None):
     """ 
-    Simple marker list filter. It takes latitude and longitude of point as 
-    arguments and fetching pointers in distance of `factor` degrees from this
-    point.
+    Simple marker list filter. It takes latitude and longitude as arguments and
+    fetch pointers in distance of `factor` degrees from this point.
     
-    Filters is array of content type id's to fetch.
+    Filters is array of content type id's to fetch. If None is set, nothing will be returned.
     
-    If you pass location pk only markers related to this location will be
-    fetched.
+    If you pass location pk only markers related to this location will be fetched.
     """
-    f = float(factor)
+    if filters is None:
+        return []
 
-    if location is not None:
-        l = Location.objects.get(pk=location)
-        queryset = MapPointer.objects.for_location(l)
+    if location_pk is not None:
+        qs = MapPointer.objects.for_location(
+            get_object_or_404(Location, pk=location_pk))
     else:
-        queryset = MapPointer.objects.all()
+        qs = MapPointer.objects.all()
 
-    queryset = queryset.filter(latitude__gt = float(lat) - f) \
-                        .filter(latitude__lt  = float(lat) + f) \
-                        .filter(longitude__gt = float(lng) - f) \
-                        .filter(longitude__lt = float(lng) + f)
-
-    if filters is not None:
-        filters = [int(x) for x in filters.split(',') if x]
-        queryset = queryset.filter(content_type__in=filters)
-
-    return queryset
+    return qs.filter(
+        latitude__gt=float(lat) - float(factor),
+        latitude__lt=float(lat) + float(factor),
+        longitude__gt=float(lng) - float(factor),
+        longitude__lt=float(lng) + float(factor),
+        content_type__in=[int(x) for x in filters.split(',') if x]
+    )
 
 
 def make_region_cluster(city):
@@ -46,6 +45,7 @@ def make_region_cluster(city):
     count = MapPointer.objects.filter(
         location__in=city.parent.get_children_id_list()).count()
     redis_cache.set(str(city.pk) + '_childlist', count, timeout=None)
+    logger.info("Created cluster for region {} with {} items".format(city.pk, count))
     return count
 
 
@@ -55,9 +55,14 @@ def create_region_clusters(lat, lng, zoom):
     and longitude of current map center as strings or numbers.
     """
     clusters = []
-    if int(zoom) == 6: factor = 40.0
-    elif int(zoom) > 6 and int(zoom) < 9: factor = 20.0
-    else: factor = 10.0
+
+    if int(zoom) == 6:
+        factor = 40.0
+    elif int(zoom) > 6 and int(zoom) < 9:
+        factor = 20.0
+    else:
+        factor = 10.0
+
     max_lat = float(lat) + factor
     max_lng = float(lng) + factor
     min_lat = float(lat) - factor
@@ -100,6 +105,7 @@ def create_country_clusters():
             clusters.append(cluster)
         except Location.DoesNotExist:
             logger.info(u"Cannot find capital location for %s" % c.code)
+    redis_cache.set('allcountries', clusters, timeout=None)
     return clusters
 
 
