@@ -220,8 +220,8 @@ class LoginData(models.Model):
         """ Ensure maximum number of entries per user in db. """
         super(LoginData, self).save(*args, **kwargs)
         max_entries = 5
-        if hasattr(settings, 'MAX_LOGIN_DATA'):
-            max_entries = settings.MAX_LOGIN_DATA
+        if hasattr(settings, 'MAX_LOGIN_ENTRIES'):
+            max_entries = settings.MAX_LOGIN_ENTRIES
         prx_entries = LoginData.objects.filter(user=self.user)
         if len(prx_entries) > max_entries:
             for i in range(1, len(prx_entries) - max_entries + 1):

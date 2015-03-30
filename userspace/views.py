@@ -255,9 +255,12 @@ class RegisterFormView(FormView):
         site_url = self.request.build_absolute_uri('/user/activate/')
         link = site_url + str(register_demand.activation_link)
         # Send email in user's own language if possible
-        translation.activate(register_demand.lang)
         email = emails.ActivationLink()
-        email.send(register_demand.email, {'link':link})
+        email_context = {'link': link}
+        if translation.check_for_language(register_demand.lang):
+            email_context.update({'lang': register_demand.lang})
+        email.send(register_demand.email, email_context)
+        import pdb; pdb.set_trace()
         return render(self.request, 'userspace/register-success.html',
                                         {'title': _("Message send"),})
 
