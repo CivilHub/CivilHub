@@ -5,10 +5,10 @@
     here we check what links are available and we display only those.
 {% endcomment %}
 
-    <div class="sidebar">
+    <div class="sidebar">{% if user.is_authenticated %} 
         <div class="sidebar-label">{% trans "Actions" %}:</div>
         <ul class="sidebar-content custom-sidebar-nav">  
-            {% if user.is_authenticated %}                 
+                            
             {% if 'new_discussion' in links %}<li>
                 <a href="{% url 'locations:new_topic' location.slug %}">
                     {% trans "New discussion" %}
@@ -40,8 +40,7 @@
                     {% trans "Add news" %}
                 </a>
             </li>{% endif %}
-            {% endif %}
-        </ul>
+        </ul>{% endif %}
     
     <div class="followers-sidebar">
         <div class="sidebar-label">{% trans "Most active users" %}:</div>

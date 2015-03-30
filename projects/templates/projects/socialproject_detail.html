@@ -10,9 +10,9 @@
       {% for group in object.taskgroup_set.all %}<div class="task-container">
         <div class="task-heading">
           <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}">{{ group }}</a></h4>
-        </div>
+        </div>{% if user.is_authenticated %}
         <div class="custom-controls-box"><span class="fa fa-cog">&nbsp;</span>
-          <div class="custom-controls">{% if user.is_authenticated %}
+          <div class="custom-controls">
             <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task custom-tooltip-bottom" title="{% trans 'Create task' %}"></span></a>
             <form class="custom-inline-form" action="{% url 'locations:project_delete_group' location.slug object.slug group.pk %}" method="post">{% csrf_token %}
               <button type="submit" class="fa fa-minus-square add-task custom-tooltip-bottom" title="{% trans 'Delete group' %}">&nbsp;</button>
@@ -23,8 +23,16 @@
             <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk group.pk 'DOWN' %}" method="post">{% csrf_token %}
               <button type="submit" class="fa fa-arrow-down custom-tooltip-bottom" title="{% trans 'Move group down' %}">&nbsp;</button>
             </form>{% endwith %}
-          {% endif %}</div>
+          </div>
         </div>
+        <div class="add-task-right">
+          <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task"></span> {% trans "Create task" %}</a>
+        </div>
+        {% else %}
+        <div class="add-task-right">
+          <a href="{% url 'user:login' %}"><span class="fa fa-plus-square add-task"></span> {% trans "Create task" %}</a>
+        </div>
+        {% endif %}
         {% for task in group.task_set.all %}<div class="task-content {% if task.pk == active_task.pk %} active{% endif %}">
         <a href="{{ task.get_absolute_url }}#location-navbar" id="task-link-absolute">&nbsp;</a>
           <div class="row">
@@ -35,7 +43,7 @@
               {% else %}<p class="label label-danger label-sm label-task"><span class="fa fa-close">&nbsp;</span></p>{% endif %}
             </div>
             <div class="col-sm-5">
-              <span class="sub-task-title"><a href="{{ task.get_absolute_url }}">{{ task }}</a></span>
+              <span class="sub-task-title"><a href="{{ task.get_absolute_url }}">{{ task|truncatewords:4 }}</a></span>
             </div>
             <div class="col-sm-5">
               <div class="task-ppl">{% for participant in task.participants.all %}
@@ -43,8 +51,8 @@
               {% endfor %}</div>
             </div>
             <div class="col-sm-1">
-              <div class="custom-controls-box-task-content"><span class="fa fa-cog">&nbsp;</span>
-                <div class="custom-controls">{% if user.is_authenticated %}
+              <div class="custom-controls-box-task-content">{% if user.is_authenticated %}<span class="fa fa-cog">&nbsp;</span>
+                <div class="custom-controls">
                   <form class="custom-inline-form" action="{% url 'locations:task_join' location.slug object.slug task.pk %}" method="post">{% csrf_token %}
                     <button type="submit" class="action-plus fa fa-plus custom-tooltip-bottom" title="{% trans 'Join/Leave the task' %}">&nbsp;</button>
                   </form>
@@ -58,7 +66,7 @@
                   <form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk task.pk 'DOWN' %}" method="post">{% csrf_token %}
                     <button type="submit" class="action-plus fa fa-arrow-down custom-tooltip-bottom" title="{% trans 'Move task down' %}">&nbsp;</button>
                   </form>{% endwith %}
-                {% endif %}</div>
+                </div>{% endif %}
               </div>
             </div>
           </div>

@@ -79,8 +79,8 @@
           </div>
         <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
             <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}" id="tour-Summary">{% trans "Summary" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}" id="tour-Blog"></span>{% trans "Blog" %}</a></li>
+                <li><a href="{{ location.get_absolute_url }}" id="tour-Summary">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'locations:news' location.slug %}" id="tour-Blog"></span>{% trans "News" %}</a></li>
                 <li><a href="{% url 'locations:discussions' location.slug %}" id="tour-Discussions">{% trans "Discussions" %}</a></li>
                 <li><a href="{% url 'locations:ideas' location.slug %}" id="tour-Ideas">{% trans "Ideas" %}</a></li>
                 <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls">{% trans "Polls" %}</a></li>
