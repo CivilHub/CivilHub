@@ -56,7 +56,8 @@
                     </ul>
                 </li>
                 {% else %}
-                <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% comment %}<span class="fa fa-power-off"> </span>{% endcomment %} {% trans "Login" %}</a></li>
+                <li><a href="{% url 'user:register' %}" class="loginFeatures">{% trans "Sign up" %}</a></li>
+                <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% trans "Login" %}</a></li>
                 {% endif %}
             </ul>
             
@@ -96,7 +97,7 @@
                     </ul>
                 </li>
 
-                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
+                <li id="tour-map-icon"><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" ><span class="maps-boxBox fa fa-globe" ><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">

@@ -33,7 +33,7 @@
                 <a href="{% url 'locations:upload' location.slug %}">Upload Images </a>
             </li>{% endif %}
             {% if 'invite' in links %}<li>
-                <a href="#" id="invite-people-toggle" title="{% trans "Invite people to browse this content" %}">{% trans "Invite people" %}</a>
+                <a href="/invite-friends/">{% trans "Invite people" %}</a>
             </li>{% endif %}
             {% if 'add_news' in links %}<li>
                 <a href="{% url 'locations:news_create' location.slug %}">
@@ -46,13 +46,15 @@
     <div class="followers-sidebar">
         <div class="sidebar-label">{% trans "Most active users" %}:</div>
         <div class="sidebar-content followers-box">
-            {% for usr in location.users.all %}
-            <div class="follower">
-                <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
-                <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
-                </a>
+            <div class="followersLocation">
+                {% for usr in location.users.all %}
+                <div class="follower">
+                    <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
+                    <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
     

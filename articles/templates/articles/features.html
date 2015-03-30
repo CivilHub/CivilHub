@@ -53,7 +53,8 @@
           </ul>
         </li>
         {% else %}
-        <li><a href="{% url 'user:login' %}" class="loginFeatures">{% trans "Login" %}</a></li>
+        <li><a href="{% url 'user:register' %}" class="loginFeatures">{% trans "Sign up" %}</a></li>
+        <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% trans "Login" %}</a></li>
         {% endif %}
       </ul>
       {% if user.is_authenticated %}

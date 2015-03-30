@@ -435,7 +435,7 @@ COMMENT_PAGINATOR_LIMIT = 10
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = True
+USE_CACHE = False
 
 
 RAVEN_CONFIG = {

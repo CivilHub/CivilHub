@@ -217,7 +217,7 @@
                     left: 0px;
                     width: 299px;
                     border-bottom-left-radius: 6px;
-                    @media(max-width: 991px){ width: 100%; }
+                    @media(max-width: 991px){ width: 100% !important; }
                 }
             }
             
@@ -225,7 +225,7 @@
                 .list-entry-details {
                     width: 300px;
                     left: 300px;
-                    @media(max-width: 991px){ width: 100%; }
+                    @media(max-width: 991px){ width: 100% !important; }
                 }
             }
             
@@ -234,7 +234,7 @@
                     left: 599px;
                     width: 300px;
                     border-bottom-right-radius: 6px;
-                    @media(max-width: 991px){ width: 100%; }
+                    @media(max-width: 991px){ width: 100% !important; }
                 }
             }
             
@@ -254,6 +254,11 @@
         width: 100%;
         padding-top: 100px;
         text-align: center;
+        @media(max-width: 991px){
+            display: inline-block;
+            vertical-align: top;
+            width: 33%;
+        }
     }
         
     .btn-follow-location,

@@ -68,16 +68,17 @@
     </div>
 
     {% if LANG == 'pl' %}
+    <!-- Wykop -->
         <script language="javascript">
-        // wykopywarka wersja standardowa (59x60)
-        var wykop_url=location.href;// Link do strony
-        var wykop_title=encodeURIComponent(document.title); // Tytuł strony (pobierany z <title>)
+        var wykop_url=location.href;
+        var wykop_title=encodeURIComponent(document.title); 
         var wykop_desc=encodeURIComponent('CivilHub');
         var widget_bg='FFFFFF';
         var widget_type='normal2';
-        var widget_url='http://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent(wykop_url)+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type);
+        var widget_url='https://www.wykop.pl/dataprovider/diggerwidget/?url='+encodeURIComponent(wykop_url)+'&title='+(wykop_title)+'&desc='+(wykop_desc)+'&bg='+(widget_bg)+'&type='+(widget_type);
         document.write('<div class="share-button"><iframe src="'+widget_url+'" style="border:none;width:56px;height:60px;overflow:hidden;margin:0;padding:0;" frameborder="0" border="0"></iframe></div>');</script>
     {% else %}
+    <!-- Reddit -->
         <div class="share-button">
             <script type="text/javascript">
               reddit_newwindow='1';

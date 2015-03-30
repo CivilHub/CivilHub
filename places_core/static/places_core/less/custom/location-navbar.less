@@ -291,8 +291,11 @@
         
         a {
           //padding-left: 15px;
-          padding-left: 0px;
-          
+          //padding-left: 0px;
+          margin-left: -15px;
+          @media(max-width: 768px){
+            margin-left: 0;
+          }
           >span.ch-icon {   
             left: -10px;  
           }

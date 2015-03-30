@@ -24,11 +24,13 @@ function createTour (template, fn) {
         element: "#tour-location-name",
         title: gettext("You are here"),
         content: gettext("Right now you can see the location you are currently in."),
+        backdrop: true,
         path: rootUrl
       }, {
         element: "#tour-Summary",
         title: gettext("Summary"),
         content: gettext("Here you can see a list of all of the place's activities."),
+        backdrop: true,
         path: rootUrl
       }, {
         element: "#tour-summary-box",
@@ -47,16 +49,19 @@ function createTour (template, fn) {
         element: "#tour-Blog",
         title: gettext("Blog"),
         content: gettext("Here you can see all of the news connected with the given place. Additionally, you can add your own news, to do so click 'add news' in the right side menu."),
+        backdrop: true,
         path: rootUrl + "news/"
       }, {
         element: "#tour-Discussions",
         title: gettext("Discussions"),
         content: gettext("Here you can view or join discussions of a given place. If you feel like adding a new discussion topic you are also free to do so."),
+        backdrop: true,
         path: rootUrl + "discussion/"
       }, {
         element: "#tour-Ideas",
         title: gettext("Ideas"),
         content: gettext("View ideas of other users and vote on them. You can also share your creative ideas with others."),
+        backdrop: true,
         path: rootUrl + "ideas/"
       }, {
         element: "#tour-votes",
@@ -68,11 +73,13 @@ function createTour (template, fn) {
         element: "#tour-Polls",
         title: gettext("Polls"),
         content: gettext("A place where you can view all polls of a given place."),
+        backdrop: true,
         path: rootUrl + "polls/"
       }, {
         element: "#tour-Followers",
         title: gettext("Followers"),
         content: gettext("Find out who else is active within this place. Here you can find all of the users that are following this place."),
+        backdrop: true,
         path: rootUrl + "followers/"
       }, {
         element: "#tour-map-icon",
