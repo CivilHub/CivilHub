@@ -24,12 +24,7 @@
 {% block content %}<div class="col-sm-3 top15">
 	<div class="sidebar left">
 		<div class="sidebar-label">{% trans "Rules" %}</div>
-		{% if action and action == 'edit' %}<div class="sidebar-label">{% trans 'Delete this location' %}</div>
-		<div class="sidebar-content">
-			{% if user.is_superuser %}<form style="display:inline;" method="post" action="{% url 'locations:delete' location.slug %}">{% csrf_token %}
-      	  <button id="danger-button" type="submit" class="btn btn-danger btn-bg">{% trans 'Delete' %}</button>
-    	</form>{% endif %}
-   	</div>{% endif %}
+   	{% if user.is_superuser and action == 'edit' %}<a href="{% url 'locations:delete' location.slug %}" class="btn btn-danger btn-bg">{% trans 'Delete' %}</a>{% endif %}
 	</div>
 </div>
 <div class="col-sm-9 main-content top15 p25">

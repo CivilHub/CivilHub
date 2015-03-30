@@ -1,7 +1,7 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
 {% block content %}<div class="login-page">
   {% if welcome_msg %}<p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>{% endif %}    
-  {% if errors %}<div class="alert alert-danger fade in" style="margin:0px auto;">{{ errors }}
+  {% if form.errors %}<div class="alert alert-danger fade in" style="margin:0px auto;">{% trans 'Login credentials invalid' %}
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
   </div>{% endif %}
   <div id="login-form-validate" class="login-form">
@@ -15,10 +15,9 @@
       </div>
       <form action="" method="post">
         <div class="input-section row">
-          {{ form.errors }}
           <form class="form-horizontal" action="{% url 'user:login' %}" method="post">{% csrf_token %}
             <input type="hidden" name="next" value="{{ request.GET.next }}" />
-            <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus>
+            <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus value="{{ form.email.value|default_if_none:'' }}">
             <input class="form-control" id="password" maxlength="64" name="password" placeholder="{% trans "Password" %}" type="password">
             <div class="remember-me">
               <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}

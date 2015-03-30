@@ -351,7 +351,7 @@ def pass_reset(request):
     if request.user.is_authenticated():
         return redirect('/')
 
-    ctx = {}
+    ctx = {'form': PasswordRemindForm()}
     if request.method == 'POST':
         f = PasswordRemindForm(request.POST)
 
@@ -377,64 +377,40 @@ def pass_reset(request):
             return render(request, 'userspace/passremind-confirm.html', ctx)
 
         else:
+            ctx['form'] = PasswordRemindForm(request.POST)
             ctx['errors'] = f.errors
 
-    ctx['form'] = PasswordRemindForm()
     return render(request, 'userspace/passremind-form.html', ctx)
 
 
-@csrf_exempt
-#@cache_page(60 * 60, key_prefix="login" + translation.get_language())
-def login(request):
+class LoginFormView(FormView):
     """
-    Login form. Performs user login and record login data with basic info
-    about user IP address. It also keeps 5 last login datas in database for
-    each user.
+    Zastępujemy natywny widok logowania Django swoim własnym.
+    Tutaj rejestrujemy aktywność naszych użytkowników.
     """
-    from social.backends.google import GooglePlusAuth
-    if request.user.is_authenticated():
-        return redirect('user:index')
-    if request.method == 'POST':
-        if not request.POST.get('remember_me', None):
-            request.session.set_expiry(0)
-        f = LoginForm(request.POST)
-        if f.is_valid():
-            try:
-                user = User.objects.get(email=f.cleaned_data['email'])
-            except User.DoesNotExist as ex:
-                ctx = {'errors': _("Login credentials invalid")}
-                return render(request, 'userspace/login.html', ctx)
-            username = user.username
-            password = request.POST['password']
-            user = auth.authenticate(username = username, password = password)
-            if user is not None:
-                if user.is_active:
-                    auth.login(request, user)
-                    login_data = LoginData(
-                        user = user,
-                        address = ip.get_ip(request)
-                    )
-                    login_data.save()
-                    datas = LoginData.objects.filter(user=user).order_by('-date')
-                    if len(datas) > 5:
-                        for i in range (len(datas) - 5):
-                            datas[i].delete()
-                    n = request.POST.get('next')
-                    if not len(n): n = '/activity/'
-                    return redirect(n)
-                else:
-                    ctx = {'errors': _("Your account has not been activated")}
-                    return render(request, 'userspace/login.html', ctx)
-        ctx = {'errors': _("Fields can not be empty")}
-        return render(request, 'userspace/login.html', ctx)
-    f = LoginForm()
-    ctx = {
-        'title': "",
-        'form': f,
-        'plus_scope': ' '.join(settings.SOCIAL_AUTH_GOOGLE_PLUS_SCOPE),
-        'plus_id': settings.SOCIAL_AUTH_GOOGLE_PLUS_KEY,
-    }
-    return render(request, 'userspace/login.html', ctx)
+    form_class = LoginForm
+    template_name = 'userspace/login.html'
+
+    def get(self, request):
+        if request.user.is_authenticated():
+            return redirect('/activity/')
+        return super(LoginFormView, self).get(request)
+
+    def get_context_data(self, **kwargs):
+        context = super(LoginFormView, self).get_context_data(**kwargs)
+        next_url = self.request.GET.get('next', None)
+        if next_url:
+            context.update({'next': next_url})
+        return context
+
+    def form_valid(self, form):
+        auth.login(self.request, form.instance)
+        info = LoginData.objects.create(user=form.instance,
+                                        address=ip.get_ip(self.request))
+        next_url = self.request.POST.get('next')
+        if len(next_url):
+            return redirect(next_url)
+        return redirect('/activity/')
 
 
 def logout(request):
