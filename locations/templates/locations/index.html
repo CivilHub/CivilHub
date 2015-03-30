@@ -86,7 +86,7 @@
                 <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls">{% trans "Polls" %}</a></li>
                 <li><a href="{% url 'locations:project_list' location.slug %}">{% trans "Projects" %}</a></li>
                 <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery">{% trans "Gallery" %}</a></li>
-                
+                {% with location|content_type as ctype %}<li><a href="{% url 'maps:info' ctype.pk location.pk %}">{% trans "Map" %}</a></li>{% endwith %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers">{% trans "Followers" %}</a></li>

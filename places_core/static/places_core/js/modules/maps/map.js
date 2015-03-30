@@ -214,8 +214,10 @@ Map.prototype.addMarker = function (item) {
 	// Check if marker is selected when option 'show on map' is used, but
 	// only first time after map is loaded.
 	if (!_.isUndefined(this.activeMarker)) {
+		console.log("active marker");
 		if (marker.getLatLng().equals(this.activeMarker.getLatLng())) {
 			this.markerInfo(marker);
+			console.log(marker);
 			delete this.activeMarker;
 		}
 	}

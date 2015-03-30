@@ -113,6 +113,7 @@ getCoords(function (lat, lng) {
 	
 	if (!mapIsActive) {
 		app.initialize();
+		window.test = app;
 	}
 });
 

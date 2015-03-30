@@ -25,11 +25,12 @@ def filter_markers(lat, lng, factor=1.0, filters=None, location_pk=None):
     if filters is None:
         return []
 
-    if location_pk is not None:
-        qs = MapPointer.objects.for_location(
-            get_object_or_404(Location, pk=location_pk))
-    else:
-        qs = MapPointer.objects.all()
+    # if location_pk is not None:
+    #     qs = MapPointer.objects.for_location(
+    #         get_object_or_404(Location, pk=location_pk))
+    # else:
+    #     qs = MapPointer.objects.all()
+    qs = MapPointer.objects.all()
 
     return qs.filter(
         latitude__gt=float(lat) - float(factor),
