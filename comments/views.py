@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import json, datetime
+
 from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from .models import CustomComment, CommentVote
 
 

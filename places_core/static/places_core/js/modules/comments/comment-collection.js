@@ -33,11 +33,6 @@ function ($, _, Backbone, CommentModel) {
 		},
 		
 		parseRecords: function (data) {
-			if (data.results.length < CivilApp.maxComments) {
-				$(document).ready(function () {
-					$('#comment-order-controls').hide();
-				});
-			}
 			return data.results;
 		},
 		

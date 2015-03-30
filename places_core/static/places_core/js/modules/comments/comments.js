@@ -8,7 +8,7 @@ require(['jquery',
          'js/modules/comments/comment-list-view'],
 
 function ($, CommentList) {
-    
+
 "use strict";
 
 $(document).ready(function () {
@@ -44,4 +44,5 @@ $(document).ready(function () {
     comments.filter($(this).attr('data-order'));
   });
 });
+
 });

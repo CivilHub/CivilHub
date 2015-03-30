@@ -97,7 +97,7 @@
                     </ul>
                 </li>
 
-                <li id="tour-map-icon"><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" ><span class="maps-boxBox fa fa-globe" ><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
+                <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">

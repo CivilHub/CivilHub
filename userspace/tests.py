@@ -4,10 +4,11 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import translation
 
-from .models import LoginData
+from .models import LoginData, RegisterDemand
 
 
 class APIViewsTestCase(TestCase):
+    """ Related to bug with contents in views when user was not authenticated. """
     def setUp(self):
         self.client = Client()
 
@@ -41,9 +42,42 @@ class LoginDataTestCase(TestCase):
         self.assertEqual(LoginData.objects.filter(user=self.user).count(), self.max)
 
 
+class UserCreationViewTestCase(TestCase):
+    """ Fill-in user creation form and find out that everything is OK. """
+    def setUp(self):
+        self.client = Client()
+
+    def test_user_form_with_valid_data(self):
+        """ Test full process of creating an activating user with valid data. """
+        response = self.client.post('/user/register/', {
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'testuser@civilhub.org',
+            'password1': '123',
+            'password2': '123',
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(User.objects.count(), 1)
+        user = User.objects.first()
+        self.assertEqual(user.username, 'test_user')
+        self.assertFalse(user.is_active)
+        self.assertIsNotNone(user.auth_token)
+        self.assertIsNotNone(user.profile)
+        self.assertEqual(len(RegisterDemand.objects.filter(user=user)), 1)
+        self.assertEqual(user.profile.clean_username, 'test-user')
+        # Activate new user
+        response = self.client.get('/user/activate/{}/'.format(
+            RegisterDemand.objects.get(user=user).activation_link))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(len(RegisterDemand.objects.filter(user=user)))
+        user = User.objects.get(pk=user.pk)
+        self.assertTrue(user.is_active)
+        self.assertTrue(user.is_authenticated())
+
+
 class ProfileCreationTestCase(TestCase):
     """ Test that after user is created, his profile will have proper settings. """
     def test_that_profile_is_really_created(self):
         """ Check if profile is created. """
         user = User.objects.create(username='testuser')
-        self.assertTrue(user.profile, "We expect user to have profile enabled")
+        self.assertTrue(user.profile)

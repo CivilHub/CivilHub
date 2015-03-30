@@ -325,6 +325,7 @@ class CommentsViewSet(viewsets.ModelViewSet):
         return '-submit_date'
 
     def get_queryset(self):
+        from django.db.models import Count
         if self.request.GET.get('content-type'):
             order = self.set_element_order()
             content_label = self.request.GET.get('content-label')
@@ -333,6 +334,9 @@ class CommentsViewSet(viewsets.ModelViewSet):
                 object_pk = int(self.request.GET['content-id']),
                 parent__isnull = True
             )
+            if order == 'votes':
+                total_comments = total_comments.annotate(vote_count=Count('votes'))
+                return total_comments.order_by('-vote_count')
             return total_comments.order_by(order)
         else:
             return super(CommentsViewSet, self).get_queryset()

@@ -42,7 +42,7 @@ var CommentListView = Backbone.View.extend({
 		this.collection = new CommentCollection(options);
 		this.collection.state.pageSize = window.pageSize;
 		this.collection.fetch({
-			success: function (collection, response, method) {
+			success: function () {
 				self.render();
 			}
 		});
@@ -70,9 +70,6 @@ var CommentListView = Backbone.View.extend({
 				this.nextPage();
 			}
 		}.bind(this));
-		if (this.collection.length <= CivilApp.maxComments) {
-			$('#comment-order-controls').hide();
-		}
 	},
 	
 	renderComment: function (item) {
@@ -120,12 +117,18 @@ var CommentListView = Backbone.View.extend({
 	},
 	
 	filter: function (filter) {
+		var self = this;
 		// Reset
 		this.$el.empty();
 		// We use one of the filters: 'votes', 'submit_date', '-submit_date'/
-		this.collection.state.currentPage = null;
+		this.collection.state.currentPage = 1;
 		_.extend(this.collection.queryParams, {
 			filter: filter
+		});
+		this.collection.fetch({
+			success: function () {
+				self.render();
+			}
 		});
 	},
 	
