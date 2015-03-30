@@ -1592,27 +1592,44 @@ padding-bottom: 40px;
 
 //task3 page PROJEKTY
 #task-page-header-block{
+    > .container{
+        position: relative;
+        max-height: 300px;
+        .change-background-btn{
+            margin: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+    }
     .title-container{
-        margin: 21px auto 0 auto;
+        //margin: 21px auto 0 auto;
+        margin: 0;
+        width: 100%;
         .project-name{
-            background-color: rgba(0,0,0,0.5);
-            display: inline-block;
-            margin: 8px 0;
+            margin-top: 25px;
             h1{
                 padding: 14px 17px;
                 margin: 0;
                 font-size: 25px;
                 line-height: 25px;
                 color: #FFF;
+                background-color: rgba(0,0,0,0.5);
+                display: inline-block;
+                margin: 8px 0;
             }
         }
         .project-content{
             max-width: 570px;
             width: 100%;
-            background-color: rgba(0,0,0,0.5);
+            margin: 0 auto;
+            height: 110px;
             p{
-                padding: 10px 12px;
+                display: inline-block;
                 text-align: left;
+                padding: 10px 12px;
+                
+                background-color: rgba(0,0,0,0.5);
             }
         }
         .join-project-btn{
@@ -1627,6 +1644,9 @@ padding-bottom: 40px;
                 -webkit-border-radius: 0;
                 margin: 0 auto;
                 padding: 0 10px;
+                text-shadow: none;
+                -webkit-text-shadow: none;
+                -moz-text-shadow: none;
             }
             button{
                 line-height: 1;
@@ -1637,16 +1657,15 @@ padding-bottom: 40px;
             margin-bottom: 15px;
             margin-right: 0px !important;
             margin-left: 0;
+            max-height: 45px;
+            overflow: hidden;
             p{
                 color: #FFF;
                 font-weight: bold;
                 margin-bottom: 0;
             }
-            .task-ppl;
-            text-align: center;
-
-            @media(max-width: 600px){
-                display: none;
+            .task-ppl{
+                text-align: center;
             }
         }
     }
@@ -1656,6 +1675,8 @@ padding-bottom: 40px;
 .task-ppl{
     text-align: right;
     margin-right: 15px;
+    max-height: 25px;
+    overflow: hidden;
     a{
         display: inline-block;
         margin-left: 2px;
@@ -1762,6 +1783,12 @@ small.green{
                 }
                 .row{ margin: 0;}
                 input{ margin: 6px 0px 0px 0px;}
+                .label-task{
+                    padding: 2px 0 2px 3px;
+                    &.label-danger{
+                        padding: 2px 1px 2px 4px;
+                    }
+                }
                 #task-link-absolute{
                     position: absolute;
                     top: 0;
@@ -1774,6 +1801,10 @@ small.green{
                     z-index: 1;
                 }
                 .sub-task-title{
+                    overflow: hidden;
+                    max-height: 25px;
+                    display: inline-block;
+                    vertical-align: middle;
                     &.active {
                         background-color: #0083FB;
                     }
@@ -1850,6 +1881,9 @@ small.green{
                             border-radius: 25px;
                             -webkit-border-radius: 25px;
                             line-height: 1;
+                            text-shadow: none;
+                            -webkit-text-shadow: none;
+                            -moz-text-shadow: none;
                         }
                     }
                 }
@@ -1888,6 +1922,11 @@ small.green{
             margin-left: 5px;
         }
     }
+}
+.add-task-right{
+    float: right;
+    display: inline-block;
+    margin: 7px 25px;
 }
 .task-comments-right{
     margin-top: 10px;
@@ -1931,6 +1970,7 @@ small.green{
     z-index: 2;
     .custom-controls{
       display: block;
+      height: 30px;
     }
   }
   .custom-controls{
