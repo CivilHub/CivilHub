@@ -149,21 +149,21 @@ class BackgroundModelMixin(object):
 @python_2_unicode_compatible
 class Location(models.Model, BackgroundModelMixin):
     """ Basic location model. """
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(max_length=200, unique=True)
-    description = models.TextField(max_length=10000, blank=True)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    names = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames')
-    creator = models.ForeignKey(User, blank=True, related_name='created_locations')
-    users = models.ManyToManyField(User, blank=True)
-    parent = models.ForeignKey('Location', blank=True, null=True)
-    population = models.IntegerField(blank=True, null=True)
-    date_created = models.DateTimeField(auto_now_add=True)
-    country_code = models.CharField(max_length=10)
-    image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg')
+    name = models.CharField(max_length=200, verbose_name=_(u"name"))
+    slug = models.SlugField(max_length=200, unique=True, verbose_name=_(u"slug"))
+    description = models.TextField(max_length=10000, blank=True, verbose_name=_(u"description"))
+    latitude = models.FloatField(blank=True, null=True, verbose_name=_(u"latitude"))
+    longitude = models.FloatField(blank=True, null=True, verbose_name=_(u"longitude"))
+    names = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames', verbose_name=_(u"alternate names"))
+    creator = models.ForeignKey(User, blank=True, related_name='created_locations', verbose_name=_(u"creator"))
+    users = models.ManyToManyField(User, blank=True, verbose_name=_(u"users"))
+    parent = models.ForeignKey('Location', blank=True, null=True, verbose_name=_(u"parent"))
+    population = models.IntegerField(blank=True, null=True, verbose_name=_(u"population"))
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
+    country_code = models.CharField(max_length=10, verbose_name=_(u"country code"))
+    image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg', verbose_name=_(u"image"))
     # Here we mark regions/cities/capitals etc. with geonames
-    kind = models.CharField(max_length=10)
+    kind = models.CharField(max_length=10, verbose_name=_(u"kind"))
 
     # custom managers
     objects = models.Manager()
@@ -198,6 +198,8 @@ class Location(models.Model, BackgroundModelMixin):
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
+        if self.parent is not None:
+            self.country_code = self.parent.country_code
         # We generate the appropriate slug
         if not self.slug:
             slug_entry = slugify('-'.join([self.name, self.country_code]))

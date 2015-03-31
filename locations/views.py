@@ -403,7 +403,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        obj = form.save(commit=False)
+        obj = form.save()
         obj.creator.profile.mod_areas.add(obj)
         obj.creator.profile.save()
         update_parent_location_list(obj)
@@ -440,10 +440,13 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     def post(self, request, slug=None):
         if not request.user.is_superuser:
             raise Http404
-        # Should be some try/catch, it may finally fail
-        location_pk = int(request.POST.get('new_location'))
-        new_location = get_object_or_404(Location, pk=location_pk)
-        move_location_contents(self.get_object(), new_location)
+        try:
+            location_pk = int(request.POST.get('new_location'))
+            new_location = get_object_or_404(Location, pk=location_pk)
+            move_location_contents(self.get_object(), new_location)
+        except (ValueError, TypeError):
+            # There is no other location selected
+            pass
         return super(DeleteLocationView, self).post(request, slug)
 
     def get(self, request, slug=None):

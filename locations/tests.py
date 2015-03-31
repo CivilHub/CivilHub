@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from ideas.models import Idea
 
 from .models import Location
+from .forms import LocationForm
 
 
 class MarkerCacheTestCase(TestCase):
@@ -43,9 +44,10 @@ class MarkerCacheTestCase(TestCase):
 
 
 class DeleteLocationTestCase(TestCase):
-    """ Tests for deleting location and moving content to other one. """
-    fixtures = ['fixtures/users.json',]
-
+    """
+    Tests for deleting location and moving content to other one.
+    TODO: this is just dummy test for now.
+    """
     def setUp(self):
         self.password = 'passphrase'
         self.client = Client()
@@ -66,3 +68,60 @@ class DeleteLocationTestCase(TestCase):
         # Check if locations detail page truly exists
         response = self.client.get('/{}/'.format(location1.slug))
         self.assertEqual(response.status_code, 200)
+
+
+class CreateLocationFormTestCase(TestCase):
+    """ Test form for creating new location. """
+    fixtures = ['fixtures/users.json',
+                'fixtures/countries.json',
+                'fixtures/locations.json',]
+
+    def test_location_form_with_valid_data(self):
+        """ Test that form with valid data works and location is saved properly. """
+        data = {
+            'name': 'Testowice',
+            'latitude': 30.00,
+            'longitude': -120.15,
+            'parent': Location.objects.get(slug='warsaw-pl').pk,
+            'population': 100,
+            'kind': 'PPLA',
+        }
+        form = LocationForm(data)
+        self.assertTrue(form.is_valid())
+        form.instance.creator = User.objects.first()
+        location = form.save()
+        self.assertIsInstance(location, Location)
+        self.assertEqual(location.country_code, location.parent.country_code)
+        self.assertEqual(location.mappointer_set.count(), 1)
+        mp = location.mappointer_set.first()
+        self.assertEqual(mp.latitude, location.latitude)
+        self.assertEqual(mp.longitude, location.longitude)
+
+    def test_location_form_without_parent(self):
+        """ Test that users are allowed to create locations only inside some
+        parent location, at least they have to choose country and region. """
+        data = {
+            'name': 'Testowice',
+            'latitude': 30.00,
+            'longitude': -120.15,
+            'population': 100,
+            'kind': 'PPLA',
+        }
+        form = LocationForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('parent', form.errors)
+
+    def test_location_form_with_country_as_parent(self):
+        """ Users should not be able to create locations that are direct country
+        location children. They have to choose at least some region. """
+        data = {
+            'name': 'Testowice',
+            'latitude': 30.00,
+            'longitude': -120.15,
+            'population': 100,
+            'kind': 'PPLA',
+            'parent': Location.objects.get(slug='poland-pl').pk,
+        }
+        form = LocationForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('parent', form.errors)

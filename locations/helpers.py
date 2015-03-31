@@ -6,6 +6,7 @@ from actstream.actions import follow, unfollow
 
 from .models import Location
 
+
 def get_most_followed(country_code=None, limit=20):
     """
     We download a list of the most often followed location. We can narrow
