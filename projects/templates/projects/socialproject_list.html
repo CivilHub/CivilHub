@@ -4,7 +4,7 @@
 </div>{% endif %}
 {% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}<div class="col-sm-3">
   <div class="locBox loc-box-project">
-    <div class="locBoxHeader" style="background-image: url({{ item.image }})">
+    <div class="locBoxHeader" style="background-image: url({{ item.image.url }})">
       <div class="locBoxLoc"><a href="#">{{ location }}</a></div>
       <div class="locBoxContainer">
         <div class="locBoxAuthor">
