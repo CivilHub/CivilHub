@@ -86,6 +86,10 @@ def obj_to_dict(obj):
             }
         })
 
+    elif content_type.model == 'socialproject':
+        context['description'] = obj.get_description()
+        context['name'] = _(u"Project")
+
     else:
         raise Exception(_(u"Wrong model instance"))
     context['description'] = truncatewords_html(context['description'], 15)
@@ -208,6 +212,7 @@ class Location(models.Model, BackgroundModelMixin):
                 slug_entry = slug_entry + '-' + str(chk)
             self.slug = slug_entry
         # We check whether the image has changed and if needed, we delete the old one
+        # FIXME: we are using signal for now, this is no longer necessary and deprecated.
         try:
             orig = Location.objects.get(pk=self.pk)
             if not u'nowhere' in orig.image.name and orig.image != self.image:
@@ -312,6 +317,7 @@ class Location(models.Model, BackgroundModelMixin):
         qs += [obj_to_dict(x) for x in self.news_set.all()]
         qs += [obj_to_dict(x) for x in self.idea_set.all()]
         qs += [obj_to_dict(x) for x in self.discussion_set.all()]
+        qs += [obj_to_dict(x) for x in self.projects.all()]
         return sorted(qs, key=lambda x: x['date_created'], reverse=True)
 
     def __str__(self):

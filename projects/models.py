@@ -89,6 +89,17 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
             return 0
         return int(float(finished_tasks) / float(all_tasks) * 100)
 
+    @property
+    def image_url(self):
+        # Legacy method - we need it to simplify serialization
+        # process when fetching contents from locations.
+        return self.image.url
+
+    @property
+    def thumbnail(self):
+        # Another legacy method for serializer.
+        return self.thumb_url()
+
     def get_description(self):
         return self.description
 
