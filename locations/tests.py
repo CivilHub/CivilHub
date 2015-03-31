@@ -131,7 +131,11 @@ class CreateLocationFormTestCase(TestCase):
 
 
 class GetFollowersHelperTestCase(TestCase):
-    """ This is test case for helper getting followers from selected location. """
+    """ This is test case for helper getting followers from selected location.
+        Just remember that in this test case we also have superuser enabled and
+        he is following our country location, that's why there is always one
+        more follower in returned list.
+    """
     fixtures = ['fixtures/users.json',
                 'fixtures/countries.json',
                 'fixtures/locations.json',]
@@ -153,7 +157,7 @@ class GetFollowersHelperTestCase(TestCase):
     def test_getting_followers_without_deep_option(self):
         """ Without deep option enabled function should return only this location's followers. """
         followers = get_followers_from_location(self.country.pk)
-        self.assertEqual(len(followers), 1)
+        self.assertEqual(len(followers), 2)
         self.assertIn(self.user1, followers)
         self.assertNotIn(self.user2, followers)
         self.assertNotIn(self.user3, followers)
@@ -161,7 +165,7 @@ class GetFollowersHelperTestCase(TestCase):
     def test_getting_followers_with_deep_from_country(self):
         """ Function should return all followers from country and children locations. """
         followers = get_followers_from_location(self.country.pk, deep=True)
-        self.assertEqual(len(followers), 3)
+        self.assertEqual(len(followers), 4)
         self.assertIn(self.user1, followers)
         self.assertIn(self.user2, followers)
         self.assertIn(self.user3, followers)
@@ -169,15 +173,18 @@ class GetFollowersHelperTestCase(TestCase):
     def test_getting_followers_with_deep_from_region(self):
         """ This time we shoud see just followers for region and city. """
         followers = get_followers_from_location(self.region.pk, deep=True)
-        self.assertEqual(len(followers), 2)
+        self.assertEqual(len(followers), 3)
         self.assertNotIn(self.user1, followers)
         self.assertIn(self.user2, followers)
         self.assertIn(self.user3, followers)
 
     def test_getting_followers_with_deep_from_city(self):
-        """ This location children have no followers, so we should see only user3 in list. """
+        """
+        This location children have no followers, so we should
+        see only user3 and superuser on list.
+        """
         followers = get_followers_from_location(self.city.pk, deep=True)
-        self.assertEqual(len(followers), 1)
+        self.assertEqual(len(followers), 2)
         self.assertNotIn(self.user1, followers)
         self.assertNotIn(self.user2, followers)
         self.assertIn(self.user3, followers)

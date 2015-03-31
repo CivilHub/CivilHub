@@ -60,12 +60,12 @@ def get_followers_from_location(location_pk, deep=False):
     We don't count superusers in results, only regular users.
     """
     location = Location.objects.get(pk=location_pk)
-    followers = list(location.users.filter(is_superuser=False))
+    followers = list(location.users.all())
     if not deep:
         return followers
     for pk in location.get_children_id_list():
         location = Location.objects.get(pk=pk)
-        for user in location.users.filter(is_superuser=False):
+        for user in location.users.all():
             if not user in followers:
                 followers.append(user)
     return followers
