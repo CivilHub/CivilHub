@@ -309,9 +309,9 @@ class NewUserView(TemplateView):
         return context
 
     def get(self, request):
-        if request.session.get('new_user') is None:
-            return redirect('/activity/')
-        del request.session['new_user']
+        # if request.session.get('new_user') is None:
+        #     return redirect('/activity/')
+        # del request.session['new_user']
         return super(NewUserView, self).get(request)
 
 
