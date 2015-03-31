@@ -20,7 +20,7 @@
         //width: 270px;
         width: 100%;
         max-width: 270px;
-        line-height: 40px;
+        //line-height: 40px;
         position: relative;
         border: 1px solid #adadad;
         border-radius: @entry-border-radius;
@@ -48,7 +48,7 @@
         
         .sublocation-content {
             padding: 10px;
-            padding-top: 0;
+            //padding-top: 0;
         }
         
         .btn-follow-location, .btn-unfollow-location {
@@ -79,4 +79,70 @@
         }
     }
 
+}
+.sublocation{
+    max-width: 350px;
+    margin: 0 auto 10px;
+    @media(max-width: 768px){
+        clear: both;
+    }
+    .bgactive-follower{
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: inline-block;
+        padding: 15px 15px 7px;
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+}
+.active-sublocation{
+    margin-bottom: 8px;
+    .location-name-title{
+        text-align: center;
+        margin-bottom: 4px;
+        background-color: rgba(0,0,0,0.5);
+        padding: 15px;
+        >a {
+            color:#FFF;
+            font-size: 18px;
+            line-height: 22px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+    }
+    .followers {
+        display: inline-block;
+        height: 25px;
+        line-height: 25px;
+        vertical-align: middle;
+        width: 49%;
+        background-color: rgba(0, 0, 0, 0.5);
+        float: left;
+        margin-bottom: 8px;
+        text-align: center;
+        color: #FFF;
+        span{
+            margin-left: 0
+        }
+    }
+    .btn-follow-location{
+        height: 25px;
+        width: 49%;
+        border: 0;
+        padding: 0;
+        float: right;
+        color:#fff;
+        background-color: #85BE00;
+        margin-bottom: 8px;
+    }
+    .btn-unfollow-location{
+        height: 25px;
+        width: 49%;
+        border: 0;
+        padding: 0;
+        float: right;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        margin-bottom: 8px;
+    }
 }

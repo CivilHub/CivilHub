@@ -1,15 +1,19 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<div>
-  <p>{% blocktrans %}Thank You for register in CivilHub.{% endblocktrans %}</p>
-  <p>{% blocktrans %}Below you can see list of places that may be interesting for you.{% endblocktrans %}</p>
+{% block header %}{% endblock %}
+{% block content %}<div class="text-center mb20">
+  <h1 class="custom-main-title">{% blocktrans %}Thank You for register in CivilHub.{% endblocktrans %}</h1>
+  <h4>{% blocktrans %}Below you can see list of places that may be interesting for you.{% endblocktrans %}</h4></div><br>
 	{% for location in locations %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
     <div class="col-sm-3 sublocation">
-      <img src="{{ location.thumb_url }}" />
-      <div class="location-content"><a href="{{ location.get_absolute_url }}"><b>{{ location.name }}</b></a></div>
-      {% if user not in location.users.all and user.is_authenticated %}<button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
-      {% else %}<button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>{% endif %}
-      <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ location.users.count }}</div>
+      <div class="bgactive-follower" style="background-image: url({{ location.thumb_url }});">
+        <div class="active-sublocation">
+          <div class="location-name-title"><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></div>
+          <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span> {{ location.users.count }}</div>
+          {% if user not in location.users.all and user.is_authenticated %}<button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+          {% else %}<button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>{% endif %}
+        </div>
+      </div>
     </div>
   {% if forloop.counter|divisibleby:4 or forloop.counter == locations.count %}</div>{% endif %}{% endfor %}
-  <p><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary">{% trans "Proceed" %}</a></p>
+  <p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a></p>
 </div>{% endblock %}

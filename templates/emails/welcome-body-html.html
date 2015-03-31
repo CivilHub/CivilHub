@@ -2,302 +2,78 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CivilHub.org</title>
 
+
+
   <style type="text/css">
-    /* Take care of image borders and formatting, client hacks */
-    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}
-    a img { border: none; }
-    table { border-collapse: collapse !important;}
-    #outlook a { padding:0; }
-    .ReadMsgBody { width: 100%; }
-    .ExternalClass { width: 100%; }
-    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }
-    table td { border-collapse: collapse; }
-    .ExternalClass * { line-height: 115%; }
-    .container-for-gmail-android { min-width: 600px; }
+    @import url(http://fonts.googleapis.com/css?family=Lato:400);
 
 
-    /* General styling */
-    * {
-      font-family: 'Lato', sans-serif;
-    }
+    /* Take care of image borders and formatting */
 
-    body {
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: none;
-      width: 100% !important;
-      margin: 0 !important;
-      height: 100%;
-      color: #676767;
-    }
-
-    td {
-      font-family: 'Lato', sans-serif;
-      font-size: 14px;
-      color: #777777;
-      text-align: center;
-      line-height: 21px;
+    img {
+      max-width: 600px;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
     }
 
     a {
-      color: #676767;
-      text-decoration: none !important;
+      text-decoration: none;
+      border: 0;
+      outline: none;
     }
 
-    .pull-left {
-      text-align: left;
+    a img {
+      border: none;
     }
 
-    .pull-right {
-      text-align: right;
+    /* General styling */
+
+    td, h1, h2, h3  {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
     }
 
-    .header-lg,
-    .header-md,
-    .header-sm {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: normal;
-      padding: 35px 0 0;
-      color: #4d4d4d;
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%;
+      height: 100%;
+      color: #37302d;
+      background: #ffffff;
     }
 
-    .header-md {
+    table {
+      background:
+    }
+
+    h1, h2, h3 {
+      padding: 0;
+      margin: 0;
+      color: #4D4D4D;
+      font-weight: 400;
+    }
+    h1{
+      font-weight: bold;
+    }
+    h2{
+      font-size: 14px;
+    }
+    h3 {
+      color: #21c5ba;
       font-size: 24px;
     }
-
-    .header-sm {
-      padding: 5px 0;
-      font-size: 18px;
-      line-height: 1.3;
-    }
-
-    .content-padding {
-      padding: 20px 0 30px;
-    }
-
-    .mobile-header-padding-right {
-      width: 290px;
-      text-align: right;
-      padding-left: 10px;
-    }
-
-    .mobile-header-padding-left {
-      width: 290px;
-      text-align: left;
-      padding-left: 10px;
-    }
-
-    .free-text {
-      width: 100% !important;
-      padding: 10px 60px 0px;
-    }
-
-    .block-rounded {
-      border-radius: 5px;
-      border: 1px solid #e5e5e5;
-      vertical-align: top;
-    }
-
-    .button {
-      padding: 55px 0 0;
-    }
-
-    .info-block {
-      padding: 0 20px;
-      width: 260px;
-    }
-
-    .mini-block-container {
-      padding: 30px 50px;
-      width: 500px;
-    }
-
-    .mini-block {
-      background-color: #ffffff;
-      width: 498px;
-      border: 1px solid #cccccc;
-      border-radius: 5px;
-      padding: 60px 75px;
-    }
-
-    .block-rounded {
-      width: 260px;
-    }
-
-    .info-img {
-      width: 258px;
-      border-radius: 5px 5px 0 0;
-    }
-
-    .force-width-img {
-      width: 480px;
-      height: 1px !important;
-    }
-
-    .force-width-full {
-      width: 600px;
-      height: 1px !important;
-    }
-
-    .user-img img {
-      width: 82px;
-      border-radius: 5px;
-      border: 1px solid #cccccc;
-    }
-
-    .user-img {
-      width: 92px;
-      text-align: left;
-    }
-
-    .user-msg {
-      width: 236px;
-      font-size: 14px;
-      text-align: left;
-      font-style: italic;
-    }
-
-    .code-block {
-      padding: 10px 0;
-      border: 1px solid #cccccc;
-      width: 20px;
-      color: #4d4d4d;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-     .mini-img {
-      padding: 5px;
-      width: 140px;
-    }
-
-    .mini-img img {
-      border-radius: 5px;
-      width: 140px;
-    }
-
-    .mini-imgs {
-      padding: 25px 0 30px;
-    }
-
-    .progress-bar {
-      padding: 0 15px 0;
-    }
-
-    .step {
-      vertical-align: top;
-    }
-
-    .step img {
-      width: 109px;
-      height: 78px;
-    }
-
-    .active {
-      font-weight: bold;
-
-    }
-    /* CUSTOM STYLES */
-    .bg_logo {
-      background-image: url("https://civilhub.org/static/places_core/img/emails/logo.png");
-      background-size: 137px 25px;
-      background-repeat: no-repeat;
-      width: 137px;
-      height: 25px;
-    }
-
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-      .bg_logo {
-        background-image: url("https://civilhub.org/static/places_core/img/emails/logo@2x.png");
-        background-size: 137px 25px;
-        background-repeat: no-repeat;
-        width: 137px;
-        height: 25px;
-      }
-    }
-
-    .bg_step_1 {
-      background-image: url("https://civilhub.org/static/places_core/img/emails/step1.png");
-      background-size: 109px 78px;
-      background-repeat: no-repeat;
-      width: 109px;
-      height: 78px;
-    }
-
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-      .bg_logo {
-        background-image: url("https://civilhub.org/static/places_core/img/emails/step1@2x.png");
-        background-size: 109px 78px;
-        background-repeat: no-repeat;
-        width: 109px;
-        height: 78px;
-      }
-    }
-
-    .bg_step_2 {
-      background-image: url("https://civilhub.org/static/places_core/img/emails/step2.png");
-      background-size: 109px 78px;
-      background-repeat: no-repeat;
-      width: 109px;
-      height: 78px;
-    }
-
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-      .bg_logo {
-        background-image: url("https://civilhub.org/static/places_core/img/emails/step2@2x.png");
-        background-size: 109px 78px;
-        background-repeat: no-repeat;
-        width: 109px;
-        height: 78px;
-      }
-    }
-
-    .bg_step_3 {
-      background-image: url("https://civilhub.org/static/places_core/img/emails/step3.png");
-      background-size: 109px 78px;
-      background-repeat: no-repeat;
-      width: 109px;
-      height: 78px;
-    }
-
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-      .bg_logo {
-        background-image: url("https://civilhub.org/static/places_core/img/emails/step3@2x.png");
-        background-size: 109px 78px;
-        background-repeat: no-repeat;
-        width: 109px;
-        height: 78px;
-      }
-    }
-
-    .footer_info a{
-      padding: 10px;
-      font-size: 12px;
-    }
-
-  </style>
-
-  <style type="text/css" media="screen">
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans');
   </style>
 
   <style type="text/css" media="screen">
     @media screen {
-      /* Thanks Outlook 2013! http://goo.gl/XLxpyl */
-      * {
-          font-family: 'Lato', sans-serif; !important;
+       /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+      td, h1, h2, h3 {
+        font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
       }
     }
   </style>
@@ -306,237 +82,186 @@
     /* Mobile styles */
     @media only screen and (max-width: 480px) {
 
-      table[class*="container-for-gmail-android"] {
-        min-width: 290px !important;
-        width: 100% !important;
-      }
-
       table[class="w320"] {
         width: 320px !important;
       }
 
-      td[class*="mobile-header-padding-left"] {
-        width: 160px !important;
+      table[class="w300"] {
+        width: 300px !important;
       }
 
-      img[class="force-width-gmail"] {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
+      table[class="w290"] {
+        width: 290px !important;
       }
 
-      td[class="mobile-block"] {
-        display: block !important;
+      td[class="w320"] {
+        width: 320px !important;
       }
 
-      td[class="mini-img"],
-      td[class="mini-img"] img{
-        width: 150px !important;
-      }
-
-      td[class*="mobile-header-padding-left"] {
-        width: 160px !important;
-        padding-left: 0 !important;
-      }
-
-      td[class*="mobile-header-padding-right"] {
-        width: 160px !important;
-        padding-right: 0 !important;
-      }
-
-      td[class="header-lg"] {
-        font-size: 24px !important;
-        padding-bottom: 5px !important;
-      }
-
-      td[class="header-md"] {
-        font-size: 18px !important;
-        padding-bottom: 5px !important;
-      }
-
-      td[class="content-padding"] {
-        padding: 5px 0 30px !important;
-      }
-
-       td[class="button"] {
-        padding: 5px !important;
-      }
-
-      td[class*="free-text"] {
-        padding: 10px 18px 30px !important;
-      }
-
-      img[class="force-width-img"],
-      img[class="force-width-full"] {
-        display: none !important;
-      }
-
-      td[class="info-block"] {
-        display: block !important;
-        width: 280px !important;
-        padding-bottom: 40px !important;
-      }
-
-      td[class="info-img"],
-      img[class="info-img"] {
-        width: 278px !important;
-      }
-
-      td[class="mini-block-container"] {
-        padding: 8px 20px !important;
-        width: 280px !important;
-      }
-
-      td[class="mini-block"] {
-        padding: 20px 0 !important;
-      }
-
-      td[class*="step"] img {
-        width: 86px !important;
-        height: 62px !important;
-      }
-
-      td[class="progress-bar"] {
-        padding: 0 11px 25px;
-      }
-
-      td[class="user-img"] {
-        display: block !important;
+      td[class="mobile-center"] {
         text-align: center !important;
-        width: 100% !important;
-        padding-bottom: 10px;
       }
 
-      td[class="user-msg"] {
-        display: block !important;
-        padding-bottom: 20px;
+      td[class="mobile-padding"] {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 20px !important;
+      }
+
+      img[class="image-resize"] {
+        width: 73px !important;
+        height: 59px !important;
+      }
+
+      td[class="font-smaller"] {
+        font-size: 14px !important;
       }
     }
   </style>
 </head>
-
-<body bgcolor="white">
-<table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
+<body class="body" style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none" bgcolor="#ffffff">
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%" >
   <tr>
-    <td align="left" valign="top" width="100%" style="background:repeat-x url(https://civilhub.org/static/places_core/img/emails/bg_top_02.jpg) #ffffff;">
-      <center>
-       <img src="https://civilhub.org/static/places_core/img/emails/transparent.png" class="force-width-gmail">
-        <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" background="https://civilhub.org/static/places_core/img/emails/bg_top_02.jpg" style="background-color:transparent">
-          <tr>
-            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align:middle;">
-            <!--[if gte mso 9]>
+    <td align="center" valign="top" bgcolor="#ffffff"  width="100%">
+
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td style="border-bottom: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td valign="top" style="padding:20px 0; text-align:left;" class="mobile-center">
+                  <a href="https://civilhub.org"><img width="137" height="25" src="https://civilhub.org/static/places_core/img/emails/logo.png"></a>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7;">
+          <!--[if gte mso 9]>
             <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:80px; v-text-anchor:middle;">
-              <v:fill type="tile" src="https://civilhub.org/static/places_core/img/emails/bg_top_02.jpg" color="#ffffff" />
-              <v:textbox inset="0,0,0,0">
-            <![endif]-->
-              <center>
-                <table cellpadding="0" cellspacing="0" width="600" class="w320">
-                  <tr>
-                    <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;">
-                        <a href=""><div class="bg_logo"></div></a>
-                    </td>
-                    <td class="pull-right mobile-header-padding-right" style="color: #4d4d4d;">
-                      <a href=""><img width="38" height="47" src="https://civilhub.org/static/places_core/img/emails/social_09.gif" alt="facebook" /></a>
-                    </td>
-                  </tr>
-                </table>
-              </center>
-              <!--[if gte mso 9]>
-              </v:textbox>
-            </v:rect>
-            <![endif]-->
-            </td>
-          </tr>
-        </table>
-      </center>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
-      <center>
-        <table cellspacing="0" cellpadding="0" width="600" class="w320">
-          <tr>
-            <td class="header-lg">
-              {% trans "Almost done!" %}
-            </td>
-          </tr>
-          <tr>
-            <td class="free-text">
-              {% blocktrans %}There's one last step until your account is 100% ready. We just need you to activate your account.{% endblocktrans %}
-            </td>
-          </tr>
-          <tr>
-            <td class="mini-block-container">
-              <table cellspacing="0" cellpadding="0" width="100%"  style="border-collapse:separate !important;">
+            <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <div>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="530" height="200" class="w320">
                 <tr>
-                  <td class="mini-block">
-                    <table cellpadding="0" cellspacing="0" width="100%">
-                      <tr>
-                        <td class="progress-bar">
-                          <table cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
+                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="200">
 
-                              <!-- STEP ONE -->
-                              <td class="step">
-                                <div class="bg_step_1"></div>
-                                {% trans "Create Account" %}
-                              </td>
+                    <h1>{% trans "Almost done!" %}</h1><br>
+                    <h2>{% blocktrans %}There's one last step until your account is 100% ready. We just need you to activate your account.{% endblocktrans %}</h2>
 
-                               <!-- STEP TWO -->
-                              <td class="step active">
-                                <div class="bg_step_2"></div>
-                                {% trans "Activate" %}
-                              </td>
-
-                               <!-- STEP THREE -->
-                              <td class="step">
-                                <div class="bg_step_3"></div>
-                                {% trans "Complete" %}
-                              </td>
-
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td class="button">
-                          <div><!--[if mso]>
-                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ link }}" style="height:45px;v-text-anchor:middle;width:155px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
-                              <w:anchorlock/>
-                              <center style="color:#ffffff;font-family:'Lato',sans-serif;font-size:14px;font-weight:regular;">{% trans "Update Account" %}</center>
-                            </v:roundrect>
-                          <![endif]--><a href="{{ link }}"
-                          style="background-color:#84bd00;border-radius:5px;color:#ffffff;display:inline-block; font-family:'Lato',sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">{% trans "Activate Account" %}</a></div>
-                        </td>
-                      </tr>
-                    </table>
                   </td>
                 </tr>
               </table>
-            </td>
-          </tr>
-        </table>
-      </center>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="100%" style="background-color: #ffffff;  border-top: 1px solid #e5e5e5;">
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="100%" style="background-color: white; height: 100px;">
-      <center>
-        <table cellspacing="0" cellpadding="0" width="600" class="w320">
-          <tr>
-            <td style="padding: 25px 0 25px">
-              <strong>CivilHub.org</strong><br>
-              <div class="footer_info">
-                <a href="https://civilhub.org/terms/">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/">{% trans "Privacy Policy" %}</a>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </center>
+            </center>
+          </div>
+          <!--[if gte mso 9]>
+            </v:textbox>
+          </v:rect>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7; border-bottom: 3px solid #f0f0f0;">
+
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320" style="margin: 0 0 50px 0;">
+              <tr>
+                <td valign="top" style="border:1px solid #a1a1a1; background-color: #ffffff;">
+
+                <center>
+                  <table style="margin: 0 auto;"cellspacing="0" cellpadding="10" width="280">
+                        <tr>
+                          <td style="padding: 40px 0px;">
+                            <table cellspacing="0" cellpadding="0" width="100%">
+                              <tr>
+
+                                <td style="text-align:left;">
+                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step1.png">
+                                </td>
+
+                                <td style="text-align:left;">
+                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step2.png">
+                                </td>
+                                
+                                <td style="text-align:left;">
+                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step3.png">
+                                </td>
+
+                                
+                            
+                              </tr>
+                              <tr>
+                                <td class="font-smaller" style="text-align:center;">{% trans "Create Account" %}</td>
+                                <td class="font-smaller" style="text-align:center;"><b>{% trans "Activate" %}</b></td>
+                                <td class="font-smaller" style="text-align:center;">{% trans "Complete" %}</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <table cellspacing="0" cellpadding="0" style="margin: 0 0 20px 0;">
+                            <tr>
+                              <td style="width:150px; background-color: #3bcdc3;">
+                                <div><!--[if mso]>
+                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ link }}" style="height:33px;v-text-anchor:middle;width:150px;" arcsize="8%" stroke="f" fillcolor="#3bcdc3">
+                                      <w:anchorlock/>
+                                      <center style="color:#ffffff;font-family:sans-serif;font-size:13px;">{% trans "Update now!" %}</center>
+                                    </v:roundrect>
+                                  <![endif]-->
+                                  <!--[if !mso]><!-- --><a href="{{ link }}"><table cellspacing="0" cellpadding="0" width="100%"><tr><td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;"><span style="color:#ffffff">{% trans "Activate Account" %}</span></td></tr></table></a>
+                                  <!--<![endif]-->
+                                </div>
+                              </td>
+                              <td>
+                                &nbsp;
+                              </td>
+                            </tr>
+                          </table>
+                        </tr>
+                      </table>
+                    </center>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" valign="top">
+          <center>
+            <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
+              <tr>
+                <td style="text-align:center; margin:0 auto;" width="100%" bgcolor="#ffffff">
+                   <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
+                    CivilHub.org
+                   </a>
+                </td>
+              </tr>
+            </table>
+          </center>
+
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="30" width="100%">
+                    <tr>
+                      <td style="text-align:center; padding: 0 30px 30px 30px;">
+                        <a href="https://civilhub.org/terms/" style="font-size: 12px; color:#4d4d4d;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px; color:#4d4d4d;">{% trans "Privacy Policy" %}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
     </td>
   </tr>
 </table>
