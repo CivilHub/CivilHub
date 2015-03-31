@@ -1,6 +1,12 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% block content %}
-<div class="main-content">
+<div class="col-sm-3">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Rules" %}</div>
+    <div class="sidebar-content"></div>
+  </div>
+</div>
+<div class="main-content col-sm-9">
   <div class="create-form newFormCreate">
     <h3>{% trans 'Create new task' %}</h3>
     <form method="post" action="" class="form-horizontal">{% csrf_token %}
