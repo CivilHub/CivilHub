@@ -1,12 +1,28 @@
-{% extends 'places_core/base.html' %}
-{% load i18n %}
-
-{% block content %}
-    <p>{% trans "Are you sure that you would like to delete this place?" %}</p>
-    <ul>
-    <form method="POST" action=".">
-        <li><input type="submit" value="{% trans "Yes" %}" /></li>
-    </form>
-    <li><a href="{{ next }}">{% trans "No" %}</a></li>
-    </ul>
-{% endblock %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/location-delete.js"></script>{% endblock %}
+{% block content %}<p>{% trans "Are you sure that you would like to delete this place?" %}</p>
+<p>{% trans 'Here you may choose another location to which you want to move content from deleted one.' %}</p>
+<style type="text/css">
+	/* Who made reset for all tables to 0 padding? */
+	#autocompleter-results td {
+		padding: 5px 10px;
+	}
+	/* Required because we are not using native widget menu in this case. */
+	.ui-menu {
+		display: none !important;
+	}
+</style>
+<script type="text/template" id="autocomplete-item-tpl">
+	<tr>
+		<td><input type="radio" name="new_location" value="<%= pk %>"></td>
+		<td><%= pk %></td>
+		<td><%= fields.name %></td>
+		<td><%= fields.slug %></td>
+	</tr>
+</script>
+<input id="location-autocompleter" type="text">
+<form method="POST" action="">{% csrf_token %}
+	<table id="autocompleter-results"></table>
+  <input type="submit" value="{% trans "Yes" %}">
+</form>
+<a href="/">{% trans "No" %}</a>{% endblock %}

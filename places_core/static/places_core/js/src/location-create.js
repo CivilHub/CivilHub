@@ -18,16 +18,6 @@ require([window.STATIC_URL + "/js/config.js"], function () {
 			var form = new LocationForm();
 		});
 
-		$(document).ready(function () {
-			$('#danger-button').on('click', function (e) {
-				var $form = $(this).parents('form:first');
-				e.preventDefault();
-				ui.confirmWindow(function () {
-					$form.submit();
-				});
-			});
-		});
-
 		$(document).trigger('load');
 
 	});

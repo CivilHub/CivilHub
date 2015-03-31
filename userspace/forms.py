@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.conf import settings
+from django.contrib import auth
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
@@ -71,24 +72,45 @@ class SocialAuthPassetForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    """
-    Login registered user
-    """
-    email = forms.CharField(
-        label = _('Email'),
-        max_length = 128,
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
-    )
+    """ User login form. """
+    email = forms.EmailField(required=True, label=_(u"email"))
     password = forms.CharField(
-        label = _('Password'),
-        max_length = 128,
-        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
-    )
-    remember_me = forms.BooleanField(
-        label = _("Remember me"),
-        required = False,
-        widget = forms.CheckboxInput(attrs={'checked': 'checked'})
-    )
+        required = True,
+        label = _(u"password"),
+        widget = forms.PasswordInput())
+
+    def clean(self):
+        cleaned_data = super(LoginForm, self).clean()
+        email = cleaned_data.get('email', None)
+        password = cleaned_data.get('password', None)
+        user = None
+        non_field_errors = []
+        if email is None:
+            msg = _(u"No email address")
+            self.add_error('email', msg)
+        if password is None:
+            msg = _(u"Password cannot be blank")
+            self.add_error('password', msg)
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            msg = _(u"There is no user with this email address")
+            non_field_errors.append(msg)
+        if user is not None:
+            auth_user = auth.authenticate(username=user.username, password=password)
+            if auth_user is None:
+                msg = _("Wrong password")
+                non_field_errors.append(msg)
+            elif auth_user is not None and not auth_user.is_active:
+                msg = _("Your account is not active yet")
+                non_field_errors.append(msg)
+            else:
+                self.instance = auth_user
+        if len(non_field_errors):
+            self._errors[forms.forms.NON_FIELD_ERRORS] = self.error_class(non_field_errors)
+            if 'email' in cleaned_data: del cleaned_data['email']
+            if 'password' in cleaned_data: del cleaned_data['password']
+        return cleaned_data
 
 
 class UserProfileForm(forms.ModelForm, BootstrapBaseForm):

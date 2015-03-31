@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
-from django.core import cache
+from django.core import cache, serializers
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -46,6 +46,8 @@ from actstream.models import Action
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
+
+from .helpers import move_location_contents
 
 redis_cache = cache.get_cache('default')
 
@@ -312,16 +314,25 @@ class LocationPollCreate(LoginRequiredMixin, CreateView):
 
 
 class LocationListView(ListView):
-    """
-    Location list
-    """
+    """ List view for all locations. """
     model = Location
     context_object_name = 'locations'
     template_name = 'location_list.html'
+
     def get_context_data(self, **kwargs):
         context = super(LocationListView, self).get_context_data(**kwargs)
         context['title'] = _(u'Locations')
         return context
+
+    def get(self, request):
+        """ Returns results for autocomplete widget. """
+        if request.is_ajax():
+            fields = ('id', 'name', 'slug', 'parent', 'country_code',)
+            term = request.GET.get('term', '')
+            locations = self.model.objects.filter(name__icontains=term)
+            context = serializers.serialize("json", locations, fields=fields)
+            return HttpResponse(context, content_type="application/json")
+        return super(LocationListView, self).get(request)
 
 
 class LocationDetailView(LocationViewMixin):
@@ -429,7 +440,16 @@ class DeleteLocationView(LoginRequiredMixin, DeleteView):
     def post(self, request, slug=None):
         if not request.user.is_superuser:
             raise Http404
+        # Should be some try/catch, it may finally fail
+        location_pk = int(request.POST.get('new_location'))
+        new_location = get_object_or_404(Location, pk=location_pk)
+        move_location_contents(self.get_object(), new_location)
         return super(DeleteLocationView, self).post(request, slug)
+
+    def get(self, request, slug=None):
+        if not request.user.is_superuser:
+            raise Http404
+        return super(DeleteLocationView, self).get(request, slug)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

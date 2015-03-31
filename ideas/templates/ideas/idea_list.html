@@ -17,7 +17,7 @@
         <div class="clear">&nbsp;</div>
         <div class="idea-summary">
           <div class="idea-status-state">
-            {% if idea.status %}<label class="label label-success custom-tooltip-right" title="{% trans "Status" %}">{% trans "Active" %}</label>
+            {% if idea.status %}<label class="label label-success custom-tooltip-right" title="{% trans "Status" %}">{{ idea.get_status_display|capfirst }}</label>
             {% else %}<label class="label label-danger custom-tooltip-right" title="{% trans "Status" %}">{% trans "Inactive" %}</label>{% endif %}
           </div>
           <div class="idea-vote-count custom-tooltip-right" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{{ idea.vote_set.count }} {% trans "votes" %}</div>
