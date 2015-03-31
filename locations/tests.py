@@ -3,10 +3,13 @@ from django.test import TestCase, Client
 from django.core import cache
 from django.contrib.auth.models import User
 
+from actstream.actions import follow
+
 from ideas.models import Idea
 
 from .models import Location
 from .forms import LocationForm
+from .helpers import get_followers_from_location
 
 
 class MarkerCacheTestCase(TestCase):
@@ -125,3 +128,56 @@ class CreateLocationFormTestCase(TestCase):
         form = LocationForm(data)
         self.assertFalse(form.is_valid())
         self.assertIn('parent', form.errors)
+
+
+class GetFollowersHelperTestCase(TestCase):
+    """ This is test case for helper getting followers from selected location. """
+    fixtures = ['fixtures/users.json',
+                'fixtures/countries.json',
+                'fixtures/locations.json',]
+
+    def setUp(self):
+        self.user1 = User.objects.create(username='testuser1', email="test1@civilhub.org")
+        self.user2 = User.objects.create(username='testuser2', email="test2@civilhub.org")
+        self.user3 = User.objects.create(username='testuser3', email="test3@civilhub.org")
+        self.country = Location.objects.get(slug='poland-pl')
+        self.region = self.country.location_set.first()
+        self.city = self.region.location_set.first()
+        follow(self.user1, self.country)
+        self.country.users.add(self.user1)
+        follow(self.user2, self.region)
+        self.region.users.add(self.user2)
+        follow(self.user3, self.city)
+        self.city.users.add(self.user3)
+
+    def test_getting_followers_without_deep_option(self):
+        """ Without deep option enabled function should return only this location's followers. """
+        followers = get_followers_from_location(self.country.pk)
+        self.assertEqual(len(followers), 1)
+        self.assertIn(self.user1, followers)
+        self.assertNotIn(self.user2, followers)
+        self.assertNotIn(self.user3, followers)
+
+    def test_getting_followers_with_deep_from_country(self):
+        """ Function should return all followers from country and children locations. """
+        followers = get_followers_from_location(self.country.pk, deep=True)
+        self.assertEqual(len(followers), 3)
+        self.assertIn(self.user1, followers)
+        self.assertIn(self.user2, followers)
+        self.assertIn(self.user3, followers)
+
+    def test_getting_followers_with_deep_from_region(self):
+        """ This time we shoud see just followers for region and city. """
+        followers = get_followers_from_location(self.region.pk, deep=True)
+        self.assertEqual(len(followers), 2)
+        self.assertNotIn(self.user1, followers)
+        self.assertIn(self.user2, followers)
+        self.assertIn(self.user3, followers)
+
+    def test_getting_followers_with_deep_from_city(self):
+        """ This location children have no followers, so we should see only user3 in list. """
+        followers = get_followers_from_location(self.city.pk, deep=True)
+        self.assertEqual(len(followers), 1)
+        self.assertNotIn(self.user1, followers)
+        self.assertNotIn(self.user2, followers)
+        self.assertIn(self.user3, followers)

@@ -2,14 +2,18 @@
 import json
 
 from django.http import HttpResponse
-from django.contrib import auth, messages
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
+from django.views.generic.edit import FormView
 from django.utils import translation
 from django.utils.translation import ugettext as _
 
 from places_core.mixins import LoginRequiredMixin
+from locations.helpers import get_followers_from_location
+
 from civmail import messages as mails
+from .forms import FollowersEmailForm
 
 
 class InviteFriendsView(LoginRequiredMixin, TemplateView):
@@ -61,3 +65,43 @@ class InviteToContentView(LoginRequiredMixin, View):
             return HttpResponse(json.dumps(context), content_type="application/json")
         messages.add_message(request, messages.SUCCESS, self.success_message)
         return redirect('/invite-friends/')
+
+
+class ComposeFollowersMessage(LoginRequiredMixin, FormView):
+    """
+    View for form that allows superusers and administrators to send email
+    messages to all of selected location's (and it's children) followers.
+    This functionality is available only for superusers.
+    """
+    template_name = 'civmail/followers_form.html'
+    form_class = FollowersEmailForm
+    success_url = '/activity/'
+    success_message = _(u"All messages sent successfully")
+
+    def get_initial(self):
+        initial = super(ComposeFollowersMessage, self).get_initial()
+        initial['location_id'] = self.kwargs.get('pk')
+        return initial
+
+    def get(self, request, pk=None):
+        if not request.user.is_superuser:
+            raise Http404
+        return super(ComposeFollowersMessage, self).get(request)
+
+    def post(self, request, pk=None):
+        if not request.user.is_superuser:
+            raise Http404
+        return super(ComposeFollowersMessage, self).post(request)
+
+    def form_valid(self, form):
+        followers = get_followers_from_location(form.cleaned_data['location_id'], deep=True)
+        for user in followers:
+            email_context = {
+                'subject': form.cleaned_data['subject'],
+                'message': form.cleaned_data['message'],
+                'lang': user.profile.lang,
+            }
+            message = mails.FollowersNotificationMesage()
+            message.send(user.email, email_context)
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        return super(ComposeFollowersMessage, self).form_valid(form)

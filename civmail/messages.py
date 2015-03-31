@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from djmail import template_mail
 
-# Define a subclass of TemplateMail
+
 class TestTemplateEmail(template_mail.TemplateMail):
     """
     This is test class. It's only purpose is to test sending email in Django
@@ -10,6 +10,12 @@ class TestTemplateEmail(template_mail.TemplateMail):
     Template names are always related to below 'name' class parameter.
     """
     name = "test_mail"
+
+
+class FollowersNotificationMesage(template_mail.TemplateMail):
+    """ Send this message to all followers of chosen location as
+    well as to followers of it's children locations. """
+    name = "followers"
 
 
 class ActivationLink(template_mail.TemplateMail):
