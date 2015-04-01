@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<form action="" method="post">{% csrf_token %}
+{% block content %}<div class="main-content"><form action="" method="post">{% csrf_token %}
 	{{ form.as_p }}
-	<button type="submit" class="btn btn-primary">{% trans "Send messages" %}
-</form>{% endblock %}
+	<p class="text-right mb0"><button type="submit" class="btn btn-primary btn-saveBig">{% trans "Send messages" %}</button></p>
+</form></div>{% endblock %}
