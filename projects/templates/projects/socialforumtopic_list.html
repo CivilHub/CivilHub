@@ -34,7 +34,7 @@
     <div class="sidebar-label">{% trans "Actions" %}:</div>
     {% if user.is_authenticated %}
     <ul class="custom-sidebar-nav">
-      <li><a href="{% url 'projects:discussion_create' object.slug %}">{% trans "Create new" %}</a></li>
+      <li><a href="{% url 'projects:discussion_create' object.slug %}">{% trans "Create new discussion" %}</a></li>
     </ul>
     {% endif %}
   </div>
