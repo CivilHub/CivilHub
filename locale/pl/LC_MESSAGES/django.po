@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 08:40+0200\n"
+"POT-Creation-Date: 2015-04-01 14:55+0200\n"
 "PO-Revision-Date: 2015-03-30 15:23+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/"
@@ -507,7 +507,7 @@ msgstr "Anuluj"
 #: projects/templates/projects/socialproject_summary.html:21
 #: templates/activity/action.html:27 templates/activity/actor.html:67
 #: templates/activity/actor.html.py:153
-#: templates/emails/activities-body-html.html:19
+#: templates/emails/activities-body-html.html:154
 #: topics/templates/topics/discussion_detail.html:81
 #: topics/templates/topics/discussion_detail.html:111
 #: topics/templates/topics/discussion_detail.html:113
@@ -1796,18 +1796,24 @@ msgstr "Zgłoś naruszeni zasad"
 #: places_core/templates/places_core/footer.html:14
 #: staticpages/templates/staticpages/pages/home.html:41
 #: staticpages/templates/staticpages/pages/register.html:71
-#: templates/emails/content-body-html.html:401
-#: templates/emails/password-body-html.html:198
-#: templates/emails/welcome-body-html.html:254
+#: templates/emails/activities-body-html.html:187
+#: templates/emails/content-body-html.html:359
+#: templates/emails/invite-body-html.html:171
+#: templates/emails/password-body-html.html:175
+#: templates/emails/service-body-html.html:172
+#: templates/emails/welcome-body-html.html:216
 #: templates/emails/welcome-body-text.html:10
 msgid "Privacy Policy"
 msgstr "Polityka Prywatności"
 
 #: places_core/templates/places_core/footer.html:15
 #: staticpages/templates/staticpages/pages/home.html:40
-#: templates/emails/content-body-html.html:401
-#: templates/emails/password-body-html.html:198
-#: templates/emails/welcome-body-html.html:254
+#: templates/emails/activities-body-html.html:187
+#: templates/emails/content-body-html.html:359
+#: templates/emails/invite-body-html.html:171
+#: templates/emails/password-body-html.html:175
+#: templates/emails/service-body-html.html:172
+#: templates/emails/welcome-body-html.html:216
 #: templates/emails/welcome-body-text.html:9
 msgid "Terms of Use"
 msgstr "Regulamin"
@@ -2637,16 +2643,16 @@ msgstr "Dodaj do zakładek"
 msgid "Error during process"
 msgstr "Błąd podczas przetwarzania"
 
-#: templates/emails/activities-body-html.html:3
+#: templates/emails/activities-body-html.html:119
 #: templates/emails/activities-subject.html:3
 msgid "Recent activities"
 msgstr "Ostatnie aktywności"
 
-#: templates/emails/activities-body-html.html:4
+#: templates/emails/activities-body-html.html:140
 msgid "Recent activities from locations you follow"
 msgstr "Ostatnie aktywności z lokalizacji które obserwujesz"
 
-#: templates/emails/activities-body-html.html:22
+#: templates/emails/activities-body-html.html:156
 #: templates/emails/activities-body-text.html:4
 msgid ""
 "If you don't want to receive such emails, change notification settings in "
@@ -2659,18 +2665,18 @@ msgstr ""
 msgid "Recent activities from your locations:"
 msgstr "Ostatnie aktywności z Twojej lokalizacji"
 
-#: templates/emails/content-body-html.html:341
+#: templates/emails/content-body-html.html:286
 #: templates/emails/content-body-text.html:2
 #: templates/emails/content-subject.html:3
 msgid "You've received an invitation!"
 msgstr "Otrzymałeś zaproszenie"
 
-#: templates/emails/content-body-html.html:346
+#: templates/emails/content-body-html.html:291
 #: templates/emails/content-body-text.html:3
 msgid "has invited you to join CivilHub!"
 msgstr "zaprosił Cię do dołączenia do CivilHub."
 
-#: templates/emails/content-body-html.html:366
+#: templates/emails/content-body-html.html:311
 msgid ""
 "\"Hey,\n"
 "                                here's your invite! Come check out my "
@@ -2680,8 +2686,8 @@ msgstr ""
 "                                tutaj jest Twoje zaproszenie! Przyjdź "
 "sprawdzić mój CivilHub kiedy tylko będziesz miał ochotę. Pokochasz go!\""
 
-#: templates/emails/content-body-html.html:377
-#: templates/emails/content-body-html.html:380
+#: templates/emails/content-body-html.html:322
+#: templates/emails/content-body-html.html:325
 #: templates/emails/content-body-text.html:5 userspace/views.py:272
 msgid "Sign Up"
 msgstr "Zaloguj się"
@@ -2694,13 +2700,13 @@ msgstr ""
 "\"Cześć, tutaj jest Twoje zaproszenie! Przyjdź sprawdzić mój CivilHub kiedy "
 "tylko będziesz miał ochotę. Pokochasz go!\""
 
-#: templates/emails/invite-body-html.html:3
+#: templates/emails/invite-body-html.html:119
 #: templates/emails/invite-body-text.html:3
 #: templates/emails/invite-subject.html:3
 msgid "New invitation"
 msgstr "Przełącz nawigację"
 
-#: templates/emails/invite-body-html.html:4
+#: templates/emails/invite-body-html.html:140
 #: templates/emails/invite-body-text.html:4
 msgid "Invited you to follow"
 msgstr "Zaprosił Cię do obserwowania"
@@ -2709,27 +2715,27 @@ msgstr "Zaprosił Cię do obserwowania"
 msgid " Visit this link if you want to start following this location:"
 msgstr "Kliknij tutaj, jeżeli chcesz obserwować tą lokalizację"
 
-#: templates/emails/password-body-html.html:137
+#: templates/emails/password-body-html.html:119
 #: templates/emails/password-body-text.html:3
 msgid "Your password has been changed"
 msgstr "Twoje obecne hasło zostało zmienione"
 
-#: templates/emails/password-body-html.html:162
+#: templates/emails/password-body-html.html:140
 #: templates/emails/password-body-text.html:5
 msgid "Your credentials has changed:"
 msgstr "Twoje uwierzytelnienie uległo zmianie:"
 
-#: templates/emails/password-body-html.html:163
+#: templates/emails/password-body-html.html:141
 #: templates/emails/password-body-text.html:6
 msgid "username"
 msgstr "Nazwa użytkownika"
 
-#: templates/emails/password-body-html.html:164
+#: templates/emails/password-body-html.html:142
 #: templates/emails/password-body-text.html:7 userspace/forms.py:79
 msgid "password"
 msgstr "Hasło"
 
-#: templates/emails/password-body-html.html:166
+#: templates/emails/password-body-html.html:144
 msgid ""
 "We suggest to change that password as soon as possible in your account "
 "settings panel."
@@ -2746,11 +2752,11 @@ msgstr ""
 msgid "Password reset request"
 msgstr "Prośba o zresetowanie hasła"
 
-#: templates/emails/service-body-html.html:3
+#: templates/emails/service-body-html.html:119
 msgid "Invitation"
 msgstr "Zaproszenie"
 
-#: templates/emails/service-body-html.html:4
+#: templates/emails/service-body-html.html:140
 msgid ""
 "We would like to invite you to participate in poll about service "
 "functionality. You can take part by visiting this link:"
@@ -2774,13 +2780,13 @@ msgstr ""
 msgid "What you think about us?"
 msgstr "Co o nas myślisz?"
 
-#: templates/emails/welcome-body-html.html:153
+#: templates/emails/welcome-body-html.html:128
 #: templates/emails/welcome-body-text.html:2
 #: templates/emails/welcome-subject.html:3
 msgid "Almost done!"
 msgstr "Prawie gotowe!"
 
-#: templates/emails/welcome-body-html.html:154
+#: templates/emails/welcome-body-html.html:129
 #: templates/emails/welcome-body-text.html:3
 #, python-format
 msgid ""
@@ -2790,28 +2796,28 @@ msgstr ""
 "Został ostatni krok, aby Twoje konto było w 100%% gotowe. Potrzebujemy Cię "
 "do aktywacji Twojego konta."
 
-#: templates/emails/welcome-body-html.html:198
+#: templates/emails/welcome-body-html.html:164
 #: templates/emails/welcome-body-text.html:4
 msgid "Create Account"
 msgstr "Utwórz konto"
 
-#: templates/emails/welcome-body-html.html:199
+#: templates/emails/welcome-body-html.html:165
 #: templates/emails/welcome-body-text.html:5
 msgid "Activate"
 msgstr "Aktywuj"
 
-#: templates/emails/welcome-body-html.html:200
+#: templates/emails/welcome-body-html.html:166
 #: templates/emails/welcome-body-text.html:6
 msgid "Complete"
 msgstr "Ukończone"
 
-#: templates/emails/welcome-body-html.html:212
+#: templates/emails/welcome-body-html.html:178
 #, fuzzy
 #| msgid "Update Account"
 msgid "Update now!"
 msgstr "Aktualizuj profil"
 
-#: templates/emails/welcome-body-html.html:215
+#: templates/emails/welcome-body-html.html:181
 #: templates/emails/welcome-body-text.html:7
 msgid "Activate Account"
 msgstr "Aktywuj konto"
