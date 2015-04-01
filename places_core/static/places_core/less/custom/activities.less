@@ -283,7 +283,6 @@
                 margin-right: 0;
             }
         }
-
         @media(max-width: 1200px){
             max-width: 220px;
         }
@@ -291,23 +290,41 @@
             padding: 5px;
             margin-right: 0;
         }
-        @media(max-width:768px){
-            width: 100%;
-            max-width: 200px;
-            display: inline-block;
-            vertical-align: top;
-        }
-        @media(max-width: 650px){
-            max-width: none;
-            width: 33%;
 
+        &.col-sm-4{
+            @media(max-width:768px){
+                width: 100%;
+                max-width: 200px;
+                display: inline-block;
+                vertical-align: top;
+            }
+            @media(max-width: 650px){
+                max-width: none;
+                width: 33%;
+            }
         }
-        @media(max-width: 500px){
-            width: 100%;
-            max-width: 270px;
-            display: block;
-            margin: 0 auto !important;
+        &.col-sm-3{
+
+            @media(max-width: 768px){
+                width: 25%;
+                display: inline-block;
+                vertical-align: top;
+            }
+            @media(max-width: 650px){
+                width: 50%;
+                max-width: none;
+            }
         }
+        &.col-sm-3,
+        &.col-sm-4{
+            @media(max-width: 500px){
+                width: 100%;
+                max-width: 270px;
+                display: block;
+                margin: 0 auto !important;
+            }   
+        }            
+
     }
 
   .locBox{

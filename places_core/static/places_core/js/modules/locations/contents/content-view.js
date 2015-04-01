@@ -15,7 +15,7 @@ function (_, Backbone, utils) {
       
     tagName: 'div',
     
-    className: 'col-sm-4 locBoxH',
+    className: 'col-sm-3 locBoxH',
     
     template: _.template($('#content-item-tpl').html()),
     
