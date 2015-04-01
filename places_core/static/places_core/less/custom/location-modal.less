@@ -29,6 +29,10 @@
     @media(max-width: 991px){
         width: 100%;
     }
+    @media(max-width: 568px){
+        position: absolute;
+        top: 300px;
+    }
     .placeholder-header {
         border-bottom: @border;
         padding: 2px 10px;
@@ -36,14 +40,30 @@
         height: 40px;
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
-        
         h4 {
             font-weight: 400;
             color: #fff;
             margin: 6px 6px;
             float: left;
+            a{
+                color: #ffffff;
+                text-decoration: none;
+            }
         }
-        
+        @media(max-width: 680px){
+            height: auto;
+            overflow: hidden;
+            h4{
+                float: none;
+                display: block;
+                text-align: center;
+                margin-bottom: 0px;               
+                a{
+                    display: block;
+                    margin-top: 5px;
+                }
+            }
+        }
         .placeholder-close {
             position: absolute;
             cursor: pointer;
@@ -56,6 +76,14 @@
             padding: 5px 25px 0 0; 
             display: inline-block;
             float: right;
+            @media(max-width: 680px){
+                display: block;
+                float: none;
+                width: 200px;
+                margin: 0 auto;
+                padding: 5px 0;
+                overflow: hidden;
+            }
         }
         
         .search-input {
@@ -112,6 +140,7 @@
         border-top: 0px;
         border-bottom-left-radius: 6px;
         border-bottom-right-radius: 6px;
+        background-color: #FFFFFF;
         
         ul {          
             li:hover {
@@ -144,6 +173,8 @@
             @media(max-width: 991px){
                 display: inline-block;
                 width: 33%;
+                background-color: #FFFFFF;
+                border-bottom: 1px solid @bordercolor;
             }
 
             input[type=text] {
@@ -192,6 +223,9 @@
                 @media(max-width: 991px){
                         width: 33%;
                     }
+                @media(max-width: 680px){
+                    top: 0px !important;
+                }
                 .btn-follow-location,
                 .btn-unfollow-location,
                 .btn-goto {
@@ -258,6 +292,7 @@
             display: inline-block;
             vertical-align: top;
             width: 33%;
+            background-color: #FFFFFF;
         }
     }
         

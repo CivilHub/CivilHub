@@ -83,8 +83,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     var showPopup = function(countryCode) {
       $.get('/api-locations/locations/?code=' + countryCode, function (resp) {
         if (resp) {
-          //$('#countryName').text(resp.name);
-          //$('#countryName').attr('href', '/' + resp.slug);
+          $('#countryName').text(gettext('Go to') + ' ' + resp.name);
+          $('#countryName').attr('href', '/' + resp.slug);
           
           var followButton = $('#follow-button');
           var targetID = resp.id;
