@@ -1,4 +1,14 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ object.name }}">
+<meta property="og:title" content="{{ object.name }}, {{ location.name }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:image" content="https://civilhub.org{{ object.image.url }}"/>
+<meta property="og:url " content="https://civilhub.org{{ object.get_absolute_url }}" />
+<meta property="og:description" content="{{ object.description|striptags|slice:":100" }}..."/>
+<meta property="article:author" content="https://civilhub.org{{ object.creator.profile.get_absolute_url }}" />
+<meta name="keywords" content="{{ object.name }}, {{ location.name }}">{% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-default.js"></script>{% endblock %}
 {% block header %}<style type="text/css">
 .location-logo {
