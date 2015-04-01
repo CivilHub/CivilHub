@@ -2,165 +2,57 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CivilHub.org</title>
   <style type="text/css">
-    /* Take care of image borders and formatting, client hacks */
-    img { max-width: 600px; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;}
-    a img { border: none; }
-    table { border-collapse: collapse !important;}
-    #outlook a { padding:0; }
-    .ReadMsgBody { width: 100%; }
-    .ExternalClass { width: 100%; }
-    .backgroundTable { margin: 0 auto; padding: 0; width: 100% !important; }
-    table td { border-collapse: collapse; }
-    .ExternalClass * { line-height: 115%; }
-    .container-for-gmail-android { min-width: 600px; }
-    /* General styling */
-    * {
-      font-family: Helvetica, Arial, sans-serif;
-    }
-    body {
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: none;
-      width: 100% !important;
-      margin: 0 !important;
-      height: 100%;
-      color: #676767;
-    }
-    td {
-      font-family: Helvetica, Arial, sans-serif;
-      font-size: 14px;
-      color: #777777;
-      text-align: center;
-      line-height: 21px;
+    @import url(https://fonts.googleapis.com/css?family=Lato:400);
+    /* Take care of image borders and formatting */
+    img {
+      max-width: 600px;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
     }
     a {
-      color: #0083FB;
-      font-weight: bold;
-      text-decoration: none !important;
+      text-decoration: none;
+      border: 0;
+      outline: none;
     }
-    .pull-left {
-      text-align: left;
+    a img {
+      border: none;
     }
-    .pull-right {
-      text-align: right;
+    /* General styling */
+    td, h1, h2, h3  {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
     }
-    .header-lg,
-    .header-md,
-    .header-sm {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: normal;
-      padding: 35px 0 0;
-      color: #4d4d4d;
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%;
+      height: 100%;
+      color: #37302d;
+      background: #ffffff;
     }
-    .header-md {
+    table {
+      background:
+    }
+    h1, h2, h3 {
+      padding: 0;
+      margin: 0;
+      color: #4D4D4D;
+      font-weight: 400;
+    }
+    h3 {
+      color: #21c5ba;
       font-size: 24px;
     }
-    .header-sm {
-      padding: 5px 0;
-      font-size: 18px;
-      line-height: 1.3;
-    }
-    .content-padding {
-      padding: 20px 0 30px;
-    }
-    .mobile-header-padding-right {
-      width: 290px;
-      text-align: right;
-      padding-left: 10px;
-    }
-    .mobile-header-padding-left {
-      width: 290px;
-      text-align: left;
-      padding-left: 10px;
-    }
-    .free-text {
-      width: 100% !important;
-      padding: 10px 60px 0px;
-    }
-    .block-rounded {
-      border-radius: 5px;
-      border: 1px solid #e5e5e5;
-      vertical-align: top;
-    }
-    .button {
-      padding: 30px 0 0;
-    }
-    .info-block {
-      padding: 0 20px;
-      width: 260px;
-    }
-    .mini-block-container {
-      padding: 30px 50px;
-      width: 500px;
-    }
-    .mini-block {
-      background-color: #ffffff;
-      width: 498px;
-      border: 1px solid #cccccc;
-      border-radius: 5px;
-      padding: 45px 75px;
-    }
-    .block-rounded {
-      width: 260px;
-    }
-    .info-img {
-      width: 258px;
-      border-radius: 5px 5px 0 0;
-    }
-    .force-width-img {
-      width: 480px;
-      height: 1px !important;
-    }
-    .force-width-full {
-      width: 600px;
-      height: 1px !important;
-    }
-    .user-img img {
-      width: 130px;
-      border-radius: 5px;
-      border: 1px solid #cccccc;
-    }
-    .user-img {
-      text-align: center;
-      border-radius: 100px;
-      color: #0083FB;
-      font-weight: 700;
-    }
-    .user-msg {
-      padding-top: 10px;
-      font-size: 14px;
-      text-align: center;
-      font-style: italic;
-    }
-    .mini-img {
-      padding: 5px;
-      width: 140px;
-    }
-    .mini-img img {
-      border-radius: 5px;
-      width: 140px;
-    }
-    .force-width-gmail {
-      min-width:600px;
-      height: 0px !important;
-      line-height: 1px !important;
-      font-size: 1px !important;
-    }
-    .mini-imgs {
-      padding: 25px 0 30px;
-    }
-  </style>
-  <style type="text/css" media="screen">
-    @import url(https://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext);
   </style>
   <style type="text/css" media="screen">
     @media screen {
-      /* Thanks Outlook 2013! http://goo.gl/XLxpyl */
-      * {
+       /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+      td, h1, h2, h3 {
         font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
       }
     }
@@ -168,202 +60,197 @@
   <style type="text/css" media="only screen and (max-width: 480px)">
     /* Mobile styles */
     @media only screen and (max-width: 480px) {
-      table[class*="container-for-gmail-android"] {
-        min-width: 290px !important;
-        width: 100% !important;
-      }
       table[class="w320"] {
         width: 320px !important;
       }
-      img[class="force-width-gmail"] {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
+      table[class="w300"] {
+        width: 300px !important;
       }
-      td[class*="mobile-header-padding-left"] {
-        width: 160px !important;
-        padding-left: 0 !important;
+      table[class="w290"] {
+        width: 290px !important;
       }
-      td[class*="mobile-header-padding-right"] {
-        width: 160px !important;
-        padding-right: 0 !important;
+      td[class="w320"] {
+        width: 320px !important;
       }
-      td[class="mobile-block"] {
-        display: block !important;
+      table[class*="w260"] {
+        width: 260px !important;
       }
-      td[class="mini-img"],
-      td[class="mini-img"] img{
-        width: 150px !important;
-      }
-      td[class="header-lg"] {
-        font-size: 24px !important;
-        padding-bottom: 5px !important;
-      }
-      td[class="header-md"] {
-        font-size: 18px !important;
-        padding-bottom: 5px !important;
-      }
-      td[class="content-padding"] {
-        padding: 5px 0 30px !important;
-      }
-      td[class="button"] {
-        padding: 5px !important;
-      }
-      td[class*="free-text"] {
-        padding: 10px 18px 30px !important;
-      }
-      img[class="force-width-img"],
-      img[class="force-width-full"] {
-        display: none !important;
-      }
-      td[class="info-block"] {
-        display: block !important;
-        width: 280px !important;
-        padding-bottom: 40px !important;
-      }
-      td[class="info-img"],
-      img[class="info-img"] {
-        width: 278px !important;
-      }
-      td[class="mini-block-container"] {
-        padding: 8px 20px !important;
-        width: 280px !important;
-      }
-      td[class="mini-block"] {
-        padding: 20px !important;
-      }
-      td[class="user-img"] {
-        display: block !important;
+      td[class*="mobile-center"] {
         text-align: center !important;
-        width: 100% !important;
-        padding-bottom: 10px;
       }
-      td[class="user-msg"] {
+      td[class*="mobile-padding"] {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 20px !important;
+      }
+      td[class*="mobile-block"] {
         display: block !important;
-        padding-bottom: 20px;
+        width: 280px !important;
+        text-align: left !important;
+        padding-bottom: 20px !important;
+      }
+      td[class*="mobile-img"] {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        padding-bottom: 20px !important;
+        width:320px !important;
       }
     }
   </style>
 </head>
-<body bgcolor="#ffffff">
-<table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
+<body class="body" style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none" bgcolor="#ffffff">
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%" >
   <tr>
-    <td align="left" valign="top" width="100%" style="background:repeat-x url(https://civilhub.org/static/places_core/img/emails/bg_top_02.jpg) #ffffff;">
-      <center>
-        <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" background="https://civilhub.org/static/places_core/img/emails/bg_top_02.jpg" style="background-color:transparent">
-          <tr>
-            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align:middle;">
-            <!--[if gte mso 9]>
+    <td align="center" valign="top" bgcolor="#ffffff"  width="100%">
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td style="border-bottom: 3px solid #f0f0f0;" width="100%">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td valign="top" style="padding:20px 0; text-align:left;" class="mobile-center">
+                  <a href="https://civilhub.org"><img width="137" height="25" src="https://civilhub.org/static/places_core/img/emails/logo.png"></a>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7;">
+          <!--[if gte mso 9]>
             <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:80px; v-text-anchor:middle;">
-              <v:fill type="tile" src="http://s3.amazonaws.com/swu-filepicker/4E687TRe69Ld95IDWyEg_bg_top_02.jpg" color="#ffffff" />
-              <v:textbox inset="0,0,0,0">
-            <![endif]-->
-              <center>
-                <table cellpadding="0" cellspacing="0" width="600" class="w320">
-                  <tr>
-                    <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;">
-                      <a href="https://civilhub.org"><img width="137" height="25" src="https://civilhub.org/static/places_core/img/emails/logo.png" alt="logo"></a>
-                    </td>
-                  </tr>
-                </table>
-              </center>
-              <!--[if gte mso 9]>
-              </v:textbox>
-            </v:rect>
-            <![endif]-->
-            </td>
-          </tr>
-        </table>
-      </center>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
-      <center>
-        <table cellspacing="0" cellpadding="0" width="600" class="w320">
-          <tr>
-            <td class="header-lg">
-              {% trans "You've received an invitation!" %}
-            </td>
-          </tr>
-          <tr>
-            <td class="free-text">
-              <span><a href="{{ user_link }}">@{{ user_name }}</a></span> {% trans "has invited you to join CivilHub!" %}
-            </td>
-          </tr>
-          <tr>
-            <td class="mini-block-container">
-              <table cellspacing="0" cellpadding="0" width="100%"  style="border-collapse:separate !important;">
+            <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <div>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="530" height="200" class="w320">
                 <tr>
-                  <td class="mini-block">
-                    <table cellpadding="0" cellspacing="0" width="100%">
-                      <tr>
-                        <td>
-                          <table cellspacing="0" cellpadding="0" width="100%">
-                            <tr>
-                              <td class="user-img">
-                                <img class="user-img" src="{{ user.profile.avatar.url }}" alt="user img" />
-                                <br />@{{ user_name }}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td class="user-msg">
-                                 {% blocktrans %}"Hey,
-                                here's your invite! Come check out my CivilHub when you have a chance. You'll love it!"{% endblocktrans %}
-                              </td>
-                            </tr>
-                          </table>
-                        </td>
-                      <tr>
-                        <td class="button">
-                          <div><!--[if mso]>
-                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://civilhub.org/user/register/" style="height:45px;v-text-anchor:middle;width:155px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#0083FB">
-                              <w:anchorlock/>
-                              <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">{% trans "Sign Up" %}</center>
-                            </v:roundrect>
-                          <![endif]--><a href="https://civilhub.org/user/register/"
-                          style="background-color:#84bd00;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none;width:155px;-webkit-text-size-adjust:none;mso-hide:all;">{% trans "Sign Up" %}</a></div>
-                        </td>
-                      </tr>
+                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="200">
+                    <h1>{% trans "You've received an invitation!" %}</h1><br>
+                    <span><a href="{{ user_link }}" style="color: #0083FB;">@{{ user_name }}</a></span> {% trans "has invited you to join CivilHub!" %}
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </div>
+          <!--[if gte mso 9]>
+            </v:textbox>
+          </v:rect>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="padding: 30px 0; background-color: #f7f7f7;">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td>
+                <table cellspacing="0" cellpadding="0" width="500" class="w320">
+                  <tr>
+                    <td style="padding-bottom:30px; padding-top:30px; border: 1px solid #CCCCCC;" class="mobile-img" >
+                      <table cellspacing="0" cellpadding="0" width="100%">
+                        <tr>
+                          <td style="padding-bottom:0px;" class="mobile-img">
+                            <center>
+                            <table cellspacing="0" cellpadding="0" width="120">
+                              <tr>
+                                <td  style="vertical-align:middle; text-align:center;" class="mobile-img">
+                                <img  style="border:1px solid #a1a1a1;" src="{{ user_img }}"  width="90" height="90" alt="profile"/>
+                                </td>
+                              </tr>
+                              <tr>
+                               <td style="font-size:12px; padding-top:5px; text-align:center;">
+                                <a style="color:#0083FB;" href="">@{{ user_name }}</a>
+                                </td>
+                              </tr>
+                            </table>
+                          </center>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="mobile-block mobile-padding" style="text-align:center; padding: 0 50px;">
+                            {% blocktrans %}"Hey,
+                                      here's your invite! Come check out my CivilHub when you have a chance. You'll love it!"{% endblocktrans %}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            &nbsp;
+                          </td>
+                        </tr>
+                        <tr>
+                      <td class="mobile-padding">
+                        <center>
+                        <table cellspacing="0" cellpadding="0" width="150">
+                          <tr>
+                            <td style="background-color: #84bd00; text-align: center;">
+                              <div><!--[if mso]>
+                                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://civilhub.org/user/register/" style="height:33px;v-text-anchor:middle;width:150px;" arcsize="8%" stroke="f" fillcolor="#84bd00">
+                                    <w:anchorlock/>
+                                    <center style="color:#ffffff;font-family:sans-serif;font-size:13px;">Sign up</center>
+                                  </v:roundrect>
+                                <![endif]-->
+                                <!--[if !mso]><!-- --><a href="https://civilhub.org/user/register/"><table cellspacing="0" cellpadding="0" width="150"><tr><td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;"><span style="color:#ffffff">{% trans "Sign Up" %}</span></td></tr></table></a>
+                                <!--<![endif]-->
+                              </div>
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </table>
+                      </center>
+                      </td>
+                    </tr>
                     </table>
                   </td>
                 </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </center>
-    </td>
-  </tr>
-  <tr>
-    <td bgcolor="#ffffff" valign="top">
-      <center>
-        <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
-          <tr>
-            <td style="text-align:center; margin:0 auto; border-top: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
-               <br>
-               <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
-                CivilHub.org
-               </a>
-            </td>
-          </tr>
-        </table>
-      </center>
-      <center>
-        <table cellspacing="0" cellpadding="0" width="500" class="w320">
-          <tr>
-            <td>
-              <table cellspacing="0" cellpadding="30" width="100%">
-                <tr>
-                  <td style="text-align:center; padding: 0 30px 30px 30px;">
-                    <a href="https://civilhub.org/terms/" style="font-size: 12px; font-weight: 400;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px; font-weight: 400;">{% trans "Privacy Policy" %}</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </center>
+                </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" valign="top">
+          <center>
+            <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
+              <tr>
+                <td style="text-align:center; margin:0 auto; border-top: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
+                   <br>
+                   <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
+                    CivilHub.org
+                   </a>
+                </td>
+              </tr>
+            </table>
+          </center>
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="30" width="100%">
+                    <tr>
+                      <td style="text-align:center; padding: 0 30px 30px 30px;">
+                        <a href="https://civilhub.org/terms/" style="font-size: 12px; color:#0083FB;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px; color:#0083FB;">{% trans "Privacy Policy" %}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
     </td>
   </tr>
 </table>
