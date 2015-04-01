@@ -10,7 +10,7 @@
 
 <meta property="og:title" content="{{ title }}, {{ location.name }}"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:url " content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta property="og:url " content="https://civilhub.org{{ poll.get_absolute_url }}" />
 <meta property="article:author" content="https://civilhub.org{{ poll.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ poll.question|striptags|slice:":100" }}... " />
 <meta name="keywords" content="{{ poll }}, {{ poll.location }}, {% for tag in poll.tags.all %}{{ tag.name }}, {% endfor %}">
