@@ -6,6 +6,7 @@ from actstream.actions import follow, unfollow
 
 from .models import Location
 
+
 def get_most_followed(country_code=None, limit=20):
     """
     We download a list of the most often followed location. We can narrow
@@ -50,3 +51,21 @@ def move_location_contents(old_location, new_location):
     for action in actions:
         action.target_object_id = new_location.pk
         action.save()
+
+
+def get_followers_from_location(location_pk, deep=False):
+    """
+    Helper that returns list of all followers from location with given ID.
+    If `deep` is set to True, list includes also followers of child locations.
+    We don't count superusers in results, only regular users.
+    """
+    location = Location.objects.get(pk=location_pk)
+    followers = list(location.users.all())
+    if not deep:
+        return followers
+    for pk in location.get_children_id_list():
+        location = Location.objects.get(pk=pk)
+        for user in location.users.all():
+            if not user in followers:
+                followers.append(user)
+    return followers
