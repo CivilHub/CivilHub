@@ -98,7 +98,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
           $('.col-sm-9.colHline').addClass('colHlineR');
           $('.col-sm-3.colHline').addClass('colHlineL');
         } else {
-          this.$el.append('<p class="alert alert-info">' + gettext("No activity yet") + '</p>');
+          this.$el.append('<div class="no-entries activity-collection"><img src="/static/places_core/img/civilman_plus_glob.png" alt="Civilman"><h2>' + gettext("You are currently not following any location.") + '<br>' + '<a href="/places/">' + gettext("Find your first location.") + '</a></h2></div>');
         }
     },
     

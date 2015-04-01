@@ -1,6 +1,6 @@
 {% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block content %}
-<div class="col-sm-9 contentPX main-content">
+{% if object_list %}<div class="col-sm-9 contentPX main-content">
   <div class="custom-tablelike socialforumtopic">
     
       {% for topic in object_list %}
@@ -25,16 +25,22 @@
         </div>
       </div>
       {% endfor %}
-    
   </div>
   {% include 'places_core/pagination.html' %}
-</div>
+</div>{% else %}<div class="col-sm-9 no-entries contentPX">
+  <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+  <h2>
+    {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
+    {% trans "Please" %}{% if user.is_authenticated %}<a href="{% url 'projects:discussion_create' object.slug %}" >
+    {% else %}<a href="/users/login" >{% endif %}{% trans "add first discussion" %}</a>.
+  </h2>
+</div>{% endif %}
 <div class="col-sm-3 boxPX">
   <div class="sidebar">
     <div class="sidebar-label">{% trans "Actions" %}:</div>
     {% if user.is_authenticated %}
     <ul class="custom-sidebar-nav">
-      <li><a href="{% url 'projects:discussion_create' object.slug %}">{% trans "Create new" %}</a></li>
+      <li><a href="{% url 'projects:discussion_create' object.slug %}">{% trans "Create new discussion" %}</a></li>
     </ul>
     {% endif %}
   </div>
