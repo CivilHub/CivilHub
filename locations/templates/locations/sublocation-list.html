@@ -1,6 +1,6 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles i18n %}
-
+{% block navigation_location %}<div class="location-page-subspaces">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
 <div class="container sublocations">
 

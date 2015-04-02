@@ -16,7 +16,7 @@
 {% block require_scripts %}{% get_map_pointers news as MARKERS %}{% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/news-details.js"></script>{% endblock %}
-
+{% block navigation_location %}<div class="location-page-news">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% with news as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
     {% include 'maps/pointer-modal-form.html' %}
 
