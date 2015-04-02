@@ -3192,7 +3192,7 @@ small.green{
 }
 
 /*#
-#   Page Misja
+#   Page Mission
 #*/
 .headerBGa{
     &.headerBGMission{
@@ -3251,5 +3251,92 @@ small.green{
             height: auto;
         }
         p{ display: inline-block; vertical-align: middle; margin-bottom: 0; }
+    }
+}
+
+/*#
+#   Page Press
+#*/
+.headling32{
+    font-size: 32px;
+    line-height: 32px;
+    color: #50616d;
+}
+.press-staticpage{
+    .press-article{
+        position: relative;
+        padding-bottom: 25px;
+        margin-bottom: 25px;
+        &:after{
+            content: "";
+            position: absolute;
+            display: block;
+            width: 70px;
+            border-bottom: 1px solid #bfbfbf;
+            padding-top: 25px;
+        }
+        &:last-child{
+            &:after{
+                display: none;
+            }
+        }        
+        h2{
+            font-size: 21px;
+            line-height: 30px;
+            color: #0083fb;
+            margin: 0;
+        }
+        p{
+            margin-bottom: 0;
+        }
+        .press,
+        .press-date{
+            font-size: 16px;
+            line-height: 30px;
+            color: #4d4747;
+        }
+        .press-date{
+            font-weight: 300;
+        }
+        .press-content{
+            font-size: 16px;
+            line-height: 30px;
+            color: #4d4747;
+        }
+        a{
+            color: #0083fb;
+            text-decoration: none;
+        }
+    }
+}
+.press-coverage-staticpage{
+    .coverage-month{
+        &:last-child{
+            margin-bottom: 50px;
+        }
+        .month{
+            max-width: 690px;
+            border-bottom: 1px solid #bfbfbf;
+            text-align: center;
+            margin: 0 auto;
+            h2{
+                color: #4d4747;
+                font-size: 24px;
+                line-height: 30px;
+                margin: 40px 0;
+            }   
+        }
+        .coverage-content{
+            max-width: 970px;
+            margin: 40px auto 0;
+            font-size: 16px;
+            @media(max-width: 768px){
+                text-align: center;
+            }
+            a{
+                color: #0083fb;
+                text-decoration: none;
+            }
+        }
     }
 }
