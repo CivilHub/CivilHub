@@ -280,25 +280,38 @@
 }
 .navbarHeaderLeft{
     margin-left: 50px;
-    .onlyIcon{
-        &:hover{
-            color: #4D4747 !important;
-        }
-    }
     .dropdown-menu{
         left: -120px;
     }
+    a.dropdown-toggle{
+        padding-left: 0 !important;
+    }
     .support-icon{
-        border: 1px solid #4D4747;
+        padding-left: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-image: url(../img/icon_support.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-right: -15px;
+    margin-top: 2px;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+        background-image: url(../img/icon_support@2x.png);
+    }
+}
+       /* border: 1px solid #4D4747;
         border-radius: 50%;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         padding: 0 3px 0 3px;
-        font-size: 13px;
+        font-size: 13px;*/
         /*ff
         padding: 0 3px 1px 3px;
         font-size: 12px;*/
-    }
+
 }
 .navbar-header{
     .navbar-toggle{
