@@ -33,7 +33,7 @@
         {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
         <li class="breaker">
-            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></li>
+            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown"><span class="custom-tooltip-right" title="{% trans "Sublocations" %}">&gt;</span></a></li>
         {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location }}</a>
