@@ -24,7 +24,7 @@
 		        <div class="col-sm-2 category">
 	            <label class="label label-default">{{ discussion.category.name }}</label>
 		        </div>
-		        <div class="col-sm-5 custom-align-r">
+		        <div class="col-sm-5 custom-align-l">
 	            <span class="count">{{ discussion.entry_set.count }}</span>
 	            <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.profile }}" class="user-avatar-minithumb" />
 	            <a href="{{ discussion.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.profile }}</span></a>
