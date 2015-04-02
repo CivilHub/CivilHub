@@ -13,6 +13,15 @@ require([window.STATIC_URL + "/js/config.js"], function () {
 
   function($) {
     "use strict";
+
+    $('.list-controller').on('click', function (e) {
+      e.preventDefault();
+      var selectedItem = $(this).attr('data-control');
+      $('.active[data-control="' + selectedItem + '"]')
+        .removeClass('active');
+      $(this).addClass('active');
+    });
+
     $(document).trigger('load');
   });
 });
