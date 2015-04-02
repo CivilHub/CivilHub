@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}{% load i18n %}
+{% block navigation_location %}<div class="location-page-projects">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% if user.is_authenticated %}<div class="project-new-create">
   <a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">{% trans "Create new project" %}</a>
 </div>{% endif %}

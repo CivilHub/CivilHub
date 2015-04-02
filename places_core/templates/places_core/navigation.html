@@ -29,7 +29,18 @@
                     
                 </form>
             </div>
-            
+            <ul class="nav navbar-nav navbar-left navbarHeaderLeft">
+                {% if user.is_authenticated %}<li class="dropdown">
+                    <a class="dropdown-toggle custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
+                        <span class="support-icon"><span class="rwdShow">{% trans "Support" %}</span></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/brief">{% trans "Brief" %}</a>
+                        </li>
+                    </ul>
+                </li>{% endif %}
+            </ul>
             <ul class="nav navbar-nav navbar-right navbarHeader">
                 {% if user.is_authenticated %}
 
@@ -101,7 +112,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="dropdown">
-                    <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="Zakładki">
+                    <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}">
                         <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></span>
 
                     </a>
@@ -116,7 +127,7 @@
 
                 </li>
                 <li>                                                           
-                    <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="Wiadomości" >
+                    <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Messages" %}" >
                         <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
                         {% if unread_count %}
                             <span class="badge custom-badge-indicator">{{ unread_count }}</span>

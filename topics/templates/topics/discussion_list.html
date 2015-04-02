@@ -1,6 +1,7 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/discussion-list.js"></script>{% endblock %}
 {% block title %} {{ location }}, {% trans "Discussions" %} | CivilHub {% endblock %}
+{% block navigation_location %}<div class="location-page-discussion">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="container">
 	{% include 'topics/navbar.html' %}
 	{% if object_list.count %}<div class="col-sm-9 content-container contentPX main-content">
@@ -23,7 +24,7 @@
 		        <div class="col-sm-2 category">
 	            <label class="label label-default">{{ discussion.category.name }}</label>
 		        </div>
-		        <div class="col-sm-5 custom-align-r">
+		        <div class="col-sm-5 custom-align-l">
 	            <span class="count">{{ discussion.entry_set.count }}</span>
 	            <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.profile }}" class="user-avatar-minithumb" />
 	            <a href="{{ discussion.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.profile }}</span></a>

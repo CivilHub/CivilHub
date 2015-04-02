@@ -33,7 +33,7 @@
         {% for parent in location.get_parent_chain %}
         <li><a href="{{ parent.url }}">{{ parent.name }}</a></li>
         <li class="breaker">
-            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown">&gt;</a></li>
+            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown"><span class="custom-tooltip-right" title="{% trans "Sublocations" %}">&gt;</span></a></li>
         {% endfor %}
         <li class="active">
             <a href="{{ location.get_absolute_url }}">{{ location }}</a>
@@ -68,34 +68,8 @@
         
     </div>
 </div>
-<nav id="location-navbar" class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
-              <span class="sr-only">{% trans "Toggle navigation" %}</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-        <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ location.get_absolute_url }}" id="tour-Summary">{% trans "Home" %}</a></li>
-                <li><a href="{% url 'locations:news' location.slug %}" id="tour-Blog"></span>{% trans "News" %}</a></li>
-                <li><a href="{% url 'locations:discussions' location.slug %}" id="tour-Discussions">{% trans "Discussions" %}</a></li>
-                <li><a href="{% url 'locations:ideas' location.slug %}" id="tour-Ideas">{% trans "Ideas" %}</a></li>
-                <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls">{% trans "Polls" %}</a></li>
-                <li><a href="{% url 'locations:project_list' location.slug %}">{% trans "Projects" %}</a></li>
-                <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery">{% trans "Gallery" %}</a></li>
-                {% with location|content_type as ctype %}<li><a href="{% url 'maps:info' ctype.pk location.pk %}">{% trans "Map" %}</a></li>{% endwith %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers">{% trans "Followers" %}</a></li>
-                <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces">{% trans "Subspaces" %}</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
+{% block navigation_location %}<div class="location-page">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 
 <input type="hidden" id="current-location-pk" value="{{ location.pk }}" />
 

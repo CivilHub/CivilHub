@@ -5,7 +5,7 @@
 {% include 'places_core/script-templates/content-edit.html' %}
 <script src="{% static 'places_core' %}/js/{% js_path %}/news-create.js"></script>
 {% endblock %}
-
+{% block navigation_location %}<div class="location-page-news">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
 
     <div class="col-sm-9 main-content contentPX">

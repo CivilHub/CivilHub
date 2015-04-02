@@ -278,7 +278,32 @@
         }
     }    
 }
-
+.navbarHeaderLeft{
+    margin-left: 50px;
+    .dropdown-menu{
+        left: -120px;
+    }
+    a.dropdown-toggle{
+        padding-left: 0 !important;
+    }
+    .support-icon{
+        padding-left: 0;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-image: url(../img/icon_support.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin-right: -15px;
+        margin-top: 2px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: url(../img/icon_support@2x.png);
+        }
+    }
+      
+}
 .navbar-header{
     .navbar-toggle{
         margin-top: 18px;
@@ -286,7 +311,7 @@
     }
 }
 
-
+.navbarHeaderLeft,
 .navbarHeader{
     ul{
         &:before{
