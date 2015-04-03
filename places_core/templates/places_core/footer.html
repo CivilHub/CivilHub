@@ -19,8 +19,11 @@
         </div>
 
         <div class="col-md-2">
+            {% if LANG == 'pl' %}
+            <a href="/"><img src="{% static "places_core/img/footer_logo_pl@2x.png" %}" alt="CivilHub" /></a>
+            {% else %}
             <a href="/"><img src="{% static "places_core/img/footer_logo@2x.png" %}" alt="CivilHub" /></a>
-
+            {% endif %}
         </div>
     
         <div class="col-md-5 right-side">

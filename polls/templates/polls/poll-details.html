@@ -1,8 +1,8 @@
 {% extends 'locations/index.html' %}
 {% load staticfiles civil_tags i18n bookmark_tags %}
 
-{% block title %} {{ poll.title }}, {{ location }} | CivilHub {% endblock %}
-
+{% block title %} {{ poll.title }}, {{ location }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ poll.question|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %} 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
@@ -14,6 +14,13 @@
 <meta property="article:author" content="https://civilhub.org{{ poll.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ poll.question|striptags|slice:":100" }}... " />
 <meta name="keywords" content="{{ poll }}, {{ poll.location }}, {% for tag in poll.tags.all %}{{ tag.name }}, {% endfor %}">
+  {% for tag in poll.tags.all %}
+    <meta property="article:tag" content="{{ tag }}">
+  {% endfor %}
+<meta property="article:published_time" content="{{ poll.date_created|date:"c" }}">
+  {% if poll.date_edited %}
+    <meta property="article:modified_time" content="{{ poll.date_edited|date:"c" }}">
+  {% endif %}
 {% endblock %}
 
 {% block require_scripts %}
