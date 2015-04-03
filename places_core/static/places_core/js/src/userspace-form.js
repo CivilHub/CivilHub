@@ -21,8 +21,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         maxWidth: 800
       });
     });
-    
-    $('#birth-date').datepicker({
+
+    $('#birth-date').attr("placeholder", "dd/mm/yyyy").datepicker({
       changeMonth: true,
       changeYear: true,
       minDate: new Date(1920, 1 - 1, 1),
