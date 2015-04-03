@@ -1,7 +1,9 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %} 
-{% block meta %}<meta property="og:image" content="{{ profile.avatar.url }}"/>
+{% block title %}{{ cuser.get_full_name }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ cuser.get_full_name }} {% if profile.followed_locations %}{% trans "engages in" %} {% for location in profile.followed_locations %}{{ location }}, {% endfor %}{% else %}{% endif %}" />{% endblock %}
+{% block meta %}<meta property="og:image" content="https://civilhub.org{{ profile.avatar.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta name="keywords" content="{{ cuser.get_full_name }}, {{ cuser.username }}">{% endblock %}
+<meta name="keywords" content=" {{ cuser.first_name }}, {{ cuser.last_name }}, {{ cuser.get_full_name }}">{% endblock %}
 {% block extra_styles %}<style type="text/css">
 .user-logo {
   background-image: url({{ profile.background_url }});

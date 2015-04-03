@@ -127,7 +127,7 @@ class IdeasDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(IdeasDetailView, self).get_context_data(**kwargs)
         context['is_moderator'] = is_moderator(self.request.user, self.object.location)
-        context['title'] = self.object.name + " | " + self.object.location.name + " | CivilHub"
+        context['title'] = self.object.name + " | " + self.object.location.name + " - Civilhub.org"
         context['location'] = self.object.location
         context['links'] = links['ideas']
         if self.request.user == self.object.creator:

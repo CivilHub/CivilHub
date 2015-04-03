@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block title %}{{ location }}, {% trans "Polls" %} - Civilhub.org {% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/poll-list.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-polls">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% include 'polls/navbar.html' %}
