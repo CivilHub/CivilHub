@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-05 22:43+0200\n"
+"POT-Creation-Date: 2015-04-07 16:02+0200\n"
 "PO-Revision-Date: 2015-04-01 13:07+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/civilhub/"
@@ -145,6 +145,7 @@ msgid "Browse Places"
 msgstr "Navegar la ubicación"
 
 #: articles/templates/articles/features.html:72
+#: etherpad/templates/etherpad/pad_list.html:20
 #: places_core/templates/places_core/navigation.html:106
 msgid "Create new"
 msgstr "Crear nuevo"
@@ -372,6 +373,7 @@ msgid "Stats"
 msgstr "Estadística"
 
 #: blog/templates/blog/category_form.html:10
+#: etherpad/templates/etherpad/pad_form.html:5
 #: gallery/templates/gallery/location-gallery-form.html:15
 #: gallery/templates/gallery/media-editor.html:17
 #: ideas/templates/ideas/category-create.html:9
@@ -457,6 +459,7 @@ msgid "Edit"
 msgstr "Editar"
 
 #: blog/templates/blog/news_detail.html:76
+#: etherpad/templates/etherpad/pad_list.html:8
 #: gallery/templates/gallery/location-gallery.html:29
 #: gallery/templates/gallery/picture-view.html:18
 #: gallery/templates/gallery/user-gallery.html:31
@@ -492,6 +495,7 @@ msgid "Create news"
 msgstr "Crear la noticia"
 
 #: blog/templates/blog/news_form.html:25
+#: etherpad/templates/etherpad/pad_list.html:33
 #: gallery/templates/gallery/media-editor.html:16
 #: locations/templates/locations/content-remove.html:13
 #: locations/templates/locations/invite-users.html:15
@@ -735,6 +739,135 @@ msgstr "El mayor número de votos"
 msgid "Submit comment"
 msgstr "Enviar comentario"
 
+#: etherpad/forms.py:18
+#, fuzzy
+#| msgid "Save changes"
+msgid "save as"
+msgstr "Guarda los cambios"
+
+#: etherpad/forms.py:40
+#, fuzzy
+#| msgid "Provided email address already exists"
+msgid "Name already exists"
+msgstr "Dirección de correo electrónico ya exsiste"
+
+#: etherpad/models.py:23
+msgid "Provide settings for Etherpad Lite Server"
+msgstr ""
+
+#: etherpad/models.py:43
+#, fuzzy
+#| msgid "task group"
+msgid "authors group"
+msgstr "el grupo de las tareas"
+
+#: etherpad/models.py:44
+#, fuzzy
+#| msgid "task groups"
+msgid "authors groups"
+msgstr "los grupos de las tareas"
+
+#: etherpad/models.py:70 projects/models.py:221
+msgid "author"
+msgstr "el autor"
+
+#: etherpad/models.py:71
+#, fuzzy
+#| msgid "author"
+msgid "authors"
+msgstr "el autor"
+
+#: etherpad/models.py:89
+msgid "Slug will be auto-generated if not provided"
+msgstr ""
+
+#: etherpad/models.py:107
+#, fuzzy
+#| msgid "and"
+msgid "pad"
+msgstr "y"
+
+#: etherpad/models.py:108
+msgid "pads"
+msgstr ""
+
+#: etherpad/templates/etherpad/download_form.html:4
+#: etherpad/templates/etherpad/pad_confirm_delete.html:5
+#: userspace/templates/userspace/active.html:18
+msgid "Proceed"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_confirm_delete.html:2
+#, fuzzy
+#| msgid "Are you sure you want to delete this entry?"
+msgid "Are you sure you want to delete this document?"
+msgstr "¿Estás seguro que quieres borrar esta anotación?"
+
+#: etherpad/templates/etherpad/pad_detail.html:5
+msgid "Download this pad"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_form.html:2
+#, fuzzy
+#| msgid "Create new"
+msgid "Create new pad"
+msgstr "Crear nuevo"
+
+#: etherpad/templates/etherpad/pad_list.html:6
+msgid "Update"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:7
+#, fuzzy
+#| msgid "Collaborate with people"
+msgid "Collaborate"
+msgstr "Colabora con la gente de tus alrededores"
+
+#: etherpad/templates/etherpad/pad_list.html:12
+#: gallery/templates/gallery/location-gallery.html:42
+#: gallery/templates/gallery/user-gallery.html:44
+#: locations/templates/locations/location_followers.html:54
+#: locations/templates/locations/sublocation-list.html:36
+#: places_core/templates/places_core/pagination.html:3
+#: topics/templates/topics/discussion_detail.html:156
+msgid "previous"
+msgstr "anterior"
+
+#: etherpad/templates/etherpad/pad_list.html:16
+#: gallery/templates/gallery/location-gallery.html:50
+#: gallery/templates/gallery/user-gallery.html:52
+#: locations/templates/locations/location_followers.html:62
+#: locations/templates/locations/sublocation-list.html:44
+#: places_core/templates/places_core/pagination.html:7
+#: topics/templates/topics/discussion_detail.html:164
+msgid "next"
+msgstr "siguiente"
+
+#: etherpad/templates/etherpad/pad_list.html:27
+#, fuzzy
+#| msgid "Create a new account"
+msgid "Create new document"
+msgstr "Crear nueva cuenta"
+
+#: etherpad/templates/etherpad/pad_list.html:30
+msgid "Enter title..."
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:30
+#, fuzzy
+#| msgid "New discussion"
+msgid "New document"
+msgstr "Nueva discusión"
+
+#: etherpad/templates/etherpad/pad_list.html:34
+#: locations/templates/locations/location_form.html:87
+#: locations/templates/locations/location_news.html:87
+#: places_core/templates/places_core/script-templates.html:293
+#: userspace/templates/userspace/index.html:101
+#: userspace/templates/userspace/index.html:113
+msgid "Save changes"
+msgstr "Guarda los cambios"
+
 #: gallery/forms.py:14
 msgid "Image"
 msgstr "Foto"
@@ -768,24 +901,6 @@ msgstr "Descripción"
 #: gallery/templates/gallery/location-gallery-form.html:8
 msgid "Create gallery in"
 msgstr ""
-
-#: gallery/templates/gallery/location-gallery.html:42
-#: gallery/templates/gallery/user-gallery.html:44
-#: locations/templates/locations/location_followers.html:54
-#: locations/templates/locations/sublocation-list.html:36
-#: places_core/templates/places_core/pagination.html:3
-#: topics/templates/topics/discussion_detail.html:156
-msgid "previous"
-msgstr "anterior"
-
-#: gallery/templates/gallery/location-gallery.html:50
-#: gallery/templates/gallery/user-gallery.html:52
-#: locations/templates/locations/location_followers.html:62
-#: locations/templates/locations/sublocation-list.html:44
-#: places_core/templates/places_core/pagination.html:7
-#: topics/templates/topics/discussion_detail.html:164
-msgid "next"
-msgstr "siguiente"
 
 #: gallery/templates/gallery/location-gallery.html:56
 #: gallery/templates/gallery/user-gallery.html:58
@@ -883,8 +998,8 @@ msgstr ""
 msgid "in progress"
 msgstr ""
 
-#: ideas/models.py:45 projects/models.py:75 projects/models.py:125
-#: projects/models.py:183
+#: ideas/models.py:45 projects/models.py:78 projects/models.py:133
+#: projects/models.py:191
 msgid "project"
 msgstr "proyecto"
 
@@ -1107,17 +1222,17 @@ msgstr "Proyecto"
 msgid "Wrong model instance"
 msgstr "Mal tipo de modelo"
 
-#: locations/models.py:156 projects/models.py:34 projects/models.py:123
-#: projects/models.py:147
+#: locations/models.py:156 projects/models.py:35 projects/models.py:131
+#: projects/models.py:155
 msgid "name"
 msgstr "nombre"
 
-#: locations/models.py:157 projects/models.py:35
+#: locations/models.py:157 projects/models.py:36
 msgid "slug"
 msgstr ""
 
-#: locations/models.py:158 projects/models.py:65 projects/models.py:124
-#: projects/models.py:148 projects/models.py:184
+#: locations/models.py:158 projects/models.py:66 projects/models.py:132
+#: projects/models.py:156 projects/models.py:192
 msgid "description"
 msgstr "descripción "
 
@@ -1133,7 +1248,7 @@ msgstr ""
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:162 projects/models.py:188
+#: locations/models.py:162 projects/models.py:196
 msgid "creator"
 msgstr "creador"
 
@@ -1149,8 +1264,8 @@ msgstr ""
 msgid "population"
 msgstr ""
 
-#: locations/models.py:166 projects/models.py:68 projects/models.py:150
-#: projects/models.py:185 projects/models.py:216
+#: locations/models.py:166 projects/models.py:69 projects/models.py:158
+#: projects/models.py:193 projects/models.py:224
 msgid "date created"
 msgstr "la fecha de creación"
 
@@ -1166,7 +1281,7 @@ msgstr "foto"
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:178 projects/models.py:66
+#: locations/models.py:178 projects/models.py:67
 msgid "location"
 msgstr "ubicación"
 
@@ -1324,14 +1439,6 @@ msgid "If this entry is about a specific location, you can mark it on the map"
 msgstr ""
 "Si concierne a un lugar determinado en la mapa, puedes marcarlo para "
 "encontrar con mayor facilidad"
-
-#: locations/templates/locations/location_form.html:87
-#: locations/templates/locations/location_news.html:87
-#: places_core/templates/places_core/script-templates.html:293
-#: userspace/templates/userspace/index.html:101
-#: userspace/templates/userspace/index.html:113
-msgid "Save changes"
-msgstr "Guarda los cambios"
 
 #: locations/templates/locations/location_form.html:87
 msgid "Create new location"
@@ -2048,83 +2155,79 @@ msgstr "Se ha unido al proyecto"
 msgid "leaved project"
 msgstr "Ha dejado el proyecto"
 
-#: projects/models.py:67 projects/models.py:153
+#: projects/models.py:68 projects/models.py:161
 msgid "participants"
 msgstr "los usarios"
 
-#: projects/models.py:69 projects/models.py:151
+#: projects/models.py:70 projects/models.py:159
 msgid "date changed"
 msgstr "la fecha de los cambios"
 
-#: projects/models.py:70 projects/models.py:154
+#: projects/models.py:71 projects/models.py:162
 msgid "finished"
 msgstr "terminado"
 
-#: projects/models.py:71 projects/models.py:126 projects/models.py:155
+#: projects/models.py:72 projects/models.py:134 projects/models.py:163
 msgid "created by"
 msgstr "creado por"
 
-#: projects/models.py:76
+#: projects/models.py:79
 msgid "projects"
 msgstr "proyectos"
 
-#: projects/models.py:132
+#: projects/models.py:140
 msgid "task group"
 msgstr "el grupo de las tareas"
 
-#: projects/models.py:133
+#: projects/models.py:141
 msgid "task groups"
 msgstr "los grupos de las tareas"
 
-#: projects/models.py:149
+#: projects/models.py:157
 msgid "group"
 msgstr "el grupo"
 
-#: projects/models.py:152
+#: projects/models.py:160
 msgid "time limit"
 msgstr "límite del tiempo"
 
-#: projects/models.py:161
+#: projects/models.py:169
 msgid "task"
 msgstr "la tarea"
 
-#: projects/models.py:162
+#: projects/models.py:170
 msgid "tasks"
 msgstr "las tareas"
 
-#: projects/models.py:186 projects/models.py:217
+#: projects/models.py:194 projects/models.py:225
 msgid "date edited"
 msgstr "la fecha de modificación"
 
-#: projects/models.py:187
+#: projects/models.py:195
 msgid "closed"
 msgstr "cerrado"
 
-#: projects/models.py:192 topics/models.py:81
+#: projects/models.py:200 topics/models.py:81
 msgid "discussions"
 msgstr "discuciones"
 
-#: projects/models.py:212 templates/search/search.html:52 topics/models.py:80
+#: projects/models.py:220 templates/search/search.html:52 topics/models.py:80
 msgid "discussion"
 msgstr "discusión"
 
-#: projects/models.py:213
-msgid "author"
-msgstr "el autor"
-
-#: projects/models.py:214
+#: projects/models.py:222
 msgid "content"
 msgstr "contenido"
 
-#: projects/models.py:215
+#: projects/models.py:223
 msgid "edited"
 msgstr "modificado"
 
-#: projects/models.py:223
+#: projects/models.py:231
 msgid "forum entry"
 msgstr "la anotación en el foro"
 
-#: projects/models.py:224
+#: projects/models.py:232
 msgid "forum entries"
 msgstr "las anotaciones en el foro"
 
@@ -2156,6 +2259,12 @@ msgstr "Tareas"
 #: projects/templates/projects/index.html:87
 msgid "Participants"
 msgstr "Usarios"
+
+#: projects/templates/projects/index.html:88
+#, fuzzy
+#| msgid "Comments"
+msgid "Documents"
+msgstr "Comentarios"
 
 #: projects/templates/projects/socialforumtopic_form.html:5
 msgid "Create discussion"
@@ -2232,27 +2341,27 @@ msgstr "Crear nueva tarea"
 msgid "Create new group"
 msgstr "Crear nuevo grupo"
 
-#: projects/views.py:64
+#: projects/views.py:66
 msgid "Task marked as undone"
 msgstr "Tarea señalada como no terminada"
 
-#: projects/views.py:67
+#: projects/views.py:69
 msgid "Task marked as finished"
 msgstr "Tarea señalada como terminada"
 
-#: projects/views.py:122
+#: projects/views.py:123
 msgid "You are no longer in this project"
 msgstr "Ya no eres miembro del proyecto"
 
-#: projects/views.py:127
+#: projects/views.py:129
 msgid "You have joined to this project"
 msgstr "Te has unido al proyecto"
 
-#: projects/views.py:145
+#: projects/views.py:147
 msgid "You are no longer in this task"
 msgstr "Ya no eres miembro de la tarea"
 
-#: projects/views.py:154
+#: projects/views.py:157
 msgid "You have joined this task"
 msgstr "Te has unido a la tarea"
 
@@ -3005,67 +3114,67 @@ msgstr "Apellido"
 msgid "Birth date"
 msgstr "Fecha de nacimiento (día, mes, año)"
 
-#: userspace/forms.py:144
+#: userspace/forms.py:148
 msgid "Gender"
 msgstr "Sexo"
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:63
 msgid "male"
 msgstr "hombre"
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:63
 msgid "female"
 msgstr "mujer"
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:63
 msgid "undefined"
 msgstr "cuestión privada"
 
-#: userspace/forms.py:150
+#: userspace/forms.py:154
 msgid "Google+"
 msgstr "Google+"
 
-#: userspace/forms.py:155
+#: userspace/forms.py:159
 msgid "Facebook"
 msgstr "Facebook"
 
-#: userspace/forms.py:160
+#: userspace/forms.py:164
 msgid "Twitter"
 msgstr "Twitter"
 
-#: userspace/forms.py:165
+#: userspace/forms.py:169
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: userspace/forms.py:182
+#: userspace/forms.py:186
 msgid "Current password"
 msgstr "Contraseña actual"
 
-#: userspace/forms.py:188
+#: userspace/forms.py:192
 msgid "New password"
 msgstr "Nueva contraseña "
 
-#: userspace/forms.py:194
+#: userspace/forms.py:198
 msgid "Retype password"
 msgstr "Repite la contraseña "
 
-#: userspace/forms.py:205
+#: userspace/forms.py:209
 msgid "Passwords not match!"
 msgstr "Contraseñas no son iguales!"
 
-#: userspace/forms.py:216
+#: userspace/forms.py:220
 msgid "Enter your email address"
 msgstr "Elige tu correo electrónico"
 
-#: userspace/forms.py:228
+#: userspace/forms.py:232
 msgid "Change"
 msgstr "Cambiar"
 
-#: userspace/forms.py:238
+#: userspace/forms.py:242
 msgid "email address"
 msgstr "Correo electrónico"
 
-#: userspace/forms.py:239
+#: userspace/forms.py:243
 msgid "Please provide your email address. Twitter doesn't"
 msgstr "Por favor  escribir el correo electrónico"
 
@@ -3119,10 +3228,6 @@ msgstr "Gracias por registrarse en CivilHub."
 
 #: userspace/templates/userspace/active.html:5
 msgid "Below you can see list of places that may be interesting for you."
-msgstr ""
-
-#: userspace/templates/userspace/active.html:18
-msgid "Proceed"
 msgstr ""
 
 #: userspace/templates/userspace/activity.html:12
