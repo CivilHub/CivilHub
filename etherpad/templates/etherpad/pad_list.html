@@ -15,7 +15,7 @@
   </li>{% endfor %}
   {% if page_obj.has_next %}<li><a href="?page={{ page_obj.next_page_number }}" rel="next">{% trans "next" %}</a></li>{% endif %}
 </ul>{% endif %}
-{% if user.is_authenticated %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
+{% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
   {{ document_form }}
   <button type="submit">{% trans "Create new" %}</button>
 </form>

@@ -117,7 +117,7 @@ def create_thumbnail(imgfile, size):
     file, ext = os.path.splitext(imgfile)
     thumbname = str(size[0])+'x'+str(size[1]) + '_' + file + ext
     img.thumbnail(size)
-    img.save(os.path.join(pathname, thumbname), 'PNG')
+    img.save(os.path.join(pathname, thumbname), 'JPEG')
 
 
 def avatar_thumbnails(filename):
@@ -143,14 +143,14 @@ def crop_avatar(imgfile):
         img = Image.open(imgfile)
     pathname = 'img/avatars'
     dirname = os.path.join(settings.MEDIA_ROOT, pathname)
-    imgname = str(uuid()) + str(len(os.listdir(dirname))) + '.png'
+    imgname = str(uuid()) + str(len(os.listdir(dirname))) + '.jpg'
     imgpath = os.path.join(dirname, imgname)
     width, height = img.size
     s = width if width < height else height
     img = img.crop(((width - s) / 4, 0, s, s))
     if s > settings.AVATAR_SIZE[0]:
         img.thumbnail(settings.AVATAR_SIZE)
-    img.save(imgpath, 'PNG')
+    img.save(imgpath, 'JPEG')
     avatar_thumbnails(imgname)
     return File(open(imgpath))
 
