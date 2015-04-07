@@ -446,11 +446,11 @@ USE_CACHE = True
 
 ETHERPAD_API_KEY = config['etherpad']['apikey']
 # This is url used by Django to communicate with etherpad server
-ETHERPAD_INTERNAL_URL = 'http://etherpad:9001'
+ETHERPAD_INTERNAL_URL = 'https://civilhub.org:9001'
 # This will be usually the same as above unless your setup depends for example
 # on different Docker containers. In such case address used by iframes and
 # generally front-end may be different.
-ETHERPAD_EXTERNAL_URL = 'http://localhost:9001'
+ETHERPAD_EXTERNAL_URL = 'https://civilhub.org:9001'
 
 
 RAVEN_CONFIG = {
