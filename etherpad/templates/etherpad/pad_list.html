@@ -1,0 +1,38 @@
+{% extends 'projects/index.html' %}{% load i18n staticfiles civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-documents.js"></script>{% endblock %}
+{% block content %}<ul id="document-list">{% for document in object_list %}
+  <li>
+    <a href="{{ document.get_absolute_url }}">{{ document.name|capfirst }}</a>
+    {% if user in object.participants.all %}<a href="{% url 'pad-update' document.pk %}">{% trans "Update" %}</a>
+    <a href="{% url 'pad-collaborate' document.pk %}" target="_blank">{% trans "Collaborate" %}</a>
+    <a href="{% url 'pad-remove' document.pk %}" class="custom-delete">{% trans "Delete" %}</a>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if is_paginated %}<ul class="pagination">
+  {% if page_obj.has_previous %}<li><a href="?page={{ page_obj.previous_page_number }}" rel="prev">{% trans "previous" %}</a></li>{% endif %}
+  {% for i in paginator.page_range %}<li>
+    <a href="?page={{ i }}"{% if i == page_obj.number %} class="active"{% endif %}>{{ i }}</a>
+  </li>{% endfor %}
+  {% if page_obj.has_next %}<li><a href="?page={{ page_obj.next_page_number }}" rel="next">{% trans "next" %}</a></li>{% endif %}
+</ul>{% endif %}
+{% if user.is_authenticated %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
+  {{ document_form }}
+  <button type="submit">{% trans "Create new" %}</button>
+</form>
+<div id="pad-creation-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{% trans "Create new document" %}</h4>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" placeholder="{% trans "Enter title..." %}" value="{% trans "New document" %}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+        <button type="button" class="btn btn-primary" data-submits="pad-creation-form">{% trans "Save changes" %}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->{% endif %}{% endblock %}

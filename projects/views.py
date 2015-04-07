@@ -16,6 +16,7 @@ from django.contrib.contenttypes.models import ContentType
 from actstream.models import Action
 from actstream.actions import follow, unfollow
 
+from etherpad.models import Pad
 from locations.mixins import LocationContextMixin
 from locations.models import Location
 from userspace.models import UserProfile
@@ -29,7 +30,8 @@ import actions as project_actions
 from .permissions import check_access
 from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
 from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm, \
-                   DiscussionAnswerForm, SocialForumCreateForm, SocialForumUpdateForm
+                   DiscussionAnswerForm, SocialForumCreateForm, SocialForumUpdateForm, \
+                   DocumentForm
 
 
 @require_POST
@@ -94,9 +96,7 @@ class ProjectContextMixin(LocationContextMixin):
 
 
 class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
-    """
-    We check whether the user has the proper access rights.
-    """
+    """ We check whether the user has the proper access rights. """
     def get(self, request, location_slug=None, slug=None, group_id=None, task_id=None):
         # TODO: We can show something more appropriate than 403.
         if not check_access(self.get_object(), request.user):
@@ -115,6 +115,7 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
         project = get_object_or_404(SocialProject, slug=slug)
         if project.participants.filter(pk=request.user.pk).exists():
             project.participants.remove(request.user)
+            project.authors_group.authors.remove(request.user.author)
             for group in project.taskgroup_set.all():
                 for task in group.task_set.all():
                     if task.participants.filter(pk=request.user.pk).exists():
@@ -124,6 +125,7 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
             unfollow(request.user, project)
         else:
             project.participants.add(request.user)
+            project.authors_group.authors.add(request.user.author)
             message = _("You have joined to this project")
             project_actions.joined_to_project(request.user, project)
             follow(request.user, project, actor_only=False)
@@ -137,7 +139,7 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
 
 
 class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
-    """ Adding/removing users from a conrete task. """
+    """ Adding/removing users from a concrete task. """
     def post(self, request, location_slug=None, slug=None, task_id=None):
         task = get_object_or_404(Task, pk=task_id)
         if task.participants.filter(pk=request.user.pk).exists():
@@ -147,6 +149,7 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
             task.participants.add(request.user)
             if not task.group.project.participants.filter(pk=request.user.pk).exists():
                 task.group.project.participants.add(request.user)
+                task.group.project.authors_group.authors.add(request.user.author)
                 project_actions.joined_to_project(request.user, task.group.project)
                 follow(request.user, task.group.project, actor_only=False)
             else:
@@ -272,6 +275,7 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
     def form_valid(self, form):
         obj = form.save()
         obj.participants.add(obj.creator)
+        obj.authors_group.authors.add(obj.creator.author)
         obj.save()
         follow(obj.creator, obj, actor_only=False)
         try:
@@ -340,6 +344,25 @@ class ProjectDetailView(ProjectContextMixin, DetailView):
             except AttributeError:
                 # No tasks within this project
                 pass
+        return context
+
+
+class ProjectDocumentsList(ListView):
+    """ List all documents created for this project. """
+    model = Pad
+    paginate_by = 25
+
+    def get_queryset(self):
+        project = get_object_or_404(SocialProject, slug=self.kwargs.get('slug'))
+        return self.model.objects.filter(group=project.authors_group)
+
+    def get_context_data(self):
+        context = super(ProjectDocumentsList, self).get_context_data()
+        project = get_object_or_404(SocialProject, slug=self.kwargs.get('slug'))
+        context['object'] = project
+        context['location'] = project.location
+        context['document_form'] = DocumentForm(
+            initial={'group': project.authors_group})
         return context
 
 

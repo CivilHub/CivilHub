@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 
 from ordered_model.models import OrderedModel
 
+from etherpad.models import EtherpadGroup, EtherpadAuthor
 from places_core.helpers import sanitizeHtml
 from locations.models import Location, BackgroundModelMixin
 from gallery.image import resize_background_image
@@ -70,6 +71,8 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
     is_done = models.BooleanField(default=False, verbose_name=_(u"finished"))
     creator = models.ForeignKey(User, verbose_name=_(u"created by"), related_name="projects")
     image = models.ImageField(blank=True, upload_to=get_upload_path, default='img/projects/default.jpg')
+    # Etherpad lite authors group allows us to handle documents for project
+    authors_group = models.ForeignKey(EtherpadGroup, null=True, blank=True)
 
     class Meta:
         verbose_name = _(u"project")
@@ -111,7 +114,12 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
+        if not self.authors_group:
+            self.authors_group = EtherpadGroup.objects.create(name=self.name)
         super(SocialProject, self).save(*args, **kwargs)
+
+    def destroy(self):
+        self.authors_group.delete()
 
     def __str__(self):
         return self.name
@@ -229,6 +237,12 @@ class SocialForumEntry(models.Model):
             # The owner or the mod has edited the entry.
             self.is_edited = True
         super(SocialForumEntry, self).save(*args, **kwargs)
+
+
+def cleanup(sender, instance, **kwargs):
+    """ Make sure that etherpad groups will be deleted along with project. """
+    instance.destroy()
+models.signals.post_delete.connect(cleanup, sender=SocialProject)
 
 
 models.signals.post_save.connect(resize_background_image, sender=SocialProject)

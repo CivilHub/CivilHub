@@ -138,7 +138,11 @@ class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
     birth_date = forms.CharField(
         label = _("Birth date"),
         required = False,
-        widget = forms.TextInput(attrs={'class':'form-control','id':'birth-date','readonly':'readonly'})
+        widget = forms.TextInput(attrs={
+            'class':'form-control','id':'birth-date',
+            'readonly':'readonly',
+            'placeholder': "dd/mm/yyyy",
+        })
     )
     gender = forms.ChoiceField(
         label = _("Gender"),

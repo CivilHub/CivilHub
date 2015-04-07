@@ -7,6 +7,7 @@ from ideas.models import Idea
 from topics.models import Discussion
 from blog.models import News
 from polls.models import Poll
+from etherpad.models import Pad
 from projects.models import SocialProject
 from articles.models import Article
 
@@ -71,3 +72,11 @@ class ArticleSitemap(Sitemap):
 
     def items(self):
         return Article.objects.all()
+
+
+class EtherpadSitemap(Sitemap):
+    changefreq = "hourly"
+    priority = 0.5
+
+    def items(self):
+        return Pad.objects.all()

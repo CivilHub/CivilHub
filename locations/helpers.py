@@ -57,7 +57,6 @@ def get_followers_from_location(location_pk, deep=False):
     """
     Helper that returns list of all followers from location with given ID.
     If `deep` is set to True, list includes also followers of child locations.
-    We don't count superusers in results, only regular users.
     """
     location = Location.objects.get(pk=location_pk)
     followers = list(location.users.all())

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 
+from etherpad.models import Pad
 from places_core.forms import BootstrapBaseForm
 
 from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
@@ -90,4 +91,14 @@ class DiscussionAnswerForm(forms.ModelForm, BootstrapBaseForm):
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'topic': forms.HiddenInput(),
             'creator': forms.HiddenInput(),
+        }
+
+
+class DocumentForm(forms.ModelForm):
+    """ Form that cooperates with Ajax view and crates new document. """
+    class Meta:
+        model = Pad
+        exclude = ('slug',)
+        widgets = {
+            'group': forms.HiddenInput(),
         }
