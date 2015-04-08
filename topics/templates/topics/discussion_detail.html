@@ -1,10 +1,7 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags bookmark_tags %}
-
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags map_tags bookmark_tags %}
 {% block title %} {{ title }}, {{ location }} | CivilHub {% endblock %}
 {% block description %}<meta name="description" content="{{ discussion.intro|striptags|slice:":153"}}..." />{% endblock %}
-{% block meta %} 
-<meta name="twitter:card" content="summary" />
+{% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
 <meta property="og:image" content="https://civilhub.org{{ discussion.image.url }}"/>
@@ -14,23 +11,13 @@
 <meta property="article:author" content="https://civilhub.org{{ discussion.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ discussion.intro|striptags|slice:":100" }}... }}" />
 <meta name="keywords" content="{{ title }}, {{ location.name }}, {% for tag in discussion.tags.all %}{{ tag.name }}, {% endfor %}">
-  {% for tag in discussion.tags.all %}
-    <meta property="article:tag" content="{{ tag }}">
-  {% endfor %}
+{% for tag in discussion.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
 <meta property="article:published_time" content="{{ discussion.date_created|date:"c" }}">
-  {% if discussion.date_edited %}
-    <meta property="article:modified_time" content="{{ discussion.date_edited|date:"c" }}">
-  {% endif %}
-{% endblock %}
-
-{% block require_scripts %}
-{% include 'maps/minimap.html' %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/discussion-details.js"></script>
-{% endblock %}
+{% if discussion.date_edited %}<meta property="article:modified_time" content="{{ discussion.date_edited|date:"c" }}">{% endif %}{% endblock %}
+{% block require_scripts %}{% get_map_pointers discussion as MARKERS %}{% include 'maps/minimap.html' %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/discussion-details.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-discussion">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
-
-    {% include 'maps/pointer-modal-form.html' %}
 
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
 
@@ -43,7 +30,7 @@
                     {% if map_markers %}
                         <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}">{% trans "Show on map" %}</a></li>
                     {% endif %}
-                    {% if marker_form %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
+                    {% if marker_form %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ discussion.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
                     <li></li>
                     {% if user == discussion.creator %}
                     <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>

@@ -1,5 +1,4 @@
 {% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags %}
-
 {% block title %} {{ idea.name }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ idea.description|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}
@@ -14,22 +13,15 @@
 <meta property="article:author" content="https://civilhub.org{{ idea.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ idea.description|striptags|slice:":100" }}..." />
 <meta name="keywords" content="{{ idea.name }}, {{ idea.location }}, {% for tag in idea.tags.all %}{{ tag.name }}, {% endfor %}">
-  {% for tag in idea.tags.all %}
-    <meta property="article:tag" content="{{ tag }}">
-  {% endfor %}
+{% for tag in idea.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
 <meta property="article:published_time" content="{{ idea.date_created|date:"c" }}">
-  {% if idea.date_edited %}
-    <meta property="article:modified_time" content="{{ idea.date_edited|date:"c" }}">
-  {% endif %}
-{% endblock %}
-
+{% if idea.date_edited %}<meta property="article:modified_time" content="{{ idea.date_edited|date:"c" }}">{% endif %}{% endblock %}
 {% block require_scripts %}{% get_map_pointers idea as MARKERS %}{% include 'maps/minimap.html' %}
 <script>window.commentListSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-ideas">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% with idea as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
 <div class="main-content col-sm-9 contentPX">
-  {% include 'maps/pointer-modal-form.html' %}
   <div class="row idea-entry">
     <div class="idea-votes col-sm-3 idea-votesH">
       <div class="vote-form">
@@ -55,13 +47,13 @@
       <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
       <div class="entry-submenu">
         <ul>{% with idea|content_type as ctype %}
-            {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
-            {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-            <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
-            {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
-            <li></li>
-            {% if user.is_authenticated and user != idea.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
-            <li>{% endwith %}{% bookmark_form idea user %}</li>
+          {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
+          {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+          <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
+          {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
+          <li></li>
+          {% if user.is_authenticated and user != idea.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with idea|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ idea.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+          <li>{% endwith %}{% bookmark_form idea user %}</li>
         </ul>
       </div>
       <div class="author-info">

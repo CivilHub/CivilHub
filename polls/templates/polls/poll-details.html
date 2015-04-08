@@ -1,78 +1,43 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles civil_tags i18n bookmark_tags %}
-
+{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n map_tags bookmark_tags %}
 {% block title %} {{ poll.title }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ poll.question|striptags|slice:":153"}}..." />{% endblock %}
-{% block meta %} 
-<meta name="twitter:card" content="summary" />
+{% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
-
 <meta property="og:title" content="{{ title }}, {{ location.name }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url " content="https://civilhub.org{{ poll.get_absolute_url }}" />
 <meta property="article:author" content="https://civilhub.org{{ poll.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ poll.question|striptags|slice:":100" }}... " />
 <meta name="keywords" content="{{ poll }}, {{ poll.location }}, {% for tag in poll.tags.all %}{{ tag.name }}, {% endfor %}">
-  {% for tag in poll.tags.all %}
-    <meta property="article:tag" content="{{ tag }}">
-  {% endfor %}
+{% for tag in poll.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
 <meta property="article:published_time" content="{{ poll.date_created|date:"c" }}">
-  {% if poll.date_edited %}
-    <meta property="article:modified_time" content="{{ poll.date_edited|date:"c" }}">
-  {% endif %}
-{% endblock %}
-
-{% block require_scripts %}
-{% include 'maps/minimap.html' %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/poll-details.js"></script>
-{% endblock %}
+{% if poll.date_edited %}<meta property="article:modified_time" content="{{ poll.date_edited|date:"c" }}">{% endif %}{% endblock %}
+{% block require_scripts %}{% get_map_pointers poll as MARKERS %}{% include 'maps/minimap.html' %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/poll-details.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-polls">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
-{% block content %}
-
-    {% include 'maps/pointer-modal-form.html' %}
-
-    <div class="col-sm-8 main-content">
-        <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle no-margin"> </span></h1>
-        <div class="entry-submenu">
-            <ul>{% with poll|content_type as ctype %}
-                {% if map_markers %}
-                    <li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>
-                {% endif %}
-                <li></li>
-                {% if user.is_authenticated and user == poll.creator %}<li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>{% endif %}
-                {% if user.is_authenticated and user != poll.creator %}
-                    <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>
-                {% endif %}
-                {% if user.is_superuser or is_moderator %}
-                    <li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>
-                {% endif %}{% endwith %}
-                <li>{% bookmark_form poll user %}</li>
-            </ul>
-        </div>
-        
-        {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
-        <div class="acticle-content">{{ poll.question | safe }}</div>
-        
-        {% if can_vote %}
-        <form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">
-            {% csrf_token %}
-            {{ form }}
-            <div class="form-group text-right mb0">
-                <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Send" %}</button>
-            </div>
-        </form>
-        {% else %}
-        <p class="alert alert-info">
-            {% blocktrans %}You have already voted for this poll. You can't vote again.{% endblocktrans %}
-            <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
-        </p>
-        {% endif %}
-        
+{% block content %}<div class="col-sm-8 main-content">
+  <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle no-margin"> </span></h1>
+  <div class="entry-submenu">
+    <ul>{% with poll|content_type as ctype %}
+      {% if map_markers %}<li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
+      <li></li>
+      {% if user.is_authenticated and user == poll.creator %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
+      {% if user.is_authenticated and user != poll.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+      {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>{% endif %}{% endwith %}
+      <li>{% bookmark_form poll user %}</li>
+    </ul>
+  </div>    
+  {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
+  <div class="acticle-content">{{ poll.question | safe }}</div>
+  {% if can_vote %}<form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">{% csrf_token %}
+    {{ form }}
+    <div class="form-group text-right mb0">
+      <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Send" %}</button>
     </div>
-    
-    <div class="col-sm-4">
-        {% include 'locations/sidebar.html' %}
-    </div>
-
-{% endblock %}
+  </form>{% else %}<p class="alert alert-info">
+    {% blocktrans %}You have already voted for this poll. You can't vote again.{% endblocktrans %}
+    <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
+  </p>{% endif %}
+</div>
+<div class="col-sm-4">{% include 'locations/sidebar.html' %}</div>{% endblock %}

@@ -1,5 +1,4 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags map_tags comment_tags %}
-
 {% block title %} {{ news.title }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ news.content|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
@@ -12,131 +11,114 @@
 <meta property="og:description" content="{{ news.content|striptags|slice:":100" }}..."/>
 <meta property="article:author" content="https://civilhub.org{{ news.creator.profile.get_absolute_url }}" />
 <meta name="keywords" content="{{ title }}, {{ location.name }}">
-  {% for tag in news.tags.all %}
-    <meta property="article:tag" content="{{ tag }}">
-  {% endfor %}
+{% for tag in news.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
 <meta property="article:published_time" content="{{ news.date_created|date:"c" }}">
-  {% if news.date_edited %}
-    <meta property="article:modified_time" content="{{ news.date_edited|date:"c" }}">
-  {% endif %}
-{% endblock %}
-
+{% if news.date_edited %}<meta property="article:modified_time" content="{{ news.date_edited|date:"c" }}">{% endif %}{% endblock %}
 {% block require_scripts %}{% get_map_pointers news as MARKERS %}{% include 'maps/minimap.html' %}
 <script>window.pageSize = {% page_size %};</script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/news-details.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-news">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% with news as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
-    {% include 'maps/pointer-modal-form.html' %}
-
 <div class="col-sm-9 main-content contentPX">
-    <div class="blog-detail">
+  <div class="blog-detail">
 <div class="row">
+    <div class="col-md-2">
+      <div class="entry-avatar-col">
+        <img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
+        <br />{{ news.creator.profile.rank_pts }}
+      
+      {% include 'locations/share_buttons.html' %}
+      
+      </div>
+    </div>
     
-        <div class="col-md-2">
-            <div class="entry-avatar-col">
-                <img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
-                <br />{{ news.creator.profile.rank_pts }}
-            
-            {% include 'locations/share_buttons.html' %}
-            
-            </div>
+    <!-- News -->
+    <div class="col-md-10">
+      <!-- News header -->
+      <div class="row news-header">
+        <!-- News title -->
+        <div class="col-md-11">
+          <h1>{{ title }}</h1>
+          <div class="news-meta">
+            <small>
+              {% trans "Created" %} {{ news.date_created | date:"j F Y" }} {% trans "by" %} <a href="{{ news.creator.profile.get_absolute_url }}" class="blogNameCreator"><span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span></a></p>
+            </small>
+          </div>
         </div>
         
-        <!-- News -->
-        <div class="col-md-10">
-            <!-- News header -->
-            <div class="row news-header">
-                <!-- News title -->
-                <div class="col-md-11">
-                    <h1>{{ title }}</h1>
-                    <div class="news-meta">
-                        <small>
-                            {% trans "Created" %} {{ news.date_created | date:"j F Y" }} {% trans "by" %} <a href="{{ news.creator.profile.get_absolute_url }}" class="blogNameCreator"><span class="user-window-toggle" data-target="{{ news.creator.pk }}">{{ news.creator.get_full_name }}</span></a></p>
-                        </small>
-                    </div>
-                </div>
-                
-                <!-- News settings -->
-                <div class="col-md-1">
-                {% if user.is_authenticated %}
-                <h1><span class="submenu-toggle"></h1>
-                {% endif %}
+        <!-- News settings -->
+        <div class="col-md-1">
+        {% if user.is_authenticated %}
+        <h1><span class="submenu-toggle"></h1>
+        {% endif %}
 
-                    <div class="entry-submenu">
-                        <ul>{% with news|content_type as ctype %}
-                            {% get_map_pointers news as MARKERS %}{% if MARKERS %}
-                                <li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>
-                            {% endif %}
-                            {% if user.is_authenticated and user != news.creator %}
-                            <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ news.pk }}">
-                                {% trans "Report abuse" %}</a></li>
-                            {% endif %}
-                            {% if user.is_authenticated and user == news.creator or is_moderator %}
-                            <li><a href="{% url 'locations:news_update' location.slug news.slug %}">{% trans "Edit" %}</a></li>
-                            <li><a href="{% url 'locations:remove_content' ctype.pk news.pk %}">{% trans "Delete" %}</a></li>
-                            <li><a href="#" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-                            {% endif %}{% endwith %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {% if not news.has_default_image %}<div class="row content-image content-image-bg" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
-            
-            <!-- News content -->
-            <div class="row">
-                <article>
-                    <div  class="acticle-content news-contetn"><p>{{ news.content | safe }}</p></div>
-                </article>
-                
-                <div class="comments-{{ news.pk }}"></div>
-                
-                {% comment %}<div class="sprite-icon">
-                    <span class="ch-icon ch-tags"> </span>
+          <div class="entry-submenu">
+            <ul>{% with news|content_type as ctype %}
+              {% get_map_pointers news as MARKERS %}{% if MARKERS %}<li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
+              {% if user.is_authenticated and user != news.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ news.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+              {% if user.is_authenticated and user == news.creator or is_moderator %}<li><a href="{% url 'locations:news_update' location.slug news.slug %}">{% trans "Edit" %}</a></li>
+              <li><a href="{% url 'locations:remove_content' ctype.pk news.pk %}">{% trans "Delete" %}</a></li>
+              <li><a href="#" class="map-marker-toggle"  data-ct="{{ ctype.pk }}" data-id="{{ news.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
+            {% endwith %}</ul>
+          </div>
+        </div>
+      </div>
+      {% if not news.has_default_image %}<div class="row content-image content-image-bg" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
+      
+      <!-- News content -->
+      <div class="row">
+        <article>
+          <div  class="acticle-content news-contetn"><p>{{ news.content | safe }}</p></div>
+        </article>
+        
+        <div class="comments-{{ news.pk }}"></div>
+        
+        {% comment %}<div class="sprite-icon">
+          <span class="ch-icon ch-tags"> </span>
 
-                    {% trans "Tags" %}:
-                    {% for tag in news.tags.all %}
-                        <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">{{ tag }}</a> 
-                    {% endfor %}
-                   
-                </div>
-                <br />
-                {% if news.category %}
-                <div class="sprite-icon">
-                    <span class="ch-icon ch-category"></span>{% trans "Category" %}: <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}">{{ news.category }}</a>
-                </div>
-                {% endif %}
-                {% endcomment %}
+          {% trans "Tags" %}:
+          {% for tag in news.tags.all %}
+            <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">{{ tag }}</a> 
+          {% endfor %}
+           
+        </div>
+        <br />
+        {% if news.category %}
+        <div class="sprite-icon">
+          <span class="ch-icon ch-category"></span>{% trans "Category" %}: <a href="{% url 'locations:category_search' slug=news.location.slug app='blog' model='news' category=news.category.pk %}">{{ news.category }}</a>
+        </div>
+        {% endif %}
+        {% endcomment %}
 
-                
-                <div class="actionBlogDiv">
-                    <div class="recomenderBlogNews"></div>
-                    <div class="bookmarkBlogNews"><span class="bookmarkIconBlog">{% bookmark_form news user %}</span>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- News comments -->
-            <div class="row">
-                <input type="hidden" id="target-id" value="{{ news.pk }}" />
-                <input type="hidden" id="target-label" value="blog" />
-                <input type="hidden" id="target-type" value="{{ content_type }}" />
-                <div class="blogEntryComments">
-                <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
-                    <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
-                </div>
-                {% include 'comments/commentlist.html' %}
-            </div>
+        
+        <div class="actionBlogDiv">
+          <div class="recomenderBlogNews"></div>
+          <div class="bookmarkBlogNews"><span class="bookmarkIconBlog">{% bookmark_form news user %}</span>
+          </div>
         </div>
 
+      </div>
+      
+      <!-- News comments -->
+      <div class="row">
+        <input type="hidden" id="target-id" value="{{ news.pk }}" />
+        <input type="hidden" id="target-label" value="blog" />
+        <input type="hidden" id="target-type" value="{{ content_type }}" />
+        <div class="blogEntryComments">
+        <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
+          <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
         </div>
+        {% include 'comments/commentlist.html' %}
+      </div>
     </div>
+    </div>
+  </div>
 </div>
 
-    <div class="col-sm-3 boxPX">
-        {% include 'locations/sidebar.html' %}
-    </div>
-    
-    {% include 'locations/category-form.html' %}
+  <div class="col-sm-3 boxPX">
+    {% include 'locations/sidebar.html' %}
+  </div>
+  
+  {% include 'locations/category-form.html' %}
 
 {% endblock %}

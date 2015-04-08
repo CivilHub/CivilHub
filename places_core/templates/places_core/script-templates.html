@@ -304,48 +304,6 @@
 </script>
 
 
-<script type="text/template" id="minimap-tpl">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
-                <h4 class="modal-title">{% trans "Minimap" %}</h4>
-            </div>
-            <div class="modal-body">
-                <div id="minimap"></div>
-                <div style="clear:both;">&nbsp;</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</script>
-
-
-<script type="text/template" id="map-marker-form-template">
-<div class="modal fade" id="pointer-form">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans "Create map marker" %}</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" method="post" action="#">
-                    {{ marker_form }}
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-cancelBig" data-dismiss="modal">{% trans "Close" %}</button>
-                <button type="submit" class="btn btn-primary submit-btn btn-saveBig">{% trans "Save" %}</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-</script>
-
-
 <script type="text/template" id="pageable-view-tpl">
     <p class="page-info"></p>
     <% if (totalPages > 1) { %>
