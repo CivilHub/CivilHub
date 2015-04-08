@@ -362,9 +362,9 @@ def pass_reset(request):
                 user.set_password(new_pass)
                 ctx = {
                     'username': user.username,
-                    'password': new_pass
+                    'password': new_pass,
+                    'lang': user.profile.lang,
                 }
-                translation.activate(user.profile.lang)
                 email = emails.PasswordResetMail()
                 email.send(user.email, ctx)
                 user.save()

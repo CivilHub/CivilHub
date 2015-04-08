@@ -39,7 +39,6 @@ class InviteToContentView(LoginRequiredMixin, View):
     def post(self, request):
         """ Send emails. """
         emails = request.POST.get('emails').split(',')
-        translation.activate(request.user.profile.lang)
         user_url = request.build_absolute_uri(request.user.profile.get_absolute_url())
         user_profile_img = request.build_absolute_uri(request.user.profile.avatar.url)
         message = {
@@ -49,7 +48,8 @@ class InviteToContentView(LoginRequiredMixin, View):
             },
             'user_link': user_url,
             'user_name': request.user.get_full_name(),
-            'user_img': user_profile_img
+            'user_img': user_profile_img,
+            'lang': translation.get_language_from_request(request),
         }
         for address in emails:
             address = address.strip()
@@ -57,7 +57,8 @@ class InviteToContentView(LoginRequiredMixin, View):
                 email = mails.InviteToContentMail()
                 email.send(address, message)
             except:
-                print address, "is not valid email."
+                # FIXME: Not valid email. Should be cleaned up in form
+                pass
         if request.is_ajax():
             context = {
                 'success': True,
