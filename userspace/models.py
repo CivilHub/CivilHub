@@ -44,9 +44,7 @@ def get_upload_path(instance, filename):
 
 @python_2_unicode_compatible
 class UserProfile(models.Model, BackgroundModelMixin):
-    """
-    User profile.
-    """
+    """ User profile. """
     user = models.OneToOneField(User, primary_key=True, related_name='profile')
     lang = models.CharField(
         max_length = 7,
@@ -90,12 +88,12 @@ class UserProfile(models.Model, BackgroundModelMixin):
     )
     avatar = models.ImageField(
         upload_to = "img/avatars/",
-        default = 'img/avatars/anonymous.png',
+        default = 'img/avatars/anonymous.jpg',
         storage = OverwriteStorage()
     )
     thumbnail = models.ImageField(
         upload_to = "img/avatars/",
-        default = 'img/avatars/30x30_anonymous.png',
+        default = 'img/avatars/30x30_anonymous.jpg',
         storage = OverwriteStorage()
     )
     image = models.ImageField(

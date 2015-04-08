@@ -5,6 +5,8 @@ import datetime
 
 from celery.task.base import periodic_task
 
+from locations.models import Location
+
 from .helpers import create_country_clusters, make_region_cluster
 
 

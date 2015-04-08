@@ -48,6 +48,7 @@ sitemaps = {
     'discussions': sitemaps.DiscussionSitemap,
     'projects': sitemaps.ProjectsSitemap,
     'articles': sitemaps.ArticleSitemap,
+    'documents': sitemaps.EtherpadSitemap,
 }
 # Javascript translations catalog
 js_info_dict = {
@@ -160,6 +161,9 @@ urlpatterns += patterns('',
     #url(r'^creed/', PageView.as_view(page='creed')),
     #url(r'^support/', PageView.as_view(page='support')),
     url(r'^feature/', PageView.as_view(page='feature')),
+
+    # Etherpad - live collaboration tool
+    url(r'^', include('etherpad.urls')),
     
     # Default URL - Do not add anything below!!!
     #url(r'^$', PageView.as_view(page='home')),

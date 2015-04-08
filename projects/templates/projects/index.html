@@ -85,6 +85,7 @@
         <li><a href="{{ object.get_absolute_url }}"></span>{% trans "Tasks" %}</a></li>
         <li><a href="{% url 'projects:discussions' object.slug %}">{% trans "Discussions" %}</a></li>
         <li><a href="{% url 'locations:project_participants' location.slug object.slug %}">{% trans "Participants" %}</a></li>
+        <li><a href="{% url 'projects:documents' object.slug %}">{% trans "Documents" %}</a></li>
       </ul>
     </div>
   </div>

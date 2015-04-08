@@ -91,22 +91,23 @@ INSTALLED_APPS = (
 
     # Core program modules
     'places_core', # for common templates and static files
-    'geonames',    # To, co powinno być w powyższym, tylko dobrze
-    'userspace',   # panel użytkownika
-    'locations',   # główny moduł obsługujący lokalizacje
-    'ideas',       # Pomysły - core funkcjonalności
-    'blog',        # sekcja News dla lokacji
-    'polls',       # ankiety tworzone przez użytkowników
-    'rest',        # out for django rest framework
+    'geonames',    # Geonames database integration
+    'userspace',   # Everything related to users and profiles
+    'locations',   # main app module
+    'ideas',       # 
+    'blog',        # 
+    'polls',       # 
+    'rest',        # django rest framework
     'topics',      # custom forum app
     'comments',    # custom comments app (using mptt)
     'gallery',     # user media app
     'maps',        # Custom app for Open Street Maps
-    'staticpages', # Statyczne strony
-    'civmail',     # Newsletter i obsługa maili
-    'articles',    # Statyczne artykuły - support etc.
-    'bookmarks',   # Zakładki do treści dla użytkowników
-    'projects',    # Projekty i inicjatywy
+    'staticpages', # 
+    'civmail',     # Newsletter and email delivery
+    'articles',    # Staticpages with translation support
+    'bookmarks',   # 
+    'projects',    # 
+    'etherpad',    # Custom Etherpad Lite integration
 
     'raven.contrib.django.raven_compat',
     'analytical',
@@ -435,7 +436,17 @@ COMMENT_PAGINATOR_LIMIT = 10
 
 # Customowe ustawienia dla redisa, wyłącza cache w widokach dla
 # wersji developerskiej.
-USE_CACHE = False
+USE_CACHE = True
+
+# Etherpad Lite server
+
+ETHERPAD_API_KEY = config['etherpad']['apikey']
+# This is url used by Django to communicate with etherpad server
+ETHERPAD_INTERNAL_URL = 'https://civilhub.org:9001'
+# This will be usually the same as above unless your setup depends for example
+# on different Docker containers. In such case address used by iframes and
+# generally front-end may be different.
+ETHERPAD_EXTERNAL_URL = 'https://civilhub.org:9001'
 
 
 RAVEN_CONFIG = {

@@ -1,0 +1,5 @@
+{% extends 'etherpad/base.html' %}{% load i18n %}
+{% block content %}<form method="post" action="">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Proceed" %}</button>
+</form>{% endblock %}

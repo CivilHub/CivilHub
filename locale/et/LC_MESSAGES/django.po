@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-05 22:43+0200\n"
+"POT-Creation-Date: 2015-04-07 20:53+0200\n"
 "PO-Revision-Date: 2015-03-23 20:04+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Estonian (http://www.transifex.com/projects/p/civilhub/"
@@ -142,6 +142,7 @@ msgid "Browse Places"
 msgstr ""
 
 #: articles/templates/articles/features.html:72
+#: etherpad/templates/etherpad/pad_list.html:20
 #: places_core/templates/places_core/navigation.html:106
 msgid "Create new"
 msgstr ""
@@ -369,6 +370,7 @@ msgid "Stats"
 msgstr ""
 
 #: blog/templates/blog/category_form.html:10
+#: etherpad/templates/etherpad/pad_form.html:5
 #: gallery/templates/gallery/location-gallery-form.html:15
 #: gallery/templates/gallery/media-editor.html:17
 #: ideas/templates/ideas/category-create.html:9
@@ -454,6 +456,7 @@ msgid "Edit"
 msgstr ""
 
 #: blog/templates/blog/news_detail.html:76
+#: etherpad/templates/etherpad/pad_list.html:8
 #: gallery/templates/gallery/location-gallery.html:29
 #: gallery/templates/gallery/picture-view.html:18
 #: gallery/templates/gallery/user-gallery.html:31
@@ -489,6 +492,7 @@ msgid "Create news"
 msgstr ""
 
 #: blog/templates/blog/news_form.html:25
+#: etherpad/templates/etherpad/pad_list.html:33
 #: gallery/templates/gallery/media-editor.html:16
 #: locations/templates/locations/content-remove.html:13
 #: locations/templates/locations/invite-users.html:15
@@ -732,6 +736,113 @@ msgstr ""
 msgid "Submit comment"
 msgstr ""
 
+#: etherpad/forms.py:18
+msgid "save as"
+msgstr ""
+
+#: etherpad/forms.py:40
+msgid "Name already exists"
+msgstr ""
+
+#: etherpad/models.py:23
+msgid "Provide settings for Etherpad Lite Server"
+msgstr ""
+
+#: etherpad/models.py:43
+msgid "authors group"
+msgstr ""
+
+#: etherpad/models.py:44
+msgid "authors groups"
+msgstr ""
+
+#: etherpad/models.py:70 projects/models.py:221
+msgid "author"
+msgstr ""
+
+#: etherpad/models.py:71
+msgid "authors"
+msgstr ""
+
+#: etherpad/models.py:89
+msgid "Slug will be auto-generated if not provided"
+msgstr ""
+
+#: etherpad/models.py:107
+msgid "pad"
+msgstr ""
+
+#: etherpad/models.py:108
+msgid "pads"
+msgstr ""
+
+#: etherpad/templates/etherpad/download_form.html:4
+#: etherpad/templates/etherpad/pad_confirm_delete.html:5
+#: userspace/templates/userspace/active.html:18
+msgid "Proceed"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_confirm_delete.html:2
+msgid "Are you sure you want to delete this document?"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_detail.html:5
+msgid "Download this pad"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_form.html:2
+msgid "Create new pad"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:6
+msgid "Update"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:7
+msgid "Collaborate"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:12
+#: gallery/templates/gallery/location-gallery.html:42
+#: gallery/templates/gallery/user-gallery.html:44
+#: locations/templates/locations/location_followers.html:54
+#: locations/templates/locations/sublocation-list.html:36
+#: places_core/templates/places_core/pagination.html:3
+#: topics/templates/topics/discussion_detail.html:156
+msgid "previous"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:16
+#: gallery/templates/gallery/location-gallery.html:50
+#: gallery/templates/gallery/user-gallery.html:52
+#: locations/templates/locations/location_followers.html:62
+#: locations/templates/locations/sublocation-list.html:44
+#: places_core/templates/places_core/pagination.html:7
+#: topics/templates/topics/discussion_detail.html:164
+msgid "next"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:27
+msgid "Create new document"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:30
+msgid "Enter title..."
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:30
+msgid "New document"
+msgstr ""
+
+#: etherpad/templates/etherpad/pad_list.html:34
+#: locations/templates/locations/location_form.html:87
+#: locations/templates/locations/location_news.html:87
+#: places_core/templates/places_core/script-templates.html:293
+#: userspace/templates/userspace/index.html:101
+#: userspace/templates/userspace/index.html:113
+msgid "Save changes"
+msgstr ""
+
 #: gallery/forms.py:14
 msgid "Image"
 msgstr ""
@@ -764,24 +875,6 @@ msgstr ""
 
 #: gallery/templates/gallery/location-gallery-form.html:8
 msgid "Create gallery in"
-msgstr ""
-
-#: gallery/templates/gallery/location-gallery.html:42
-#: gallery/templates/gallery/user-gallery.html:44
-#: locations/templates/locations/location_followers.html:54
-#: locations/templates/locations/sublocation-list.html:36
-#: places_core/templates/places_core/pagination.html:3
-#: topics/templates/topics/discussion_detail.html:156
-msgid "previous"
-msgstr ""
-
-#: gallery/templates/gallery/location-gallery.html:50
-#: gallery/templates/gallery/user-gallery.html:52
-#: locations/templates/locations/location_followers.html:62
-#: locations/templates/locations/sublocation-list.html:44
-#: places_core/templates/places_core/pagination.html:7
-#: topics/templates/topics/discussion_detail.html:164
-msgid "next"
 msgstr ""
 
 #: gallery/templates/gallery/location-gallery.html:56
@@ -880,8 +973,8 @@ msgstr ""
 msgid "in progress"
 msgstr ""
 
-#: ideas/models.py:45 projects/models.py:75 projects/models.py:125
-#: projects/models.py:183
+#: ideas/models.py:45 projects/models.py:78 projects/models.py:133
+#: projects/models.py:191
 msgid "project"
 msgstr ""
 
@@ -1102,17 +1195,17 @@ msgstr ""
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:156 projects/models.py:34 projects/models.py:123
-#: projects/models.py:147
+#: locations/models.py:156 projects/models.py:35 projects/models.py:131
+#: projects/models.py:155
 msgid "name"
 msgstr ""
 
-#: locations/models.py:157 projects/models.py:35
+#: locations/models.py:157 projects/models.py:36
 msgid "slug"
 msgstr ""
 
-#: locations/models.py:158 projects/models.py:65 projects/models.py:124
-#: projects/models.py:148 projects/models.py:184
+#: locations/models.py:158 projects/models.py:66 projects/models.py:132
+#: projects/models.py:156 projects/models.py:192
 msgid "description"
 msgstr ""
 
@@ -1128,7 +1221,7 @@ msgstr ""
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:162 projects/models.py:188
+#: locations/models.py:162 projects/models.py:196
 msgid "creator"
 msgstr ""
 
@@ -1144,8 +1237,8 @@ msgstr ""
 msgid "population"
 msgstr ""
 
-#: locations/models.py:166 projects/models.py:68 projects/models.py:150
-#: projects/models.py:185 projects/models.py:216
+#: locations/models.py:166 projects/models.py:69 projects/models.py:158
+#: projects/models.py:193 projects/models.py:224
 msgid "date created"
 msgstr ""
 
@@ -1161,7 +1254,7 @@ msgstr ""
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:178 projects/models.py:66
+#: locations/models.py:178 projects/models.py:67
 msgid "location"
 msgstr ""
 
@@ -1316,14 +1409,6 @@ msgstr ""
 #: locations/templates/locations/location_form.html:59
 #: locations/templates/locations/location_idea_form.html:22
 msgid "If this entry is about a specific location, you can mark it on the map"
-msgstr ""
-
-#: locations/templates/locations/location_form.html:87
-#: locations/templates/locations/location_news.html:87
-#: places_core/templates/places_core/script-templates.html:293
-#: userspace/templates/userspace/index.html:101
-#: userspace/templates/userspace/index.html:113
-msgid "Save changes"
 msgstr ""
 
 #: locations/templates/locations/location_form.html:87
@@ -2035,83 +2120,79 @@ msgstr ""
 msgid "leaved project"
 msgstr ""
 
-#: projects/models.py:67 projects/models.py:153
+#: projects/models.py:68 projects/models.py:161
 msgid "participants"
 msgstr ""
 
-#: projects/models.py:69 projects/models.py:151
+#: projects/models.py:70 projects/models.py:159
 msgid "date changed"
 msgstr ""
 
-#: projects/models.py:70 projects/models.py:154
+#: projects/models.py:71 projects/models.py:162
 msgid "finished"
 msgstr ""
 
-#: projects/models.py:71 projects/models.py:126 projects/models.py:155
+#: projects/models.py:72 projects/models.py:134 projects/models.py:163
 msgid "created by"
 msgstr ""
 
-#: projects/models.py:76
+#: projects/models.py:79
 msgid "projects"
 msgstr ""
 
-#: projects/models.py:132
+#: projects/models.py:140
 msgid "task group"
 msgstr ""
 
-#: projects/models.py:133
+#: projects/models.py:141
 msgid "task groups"
 msgstr ""
 
-#: projects/models.py:149
+#: projects/models.py:157
 msgid "group"
 msgstr ""
 
-#: projects/models.py:152
+#: projects/models.py:160
 msgid "time limit"
 msgstr ""
 
-#: projects/models.py:161
+#: projects/models.py:169
 msgid "task"
 msgstr ""
 
-#: projects/models.py:162
+#: projects/models.py:170
 msgid "tasks"
 msgstr ""
 
-#: projects/models.py:186 projects/models.py:217
+#: projects/models.py:194 projects/models.py:225
 msgid "date edited"
 msgstr ""
 
-#: projects/models.py:187
+#: projects/models.py:195
 msgid "closed"
 msgstr ""
 
-#: projects/models.py:192 topics/models.py:81
+#: projects/models.py:200 topics/models.py:81
 msgid "discussions"
 msgstr ""
 
-#: projects/models.py:212 templates/search/search.html:52 topics/models.py:80
+#: projects/models.py:220 templates/search/search.html:52 topics/models.py:80
 msgid "discussion"
 msgstr ""
 
-#: projects/models.py:213
-msgid "author"
-msgstr ""
-
-#: projects/models.py:214
+#: projects/models.py:222
 msgid "content"
 msgstr ""
 
-#: projects/models.py:215
+#: projects/models.py:223
 msgid "edited"
 msgstr ""
 
-#: projects/models.py:223
+#: projects/models.py:231
 msgid "forum entry"
 msgstr ""
 
-#: projects/models.py:224
+#: projects/models.py:232
 msgid "forum entries"
 msgstr ""
 
@@ -2142,6 +2223,10 @@ msgstr ""
 
 #: projects/templates/projects/index.html:87
 msgid "Participants"
+msgstr ""
+
+#: projects/templates/projects/index.html:88
+msgid "Documents"
 msgstr ""
 
 #: projects/templates/projects/socialforumtopic_form.html:5
@@ -2219,27 +2304,27 @@ msgstr ""
 msgid "Create new group"
 msgstr ""
 
-#: projects/views.py:64
+#: projects/views.py:66
 msgid "Task marked as undone"
 msgstr ""
 
-#: projects/views.py:67
+#: projects/views.py:69
 msgid "Task marked as finished"
 msgstr ""
 
-#: projects/views.py:122
+#: projects/views.py:123
 msgid "You are no longer in this project"
 msgstr ""
 
-#: projects/views.py:127
+#: projects/views.py:129
 msgid "You have joined to this project"
 msgstr ""
 
-#: projects/views.py:145
+#: projects/views.py:147
 msgid "You are no longer in this task"
 msgstr ""
 
-#: projects/views.py:154
+#: projects/views.py:157
 msgid "You have joined this task"
 msgstr ""
 
@@ -2637,7 +2722,7 @@ msgid ""
 msgstr ""
 
 #: templates/emails/content-body-html.html:200
-#: templates/emails/content-body-text.html:5 userspace/views.py:272
+#: templates/emails/content-body-text.html:5 userspace/views.py:271
 msgid "Sign Up"
 msgstr ""
 
@@ -2954,83 +3039,83 @@ msgstr ""
 msgid "Birth date"
 msgstr ""
 
-#: userspace/forms.py:144
+#: userspace/forms.py:148
 msgid "Gender"
 msgstr ""
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:61
 msgid "male"
 msgstr ""
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:61
 msgid "female"
 msgstr ""
 
-#: userspace/forms.py:146 userspace/models.py:63
+#: userspace/forms.py:150 userspace/models.py:61
 msgid "undefined"
 msgstr ""
 
-#: userspace/forms.py:150
+#: userspace/forms.py:154
 msgid "Google+"
 msgstr ""
 
-#: userspace/forms.py:155
+#: userspace/forms.py:159
 msgid "Facebook"
 msgstr ""
 
-#: userspace/forms.py:160
+#: userspace/forms.py:164
 msgid "Twitter"
 msgstr ""
 
-#: userspace/forms.py:165
+#: userspace/forms.py:169
 msgid "LinkedIn"
 msgstr ""
 
-#: userspace/forms.py:182
+#: userspace/forms.py:186
 msgid "Current password"
 msgstr ""
 
-#: userspace/forms.py:188
+#: userspace/forms.py:192
 msgid "New password"
 msgstr ""
 
-#: userspace/forms.py:194
+#: userspace/forms.py:198
 msgid "Retype password"
 msgstr ""
 
-#: userspace/forms.py:205
+#: userspace/forms.py:209
 msgid "Passwords not match!"
 msgstr ""
 
-#: userspace/forms.py:216
+#: userspace/forms.py:220
 msgid "Enter your email address"
 msgstr ""
 
-#: userspace/forms.py:228
+#: userspace/forms.py:232
 msgid "Change"
 msgstr ""
 
-#: userspace/forms.py:238
+#: userspace/forms.py:242
 msgid "email address"
 msgstr ""
 
-#: userspace/forms.py:239
+#: userspace/forms.py:243
 msgid "Please provide your email address. Twitter doesn't"
 msgstr ""
 
-#: userspace/models.py:71
+#: userspace/models.py:69
 msgid "Google+ profile url"
 msgstr ""
 
-#: userspace/models.py:77
+#: userspace/models.py:75
 msgid "Facebook profile url"
 msgstr ""
 
-#: userspace/models.py:83
+#: userspace/models.py:81
 msgid "Twitter profile url"
 msgstr ""
 
-#: userspace/models.py:89
+#: userspace/models.py:87
 msgid "LinkedIn profile url"
 msgstr ""
 
@@ -3070,16 +3155,12 @@ msgstr ""
 msgid "Below you can see list of places that may be interesting for you."
 msgstr ""
 
-#: userspace/templates/userspace/active.html:18
-msgid "Proceed"
-msgstr ""
-
 #: userspace/templates/userspace/activity.html:12
 msgid "Your feed"
 msgstr ""
 
 #: userspace/templates/userspace/followed-locations.html:4
-#: userspace/views.py:463
+#: userspace/views.py:462
 msgid "My places"
 msgstr ""
 
@@ -3097,7 +3178,7 @@ msgstr ""
 msgid "Profile summary"
 msgstr ""
 
-#: userspace/templates/userspace/index.html:79 userspace/views.py:447
+#: userspace/templates/userspace/index.html:79 userspace/views.py:446
 msgid "Change password"
 msgstr ""
 
@@ -3219,30 +3300,30 @@ msgstr ""
 msgid "Set email"
 msgstr ""
 
-#: userspace/views.py:199
+#: userspace/views.py:198
 msgid "User Area"
 msgstr ""
 
-#: userspace/views.py:204 userspace/views.py:438
+#: userspace/views.py:203 userspace/views.py:437
 msgid "Settings saved"
 msgstr ""
 
-#: userspace/views.py:206 userspace/views.py:444
+#: userspace/views.py:205 userspace/views.py:443
 msgid "Form invalid"
 msgstr ""
 
-#: userspace/views.py:264
+#: userspace/views.py:263
 msgid "Message send"
 msgstr ""
 
-#: userspace/views.py:279
+#: userspace/views.py:278
 msgid "Activation link invalid"
 msgstr ""
 
-#: userspace/views.py:321
+#: userspace/views.py:320
 msgid "Set your password"
 msgstr ""
 
-#: userspace/views.py:441
+#: userspace/views.py:440
 msgid "Your current password is invalid."
 msgstr ""

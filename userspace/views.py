@@ -138,7 +138,6 @@ class ProfileUpdateView(UpdateView):
             return prof
 
     def get_context_data(self, **kwargs):
-        from social.apps.django_app.default.models import UserSocialAuth
         context = super(ProfileUpdateView, self).get_context_data(**kwargs)
         context['title'] = self.object.user.get_full_name()
         context['form'] = UserProfileForm(initial={
@@ -363,9 +362,9 @@ def pass_reset(request):
                 user.set_password(new_pass)
                 ctx = {
                     'username': user.username,
-                    'password': new_pass
+                    'password': new_pass,
+                    'lang': user.profile.lang,
                 }
-                translation.activate(user.profile.lang)
                 email = emails.PasswordResetMail()
                 email.send(user.email, ctx)
                 user.save()

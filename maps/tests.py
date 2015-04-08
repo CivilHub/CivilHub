@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.core import cache
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 
 from locations.models import Location
 
@@ -53,3 +54,33 @@ class MarkerCacheTestCase(TestCase):
         self.cache.delete('allcountries')
         for location in self.main_locations:
             self.cache.delete(str(location.pk) + '_childlist')
+
+
+class MapPointerViewTestCase(TestCase):
+    """ Test responses for requests to map view when specific location is selected.
+    see: https://app.getsentry.com/civilhuborg/civilhub/group/60399009/ """
+    @classmethod
+    def setUp(cls):
+        cls.user = User.objects.create(username='tester')
+        cls.client = Client()
+
+    def test_map_response_for_location_with_geo_params(self):
+        """ Test that everything is fine when location has some map pointers. """
+        location = Location.objects.create(
+            name="Testowice",
+            creator=self.user,
+            latitude=-19.90,
+            longitude=66.66)
+        response = self.client.get('/maps/info/{}/{}/'.format(
+            ContentType.objects.get_for_model(Location).pk, location.pk))
+        self.assertEqual(response.status_code, 200)
+
+    def test_map_response_for_location_without_map_marker(self):
+        """ This is test for 500 error showing up when location has no
+        related map markers. """
+        location = Location.objects.create(
+            name="Testowice",
+            creator=self.user)
+        response = self.client.get('/maps/info/{}/{}/'.format(
+            ContentType.objects.get_for_model(Location).pk, location.pk))
+        self.assertEqual(response.status_code, 404)
