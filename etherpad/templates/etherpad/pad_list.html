@@ -1,13 +1,26 @@
 {% extends 'projects/index.html' %}{% load i18n staticfiles civil_tags %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-documents.js"></script>{% endblock %}
-{% block content %}<ul id="document-list">{% for document in object_list %}
-  <li>
-    <a href="{{ document.get_absolute_url }}">{{ document.name|capfirst }}</a>
-    {% if user in object.participants.all %}<a href="{% url 'pad-update' document.pk %}">{% trans "Update" %}</a>
+{% block content %}
+<div class="col-sm-9 main-content contentPX">
+
+<div class="custom-tablelike socialforumtopic">
+    
+      {% for document in object_list %}
+      <div class="topic-list-entry">
+        <div class="row">
+          <div class="col-sm-8 text-left excerpt">
+            <a href="{{ document.get_absolute_url }}">{{ document.name|capfirst }}</a>
+          </div>
+          <div class="col-sm-4 text-right">
+            {% if user in object.participants.all %}<a href="{% url 'pad-update' document.pk %}">{% trans "Update" %}</a>
     <a href="{% url 'pad-collaborate' document.pk %}" target="_blank">{% trans "Collaborate" %}</a>
     <a href="{% url 'pad-remove' document.pk %}" class="custom-delete">{% trans "Delete" %}</a>{% endif %}
-  </li>
-{% endfor %}</ul>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+  </div>
+
 {% if is_paginated %}<ul class="pagination">
   {% if page_obj.has_previous %}<li><a href="?page={{ page_obj.previous_page_number }}" rel="prev">{% trans "previous" %}</a></li>{% endif %}
   {% for i in paginator.page_range %}<li>
@@ -15,10 +28,7 @@
   </li>{% endfor %}
   {% if page_obj.has_next %}<li><a href="?page={{ page_obj.next_page_number }}" rel="next">{% trans "next" %}</a></li>{% endif %}
 </ul>{% endif %}
-{% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
-  {{ document_form }}
-  <button type="submit">{% trans "Create new" %}</button>
-</form>
+
 <div id="pad-creation-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -30,9 +40,22 @@
         <input type="text" class="form-control" placeholder="{% trans "Enter title..." %}" value="{% trans "New document" %}">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
-        <button type="button" class="btn btn-primary" data-submits="pad-creation-form">{% trans "Save changes" %}</button>
+        <button type="button" class="btn btn-default btn-cancelBig" data-dismiss="modal">{% trans "Cancel" %}</button>
+        <button type="button" class="btn btn-primary btn-saveBig" data-submits="pad-creation-form">{% trans "Save changes" %}</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->{% endif %}{% endblock %}
+</div><!-- /.modal -->
+</div>
+<div class="col-sm-3 boxPX">
+  <div class="sidebar">
+    <div class="sidebar-label">Akcje:</div>
+    <ul class="sidebar-content mb0">  
+           {% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
+  {{ document_form }}
+  <button type="submit" class="btn-link">{% trans "Create new" %}</button>
+</form>{% endif %}
+        </ul>
+  </div>
+</div>
+{% endblock %}
