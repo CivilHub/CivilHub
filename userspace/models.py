@@ -49,18 +49,21 @@ class UserProfile(models.Model, BackgroundModelMixin):
     lang = models.CharField(
         max_length = 7,
         choices = settings.LANGUAGES,
-        default = settings.LANGUAGE_CODE
+        default = settings.LANGUAGE_CODE,
+        verbose_name = _(u"language")
     )
-    description = models.TextField(blank=True, null=True)
-    rank_pts  = models.IntegerField(blank=True, default=0)
-    birth_date = models.CharField(max_length=20, blank=True, null=True)
+    description = models.TextField(blank=True, null=True, verbose_name=_(u"about"))
+    rank_pts  = models.IntegerField(blank=True, default=0, verbose_name=_(u"points"))
+    birth_date = models.CharField(max_length=20, blank=True, null=True, verbose_name=_(u"birth date"))
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
     clean_username = models.SlugField(blank=True, null=True)
+    website = models.URLField(max_length=255, blank=True, null=True, verbose_name=_(u"website"))
     gender = models.CharField(
         max_length=1,
         choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
         blank=True,
-        null=True
+        null=True,
+        verbose_name=_(u"gender")
     )
     gplus_url = models.URLField(
         max_length=255,

@@ -34,6 +34,7 @@ from djmail.template_mail import MagicMailBuilder as mails
 from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.helpers import truncatesmart, process_background_image
+from places_core.mixins import LoginRequiredMixin
 from gallery.forms import BackgroundForm
 from blog.models import News
 from ideas.models import Idea
@@ -123,37 +124,6 @@ class SetTwitterEmailView(FormView):
         return redirect(reverse('social:complete', kwargs={'backend':'twitter'}))
 
 
-class ProfileUpdateView(UpdateView):
-    """ User profile settings. """
-    model = UserProfile
-    template_name = 'userspace/index.html'
-    context_object_name = 'profile'
-
-    def get_object(self):
-        try:
-            return self.request.user.profile
-        except UserProfile.DoesNotExist:
-            prof = UserProfile.objects.create(user=self.request.user)
-            prof.save()
-            return prof
-
-    def get_context_data(self, **kwargs):
-        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
-        context['title'] = self.object.user.get_full_name()
-        context['form'] = UserProfileForm(initial={
-            'first_name': self.object.user.first_name,
-            'last_name': self.object.user.last_name
-        }, instance=self.object)
-        context['passform'] = PasswordResetForm()
-        context['avatar_form'] = BackgroundForm()
-        return context
-
-    def get(self, request):
-        if  request.user.is_anonymous():
-            return HttpResponseNotFound()
-        return super(ProfileUpdateView, self).get(request)
-
-
 @require_POST
 @login_required
 def upload_avatar(request):
@@ -173,38 +143,6 @@ def upload_avatar(request):
     return redirect(reverse('user:index'))
 
 
-def save_settings(request):
-    """ Save changes made by user in his/her profile. """
-    if request.method == 'POST':
-        user = User.objects.get(pk=request.user.id)
-        prof = UserProfile.objects.get(user = user.id)
-        f = UserProfileForm(request.POST)
-        if f.is_valid():
-            user.first_name = f.cleaned_data['first_name']
-            user.last_name  = f.cleaned_data['last_name']
-            prof.birth_date = f.cleaned_data['birth_date']
-            prof.description= f.cleaned_data['description']
-            prof.gender = f.cleaned_data['gender']
-            prof.gplus_url = f.cleaned_data['gplus_url']
-            prof.fb_url = f.cleaned_data['fb_url']
-            error = None
-            if error != None:
-                ctx = {
-                    'user': user,
-                    'profile': prof,
-                    'form': f,
-                    'avatar_form': AvatarUploadForm(),
-                    'errors': f.errors,
-                    'title': _('User Area'),
-                }
-                return render(request, 'userspace/index.html', ctx)
-            user.save()
-            prof.save()
-            messages.add_message(request, messages.SUCCESS, _('Settings saved'))
-            return redirect('user:index')
-    return HttpResponse(_('Form invalid'))
-
-
 class UserProfileView(DetailView):
     """ Show user info to other allowed users. """
     model = UserProfile
@@ -217,6 +155,43 @@ class UserProfileView(DetailView):
         context = super(UserProfileView, self).get_context_data()
         context['cuser'] = object.user
         return context
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    """ User profile settings. """
+    model = UserProfile
+    form_class = UserProfileForm
+    template_name = 'userspace/index.html'
+    context_object_name = 'profile'
+
+    def get_object(self):
+        return UserProfile.objects.get_or_create(user=self.request.user)[0]
+
+    def get_success_url(self):
+        return reverse('user:index')
+
+    def get_initial(self):
+        initial = super(ProfileUpdateView, self).get_initial()
+        initial.update({
+            'first_name': self.object.user.first_name,
+            'last_name': self.object.user.last_name,
+        })
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        context.update({
+            'title': self.object.user.get_full_name(),
+            'passform': PasswordResetForm(),
+            'avatar_form': BackgroundForm(),
+        })
+        return context
+
+    def form_valid(self, form):
+        self.request.user.first_name = form.cleaned_data['first_name']
+        self.request.user.last_name = form.cleaned_data['last_name']
+        self.request.user.save()
+        return super(ProfileUpdateView, self).form_valid(form)
 
 
 class RegisterFormView(FormView):

@@ -43,11 +43,11 @@ class LocationForm(forms.ModelForm, BootstrapBaseForm):
                 if parent.kind != 'country':
                     self.cleaned_data['parent'] = parent
                 else:
-                    msg = _("You have to select region parent location")
+                    msg = _(u"You have to select region parent location")
                     self._errors['parent'] = ErrorList([msg])
                     del self.cleaned_data['parent']
             except Location.DoesNotExist:
-                msg = _("Selected location does not exist")
+                msg = _(u"Selected location does not exist")
                 self._errors['parent'] = ErrorList([msg])
                 del self.cleaned_data['parent']
         return self.cleaned_data

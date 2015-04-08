@@ -22,8 +22,6 @@
     }
 }
 </style>
-
-<!--     <div class="user-logo" style="background-image:url({{ profile.background_image.url }})"> -->
     <div class="user-logo">
         <div class="container" style="height: 100%; position: relative;">
             
@@ -44,6 +42,7 @@
                         <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Following" %}</a>
                     {% endif %}
                 {% endif %}
+                {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-external-link">&nbsp;</span></a>{% endif %}
                 {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
                 {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
                 {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
@@ -91,7 +90,7 @@
         <div class="main-content">
             <div class="simple-tabs" id="user-profile-tabs">
                 <div class="simple-tabs-tab active" id="tab-1">
-                    <form id="user-profile-form" class="form-horizontal" method="post" action="{% url 'user:save_settings' %}">
+                    <form id="user-profile-form" class="form-horizontal" method="post" action="">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <div class="form-group">
