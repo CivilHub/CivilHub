@@ -443,6 +443,7 @@ COMMENT_PAGINATOR_LIMIT = 10
 # wersji developerskiej.
 USE_CACHE = True
 
+# Etherpad Lite server
 
 ETHERPAD_API_KEY = config['etherpad']['apikey']
 # This is url used by Django to communicate with etherpad server

@@ -4,6 +4,7 @@ import json
 from ipware import ip
 
 from django.conf import settings
+from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django.contrib.contenttypes.models import ContentType
@@ -148,8 +149,12 @@ class IndexView(TemplateView):
         if pk and ct:
             ctype = ContentType.objects.get(pk=ct)
             obj = ctype.get_object_for_this_type(pk=pk)
-            active_marker = MapPointer.objects \
-                            .filter(object_pk=obj.pk,content_type=ct)[0]
+            try:
+                active_marker = MapPointer.objects.filter(
+                    object_pk=obj.pk,content_type=ct)[0]
+            except IndexError:
+                # No markers for this specific content element
+                raise Http404
             context['active_marker'] = active_marker
 
         if active_marker is not None:
