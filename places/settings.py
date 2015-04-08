@@ -34,9 +34,9 @@ LOGGING = loggers.LOGGING
 SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 INTERNAL_IPS = config['internal_ips']
 
@@ -442,11 +442,11 @@ USE_CACHE = True
 
 ETHERPAD_API_KEY = config['etherpad']['apikey']
 # This is url used by Django to communicate with etherpad server
-ETHERPAD_INTERNAL_URL = 'https://civilhub.org:9001'
+ETHERPAD_INTERNAL_URL = 'http://10.0.0.235:9001'
 # This will be usually the same as above unless your setup depends for example
 # on different Docker containers. In such case address used by iframes and
 # generally front-end may be different.
-ETHERPAD_EXTERNAL_URL = 'https://civilhub.org:9001'
+ETHERPAD_EXTERNAL_URL = 'http://10.0.0.235:9001'
 
 
 RAVEN_CONFIG = {

@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^vector-map/', views.TopLevelArticleView.as_view(article_slug='vector-map', template_name='articles/vector-map.html'), name='vector-map'),
     url(r'^brief/', views.TopLevelArticleView.as_view(article_slug='brief', template_name='articles/brief.html'), name='brief'),
     url(r'^local-communities/', views.TopLevelArticleView.as_view(article_slug='local-communities', template_name='articles/brief.html'), name='brief'),
-    url(r'^project-features/', views.TopLevelArticleView.as_view(article_slug='project-features', template_name='articles/brief.html'), name='project-features')
+    url(r'^project-features/', views.TopLevelArticleView.as_view(article_slug='project-features', template_name='articles/brief.html'), name='project-features'),
+    url(r'^idea-to-law/', views.TopLevelArticleView.as_view(article_slug='idea-to-law', template_name='articles/brief.html'), name='idea-to-law')
 )
