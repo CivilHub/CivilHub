@@ -1,2 +1,9 @@
-{% extends 'etherpad/base.html' %}
-{% block content %}<iframe id="etherpad-frame" src="{{ pad_url }}"></iframe>{% endblock %}
+{% extends 'places_core/base.html' %}
+{% block header %}{% endblock %}
+
+{% block container_main %}
+  {% block content %}<iframe id="etherpad-frame" src="{{ pad_url }}"></iframe>{% endblock %}    
+{% endblock %}
+
+
+{% block base_footer %}{% endblock %}
