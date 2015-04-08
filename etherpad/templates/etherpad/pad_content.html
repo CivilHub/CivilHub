@@ -1,4 +1,7 @@
-{% extends 'places_core/base.html' %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'etherpad/etherpad.css' %}">
+{% endblock %}
 {% block header %}{% endblock %}
 
 {% block container_main %}
