@@ -13,7 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
-from .client import EtherpadLiteClient
+from .client import EtherpadException, EtherpadLiteClient
 
 # Models in this group will not work properly without server enabled.
 try:
@@ -152,7 +152,10 @@ class Pad(EtherpadBaseModel):
 
 def cleanup_etherpad(sender, instance, **kwargs):
     """ Make sure that groups and pads will be deleted in etherpad-lite db. """
-    instance.destroy()
+    try:
+        instance.destroy()
+    except EtherpadException:
+        pass
 models.signals.pre_delete.connect(cleanup_etherpad, sender=EtherpadGroup)
 models.signals.pre_delete.connect(cleanup_etherpad, sender=Pad)
 
