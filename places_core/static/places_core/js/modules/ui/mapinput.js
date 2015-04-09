@@ -154,6 +154,7 @@ $.fn.mapinput = function (options) {
     var $el = $(this);
     var map = mapinput;
     map.initialize($el);
+    $(this).data('mapinput', map);
   });
 };
 

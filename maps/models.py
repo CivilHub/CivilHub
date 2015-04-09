@@ -41,7 +41,7 @@ class MapPointer(BaseAbstractMapPointer):
 
 def create_marker(sender, instance, created, **kwargs):
     """ Create map marker for new model instance. """
-    if created and instance.latitude and instance.longitude:
+    if instance.latitude and instance.longitude:
         # Check if created object is location itself:
         if isinstance(instance, Location):
             location = instance

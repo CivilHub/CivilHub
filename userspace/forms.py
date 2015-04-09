@@ -37,40 +37,6 @@ class RegisterForm(UserCreationForm):
         return email
 
 
-class SocialAuthPassetForm(forms.Form):
-    """
-    Set the user name and pass for users who log in through
-    socail auth.
-    """
-    username = forms.CharField(
-        label = _('Username'),
-        max_length = 32,
-        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
-    )
-    password = forms.CharField(
-        label = _('Password'),
-        max_length = 64,
-        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
-    )
-    passchk = forms.CharField(
-        label = _("Repeat password"),
-        max_length = 64,
-        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
-    )
-    
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(SocialAuthPassetForm, self).__init__(*args, **kwargs)
-
-    def clean(self):
-        try:
-            chk_user = User.objects.get(username=self.cleaned_data.get('username'))
-            raise ValidationError(_('Username already taken. Pick another one!'))
-        except User.DoesNotExist:
-            pass
-        return super(SocialAuthPassetForm, self).clean()
-
-
 class LoginForm(forms.Form):
     """ User login form. """
     email = forms.EmailField(required=True, label=_(u"email"))
@@ -114,68 +80,68 @@ class LoginForm(forms.Form):
 
 
 class UserProfileForm(forms.ModelForm, BootstrapBaseForm):
-    """
-    Edit user profile data (excluding picture upload)
-    """
-    first_name = forms.CharField(
-        label = _("First name"),
-        max_length = 64,
-        required = False,
-        widget = forms.TextInput(attrs={'class':'form-control','id':'first-name','placeholder':_('First name')})                         
-    )
-    last_name = forms.CharField(
-        label = _("Last name"),
-        max_length = 64,
-        required = False,
-        widget = forms.TextInput(attrs={'class':'form-control','id':'last-name','placeholder':_('Last name')})                         
-    )
-    description = forms.CharField(
-        label = _("About me"),
-        max_length = 10248,
-        required = False,
-        widget = forms.Textarea(attrs={'class': 'form-control'})
-    )
-    birth_date = forms.CharField(
-        label = _("Birth date"),
-        required = False,
-        widget = forms.TextInput(attrs={
-            'class':'form-control','id':'birth-date',
-            'readonly':'readonly',
-            'placeholder': "dd/mm/yyyy",
-        })
-    )
-    gender = forms.ChoiceField(
-        label = _("Gender"),
-        required = False,
-        choices = (('M', _('male')),('F', _('female')),('U', _('undefined'))),
-        widget = forms.Select(attrs={'class':'form-control','id':'gender'})
-    )
-    gplus_url = forms.URLField(
-        label = _("Google+"),
-        required = False,
-        widget = forms.TextInput(attrs={'class': 'form-control'})
-    )
-    fb_url = forms.URLField(
-        label = _("Facebook"),
-        required = False,
-        widget = forms.TextInput(attrs={'class': 'form-control'})
-    )
-    twt_url = forms.URLField(
-        label = _("Twitter"),
-        required = False,
-        widget = forms.TextInput(attrs={'class': 'form-control'})
-    )
-    linkedin_url = forms.URLField(
-        label = _("LinkedIn"),
-        required = False,
-        widget = forms.TextInput(attrs={'class': 'form-control'})
-    )
+    """ Edit user profile data (excluding picture upload) """
+    first_name = forms.CharField(label=_("first name"), max_length=64,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label=_("Last name"), max_length=64,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(required=False, label=_("About me"),
+        widget=forms.Textarea(attrs={'class': 'form-control'}))
+    birth_date = forms.CharField(label=_("Birth date"), required=False,
+        widget=forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'birth-date',
+                'readonly': 'readonly',
+                'placeholder': "dd/mm/yyyy",
+            }))
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'gender', 'description',
-                  'birth_date', 'gplus_url', 'fb_url', 'twt_url',
-                  'linkedin_url',)
+        fields = ('first_name', 'last_name', 'lang', 'description', 'birth_date',
+            'gender', 'website', 'gplus_url', 'fb_url', 'twt_url', 'linkedin_url')
+        widgets = {
+            'lang': forms.Select(attrs={'class': 'form-control'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'website': forms.TextInput(attrs={'class': 'form-control'}),
+            'gplus_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'fb_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'twt_url': forms.TextInput(attrs={'class': 'form-control'}),
+            'linkedin_url': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class SocialAuthPassetForm(forms.Form):
+    """
+    Set the user name and pass for users who log in through
+    socail auth.
+    """
+    username = forms.CharField(
+        label = _('Username'),
+        max_length = 32,
+        widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'username', 'placeholder': _('Select username')})
+    )
+    password = forms.CharField(
+        label = _('Password'),
+        max_length = 64,
+        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'password'})
+    )
+    passchk = forms.CharField(
+        label = _("Repeat password"),
+        max_length = 64,
+        widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
+    )
+    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(SocialAuthPassetForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        try:
+            chk_user = User.objects.get(username=self.cleaned_data.get('username'))
+            raise ValidationError(_('Username already taken. Pick another one!'))
+        except User.DoesNotExist:
+            pass
+        return super(SocialAuthPassetForm, self).clean()
 
 
 class PasswordResetForm(forms.Form, BootstrapBaseForm):

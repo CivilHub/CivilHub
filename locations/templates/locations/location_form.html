@@ -23,7 +23,17 @@
 
 {% block content %}<div class="col-sm-3 top15">
 	<div class="sidebar left">
-		<div class="sidebar-label">{% trans "Rules" %}</div>
+		<div class="sidebar-label">{% trans "Help" %}
+			<div class="sidebar-content">
+				<p><b>{% trans "Place creation" %}</b></p>
+     			<ol>
+        			<li>{% trans "Check whether the place you want to create exists. Search it by name or through the map." %}</li>
+        			<li>{% trans "Add the place's name. We suggest the official name of your neighborhood, city." %}</li>
+        			<li>{% trans "Choose the 'parent' i.e. specify where your place is located. For example: the city of New York is located in United States -> Empire State -> New York City." %}</li>
+        			<li>{% trans "Pinning the place on a map will make it easier for your neighbors to find it." %}</li>
+      			</ol>
+			</div>
+		</div>
    	{% if user.is_superuser and action == 'edit' %}<a href="{% url 'locations:delete' location.slug %}" class="btn btn-danger btn-bg">{% trans 'Delete' %}</a>{% endif %}
 	</div>
 </div>
