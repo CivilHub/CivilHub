@@ -9,12 +9,14 @@
       <div class="topic-list-entry">
         <div class="row">
           <div class="col-sm-8 text-left excerpt">
-            <a href="{{ document.get_absolute_url }}">{{ document.name|capfirst }}</a>
+            <a href="{{ document.get_absolute_url }}" class="custom-tooltip-right" title="{% trans "Show detail" %}">{{ document.name|capfirst }}</a>
           </div>
           <div class="col-sm-4 text-right">
             {% if user in object.participants.all %}<a href="{% url 'pad-update' document.pk %}">{% trans "Update" %}</a>
     <a href="{% url 'pad-collaborate' document.pk %}" target="_blank">{% trans "Collaborate" %}</a>
-    <a href="{% url 'pad-remove' document.pk %}" class="custom-delete">{% trans "Delete" %}</a>{% endif %}
+    <a href="{% url 'pad-remove' document.pk %}" class="custom-delete">{% trans "Delete" %}</a>
+{% else %}<p class="mb0">{% %}{% trans "Join the Project" %}</p>
+    {% endif %}
           </div>
         </div>
       </div>
@@ -51,9 +53,9 @@
   <div class="sidebar">
     <div class="sidebar-label">Akcje:</div>
     <ul class="sidebar-content mb0">  
-           {% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
-  {{ document_form }}
-  <button type="submit" class="btn-link">{% trans "Create new" %}</button>
+      {% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
+      {{ document_form }}
+      <button type="submit" class="btn-link">{% trans "Create new" %}</button>
 </form>{% endif %}
         </ul>
   </div>
