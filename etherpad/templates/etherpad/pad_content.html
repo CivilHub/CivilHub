@@ -4,7 +4,7 @@
 {% block container_main %}<div class="backEmptyBox">
   <div class="container">
     <ul class="list-unstyled">
-      {% if project_slug %}<li><a href="{% url 'projects:documents' project_slug %}"><span class="fa fa-arrow-left"></span> {% trans "Back to projects" %}</a></li>{% endif %}
+      {% if project_slug %}<li><a href="{% url 'projects:documents' project_slug %}"><span class="fa fa-arrow-left"></span> {% trans "Back to project:" %}</a></li>{% endif %}
     </ul>
   </div>
 </div>{% block content %}<iframe id="etherpad-frame" src="{{ pad_url }}"></iframe>{% endblock %}    
