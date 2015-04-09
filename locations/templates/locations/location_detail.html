@@ -21,5 +21,8 @@
 
 {% block content %}<div class="col-sm-12 colHline colHP">
   <div id="location-content-collection" class="containerLocationCollection"></div>
+  <div id="location-empty-collection" class="hidden">
+    <div class="no-entries activity-collection"><img src="/static/places_core/img/civilman_plus_dockument.png" alt="Civilman"><h2>{% trans "We didn’t find any content in" %} {{ location }}. <br> <a href="#" class="cd-bouncy-nav-trigger">{% trans "Add first conent." %}</a></h2></div>
+  </div>
 </div><!--./col-sm-12-->
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />{% endblock %}

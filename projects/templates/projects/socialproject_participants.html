@@ -1,5 +1,6 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% comment %}{{ object }}{% endcomment %}
+{% block location_navbar %}<div class="socialproject-participants-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}
 <div class="followers-entry">
   <h1>{% trans "People" %}</h1>
@@ -14,7 +15,7 @@
         </a>
         </div>
         <div class="follower-info">
-          <p class="follower-name">{{ participant.profile }}</p>
+          <p class="follower-name"><a href="{{ participant.profile.get_absolute_url }}">{{ participant.profile }}</a></p>
           <div class="points"><span class="points-count">{{ participant.profile.rank_pts }}</span> pkt</div>
         </div>
       </div>

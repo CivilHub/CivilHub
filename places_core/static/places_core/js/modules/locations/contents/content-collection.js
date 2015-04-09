@@ -98,7 +98,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
           $('.col-sm-9.colHline').addClass('colHlineR');
           $('.col-sm-3.colHline').addClass('colHlineL');
         } else {
-          this.$el.append('<p class="alert alert-info">' + gettext("No activity yet") + '</p>');
+          $('#location-empty-collection').removeClass('hidden');
         }
     },
     

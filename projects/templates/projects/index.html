@@ -49,11 +49,11 @@
   <div class="container">
     <div class="title-container">
       <div class="project-name"><h1>{{ object }}</h1></div>
-      <div class="project-content">{{ object.description|safe|slice:'300' }}</div>
+      <div class="project-content"><p>{{ object.description|safe|removetags:"p"|slice:'300' }}</p></div>
       <div class="join-project-btn">
         {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
           {% if user in object.participants.all %}<div class="join-project-btn">
-            <button type="submit" class="submit-button">{% trans "Leave the Project" %}</button>
+            <button type="submit" class="submit-button invisible">{% trans "Leave the Project" %}</button>
           </div>
           {% else %}<div class="join-project-btn">
             <button type="submit" class="submit-button">{% trans "Join the Project" %}</button>
@@ -69,25 +69,8 @@
     {% if project_access %}<a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a>{% endif %}
   </div>
 </div>
-<nav id="location-navbar" class="navbar navbar-default" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
-        <span class="sr-only">{% trans "Toggle navigation" %}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
-      <ul class="nav navbar-nav">
-        <li><a href="{% url 'locations:project_summary' location.slug object.slug %}">{% trans "Summary" %}</a></li>
-        <li><a href="{{ object.get_absolute_url }}"></span>{% trans "Tasks" %}</a></li>
-        <li><a href="{% url 'projects:discussions' object.slug %}">{% trans "Discussions" %}</a></li>
-        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}">{% trans "Participants" %}</a></li>
-        <li><a href="{% url 'projects:documents' object.slug %}">{% trans "Documents" %}</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+{% block location_navbar %}
+  {% include 'projects/navbar.html' %}
+{% endblock %}
+
 <input type="hidden" id="current-location-pk" value="{{ location.pk }}" />{% endblock %}
