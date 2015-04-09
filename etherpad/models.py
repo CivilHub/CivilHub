@@ -114,8 +114,8 @@ class Pad(EtherpadBaseModel):
         if self.group.socialproject_set.count():
             project_slug = self.group.socialproject_set.first().slug
             return reverse('projects:document', kwargs={
-                'project_slug': project_slug,
-                'slug': self.slug,
+                'slug': project_slug,
+                'document_slug': self.slug,
             })
         return reverse('pad-detail', kwargs={'slug': self.slug})
 

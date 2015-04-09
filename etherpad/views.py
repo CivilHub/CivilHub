@@ -46,8 +46,6 @@ class PadExternalView(DetailView):
             'pad': self.get_object(),
             'format': '.txt',
         })
-        if self.group.socialproject_set.count():
-            context['project'] = self.group.socialproject_set.first()
         return context
 
 

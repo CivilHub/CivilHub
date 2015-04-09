@@ -4,6 +4,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'main': {
             'level': 'INFO',
@@ -24,17 +32,18 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'tasks.log'),
+            'formatter': 'default',
         },
         'map_tasks': {
             'level': 'INFO',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'markers.log')
+            'filename': os.path.join(BASE_DIR, 'logs', 'markers.log'),
         },
     },
     'loggers': {
         'django': {
             'handlers': ['main'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'userspace': {

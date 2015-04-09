@@ -1,10 +1,8 @@
-{% extends 'projects/index.html' %}{% load i18n staticfiles civil_tags %}
-
-{% block content %}
-<div class="text-center"><h1>{{ object.name }}</h1>
-
-<form action="{% url 'pad-download' object.pk %}" method="post">{% csrf_token %}
-  {{ download_form }}
-  <button type="submit">{% trans "Download this pad" %}</button>
-</form></div>
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<div class="text-center"><h1>{{ object.name }}</h1>
+  <form action="{% url 'pad-download' object.pk %}" method="post">{% csrf_token %}
+    {{ download_form }}
+    <button type="submit">{% trans "Download this pad" %}</button>
+  </form>
+</div>
 <div class="main-content mt25">{{ object.html|safe }}</div>{% endblock %}

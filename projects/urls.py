@@ -1,13 +1,11 @@
 from django.conf.urls import patterns, include, url
 
-from etherpad.views import PadExternalView
-
 import views
 
 urlpatterns = patterns('',
     url(r'^discussions/(?P<pk>\d+)/delete/', views.ProjectForumDeleteView.as_view(), name="discussion_delete"),
     url(r'^(?P<slug>[\w-]+)/background/', views.ProjectBackgroundView.as_view(), name="background"),
-    url(r'^(?P<project_slug>[\w-]+)/documents/(?P<slug>[\w-]+)/', PadExternalView.as_view(), name="document"),
+    url(r'^(?P<slug>[\w-]+)/documents/(?P<document_slug>[\w-]+)/', views.ProjectDocumentPreview.as_view(), name="document"),
     url(r'^(?P<slug>[\w-]+)/documents/', views.ProjectDocumentsList.as_view(), name="documents"),
     url(r'^(?P<project_slug>[\w-]+)/discussions/create/', views.ProjectForumCreateView.as_view(), name="discussion_create"),
     url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<pk>\d+)/', views.ProjectForumAnswerUpdateView.as_view(), name="entry_update"),
