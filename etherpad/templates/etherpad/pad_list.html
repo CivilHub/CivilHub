@@ -13,7 +13,7 @@
           {% if user.is_superuser %} | <a href="{% url 'pad-update' document.pk %}" class="text-info">{% trans "Update" %}</a> 
            | <a href="{% url 'pad-remove' document.pk %}" class="custom-delete text-danger">{% trans "Delete" %}</a>
           {% endif %}
-          {% else %}<p class="mb0">{% trans "Join the Project" %}</p>{% endif %}
+          {% else %}<span class="mb0 custom-tooltip" title="{% trans "Join the Project" %}">{% trans "Collaborate" %}</span>{% endif %}
         </div>
       </div>
     </div>{% endfor %}
