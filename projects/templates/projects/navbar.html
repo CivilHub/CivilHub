@@ -1,0 +1,27 @@
+{% load staticfiles i18n civil_tags %}
+<nav id="location-navbar" class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'locations:project_summary' location.slug object.slug %}" class="prosummary">{% trans "Summary" %}</a></li>
+        <li><a href="{{ object.get_absolute_url }}" class="protasks"></span>{% trans "Tasks" %}</a></li>
+        <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>
+        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants">{% trans "Participants" %}</a></li>
+        <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>
+      </ul>{% if user in object.participants.all %}
+      <ul class="nav navbar-nav navbar-right">
+        <li><form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
+            <button type="submit" class="btn-link btn-link-fix">{% trans "Leave the Project" %}</button>
+        </form></li>
+      </ul>{% endif %}
+    </div>
+  </div>
+</nav>

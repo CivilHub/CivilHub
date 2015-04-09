@@ -1,4 +1,7 @@
 {% extends 'projects/index.html' %}{% load i18n civil_tags comment_tags %}
+{% block location_navbar %} 
+  <div class="socialproject-detail-nav">{% include 'projects/navbar.html' %}</div>
+{% endblock %}
 {% block content %}
 <h1 class="task-page-heading">
   {{ object }} {% if not object.is_done %}<small class="green">{% trans 'Active' %}</small>{% endif %}
@@ -9,7 +12,7 @@
       <h1>{% trans "Tasks" %}</h1>
       {% for group in object.taskgroup_set.all %}<div class="task-container">
         <div class="task-heading">
-          <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}">{{ group }}</a></h4>
+          <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}" class="custom-tooltip" title="{{ group.description|safe|removetags:"p"}}">{{ group }}</a></h4>
         </div>{% if user.is_authenticated %}
         <div class="custom-controls-box"><span class="fa fa-cog">&nbsp;</span>
           <div class="custom-controls">
@@ -84,17 +87,17 @@
         <div class="text-block-right">
           <h1>{{ active_task }}</h1>
           <div>{{ active_task.description|safe }}</div>
-          <p class="created">{% trans "Created by" %}, <a href="{{ active_task.get_absolute_url }}">{{ active_task.creator.profile }}</a> {{ active_task.date_created|date:'d.m.Y' }}</p>
+          <p class="created">{% trans "Created by" %}, <a href="{{ active_task.creator.profile.get_absolute_url }}">{{ active_task.creator.profile }}</a> {{ active_task.date_created|date:'d.m.Y' }}</p>
           <div class="footer-text-block-right">
-            <div class="project-participants">
+            <div class="project-participants {% if user in active_task.participants.all %}w100{% endif %}">
               <p>{% trans "Task participants" %}</p>{% for p in active_task.participants.all %}
               <a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
-            </div>
+            </div>{% if user in active_task.participants.all %}  {% else %}
             <form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post">{% csrf_token %}
               <div class="join-btn-task">
               {% if user in active_task.participants.all %}<button type="submit" class="submit-button">{% trans "Leave" %}</button></div>
               {% else %}<button type="submit" class="submit-button">{% trans "Join" %}</button></div>{% endif %}
-            </form>
+            </form>{% endif %}
           </div>
         </div>{% endif %}
       </div><!-- ./ .task-Container-right -->
@@ -110,6 +113,15 @@
       <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
       {% include 'comments/commentlist.html' %}{% endwith %}{% endif %}
     </div>
+  </div> 
+  {% if user in active_task.participants.all %}
+  <div><span class="submenu-toggle mt0"></span></div>
+  <div class="entry-submenu">
+    <ul>
+      <li><form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post">{% csrf_token %}
+          <button type="submit" class="btn-link">{% trans "Leave" %}</button></form>
+      </li>
+    </ul>{% endif %}
   </div>
 </div>
 </div><!-- ./ #task3-page -->{% endblock %}
