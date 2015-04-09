@@ -1,0 +1,34 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles i18n civil_tags %}
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+{% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+  scope: '{{ plus_scope }}',
+  id: '{{ plus_id }}'
+}
+</script>
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block container_main %}
+  {% block content %}
+    <div id="home-vD">
+      <div class="homeD-s1">
+        <div class="container">
+          <div class="col-sm-6">
+            <h1>CivilHub</h1>
+            <p>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</p>
+            <p><a href="/user/register/" class="btn-greenBig btn-antiman-chg antiman antiman-fix">{% trans "Register" %}</a> <a href="/user/login" class="btn-greenBig btn-antiman-chg antiman antiman-fix">{% trans "Log in" %}</a></p>
+          </div>
+          <div class="col-sm-6">
+            <div class="bg-homeD-s1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="homeD-s2">
+      </div>
+    </div>
+  {% endblock %}
+{% endblock %}
