@@ -60,6 +60,9 @@ class EtherPadEditView(LoginRequiredMixin, DetailView):
             settings.ETHERPAD_EXTERNAL_URL,
             self.object.group.etherpad_id,
             urllib.quote(self.object.name.encode('utf-8'), '_'))
+        if self.object.group.socialproject_set.count():
+            slug = self.object.group.socialproject_set.first().slug
+            context['project_slug'] = slug
         return context
 
     def render_to_response(self, context, **response_kwargs):

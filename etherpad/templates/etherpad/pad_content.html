@@ -1,12 +1,12 @@
 {% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
-{% block extra_styles %}
-    <link rel="stylesheet" href="{% static 'etherpad/etherpad.css' %}">
-{% endblock %}
+{% block extra_styles %}<link rel="stylesheet" href="{% static 'places_core/css/etherpad/etherpad.css' %}">{% endblock %}
 {% block header %}{% endblock %}
-
-{% block container_main %}
-  {% block content %}<iframe id="etherpad-frame" src="{{ pad_url }}"></iframe>{% endblock %}    
+{% block container_main %}<div class="backEmptyBox">
+  <div class="container">
+    <ul class="list-unstyled">
+      {% if project_slug %}<li><a href="{% url 'projects:documents' project_slug %}"><span class="fa fa-arrow-left"></span> {% trans "Back to projects" %}</a></li>{% endif %}
+    </ul>
+  </div>
+</div>{% block content %}<iframe id="etherpad-frame" src="{{ pad_url }}"></iframe>{% endblock %}    
 {% endblock %}
-
-
 {% block base_footer %}{% endblock %}
