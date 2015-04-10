@@ -1825,6 +1825,37 @@ small.green{
                 input{ margin: 6px 0px 0px 0px;}
                 .label-task{
                     padding: 2px 0 2px 3px;
+                    display: inline-block;
+                    width: 13px;
+                    height: 13px;
+                    border: 1px solid #A5A5A5;
+                    background-color: #DEDEDE;
+                    cursor: pointer;
+                    vertical-align: middle;
+                    margin: 0;
+                    border-radius: 3px;
+                    -webkit-border-radius: 3px;
+                    box-shadow: 0px 0px 1px #A5A5A5;
+                    -webkit-box-shadow: 0px 0px 1px #A5A5A5;
+                    -moz-box-shadow: 0px 0px 1px #A5A5A5;
+                    position: relative;
+                    z-index: 5;
+                    &.label-task-check{
+                        &:before{
+                            content: "\f00c";
+                            font-family: FontAwesome;
+                            font-size: 10px;
+                            line-height: 10px;
+                            position: absolute;
+                            top: 0px;
+                            left: 1px;
+                            color: #424242;
+                            font-weight: bold;
+                        }
+                    }
+                    &.label-task-close{
+
+                    }
                     &.label-danger{
                         padding: 2px 1px 2px 4px;
                     }

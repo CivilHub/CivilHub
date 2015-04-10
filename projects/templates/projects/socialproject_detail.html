@@ -42,15 +42,15 @@
             <div class="col-sm-1">
               {% if user.is_authenticated %}<form class="custom-inline-form" action="{% url 'projects:toggle_task' task.pk %}" method="post">{% csrf_token %}
                 <input type="checkbox"{% if task.is_done %} checked="checked"{% endif %} name="checkbox-task"></input>
-              </form>{% elif task.is_done %}<p class="label label-success label-sm label-task"><span class="fa fa-check">&nbsp;</span></p>
-              {% else %}<p class="label label-danger label-sm label-task"><span class="fa fa-close">&nbsp;</span></p>{% endif %}
+              </form>{% elif task.is_done %}<p class="label-task label-task-check custom-tooltip" title="{% trans "Completed" %}"></p>
+              {% else %}<p class="label-task label-task-close custom-tooltip" title="{% trans "Ongoing" %}"></p>{% endif %}
             </div>
             <div class="col-sm-5">
               <span class="sub-task-title"><a href="{{ task.get_absolute_url }}">{{ task|truncatewords:4 }}</a></span>
             </div>
             <div class="col-sm-5">
               <div class="task-ppl">{% for participant in task.participants.all %}
-                <a href="{{ participant.profile.get_absolute_url }}"><img src="{{ participant.profile.avatar.url }}"></a>
+                <a href="{{ participant.profile.get_absolute_url }}" class="custom-tooltip" title="{{ participant.profile }}"><img src="{{ participant.profile.avatar.url }}" alt="{{ participant.profile }}"></a>
               {% endfor %}</div>
             </div>
             <div class="col-sm-1">
@@ -91,7 +91,7 @@
           <div class="footer-text-block-right">
             <div class="project-participants {% if user in active_task.participants.all %}w100{% endif %}">
               <p>{% trans "Task participants" %}</p>{% for p in active_task.participants.all %}
-              <a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
+              <a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}" alt="{{ p.profile}}"></a>{% endfor %}
             </div>{% if user in active_task.participants.all %}  {% else %}
             <form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post">{% csrf_token %}
               <div class="join-btn-task">
