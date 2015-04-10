@@ -43,8 +43,15 @@
     
     maxComments: "{% settings_value 'COMMENT_PAGINATOR_LIMIT' %}",
     
-    currentUserId: {% if user.is_authenticated %}"{{ user.pk }}"{% else %}null{% endif %}
+    currentUserId: {% if user.is_authenticated %}"{{ user.pk }}"{% else %}null{% endif %},
+
+    messages: []
   });
+
+  {% if messages %}{% for message in messages %}CivilApp.messages.push({
+    level: "{{ message.tags }}",
+    message: "{{ message }}"
+  });{% endfor %}{% endif %}
   
   // Export to public scope
   

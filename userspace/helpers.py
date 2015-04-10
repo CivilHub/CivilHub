@@ -3,7 +3,7 @@ import os, time, hashlib, random, string
 
 from slugify import slugify
 from itertools import chain
-from uuid import uuid4 as uuid
+from uuid import uuid4
 from datetime import datetime
 from PIL import Image
 
@@ -129,52 +129,84 @@ def avatar_thumbnails(filename):
         create_thumbnail(filename, s)
 
 
-def crop_avatar(imgfile):
-    """
-    Crop image avatr picture to make it fit into rectangular area. Returns
-    Django File object.
+# def crop_avatar(imgfile):
+#     """
+#     Crop image avatr picture to make it fit into rectangular area. Returns
+#     Django File object.
     
-    You can pass either python file instance or PIL image instance to this
-    function.
+#     You can pass either python file instance or PIL image instance to this
+#     function.
+#     """
+#     if str(type(imgfile)) == "<type 'instance'>":
+#         img = imgfile
+#     else:
+#         img = Image.open(imgfile)
+#     pathname = 'img/avatars'
+#     dirname = os.path.join(settings.MEDIA_ROOT, pathname)
+#     imgname = str(uuid4()) + str(len(os.listdir(dirname))) + '.jpg'
+#     imgpath = os.path.join(dirname, imgname)
+#     width, height = img.size
+#     s = width if width < height else height
+#     img = img.crop(((width - s) / 4, 0, s, s))
+#     if s > settings.AVATAR_SIZE[0]:
+#         img.thumbnail(settings.AVATAR_SIZE)
+#     img.save(imgpath, 'JPEG')
+#     avatar_thumbnails(imgname)
+#     return File(open(imgpath))
+
+
+def smart_crop(image, max_size=200):
+    """ This function takes image file as argument and slice this image to
+        squared area of given width and height (the default value is 200 pixels).
     """
-    if str(type(imgfile)) == "<type 'instance'>":
-        img = imgfile
+    width, height = image.getdata().size
+    if height >= width:
+        new_width = float(max_size)
+        new_height = float(height) / float(width) * new_width
     else:
-        img = Image.open(imgfile)
-    pathname = 'img/avatars'
-    dirname = os.path.join(settings.MEDIA_ROOT, pathname)
-    imgname = str(uuid()) + str(len(os.listdir(dirname))) + '.jpg'
-    imgpath = os.path.join(dirname, imgname)
-    width, height = img.size
-    s = width if width < height else height
-    img = img.crop(((width - s) / 4, 0, s, s))
-    if s > settings.AVATAR_SIZE[0]:
-        img.thumbnail(settings.AVATAR_SIZE)
-    img.save(imgpath, 'JPEG')
-    avatar_thumbnails(imgname)
-    return File(open(imgpath))
+        new_height = float(max_size)
+        new_width = float(width) / float(height) * new_height
+    image = image.resize((int(new_width), int(new_height)))
+    if height >= width:
+        start_x = 0
+        start_y = int(new_height - float(max_size)) / 2
+    else:
+        start_x = int(new_width - float(max_size)) / 2
+        start_y = 0
+    stop_x = start_x + max_size
+    stop_y = start_y + max_size
+    image = image.crop((start_x, start_y, stop_x, stop_y))
+    return image
 
 
 def update_profile_picture(profile, image):
+    """ This function takes user profile instance along with image file and
+        sets up proper avatars.
     """
-    This function takes user profile instance along with image file and
-    sets up proper avatars.
-    """
+    AV_PATH = 'img/avatars'
+    TH_SIZE = (60, 60)
     if not profile.has_default_avatar:
         try:
             os.unlink(profile.avatar.path)
             delete_thumbnails(profile.avatar.name.split('/')[-1:][0])
         except Exception:
             pass
-    profile.avatar = crop_avatar(image)
-    size = 60, 60
-    path = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
-    file, ext = os.path.splitext(profile.avatar.name.split('/')[-1:][0])
-    thumbname = '60x60_' + file + ext
+    # Create main profile picture
+    image = smart_crop(image)
+    image_name = str(uuid4()) + '.jpg'
+    image_path = os.path.join(AVATAR_IMG_PATH, image_name)
+    image.save(image_path, 'JPEG')
+    profile.avatar = AV_PATH + '/' + image_name
+    # Create thumbnail in old way
     tmp = image.copy()
-    tmp.thumbnail(size, Image.ANTIALIAS)
-    tmp.save(os.path.join(path, thumbname))
-    profile.thumbnail = 'img/avatars/' + thumbname
+    tmp.thumbnail(TH_SIZE, Image.ANTIALIAS)
+    thumb_path = os.path.join(AVATAR_IMG_PATH, 'thumbs',
+        '{}x{}_{}'.format(TH_SIZE[0], TH_SIZE[1], image_name))
+    tmp.save(thumb_path, 'JPEG')
+    profile.thumbnail = AV_PATH + '/thumbs/{}x{}_{}'.format(
+        TH_SIZE[0], TH_SIZE[1], image_name)
+    # FIXME: What for second time? Which thumbs are actually in use???
+    avatar_thumbnails(image_name)
     profile.save()
 
 
