@@ -16,6 +16,7 @@ require.config({
   waitSeconds: 200,
   
   "paths": {
+    "text": "includes/require/text",
     "jquery": "includes/jquery/jquery",
     "jqueryui": "includes/jquery-ui/jquery-ui",
     "jpaginate": "includes/jquery/jquery.paginate",

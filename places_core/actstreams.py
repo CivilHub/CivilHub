@@ -7,15 +7,18 @@
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+
 from actstream import action
 from actstream.actions import follow
-from userspace.models import UserProfile
-from locations.models import Location
-from comments.models import CustomComment as Comment
-from ideas.models import Idea
-from polls.models import Poll
+
 from blog.models import News
+from comments.models import CustomComment
+from ideas.models import Idea
+from locations.models import Location
+from notifications.models import notify
+from polls.models import Poll
 from topics.models import Discussion, Entry
+from userspace.models import UserProfile
 
 
 def create_place_action_hook(sender, instance, created, **kwargs):
@@ -28,8 +31,6 @@ def create_place_action_hook(sender, instance, created, **kwargs):
         instance.users.add(instance.creator)
         instance.creator.profile.mod_areas.add(instance)
         follow(instance.creator, instance, actor_only = False)
-
-
 post_save.connect(create_place_action_hook, sender=Location)
 
 
@@ -49,8 +50,6 @@ def create_object_action_hook(sender, instance, created, **kwargs):
             verb = _(u"created"),
             target = instance.location
         )
-
-
 post_save.connect(create_object_action_hook, sender=Idea)
 post_save.connect(create_object_action_hook, sender=News)
 
@@ -68,8 +67,6 @@ def create_raw_object_action_hook(sender, instance, created, **kwargs):
             verb = _(u"created"),
             target = instance.location
         )
-
-
 post_save.connect(create_object_action_hook, sender=Discussion)
 post_save.connect(create_object_action_hook, sender=Poll)
 
@@ -80,17 +77,37 @@ def comment_action_hook(sender, instance, created, **kwargs):
     this comment was created and increase the amount of user points
     accordingly.
     """
-    if created:
-        prof = UserProfile.objects.get(user=instance.user)
-        prof.rank_pts += 3
-        prof.save()
-        action.send(
+    if not created:
+        return True
+    prof = UserProfile.objects.get(user=instance.user)
+    prof.rank_pts += 3
+    prof.save()
+    # Send action for user and location activity streams
+    action.send(
+        instance.user,
+        action_object = instance.content_object,
+        verb = _(u"commented"),
+        comment = instance.comment,
+        comment_url = instance.content_object.get_absolute_url() + '#comment-' + str(instance.pk)
+    )
+    # Send notification to parent comment author (if this is answer for comment)
+    if instance.parent is not None:
+        notify(
             instance.user,
-            action_object = instance.content_object,
-            verb = _(u"commented"),
-            comment = instance.comment,
-            comment_url = instance.content_object.get_absolute_url() + '#comment-' + str(instance.pk)
+            instance.parent.user,
+            key="customcomment",
+            verb=_(u"answered your comment"),
+            action_object=instance,
+            action_target=instance.parent
         )
-
-
-post_save.connect(comment_action_hook, sender=Comment)
+    # Send notification for commented object creator
+    else:
+        notify(
+            instance.user,
+            instance.content_object.creator,
+            key="customcomment",
+            verb=_(u"commented your {}".format(instance.content_object._meta.verbose_name.title())),
+            action_object=instance,
+            action_target=instance.content_object
+        )
+post_save.connect(comment_action_hook, sender=CustomComment)

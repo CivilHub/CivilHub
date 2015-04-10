@@ -73,6 +73,7 @@ from maps.urls import router as map_router
 from userspace.urls import router as user_router
 from places_core.urls import router as core_router
 from gallery.urls import router as gallery_router
+from notifications.urls import router as notification_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -82,6 +83,7 @@ urlpatterns = patterns('',
     url(r'^api-userspace/', include(user_router.urls)),
     url(r'^api-core/', include(core_router.urls)),
     url(r'^api-gallery/', include(gallery_router.urls)),
+    url(r'^api-notifications/', include(notification_router.urls)),
 )
 
 from civmail.views import InviteFriendsView
@@ -164,6 +166,9 @@ urlpatterns += patterns('',
 
     # Etherpad - live collaboration tool
     url(r'^', include('etherpad.urls')),
+
+    # Notifications for users - mainly views for testing.
+    url(r'^', include('notifications.urls')),
     
     # Default URL - Do not add anything below!!!
     #url(r'^$', PageView.as_view(page='home')),

@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from social.apps.django_app.default.models import UserSocialAuth
 from bookmarks.models import Bookmark
 
+from .models import UserProfile
+
 
 PROVIDERS = ('facebook','google-plus','linkedin','twitter')
 GENDERS = ('male','female')
@@ -102,6 +104,41 @@ class UserAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'token',)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """
+    This serializer is made to be used in list views, presenting detailed info
+    about object creator etc.
+    """
+    url = serializers.Field(source='get_absolute_url')
+    thumbnail = serializers.Field(source='thumbnail.url')
+    avatar = serializers.Field(source='avatar.url')
+    image = serializers.Field(source='image.url')
+
+    class Meta:
+        model = UserProfile
+        exclude = ('user', 'mod_areas',)
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """
+    Detailed serializer presenting user data. Meant to be read-only.
+    """
+    profile = serializers.SerializerMethodField('get_profile_data')
+    full_name = serializers.Field(source='get_full_name')
+
+    def get_profile_data(self, obj):
+        if obj.is_anonymous():
+            return None
+        serializer = UserProfileSerializer(obj.profile)
+        return serializer.data
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'full_name',
+                  'email', 'is_superuser', 'date_joined', 'last_login',
+                  'profile',)
 
 
 class UserSerializer(serializers.ModelSerializer):
