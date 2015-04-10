@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 	$('#search-bar-icon').click(function(e){
 		e.preventDefault();
-        $('.search-bar-box').animate({width: 'toggle'},1500);
+        $('.search-bar-box').animate({width: 'toggle'},200);
     });
 
 });

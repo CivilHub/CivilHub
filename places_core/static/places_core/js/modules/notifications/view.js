@@ -16,6 +16,7 @@ function ($, _, Backbone, html) {
 var NotifyView = Backbone.View.extend({
 	template: _.template(html),
 	tagName: 'li',
+	className: "clearfix",
 	render: function () {
 		this.$el.html(this.template(this.model.toJSON()));
 		if (this.model.get('is_new')) {

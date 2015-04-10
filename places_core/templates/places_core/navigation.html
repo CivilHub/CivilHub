@@ -33,19 +33,17 @@
             <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %}</span>
           </a>
           <ul class="dropdown-menu support-icon-box">
-            <li>
-              <a href="/brief/">{% trans "Brief" %}</a>
-              <a href="/local-communities/">{% trans "Informacje o wspólnotach" %}</a>
-              <a href="/project-features/">{% trans "Informacje o projektach" %}</a>
-              <a href="/idea-to-law/">{% trans "Od projektu do ustawy" %}</a>
-            </li>
+            <li><a href="/brief/">{% trans "Brief" %}</a></li>
+            <li><a href="/local-communities/">{% trans "Informacje o wspólnotach" %}</a></li>
+            <li><a href="/project-features/">{% trans "Informacje o projektach" %}</a></li>
+            <li><a href="/idea-to-law/">{% trans "Od projektu do ustawy" %}</a></li>
           </ul>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-target="dropdown">
+          <a class="dropdown-toggle custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-toggle="dropdown">
             <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %}</span>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu civilhub-icon-top-box">
             <li><a href="/blog/">Blog</a></li>
             <li><a href="/creed">Creed</a></li>
             <li><a href="/team">About Us</a></li>
@@ -120,12 +118,12 @@
           </ul>
         </li>
         <li>                                                           
-          <a href="{% url 'postman_inbox' %}" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Messages" %}" >
+          <a href="{% url 'postman_inbox' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Messages" %}" >
             <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
             {% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% endif %}
           </a>
         </li>
-        <li><a id="notifications-toggler" class="onlyIcon lastIco" href="{% url 'notify-list' %}"><span class="fa fa-bell">&nbsp;</span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
+        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="{% url 'notify-list' %}"><span class="fa fa-bell-o">&nbsp;</span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
       </ul>
     </div>
   </div>
