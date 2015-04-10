@@ -142,7 +142,10 @@
 
                 color: #4d4747;
                 text-transform: uppercase;
-
+                &.cd-bouncy-nav-trigger{
+                    padding: 25px 5px;
+                    width: 25px;
+                }
                 &.onlyIcon{
                     //padding: 25px 14px;
                     padding: 25px 5px;
@@ -169,6 +172,25 @@
                     .notifications-box{ font-size: 14px; }
                     &.lastIco{
                         margin-right: 20px;
+                    }
+                    .places-icon{
+                        background-image: url(../img/places-icon.png);
+                        background-repeat: no-repeat;
+                        background-position: center;
+                        background-size: cover;
+                        background-position: 0 0;
+                        display: inline-block;
+                        width: 28px;
+                        margin-top: 1px;
+                        height: 15px;
+                        @media
+                        (-webkit-min-device-pixel-ratio: 2),
+                        (min-resolution: 192dpi){
+                            background-image: url(../img/places-icon@2x.png);
+                        }
+                        &:hover{
+                            background-position: 0 100%;
+                        }
                     }
 
                 }
@@ -279,29 +301,71 @@
         }
     }    
 }
+
 .navbarHeaderLeft{
-    margin-left: 50px;
-    .dropdown-menu{
+   /* margin-left: 50px;*/
+    .dropdown-menu.support-icon-box{
         left: inherit;
         right: -22px;
     }
+    a{
+        padding: 25px 8px !important;
+    }
     a.dropdown-toggle{
-        padding-left: 0 !important;
+        /*padding-left: 0 !important;*/
     }
     .support-icon{
         padding-left: 0;
         display: inline-block;
-        width: 14px;
-        height: 14px;
+        width: 18px;
+        height: 18px;
         background-image: url(../img/icon_support.png);
         background-repeat: no-repeat;
-        background-size: contain;
-        margin-right: -15px;
-        margin-top: 2px;
+        background-size: cover;
+        background-position: 0 0;
+/*        margin-right: -15px;*/
         @media
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: url(../img/icon_support@2x.png);
+        }
+        &:hover{
+            background-position: 0 100%;
+        }
+    }
+    .civilhub-icon-top{
+        display: inline-block;
+        background-image: url(../img/civilhub-icon-top.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0 0;
+        width: 10px;
+        height: 18px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: url(../img/civilhub-icon-top@2x.png);
+        }
+        &:hover{
+            background-position: 0 100%;
+        }
+    }
+    .search-icon-top{
+        display: inline-block;
+        background-image: url(../img/search-icon-top.png);
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-size: cover;
+        width: 17px;
+        height: 17px;
+        margin-top: 1px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: url(../img/search-icon-top@2x.png);
+        }
+        &:hover{
+            background-position: 0 100%;
         }
     }
       

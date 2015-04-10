@@ -11,18 +11,29 @@
       <a id="logo" class="navbar-brand" href="/activity/"><img src="{% static 'places_core/img/logo.png' %}" alt="Logo CivilHub"><span class="logo_beta">Beta</span></a>
     </div>    
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-      <div class="navbar-top-search">
+
+      <div class="navbar-top-search hidden">
         <form class="navbar-form navbar-right custom-main-search" role="search" method="get" action="{% url 'search:haystack_search' %}">
           <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
           <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
         </form>
       </div>
       <ul class="nav navbar-nav navbar-left navbarHeaderLeft">
+        <li>
+          <a href="#" id="search-bar-icon"><span class="search-icon-top"></span></a>
+          <div class="search-bar-box">
+            <form class="search-form" role="search" method="get" action="{% url 'search:haystack_search' %}">
+              <input type="text" name="q" id="id_q" class="form-control-search" placeholder="{% trans "Search" %}">
+              <button type="submit" class="search-button hidden"><span class="fa fa-search"></span></button>
+            </form>
+          </div>
+        </li>
+
         {% if user.is_authenticated %}<li class="dropdown">
           <a class="dropdown-toggle custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
-            <span class="support-icon"><span class="rwdShow">{% trans "Support" %}</span></span>
+            <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %}</span>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu support-icon-box">
             <li>
               <a href="/brief/">{% trans "Brief" %}</a>
               <a href="/local-communities/">{% trans "Informacje o wspólnotach" %}</a>
@@ -30,7 +41,19 @@
               <a href="/idea-to-law/">{% trans "Od projektu do ustawy" %}</a>
             </li>
           </ul>
-        </li>{% endif %}
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-target="dropdown">
+            <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %}</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/blog/">Blog</a></li>
+            <li><a href="/creed">Creed</a></li>
+            <li><a href="/team">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </li>
+        {% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right navbarHeader">
         {% if user.is_authenticated %}<li class="user-hidden-link">
@@ -76,8 +99,8 @@
           <a href="#0" class="cd-close">Close modal</a>
         </div>{% endif %}
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">{% trans "Places" %} <span class="fa fa-angle-down"></span></a>
-          <ul class="dropdown-menu">
+          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon"></span><span class="rwdShow">{% trans "Places" %}</span></a>
+          <ul class="dropdown-menu places-icon-box">
             <li>
               <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
             </li>

@@ -94,4 +94,11 @@ $(document).ready(function () {
 	});
 });
 
+//search
+
+	$('#search-bar-icon').click(function(e){
+		e.preventDefault();
+        $('.search-bar-box').animate({width: 'toggle'},1500);
+    });
+
 });
