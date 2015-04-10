@@ -3,6 +3,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from actstream import action
 
+from notifications.models import notify
+
 
 def task_action(user, task, verb):
     """
@@ -21,11 +23,21 @@ def finished_task(user, task):
 def joined_to_task(user, task):
     """ The user has joined the task."""
     task_action(user, task, _(u"joined to task"))
+    notify(user, task.creator,
+        verb=_(u"joined to your task"),
+        key="follower",
+        action_target=task
+    )
 
 
 def joined_to_project(user, project):
     """ To this function we pass django user instance and project. """
     action.send(user, verb=_(u"joined to project"), target=project)
+    notify(user, project.creator,
+        verb=_(u"joined to your project"),
+        key="follower",
+        action_target=project
+    )
 
 
 def leaved_project(user, project):

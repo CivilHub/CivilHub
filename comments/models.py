@@ -5,9 +5,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 
 from mptt.models import MPTTModel, TreeForeignKey
 
+from notifications.models import notify
 from places_core.helpers import sanitizeHtml
 
 
@@ -43,7 +45,9 @@ class CustomComment(MPTTModel, Comment):
         Fake this function to redirect to parent object and get rid
         of actstream error.
         """
-        return self.content_object.get_absolute_url()
+        if self.content_object is not None:
+            return self.content_object.get_absolute_url()
+        return None
 
 
 @python_2_unicode_compatible
@@ -61,3 +65,33 @@ class CommentVote(models.Model):
         return u"{} voted {} for {}".format(
             self.user.get_full_name(),
             msg, self.comment)
+
+
+def comment_notification(sender, instance, created, **kwargs):
+    """
+    Send notification for commented object creator. Handles special case of 
+    task participants, when we want to notify them all at once.
+    """
+    if not created or instance.parent is not None:
+        # this is edited comment or answer for other comment
+        # They have their own hooks in places_core.actions.
+        return True
+    if instance.content_object.__class__.__name__ == 'Task':
+        # Special case - send notifications to all task participants
+        for user in instance.content_object.participants.exclude(pk=instance.user.pk):
+            notify(instance.user, user,
+                key="comment",
+                verb=_(u"commented task"),
+                action_object=instance,
+                action_target=instance.content_object
+            )
+    elif instance.user != instance.content_object.creator:
+        notify(
+            instance.user,
+            instance.content_object.creator,
+            key="customcomment",
+            verb=_(u"commented your {}".format(instance.content_object._meta.verbose_name.title())),
+            action_object=instance,
+            action_target=instance.content_object
+        )
+models.signals.post_save.connect(comment_notification, sender=CustomComment)

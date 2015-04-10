@@ -18,6 +18,7 @@ from taggit.managers import TaggableManager
 from comments.models import CustomComment
 from locations.models import Location
 from gallery.image import adjust_uploaded_image
+from notifications.models import notify
 from places_core.helpers import truncatehtml, truncatesmart, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
@@ -111,6 +112,10 @@ class Idea(ImagableItemMixin, models.Model):
         return truncatehtml(self.description, 100)
 
 
+models.signals.post_save.connect(adjust_uploaded_image, sender=Idea)
+models.signals.post_delete.connect(remove_image, sender=Idea)
+
+
 @python_2_unicode_compatible
 class Vote(models.Model):
     """ Users can vote up or down on ideas. """
@@ -128,5 +133,15 @@ class Vote(models.Model):
         return self.user.username
 
 
-models.signals.post_save.connect(adjust_uploaded_image, sender=Idea)
-models.signals.post_delete.connect(remove_image, sender=Idea)
+def vote_notification(sender, instance, created, **kwargs):
+    """ Notify users that someone voted for their ideas. """
+    if instance.user == instance.idea.creator or not created:
+        return True
+    suff = "up" if instance.vote else "down"
+    notify(instance.user, instance.idea.creator,
+        key="vote",
+        verb=_(u"voted %s for your idea" % suff),
+        action_object=instance,
+        action_target=instance.idea
+    )
+models.signals.post_save.connect(vote_notification, sender=Vote)
