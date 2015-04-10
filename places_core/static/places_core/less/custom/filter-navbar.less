@@ -198,23 +198,40 @@
 }
 
 @media all and (max-width: 768px) {
-    
     #filters-wprapper {
-        
         display: none;
-        
     }
-    
 }
 
 #bs-navbar-collapse {
-
     .dropdown-menu{
         &.bookmarks-no-list{
             right: -15px;
             li.bookmark-no-list{
                 //padding: 6px 10px;
             }
+        }
+        &.notification-no-list{
+            right: 5px;
+            width: 400px;
+
+            &:before{
+                display: none;
+            }
+        }
+    }
+}
+.notification-no-list{
+    .notification-body{
+        
+    }
+    .notification-footer{
+        border-top: 1px solid #e5e5e5;
+        padding: 10px;
+        a{
+            color: #666;
+            text-decoration: none;
+            font-size: 13px;
         }
     }
 }
