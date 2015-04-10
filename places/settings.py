@@ -108,6 +108,7 @@ INSTALLED_APPS = (
     'bookmarks',   # 
     'projects',    # 
     'etherpad',    # Custom Etherpad Lite integration
+    'notifications', # Notify users about important events
 
     'raven.contrib.django.raven_compat',
     'analytical',

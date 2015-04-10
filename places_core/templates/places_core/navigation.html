@@ -1,4 +1,4 @@
-{% load staticfiles i18n postman_tags civil_tags %}{% postman_unread as unread_count %}
+{% load staticfiles i18n postman_tags civil_tags notify_tags %}{% postman_unread as unread_count %}{% unread_notifications as ncount %}
 <nav id="navbar-top" class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -11,7 +11,6 @@
       <a id="logo" class="navbar-brand" href="/activity/"><img src="{% static 'places_core/img/logo.png' %}" alt="Logo CivilHub"><span class="logo_beta">Beta</span></a>
     </div>    
     <div class="collapse navbar-collapse" id="bs-navbar-collapse">
-
       <div class="navbar-top-search hidden">
         <form class="navbar-form navbar-right custom-main-search" role="search" method="get" action="{% url 'search:haystack_search' %}">
           <input type="text" name="q" id="id_q" class="form-control" placeholder="{% trans "Search" %}">
@@ -125,7 +124,8 @@
             <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
             {% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% endif %}
           </a>
-        </li>{% endif %}
+        </li>
+        <li><a id="notifications-toggler" class="onlyIcon lastIco" href="{% url 'notify-list' %}"><span class="fa fa-bell">&nbsp;</span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
       </ul>
     </div>
   </div>

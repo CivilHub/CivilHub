@@ -1,0 +1,4 @@
+<a href="<%= action_url %>">
+  <img src="<%= actor.profile.thumbnail %>" alt="<%= actor.full_name %>" class="navbar-avatar">
+  <%= actor.full_name %> <%= action_verb %> <%= moment(created_at).fromNow() %>
+</a>

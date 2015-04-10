@@ -1,0 +1,44 @@
+/*
+ * notifications.less
+ * ==================
+ *
+ * Styles for user's notification window.
+ */
+
+#notification-window {
+  display: none;
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  max-height: 600px;
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 5px;
+  width: 400px;
+  margin-left: -355px;
+  -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+  ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+  }
+  li {
+    min-height: 30px;
+    clear: both;
+    margin-top: 5px;
+    font-size: 11px;
+    &.new {
+      background-color: #519EE2;
+    }
+  }
+  img {
+    width: 30px;
+    float: left;
+    margin-right: 8px;
+  }
+  .more {
+    display: none;
+  }
+}

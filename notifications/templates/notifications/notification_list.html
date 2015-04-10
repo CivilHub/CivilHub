@@ -1,0 +1,5 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<ul>{% for notify in object_list %}
+	<li><a href="{{ notify.get_absolute_url }}">{{ notify }}</a></li>
+{% endfor %}</ul>
+{% include 'places_core/pagination.html' %}{% endblock %}
