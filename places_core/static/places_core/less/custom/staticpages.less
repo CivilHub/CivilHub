@@ -3428,6 +3428,18 @@ small.green{
 @editor2: url(../img/project-features/editor2.png);
 @editor3: url(../img/project-features/editor3.png);
 
+/*background project en*/
+@en_bg_project_s1: url(../img/project-features/en/en_bg-s1.png);
+@en_bg_project_s2: url(../img/project-features/en/en_bg-s2.png);
+@en_bg_project_s3: url(../img/project-features/en/en_bg-s3.png);
+@en_bg_project_s4: url(../img/project-features/en/en_bg-s4.png);
+@en_bg_project_s5: url(../img/project-features/en/en_bg-s5.png);
+@en_bg_project_s6: url(../img/project-features/en/en_bg-s6.png);
+@en_bg_project_s7: url(../img/project-features/en/en_bg-s7.png);
+@en_bg_project_s8: url(../img/project-features/en/en_bg-s8.png);
+@en_bg_project_s9: url(../img/project-features/en/en_bg-s9.png);
+@en_bg_project_s10: url(../img/project-features/en/en_bg-s10.png);
+
 /*background project retina*/
 @bg_project_s1_retina: url(../img/project-features/bg-s1@2x.png);
 @bg_project_s2_retina: url(../img/project-features/bg-s2@2x.png);
@@ -3443,6 +3455,18 @@ small.green{
 @editor1_retina: url(../img/project-features/editor1@2x.png);
 @editor2_retina: url(../img/project-features/editor2@2x.png);
 @editor3_retina: url(../img/project-features/editor3@2x.png);
+
+/*background project retina en*/
+@en_bg_project_s1_retina: url(../img/project-features/en/en_bg-s1@2x.png);
+@en_bg_project_s2_retina: url(../img/project-features/en/en_bg-s2@2x.png);
+@en_bg_project_s3_retina: url(../img/project-features/en/en_bg-s3@2x.png);
+@en_bg_project_s4_retina: url(../img/project-features/en/en_bg-s4@2x.png);
+@en_bg_project_s5_retina: url(../img/project-features/en/en_bg-s5@2x.png);
+@en_bg_project_s6_retina: url(../img/project-features/en/en_bg-s6@2x.png);
+@en_bg_project_s7_retina: url(../img/project-features/en/en_bg-s7@2x.png);
+@en_bg_project_s8_retina: url(../img/project-features/en/en_bg-s8@2x.png);
+@en_bg_project_s9_retina: url(../img/project-features/en/en_bg-s9@2x.png);
+@en_bg_project_s10_retina: url(../img/project-features/en/en_bg-s10@2x.png);
 
 .project-features-page{
     .divider{ width: 100%; border-bottom: 1px solid #C2C2C2;}
@@ -3469,6 +3493,17 @@ small.green{
             background-image: @bg_project_s1_retina;
         }
     }
+    .en_bg-project-s1{
+        margin-top: 25px;
+        padding-bottom: 34%;
+        background-image: @en_bg_project_s1;
+        .bg-project-s;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s1_retina;
+        }
+    }
 }
 .project-s2{
     padding: 4% 0;
@@ -3488,6 +3523,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s2_retina;
+        }
+    }
+    .en_bg-project-s2{
+        padding-bottom: 13%;
+        background-image: @en_bg_project_s2;
+        .bg-project-s;
+        margin-top: 30px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s2_retina;
         }
     }
 }
@@ -3581,6 +3627,82 @@ small.green{
             }
         }
     }
+    .en_project-box{
+        text-align: left;
+        padding-left: 20px;
+        p{
+            font-size: 14px;
+        }
+    }
+    .en_project-box:nth-child(1){
+        padding-top: 15%;
+        @media(max-width: 768px){
+            margin-top: 25px;
+            background-image: url(../img/project-features/en/en_bg-s3-mini1.png);
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: contain;
+            padding-top: 34%;
+            text-align: center;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url(../img/project-features/en/en_bg-s3-mini1@2x.png);
+            }
+        }
+    }
+    .en_project-box:nth-child(2){
+        padding-top: 5%;
+        @media(max-width: 768px){
+            background-image: url(../img/project-features/en/en_bg-s3-mini2.png);
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: 269px 81px; 
+            padding-top: 12%;
+            text-align: center;
+            margin-top: 25px;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url(../img/project-features/en/en_bg-s3-mini2@2x.png);
+            }
+        }
+    }
+    .en_project-box:nth-child(3){
+        padding-top: 4.5%;
+        @media(max-width: 768px){
+            background-image: url(../img/project-features/en/en_bg-s3-mini3.png);
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: contain; 
+            padding-top: 26%;
+            text-align: center;
+            margin-top: 25px;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url(../img/project-features/en/en_bg-s3-mini3@2x.png);
+            }
+        }
+    }
+    .en_project-box:nth-child(4){
+        padding-top: 5.5%;
+        @media(max-width: 768px){
+            background-image: url(../img/project-features/en/en_bg-s3-mini4.png);
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-size: contain; 
+            padding-top: 46%;
+            text-align: center;
+            margin-top: 25px;
+            margin-bottom: 4%;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url(../img/project-features/en/en_bg-s3-mini4@2x.png);
+            }
+        }
+    }
     .bg-project-s3{
         padding-bottom: 98%;
         background-image: @bg_project_s3;
@@ -3590,6 +3712,21 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s3_retina;
+        }
+        @media(max-width: 768px){
+            display: none;
+        }
+
+    }
+    .en_bg-project-s3{
+        padding-bottom: 98%;
+        background-image: @en_bg_project_s3;
+        .bg-project-s;
+        background-position: bottom center;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s3_retina;
         }
         @media(max-width: 768px){
             display: none;
@@ -3610,6 +3747,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s4_retina;
+        }
+    }
+    .en_bg-project-s4{
+        margin-top: 20px;
+        padding-bottom: 22%;
+        background-image: @en_bg_project_s4;
+        .bg-project-s;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s4_retina;
         }
     }
 }
@@ -3655,6 +3803,21 @@ small.green{
             padding-bottom: 8%;
         }
     }
+    .en_bg-project-s5{
+        padding-bottom: 18.9%;
+        background-image: @en_bg_project_s5;
+        .bg-project-s;
+        background-position: 75% 50%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s5_retina;
+        }
+        @media(max-width: 991px){
+            background-position: right center;
+            padding-bottom: 8%;
+        }
+    }
 }
 .project-s6{
     padding: 4% 0;
@@ -3688,6 +3851,44 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s6_retina;
+        }
+        @media(max-width: 768px){
+            display: none;
+        }
+    }
+}
+.en_project-s6{
+    padding: 4% 0;
+    .col-sm-6:last-child{
+        @media(max-width: 768px){
+            background-image: @en_bg_project_s6;
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding-bottom: 55%;
+        }
+    }
+    .box-text{
+        padding: 12% 25% 0 0;
+        p{
+            font-size: 16px;
+            line-height: 24px;
+        }
+        @media(max-width: 991px){ padding: 8% 25% 0 0;}
+        @media(max-width: 768px){
+            max-width: 35%;
+            padding: 8% 0 0;
+            float: right;
+        }
+    }
+    .en_bg-project-s6{
+        padding-bottom: 72%;
+        background-image: @en_bg_project_s6;
+        .bg-project-s;
+        background-position: 75% 50%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s6_retina;
         }
         @media(max-width: 768px){
             display: none;
@@ -3742,6 +3943,18 @@ small.green{
             background-image: @bg_project_s7_retina;
         }
     }
+    .en_bg-project-s7{
+        margin-top: 50px;
+        padding-bottom: 17.6%;
+        background-image: @en_bg_project_s7;
+        .bg-project-s;
+        background-position: 41% 50%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s7_retina;
+        }
+    }
 }
 .project-s8{
     padding: 4% 0 0;
@@ -3761,6 +3974,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s8_retina;
+        }
+    }
+    .en_bg-project-s8{
+        margin-top: 50px;
+        padding-bottom: 33.99%;
+        background-image: @en_bg_project_s8;
+        .bg-project-s;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s8_retina;
         }
     }
 }
@@ -3837,6 +4061,18 @@ small.green{
             background-image: @bg_project_s9_retina;
         }
     }
+    .en_bg-project-s9{
+        margin-top: 30px;
+        padding-bottom: 34.79%;
+        background-image: @en_bg_project_s9;
+        .bg-project-s;
+        background-position: 33% 100%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s9_retina;
+        }
+    }
 }
 .project-s10{
     padding: 4% 0 0;
@@ -3871,6 +4107,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_project_s10_retina;
+        }
+    }
+    .en_bg-project-s10{
+        padding-bottom: 88.4%;
+        background-image: @en_bg_project_s10;
+        .bg-project-s;
+        background-position: bottom center;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s10_retina;
         }
     }
 }
@@ -3926,6 +4173,22 @@ small.green{
 
 @idealaw_arrow: url(../img/idea-to-law/arrow.png);
 
+/* background eng */
+@en_bg_idealaw_s1_idea: url(../img/idea-to-law/en/en_bg-idealaw-s1-idea.png);
+@en_bg_idealaw_s1_project: url(../img/idea-to-law/en/en_bg-idealaw-s1-project.png);
+@en_bg_idealaw_s1_document: url(../img/idea-to-law/en/en_bg-idealaw-s1-document.png);
+@en_bg_idealaw_s2: url(../img/idea-to-law/en/en_bg-idealaw-s2.png);
+@en_bg_idealaw_s3: url(../img/idea-to-law/en/en_bg-idealaw-s3.png);
+@en_bg_idealaw_s4: url(../img/idea-to-law/en/en_bg-idealaw-s4.png);
+@en_bg_idealaw_s5: url(../img/idea-to-law/en/en_bg-idealaw-s5.png);
+@en_bg_idealaw_s6_left: url(../img/idea-to-law/en/en_bg-idealaw-s6-left.png);
+@en_bg_idealaw_s6_right: url(../img/idea-to-law/en/en_bg-idealaw-s6-right.png);
+@en_bg_idealaw_s7: url(../img/idea-to-law/en/en_bg-idealaw-s7.png);
+@en_bg_idealaw_s8: url(../img/idea-to-law/en/en_bg-idealaw-s8.png);
+@en_bg_idealaw_s9: url(../img/idea-to-law/en/en_bg-idealaw-s9.png);
+@en_bg_idealaw_s10: url(../img/idea-to-law/en/en_bg-idealaw-s10.png);
+@en_bg_idealaw_s11: url(../img/idea-to-law/en/en_bg-idealaw-s11.png);
+
 /* background Retina */
 @bg_idealaw_s1_idea_retina: url(../img/idea-to-law/bg-idealaw-s1-idea@2x.png);
 @bg_idealaw_s1_project_retina: url(../img/idea-to-law/bg-idealaw-s1-project@2x.png);
@@ -3949,7 +4212,28 @@ small.green{
 @idealaw_editor5_retina: url(../img/idea-to-law/editor5@2x.png);
 
 @idealaw_arrow_retina: url(../img/idea-to-law/arrow@2x.png);
-.idea-to-project-page,
+
+/* background Retina eng */
+@en_bg_idealaw_s1_idea_retina: url(../img/idea-to-law/en/en_bg-idealaw-s1-idea@2x.png);
+@en_bg_idealaw_s1_project_retina: url(../img/idea-to-law/en/en_bg-idealaw-s1-project@2x.png);
+@en_bg_idealaw_s1_document_retina: url(../img/idea-to-law/en/en_bg-idealaw-s1-document@2x.png);
+@en_bg_idealaw_s2_retina: url(../img/idea-to-law/en/en_bg-idealaw-s2@2x.png);
+@en_bg_idealaw_s3_retina: url(../img/idea-to-law/en/en_bg-idealaw-s3@2x.png);
+@en_bg_idealaw_s4_retina: url(../img/idea-to-law/en/en_bg-idealaw-s4@2x.png);
+@en_bg_idealaw_s5_retina: url(../img/idea-to-law/en/en_bg-idealaw-s5@2x.png);
+@en_bg_idealaw_s6_right_retina: url(../img/idea-to-law/en/en_bg-idealaw-s6-right@2x.png);
+@en_bg_idealaw_s6_left_retina: url(../img/idea-to-law/en/en_bg-idealaw-s6-left@2x.png);
+@en_bg_idealaw_s7_retina: url(../img/idea-to-law/en/en_bg-idealaw-s7@2x.png);
+@en_bg_idealaw_s8_retina: url(../img/idea-to-law/en/en_bg-idealaw-s8@2x.png);
+@en_bg_idealaw_s9_retina: url(../img/idea-to-law/en/en_bg-idealaw-s9@2x.png);
+@en_bg_idealaw_s10_retina: url(../img/idea-to-law/en/en_bg-idealaw-s10@2x.png);
+@en_bg_idealaw_s11_retina: url(../img/idea-to-law/en/en_bg-idealaw-s11@2x.png);
+
+.bg-idealaw{ 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
 .idea-to-law-page{
     background-color: #FFF;
     .divider{ width: 100%; border-bottom: 1px solid #C2C2C2;}
@@ -3976,6 +4260,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s1_idea_retina;
+        }
+    }
+    .en_bg-idealaw-s1-idea{
+        margin: 8.9% 0;
+        padding-bottom: 37.5%;
+        background-image: @en_bg_idealaw_s1_idea;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s1_idea_retina;
         }
     }
     .bg-idealaw-s1-project:before{
@@ -4022,6 +4317,16 @@ small.green{
             background-image: @bg_idealaw_s1_project_retina;
         }
     }
+    .en_bg-idealaw-s1-project{
+        padding-bottom: 55.5%;
+        background-image: @en_bg_idealaw_s1_project;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s1_project_retina;
+        }
+    }
     .bg-idealaw-s1-document{
         padding-bottom: 55%;
         background-image: @bg_idealaw_s1_document;
@@ -4030,6 +4335,16 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s1_document_retina;
+        }
+    }
+    .en_bg-idealaw-s1-document{
+        padding-bottom: 55%;
+        background-image: @en_bg_idealaw_s1_document;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s1_document_retina;
         }
     }
 }
@@ -4047,6 +4362,18 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s2_retina;
+        }
+    }
+    .en_bg-idealaw-s2{
+        margin-top: 50px;
+        background-image: @en_bg_idealaw_s2;
+        .bg-idealaw;
+        background-position: 35% 0;
+        background-size: 640px 269px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s2_retina;
         }
     }
     .box-text{
@@ -4106,6 +4433,17 @@ small.green{
             background-image: @bg_idealaw_s3_retina;
         }
     }
+    .en_bg-idealaw-s3{
+        margin-top: 40px;
+        padding-bottom: 10.8%;
+        background-image: @en_bg_idealaw_s3;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s3_retina;
+        }
+    }
     .box-text{
         max-width: 425px;
         margin-left: 13%;
@@ -4130,6 +4468,18 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s4_retina;
+        }
+    }
+    .en_bg-idealaw-s4{
+        padding-bottom: 69%;
+        background-image: @en_bg_idealaw_s4;
+        .bg-idealaw;
+        background-position: 100% 50%;
+        margin-right: -15px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s4_retina;
         }
     }
     .box-text{
@@ -4211,6 +4561,18 @@ small.green{
             background-image: @bg_project_s9_retina;
         }
     }
+    .en_bg-idealaw-s5{
+        margin-top: 30px;
+        padding-bottom: 34.79%;
+        background-image: @en_bg_project_s9;
+        .bg-idealaw;
+        background-position: 33% 100%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_project_s9_retina;
+        }
+    }
 }
 
 .idealaw-s6{
@@ -4230,6 +4592,17 @@ small.green{
             background-image: @bg_idealaw_s6_left_retina;
         }
     }
+    .en_bg-idealaw-s6-left{
+        padding-bottom: 64.5%;
+        background-image: @en_bg_idealaw_s6_left;
+        .bg-idealaw;
+       /*background-position: 70% 50%;*/
+       @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s6_left_retina;
+        }
+    }
     .bg-idealaw-s6-right{
         padding-bottom: 64.5%;
         background-image: @bg_idealaw_s6_right;
@@ -4239,6 +4612,17 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s6_right_retina;
+        }
+    }
+    .en_bg-idealaw-s6-right{
+        padding-bottom: 64.5%;
+        background-image: @en_bg_idealaw_s6_right;
+        .bg-idealaw;
+        /*background-position: 0% 50%;*/
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s6_right_retina;
         }
     }
 }
@@ -4339,6 +4723,18 @@ small.green{
             background-image:  @bg_idealaw_s7_retina;
         }
     }
+    .en_bg-idealaw-s7{
+        margin-top: 30px;
+        padding-bottom: 34.79%;
+        background-image: @en_bg_idealaw_s7;
+        .bg-idealaw;
+        background-position: 33% 100%;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image:  @en_bg_idealaw_s7_retina;
+        }
+    }
 }
 .idealaw-s8{
     padding: 4% 0 0;
@@ -4356,6 +4752,17 @@ small.green{
             background-image: @bg_idealaw_s8_retina;
         }
     }
+    .en_bg-idealaw-s8{
+        margin-top: 30px;
+        padding-top: 34.5%;
+        background-image: @en_bg_idealaw_s8;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s8_retina;
+        }
+    }
 }
 .idealaw-s9{
     padding: 4% 0;
@@ -4369,6 +4776,18 @@ small.green{
         (-webkit-min-device-pixel-ratio: 2),
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s9_retina;
+        }
+    }
+    .en_bg-idealaw-s9{
+        position: relative;
+        padding-bottom: 36.7%; 
+        background-image: @en_bg_idealaw_s9;
+        .bg-idealaw;
+        margin: 90px 0;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s9_retina;
         }
     }
     .idealaw-s9-container{
@@ -4421,6 +4840,17 @@ small.green{
             background-image: @bg_idealaw_s10_retina;
         }
     }
+    .en_bg-idealaw-s10{
+        margin-top: 30px;
+        padding-bottom: 25.8%;
+        background-image: @en_bg_idealaw_s10;
+        .bg-idealaw;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s10_retina;
+        }
+    }
 
 }
 .idealaw-s11{
@@ -4436,7 +4866,26 @@ small.green{
         (min-resolution: 192dpi){
             background-image: @bg_idealaw_s11_retina;
         }
+    .en_bg-idealaw-s11{
+        margin-top: 30px;
+        padding-bottom: 23.3%;
+        background-image: @en_bg_idealaw_s11;
+        .bg-idealaw; 
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+            background-image: @en_bg_idealaw_s11_retina;
+        }
     }
+}
+.idealaw-s12{
+    padding: 4% 0;
+    h2{
+        margin-top: 0;
+    }
+    p{ line-height: 24px; margin-bottom: 25px;}
+}
+}
 }
 .idealaw-s12{
     padding: 4% 0;

@@ -1,7 +1,7 @@
 //
 // news-create.js
 // ==============
-// 
+
 // Entries creation/edition in News location section.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -14,10 +14,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/blog/news-form'],
 
   function ($) {
-      
     "use strict";
-    
     $(document).trigger('load');
-      
   });
 });

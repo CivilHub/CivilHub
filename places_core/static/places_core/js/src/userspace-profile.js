@@ -11,7 +11,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/userspace/actions/actions',
            'js/modules/userspace/enable-contacts'],
 
-  function($) {
+  function ($) {
     "use strict";
 
     $('.list-controller').on('click', function (e) {

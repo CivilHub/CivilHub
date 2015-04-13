@@ -1,7 +1,7 @@
 //
 // idea-detail.js
 // ==============
-// 
+
 // A detailed view of a single idea.
 
 require([window.STATIC_URL + "/js/config.js"], function () {

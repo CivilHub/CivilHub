@@ -1,0 +1,62 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>{{ title|default:"" }}</title>
+  {% block style_base %}{% block layout_style %}<style type="text/css">
+    @font-face {
+      font-family: "Open Sans";
+      src: url({{ font }});
+    }
+  
+    @page {
+      size: 297mm 210mm;         
+
+      @frame content{
+        -pdf-frame-content: content;
+        bottom:  8cm;
+        height: 2cm;
+        border: 0cm solid white;
+      }
+
+      @frame page-info-title{
+        -pdf-frame-content: page-info-title;
+        bottom: 8cm;
+        height: 2cm;
+        border: 0cm solid white;
+      }
+
+      @frame page-name-user{
+        -pdf-frame-content: page-name-user;
+        height: 2cm;
+        bottom: 6cm;
+        border: 0cm solid white;
+      }
+
+      @frame page-info-score{
+        -pdf-frame-content: page-info-score;
+        height: 1cm;
+        bottom: 6.3cm;
+        border: 0cm solid white;
+      }
+
+      @frame page-footer-npub{
+        -pdf-frame-content: page-footer-npub;
+        height: 1.54cm;
+        bottom: 2.8cm;
+        left: 0cm;
+        margin-bottom: 0.8cm;
+        margin-right: 3cm;
+        border: 0cm solid white;
+      }
+    }
+  </style>{%endblock%}
+  {% block extra_style %}{% endblock %}{% endblock %}
+</head>
+<body>
+  {% block page_header %}{% endblock %}
+  <div>{% block content %}{% endblock %}</div>
+</body>
+</html>

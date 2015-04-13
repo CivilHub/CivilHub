@@ -12,7 +12,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/inviter/userinviter',
            'js/modules/locations/background'],
 
-  function($) {
+  function ($) {
     "use strict";
     $(document).trigger('load');
   });

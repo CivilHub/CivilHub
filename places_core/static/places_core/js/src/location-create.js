@@ -5,21 +5,21 @@
 // New location creation
 
 require([window.STATIC_URL + "/js/config.js"], function () {
-	require(['jquery',
-					 'js/modules/locations/location-form',
-					 'js/modules/ui/ui',
-					 'js/modules/common'],
+  require(['jquery',
+           'js/modules/locations/location-form',
+           'js/modules/ui/ui',
+           'js/modules/common'],
 
-	function ($, LocationForm, ui) {
+  function ($, LocationForm, ui) {
 
-		"use strict";
+    "use strict";
 
-		$(document).ready(function () {
-			var form = new LocationForm();
-		});
+    $(document).ready(function () {
+      var form = new LocationForm();
+    });
 
-		$(document).trigger('load');
+    $(document).trigger('load');
 
-	});
+  });
 
 });

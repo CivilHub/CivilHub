@@ -9,6 +9,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils import translation
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, DeleteView, CreateView, UpdateView
 
@@ -95,6 +96,8 @@ class EtherPadEditView(LoginRequiredMixin, DetailView):
         response.set_cookie('sessionID', value=result['sessionID'],
                             expires=expires, httponly=False)
         response.set_cookie('padSessionID', value=result['sessionID'],
+                            expires=expires, httponly=False)
+        response.set_cookie('language', value=translation.get_language_from_request(self.request),
                             expires=expires, httponly=False)
         return response
 

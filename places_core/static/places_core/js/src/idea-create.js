@@ -1,7 +1,7 @@
 //
 // idea-create.js
 // ==============
-// 
+
 // A form for creation/edition of ideas.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -12,10 +12,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/ideas/idea-form'],
 
   function ($) {
-      
     "use strict";
-    
     $(document).trigger('load');
-      
   });
 });
