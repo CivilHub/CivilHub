@@ -18,7 +18,6 @@ require(['jquery'], function ($) {
     } else {
       $('.search-bar-box').addClass('hidden').animate({width: '0%'}, 200);
     }
-
   });
 
 });
