@@ -41,7 +41,7 @@
           <div class="row">
             <div class="col-sm-1">
               {% if user.is_authenticated %}<form class="custom-inline-form" action="{% url 'projects:toggle_task' task.pk %}" method="post">{% csrf_token %}
-                <input type="checkbox"{% if task.is_done %} checked="checked"{% endif %} name="checkbox-task"></input>
+                <input type="checkbox"{% if task.is_done %} checked="checked" class="custom-tooltip" title="{% trans "Task completed" %}"{% endif %} name="checkbox-task" class="custom-tooltip" title="{% trans "Task in preparation" %}"></input>
               </form>{% elif task.is_done %}<p class="label-task label-task-check custom-tooltip" title="{% trans "Completed" %}"></p>
               {% else %}<p class="label-task label-task-close custom-tooltip" title="{% trans "Ongoing" %}"></p>{% endif %}
             </div>
