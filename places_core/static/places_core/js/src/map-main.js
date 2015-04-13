@@ -12,7 +12,8 @@ require(['jquery',
 				 'bootstrap',
 				 'js/modules/common/bookmarks',
 				 'tour',
-				 'js/modules/bouncy-navigation/main'],
+				 'js/modules/bouncy-navigation/main',
+				 'js/modules/ui/search-toggle'],
 
 function ($, CivilMap) {
 	
