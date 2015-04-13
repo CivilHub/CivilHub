@@ -11,11 +11,11 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'jeasing',
            'jmousewheel',
            'mapplic'],
-           
+
   function ($) {
-      
+
     "use strict";
-    
+
     $('#mapplic').mapplic({
       source: '/static/places_core/includes/mapplic/world.json',
       height: '100%',
@@ -28,14 +28,14 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       hovertip: false,
       developer: false,
       maxscale: 4,
-      zoom: true 
+      zoom: true
     });
 
-    $(window).load(function() {
+    $(window).load(function () {
 
-      //$('.mapplic-sidebar').prepend('<div class="mapplicCountry"><p class="mappCountry">' + gettext("Country") + '</p><p>' + gettext("Search by location") + '<span class="fa fa-caret-down"></span></p></div>');
+      // $('.mapplic-sidebar').prepend('<div class="mapplicCountry"><p class="mappCountry">' + gettext("Country") + '</p><p>' + gettext("Search by location") + '<span class="fa fa-caret-down"></span></p></div>');
 
-      $('.mapplicCountry').click(function(){
+      $('.mapplicCountry').click(function () {
         $('.mapplic-search-form, .mapplic-list-container').toggle();
       });
 
@@ -46,6 +46,6 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     $('.clear').hide();
 
     $(document).trigger('load');
-      
+
   });
 });

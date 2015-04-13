@@ -1,7 +1,7 @@
 //
 // poll-create.js
 // ==============
-// 
+
 // An interactive form for poll creation.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -12,10 +12,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/polls/poll-form/create-poll'],
 
   function ($) {
-      
     "use strict";
-    
     $(document).trigger('load');
-      
   });
 });

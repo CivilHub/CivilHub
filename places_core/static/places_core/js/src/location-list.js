@@ -1,7 +1,7 @@
 //
 // location-list.js
 // ================
-// 
+
 // Location browser in a form of a vector map.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -13,7 +13,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/locations/follow'], 
 
   function ($, ColView) {
-      
+
     // openPlaceholderWindow
     // ---------------------
     // Helper function: opens the main window that stores lists
@@ -27,7 +27,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           closePlaceholderWindow();
         });
     };
-      
+
     // openPlaceholderWindow
     // ---------------------
     // Helper function: closes the main window that contains the lists
@@ -38,7 +38,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         delete window.activeSublist;
       });
     };
-      
+
     // openList
     // --------
     // The proper function that opens the first "level" of the list or displays
@@ -68,30 +68,30 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           openPlaceholderWindow();
         } else {
           // TODO: something needs to be shown here.
-          //alert("There is no such place");
+          // alert("There is no such place");
           var dialog = $('#no-place-dialog');
           dialog.fadeIn();
           dialog
             .find('.placeholder-close')
-            .on('click', function(e){
+            .on('click', function (e) {
               dialog.fadeOut();
             });
         }
       });
     };
-      
-    var showPopup = function(countryCode) {
+
+    var showPopup = function (countryCode) {
       $.get('/api-locations/locations/?code=' + countryCode, function (resp) {
         if (resp) {
           $('#countryName').text(gettext('Go to') + ' ' + resp.name);
           $('#countryName').attr('href', '/' + resp.slug);
-          
+
           var followButton = $('#follow-button');
           var targetID = resp.id;
           var name = resp.name;
           followButton.attr('data-target', targetID);
-          
-          if(resp.followed) {
+
+          if (resp.followed) {
             followButton
               .addClass('btn-unfollow-location')
               .text(gettext('You are following') + ' ' + name);
@@ -100,51 +100,51 @@ require([window.STATIC_URL + "/js/config.js"], function () {
               .addClass('btn-follow-location')
               .text(gettext('Follow') + ' ' + name);
           }
-          
-          followButton.on('click', function(e) {
+
+          followButton.on('click', function (e) {
             e.preventDefault();
-            if( followButton.hasClass('btn-unfollow-location') ) {
-              $.post('/remove_follower/' + targetID, 
-                  {csrfmiddlewaretoken: getCookie('csrftoken')}, 
+            if (followButton.hasClass('btn-unfollow-location')) {
+              $.post('/remove_follower/' + targetID,
+                  { csrfmiddlewaretoken: getCookie('csrftoken') },
                   function (resp) {
                     followButton
                       .addClass('btn-follow-location')
                       .removeClass('btn-unfollow-location')
                       .text(gettext('Follow') + ' ' + name);
-                });
+                  });
             } else {
               $.post('/add_follower/' + targetID,
-                {csrfmiddlewaretoken: getCookie('csrftoken')}, 
+                { csrfmiddlewaretoken: getCookie('csrftoken') },
                 function (resp) {
                   followButton
                     .addClass('btn-unfollow-location')
                     .removeClass('btn-follow-location')
                     .text(gettext('You are following') + ' ' + name);
-              });
+                });
             }
           });
-            
+
         } else {
           alert("There is no such place");
         }
       });
     };
-      
+
     // Mapa
     // ----
     // Displays a vector map and launches a certain list after a click
     // ---------------------------------------------------------------------
     $('#vector-map').vectorMap({
-        
-      map: 'world_mill_en', 
-      
+
+      map: 'world_mill_en',
+
       backgroundColor: 'transparent',
-      
-      onRegionClick: function(element, code, region) {
+
+      onRegionClick: function (element, code, region) {
         openList(element, code);
         showPopup(code);
       },
-                   
+
       regionStyle: {
         initial: {
           fill: '#8D8D8D',
@@ -160,7 +160,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       }
 
     });
-      
+
     // Custom Events
     // -------------
     // Opens a location list after the name of the country is clicked
@@ -174,6 +174,6 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     });
 
     $(document).trigger('load');
-      
+
   });
 });

@@ -52,11 +52,15 @@ class UserActionsRestViewSet(viewsets.ViewSet):
     
     def get_queryset(self, pk=None, ct=None):
         from userspace.helpers import UserActionStream
-        if self.request.user.is_anonymous(): return None
+        #if self.request.user.is_anonymous(): return None
         if pk:
             user = get_object_or_404(User, pk=pk)
-        else:
+        elif self.request.user.is_authenticated():
             user = self.request.user
+        else:
+            user = None
+        if user is None:
+            raise Http404
         if not ct:
             return UserActionStream(user).get_actions()
         elif ct == 'idea':
@@ -71,25 +75,17 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('gallery.locationgalleryitem')
         
     def list(self, request):
-        pk = request.QUERY_PARAMS.get('pk') or None
-        ct = request.QUERY_PARAMS.get('content') or None        
+        pk = request.QUERY_PARAMS.get('pk')
+        ct = request.QUERY_PARAMS.get('content')
         queryset = self.get_queryset(pk, ct)
-        
-        if request.user.is_anonymous():
-            raise Http404()
-        
         page = request.QUERY_PARAMS.get('page')
         paginator = Paginator(queryset, settings.STREAM_PAGINATOR_LIMIT)
         try:
             actions = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             actions = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999),
-            # deliver last page of results.
             actions = paginator.page(paginator.num_pages)
-
         serializer_context = {'request': request}
         serializer = PaginatedActionSerializer(actions,
                                              context=serializer_context)

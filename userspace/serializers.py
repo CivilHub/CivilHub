@@ -144,8 +144,8 @@ class UserDetailSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """
     Full serializer for the user. It is intended to help you create
-    users through the mobile application. Defines a method of validating a unique i
-    of email addresses and sets the newly created user password.
+    users through the mobile application. Defines a method of validating a
+    unique email addresses and sets the newly created user password.
     """
     email = serializers.EmailField(required=True)
     first_name = serializers.CharField(max_length=30, required=True)

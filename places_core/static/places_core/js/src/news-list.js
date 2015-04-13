@@ -10,8 +10,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
            'js/modules/ui/active-form',
-           'js/modules/ui/run-lightbox'], 
-           
+           'js/modules/ui/run-lightbox'],
+
   function ($) {
     "use strict";
     $(document).trigger('load');

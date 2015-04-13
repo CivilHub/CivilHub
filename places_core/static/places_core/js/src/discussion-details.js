@@ -1,7 +1,7 @@
 //
 // discussion-details.js
 // =====================
-// 
+
 // Detailed view of single forum discussion.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -16,10 +16,9 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/topics/reply-form'],
 
   function ($, ui, Minimap) {
-      
+
     "use strict";
-    
-    //
+
     // Save user's vote on server
     // --------------------------
     // @param {boolean} vote
@@ -49,7 +48,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         }
       });
     };
-    
+
     $('.entry-vote-up').on('click', function (e) {
       e.preventDefault();
       var vote = true;
@@ -57,7 +56,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       var $counter = $(this).siblings('.entry-vote-count');
       sendVote(vote, url, $counter);
     });
-    
+
     $('.entry-vote-down').on('click', function (e) {
       e.preventDefault();
       var vote = false;
@@ -66,8 +65,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
       console.log($counter);
       sendVote(vote, url, $counter);
     });
-    
+
     $(document).trigger('load');
-      
   });
 });
