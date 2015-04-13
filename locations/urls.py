@@ -26,6 +26,7 @@ router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name=
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
     url(r'^places/', LocationListView.as_view(), name='index'),
+    url(r'^invite/(?P<slug>[\w-]+)/', PDFInviteGenerateView.as_view(), name="location-invite"),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # sub-location list
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),

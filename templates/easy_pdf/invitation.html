@@ -1,0 +1,41 @@
+{% extends "easy_pdf/base.html" %}{% load i18n %}
+{% block extra_style %}<style type="text/css">
+  * {
+    font-family: "Open Sans";
+  }
+
+  #content,
+  #page-info-title{
+    font-size: 26pt;
+    text-align: center;
+  }
+
+  #page-name-user{
+    font-size: 18pt;
+    text-align: center;
+    border: 0 none;
+  }
+
+  #page-info-score{
+    text-align: center;
+    font-size: 10pt;
+    border: 0 none;
+  }
+
+  #page-footer-npub{
+    font-size: 10pt;
+    text-align: right;
+    border: 0 none;
+    margin: 0;
+    line-height: 11pt;
+  }
+
+  #page-footer-npub p {
+    font-size: 9pt;
+    line-height: 0pt;
+    margin: 0;
+  }
+</style>{% endblock %}
+{% block content %}<div id="content">
+  <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
+</div>{% endblock %}

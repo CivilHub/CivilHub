@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-import json, datetime, os
+import json
+import datetime
+import os
+
 from dateutil.relativedelta import relativedelta
 
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
@@ -20,35 +23,35 @@ from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+
 from taggit.models import Tag
 from actstream import action
+from actstream.actions import follow, unfollow
+from actstream.models import Action
+from easy_pdf.views import PDFTemplateView
+
+from blog.models import News
+from blog.models import Category as BlogCategory
+from civmail import messages as mails
+from gallery.forms import BackgroundForm
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
-from blog.models import News
-from blog.models import Category as BlogCategory
-from topics.models import Discussion, Entry
-from topics.models import Category as ForumCategory
-from polls.models import Poll, Answer
-from polls.forms import PollForm
-from civmail import messages as mails
 from maps.models import MapPointer
-from gallery.forms import BackgroundForm
-from forms import *
-from models import Location, Country
-from .links import LINKS_MAP as links
-# Use our mixin to allow only some users make actions
-from places_core.mixins import LoginRequiredMixin
-# Activity stream
-from actstream.actions import follow, unfollow
-from actstream.models import Action
 from notifications.models import notify
-# custom permissions
-from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
+from places_core.mixins import LoginRequiredMixin
+from places_core.permissions import is_moderator
+from polls.models import Poll, Answer
+from polls.forms import PollForm
+from topics.models import Discussion, Entry
+from topics.models import Category as ForumCategory
 
+from .forms import *
 from .helpers import move_location_contents
+from .models import Location, Country
+from .links import LINKS_MAP as links
 
 redis_cache = cache.get_cache('default')
 
@@ -658,3 +661,22 @@ def remove_follower(request, pk):
             'message': _('Something, somewhere went terribly wrong'),
         }
     return HttpResponse(json.dumps(response))
+
+
+class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):
+    """
+    This view presents PDF document with location details.
+    """
+    model = Location
+    template_name = 'easy_pdf/invitation.html'
+
+    def get_context_data(self):
+        context = super(PDFInviteGenerateView, self).get_context_data()
+        context['title'] = context['location'].__unicode__()
+        context['font'] = os.path.join(settings.BASE_DIR,
+            'places_core/static/places_core/fonts/OpenSans-Regular.ttf')
+        return context
+
+    def get(self, request, slug):
+        self.object = Location.objects.get(slug=slug)
+        return super(PDFInviteGenerateView, self).get(request, slug)

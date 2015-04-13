@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.http import HttpResponse
 from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.translation import ugettext as _
 from django.views.generic import View, TemplateView
 from django.views.generic.edit import FormView
-from django.utils import translation
-from django.utils.translation import ugettext as _
 
-from places_core.mixins import LoginRequiredMixin
 from locations.helpers import get_followers_from_location
+from places_core.mixins import LoginRequiredMixin
 
 from civmail import messages as mails
 from .forms import FollowersEmailForm
