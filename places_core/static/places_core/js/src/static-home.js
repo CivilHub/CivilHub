@@ -9,11 +9,12 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'bootstrap',
            'js/modules/common',
            'tubular'],
+
   function ($) {
     "use strict";
     $(document).ready(function () {
       // Show video in background
-      if ($(window).width() >= 768 ) {
+      if ($(window).width() >= 768) {
         $("#wrapper-Home").tubular({
           videoId: "H-q1wZcUHhk",
           mute: false,

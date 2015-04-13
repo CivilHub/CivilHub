@@ -11,9 +11,9 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common'],
 
   function ($, ui) {
-      
+
     "use strict";
-    
+
     $('.control-delete').on('click', function (e) {
       e.preventDefault();
       var href = $(this).attr('href');
@@ -21,7 +21,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         document.location.href = href;
       });
     });
-    
+
     $(document).trigger('load');
   });
 });

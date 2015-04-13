@@ -1,7 +1,7 @@
 //
 // discussion-create.js
 // ====================
-// 
+
 // A form for creation/edition of topics on the forum.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -14,10 +14,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/topics/discussion-form'],
 
   function ($) {
-      
     "use strict";
-    
     $(document).trigger('load');
-      
   });
 });

@@ -1,7 +1,7 @@
 //
 // poll-results.js
 // ===============
-// 
+
 // Single poll results review.
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -17,13 +17,13 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/inviter/userinviter'],
 
   function ($, ui) {
-      
+
     "use strict";
-    
+
     var plot1 = $.jqplot('chartdiv', [window.POLLS.asets], {
       title: window.POLLS.title,
       animate: true,
-      series:[{renderer:$.jqplot.BarRenderer}],
+      series:[{ renderer: $.jqplot.BarRenderer }],
       axesDefaults: {
         tickRenderer: $.jqplot.CanvasAxisTickRenderer,
         tickOptions: {
@@ -37,8 +37,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         }
       }
     });
-    
+
     $(document).trigger('load');
-      
+
   });
 });

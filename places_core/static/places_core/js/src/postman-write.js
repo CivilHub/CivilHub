@@ -1,7 +1,7 @@
 //
 // postman-write.js
 // ================
-// 
+
 // Scripts that handle Postman mailbox
 
 require([window.STATIC_URL + "/js/config.js"], function () {

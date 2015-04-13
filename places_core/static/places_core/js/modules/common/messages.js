@@ -6,14 +6,14 @@
 // flash messages from the rest of views.
 
 require(['underscore',
-				 'js/modules/ui/ui'],
+         'js/modules/ui/ui'],
 
 function (_, ui) {
 
 "use strict";
 
 if (_.isUndefined(CivilApp)) {
-	return;
+  return;
 }
 
 _.each(CivilApp.messages, function (m) {

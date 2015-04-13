@@ -11,7 +11,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/content/content-form',
            'js/modules/common'],
 
-  function($) {
+  function ($) {
     "use strict";
     $(document).trigger('load');
   });

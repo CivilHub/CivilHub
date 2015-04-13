@@ -21,7 +21,7 @@ $(document).ready(function () {
     ct: $('#target-type').val(),
     id: $('#target-id').val()
   });
-  
+
   // Show/Hide comments
 
   $('.comment-toggle').on('click', function (e) {

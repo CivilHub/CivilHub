@@ -1,7 +1,7 @@
 //
 // civmail-invite.js
 // =================
-// 
+
 // A scirpt for "Zaproś znajomych" [eng. invite a friend] site
 
 require([window.STATIC_URL + "/js/config.js"], function () {
@@ -20,8 +20,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
         defaultText: '',
         onPaste: true,
         onAddTag: function () {
-          var oldValue = $emails.val(),
-              newValue = oldValue.replace(/ /g, ',');
+          var oldValue = $emails.val();
+          var newValue = oldValue.replace(/ /g, ',');
           $emails.importTags('');
           $emails.importTags(newValue);
         }
