@@ -12,13 +12,13 @@ from django.utils.translation import ugettext as _
 
 from actstream import action
 
-from maps.forms import AjaxPointerForm
-from maps.models import MapPointer
+from comments.models import CustomComment
 from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
+from maps.forms import AjaxPointerForm
+from maps.models import MapPointer
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
-from comments.models import CustomComment
 
 from .models import Idea, Vote, Category
 from .forms import IdeaForm, CategoryForm

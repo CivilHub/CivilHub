@@ -18,14 +18,14 @@ from actstream.actions import follow, unfollow
 
 from etherpad.forms import ServePadForm
 from etherpad.models import Pad
-from locations.mixins import LocationContextMixin
-from locations.models import Location
-from userspace.models import UserProfile
-from places_core.mixins import LoginRequiredMixin
-from places_core.permissions import is_moderator
-from maps.models import MapPointer
 from gallery.forms import BackgroundForm
 from gallery.image import handle_tmp_image
+from locations.mixins import LocationContextMixin
+from locations.models import Location
+from maps.models import MapPointer
+from places_core.mixins import LoginRequiredMixin
+from places_core.permissions import is_moderator
+from userspace.models import UserProfile
 
 import actions as project_actions
 from .permissions import check_access

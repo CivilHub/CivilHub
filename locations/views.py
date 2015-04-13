@@ -42,6 +42,7 @@ from places_core.mixins import LoginRequiredMixin
 # Activity stream
 from actstream.actions import follow, unfollow
 from actstream.models import Action
+from notifications.models import notify
 # custom permissions
 from places_core.permissions import is_moderator
 from places_core.helpers import TagFilter, process_background_image, \
@@ -616,7 +617,12 @@ def add_follower(request, pk):
     location = get_object_or_404(Location, pk=pk)
     user = request.user
     location.users.add(user)
-
+    notify(user,
+        location.creator,
+        verb=_(u"joined to your location"),
+        key="follower",
+        action_target=location
+    )
     try:
         location.save()
         follow(user, location, actor_only = False)

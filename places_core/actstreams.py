@@ -100,14 +100,4 @@ def comment_action_hook(sender, instance, created, **kwargs):
             action_object=instance,
             action_target=instance.parent
         )
-    # Send notification for commented object creator
-    else:
-        notify(
-            instance.user,
-            instance.content_object.creator,
-            key="customcomment",
-            verb=_(u"commented your {}".format(instance.content_object._meta.verbose_name.title())),
-            action_object=instance,
-            action_target=instance.content_object
-        )
 post_save.connect(comment_action_hook, sender=CustomComment)

@@ -112,7 +112,6 @@
       <input type="hidden" id="target-label" value="projects" />
       <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
       {% include 'comments/commentlist.html' %}{% endwith %}{% endif %}
-      
     </div>
   </div> 
   {% if user in active_task.participants.all %}

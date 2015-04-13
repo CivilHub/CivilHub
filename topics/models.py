@@ -13,8 +13,9 @@ from django.utils.encoding import python_2_unicode_compatible
 from taggit.managers import TaggableManager
 from mptt.models import MPTTModel, TreeForeignKey
 
-from locations.models import Location
 from gallery.image import adjust_uploaded_image
+from locations.models import Location
+from notifications.models import notify
 from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
@@ -133,7 +134,42 @@ class EntryVote(models.Model):
     date_voted = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.vote
+        return unicode(self.vote)
+
+
+# Signals
+# ------------------------------------------------------------------------------
+
+
+def response_notification(sender, instance, created, **kwargs):
+    """ Notify discussion creator about every new answer. """
+    if not created or instance.creator == instance.discussion.creator:
+        return True
+    notify(instance.creator, instance.discussion.creator,
+        key="answer",
+        verb=_(u"answered for your discussion"),
+        action_object=instance,
+        action_target=instance.discussion
+    )
+models.signals.post_save.connect(response_notification, sender=Entry)
+
+
+def vote_notification(sender, instance, created, **kwargs):
+    """ Notify entry author about votes for his/her entry. """
+    if not created:
+        return True
+    suff = "up" if instance.vote else "down"
+    notify(instance.user, instance.entry.creator,
+        key="vote",
+        verb=_(u"voted for %s your entry" % suff),
+        action_object=instance,
+        action_target=instance.entry
+    )
+models.signals.post_save.connect(vote_notification, sender=EntryVote)
+
+
+# External signals
+# ------------------------------------------------------------------------------
 
 
 models.signals.post_save.connect(adjust_uploaded_image, sender=Discussion)

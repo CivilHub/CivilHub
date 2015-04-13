@@ -28,6 +28,7 @@ from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
 from ideas.models import Vote as IdeaVote
 from comments.models import CustomComment, CommentVote
+from notifications.models import notify
 from topics.models import Category as ForumCategory
 from topics.models import Discussion, Entry
 from userspace.models import Badge, UserProfile
@@ -398,6 +399,15 @@ class CommentVoteViewSet(viewsets.ModelViewSet):
                 action_object=vote.comment,
                 verb= _(u"voted on"),
                 vote = True if request.POST.get('vote') == 'up' else False
+            )
+            suff = "up" if vote.vote else "down"
+            notify(
+                request.user,
+                vote.comment.user,
+                action_object=vote,
+                action_target=vote.comment,
+                verb=_(u"voted {} for your comment".format(suff)),
+                key="vote"
             )
             return Response({
                 'success': True,

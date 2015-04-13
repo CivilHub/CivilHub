@@ -19,7 +19,7 @@ class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
     model = Notification
     serializer_class = NotificationSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    paginate_by = 25
+    paginate_by = 10
 
     def get_queryset(self):
         return super(NotificationViewSet, self).get_queryset()\

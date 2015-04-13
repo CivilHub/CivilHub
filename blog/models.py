@@ -16,6 +16,7 @@ from taggit.managers import TaggableManager
 from comments.models import CustomComment
 from locations.models import Location
 from gallery.image import adjust_uploaded_image
+from notifications.models import notify
 from places_core.helpers import truncatehtml, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
@@ -115,5 +116,15 @@ class News(ImagableItemMixin):
         return self.title
 
 
+def notify_about_news_deletion(sender, instance, **kwargs):
+    """ Notify newss author about that his news was deleted. """
+    # For now we assume that only superuser could delete news entries.
+    admin = User.objects.filter(is_superuser=True)[0]
+    notify(admin, instance.creator,
+        key="deletion",
+        verb=_(u"deleted your blog entry - {}".format(instance.title)),
+        action_object=instance
+    )
+models.signals.post_delete.connect(notify_about_news_deletion, sender=News)
 models.signals.post_save.connect(adjust_uploaded_image, sender=News)
 models.signals.post_delete.connect(remove_image, sender=News)
