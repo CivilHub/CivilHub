@@ -32,7 +32,7 @@
           <span class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.profile }}</span></a>
           <span class="date-created">{{ idea.date_created|timesince }}</span>
         </p>
-        <div class="idea-summary acticle-content">{{ idea.get_description|safe }}</div>
+        <div class="idea-summary acticle-content clearfix">{{ idea.get_description|safe }}</div>
         <a class="full-link" href="{{ idea.get_absolute_url }}">{% trans "See full version" %}</a>
       </div>
     </div>{% endfor %}

@@ -18,6 +18,7 @@ define(['jquery',
 				'js/modules/common/messages',
 				'js/modules/notifications/notifications',
 				'js/modules/ui/widgets',
+				'js/modules/ui/search-toggle',
 				'js/modules/userspace/user-popup',
 				'js/modules/bouncy-navigation/main'],
 
@@ -94,12 +95,5 @@ $(document).ready(function () {
 		}
 	});
 });
-
-//search
-
-	$('#search-bar-icon').click(function(e){
-		e.preventDefault();
-        $('.search-bar-box').animate({width: 'toggle'},200);
-    });
 
 });

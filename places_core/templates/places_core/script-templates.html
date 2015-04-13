@@ -102,12 +102,12 @@
     <div class="comment-main-col">
         <form role="presentation" class="comment-form-body">
             <div class="form-group">
-                <label for="comment" class="control-label">Comment</label>
+                <label for="comment" class="control-label">{% trans "Comment" %}</label>
                 <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+            <div class="form-group text-right">
                 <button class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
+                <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
             </div>
         </form>
     </div>
@@ -117,12 +117,12 @@
 <script type="text/template" id="comment-edit-template">
     <form role="presentation" class="comment-form-body">
         <div class="form-group">
-            <label for="comment" class="control-label">Comment</label>
+            <label for="comment" class="control-label">{% trans "Comment" %}</label>
             <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
+        <div class="form-group text-right">
             <button type="submit" class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment">{% trans "Submit comment" %}</button>
         </div>
     </form>
 </script>
@@ -602,14 +602,14 @@
 </script>
 {% comment %} TOUR button {% endcomment %}
 <script type="text/template" id="tour-button-tpl">
-  <div class="tourBox">
+  {% if user.is_authenticated %}<div class="tourBox">
     <a href="#" class="btn btn-saveBig" id="startTour">
       <span class="fa fa-play">Start Tour</span>
     </a>
     <a href="#" id="killTour">
       <span class="fa fa-close">&nbsp;</span>
     </a>
-  </div>
+  </div>{% endif %}
 </script>
 {% comment %} IDEAS - a modal for a list of voting users. {% endcomment %}
 <div class="modal fade" id="vote-counter-modal">

@@ -21,7 +21,7 @@
                 {% else %}
                     <button type="button" class="btn-unfollow-location" data-location-id="{{ sublocation.pk }}">{% trans "You are following" %}</button>
                 {% endif %}
-                <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
+                {% comment %}<div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>{% endcomment %}
             </div>
         </div>
     {% if forloop.counter|divisibleby:4 or forloop.counter == sublocations.count %}</div>{% endif %}

@@ -63,7 +63,7 @@
         </small>
       </div>
       {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
-      <div class="acticle-content">{{ idea.description | safe }}</div>
+      <div class="acticle-content clearfix">{{ idea.description | safe }}</div>
       <p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
       </p>

@@ -18,9 +18,9 @@
         </form>
       </div>
       <ul class="nav navbar-nav navbar-left navbarHeaderLeft">
-        <li>
-          <a href="#" id="search-bar-icon"><span class="search-icon-top"></span></a>
-          <div class="search-bar-box">
+        <li class="nav-search">
+          <a href="#" id="search-bar-icon" class="custom-tooltip-right" title="{% trans "Search" %}"><span class="search-icon-top"></span></a>
+          <div class="search-bar-box hidden">
             <form class="search-form" role="search" method="get" action="{% url 'search:haystack_search' %}">
               <input type="text" name="q" id="id_q" class="form-control-search" placeholder="{% trans "Search" %}">
               <button type="submit" class="search-button hidden"><span class="fa fa-search"></span></button>
@@ -44,10 +44,11 @@
             <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %}</span>
           </a>
           <ul class="dropdown-menu civilhub-icon-top-box">
-            <li><a href="/blog/">Our Blog</a></li>
-            <li><a href="/creed">Creed</a></li>
-            <li><a href="/team">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/mission">{% trans "Mission" %}</a></li>
+            <li><a href="/team">{% trans "Team" %}</a></li>
+            <li><a href="/creed">{% trans "Creed" %}</a></li>
+            <li><a href="/blog">{% trans "Our Blog" %}</a></li>
+            <li><a href="/contact">{% trans "Contact" %}</a></li>
           </ul>
         </li>
         {% endif %}
