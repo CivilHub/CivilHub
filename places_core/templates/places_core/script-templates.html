@@ -602,14 +602,14 @@
 </script>
 {% comment %} TOUR button {% endcomment %}
 <script type="text/template" id="tour-button-tpl">
-  <div class="tourBox">
+  {% if user.is_authenticated %}<div class="tourBox">
     <a href="#" class="btn btn-saveBig" id="startTour">
       <span class="fa fa-play">Start Tour</span>
     </a>
     <a href="#" id="killTour">
       <span class="fa fa-close">&nbsp;</span>
     </a>
-  </div>
+  </div>{% endif %}
 </script>
 {% comment %} IDEAS - a modal for a list of voting users. {% endcomment %}
 <div class="modal fade" id="vote-counter-modal">
