@@ -16,7 +16,7 @@
 {% block require_scripts %}{% get_map_pointers poll as MARKERS %}{% include 'maps/minimap.html' %}
 <script src="{% static 'places_core' %}/js/{% js_path %}/poll-details.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-polls">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
-{% block content %}<div class="col-sm-8 main-content">
+{% block content %}<div class="col-sm-9 main-content contentPX">
   <h1>{{ poll.title }}&nbsp;<span class="submenu-toggle no-margin"> </span></h1>
   <div class="entry-submenu">
     <ul>{% with poll|content_type as ctype %}
@@ -29,7 +29,7 @@
     </ul>
   </div>    
   {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
-  <div class="acticle-content">{{ poll.question | safe }}</div>
+  <div class="acticle-content clearfix">{{ poll.question | safe }}</div>
   {% if can_vote %}<form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">{% csrf_token %}
     {{ form }}
     <div class="form-group text-right mb0">
@@ -40,4 +40,4 @@
     <a href="{% url 'polls:results' poll.pk %}">{% trans "See results" %}</a>.
   </p>{% endif %}
 </div>
-<div class="col-sm-4">{% include 'locations/sidebar.html' %}</div>{% endblock %}
+<div class="col-sm-3 boxPX">{% include 'locations/sidebar.html' %}</div>{% endblock %}
