@@ -12,130 +12,119 @@
 {% block header %}
 <style type="text/css">
 .user-logo {
-    background-image: url({{ profile.background_url }});
+  background-image: url({{ profile.background_url }});
 }
 @media 
 (-webkit-min-device-pixel-ratio: 2), 
 (min-resolution: 192dpi) {
-    .user-logo {
-        background-image: url({{ profile.retina_background_url }});
-    }
+  .user-logo {
+    background-image: url({{ profile.retina_background_url }});
+  }
 }
 </style>
     <div class="user-logo">
-        <div class="container" style="height: 100%; position: relative;">
-            
-            <div class="user-info">
-                <div class="profile-page-avatar">
-                    <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name }}" />
-                </div>
-                <div class="user-fullname">
-                    {{ user.get_full_name }}
-                </div>
-                {% if request.user.is_anonymous %}
-                    <a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
-                {% else %}
-                    {% if request.user != user and request.user not in profile.followers %}
-                        <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Follow" %}</a>
-                    {% endif %}
-                    {% if request.user != user and request.user in profile.followers %}
-                        <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Following" %}</a>
-                    {% endif %}
-                {% endif %}
-                {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-external-link">&nbsp;</span></a>{% endif %}
-                {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
-                {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
-                {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
-                {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
-                <a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a> 
-
-            </div>
-            
-            {% if request.user == user %}
-                <a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>
-            {% endif %}
+    <div class="container" style="height: 100%; position: relative;">
+      <div class="user-info">
+        <div class="profile-page-avatar">
+          <img src="{{ profile.avatar.url }}" alt="{{ user.get_full_name }}" />
         </div>
+        <div class="user-fullname">
+          {{ user.get_full_name }}
+        </div>
+        {% if request.user.is_anonymous %}
+          <a class="btn-follow-user" href="/user/login/?next={{ request.path }}">{% trans "Follow" %}</a>
+        {% else %}
+          {% if request.user != user and request.user not in profile.followers %}
+            <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Follow" %}</a>
+          {% endif %}
+          {% if request.user != user and request.user in profile.followers %}
+            <a class="btn-follow-user" data-target="{{ user.pk }}">{% trans "Following" %}</a>
+          {% endif %}
+        {% endif %}
+        {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-external-link">&nbsp;</span></a>{% endif %}
+        {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
+        {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
+        {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
+        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
+        {% if request.user != user %}<a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button"><span class="fa fa-envelope">&nbsp;</span></a>{% endif %} 
+      </div>
+      {% if request.user == user %}
+        <a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>
+      {% endif %}
     </div>
-    <div class="profileIndexEmptyBox"></div>
-
+  </div>
+  <div class="profileIndexEmptyBox"></div>
 {% endblock %}
 
 {% block content %}
-
 {% for error in errors %}
-    {{ error }}
+  {{ error }}
 {% endfor %}
 {% if user.is_authenticated %}
-
 <div class="row">
-    <div class="col-sm-3">
-        <div class=" sidebar inboxSidebar">
-            <div class="sidebar-content">
-                {% comment %}<img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />{% endcomment %}
-                <ul id="postman_menu" class="profileSidebarLeft">
-                    <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
-                    <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
-                    <li><a href="#" class="simple-tabs-link" data-target="tab-3">{% trans "Change avatar" %}</a></li>
-                </ul>
-                <p class="profileRankPKT">{% trans "Points" %}: {{ profile.rank_pts }}</p>
-                <ul>
-                {% for badge in profile.badges.all %}
-                    <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
-                {% endfor %}
-                </ul>
-            </div>
-        </div>
+  <div class="col-sm-3">
+    <div class=" sidebar inboxSidebar">
+      <div class="sidebar-content">
+        {% comment %}<img src="{{ profile.avatar.url }}" alt="Avatar" class="user-thumb" />{% endcomment %}
+        <ul id="postman_menu" class="profileSidebarLeft">
+          <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
+          <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
+          <li><a href="#" class="simple-tabs-link" data-target="tab-3">{% trans "Change avatar" %}</a></li>
+        </ul>
+        <p class="profileRankPKT">{% trans "Points" %}: {{ profile.rank_pts }}</p>
+        <ul>
+        {% for badge in profile.badges.all %}
+          <li><img src="{{ badge.thumbnail.url }}" alt="{{ badge.name }}" class="user-badge-thumb" title="{{ badge.name}} - {{ badge.description | escape }}" /></li>
+        {% endfor %}
+        </ul>
+      </div>
     </div>
-    <div class="col-sm-9">
-        <div class="main-content">
-            <div class="simple-tabs" id="user-profile-tabs">
-                <div class="simple-tabs-tab active" id="tab-1">
-                    <form id="user-profile-form" class="form-horizontal" method="post" action="">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="form-group">
-                            <div class="col-sm-2">&nbsp;</div>
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="simple-tabs-tab" id="tab-2">
-                    <form id="user-password-form" class="form-horizontal" method="post" action="{% url 'user:chpass' %}">
-                        {% csrf_token %}
-                        {{ passform.as_p }}
-                        <div class="form-group">
-                            <div class="col-sm-2">&nbsp;</div>
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="simple-tabs-tab" id="tab-3">
-
-                    <div class="addImageWidth">
-                        <h4>* {% trans "The image should have a minimal width and height of 260px by 260px" %}</h4>
-                    </div>
-
-                    <form id="upload-avatar-form" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">
-                        {% csrf_token %}
-                        {{ avatar_form.as_p }}
-                        <div class="form-group">
-                            <label class="control-label col-sm-2">&nbsp;</label>
-                            <div class="col-sm-10">
-                                <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Save" %}</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+  </div>
+  <div class="col-sm-9">
+    <div class="main-content">
+      <div class="simple-tabs" id="user-profile-tabs">
+        <div class="simple-tabs-tab active" id="tab-1">
+          <form id="user-profile-form" class="form-horizontal" method="post" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-group">
+              <div class="col-sm-2">&nbsp;</div>
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
+              </div>
             </div>
+          </form>
         </div>
+        <div class="simple-tabs-tab" id="tab-2">
+          <form id="user-password-form" class="form-horizontal" method="post" action="{% url 'user:chpass' %}">{% csrf_token %}
+            {{ passform.as_p }}
+            <div class="form-group">
+              <div class="col-sm-2">&nbsp;</div>
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-saveBig">{% trans "Save changes" %}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="simple-tabs-tab" id="tab-3">
+          <div class="addImageWidth">
+            <h4>* {% trans "The image should have a minimal width and height of 260px by 260px" %}</h4>
+          </div>
+          <form id="upload-avatar-form" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" action="{% url 'user:upload_avatar' %}">{% csrf_token %}
+            {{ avatar_form.as_p }}
+            <div class="form-group">
+              <label class="control-label col-sm-2">&nbsp;</label>
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Save" %}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
 {% else %}
-    <p class="custom-booklike">{% trans "You are not allowed to visit this page. Sorry." %}</p>
+  <p class="custom-booklike">{% trans "You are not allowed to visit this page. Sorry." %}</p>
 {% endif %}
 {% endblock %}
