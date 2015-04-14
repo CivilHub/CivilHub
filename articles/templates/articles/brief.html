@@ -4,8 +4,8 @@
 {% block header %}{% endblock %}
 {% block container_main %}
   {% block content %}
-    {% comment %}{{ article.content |safe }}{% endcomment %}
-      <div class="idea-to-project-page">
+    {{ article.content |safe }}
+   {% comment %}   <div class="idea-to-project-page">
     <div class="ideaproject-s1 container text-center">
       <h1>Od pomysłu do lokalnego projektu.</h1>
       <big>Czyli jak wspólnie poprawić nasze otoczenie.</big>
@@ -113,6 +113,6 @@
       </div>
     </div>
 
-  </div><!--./ideatolawpage-->
+  </div><!--./ideatolawpage-->{% endcomment %}
   {% endblock %}
 {% endblock %}
