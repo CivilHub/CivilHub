@@ -1,0 +1,254 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles i18n civil_tags %}
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block container_main %}
+  {% block content %}
+    <div id="home-vD">
+      <div class="homeD-s1">
+        <div class="container">
+          <div class="col-sm-6">
+            <div class="homeD-box-text">
+              <h1>CivilHub</h1>
+              <p>CivilHub to społeczność, gdzie wspólnie możemy zmieniać miejsca, w których żyjemy.</p>
+              <p><a href="/user/register/" class="btn-greenBig btn-antiman-chw antiman antiman-fix">{% trans "Register" %}</a> <a href="/user/login" class="btn-greenBig alink-home antimanA antimanA-fix">{% trans "Log in" %}</a></p>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="bg-homeD-s1"></div>
+          </div>
+        </div>
+      </div>
+      <div class="homeD-s2 text-center">
+        <div class="container">
+          <div class="homeD-s2-idea">
+            <div class="bg-homeD-s2-idea"></div>
+            <a href="/">Pomysły</a>
+            <p>Głosuj na propozycję zmian</p>
+          </div>
+          <div class="homeD-s2-news">
+            <div class="bg-homeD-s2-news"></div>
+            <a href="/">Aktualności</a>
+            <p>Sprawdź co wydarzyło się w okolicy</p>
+          </div>
+          <div class="homeD-s2-maps">
+            <div class="bg-homeD-s2-maps"></div>
+            <a href="/">Dostęp do mapy</a>
+            <p>Zobacz co się dzieje, w okolicy na mapie</p>
+          </div>
+          <div class="homeD-s2-projects">
+            <div class="bg-homeD-s2-projects"></div>
+            <a href="/">Projekty</a>
+            <p>Pomysły przekształcamy w projekty</p>
+          </div>
+        </div>
+      </div>
+      <div class="homeD-s3 container text-center">
+        <h2>CivilHub powstał gdyż wierzymy, że obywatele najlepiej wiedzą jak powinnien wyglądać otaczający nas świat.</h2>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s4 container brief-s9 text-center">
+        <h1>Lokalizacje</h1>
+        <p>Masz możliwość działania, nie tylko w ramach jednego miasta. Każde miasto, osiedle, mała miejscowość ma swoje miejsce w sieci. Możemy działać również w skali całego województwa lub kraju. Jeśli brakuje Twojego osiedla lub małej miejscowości to stwórz własną lokalizację.</p>
+        <div class="brief-slide-container">
+          <div id="cities_pl" class="carousel" data-interval="false" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="item active">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s1 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s2 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s3 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s4 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s5 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s6 fadeIn"></div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="brief-slide-content custom-slider-wrapp">
+                  <div class="brief-slider-img slide-s7 fadeIn"></div>
+                </div>
+              </div>
+            </div>
+            <div class="brief-slide-controls">
+              <ol class="carousel-indicators custom-slider-controls">
+               <li data-target="#cities_pl" data-slide-to="0" class="active bg-control bg-control-s1"></li>
+                <li data-target="#cities_pl" data-slide-to="1" class="bg-control bg-control-s2"></li>
+                <li data-target="#cities_pl" data-slide-to="2" class="bg-control bg-control-s3"></li>
+                <li data-target="#cities_pl" data-slide-to="3" class="bg-control bg-control-s4"></li>
+                <li data-target="#cities_pl" data-slide-to="4" class="bg-control bg-control-s5"></li>
+                <li data-target="#cities_pl" data-slide-to="5" class="bg-control bg-control-s6"></li>
+                <li data-target="#cities_pl" data-slide-to="6" class="bg-control bg-control-s7"></li>
+              </ol>   
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s5 container brief-s5">
+        <div class="col-sm-7">
+          <div class="bg-slide5"></div>
+        </div>
+        <div class="col-sm-5">
+          <h1>Aktualności</h1>
+          <p>Nowy wymiar wzajemnego informowania się o aktualnościach z naszej okolicy. Poinformuj innych o tym co się dzieje. Zobacz co piszą inni na temat spraw związanych z Twoim miastem, osiedlem lub miejscowością.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s6 container brief-s3 text-center">
+        <h1>Pomysły</h1>
+        <p>Sam wiesz co powinniśmy zmienić w naszym otoczeniu. Napisz o tym, powiedz jakie masz pomysły na zmianę naszego miasta lub kraju. Zobacz co myślą inni na temat Twojego pomysłu.</p>
+        <div class="bg-homeD-s6"></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="homeD-s7 container brief-s4">
+        <div class="col-sm-6">
+          <h1>Dyskusje</h1>
+          <p>Czy nie masz wrażenia, że brakuje nam kontaktu z ludźmi z najbliższego nam otoczenia? CivilHub to miejsce, gdzie możemy rozmawiać z ludźmi z naszej okolicy. Możesz założyć stronę dla Twojego osiedla i współpracować z osobami, z którymi mieszkasz.</p>
+        </div>
+        <div class="col-sm-6">
+          <div class="bg-slide4"></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s8 container brief-s6">
+        <div class="col-sm-7">
+          <div class="bg-slide6"></div>
+        </div>
+        <div class="col-sm-5">
+          <h1>Ankiety</h1>
+          <p>Często mamy potrzebę szybkiego sprawdzenia co myślą inni. Stwórz ankietę pytając mieszkańców o dowolny temat.</p>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s9 container brief-s7 text-center">
+        <h2>Projekty</h2>
+        <p>Same pomysły nic nie znaczą. Liczy się konkretny efekt. Dlatego zbudowaliśmy pierwsze narzędzie do oddolnego obywatelskiego wdrażania naszych pomysłów w życie. Jeśli np. brakuje nam placu zabaw, to wspólnie możemy go zbudować.</p>
+        <a href="/" class="btn-blborder mt25">Zobacz więcej</a>
+        <div class="bg-slide7">
+          <div class="bs7-left text-left">
+            <h2>Zadania</h2>
+            <p>Wypiszmy wszystko co trzeba zrobić, aby plac zabaw powstał. Każdy może przyłączyć się do wspólnej realizacji projektu obywatelskiego.</p>
+          </div>
+          <div class="bs7-right text-left">
+            <h2>Komentarze</h2>
+            <p>Dajemy miejsce, w którym wspólnie możemy planować i wdrażać zmiany w naszej okolicy.</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s10 container brief-s10 text-center">
+        <h2>Szybkie spojrzenie na CivilHub</h2>
+        <p>Wybrane funkcje jakie posiada portal:</p>
+        <div class="brief-thumb-container">
+          <div class="brief-thumb-s10">
+            <span class="fa fa-lightbulb-o"></span>
+            <h3>Pomysł</h3>
+            <p>Pokaż co chciałbyś zmienić. Głosuj na idee innych.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-bar-chart"></span>
+            <h3>Ankieta</h3>
+            <p>Szybkie zbieranie opinii mieszkańców na dowolny temat.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-bullhorn"></span>
+            <h3>Aktualności</h3>
+            <p>Nowy wymiar informowania sąsiadów o tym co się dzieje.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-comment-o"></span>
+            <h3>Dyskucje</h3>
+            <p>Prowadź rozmowy sąsiadami, z którymi mieszkasz.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-tasks"></span>
+            <h3>Projekty</h3>
+            <p>Pomysły wdrażamy w życie, realizujemy projekt dzieląc się zadaniami.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-picture-o"></span>
+            <h3>Galeria</h3>
+            <p>Zobaczyłeś ciekawe zdarzenie, są zdjęcia, którymi chcesz się podzielić.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-comments-o"></span>
+            <h3>Komentarze</h3>
+            <p>Możesz komentować i głosować na komentarze.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-globe"></span>
+            <h3>Mapa</h3>
+            <p>Zaznacz pomysł, dyskusje, aktualność, ankietę na mapie.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-envelope-o"></span>
+            <h3>Wiadomości</h3>
+            <p>Komunikuj się z wybranymi sąsiadami poprzez prywatne wiadomości.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-bookmark-o"></span>
+            <h3>Zakładki</h3>
+            <p>Szybka możliwość zapisywania wybranych elementów.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-tag"></span>
+            <h3>Tagi</h3>
+            <p>Możliwość filtrowania elementów po tagach.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-mobile"></span>
+            <h3>Każde urządzenie</h3>
+            <p>Wersja mobilna witryny. Aplikacja mobilna w przygotowaniu.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-cloud"></span>
+            <h3>Synchronizacja</h3>
+            <p>Dostęp z każdego miejsca do wszystkich treści.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-sort-alpha-asc"></span>
+            <h3>Sortowanie</h3>
+            <p>Sortuj i filtruj wszystkie zawartości.</p>
+          </div>
+          <div class="brief-thumb-s10">
+            <span class="fa fa-user"></span>
+            <h3>Profile</h3>
+            <p>Pełna transparentność działań użytkowników w portalu.</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="homeD-s11 idealaw-s12 bg-f9 text-center">
+      <div class="container">
+        <h2>Dołącz do nas!</h2>
+        <p>Pomóż nam rozwijać nasz kraj. Wierzymy, że wspólnie<br> możemy bardzo wiele osiągnąć. Nie czekajmy na<br> działania polityków. Zaangażujmy się w życie naszego<br> miasta. Pokażmy w jakim miejscu chcielibyśmy żyć.</p>
+        <a href="/user/register/" class="btn-greenBig btn-antiman-chg antiman antiman-fix">Dołącz do nas</a>
+      </div>
+    </div>
+
+    </div>
+  {% endblock %}
+{% endblock %}
