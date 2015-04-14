@@ -649,3 +649,85 @@ body.body-Home {
         background-size: 6px 10px;
     }
 }
+
+#home-vD{
+    .homeD-s1{
+    background-image: url(../img/home-d/bg-home.png);
+    background-size: cover;
+    padding-top: 3.65%;
+        .homeD-box-text{
+            max-width: 350px;
+            margin: 0 auto;
+            padding: 12% 0;
+            h1{
+                font-size: 68px;
+                font-weight: 400;
+                line-height: 44px;
+                color: #fff;
+            }
+            p{
+                color: #fff;
+                font-size: 18px;
+                line-height: 26px;
+            }    
+        }
+        
+        .bg-homeD-s1{
+            padding-top: 57.5%;
+            background-image: url(../img/home-d/slide1.png);
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            background-size: contain;
+            @media(max-width: 1200px){ padding-top: 64.5%; }
+            @media(max-width: 991px){ padding-top: 84.5%; }
+            @media(max-width: 768px){ display: none; }
+        }   
+    }
+    .homeD-s2{
+        border-bottom: 1px solid #acaaae;
+        .homeD-s2-idea,
+        .homeD-s2-news,
+        .homeD-s2-maps,
+        .homeD-s2-projects{
+            display: inline-block;
+            width: 24.33%;
+            vertical-align: top;
+            margin-top: 5px;
+        }
+        .homeD-s2-idea,
+        .homeD-s2-maps{ border-right: 1px solid #acaaae; }
+        a{
+            color: #0083fb;
+            font-size: 18px;
+            line-height: 22px;
+            text-decoration: none;
+        }
+        p{
+            font-size: 13px;
+            line-height: 22px;
+            color: #898989;
+        }
+        .bg-homeD-s2-idea{
+            background-image: url(../img/home-d/s2_box1.png);
+            padding-bottom: 73px;
+            margin: 12px 0;
+            .bg-nor-cen-con;
+        }
+        .bg-homeD-s2-news{
+            background-image: url(../img/home-d/s2_box2.png);
+            padding-bottom: 97px;
+            .bg-nor-cen-con;
+        }
+        .bg-homeD-s2-maps{
+            background-image: url(../img/home-d/s2_box3.jpg);
+            padding-bottom: 80px;
+            margin: 9px 0 8px;
+            .bg-nor-cen-con;
+        }
+        .bg-homeD-s2-projects{
+            background-image: url(../img/home-d/s2_box4.png);
+            padding-bottom: 97px;
+            .bg-nor-cen-con;
+        }
+    }
+}
