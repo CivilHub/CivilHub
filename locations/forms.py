@@ -165,3 +165,13 @@ class InviteUsersForm(forms.Form):
         queryset = User.objects.all(),
         widget   = forms.SelectMultiple(attrs={'class': 'form-control'})
     )
+
+
+class InviteUsersByEmail(forms.Form):
+    """
+    Similar to above, but this form allows users to invite others by email,
+    wether they are already registered or not.
+    """
+    emails = forms.CharField(label=_(u"Emails"),
+        help_text=_(u"Enter email addresses separated with comma"),
+        widget=forms.TextInput(attrs={'class': 'email-input',}))

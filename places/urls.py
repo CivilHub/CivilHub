@@ -93,6 +93,7 @@ urlpatterns += patterns('',
 
 from places_core.views import set_language
 urlpatterns += patterns('',
+    url(r'^', include('hitcounter.urls')),
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),

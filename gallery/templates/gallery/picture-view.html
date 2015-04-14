@@ -1,43 +1,26 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
-
-{% block require_scripts %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/gallery-picture.js"></script>
-{% endblock %}
-
-{% block content %}
-
-    <div class="main-content col-sm-8">
-        <h1>{{ picture.name }}<span class="submenu-toggle no-margin"> </span></h1>
-        <div class="entry-submenu">
-            <ul>{% with picture|content_type as ctype %}
-                {% if user.is_authenticated and user != picture.user %}
-                    <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ picture.pk }}">{% trans "Report abuse" %}</a></li>
-                {% endif %}
-                {% if user.is_superuser or is_moderator %}
-                    <li><a href="{% url 'locations:remove_content' ctype.pk picture.pk %}">{% trans "Delete" %}</a></li>
-                {% endif %}{% endwith %}
-            </ul>
-        </div>
-        
-        <div class="picture-main-view">
-            <img src="{{ picture.url }}" alt="{{ picture.name }}" />
-        </div>
-        
-        <div>
-            <p>
-                {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
-                <a class="comment-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a>
-            </p>
-        </div>
-        <input type="hidden" id="target-id" value="{{ picture.pk }}" />
-        <input type="hidden" id="target-label" value="gallery" />
-        <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
-        {% include 'comments/commentlist.html' %}
-    </div>
-    
-    <div class="col-sm-4">
-        {% include 'locations/sidebar.html' %}
-    </div>
-
-{% endblock %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags counters %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/gallery-picture.js"></script>{% endblock %}
+{% block content %}<div class="main-content col-sm-8">
+  <h1>{{ picture.name }}<span class="submenu-toggle no-margin"> </span></h1>
+  {% visit_counter picture %}
+  <div class="entry-submenu">
+    <ul>{% with picture|content_type as ctype %}
+      {% if user.is_authenticated and user != picture.user %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ picture.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+      {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk picture.pk %}">{% trans "Delete" %}</a></li>{% endif %}
+    {% endwith %}</ul>
+  </div>
+  <div class="picture-main-view">
+    <img src="{{ picture.url }}" alt="{{ picture.name }}" />
+  </div>
+  <div>
+    <p>
+      {% trans "Comments" %}: <span class="badge comment-count">{{ idea.comments }}</span>
+      <a class="comment-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a>
+    </p>
+  </div>
+  <input type="hidden" id="target-id" value="{{ picture.pk }}" />
+  <input type="hidden" id="target-label" value="gallery" />
+  <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
+  {% include 'comments/commentlist.html' %}
+</div>
+<div class="col-sm-4">{% include 'locations/sidebar.html' %}</div>{% endblock %}

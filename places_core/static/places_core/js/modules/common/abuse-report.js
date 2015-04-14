@@ -13,16 +13,17 @@ function ($, AbuseWindow) {
 
 $(document).ready(function () {
 
-  var win = null, $link = null;
+  var win = null;
+  var $link = null;
 
   $('.report-abuse-link').on('click', function (e) {
     e.preventDefault();
     $link = $(this);
     if (_.isNull(win)) {
       win = new AbuseWindow({
-        'id': $link.attr('data-id') || 0,
-        'content': $link.attr('data-content') || '',
-        'label': $link.attr('data-label') || ''
+        id: $link.attr('data-id') || 0,
+        content: $link.attr('data-content') || '',
+        label: $link.attr('data-label') || ''
       });
     }
     win.open();

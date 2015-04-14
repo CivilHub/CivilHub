@@ -36,7 +36,8 @@ $(document).delegate('.btn-bookmark', 'click', function (e) {
 
   var $this = $(e.currentTarget);
 
-  var postData = null, url = '';
+  var postData = null;
+  var url = '';
 
   if ($this.hasClass('btn-add-bookmark')) {
     // We add a new bookmark
@@ -45,7 +46,7 @@ $(document).delegate('.btn-bookmark', 'click', function (e) {
       content_type: $this.attr('data-ct'),
       csrfmiddlewaretoken: getCookie('csrftoken')
     };
-    
+
     makeRequest('/bookmarks/create/', postData, function (resp) {
       $this
         .removeClass('btn-add-bookmark')
@@ -59,8 +60,8 @@ $(document).delegate('.btn-bookmark', 'click', function (e) {
     // We delete a bookmark
 
     url = '/bookmarks/delete/{}/'.replace(/{}/g, $this.attr('data-pk'));
-    postData = {csrfmiddlewaretoken: utils.getCookie('csrftoken')};
-    
+    postData = { csrfmiddlewaretoken: utils.getCookie('csrftoken') };
+
     makeRequest(url, postData, function (resp) {
       $this
         .removeClass('btn-active-bookmark')

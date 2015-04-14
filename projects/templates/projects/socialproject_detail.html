@@ -1,4 +1,5 @@
-{% extends 'projects/index.html' %}{% load i18n civil_tags comment_tags %}
+{% extends 'projects/index.html' %}{% load i18n staticfiles civil_tags comment_tags counters %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-details.js"></script>{% endblock %}
 {% block location_navbar %} 
   <div class="socialproject-detail-nav">{% include 'projects/navbar.html' %}</div>
 {% endblock %}
@@ -123,5 +124,6 @@
       </li>
     </ul>{% endif %}
   </div>
+  {% visit_counter object %}
 </div>
 </div><!-- ./ #task3-page -->{% endblock %}

@@ -55,6 +55,10 @@ require.config({
 
   "shim": {
 
+    "tour": {
+      "deps": ["bootstrap"]
+    },
+
     "tubular": {
       "deps": ["jquery"]
     },

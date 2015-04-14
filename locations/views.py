@@ -13,6 +13,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
+from django.contrib import messages
 from django.utils import timezone, translation
 from django.utils.translation import ugettext as _
 from django.views.generic import DetailView, View
@@ -50,6 +51,7 @@ from topics.models import Category as ForumCategory
 
 from .forms import *
 from .helpers import move_location_contents
+from .mixins import LocationContextMixin
 from .models import Location, Country
 from .links import LINKS_MAP as links
 
@@ -620,12 +622,13 @@ def add_follower(request, pk):
     location = get_object_or_404(Location, pk=pk)
     user = request.user
     location.users.add(user)
-    notify(user,
-        location.creator,
-        verb=_(u"joined to your location"),
-        key="follower",
-        action_target=location
-    )
+    if user != location.creator:
+        notify(user,
+            location.creator,
+            verb=_(u"joined to your location"),
+            key="follower",
+            action_target=location
+        )
     try:
         location.save()
         follow(user, location, actor_only = False)
@@ -661,6 +664,43 @@ def remove_follower(request, pk):
             'message': _('Something, somewhere went terribly wrong'),
         }
     return HttpResponse(json.dumps(response))
+
+
+class InviteUsersByEmailView(LoginRequiredMixin, FormView):
+    """
+    Invite users to follow selected location using only their email addresses.
+    """
+    template_name = 'locations/invite_by_email.html'
+    form_class = InviteUsersByEmail
+    location = None
+
+    def dispatch(self, *args, **kwargs):
+        self.location = get_object_or_404(Location, slug=kwargs['location_slug'])
+        return super(InviteUsersByEmailView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return self.location.get_absolute_url()
+
+    def get_context_data(self, **kwargs):
+        context = super(InviteUsersByEmailView, self).get_context_data(**kwargs)
+        context.update({
+            'location': self.location,
+            'is_moderator': is_moderator(self.request.user, self.location),
+        })
+        return context
+
+    def form_valid(self, form):
+        emails = form.cleaned_data['emails'].split(',')
+        for email in emails:
+            message = mails.InviteUsersMail()
+            message.send(email, {
+                'lang': translation.get_language_from_request(self.request),
+                'inviting_user': self.request.user,
+                'location': self.location,
+            })
+        messages.add_message(self.request, messages.SUCCESS,
+            _(u"All messages sent successfully"))
+        return super(InviteUsersByEmailView, self).form_valid(form)
 
 
 class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):

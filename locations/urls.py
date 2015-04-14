@@ -26,7 +26,6 @@ router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name=
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
     url(r'^places/', LocationListView.as_view(), name='index'),
-    url(r'^invite/(?P<slug>[\w-]+)/', PDFInviteGenerateView.as_view(), name="location-invite"),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # sub-location list
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),
@@ -95,5 +94,7 @@ urlpatterns = patterns('',
     url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
     url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
     url(r'background/(?P<pk>\d+)', LocationBackgroundView.as_view(), name='background'),
-    url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite')
+    url(r'email_invite/(?P<location_slug>[\w-]+)', InviteUsersByEmailView.as_view(), name='email-invite'),
+    url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite'),
+    url(r'^invite/(?P<slug>[\w-]+)/', PDFInviteGenerateView.as_view(), name="location-invite"),
 )

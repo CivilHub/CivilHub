@@ -4,25 +4,29 @@
 
 // Displays a cooky warning.
 
-require(['jquery', 'js/modules/utils/utils'],
+require(['jquery',
+         'underscore',
+         'js/modules/utils/utils',
+         'text!tpl/cookie_msg.html'],
 
-function ($, utils) {
+function ($, _, utils, html) {
 
 "use strict";
 
 function showCookieWarning () {
-	$('#cookie-msg').prepend('<div class="alert fade in fade out">' + gettext('Cookies help us to deliver our services. By using our services, you agree to our use of cookies') + '.' + '<a class="btn" href="/cookies">' + gettext("Polityka cookies") + '</a><a id="accept-button" class="btn" data-dismiss="alert">OK</a></div>')
+  console.log(html);
+  $('#cookie-msg').prepend(_.template(html), {})
     .hide().fadeIn('slow');
   $('#accept-button').click(function () {
-      utils.setCookie('cookie_msg', true, 365);
-      $('#cookie-msg').fadeOut('slow', function() {
-        $(this).empty().remove();
-      });
+    utils.setCookie('cookie_msg', true, 365);
+    $('#cookie-msg').fadeOut('slow', function () {
+      $(this).empty().remove();
+    });
   });
 }
 
-if(!utils.getCookie('cookie_msg') && !CivilApp.debug) {
-	showCookieWarning();  
+if (!utils.getCookie('cookie_msg') && !CivilApp.debug) {
+  showCookieWarning();
 }
 
 });

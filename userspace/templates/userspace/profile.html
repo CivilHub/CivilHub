@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %} 
+{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags counters %} 
 {% block title %}{{ cuser.get_full_name }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ cuser.get_full_name }} {% if profile.followed_locations %}{% trans "engages in" %} {% for location in profile.followed_locations %}{{ location }}, {% endfor %}{% else %}{% endif %}" />{% endblock %}
 {% block meta %}<meta property="og:image" content="https://civilhub.org{{ profile.avatar.url }}"/>
@@ -72,6 +72,7 @@
   <div class="sidebar left">
     {% if profile.description %}<div class="sidebar-label">{% trans "About me"%}</div>
     <div class="sidebar-content">{{ profile.description|striptags }}</div>{% endif %}
+    {% visit_counter profile %}
     <div class="sidebar-label">{% trans "Places"%}</div>
     <div class="sidebar-content">
       {% if profile.followed_locations %}<ul class="sprite-icon">

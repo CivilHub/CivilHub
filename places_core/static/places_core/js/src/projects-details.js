@@ -6,7 +6,10 @@
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
-           'js/modules/common'],
+           'js/modules/projects/tasks',
+           'js/modules/comments/comments',
+           'js/modules/common',
+           'js/modules/common/counters'],
 
   function ($) {
     "use strict";

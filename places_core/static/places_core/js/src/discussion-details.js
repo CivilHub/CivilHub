@@ -10,6 +10,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/maps/pointer',
            'js/modules/ui/mapinput',
            'js/modules/common',
+           'js/modules/common/counters',
            'js/modules/ui/bookmark-form',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',

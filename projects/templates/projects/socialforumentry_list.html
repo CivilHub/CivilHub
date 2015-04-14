@@ -1,8 +1,10 @@
-{% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags %}
+{% extends 'projects/index.html' %}{% load staticfiles i18n civil_tags counters %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-discussion.js"></script>{% endblock %}
 {% block location_navbar %}<div class="socialforumtopic-list-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}
 <div class="col-sm-9 main-content contentPX">
   <h1 class="discussionHeading mb20">{{ discussion }}</h1>
+  {% visit_counter discussion %}
   <div class="reply-entry">
     <div class="row">
       <div class="blobfish-left">&nbsp;</div>
