@@ -4,8 +4,8 @@
 {% block header %}{% endblock %}
 {% block container_main %}
   {% block content %}
-    {{ article.content |safe }}
-   {% comment %}   <div class="idea-to-project-page">
+  {% comment %}    {{ article.content |safe }} {% endcomment %}
+  <div class="idea-to-project-page">
     <div class="ideaproject-s1 container text-center">
       <h1>Od pomysłu do lokalnego projektu.</h1>
       <big>Czyli jak wspólnie poprawić nasze otoczenie.</big>
@@ -24,21 +24,24 @@
         <div class="col-sm-4">
           <h2>Pomysł</h2>
           <p>Zgoś czego brakuje lub co należy poprawić w Twojej okolicy.</p>
+          <div class="bg-ideaproject-s1-idea-768"></div>
         </div>
         <div class="col-sm-4">
           <h2>Projekt</h2>
           <p>Po zebraniu odpowiedniej ilości głosów pomysł przekształcamy w projekt, oraz wspólnie realizujemy.</p>
+          <div class="bg-ideaproject-s1-project-768"></div>
         </div>
         <div class="col-sm-4">
           <h2>Realizacja</h2>
           <p>Efektem końcowym prac jest plac zbaw, który zbudowaliśmy wspólnie jako mieszkańcy.</p>
+          <div class="bg-ideaproject-s1-finish-768"></div>
         </div>
       </div>
     </div>
 <div class="divider"></div>
     <div class="ideaproject-s2 bg-f9 text-center">
       <div class="container">
-        <h1>Zgłaszamy pomysły i problemy, które należy poprawić.</h1>
+        <h2>Zgłaszamy pomysły i problemy, które należy poprawić.</h2>
         <p>Każdy z nas wie co należy poprawić. Zgłoś swoje propozycje, a cała lokalna  społeczność może ocenić czy się zgadza i czy również chce wdrożyć Twój pomysł w życie.</p>
         <div class="bg-ideaproject-s2 row">
           <div class="col-sm-4 col-sm-offset-7 box-text">
@@ -57,7 +60,7 @@
     </div>
     <div class="divider"></div>
     <div class="ideaproject-s3 container text-center">
-      <h1>Dobre pomysły przekształcamy w projekty</h1>
+      <h2>Dobre pomysły przekształcamy w projekty</h2>
       <p>Po zakończeniu głosowania, pomysł przekształcamy w projekt. Każdy może dołączyć i pomóc w realizacji. </p>
       <div class="bg-ideaproject-s3">
         <div class="box-text">
@@ -89,23 +92,58 @@
       </div>
     </div>
     <div class="divider"></div>
+    <div class="ideaproject-s5 container text-center">
+      <h2>Wspólnie ustalamy jak ma wyglądać nasz plac zabaw.</h2>
+      <p>Mamy możliwość dyskutowania i komentowania dowolnego zadania lub wątku.</p>
+      <div class="col-sm-6">
+        <p>Komentarze</p>
+        <div class="bg-ideaproject-s5-left"></div>
+      </div>
+      <div class="col-sm-6">
+        <p>Dyskusje</p>
+        <div class="bg-ideaproject-s5-right"></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
     <div class="ideaproject-s6 bg-f9 text-center">
       <div class="container">
-        <h2>Wspólnie ustalamy jak ma wyglądać nasz plac zabaw.</h2>
-        <p>Mamy możliwość dyskutowania i komentowania dowolnego zadania lub wątku.</p>
-        <div class="col-sm-6">
-          <p>Komentarze</p>
-          <div class="bg-ideaproject-s6-left"></div>
-        </div>
-        <div class="col-sm-6">
-          <p>Dyskusje</p>
-          <div class="bg-ideaproject-s6-right"></div>
+        <h2>Transparentny system zadań.</h2>
+        <p>Udostępniamy proste narzędzie do organizacji zadań.</p>
+        <div class="bg-ideaproject-s6">
+          <div class="col-sm-4 col-sm-offset-1 text-left">
+            <div class="box-text">
+              <div class="bg-ideaproject-s6-top-768"></div>
+              <h2>Grupy Zadań</h2>
+              <p>Zadania możemy dzeilić na proste grupy w celu łatwiejszego  podziału obowiązków.</p>
+            </div>
+            <div class="box-text">
+              <div class="bg-ideaproject-s6-middle-768"></div>
+              <h2>Zadania</h2>
+              <p>Wierzymy, że my obywatele możemy wspólnie  pracować w celu realizacji konkretnych zadań. Każdy może dołączyć do projektu i pomóc w osiągnięciu celu.</p>
+            </div>
+            <div class="box-text">
+              <div class="bg-ideaproject-s6-bottom-768"></div>
+              <h2>Uczestnicy zadania</h2>
+              <p>Masz możliwość dołączenia do zadania i pomocy w realizacji projektu.  Każda realizacja zadania daje Ci punkty, które podnoszą Twoją pozycję w społęczności :)</p>
+            </div>
+          </div>
+          <div class="col-sm-7"></div>
         </div>
       </div>
     </div>
 
     <div class="divider"></div>
-    <div class="ideaproject-s12 bg-f9 text-center">
+    <div class="ideaproject-s7 container text-center">
+      <h2>Efektem końcowym projektu jest zbudowany plac zabaw.</h2>
+      <p>Pomysł poparty przez odpowiednią ilość osób zostaje zrealizowany dzięki wspólnej pracy.  Wspólnie możemy się organizować aby wdrażać nasze pomysł w życie.</p>
+      <div class="bg-ideaproject-s7-top"></div>
+      <div class="bg-ideaproject-s7-arrow"></div>
+      <div class="bg-ideaproject-s7-bottom"></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="ideaproject-s8 bg-f9 text-center">
       <div class="container">
         <h2>Dołącz do nas!</h2>
         <p>Pomóż nam rozwijać nasz kraj. Wierzymy, że wspólnie<br> możemy bardzo wiele osiągnąć. Nie czekajmy na<br> działania polityków. Zaangażujmy się w życie naszego<br> miasta. Pokażmy w jakim miejscu chcielibyśmy żyć.</p>
@@ -113,6 +151,6 @@
       </div>
     </div>
 
-  </div><!--./ideatolawpage-->{% endcomment %}
+  </div><!--./ideatolawpage-->
   {% endblock %}
 {% endblock %}
