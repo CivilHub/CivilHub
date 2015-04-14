@@ -15,7 +15,7 @@ class HomeView(TemplateView):
     Main site view. Depending on whether the user is already a logged-in user
     or not, it presents a registration forum or a subpage of user activities. 
     """
-    template_name = 'staticpages/pages/home-d.html'
+    template_name = 'staticpages/pages/home.html'
 
     def get(self, request):
         if request.user.is_authenticated():
@@ -44,7 +44,7 @@ class PageView(View):
     def get(self, request, page=None):
         if self.page: page = self.page
         if page == None:
-            return render(request, 'staticpages/pages/home-d.html')
+            return render(request, 'staticpages/pages/home.html')
         else:
             try:
                 template_name = 'staticpages/pages/' + page + '.html'

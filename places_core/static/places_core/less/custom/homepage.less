@@ -651,6 +651,15 @@ body.body-Home {
 }
 
 #home-vD{
+    .divider{ width: 100%; border-bottom: 1px solid #C2C2C2;}
+    p{color: #666; font-size: 18px; line-height: 28px;}
+    h1,h2{ color: #333; font-weight: 300; }
+    h1{
+        font-size: 46px;
+    }
+    h2{
+        font-size: 32px;
+    }
     .homeD-s1{
     background-image: url(../img/home-d/bg-home.png);
     background-size: cover;
@@ -669,7 +678,17 @@ body.body-Home {
                 color: #fff;
                 font-size: 18px;
                 line-height: 26px;
-            }    
+            }   
+            a{
+                padding: 5px 30px;
+                color: #fff;
+                text-decoration: none;
+                &.alink-home{
+                    &:hover{
+                        color: #0083FB !important;
+                    }
+                }
+            } 
         }
         
         .bg-homeD-s1{
@@ -692,10 +711,21 @@ body.body-Home {
             display: inline-block;
             width: 24.33%;
             vertical-align: top;
-            margin-top: 5px;
+            padding-top: 5px;
+            @media(max-width: 991px){
+                height: 180px;
+            }
+            @media(max-width: 768px){
+                width: 49.33%;
+            }
         }
         .homeD-s2-idea,
-        .homeD-s2-maps{ border-right: 1px solid #acaaae; }
+        .homeD-s2-news,
+        .homeD-s2-maps{ border-right: 1px solid #acaaae; 
+            @media(max-width: 768px){
+                border-right: 0 none;
+            }
+        }
         a{
             color: #0083fb;
             font-size: 18px;
@@ -728,6 +758,37 @@ body.body-Home {
             background-image: url(../img/home-d/s2_box4.png);
             padding-bottom: 97px;
             .bg-nor-cen-con;
+        }
+    }
+    .homeD-s3{
+        padding: 4%;
+
+    }
+    .homeD-s6{
+        .bg-homeD-s6{
+            background-image: url(../img/home-d/slide6.png);
+            padding-bottom: 23.9%;
+            .bg-nor-cen-con;
+        }
+    }
+    .homeD-s9{
+        .bs7-left,
+        .bs7-right{
+            p{
+                color: #666;
+                max-width: 210px;
+                font-size: 14px;
+                line-height: 21px;
+            }    
+        }
+    }
+    .homeD-s10{
+        .brief-thumb-s10 {
+            p{
+                color: #666;
+                font-size: 14px;
+                line-height: 21px;
+            }   
         }
     }
 }
