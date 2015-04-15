@@ -3,6 +3,7 @@ from django import forms
 from django.forms.util import ErrorList
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -175,3 +176,12 @@ class InviteUsersByEmail(forms.Form):
     emails = forms.CharField(label=_(u"Emails"),
         help_text=_(u"Enter email addresses separated with comma"),
         widget=forms.TextInput(attrs={'class': 'email-input',}))
+
+    def clean_emails(self):
+        emails = [x.strip() for x in self.cleaned_data['emails'].split(',')]
+        for email in emails:
+            try:
+                validate_email(email)
+            except ValidationError:
+                raise ValidationError(_(u"At least one email address is invalid"))
+        return emails
