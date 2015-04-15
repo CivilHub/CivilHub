@@ -18,6 +18,10 @@
   background-color: @badge-bg;
   border-radius: @badge-border-radius;
 
+  &.badge-btn{
+    border-radius: 4px;
+  }
+
   // Empty badges collapse automatically (not available in IE8)
   &:empty {
     display: none;
@@ -52,4 +56,13 @@
   .nav-pills > li > a > & {
     margin-left: 3px;
   }
+}
+
+/*customized colors badges*/
+
+.badge-green {
+  background-color: #84bd00;
+}
+.badge-blue{
+  background-color: #0083fb;
 }

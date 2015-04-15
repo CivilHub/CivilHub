@@ -20,32 +20,32 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-m', '--module', help="Single module to compress")
 
-SRC_DIR = os.path.join(os.getcwd(), 'js', 'build')
+SRC_DIR = os.path.join(os.getcwd(), 'js', 'src')
 LESS_IN = os.path.join(os.getcwd(), 'less', 'style.less')
 CSS_OUT = os.path.join(os.getcwd(), 'css', 'style.min.css')
 TMP_FILE = os.path.join(os.getcwd(), 'tmp.js')
 
 subprocess.call(['lessc', '-x', LESS_IN, CSS_OUT])
 
-def compress_file(filename):
-    f = open('js/config.json', 'r')
-    ef = open(filename, 'r')
+def compress_module(module):
+    f = open(os.path.join(os.getcwd(), 'js/config.json'), 'r')
     tmpf = open(TMP_FILE, 'w')
-
     conf = json.loads(f.read())
-    conf.update(json.loads(ef.read()))
+    conf.update({
+        'name': 'js/src/' + module,
+        'out': 'js/dist/' + module + '.js',
+    })
     tmpf.write("(%s)" % json.dumps(conf))
-
     f.close()
-    ef.close()
     tmpf.close()
-    subprocess.call(['r.js', '-o', 'tmp.js'])
+    subprocess.call(['r.js', '-o', TMP_FILE])
 
 if __name__ == '__main__':
     args = parser.parse_args()
     for name in sorted(os.listdir(SRC_DIR)):
-        if args.module is None or name == args.module + '.js':
-            compress_file (os.path.join(SRC_DIR, name))
+        module = os.path.splitext(name)[0]
+        if args.module is None or module == args.module:
+            compress_module(module)
     try:
         os.unlink(TMP_FILE)
     except OSError:

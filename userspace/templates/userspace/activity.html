@@ -11,18 +11,111 @@
 
 {% block title %}{% trans "Your feed" %}{% endblock %}
 
+{% block header %}{% endblock %}
 {% block content %}
 
-    <div class="col-sm-9 colHline colHP">
-        <div id="location-content-collection" class="containerLocationCollection"></div>
+
+<div class="col-sm-3 mt25">
+  <div class="main-content p-reset">
+    <div class="ac-title">
+      <div class="ac-user-head-img display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></div>
+      <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
     </div>
+    <ul class="ac-user-list list-unstyled">
+      <li><a href="#"><span class="fa fa-envelope-o"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">10</span></a></li>
+      <li><a href="#"><span class="places-icon"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">15</span></a></li>
+      <li>{% trans "Points" %}: {{ user.profile.rank_pts }}</li>
+    </ul>
+  </div>
 
-    <div class="col-sm-3 colHline">
-        <div class="activity-stream"></div>
+  <div class="main-content p-reset">
+    <div class="ac-title"><span class="badge badge-btn">10</span> {% trans "Hot news" %}</div>
+    <div class="ac-hot-box">
+      <div class="ac-hot-single-box clearfix">
+        <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+        <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+        <div class="ac-hot-box-title">
+          <p>Food trucki staną nad</p>
+          <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+        </div>
+        <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+      </div>
+      <div class="ac-hot-single-box clearfix">
+        <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+        <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+        <div class="ac-hot-box-title">
+          <p>Food trucki staną nad</p>
+          <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+        </div>
+        <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+      </div>
+      <div class="ac-hot-single-box clearfix">
+        <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+        <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+        <div class="ac-hot-box-title">
+          <p>Food trucki staną nad</p>
+          <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+        </div>
+        <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+      </div>
     </div>
+  </div>
+</div>
 
-    {% include 'places_core/script-templates/action-template.html' %}
+<div class="col-sm-6 mt25">
+  <div class="wrapper-timeline">
+    <ul class="ac-timeline">
+      <li class="timeline-header">
+        <div class="timeline-wrap">
+          <span class="date"></span>
+          <span class="timeline-user"><img src="/media/img/avatars/41830b7b-4a9d-444d-9459-a14bc46d2be914.jpg" alt="Civil Hub"></span>
+          <div class="timeline-content panel">
+            <span class="arrow arrow-left arrow-top"></span>
+            <div class="timeline-content-head">
+              <a href="#" class="cd-bouncy-nav-trigger">Utwórz: pomysł, aktualność, dyskusje...</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div id="location-content-collection" class="wrapper-timeline"></div>  
 
-    {% include 'places_core/script-templates/content-item-template.html' %}
+</div>
+
+<div class="col-sm-3">
+  <div class="ac-right-site">
+    <h3>{%trans "Shortcuts" %}</h3>
+    <ul class="shortcuts">
+      <li>Jak stworzyć lokalizację?</li>
+      <li>Jak stworzyć lokalizację?</li>
+      <li>Jak stworzyć lokalizację?</li>
+      <li>Jak stworzyć lokalizację?</li>
+    </ul>
+  </div>
+</div>
+
+<script type="text/template" id="content-item-tpl-1">
+<div class="tour-summary-box timeline-wrap <%= type %>">
+  <span class="date custom-tooltip" title="data doania"></span>
+  <span class="timeline-user">
+    <a href="<%= creator.url %>" ><span class="user-window-toggle" data-target="<%= creator.id %>">
+      <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH "></span>
+    </a>
+  </span>
+  <div class="timeline-content panel">
+    <span class="arrow arrow-left arrow-top"></span>
+    <div class="timeline-content-head">
+      <span><%= name %><span><span class="pull-right"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></span>
+    </div>
+    <div class="panel-body timeline-body">
+      <p class="title"><a href="<%= url %>"><%= title %></a></p>
+      <a href="<%= url %>"><%= description %></a>
+    </div>
+  </div>
+</div>
+
+
+</script>
 
 {% endblock %}
