@@ -1,60 +1,28 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles i18n civil_tags %}
-
-{% block require_scripts %}
-
-    <script src="{% static 'places_core/js' %}/{% js_path %}/gallery-user.js"></script>
-
-{% endblock %}
-
-
-{% block header %}
-
-    <center><h1 class="topHeadingH">{% trans "Gallery" %}</h1></center>
-    
-{% endblock %}
-
-
-{% block content %}
-
-    <div id="gallery">
-    {% for file in files %}
-        {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
-            <div class="col-sm-3">
-                <div class="thumbnail">
-                    <a class="gallery-item" href="{{ file.url }}" rel="shadowbox[{{ user.username }}]"><img src="{{ file.thumb_cropped }}" alt="{{ file.name }}"></a>
-                    <div class="caption">
-                        <h3>{{ file.name }}</h3>
-                        <p>{{ file.description|truncatewords:10 }}</p>
-                        {% if user == file.user %}<p class="controls">
-                            <a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>
-                            <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
-                        </p>{% endif %}
-                    </div>
-                </div>
-            </div>
-        {% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}
-    {% endfor %}
+{% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/gallery-user.js"></script>{% endblock %}
+{% block header %}<center><h1 class="topHeadingH">{% trans "Gallery" %}</h1></center>{% endblock %}
+{% block content %}<div id="gallery">
+  {% for file in files %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row-fluid gallery-row">{% endif %}
+    <div class="col-sm-3">
+      <div class="thumbnail">
+        <img class="gallery-item content-image" src="{{ file.thumb_cropped }}" alt="{{ file.name }}" data-jslghtbx="{{ file.url }}">
+        <div class="caption">
+          <h3>{{ file.name }}</h3>
+          <p>{{ file.description|truncatewords:10 }}</p>
+          {% if user == file.user %}<p class="controls">
+            <a href="{% url 'gallery:update' file.pk %}">{% trans "Edit" %}</a>
+            <a href="#" class="control-delete" data-target="{{ file.pk }}">{% trans "Delete" %}</a>
+          </p>{% endif %}
+        </div>
+      </div>
     </div>
-    
-    {% if is_paginated %}<ul class="pagination">
-            
-        {% if page_obj.has_previous %}
-            <li><a href="?page=1">&laquo;</a></li>
-            <li><a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>
-        {% endif %}    
-        
-        {% for page in page_obj.paginator.page_range %}
-            <li{% if page == page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a></li>
-            <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
-        {% endif %}
-        
-    </ul>{% endif %}
-
-    <p><a href="{% url 'gallery:upload' %}" class="btn btn-browseBig">{% trans "Add files" %}</a></p>
-
-{% endblock %}
+  {% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}
+</div>
+{% if is_paginated %}<ul class="pagination">      
+  {% if page_obj.has_previous %}<li><a href="?page=1">&laquo;</a></li>
+  <li><a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>{% endif %}  
+  {% for page in page_obj.paginator.page_range %}<li{% if page == page_obj.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>{% endfor %}
+  {% if page_obj.has_next %}<li><a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a></li>
+  <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>{% endif %}    
+</ul>{% endif %}
+<p><a href="{% url 'gallery:upload' %}" class="btn btn-browseBig">{% trans "Add files" %}</a></p>{% endblock %}

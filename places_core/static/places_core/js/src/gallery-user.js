@@ -7,7 +7,8 @@
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/ui/ui',
-           'js/modules/common'],
+           'js/modules/common',
+           'js/modules/ui/run-lightbox'],
 
   function ($, ui) {
 

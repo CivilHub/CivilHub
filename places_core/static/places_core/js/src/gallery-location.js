@@ -1,14 +1,15 @@
 //
 // gallery-location.js
 // ===================
-//
+
 // A gallery of a single location
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/ui/ui',
            'js/modules/locations/follow',
-           'js/modules/common'],
+           'js/modules/common',
+           'js/modules/ui/run-lightbox'],
 
   function ($, ui) {
 
