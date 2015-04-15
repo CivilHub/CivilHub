@@ -43,16 +43,6 @@
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script src="{% static 'places_core' %}/includes/require/require.js"></script>
 {% include 'places_core/script-templates.html' %}
-<script>
-    (function(f,b){
-        var c;
-        f.hj=f.hj||function(){(f.hj.q=f.hj.q||[]).push(arguments)};
-        f._hjSettings={hjid:22325, hjsv:3};
-        c=b.createElement("script");c.async=1;
-        c.src="//static.hotjar.com/c/hotjar-22325.js?sv=3";
-        b.getElementsByTagName("head")[0].appendChild(c); 
-    })(window,document);
-</script>
 {% include 'places_core/init-scripts.html' %}
 
 {% google_data user %}

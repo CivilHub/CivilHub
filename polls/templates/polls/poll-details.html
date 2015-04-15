@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n map_tags bookmark_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n map_tags bookmark_tags counters %}
 {% block title %} {{ poll.title }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ poll.question|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
@@ -28,6 +28,7 @@
       <li>{% bookmark_form poll user %}</li>
     </ul>
   </div>    
+  {% visit_counter poll %}
   {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
   <div class="acticle-content clearfix">{{ poll.question | safe }}</div>
   {% if can_vote %}<form role="form" method="post" action="{% url 'polls:verify' poll.pk %}" class="poll-form">{% csrf_token %}

@@ -68,7 +68,7 @@ function createTour (template, fn) {
         title: gettext("Voting"),
         content: gettext("Here you can cast your vote. You can view other user's votes by clicking on the number of votes in the bottom part of the window."),
         backdrop: true,
-        path: rootUrl + "ideas/"          
+        path: rootUrl + "ideas/"
       }, {
         element: "#tour-Polls",
         title: gettext("Polls"),
@@ -94,7 +94,7 @@ function createTour (template, fn) {
         path: "/places/",
         orphan: true
       }],
-      //storage: false,
+      // storage: false,
       template: template
     });
 
@@ -119,7 +119,7 @@ function initTour () {
   if (!_.isNull(checkTour())) {
     return false;
   }
-  return createTour($('#tour-div-tpl').html(), 
+  return createTour($('#tour-div-tpl').html(),
     function (tour) {
       var $toggle = $($('#tour-button-tpl').html());
       $toggle.appendTo('.main-page-content');

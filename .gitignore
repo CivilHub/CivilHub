@@ -1,14 +1,18 @@
 node_modules/
 nbproject/
 Places/
-media/
-markers/
+/media/
 log/
 data/
-logs/
+/logs/
 settings/*
+# Collected staticfiles (master)
 /static/
+# Additional packages installed via PIP
+/src/
 celerybeat-schedule
+Thumbs.db
+dummydata.py
 db.sqlite*
 *.geany
 *.project
@@ -18,7 +22,6 @@ db.sqlite*
 *.bak
 *.swp
 *.DS_Store
-Thumbs.db
-dummydata.py
-# Pliki redisa
 *.rdb
+# Used during build process
+tmp.js

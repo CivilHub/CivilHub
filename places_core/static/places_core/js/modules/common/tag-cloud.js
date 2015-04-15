@@ -9,18 +9,19 @@ require(['jquery'], function ($) {
 "use strict";
 
 $(document).ready(function () {
-	var max_counter = 0,
-    i = 0,
-    min_counter, avg;
+  var i = 0;
+  var maxCounter = 0;
+  var avg;
+  var minCounter;
 
   $('.tags > ul > li').each(function () {
     // We gather counter values for each tag.
     var count = parseInt($(this).attr('data-counter'), 10);
-    if (count > max_counter) {
-      max_counter = count;
+    if (count > maxCounter) {
+      maxCounter = count;
     }
-    if (min_counter === undefined || count < min_counter) {
-      min_counter = count;
+    if (minCounter === undefined || count < minCounter) {
+      minCounter = count;
     }
     i++;
   });
@@ -30,13 +31,13 @@ $(document).ready(function () {
     // on the values previously collected
     var count = parseInt($(this).attr('data-counter'), 10);
 
-    if (count <= max_counter / 5) {
+    if (count <= maxCounter / 5) {
       $(this).addClass('tag1');
-    } else if (count <= max_counter / 4) {
+    } else if (count <= maxCounter / 4) {
       $(this).addClass('tag2');
-    } else if (count <= max_counter / 3) {
+    } else if (count <= maxCounter / 3) {
       $(this).addClass('tag3');
-    } else if (count <= max_counter / 2) {
+    } else if (count <= maxCounter / 2) {
       $(this).addClass('tag4');
     } else {
       $(this).addClass('tag5');

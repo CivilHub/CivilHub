@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags map_tags comment_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags bookmark_tags map_tags comment_tags counters %}
 {% block title %} {{ news.title }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ news.content|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
@@ -96,7 +96,7 @@
           <div class="bookmarkBlogNews"><span class="bookmarkIconBlog">{% bookmark_form news user %}</span>
           </div>
         </div>
-
+        {% visit_counter news %}
       </div>
       
       <!-- News comments -->

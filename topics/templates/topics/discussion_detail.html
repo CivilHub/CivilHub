@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags map_tags bookmark_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags map_tags bookmark_tags counters %}
 {% block title %} {{ title }}, {{ location }} | CivilHub {% endblock %}
 {% block description %}<meta name="description" content="{{ discussion.intro|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
@@ -20,7 +20,7 @@
 {% block content %}
 
     <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
-
+    {% visit_counter discussion %}
     <div class="col-sm-9 main-content contentPX">
         <div class="discussion-list-entry">
             {% if user.is_authenticated %}

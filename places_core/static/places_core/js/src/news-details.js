@@ -7,6 +7,7 @@
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/common',
+           'js/modules/common/counters',
            'js/modules/locations/follow',
            'js/modules/maps/pointer',
            'js/modules/comments/comments',

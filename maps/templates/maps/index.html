@@ -78,12 +78,12 @@
     {% trans "Show" %}
     <nav class="civ-map-controller" role="navigation">
       <ul>
-        <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /><img src="../static/maps/icons/marker-location.png" /> {% trans "Places" %}</li>
-        <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /><img src="../static/maps/icons/marker-idea.png" /> {% trans "Ideas" %}</li>
-        <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /><img src="../static/maps/icons/marker-poll.png" /> {% trans "Polls" %}</li>
-        <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /><img src="../static/maps/icons/marker-discussion.png" /> {% trans "Discussions" %}</li>
-        <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /><img src="../static/maps/icons/marker-news.png" /> {% trans "News" %}</li>
-        <li><input type="checkbox" data-target="socialproject" class="map-filter-toggle" checked="checked" /> <img src="../static/maps/icons/marker-socialproject.png" /> {% trans "Projects" %}</li>
+        <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-location.png' %}" /> {% trans "Places" %}</li>
+        <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-idea.png' %}" /> {% trans "Ideas" %}</li>
+        <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-poll.png' %}" /> {% trans "Polls" %}</li>
+        <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-discussion.png' %}" /> {% trans "Discussions" %}</li>
+        <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-news.png' %}" /> {% trans "News" %}</li>
+        <li><input type="checkbox" data-target="socialproject" class="map-filter-toggle" checked="checked" /> <img src="{% static 'maps/icons/marker-socialproject.png' %}" /> {% trans "Projects" %}</li>
       </ul>
     </nav>
   </div>
