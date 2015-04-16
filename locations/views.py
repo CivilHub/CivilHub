@@ -690,8 +690,7 @@ class InviteUsersByEmailView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        emails = form.cleaned_data['emails'].split(',')
-        for email in emails:
+        for email in form.cleaned_data['emails']:
             message = mails.InviteUsersMail()
             message.send(email, {
                 'lang': translation.get_language_from_request(self.request),

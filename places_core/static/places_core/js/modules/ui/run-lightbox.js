@@ -7,9 +7,12 @@
 require(['jquery', 'lightbox'],
 
 function ($, Lightbox) {
-	"use strict";
-	$(document).ready(function () {
-		var lightbox = new Lightbox();
-		lightbox.load();
-	});
+
+"use strict";
+
+$(document).ready(function () {
+  var lightbox = new Lightbox();
+  lightbox.load();
+});
+
 });
