@@ -176,6 +176,7 @@
     display: inline-block;
     min-width: 250px;
     padding-top: 10px;
+    word-break: break-all;
   }
   .arrow{
     z-index: 10;
@@ -234,7 +235,10 @@
   .timeline-body{
     border-top: 1px solid @border-color-de;
     position: relative;
-    p{ margin-bottom: 0;}
+    p{ 
+      margin-bottom: 0;
+      img{ .hidden; }
+    }
     .title{
       margin-bottom: 10px;
       font-weight: bold;
@@ -257,26 +261,74 @@
 .ac-right-site{
   border-left: 1px solid @border-color-de;
   background-color: #FFF;
-  padding: 15px;
+  padding: 0 15px 15px;
   h3{
     font-weight: normal;
     font-size: 16px;
     margin: 0 0 10px;
   }
 }
-ul.shortcuts{
-  list-style: none;
-  li{
-    &:before{
-      content: "\2022";
-      display: block;
-      position: relative;
-      max-width: 0px;
-      max-height: 0px;
-      left: -10px;
-      top: -0px;
-      color: #91dd0f;
-      font-size: 12px;
+.menu-box{ 
+  margin-bottom: 20px;
+  ul.shortcuts{
+    list-style: none;
+    margin-bottom: 0;
+    li{
+      &:before{
+        content: "\2022";
+        display: block;
+        position: relative;
+        max-width: 0px;
+        max-height: 0px;
+        left: -10px;
+        top: -0px;
+        color: #91dd0f;
+        font-size: 12px;
+      }
     }
+  }
+}
+
+.ac-small-box{
+  margin-left: -16px;
+  color: #FFF;
+  width: 254px;
+  height: 200px;
+  margin-bottom: 20px;
+  position: relative;
+  .bg-nor-cen-con;
+  background-size: cover;   
+  h3{ color: #FFF; font-size: 22px; }
+  p{ font-size: 12px; }
+  .text-box{
+    position: absolute;
+    padding: 20px;
+  }
+  &.sm-box-invite{
+    background-image: url(../img/ac-small-box-invite.jpg);
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+      background-image: url(../img/ac-small-box-invite@2x.jpg);
+    }
+    .text-box{ bottom: 0; }
+  }
+  &.sm-box-export{
+    background-image: url(../img/ac-small-box-export.jpg);
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+      background-image: url(../img/ac-small-box-export@2x.jpg);
+    }
+    .text-box{ bottom: 15px; }
+  }
+  &.sm-box-place{
+    background-image: url(../img/ac-small-box-place.jpg);
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+      background-image: url(../img/ac-small-box-place@2x.jpg);
+    }
+    .text-box{ bottom: 0; }
   }
 }

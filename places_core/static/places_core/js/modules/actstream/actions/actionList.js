@@ -86,6 +86,7 @@ var ActionList = Backbone.View.extend({
 
   render: function () {
     this.$el.empty();
+    this.$el.append('<ul class="ac-timeline"></ul>');
     if (this.collection.length > 0) {
       this.collection.each(function (item) {
         this.renderItem(item);
@@ -100,7 +101,11 @@ var ActionList = Backbone.View.extend({
     var view = new ActionView({
       model: item
     });
-    $(view.render().el).appendTo(this.$el);
+    $(view.render().el)
+      .appendTo(this.$el.find('.ac-timeline:last'));
+    if (this.$el.find('.ac-timeline:last').find('.locBoxH').length >= 3) {
+      this.$el.append('<ul class="ac-timeline"></ul>');
+    }
   }
 });
 

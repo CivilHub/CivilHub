@@ -14,15 +14,15 @@ function (_, Backbone, moment) {
 
     id: 'tour-activity',
       
-    tagName: 'div',
+    tagName: 'li',
     
-    className: 'row action-entry',
+    className: 'timeline-item',
     
-    template: _.template($('#action-template').html()),
+    template: _.template($('#action-template-new').html()),
     
     render: function () {
       this.$el.html(this.template(this.model.toJSON()));  
-      this.$('.actiClock').find('span').tooltip();    
+      this.$('.date').tooltip();  
       return this;
     }
   });

@@ -89,7 +89,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
     
     render: function () {
         this.$el.empty();
-        this.$el.append('<ul class="ac-timeline"></ul>')
+        this.$el.append('<ul class="ac-timeline"></ul>');
         if (this.collection.length > 0) {
           this.collection.each(function (item) {
             this.renderItem(item);
@@ -104,7 +104,7 @@ function ($, _, Backbone, ActionCollection, ActionView) {
       var view = new ActionView({model: item});
       $(view.render().el)
         .appendTo(this.$el.find('.ac-timeline:last'));
-      if (this.$el.find('.ac-timeline:last').find('.locBoxH').length >= 3) {
+      if (this.$el.find('.ac-timeline:last').length >= 3) {
         this.$el.append('<ul class="ac-timeline"></ul>');
       }
     }

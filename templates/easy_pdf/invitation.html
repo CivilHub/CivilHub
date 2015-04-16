@@ -1,41 +1,35 @@
-{% extends "easy_pdf/base.html" %}{% load i18n %}
-{% block extra_style %}<style type="text/css">
-  * {
-    font-family: "Open Sans";
-  }
+<html>
+<head>
+<style>
+    @page {
+        size: letter portrait;
+        @frame header_frame {           /* Static frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame col1_frame {             /* Content frame 1 */
+            left: 44pt; width: 245pt; top: 90pt; height: 632pt; color: red;
+        }
+        @frame col2_frame {             /* Content frame 2 */
+            left: 323pt; width: 245pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {           /* Static frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+color: red;
+        }
+    }
+</style>
+<head>
 
-  #content,
-  #page-info-title{
-    font-size: 26pt;
-    text-align: center;
-  }
-
-  #page-name-user{
-    font-size: 18pt;
-    text-align: center;
-    border: 0 none;
-  }
-
-  #page-info-score{
-    text-align: center;
-    font-size: 10pt;
-    border: 0 none;
-  }
-
-  #page-footer-npub{
-    font-size: 10pt;
-    text-align: right;
-    border: 0 none;
-    margin: 0;
-    line-height: 11pt;
-  }
-
-  #page-footer-npub p {
-    font-size: 9pt;
-    line-height: 0pt;
-    margin: 0;
-  }
-</style>{% endblock %}
-{% block content %}<div id="content">
-  <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
-</div>{% endblock %}
+<body>
+    <div id="header_content">Lyrics-R-Us</div>
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+    <p>Old MacDonald had a farm. EIEIO.</p>
+    <p>And on that farm he had a cow. EIEIO.</p>
+    <p>With a moo-moo here, and a moo-moo there.</p>
+    <p>Here a moo, there a moo, everywhere a moo-moo.</p>
+</body>
+</html>
