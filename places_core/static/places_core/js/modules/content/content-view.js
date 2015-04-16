@@ -10,7 +10,9 @@ define(['underscore', 'backbone', 'js/modules/utils/utils'],
 function (_, Backbone, utils) {
     
   "use strict";
-  
+
+  var currentLang = window.CivilApp.language || 'en';
+
   var ContentView = Backbone.View.extend({
     
     className: 'timeline-item',
@@ -23,7 +25,8 @@ function (_, Backbone, utils) {
       var imgUrl = utils.isRetina() ? this.model.get('retina_thumbnail')
                                     : this.model.get('thumbnail');
       this.$el.html(this.template(this.model.toJSON()));
-      this.$('.locBoxHeader:first')
+      this.$('.date').tooltip();
+      this.$('.timeline-image:first')
         .css('background-image', "url(" + imgUrl + ")");
       return this;
     }
