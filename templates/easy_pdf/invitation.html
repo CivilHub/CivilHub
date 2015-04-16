@@ -1,24 +1,27 @@
 {% extends "easy_pdf/base.html" %}{% load i18n %}
 {% block extra_style %}<style type="text/css">
   * {
-    font-family: 'Lato', sans-serif;
-    font-weight: normal;
+    font-family: "Open Sans";
   }
+
   #content,
   #page-info-title{
     font-size: 26pt;
     text-align: center;
   }
+
   #page-name-user{
     font-size: 18pt;
     text-align: center;
     border: 0 none;
   }
+
   #page-info-score{
     text-align: center;
     font-size: 10pt;
     border: 0 none;
   }
+
   #page-footer-npub{
     font-size: 10pt;
     text-align: right;
@@ -26,149 +29,13 @@
     margin: 0;
     line-height: 11pt;
   }
+
   #page-footer-npub p {
     font-size: 9pt;
     line-height: 0pt;
     margin: 0;
   }
-  h1 {
-    font-size: 50px;
-  }
-  h2 {
-    font-size: 32px;
-  }
-  p {
-    font-size: 24px;
-  }
-  .logo {
-    position: absolute;
-    left: 30px;
-    top: 30px;
-    background-image: url("https://civilhub.org/media/filer_public/95/7d/957deae6-d39a-4eaa-8018-f4b3f4d9f5b8/logo.png");
-    background-repeat: no-repeat;
-    background-size: 337 61px;
-    width: 337;
-    height: 61px;
-    @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){
-        background-image: url("https://civilhub.org/media/filer_public/57/1a/571ac580-12ec-4a19-a013-8ad485575cf8/logo2x.png");
-    } 
-  }
-  .container {
-    width: 1280px;
-    margin: 0 auto;
-  }
-  .top_text {
-    margin-bottom: 80px;
-    margin-top: 80px
-  }
-  .left_text {
-    width: 400px;
-    float: left;
-    margin-top: 80px;
-    text-align: right;
-  }
-  .left_text > div {
-    margin-bottom: 80px
-  }
-  .left_text > div > p {
-    margin-top: -15px;
-  }
-  .right_text {
-    width: 400px;
-    float: left;
-    margin-top: 80px;
-    text-align: left;
-  }
-  .right_text > div {
-    margin-bottom: 80px
-  }
-  .right_text > div > p {
-    margin-top: -15px;
-  }
-  .civilman_outer {
-    width: 480px;
-    float: left;
-    text-align: center;
-  }
-  .civilman {
-    display: inline-block;
-    width: 367px;
-    height: 666px;
-    background-image: url("https://civilhub.org/media/filer_public/ea/c7/eac7a89a-8edc-45c4-8cdf-b694f8c13c0a/civilman.png");
-    background-repeat: no-repeat;
-    background-size: 367px 666px;
-    @media
-    (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){
-        background-image: url("https://civilhub.org/media/filer_public/ba/40/ba406760-f818-4875-8db2-e053acff1a10/civilman2x.png");
-    }
-  }
-  .footer_outer {
-    text-align: center;
-    clear: both;
-  }
-  .footer_inner {
-    display: inline-block;
-    padding: 0 50px;
-    margin-top: 80px;
-    background: #f9f9f9;
-    border: 1px solid #bfbfbf;
-    border-radius: 4px;
-  }
-  .websiteurl {
-    position: absolute;
-    right: 30px;
-    top: 1170px;
-  }
 </style>{% endblock %}
 {% block content %}<div id="content">
-  <div class="logo"></div>
-  <div class="top_text">
-    <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
-    <h2>Jeśli chcesz działać w swojej lokalnej społeczności to CivilHub jest odpowiednim miejscem.</h2>
-  </div>
-  <div class="container">
-    <div class="left_text">
-      <div class="news">
-        <h2>Aktualności</h2>
-        <p>Sprawdź co ostatnio wydarzyło się w Twojej okolicy.</p>
-      </div>
-      <div class="ideas">
-        <h2>Pomysły</h2>
-        <p>Głosuj na pomysł innych i zgłaszaj swoje własne.</p>
-      </div>
-      <div class="projects">
-        <h2>Projekty</h2>
-        <p>Pomysły przekształacamy w realne zmiany.</p>
-      </div>
-    </div><!-- end of left_text -->
-
-    <div class="civilman_outer"><div class="civilman"></div></div>
-
-    <div class="right_text">
-      <div class="discussions">
-        <h2>Dyskusje</h2>
-        <p>Rozmawiaj, na każdym temat z ludźmi z Twojego otoczenia.</p>
-      </div>
-      <div class="polls">
-        <h2>Ankiety</h2>
-        <p>Sprawdź co innmi myślą na dany teamt.</p>
-      </div>
-      <div class="documents">
-        <h2>Dokumenty</h2>
-        <p>Dziel się dokumentami z ludzimi z twojego otoczenia.</p>
-      </div>    
-    </div><!-- end of right_text -->
-  <div class="clear"></div>
-  <footer class="footer_outer">
-    <div class="footer_inner">
-      <h2>Twój adres: https://civilhub.org/jana-kazimierza-51-pl/</h2>
-    </div>
-  </footer>
-  </div><!-- end of container -->
-  <div class="websiteurl">
-    <h2>www.civilhub.org</h2>
-  </div>
+  <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
 </div>{% endblock %}
