@@ -11,15 +11,13 @@ function (_, Backbone, utils) {
     
   "use strict";
 
-  var currentLang = window.CivilApp.language || 'en';
-
   var ContentView = Backbone.View.extend({
     
     className: 'timeline-item',
 
     tagName: 'li',
     
-    template: _.template($('#content-item-tpl-1').html()),
+    template: _.template($('#content-item-tpl-new').html()),
     
     render: function () {
       var imgUrl = utils.isRetina() ? this.model.get('retina_thumbnail')

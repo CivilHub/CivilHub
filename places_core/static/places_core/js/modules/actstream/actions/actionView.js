@@ -4,9 +4,9 @@
 //
 // Single action entry view.
 
-define(['underscore', 'backbone', 'moment'],
+define(['underscore', 'backbone', 'moment', 'js/modules/utils/utils'],
 
-function (_, Backbone, moment) {
+function (_, Backbone, moment, utils) {
     
   "use strict";
   

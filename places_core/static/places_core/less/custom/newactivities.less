@@ -15,6 +15,27 @@
   border-radius:         @radius;  
 }
 
+//for fake right site in activity
+@media(min-width: 991px){
+  .fake-container-fill{ height: 100%; display: table; }
+  .fake-row-fill{ height: 100%; display: table-row; }
+  .no-float{ float: none !important; }  
+  .col-sm-3, .col-sm-6{ display: table-cell; vertical-align: top; }
+  .col-sm-3:first-child{ padding-top: 25px; }
+  .col-sm-6{ padding-top: 25px; }
+  .ac-right-site{ display: table; }
+  .col-sm-3:last-child:before{
+    background: #FFF;
+    content: "";
+    width: 95%;
+    height: 100%;
+    position: absolute;
+    border-left: 1px solid @border-color-de;
+    margin-left: -1px;
+  }
+}
+
+
 // @_color in map.less
 .bg-color-news{ background-color: @newscolor; }
 .bg-color-polls{ background-color: @pollscolor; }
@@ -24,9 +45,6 @@
 .bg-color-places{ background-color: @placecolor; }
 
 /************************************/
-.ac-box{
-
-}
 
 .main-content{
   > .ac-title:first-child{
@@ -58,7 +76,7 @@
 
 /**/
 .ac-head-user-name{
-  max-width: 155px;
+  max-width: 150px;
   width: 100%;
   padding: 0 15px;
     font-size: 20px;
@@ -78,6 +96,14 @@
       border-bottom: 0 none;
     }
   }
+}
+.small-icon-place{
+  background-image: url(../img/small-places-icon.png);
+  .bg-nor-cen-con;
+  width: 13px;
+  height: 7px;
+  display: inline-block;
+
 }
 
 /*Hot box*/
@@ -261,7 +287,7 @@
 .ac-right-site{
   border-left: 1px solid @border-color-de;
   background-color: #FFF;
-  padding: 0 15px 15px;
+  padding: 0 15px;
   h3{
     font-weight: normal;
     font-size: 16px;
@@ -269,7 +295,8 @@
   }
 }
 .menu-box{ 
-  margin-bottom: 20px;
+  padding-top: 20px;
+  position: relative;
   ul.shortcuts{
     list-style: none;
     margin-bottom: 0;
@@ -291,10 +318,10 @@
 
 .ac-small-box{
   margin-left: -16px;
+  margin-top: 20px;
   color: #FFF;
   width: 254px;
   height: 200px;
-  margin-bottom: 20px;
   position: relative;
   .bg-nor-cen-con;
   background-size: cover;   
