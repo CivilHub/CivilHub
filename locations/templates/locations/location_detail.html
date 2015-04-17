@@ -1,5 +1,4 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
-
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
@@ -23,7 +22,7 @@
   {% block content %}
     <div class="fake-row-fill">
       <div class="col-sm-3 no-float">
-        <div class="hotbox main-content p-reset" data-param="lid" data-value="{{ location.pk }}"></div>
+        <div class="hotbox main-content p-reset" data-param="lid" data-value="{{ location.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
         {% comment %}<div class="main-content p-reset">
           <div class="ac-title"><span class="badge badge-btn">10</span> {% trans "Hot news" %}</div>
           <div class="ac-hot-box">
