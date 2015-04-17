@@ -66,8 +66,8 @@ def obj_to_dict(obj):
     if hasattr(obj, 'retina_thumbnail') and not obj.has_default_image:
         context['retina_thumbnail'] = obj.retina_thumbnail
 
-    #if hasattr(obj, 'has_default_image'):
-    #    context['default_image'] = obj.has_default_image()
+    if hasattr(obj, 'has_default_image'):
+        context['default_image'] = obj.has_default_image
 
     if content_type.model == 'idea':
         context.update({

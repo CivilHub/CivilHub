@@ -23,7 +23,8 @@ var HotBox = Backbone.View.extend({
     this.$el.html($(this.template(options)));
     this.$el.appendTo(options.appendTo);
     this.$list = this.$el.find('.ac-hot-box:first');
-    this.$counter = this.$el.find('.ac-title > .badge-btn');
+    this.$counter = this.$el.parent()
+      .find('.ac-title > .badge-btn');
     this.collection = new HotBoxCollection();
     this.collection.url = options.url;
     this.listenTo(this.collection, 'add', this.renderItem);
