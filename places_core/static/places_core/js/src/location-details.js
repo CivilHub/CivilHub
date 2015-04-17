@@ -10,7 +10,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
-           'js/modules/locations/background'],
+           'js/modules/locations/background',
+           'js/modules/hotbox'],
 
   function ($) {
     "use strict";

@@ -5,7 +5,7 @@
   {% visit_counter picture %}
   <div class="entry-submenu">
     <ul>{% with picture|content_type as ctype %}
-      {% if user.is_authenticated and user != picture.user %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ picture.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+      {% if user.is_authenticated and user != picture.user %}<li>{% report_link picture %}</li>{% endif %}
       {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk picture.pk %}">{% trans "Delete" %}</a></li>{% endif %}
     {% endwith %}</ul>
   </div>

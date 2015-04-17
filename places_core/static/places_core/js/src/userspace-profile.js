@@ -10,7 +10,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common',
            'js/modules/common/counters',
            'js/modules/userspace/actions/actions',
-           'js/modules/userspace/enable-contacts'],
+           'js/modules/userspace/enable-contacts',
+           'js/modules/hotbox'],
 
   function ($) {
     "use strict";

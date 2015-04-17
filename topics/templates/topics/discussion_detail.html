@@ -39,12 +39,12 @@
                     <li><a href="{% url 'locations:remove_content' ctype.pk discussion.pk %}">{% trans "Delete" %}</a></li>
                     {% endif %}
                     {% if user.is_authenticated and user != discussion.creator %}
-                        <li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">{% trans "Report abuse" %}</a></li>
+                        <li>{% report_link discussion %}</li>
                     {% endif %}{% endwith %}
                     <li>{% bookmark_form discussion user %}</li>
                 </ul>
             </div>
-            {% endif %}           
+            {% endif %}
             <div class="custom-label-list">
                 <span class="fa fa-list custom-fa"> </span>
                 <span class="custom-label-entry custom-main-label-entry">
@@ -56,7 +56,7 @@
             </div>
 
         </div>
-        
+
         <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
 
         <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}" class="newTag">{{tag.name}}</a> {% endfor %}</p>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-xs-11 discussion-entry-content">
                     <p class="entry-meta">
-                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a> 
+                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a>
                         <span class="topic-date-col">
                             {{ discussion.date_created | timesince }} {% trans "ago" %}
                         </span>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="col-xs-11 discussion-entry-content">
                         <p class="entry-meta">
-                            <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a> 
+                            <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a>
                             <span class="topic-date-col">
                                 {{ entry.date_created | timesince }} {% trans "ago" %}
                                 {% if entry.is_edited %}
@@ -128,7 +128,7 @@
                                 </a> |
                                 <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                                     <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                                </a> 
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -137,12 +137,12 @@
         {% endfor %}
 
         {% if replies.paginator.num_pages > 1 %}<ul class="pagination">
-        
+
             {% if replies.has_previous %}
                 <li><a href="?page=1">&laquo;</a></li>
                 <li><a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a></li>
-            {% endif %}    
-            
+            {% endif %}
+
             {% for page in replies.paginator.page_range %}
                 <li{% if page == replies.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
             {% endfor %}
@@ -151,13 +151,13 @@
                 <li><a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a></li>
                 <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
             {% endif %}
-            
+
         </ul>{% endif %}
 
         <div id="replies"></div>
-        
+
         {% if user.is_authenticated and discussion.status %}
-            
+
             <div class="text-right mt-m5">
                 <button type="button" class="btn btn-saveBig reply-entry-btn">{% trans "Reply" %}</button>
             </div>
@@ -168,24 +168,24 @@
                     <button type="submit" class="btn btn-saveBig submit-btn top15">{% trans "Submit" %}</button>
                 </div>
             </form>
-            
+
         {% elif user.is_anonymous and discussion.status %}
-        
+
             <p class="alert alert-info">{% trans "You have to be logged in to post answers." %}</p>
-        
+
         {% else %}
-        
+
             <p class="alert alert-info">{% trans "This topic is closed. You can't post answers." %}</p>
-            
+
         {% endif %}
-        
-       
+
+
     </div>
-    
+
     <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
-    
+
     <script type="text/template" id="reply-tpl">
         <div class="row">
             <div class="blobfish-left">&nbsp;</div>
@@ -195,7 +195,7 @@
             </div>
             <div class="col-xs-11 discussion-entry-content">
                 <p class="entry-meta">
-                    <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a> 
+                    <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
                     <span class="topic-date-col">
                         <span class="date-created"><%= date_created %></span>
                         <% if (is_edited) { %>
@@ -223,14 +223,14 @@
                         </a> |
                         <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                             <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                        </a> 
+                        </a>
                     {% endif %}
                     | {% bookmark_form for discussion %}
                 </div>
             </div>
         </div>
     </script>
-    
+
     {% include 'locations/category-form.html' %}
 
 {% endblock %}

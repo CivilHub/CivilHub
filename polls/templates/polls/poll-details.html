@@ -23,11 +23,11 @@
       {% if map_markers %}<li><a href="{% url 'maps:info' ctype.pk poll.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
       <li></li>
       {% if user.is_authenticated and user == poll.creator %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
-      {% if user.is_authenticated and user != poll.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+      {% if user.is_authenticated and user != poll.creator %}<li>{% report_link poll %}</li>{% endif %}
       {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>{% endif %}{% endwith %}
       <li>{% bookmark_form poll user %}</li>
     </ul>
-  </div>    
+  </div>
   {% visit_counter poll %}
   {% comment %}<div class="pollImageDiv text-center p25"><img src="{{ poll.image_url }}" alt="{{ poll }}"></div>{% endcomment %}
   <div class="acticle-content clearfix">{{ poll.question | safe }}</div>

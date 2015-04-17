@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
-from .api import NewsAPIView, BlogCategoryAPIViewSet
-from views import *
+import api
 
 # mobile API
 from rest_framework import routers
 router = routers.DefaultRouter()
-router.register('entries', NewsAPIView, 'entries')
-router.register('categories', BlogCategoryAPIViewSet, 'categories')
+router.register('entries', api.NewsAPIView, 'entries')
+router.register('categories', api.BlogCategoryAPIViewSet, 'categories')
+router.register('hotbox', api.HotNewsBox, 'hotbox')
 
 urlpatterns = patterns('',
     # url(r'^$', NewsListView.as_view(), name='index'),

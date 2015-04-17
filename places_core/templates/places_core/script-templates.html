@@ -644,3 +644,62 @@
 <script id="fake-recipient-tpl" type="text/template">
   <img src="<%= avatar %>" alt="<%= fullname %>"> <%= fullname %>
 </script>
+<!-- new activities -->
+<script type="text/template" id="action-template-new">
+<div class="timeline-wrap">
+  <span class="date custom-tooltip" title="<%= moment(timestamp).fromNow() %>"></span>
+  <span class="timeline-user">
+    <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar avatarH ">
+  </span>
+  <div class="timeline-content panel">
+    <span class="arrow arrow-left arrow-top"></span>
+    <div class="timeline-content-head">
+      <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
+        <%= verb %>
+        <% if (!_.isEmpty(object_ct)) { %>
+         <%= object_ct %>
+          <% if (_.isEmpty(target_ct)) { %>
+            <a href="<%= object.url %>"><%= object.name %></a>
+          <% } else { %>
+           <a href="<%= object.url %>"><%= object.name %></a>
+            <span class="pull-right">&nbsp;<a href="<%= target.url %>"><%= target.name %></a></span>
+          <% } %>
+        <% } else if (!_.isEmpty(target_ct)) { %>
+          <span class="target pull-right">&nbsp;<a href="<%= target.url %>"><%= target.name %></a></span>
+        <% } %>
+      <div class="clear">&nbsp;</div>
+    </div>
+    <% if (!_.isEmpty(object_ct)) { %>
+    <div class="panel-body timeline-body">
+      <a href="<%= object.url %>" class="full-click-box"></a>
+      <%= description %>
+    </div>
+    <% } %>
+  </div>
+</div>
+</script>
+<script type="text/template" id="content-item-tpl-new">
+<div class="tour-summary-box timeline-wrap <%= type %>">
+  <span class="date custom-tooltip" title="<%= moment(date_created).fromNow() %>"></span>
+  <span class="timeline-user">
+    <a href="<%= creator.url %>" ><span class="user-window-toggle" data-target="<%= creator.id %>">
+      <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH "></span>
+    </a>
+  </span>
+  <div class="timeline-content panel">
+    <span class="arrow arrow-left arrow-top"></span>
+    <div class="timeline-content-head">
+      <span><%= name %><span><span class="pull-right"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></span>
+    </div>
+    <div class="panel-body timeline-body">
+      <a href="<%= url %>" class="full-click-box"></a>
+      <p class="title"><%= title %></p>
+      <div class="timeline-image"></div>
+      <%= description %>
+    </div>
+    <div class="panel-footer timeline-footer text-right">
+      <a href="<%= url %>/#comments"><span class="fa fa-comments-o"></span></a>
+    </div>
+  </div>
+</div>
+</script>

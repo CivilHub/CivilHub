@@ -7,25 +7,25 @@
 define(['underscore', 'backbone', 'moment'],
 
 function (_, Backbone, moment) {
-    
+
   "use strict";
-  
+
   var ActionView = Backbone.View.extend({
 
     id: 'tour-activity',
-      
-    tagName: 'div',
-    
-    className: 'row action-entry',
-    
-    template: _.template($('#action-template').html()),
-    
+
+    tagName: 'li',
+
+    className: 'timeline-item',
+
+    template: _.template($('#action-template-new').html()),
+
     render: function () {
-      this.$el.html(this.template(this.model.toJSON()));  
-      this.$('.actiClock').find('span').tooltip();    
+      this.$el.html(this.template(this.model.toJSON()));
+      this.$('.date').tooltip();
       return this;
     }
   });
-  
+
   return ActionView;
 });

@@ -1,0 +1,7 @@
+<img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="pull-left ac-hot-user">
+<span class="pull-right custom-tooltip-right fa fa-calendar" title="<%= moment(date_created).fromNow() %>"></span>
+<div class="ac-hot-box-title">
+  <p><a href="<%= url %>"><%= title %></a></p>
+  <span class="ac-hot-box-location"><%= location %></span><span class="bg-color-news ac-hot-box-category"><%= gettext("News") %></span>
+</div>
+<div class="ac-hot-box-content"><p><a href="<%= url %>"><%= content %></a></p></div>

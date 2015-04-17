@@ -99,11 +99,11 @@ def hreflang(request):
     host = '.'.join(host) + request.path
     tags = ['<link rel="alternate" href="'+protocol+'://'+host+'" hreflang="x-default" />',]
     template = '<link rel="alternate" href="'+protocol+'://{% url %}" hreflang="{% lang %}" />'
-    
+
     for l in settings.LANGUAGES:
         url = '.'.join([l[0], host])
         tags.append(template.replace('{% url %}', url).replace('{% lang %}', l[0]))
-    
+
     return "".join(tags)
 
 
@@ -123,7 +123,7 @@ def langlist(request):
     host = request.META.get('HTTP_HOST', '').split('.')
     protocol = 'https' if request.is_secure() else 'http'
     if len(host[0]) == 2: del(host[0])
-    
+
     for l in settings.LANGUAGES:
         addr = list(host)
         addr.insert(0, l[0])
@@ -180,3 +180,15 @@ def content_type(obj):
     if not obj:
         return False
     return ContentType.objects.get_for_model(obj)
+
+
+@register.simple_tag
+def report_link(obj):
+    """
+    Creates abuse report link for given object.
+    """
+    if not obj:
+        return False
+    ct = ContentType.objects.get_for_model(obj)
+    return '<a href="#" class="abuse-link" data-ct="{}" data-pk="{}">{}</a>'\
+        .format(ct.pk, obj.pk, _(u"Report abuse"))

@@ -5,28 +5,19 @@
 // Allows users to send notifications about breaches
 // in terms of use through a modal window
 
-require(['jquery', 'js/modules/utils/abuse-window'],
+require(['jquery',
+         'js/modules/utils/abuse-window'],
 
 function ($, AbuseWindow) {
 
 "use strict";
 
 $(document).ready(function () {
-
-  var win = null;
-  var $link = null;
-
-  $('.report-abuse-link').on('click', function (e) {
-    e.preventDefault();
-    $link = $(this);
-    if (_.isNull(win)) {
-      win = new AbuseWindow({
-        id: $link.attr('data-id') || 0,
-        content: $link.attr('data-content') || '',
-        label: $link.attr('data-label') || ''
-      });
-    }
-    win.open();
+  $('.abuse-link').on('click', function () {
+    var win = new AbuseWindow(
+      $(this).attr('data-ct'),
+      $(this).attr('data-pk')
+    );
   });
 });
 

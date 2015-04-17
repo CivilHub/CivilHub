@@ -24,17 +24,12 @@ class AbuseReportForm(forms.ModelForm):
     """
     Abuse report form.
     """
-    content_type = forms.ModelChoiceField(
-        queryset = ContentType.objects.all(),
-        widget = forms.HiddenInput()
-    )
-    object_pk = forms.IntegerField(
-        widget = forms.HiddenInput()
-    )
-    comment = forms.CharField(
-        widget = forms.Textarea(attrs={'class': 'form-control'})
-    )
 
     class Meta:
         model = AbuseReport
-        fields = ('content_type', 'object_pk', 'comment',)
+        fields = ('content_type', 'object_pk', 'comment', 'reason',)
+        widgets = {
+            'content_type': forms.HiddenInput(),
+            'object_pk': forms.HiddenInput(),
+            'comment': forms.Textarea(attrs={'class': 'form-control'}),
+        }

@@ -38,7 +38,7 @@
     {% if request.user == cuser %}<a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a>{% endif %}
   </div>
 </div>
-<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+<nav id="filter-navbar" class="navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -68,18 +68,73 @@
     </div>
   </div>
 </nav>{% endblock %}
-{% block content %}<div class="col-sm-3">
-  <div class="sidebar left">
-    {% if profile.description %}<div class="sidebar-label">{% trans "About me"%}</div>
-    <div class="sidebar-content">{{ profile.description|striptags }}</div>{% endif %}
-    {% visit_counter profile %}
-    <div class="sidebar-label">{% trans "Places"%}</div>
-    <div class="sidebar-content">
-      {% if profile.followed_locations %}<ul class="sprite-icon">
-        {% for location in profile.followed_locations %}<li><span class="fa fa-map-marker"></span><a href="{{ location.get_absolute_url }}">{{ location }}</a></li>{% endfor %}
-      </ul>{% endif %}
+
+{% block container_main %}
+<div class="container fake-container-fill">
+  {% block content %}
+    <div class="fake-row-fill">
+      <div class="col-sm-3 mt25 no-float">
+        <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ cuser.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
+        {% comment %}
+        <div class="main-content p-reset">
+          <div class="ac-title"><span class="badge badge-btn">10</span> {% trans "Hot news" %}</div>
+          <div class="ac-hot-box">
+            <div class="ac-hot-single-box clearfix">
+              <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+              <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+              <div class="ac-hot-box-title">
+                <p>Food trucki staną nad</p>
+                <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+              </div>
+              <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+            </div>
+            <div class="ac-hot-single-box clearfix">
+              <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+              <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+              <div class="ac-hot-box-title">
+                <p>Food trucki staną nad</p>
+                <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+              </div>
+              <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+            </div>
+            <div class="ac-hot-single-box clearfix">
+              <img src="{{ user.profile.avatar.url }}" atl="{{ user.profile }}" class="pull-left ac-hot-user">
+              <span class=" pull-right custom-tooltip-right fa fa-calendar" title="data dodania"></span>
+              <div class="ac-hot-box-title">
+                <p>Food trucki staną nad</p>
+                <span class="ac-hot-box-location">Warszawa</span><span class="bg-color-news ac-hot-box-category">News</span>
+              </div>
+              <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
+            </div>
+          </div>
+        </div>{% endcomment %}
+      </div>
+
+      <div class="col-sm-6 mt25 no-float">
+        <div class="activity-stream wrapper-timeline"></div>
+      </div>
+
+      <div class="col-sm-3 no-float">
+        <div class="ac-right-site">
+          <div class="menu-box">
+            <h3>{%trans "Shortcuts" %}</h3>
+            <ul class="shortcuts">
+              <li><a href="/local-communities/">{% trans "Local Communities" %}</a></li>
+              <li><a href="/project-features/">{% trans "About Projects" %}</a></li>
+              <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
+              <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
+            </ul>
+          </div>
+          <div class="ac-small-box sm-box-invite">
+            <a href="/invite-friends/" class="full-click-box"></a>
+              <div class="text-box">
+                <h3>{% trans "Invite a firend" %}</h3>
+                <p>{% trans "Your friends don’t know about CivilHub yet? Send them an invite!" %}</p>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  {% endblock %}
 </div>
-<div class="col-sm-5" id="profActi"><div class=" activity-stream"></div></div>
-{% include 'userspace/sidebar.html' %}{% endblock %}
+{% endblock %}

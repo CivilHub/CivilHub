@@ -8,27 +8,27 @@
 define(['underscore', 'backbone', 'js/modules/utils/utils'],
 
 function (_, Backbone, utils) {
-    
+
   "use strict";
-  
+
   var ContentView = Backbone.View.extend({
-      
-    tagName: 'div',
-    
-    className: 'col-sm-3 locBoxH',
-    
-    template: _.template($('#content-item-tpl').html()),
-    
+
+    tagName: 'li',
+
+    className: 'timeline-item',
+
+    template: _.template($('#content-item-tpl-new').html()),
+
     render: function () {
       var imgUrl = utils.isRetina() ? this.model.get('retina_thumbnail')
                                     : this.model.get('thumbnail');
       this.$el.html(this.template(this.model.toJSON()));
-      this.$('.locBoxIcon').find('a').tooltip();
-      this.$('.locBoxHeader:first')
+      this.$('.date').tooltip();
+      this.$('.timeline-image:first')
         .css('background-image', "url(" + imgUrl + ")");
       return this;
     }
   });
-  
+
   return ContentView;
 });

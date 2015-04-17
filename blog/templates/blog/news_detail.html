@@ -26,12 +26,12 @@
       <div class="entry-avatar-col">
         <img src="{{ news.creator.profile.avatar.url }}" alt="{{ news.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.creator.pk }}" />
         <br />{{ news.creator.profile.rank_pts }}
-      
+
       {% include 'locations/share_buttons.html' %}
-      
+
       </div>
     </div>
-    
+
     <!-- News -->
     <div class="col-md-10">
       <!-- News header -->
@@ -45,7 +45,7 @@
             </small>
           </div>
         </div>
-        
+
         <!-- News settings -->
         <div class="col-md-1">
         {% if user.is_authenticated %}
@@ -55,7 +55,7 @@
           <div class="entry-submenu">
             <ul>{% with news|content_type as ctype %}
               {% get_map_pointers news as MARKERS %}{% if MARKERS %}<li><a href="{% url 'maps:info' ctype.pk news.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
-              {% if user.is_authenticated and user != news.creator %}<li><a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ctype.pk }}" data-id="{{ news.pk }}">{% trans "Report abuse" %}</a></li>{% endif %}
+              {% if user.is_authenticated and user != news.creator %}<li>{% report_link news %}</li>{% endif %}
               {% if user.is_authenticated and user == news.creator or is_moderator %}<li><a href="{% url 'locations:news_update' location.slug news.slug %}">{% trans "Edit" %}</a></li>
               <li><a href="{% url 'locations:remove_content' ctype.pk news.pk %}">{% trans "Delete" %}</a></li>
               <li><a href="#" class="map-marker-toggle"  data-ct="{{ ctype.pk }}" data-id="{{ news.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
@@ -64,23 +64,23 @@
         </div>
       </div>
       {% if not news.has_default_image %}<div class="row content-image content-image-bg" data-jslghtbx="{{ news.image.url }}">&nbsp;</div>{% endif %}
-      
+
       <!-- News content -->
       <div class="row">
         <article>
           <div  class="acticle-content news-contetn"><p>{{ news.content | safe }}</p></div>
         </article>
-        
+
         <div class="comments-{{ news.pk }} clearfix"></div>
-        
+
         {% comment %}<div class="sprite-icon">
           <span class="ch-icon ch-tags"> </span>
 
           {% trans "Tags" %}:
           {% for tag in news.tags.all %}
-            <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">{{ tag }}</a> 
+            <a class="tag" href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">{{ tag }}</a>
           {% endfor %}
-           
+
         </div>
         <br />
         {% if news.category %}
@@ -90,7 +90,7 @@
         {% endif %}
         {% endcomment %}
 
-        
+
         <div class="actionBlogDiv">
           <div class="recomenderBlogNews"></div>
           <div class="bookmarkBlogNews"><span class="bookmarkIconBlog">{% bookmark_form news user %}</span>
@@ -98,7 +98,7 @@
         </div>
         {% visit_counter news %}
       </div>
-      
+
       <!-- News comments -->
       <div class="row">
         <input type="hidden" id="target-id" value="{{ news.pk }}" />
@@ -118,7 +118,7 @@
   <div class="col-sm-3 boxPX">
     {% include 'locations/sidebar.html' %}
   </div>
-  
+
   {% include 'locations/category-form.html' %}
 
 {% endblock %}
