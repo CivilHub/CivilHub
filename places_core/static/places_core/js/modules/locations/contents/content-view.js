@@ -23,7 +23,7 @@ function (_, Backbone, utils) {
       var imgUrl = utils.isRetina() ? this.model.get('retina_thumbnail')
                                     : this.model.get('thumbnail');
       this.$el.html(this.template(this.model.toJSON()));
-      this.$('.data').tooltip();
+      this.$('.date').tooltip();
       this.$('.timeline-image:first')
         .css('background-image', "url(" + imgUrl + ")");
       return this;
