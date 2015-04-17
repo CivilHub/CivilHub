@@ -75,18 +75,6 @@
     <div class="fake-row-fill">
       <div class="col-sm-3 mt25 no-float">
         <div class="main-content p-reset">
-          <div class="ac-title">
-            <div class="ac-user-head-img display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></div>
-            <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
-          </div>
-          <ul class="ac-user-list list-unstyled">
-            <li><a href="#"><span class="fa fa-envelope-o"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">10</span></a></li>
-            <li><a href="#"><span class="small-icon-place"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">15</span></a></li>
-            <li><span class="fa fa-heart-o"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
-          </ul>
-        </div>
-
-        <div class="main-content p-reset">
           <div class="ac-title"><span class="badge badge-btn">10</span> {% trans "Hot news" %}</div>
           <div class="ac-hot-box">
             <div class="ac-hot-single-box clearfix">
