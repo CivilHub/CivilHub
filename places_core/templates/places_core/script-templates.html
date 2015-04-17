@@ -694,7 +694,7 @@
     <div class="panel-body timeline-body">
       <a href="<%= url %>" class="full-click-box"></a>
       <p class="title"><%= title %></p>
-      <div class="timeline-image"></div>
+      <% if (default_image !== true ) { %> <div class="timeline-image"></div><% } %>
       <%= description %>
     </div>
     <div class="panel-footer timeline-footer text-right">
