@@ -29,7 +29,7 @@ class ContentObjectSerializer(serializers.Serializer):
     location = serializers.Field(source='location')
     description = serializers.Field(source='description')
     date_created = serializers.Field(source='date_created')
-    default_image = serializers.Fieled(source='default_image')
+    default_image = serializers.Field(source='default_image')
 
 
 class ContentPaginatedSerializer(PaginationSerializer):
