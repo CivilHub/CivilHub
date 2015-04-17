@@ -121,11 +121,27 @@ class AbuseReport(BaseCommentAbstractModel):
     can send reports, but no one except superadmins is allowed to delete
     and edit them.
     """
+    REASONS = (
+        (1, _(u"Treść pornograficzna")),
+        (2, _(u"Przemoc/treści budzące odrazę")),
+        (3, _(u"Obrażanie/szerzenie nienawiści")),
+        (4, _(u"Działania niebezpieczne")),
+        (5, _(u"Wykorzystywanie dzieci")),
+        (6, _(u"Spam lub treści wprowadzające w błąd")),
+        (7, _(u"Naruszenie moich praw autorskich")),
+        (8, _(u"Naruszenie moich praw prywatności")),
+        (9, _(u"Inne roszczenia prawne")),
+        (10, _(u"Duplikat")),
+        (11, _(u"Informacja nieprawdziwa")),
+        (12, _(u"Nie nadaje się")),
+    )
+
     sender  = models.ForeignKey(User)
-    comment = models.CharField(max_length=2048)
+    comment = models.CharField(max_length=2048, default="", blank=True)
     status  = models.BooleanField(default=False)
     date_reported = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    reason = models.PositiveIntegerField(choices=REASONS, default=12)
 
     def __str__(self):
         return "<Abuse Report from: %s>" % self.sender.get_full_name()

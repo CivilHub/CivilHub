@@ -1,5 +1,4 @@
-{% load i18n %}
-<script type="text/template" id="abuse-modal-tpl">
+{% load i18n %}<div class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,16 +7,13 @@
       </div>
       <div class="modal-body">
         <form id="report-form">
-          <label for="id_report_comment">{% trans "Comment" %}</label>
-          <textarea name="comment" id="id_report_comment" cols="5" rows="10" class="form-control"></textarea>
-          <input type="hidden" name="content_type" value="<%= content %>" />
-          <input type="hidden" name="object_pk" value="<%= id %>" />
+          {{ form }}
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-        <button type="button" class="btn btn-primary submit-btn">{% trans "Send report" %}</button>
+        <button type="submit" class="btn btn-primary submit-btn">{% trans "Send report" %}</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
-</script><!-- /.modal -->
+</div><!-- /.modal -->
