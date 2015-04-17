@@ -8,17 +8,17 @@
 define(['underscore', 'backbone', 'js/modules/utils/utils'],
 
 function (_, Backbone, utils) {
-    
+
   "use strict";
 
   var ContentView = Backbone.View.extend({
-    
+
     className: 'timeline-item',
 
     tagName: 'li',
-    
+
     template: _.template($('#content-item-tpl-new').html()),
-    
+
     render: function () {
       var imgUrl = utils.isRetina() ? this.model.get('retina_thumbnail')
                                     : this.model.get('thumbnail');
@@ -29,6 +29,6 @@ function (_, Backbone, utils) {
       return this;
     }
   });
-  
+
   return ContentView;
 });

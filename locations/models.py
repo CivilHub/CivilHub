@@ -31,7 +31,7 @@ def get_upload_path(instance, filename):
 def obj_to_dict(obj):
     """
     A helper that changes various types of content into a unified format,
-    that will help us show them in templates. Works as a simple serializer. 
+    that will help us show them in templates. Works as a simple serializer.
     """
     content_type = ContentType.objects.get_for_model(obj)
 
@@ -65,6 +65,9 @@ def obj_to_dict(obj):
 
     if hasattr(obj, 'retina_thumbnail') and not obj.has_default_image:
         context['retina_thumbnail'] = obj.retina_thumbnail
+
+    if hasattr(obj, 'has_default_image'):
+        context['default_image'] = obj.has_default_image
 
     if content_type.model == 'idea':
         context.update({
@@ -245,7 +248,7 @@ class Location(models.Model, BackgroundModelMixin):
 
     def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """
-        Get all sublocations and return dictionary of name - url pairs. The 
+        Get all sublocations and return dictionary of name - url pairs. The
         reason of `response` argument is the same as in get_parent_chain
         method.
         """
