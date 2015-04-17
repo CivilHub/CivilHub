@@ -19,11 +19,11 @@ function ($, ContentList) {
   var filterTextContent = function () {
     var $field = $('#haystack'),
       txt = $field.val();
-    
+
     if (_.isUndefined(txt) || txt.length <= 1) {
       return false;
     }
-    
+
     return txt;
   };
 
@@ -33,21 +33,21 @@ function ($, ContentList) {
       optType = null,
       optValue = null,
       haystack = filterTextContent();
-  
+
     $sel.each(function () {
       var $this = $(this);
-      
+
       if ($this.hasClass('active')) {
         optType = $this.attr('data-control');
         optValue = $this.attr('data-target');
         opts[optType] = optValue;
       }
     });
-    
+
     if (haystack !== false) {
       opts['haystack'] = haystack;
     }
-    
+
     return opts;
   };
 
@@ -92,7 +92,7 @@ function ($, ContentList) {
     });
 
     // Enable lazy-loading on page scrolling
-    
+
     $(window).on('scroll', checkSrcrollPosition);
   });
 });

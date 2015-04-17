@@ -23,7 +23,8 @@
   {% block content %}
     <div class="fake-row-fill">
       <div class="col-sm-3 no-float">
-        <div class="main-content p-reset">
+        <div class="hotbox main-content p-reset" data-param="lid" data-value="{{ location.pk }}"></div>
+        {% comment %}<div class="main-content p-reset">
           <div class="ac-title"><span class="badge badge-btn">10</span> {% trans "Hot news" %}</div>
           <div class="ac-hot-box">
             <div class="ac-hot-single-box clearfix">
@@ -54,7 +55,7 @@
               <div class="ac-hot-box-content"><p>Samochody z jedzeniem "zaparkują" 1 maja na placu na Bulwarze Grzymały-Siedleckiego przy moście</p></div>
             </div>
           </div>
-        </div>
+        </div>{% endcomment %}
       </div>
 
       <div class="col-sm-6 no-float">

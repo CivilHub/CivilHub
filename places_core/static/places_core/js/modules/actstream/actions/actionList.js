@@ -38,7 +38,6 @@ var ActionList = Backbone.View.extend({
   initialize: function () {
     this.$spinner = $(document.createElement('span'));
     this.$spinner
-
       .addClass('fa fa-spin fa-circle-o-notch')
       .hide();
     this.initCollection(function (actions, next) {
@@ -73,8 +72,10 @@ var ActionList = Backbone.View.extend({
     var data = {
       pk: apiUser,
       page: this.nextPage
+    };
+    if (this.filterContent) {
+      data.content = this.filterContent;
     }
-    if (this.filterContent) data.content = this.filterContent;
     this.initCollection(function (actions, next) {
       this.setPage(next);
       _.each(actions, function (item) {
