@@ -654,18 +654,18 @@
   <div class="timeline-content panel">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">
-      <a href="<%= actor.user_link %>" class="locActorNick"><%= actor.fullname %></a>
+      <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
         <%= verb %>
         <% if (!_.isEmpty(object_ct)) { %>
-         <span>  <%= object_ct %> </span>
+         <%= object_ct %>
           <% if (_.isEmpty(target_ct)) { %>
-            <span><a href="<%= object.url %>"><%= object.name %></a></span>
+            <a href="<%= object.url %>"><%= object.name %></a>
           <% } else { %>
-            <span> <a href="<%= object.url %>"><%= object.name %></a></span>
-            <span> {% trans "to" %} <a href="<%= target.url %>"><%= target.name %></a></span>
+           <a href="<%= object.url %>"><%= object.name %></a>
+            <span class="pull-right">&nbsp;<a href="<%= target.url %>"><%= target.name %></a></span>
           <% } %>
         <% } else if (!_.isEmpty(target_ct)) { %>
-          <span> <a href="<%= target.url %>"><%= target.name %></a></span>
+          <span class="target pull-right">&nbsp;<a href="<%= target.url %>"><%= target.name %></a></span>
         <% } %>
       <div class="clear">&nbsp;</div>
     </div>
@@ -698,7 +698,7 @@
       <%= description %>
     </div>
     <div class="panel-footer timeline-footer text-right">
-      <span class="fa fa-comments-o"></span>
+      <a href="<%= url %>/#comments"><span class="fa fa-comments-o"></span></a>
     </div>
   </div>
 </div>
