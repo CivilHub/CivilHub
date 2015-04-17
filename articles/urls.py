@@ -25,5 +25,6 @@ urlpatterns = patterns('',
     url(r'^local-communities/', views.TopLevelArticleView.as_view(article_slug='local-communities', template_name='articles/brief.html'), name='brief'),
     url(r'^project-features/', views.TopLevelArticleView.as_view(article_slug='project-features', template_name='articles/brief.html'), name='project-features'),
     url(r'^idea-to-law/', views.TopLevelArticleView.as_view(article_slug='idea-to-law', template_name='articles/brief.html'), name='idea-to-law'),
-    url(r'^idea-to-project/', views.TopLevelArticleView.as_view(article_slug='idea-to-project', template_name='articles/brief.html'), name='idea-to-project')
+    url(r'^idea-to-project/', views.TopLevelArticleView.as_view(article_slug='idea-to-project', template_name='articles/brief.html'), name='idea-to-project'),
+    url(r'^history-timeline/', views.TopLevelArticleView.as_view(article_slug='history-timeline', template_name='articles/test.html'), name='history-timeline'),
 )
