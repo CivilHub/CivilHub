@@ -1,21 +1,23 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-17 09:16+0200\n"
+"POT-Creation-Date: 2015-04-18 22:50+0200\n"
 "PO-Revision-Date: 2015-04-17 07:17+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
-"Language-Team: Belarusian (http://www.transifex.com/projects/p/civilhub/language/be/)\n"
+"Language-Team: Belarusian (http://www.transifex.com/projects/p/civilhub/"
+"language/be/)\n"
+"Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: be\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: articles/models.py:34
 msgid "subtitle"
@@ -133,7 +135,7 @@ msgstr ""
 #: articles/templates/articles/features.html:63
 #: maps/templates/maps/index.html:81
 #: places_core/templates/places_core/navigation.html:101
-#: userspace/templates/userspace/profile.html:76
+#: userspace/templates/userspace/activity.html:28
 msgid "Places"
 msgstr ""
 
@@ -165,6 +167,7 @@ msgstr ""
 #: articles/templates/articles/features.html:89
 #: places_core/templates/places_core/navigation.html:123
 #: places_core/templates/places_core/navigation.html:124
+#: userspace/templates/userspace/activity.html:27
 msgid "Messages"
 msgstr ""
 
@@ -416,27 +419,6 @@ msgstr ""
 #: polls/templates/polls/poll-details.html:23
 #: topics/templates/topics/discussion_detail.html:31
 msgid "Show on map"
-msgstr ""
-
-#: blog/templates/blog/news_detail.html:58
-#: gallery/templates/gallery/picture-view.html:8
-#: ideas/templates/ideas/idea_detail.html:55
-#: places_core/templates/places_core/abuse-window-modal.html:7
-#: places_core/templates/places_core/script-templates.html:61
-#: places_core/templates/places_core/script-templates.html:595
-#: places_core/templates/places_core/script-templates.html:596
-#: polls/templates/polls/poll-details.html:26
-#: projects/templates/projects/socialforumentry_list.html:24
-#: projects/templates/projects/socialforumentry_list.html:51
-#: templates/postman/view.html:20
-#: topics/templates/topics/discussion_detail.html:42
-#: topics/templates/topics/discussion_detail.html:84
-#: topics/templates/topics/discussion_detail.html:85
-#: topics/templates/topics/discussion_detail.html:129
-#: topics/templates/topics/discussion_detail.html:130
-#: topics/templates/topics/discussion_detail.html:224
-#: topics/templates/topics/discussion_detail.html:225
-msgid "Report abuse"
 msgstr ""
 
 #: blog/templates/blog/news_detail.html:59
@@ -706,8 +688,8 @@ msgstr ""
 #: locations/templates/locations/location_news.html:86
 #: maps/templates/maps/minimap.html:20 maps/templates/maps/minimap.html:25
 #: maps/templates/maps/pointer-modal-form.html:22
-#: places_core/templates/places_core/abuse-window-modal.html:6
-#: places_core/templates/places_core/abuse-window-modal.html:18
+#: places_core/templates/places_core/abuse-window-modal.html:5
+#: places_core/templates/places_core/abuse-window-modal.html:14
 #: places_core/templates/places_core/google-contacts-modal.html:7
 #: places_core/templates/places_core/google-contacts-modal.html:18
 #: places_core/templates/places_core/script-templates.html:228
@@ -1234,82 +1216,82 @@ msgstr ""
 msgid "At least one email address is invalid"
 msgstr ""
 
-#: locations/models.py:91 places_core/templates/places_core/navigation.html:94
+#: locations/models.py:94 places_core/templates/places_core/navigation.html:94
 msgid "Project"
 msgstr ""
 
-#: locations/models.py:94
+#: locations/models.py:97
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:156 projects/models.py:35 projects/models.py:131
+#: locations/models.py:159 projects/models.py:35 projects/models.py:131
 #: projects/models.py:155
 msgid "name"
 msgstr ""
 
-#: locations/models.py:157 projects/models.py:36
+#: locations/models.py:160 projects/models.py:36
 msgid "slug"
 msgstr ""
 
-#: locations/models.py:158 projects/models.py:66 projects/models.py:132
+#: locations/models.py:161 projects/models.py:66 projects/models.py:132
 #: projects/models.py:156 projects/models.py:192
 msgid "description"
 msgstr ""
 
-#: locations/models.py:159
+#: locations/models.py:162
 msgid "latitude"
 msgstr ""
 
-#: locations/models.py:160
+#: locations/models.py:163
 msgid "longitude"
 msgstr ""
 
-#: locations/models.py:161
+#: locations/models.py:164
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:162 projects/models.py:196
+#: locations/models.py:165 projects/models.py:196
 msgid "creator"
 msgstr ""
 
-#: locations/models.py:163
+#: locations/models.py:166
 msgid "users"
 msgstr ""
 
-#: locations/models.py:164
+#: locations/models.py:167
 msgid "parent"
 msgstr ""
 
-#: locations/models.py:165
+#: locations/models.py:168
 msgid "population"
 msgstr ""
 
-#: locations/models.py:166 notifications/models.py:36 projects/models.py:69
+#: locations/models.py:169 notifications/models.py:36 projects/models.py:69
 #: projects/models.py:158 projects/models.py:193 projects/models.py:224
 msgid "date created"
 msgstr ""
 
-#: locations/models.py:167
+#: locations/models.py:170
 msgid "country code"
 msgstr ""
 
-#: locations/models.py:168 places_core/models.py:55
+#: locations/models.py:171 places_core/models.py:55
 msgid "image"
 msgstr ""
 
-#: locations/models.py:170
+#: locations/models.py:173
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:178 projects/models.py:67
+#: locations/models.py:181 projects/models.py:67
 msgid "location"
 msgstr ""
 
-#: locations/models.py:179
+#: locations/models.py:182
 msgid "locations"
 msgstr ""
 
-#: locations/models.py:187
+#: locations/models.py:190
 msgid "Unknown"
 msgstr ""
 
@@ -1427,11 +1409,90 @@ msgid "No"
 msgstr ""
 
 #: locations/templates/locations/location_detail.html:25
+#: userspace/templates/userspace/activity.html:32
+#: userspace/templates/userspace/profile.html:77
+msgid "Hot news"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:71
+#: userspace/templates/userspace/activity.html:44
+msgid "Create: idea, news, discussion"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:80
 msgid "We didn’t find any content in"
 msgstr ""
 
-#: locations/templates/locations/location_detail.html:25
+#: locations/templates/locations/location_detail.html:80
 msgid "Add first conent."
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:88
+#: userspace/templates/userspace/activity.html:59
+msgid "Create <br>a new Place"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:89
+#: userspace/templates/userspace/activity.html:60
+msgid ""
+"For your city, town,<br>neighborhood,<br>village or any other<br>place you "
+"want to."
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:93
+#: userspace/templates/userspace/activity.html:64
+#: userspace/templates/userspace/profile.html:121
+msgid "Shortcuts"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:95
+#: places_core/templates/places_core/navigation.html:37
+#: userspace/templates/userspace/activity.html:66
+#: userspace/templates/userspace/profile.html:123
+msgid "Local Communities"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:96
+#: places_core/templates/places_core/navigation.html:38
+#: userspace/templates/userspace/activity.html:67
+#: userspace/templates/userspace/profile.html:124
+msgid "About Projects"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:97
+#: places_core/templates/places_core/navigation.html:39
+#: userspace/templates/userspace/activity.html:68
+#: userspace/templates/userspace/profile.html:125
+msgid "Law changes"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:98
+#: places_core/templates/places_core/navigation.html:40
+#: userspace/templates/userspace/activity.html:69
+#: userspace/templates/userspace/profile.html:126
+msgid "Idea to Projects"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:104
+#: userspace/templates/userspace/activity.html:75
+#: userspace/templates/userspace/profile.html:132
+msgid "Invite a firend"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:105
+#: userspace/templates/userspace/activity.html:76
+#: userspace/templates/userspace/profile.html:133
+msgid "Your friends don’t know about CivilHub yet? Send them an invite!"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:111
+msgid "Export into pdf"
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:112
+msgid ""
+"Generate a ready to be printed pdf file of this place and hang it in your "
+"block of flats or neighborhood and invite your neighbors to CivilHub."
 msgstr ""
 
 #: locations/templates/locations/location_followers.html:12
@@ -1475,14 +1536,13 @@ msgstr ""
 #: locations/templates/locations/location_form.html:32
 msgid ""
 "Choose the 'parent' i.e. specify where your place is located. For example: "
-"the city of New York is located in United States -> Empire State -> New York"
-" City."
+"the city of New York is located in United States -> Empire State -> New York "
+"City."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:33
 msgid ""
-"Pinning the place on a map will make it easier for your neighbors to find "
-"it."
+"Pinning the place on a map will make it easier for your neighbors to find it."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:57
@@ -1971,13 +2031,72 @@ msgstr ""
 msgid "answered your comment"
 msgstr ""
 
-#: places_core/templates/places_core/abuse-window-modal.html:11
-#: places_core/templates/places_core/script-templates.html:109
-#: places_core/templates/places_core/script-templates.html:125
-msgid "Comment"
+#: places_core/models.py:125
+msgid "Treść pornograficzna"
 msgstr ""
 
-#: places_core/templates/places_core/abuse-window-modal.html:19
+#: places_core/models.py:126
+msgid "Przemoc/treści budzące odrazę"
+msgstr ""
+
+#: places_core/models.py:127
+msgid "Obrażanie/szerzenie nienawiści"
+msgstr ""
+
+#: places_core/models.py:128
+msgid "Działania niebezpieczne"
+msgstr ""
+
+#: places_core/models.py:129
+msgid "Wykorzystywanie dzieci"
+msgstr ""
+
+#: places_core/models.py:130
+msgid "Spam lub treści wprowadzające w błąd"
+msgstr ""
+
+#: places_core/models.py:131
+msgid "Naruszenie moich praw autorskich"
+msgstr ""
+
+#: places_core/models.py:132
+msgid "Naruszenie moich praw prywatności"
+msgstr ""
+
+#: places_core/models.py:133
+msgid "Inne roszczenia prawne"
+msgstr ""
+
+#: places_core/models.py:134
+msgid "Duplikat"
+msgstr ""
+
+#: places_core/models.py:135
+msgid "Informacja nieprawdziwa"
+msgstr ""
+
+#: places_core/models.py:136
+msgid "Nie nadaje się"
+msgstr ""
+
+#: places_core/templates/places_core/abuse-window-modal.html:6
+#: places_core/templates/places_core/script-templates.html:61
+#: places_core/templates/places_core/script-templates.html:595
+#: places_core/templates/places_core/script-templates.html:596
+#: places_core/templatetags/civil_tags.py:194
+#: projects/templates/projects/socialforumentry_list.html:24
+#: projects/templates/projects/socialforumentry_list.html:51
+#: templates/postman/view.html:20
+#: topics/templates/topics/discussion_detail.html:84
+#: topics/templates/topics/discussion_detail.html:85
+#: topics/templates/topics/discussion_detail.html:129
+#: topics/templates/topics/discussion_detail.html:130
+#: topics/templates/topics/discussion_detail.html:224
+#: topics/templates/topics/discussion_detail.html:225
+msgid "Report abuse"
+msgstr ""
+
+#: places_core/templates/places_core/abuse-window-modal.html:15
 msgid "Send report"
 msgstr ""
 
@@ -2069,22 +2188,6 @@ msgstr ""
 msgid "Brief"
 msgstr ""
 
-#: places_core/templates/places_core/navigation.html:37
-msgid "Local Communities"
-msgstr ""
-
-#: places_core/templates/places_core/navigation.html:38
-msgid "About Projects"
-msgstr ""
-
-#: places_core/templates/places_core/navigation.html:39
-msgid "Law changes"
-msgstr ""
-
-#: places_core/templates/places_core/navigation.html:40
-msgid "Idea to Projects"
-msgstr ""
-
 #: places_core/templates/places_core/navigation.html:44
 #: places_core/templates/places_core/navigation.html:45
 msgid "About CivilHub"
@@ -2166,6 +2269,11 @@ msgstr ""
 msgid "replies"
 msgstr ""
 
+#: places_core/templates/places_core/script-templates.html:109
+#: places_core/templates/places_core/script-templates.html:125
+msgid "Comment"
+msgstr ""
+
 #: places_core/templates/places_core/script-templates.html:349
 #: places_core/templates/places_core/script-templates.html:526
 #: places_core/templates/places_core/script-templates/action-template.html:21
@@ -2213,11 +2321,11 @@ msgstr ""
 msgid "Help in translate"
 msgstr ""
 
-#: places_core/views.py:173
+#: places_core/views.py:177
 msgid "Send abuse report"
 msgstr ""
 
-#: places_core/views.py:194
+#: places_core/views.py:233
 msgid "Report sent"
 msgstr ""
 
@@ -2482,8 +2590,8 @@ msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:11
 msgid ""
-"The goal of a project is to implement previously created ideas, however, you"
-" can always start a project from scratch."
+"The goal of a project is to implement previously created ideas, however, you "
+"can always start a project from scratch."
 msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:12
@@ -2722,8 +2830,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:135
 msgid ""
-"Great collaboration starts with communication. We always want to know what's"
-" happening near us."
+"Great collaboration starts with communication. We always want to know what's "
+"happening near us."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:139
@@ -2784,8 +2892,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:180
 msgid ""
-"We want everyone to use modern tools for collaboration in local communities."
-" Apps must be free, modern and simple."
+"We want everyone to use modern tools for collaboration in local communities. "
+"Apps must be free, modern and simple."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:187
@@ -2877,7 +2985,6 @@ msgid "Zostań ambasadorem"
 msgstr ""
 
 #: templates/activity/actor.html:124 userspace/forms.py:88
-#: userspace/templates/userspace/profile.html:73
 msgid "About me"
 msgstr ""
 
@@ -2938,7 +3045,8 @@ msgstr ""
 #: templates/emails/content-body-html.html:179
 msgid ""
 "\"Hey,\n"
-"                                      here's your invite! Come check out my CivilHub when you have a chance. You'll love it!\""
+"                                      here's your invite! Come check out my "
+"CivilHub when you have a chance. You'll love it!\""
 msgstr ""
 
 #: templates/emails/content-body-html.html:200
@@ -3033,8 +3141,8 @@ msgstr ""
 #: templates/emails/welcome-body-text.html:3
 #, python-format
 msgid ""
-"There's one last step until your account is 100%% ready. We just need you to"
-" activate your account."
+"There's one last step until your account is 100%% ready. We just need you to "
+"activate your account."
 msgstr ""
 
 #: templates/emails/welcome-body-html.html:164
@@ -3391,6 +3499,11 @@ msgstr ""
 msgid "Your feed"
 msgstr ""
 
+#: userspace/templates/userspace/activity.html:29
+#: userspace/templates/userspace/index.html:75
+msgid "Points"
+msgstr ""
+
 #: userspace/templates/userspace/followed-locations.html:4
 #: userspace/views.py:437
 msgid "My places"
@@ -3441,10 +3554,6 @@ msgstr ""
 
 #: userspace/templates/userspace/index.html:73
 msgid "Change avatar"
-msgstr ""
-
-#: userspace/templates/userspace/index.html:75
-msgid "Points"
 msgstr ""
 
 #: userspace/templates/userspace/index.html:112
@@ -3505,7 +3614,8 @@ msgstr ""
 #: userspace/templates/userspace/register-errors.html:5
 msgid ""
 "\n"
-"    Your registration was successfull, but there was an error with sending you\n"
+"    Your registration was successfull, but there was an error with sending "
+"you\n"
 "    email. Copy link provided below and paste it into browsers address bar\n"
 "    to finish registration.\n"
 msgstr ""
