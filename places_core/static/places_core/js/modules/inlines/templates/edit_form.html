@@ -1,0 +1,10 @@
+<form role="presentation" class="comment-form-body">
+  <div class="form-group">
+    <label for="comment" class="control-label"><%= gettext("Comment") %></label>
+    <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"><%= comment %></textarea>
+  </div>
+  <div class="form-group text-right">
+    <button type="submit" class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>
+    <button type="submit" class="btn btn-sendBlue btn-submit-comment"><%= gettext("Submit comment") %></button>
+  </div>
+</form>

@@ -94,19 +94,19 @@ INSTALLED_APPS = (
     'geonames',    # Geonames database integration
     'userspace',   # Everything related to users and profiles
     'locations',   # main app module
-    'ideas',       # 
-    'blog',        # 
-    'polls',       # 
+    'ideas',       #
+    'blog',        #
+    'polls',       #
     'rest',        # django rest framework
     'topics',      # custom forum app
     'comments',    # custom comments app (using mptt)
     'gallery',     # user media app
     'maps',        # Custom app for Open Street Maps
-    'staticpages', # 
+    'staticpages', #
     'civmail',     # Newsletter and email delivery
     'articles',    # Staticpages with translation support
-    'bookmarks',   # 
-    'projects',    # 
+    'bookmarks',   #
+    'projects',    #
     'etherpad',    # Custom Etherpad Lite integration
     'notifications', # Notify users about important events
     'hitcounter',  # Count visits for different content types
