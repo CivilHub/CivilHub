@@ -30,7 +30,7 @@
       <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
     </div>
     <div class="col-sm-6 mt25 no-float">
-      <div class="wrapper-timeline">
+      {% if user.is_authenticated %}<div class="wrapper-timeline">
         <ul class="ac-timeline">
           <li class="timeline-header">
             <div class="timeline-wrap">
@@ -45,7 +45,7 @@
             </div>
           </li>
         </ul>
-      </div>
+      </div>{% endif %}
       <div id="location-content-collection" class="wrapper-timeline"></div>
     </div>
     <div class="col-sm-3 no-float">
