@@ -90,16 +90,30 @@
     }
   }
 }
+.ac-icon20{
+  width: 20px;
+  text-align: center;
+  margin-right: 2px;
+}
 .small-icon-place{
   background-image: url(../img/small-places-icon.png);
   .bg-nor-cen-con;
-  background-position: 0 2px;
-  width: 16px;
-  height: 14px;
+  /*background-position: 0 2px;*/
+  background-position: center 3px;
+  background-size: cover;
+  width: 20px;
+  height: 17px;
   display: inline-block;
   @media
   (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 192dpi){ background-image: url(../img/small-places-icon@2x.png); }
+}
+a{
+  &:hover{
+    .small-icon-place{
+      background-position: center -14px;
+    }
+  }
 }
 /*Hot box*/
 .ac-hot-single-box{
@@ -190,6 +204,13 @@
       height: 50px;
       .border-radius(50%);
     }
+    .user-pts{
+      text-align: center;
+      display: block;
+      font-size: 9px;
+      padding-left: 13px;
+      margin-top: 4px;
+    }
   }
   .timeline-content{
     border: 1px solid @border-color-de;
@@ -269,6 +290,7 @@
       height: 142px;
       margin-bottom: 15px;
       .bg-nor-cen-con;
+      background-size: cover;
     }
   }
   .timeline-footer{
@@ -294,6 +316,7 @@
   ul.shortcuts{
     list-style: none;
     margin-bottom: 0;
+    padding-left: 20px;
     li{
       &:before{
         content: "\2022";
@@ -301,7 +324,7 @@
         position: relative;
         max-width: 0px;
         max-height: 0px;
-        left: -10px;
+        left: -12px;
         top: -0px;
         color: #91dd0f;
         font-size: 12px;
@@ -310,8 +333,9 @@
   }
 }
 .ac-small-box{
+  margin-right: -15px;
   margin-left: -16px;
-  margin-top: 20px;
+  margin-top: 25px;
   color: #FFF;
   max-width: 254px;
   height: 200px;

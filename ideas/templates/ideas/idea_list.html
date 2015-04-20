@@ -28,7 +28,7 @@
       <div class="col-sm-9">
         <h3 class="allHeadingThree"><a href="{{ idea.get_absolute_url }}">{{ idea }}</a></h3>
         <p class="createBY">
-          {% trans "Created by" %}<a href="{{ idea.creator.profile.get_absolute_url %}">
+          {% trans "Created by" %}<a href="{{ idea.creator.profile.get_absolute_url }}">
           <span class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.profile }}</span></a>
           <span class="date-created">{{ idea.date_created|timesince }}</span>
         </p>
