@@ -4,6 +4,7 @@ import json
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils import translation
 from django.utils.translation import ugettext as _
 from django.views.generic import View, TemplateView
 from django.views.generic.edit import FormView
@@ -33,13 +34,16 @@ class InviteToContentView(LoginRequiredMixin, View):
 
     def get(self, request):
         """ Show modal form. """
-        return render(request, self.template_name, {'title':_("Invite people")})
+        return render(request, self.template_name,
+                      {'title': _("Invite people")})
 
     def post(self, request):
         """ Send emails. """
         emails = request.POST.get('emails').split(',')
-        user_url = request.build_absolute_uri(request.user.profile.get_absolute_url())
-        user_profile_img = request.build_absolute_uri(request.user.profile.avatar.url)
+        user_url = request.build_absolute_uri(
+            request.user.profile.get_absolute_url())
+        user_profile_img = request.build_absolute_uri(
+            request.user.profile.avatar.url)
         message = {
             'link': {
                 'name': request.POST.get('name'),
@@ -62,9 +66,10 @@ class InviteToContentView(LoginRequiredMixin, View):
             context = {
                 'success': True,
                 'message': self.success_message,
-                'level'  : 'success',
+                'level': 'success',
             }
-            return HttpResponse(json.dumps(context), content_type="application/json")
+            return HttpResponse(json.dumps(context),
+                                content_type="application/json")
         messages.add_message(request, messages.SUCCESS, self.success_message)
         return redirect('/invite-friends/')
 
@@ -96,7 +101,9 @@ class ComposeFollowersMessage(LoginRequiredMixin, FormView):
         return super(ComposeFollowersMessage, self).post(request)
 
     def form_valid(self, form):
-        followers = get_followers_from_location(form.cleaned_data['location_id'], deep=True)
+        followers = get_followers_from_location(
+            form.cleaned_data['location_id'],
+            deep=True)
         for user in followers:
             email_context = {
                 'subject': form.cleaned_data['subject'],
@@ -105,5 +112,6 @@ class ComposeFollowersMessage(LoginRequiredMixin, FormView):
             }
             message = mails.FollowersNotificationMesage()
             message.send(user.email, email_context)
-        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        messages.add_message(self.request, messages.SUCCESS,
+                             self.success_message)
         return super(ComposeFollowersMessage, self).form_valid(form)

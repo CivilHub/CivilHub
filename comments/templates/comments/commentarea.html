@@ -1,0 +1,5 @@
+{% load i18n %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}">
+  {% if user.is_authenticated %}<textarea name="comment" class="form-control" cols="10" rows="5"></textarea>
+  <button class="add-comment" type="button">{% trans "Add comment" %}</button>{% endif %}
+  <div class="comments"></div>
+</div>

@@ -1,0 +1,53 @@
+<div class="col-xs-1 comment-avatar-col"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="comment-author-avatar user-window-toggle" /></div>
+<div class="comment-main-col">
+  <a href="<%= author.profile.url %>" class="custom-important comment-author-name user-window-toggle" data-target="<%= author.id %>"><%= author.full_name %></a>
+  <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
+  <span class="comment-controls">
+    <% if (author.id === CivilApp.user.id) { %>
+      <a href="#" class="comment-edit" title="<%= gettext("Edit entry") %>">
+        <span class="fa fa-edit"> </span>
+      </a>
+    <% } else { %>
+      <a class="report-abuse-link" href="#" title="<%= gettext("Report abuse") %>" class="report-abuse-comment-link">
+        <span class="fa fa-exclamation-triangle"> </span>
+      </a>
+    <% } %>
+  </span>
+  <div class="comment-content"><%= comment %></div>
+  <div class="comment-meta-options">
+    <% if (author.id !== CivilApp.user.id) { %>
+      <p>
+        <span class="comment-total-votes"><%= note %></span>
+        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="<%= gettext("Good Idea, Vote YES") %>" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
+        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="<%= gettext("Bad Idea, Vote NO") %>" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
+    <% } else { %>
+      <p><span class="comment-total-votes"><%= note %></span>
+    <% } %>
+    &nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
+    <div class="reply-form">
+      <div class="col-xs-1 comment-avatar-col">
+        <img src="<%= CivilApp.user.avatar %>" alt="<%= CivilApp.user.fullName %>" class="comment-author-avatar user-window-toggle" />
+      </div>
+      <div class="comment-main-col">
+        <form role="presentation" class="comment-form-body">
+          <div class="form-group">
+            <label for="comment" class="control-label"><%= gettext("Comment") %></label>
+            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
+          </div>
+          <div class="form-group text-right">
+            <button class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment"><%= gettext("Submit comment") %></button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>
+    </p>
+    <div class="comment-votes-detail">
+      <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
+      <label class="alert-danger"><span class="fa fa-long-arrow-down"> </span><%= downvotes %></label>
+      <label class="alert-info"><span class="fa fa-bar-chart-o"> </span><%= note %></label>
+    </div>
+  </div>
+  <div class="subcomments"></div>
+</div>
