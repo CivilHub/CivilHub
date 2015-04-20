@@ -5,7 +5,9 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title>{{ title|default:"" }}</title>
-  {% block style_base %}{% block layout_style %}<style type="text/css">
+  {% block style_base %}
+
+  {% block layout_style %}<style type="text/css">
     @font-face {
       font-family: "Open Sans";
       src: url({{ font }});
@@ -18,28 +20,39 @@
         -pdf-frame-content: content;
         bottom:  8cm;
         height: 2cm;
-        border: 0cm solid white;
+        border: 1cm solid black;
       }
-
+      @frame logo{
+        -pdf-frame-content: logo;
+        top:  0.85cm;
+        height: 1cm;
+        border: 1 solid black;
+      }
+      @frame location{
+        -pdf-frame-content: location;
+        top: 2cm;
+        border: 1px solid black;
+      }
+      
       @frame page-info-title{
         -pdf-frame-content: page-info-title;
         bottom: 8cm;
         height: 2cm;
-        border: 0cm solid white;
+        border: 1cm solid white;
       }
 
       @frame page-name-user{
         -pdf-frame-content: page-name-user;
         height: 2cm;
         bottom: 6cm;
-        border: 0cm solid white;
+        border: 1cm solid white;
       }
 
       @frame page-info-score{
         -pdf-frame-content: page-info-score;
         height: 1cm;
         bottom: 6.3cm;
-        border: 0cm solid white;
+        border: 1cm solid white;
       }
 
       @frame page-footer-npub{
@@ -49,7 +62,7 @@
         left: 0cm;
         margin-bottom: 0.8cm;
         margin-right: 3cm;
-        border: 0cm solid white;
+        border: 1cm solid white;
       }
     }
   </style>{%endblock%}
