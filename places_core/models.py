@@ -123,17 +123,17 @@ class AbuseReport(BaseCommentAbstractModel):
     """
     REASONS = (
         (1, _(u"Pornography")),
-        (2, _(u"Violence/indicent contentodrazę")),
-        (3, _(u"Obrażanie/szerzenie nienawiści")),
-        (4, _(u"Działania niebezpieczne")),
-        (5, _(u"Wykorzystywanie dzieci")),
-        (6, _(u"Spam lub treści wprowadzające w błąd")),
-        (7, _(u"Naruszenie moich praw autorskich")),
-        (8, _(u"Naruszenie moich praw prywatności")),
-        (9, _(u"Inne roszczenia prawne")),
-        (10, _(u"Duplikat")),
-        (11, _(u"Informacja nieprawdziwa")),
-        (12, _(u"Nie nadaje się")),
+        (2, _(u"Violence/indicent content")),
+        (3, _(u"Insults/Obrażanie/spread of hatred")),
+        (4, _(u"Dangerious activities")),
+        (5, _(u"Usage of children")),
+        (6, _(u"Spam or other misleading content")),
+        (7, _(u"Violence of my copyrights")),
+        (8, _(u"Violence of my privacy")),
+        (9, _(u"Other legal claims")),
+        (10, _(u"Duplicate")),
+        (11, _(u"False information")),
+        (12, _(u"Is not suitable")),
     )
 
     sender  = models.ForeignKey(User)
