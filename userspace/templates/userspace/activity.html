@@ -13,73 +13,67 @@
 
 {% block header %}{% endblock %}
 
-{% block container_main %}
-<div class="container fake-container-fill">
-  {% block content %}
-    <div class="fake-row-fill">
-      <div class="col-sm-3 mt25 no-float">
-        <div class="main-content p-reset">
-          <div class="ac-title">
-            <div class="ac-user-head-img display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></div>
-            <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
-          </div>
-          <ul class="ac-user-list list-unstyled">
-            <li><a href="/messages/inbox/"><span class="fa fa-envelope-o"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
-            <li><span class="small-icon-place"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></li>
-            <li><span class="fa fa-heart-o"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
-          </ul>
+{% block container_main %}<div class="container fake-container-fill">
+  {% block content %}<div class="fake-row-fill">
+    <div class="col-sm-3 mt25 no-float">
+      <div class="main-content p-reset">
+        <div class="ac-title">
+          <div class="ac-user-head-img display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></div>
+          <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
         </div>
-        <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
+        <ul class="ac-user-list list-unstyled">
+          <li><a href="/messages/inbox/"><span class="fa fa-envelope-o"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
+          <li><span class="small-icon-place"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></li>
+          <li><span class="fa fa-heart-o"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
+        </ul>
       </div>
-      <div class="col-sm-6 mt25 no-float">
-        <div class="wrapper-timeline">
-          <ul class="ac-timeline">
-            <li class="timeline-header">
-              <div class="timeline-wrap">
-                <span class="date"></span>
-                <span class="timeline-user"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}"></span>
-                <div class="timeline-content panel">
-                  <span class="arrow arrow-left arrow-top"></span>
-                  <div class="timeline-content-head">
-                    <a href="#" class="cd-bouncy-nav-trigger">{% trans "Create: idea, news, discussion" %}...</a>
-                  </div>
+      <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
+    </div>
+    <div class="col-sm-6 mt25 no-float">
+      <div class="wrapper-timeline">
+        <ul class="ac-timeline">
+          <li class="timeline-header">
+            <div class="timeline-wrap">
+              <span class="date"></span>
+              <span class="timeline-user"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}"></span>
+              <div class="timeline-content panel">
+                <span class="arrow arrow-left arrow-top"></span>
+                <div class="timeline-content-head">
+                  <a href="#" class="cd-bouncy-nav-trigger">{% trans "Create: idea, news, discussion" %}...</a>
                 </div>
               </div>
-            </li>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div id="location-content-collection" class="wrapper-timeline"></div>
+    </div>
+    <div class="col-sm-3 no-float">
+      <div class="ac-right-site">
+        <div class="ac-small-box sm-box-place">
+          <a href="/places/" class="full-click-box"></a>
+            <div class="text-box">
+              <h3>{% trans "Create <br>a new Place" %}</h3>
+              <p>{% trans "For your city, town,<br>neighborhood,<br>village or any other<br>place you want to." %}</p>
+            </div>
+        </div>
+        <div class="menu-box">
+          <h3>{%trans "Shortcuts" %}</h3>
+          <ul class="shortcuts">
+            <li><a href="/local-communities/">{% trans "Local Communities" %}</a></li>
+            <li><a href="/project-features/">{% trans "About Projects" %}</a></li>
+            <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
+            <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
           </ul>
         </div>
-        <div id="location-content-collection" class="wrapper-timeline"></div>
-      </div>
-
-      <div class="col-sm-3 no-float">
-        <div class="ac-right-site">
-          <div class="ac-small-box sm-box-place">
-            <a href="/places/" class="full-click-box"></a>
-              <div class="text-box">
-                <h3>{% trans "Create <br>a new Place" %}</h3>
-                <p>{% trans "For your city, town,<br>neighborhood,<br>village or any other<br>place you want to." %}</p>
-              </div>
-          </div>
-          <div class="menu-box">
-            <h3>{%trans "Shortcuts" %}</h3>
-            <ul class="shortcuts">
-              <li><a href="/local-communities/">{% trans "Local Communities" %}</a></li>
-              <li><a href="/project-features/">{% trans "About Projects" %}</a></li>
-              <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
-              <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
-            </ul>
-          </div>
-          <div class="ac-small-box sm-box-invite">
-            <a href="/invite-friends/" class="full-click-box"></a>
-              <div class="text-box">
-                <h3>{% trans "Invite a firend" %}</h3>
-                <p>{% trans "Your friends don’t know about CivilHub yet? Send them an invite!" %}</p>
-              </div>
-          </div>
+        <div class="ac-small-box sm-box-invite">
+          <a href="/invite-friends/" class="full-click-box"></a>
+            <div class="text-box">
+              <h3>{% trans "Invite a firend" %}</h3>
+              <p>{% trans "Your friends don’t know about CivilHub yet? Send them an invite!" %}</p>
+            </div>
         </div>
       </div>
     </div>
-  {% endblock %}
-</div>
-
-{% endblock %}
+  </div>{% endblock %}
+</div>{% endblock %}
