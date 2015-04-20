@@ -122,8 +122,8 @@ class AbuseReport(BaseCommentAbstractModel):
     and edit them.
     """
     REASONS = (
-        (1, _(u"Treść pornograficzna")),
-        (2, _(u"Przemoc/treści budzące odrazę")),
+        (1, _(u"Pornography")),
+        (2, _(u"Violence/indicent contentodrazę")),
         (3, _(u"Obrażanie/szerzenie nienawiści")),
         (4, _(u"Działania niebezpieczne")),
         (5, _(u"Wykorzystywanie dzieci")),
