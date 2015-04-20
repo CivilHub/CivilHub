@@ -22,9 +22,9 @@
           <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
         </div>
         <ul class="ac-user-list list-unstyled">
-          <li><a href="/messages/inbox/"><span class="fa fa-envelope-o"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
-          <li><a href="{% url 'user:locations' user.pk %}"><span class="small-icon-place"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></a></li>
-          <li><span class="fa fa-heart-o"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
+          <li><a href="/messages/inbox/"><span class="fa fa-envelope-o ac-icon20"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
+          <li><a href="{% url 'user:locations' user.pk %}"><span class="small-icon-place ac-icon20"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></a></li>
+          <li><span class="fa fa-heart-o ac-icon20"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
         </ul>
       </div>
       <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>

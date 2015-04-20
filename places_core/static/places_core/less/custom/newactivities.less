@@ -90,16 +90,30 @@
     }
   }
 }
+.ac-icon20{
+  width: 20px;
+  text-align: center;
+  margin-right: 2px;
+}
 .small-icon-place{
   background-image: url(../img/small-places-icon.png);
   .bg-nor-cen-con;
-  background-position: 0 2px;
-  width: 16px;
-  height: 14px;
+  /*background-position: 0 2px;*/
+  background-position: center 3px;
+  background-size: cover;
+  width: 20px;
+  height: 17px;
   display: inline-block;
   @media
   (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 192dpi){ background-image: url(../img/small-places-icon@2x.png); }
+}
+a{
+  &:hover{
+    .small-icon-place{
+      background-position: center -14px;
+    }
+  }
 }
 /*Hot box*/
 .ac-hot-single-box{
