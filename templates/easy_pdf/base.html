@@ -6,63 +6,45 @@
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title>{{ title|default:"" }}</title>
   {% block style_base %}
-
   {% block layout_style %}<style type="text/css">
     @font-face {
-      font-family: "Open Sans";
+      font-family: "Lato";
       src: url({{ font }});
     }
-  
     @page {
-      size: 297mm 210mm;         
-
-      @frame content{
-        -pdf-frame-content: content;
-        bottom:  8cm;
-        height: 2cm;
-        border: 1cm solid black;
-      }
-      @frame logo{
-        -pdf-frame-content: logo;
-        top:  0.85cm;
-        height: 1cm;
-        border: 1 solid black;
-      }
+      size: 297mm 210mm; 
+      background-image: url( {{ img }} );
       @frame location{
         -pdf-frame-content: location;
         top: 2cm;
-        border: 1px solid black;
-      }
-      
-      @frame page-info-title{
-        -pdf-frame-content: page-info-title;
-        bottom: 8cm;
         height: 2cm;
-        border: 1cm solid white;
       }
-
-      @frame page-name-user{
-        -pdf-frame-content: page-name-user;
+      @frame title{
+        -pdf-frame-content: title;
+        top: 3.5cm;
         height: 2cm;
-        bottom: 6cm;
-        border: 1cm solid white;
       }
-
-      @frame page-info-score{
-        -pdf-frame-content: page-info-score;
+      @frame page-left-side{
+        -pdf-frame-content: page-left-side;
+        top: 5.5cm;
+        height: 11.25cm;
+      }
+      @frame page-right-side{
+        -pdf-frame-content: page-right-side;
+        top: 5.5cm;
+        height: 11.25cm;
+      }
+      @frame page-info-link{
+        -pdf-frame-content: page-info-link;
         height: 1cm;
-        bottom: 6.3cm;
-        border: 1cm solid white;
+        bottom: 2.5cm;
       }
-
-      @frame page-footer-npub{
-        -pdf-frame-content: page-footer-npub;
-        height: 1.54cm;
-        bottom: 2.8cm;
+      @frame page-footer-www{
+        -pdf-frame-content: page-footer-www;
+        height: 0.85cm;
+        bottom: 0.5cm;
         left: 0cm;
-        margin-bottom: 0.8cm;
-        margin-right: 3cm;
-        border: 1cm solid white;
+        margin-right: 0.85cm;
       }
     }
   </style>{%endblock%}
