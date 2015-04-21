@@ -713,7 +713,9 @@ class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):
         context = super(PDFInviteGenerateView, self).get_context_data()
         context['title'] = context['location'].__unicode__()
         context['font'] = os.path.join(settings.BASE_DIR,
-            'places_core/static/places_core/fonts/OpenSans-Regular.ttf')
+            'places_core/static/places_core/fonts/Lato-Regular.ttf')
+        context['img'] = os.path.join(settings.BASE_DIR,
+            'templates/easy_pdf/img/bg_pdf.jpg')
         return context
 
     def get(self, request, slug):

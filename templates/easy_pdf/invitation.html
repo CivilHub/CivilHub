@@ -1,42 +1,74 @@
 {% extends "easy_pdf/base.html" %}{% load i18n %}
 {% block extra_style %}<style type="text/css">
   * {
-    font-family: "Open Sans";
+    font-family: "Lato";
+    color: #333333;
   }
-
-  #content,
-  #page-info-title{
-    font-size: 26pt;
+  #location{
+    font-size: 24pt;
     text-align: center;
   }
-
-  #page-name-user{
-    font-size: 18pt;
+  #title{
+    font-size: 15.36pt;
     text-align: center;
-    border: 0 none;
   }
-
-  #page-info-score{
-    text-align: center;
-    font-size: 10pt;
-    border: 0 none;
+  #page-left-side{
+    margin-right: 18.75cm;
+    padding-left: 4cm;
   }
-
-  #page-footer-npub{
-    font-size: 10pt;
+  #page-right-side{
+    margin-left: 18.75cm;
+    padding-right: 4cm;
+  }
+  #page-left-side h2,
+  #page-right-side h2{
+    margin-top: 2cm;
+    font-size: 15.36pt;
+    line-height: 16pt;
+  }
+  #page-left-side p,
+  #page-right-side p{
+    font-size: 11.52pt;
+    line-height: 12pt;
+  }
+  #page-left-side h2,
+  #page-left-side p{
     text-align: right;
-    border: 0 none;
-    margin: 0;
-    line-height: 11pt;
   }
-
-  #page-footer-npub p {
-    font-size: 9pt;
-    line-height: 0pt;
-    margin: 0;
+  #page-right-side h2,
+  #page-right-side p{
+    text-align: left;
+  }
+  #page-info-link{
+    text-align: center;
+    font-size: 15.36pt;
+    line-height: 0;
+  }
+  #page-footer-www{
+    font-size: 15.36pt;
+    text-align: right;
+    line-height: 16pt;
   }
 </style>{% endblock %}
-{% block content %}<div id="content">
-  <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
-  <h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1>
-</div>{% endblock %}
+{% block content %}
+<div id="location"><h1>{{ location }}</h1></div>
+<div id="title">{% trans "If you want to be active in your local community then CivilHub is the right place." %}</div>
+  <div id="page-left-side">
+    <h2>{% trans "News" %}</h2>
+    <p>{% trans "See what happend recently in your neighborhood." %}</p>
+    <h2>{% trans "Ideas" %}</h2>
+    <p>{% trans "Vote for ideas and propose your own." %}</p>
+    <h2>{% trans "Projects" %}</h2>
+    <p>{% trans "We transform ideas into real-life changes." %}</p>
+  </div>
+  <div id="page-right-side">
+    <h2>{% trans "Discussions" %}</h2>
+    <p>{% trans "Chat with people from your surroundings on any topic." %}</p>
+    <h2>{% trans "Polls" %}</h2>
+    <p>{% trans "Check what other people think about a given subject." %}</p>
+    <h2>{% trans "Documents" %}</h2>
+    <p>{% trans "Share documents with people from your surroundings." %}</p>
+  </div>
+<div id="page-info-link"><h3>{% trans "Your address" %}: https://civilhub.org{{ location.get_absolute_url }}</h3></div>
+<div id="page-footer-www">www.civilhub.org</div>
+{% endblock %}
