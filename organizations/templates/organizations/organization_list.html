@@ -1,0 +1,5 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<ul>{% for item in object_list %}
+  <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
+{% endfor %}</ul>
+{% include 'places_core/pagination.html' %}{% endblock %}

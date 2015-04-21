@@ -1,0 +1,12 @@
+{% extends 'organizations/index.html' %}{% load i18n %}
+{% block content %}<ul>{% for member in object_list %}
+  <li>
+    <a href="{{ member.profile.get_absolute_url }}">{{ member.get_full_name }}</a>
+    {% if access %}<form class="custom-inline-form" action="{% url 'organizations:member-delete' organization.slug %}" method="post">{% csrf_token %}
+      <input type="hidden" name="user_id" value="{{ member.pk }}">
+      <button type="submit">{% trans "Delete" %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if access %}<p><a href="{% url 'organizations:invite' organization.slug %}">{% trans "Invite more users" %}</a></p>{% endif %}
+{% include 'places_core/pagination.html' %}{% endblock %}

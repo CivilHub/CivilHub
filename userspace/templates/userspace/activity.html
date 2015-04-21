@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n postman_tags civil_tags %}{% postman_unread as unread_count %}
+{% load staticfiles i18n postman_tags civil_tags actstream_tags %}{% postman_unread as unread_count %}
 
 {% block require_scripts %}
 <script>window.API_URL = "/api-userspace/activity/";</script>
@@ -47,7 +47,7 @@
           </li>
         </ul>
       </div>{% endif %}
-      <div id="location-content-collection" class="wrapper-timeline"></div>
+      {% actstream user %}
     </div>
     <div class="col-sm-3 no-float">
       <div class="ac-right-site">

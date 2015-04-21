@@ -77,7 +77,7 @@ $(document).ready(function () {
 $.fn.emailInput = function () {
   return $(this).each(function () {
     var $input = $(this);
-    $input.tagsInput({
+    var tagOptions = {
       defaultText: '',
       onPaste: true,
       onAddTag: function () {
@@ -86,12 +86,22 @@ $.fn.emailInput = function () {
         $input.importTags('');
         $input.importTags(newValue);
       }
-    });
+    };
+    if (!_.isUndefined($input.attr('data-autocomplete'))) {
+      tagOptions.autocomplete_url = $input.attr('data-autocomplete');
+    }
+    $input.tagsInput(tagOptions);
   });
 };
 
 $(document).ready(function () {
   $('.email-input').emailInput();
+});
+
+$(document).ready(function () {
+  var $input = $('<input type="text">');
+  $input.addClass('form-control auto-fake-input');
+  $('.autocomplete-plholder').hide().after($input);
 });
 
 });

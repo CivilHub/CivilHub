@@ -110,6 +110,8 @@ INSTALLED_APPS = (
     'etherpad',    # Custom Etherpad Lite integration
     'notifications', # Notify users about important events
     'hitcounter',  # Count visits for different content types
+    'organizations', # Manage non-governmental organizations (NGO)
+    'activities',  # Manage activity streams and different action hooks
 
     'raven.contrib.django.raven_compat',
     'analytical',

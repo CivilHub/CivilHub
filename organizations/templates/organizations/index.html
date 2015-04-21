@@ -1,0 +1,36 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block header %}<style type="text/css">
+.user-logo {
+  background-image: url({{ organization.background_url }});
+}
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .user-logo {
+    background-image: url({{ organization.retina_background_url }});
+  }
+}
+</style>
+<div class="user-logo">
+  <div class="container"><h1>{{ organization }}</h1></div>
+</div>
+<nav id="filter-navbar" class="navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+        <span class="sr-only">{% trans "Toggle navigation" %}</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
+      <ul class="nav navbar-nav navbar-nav-userspace">
+        <li><a href="{% url 'organizations:detail' organization.slug %}">{% trans "Summary" %}</a></li>
+        <li><a href="{% url 'organizations:members' organization.slug %}">{% trans "Members" %}</a></li>
+        <li><a href="{% url 'organizations:locations' organization.slug %}">{% trans "Locations" %}</a></li>
+        {% if access %}<li><a href="{% url 'organizations:update' organization.slug %}">{% trans "Update" %}</a></li>{% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>{% endblock %}

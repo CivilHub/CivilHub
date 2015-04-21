@@ -74,6 +74,7 @@ from userspace.urls import router as user_router
 from places_core.urls import router as core_router
 from gallery.urls import router as gallery_router
 from notifications.urls import router as notification_router
+from activities.urls import router as activity_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -84,6 +85,7 @@ urlpatterns = patterns('',
     url(r'^api-core/', include(core_router.urls)),
     url(r'^api-gallery/', include(gallery_router.urls)),
     url(r'^api-notifications/', include(notification_router.urls)),
+    url(r'^api-activities/', include(activity_router.urls)),
 )
 
 from civmail.views import InviteFriendsView
@@ -94,6 +96,7 @@ urlpatterns += patterns('',
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
+    url(r'^organizations/', include('organizations.urls', namespace="organizations")),
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),
@@ -170,11 +173,11 @@ urlpatterns += patterns('',
 
     # Notifications for users - mainly views for testing.
     url(r'^', include('notifications.urls')),
-    
+
     # Default URL - Do not add anything below!!!
     #url(r'^$', PageView.as_view(page='home')),
     url(r'^$', HomeView.as_view()),
-    
+
     #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),
     url(r'^', include('locations.urls', namespace='locations')),
