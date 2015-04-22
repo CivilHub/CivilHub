@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import os
+from uuid import uuid4
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -98,7 +101,8 @@ class Organization(SlugifiedModelMixin, BackgroundModelMixin):
                               default='img/organizations/default.jpg',
                               verbose_name=_(u"background image"))
 
-    tags = TaggableManager(blank=True)
+    # Migration fails
+    #tags = TaggableManager(blank=True)
 
     def get_absolute_url(self):
         return reverse('organizations:detail', kwargs={'slug': self.slug, })

@@ -18,7 +18,7 @@ class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
         exclude = ('slug', 'creator', 'users', 'locations', 'projects',
-                   'verified', )
+                   'verified', 'image' )
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
