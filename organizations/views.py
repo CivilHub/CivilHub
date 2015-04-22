@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.detail import SingleObjectMixin
@@ -13,9 +13,23 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 from civmail.messages import InviteToOrganization
 from locations.models import Location
 from places_core.mixins import LoginRequiredMixin
+from simpleblog.forms import BlogEntryForm
 
 from .forms import NGOInviteForm, OrganizationForm, OrganizationLocationForm
 from .models import Invitation, Organization
+
+
+class NGOContextMixin(SingleObjectMixin):
+    """
+    Provides common context variables used across NGO subpages.
+    """
+    model = Organization
+
+    def get_context_data(self, **kwargs):
+        context = super(NGOContextMixin, self).get_context_data(**kwargs)
+        context['organization'] = self.object
+        context['access'] = self.object.has_access(self.request.user)
+        return context
 
 
 class OrganizationListView(ListView):
@@ -32,6 +46,11 @@ class OrganizationView(DetailView):
     """
     model = Organization
     context_object_name = 'organization'
+
+    def get_context_data(self, **kwargs):
+        context = super(OrganizationView, self).get_context_data(**kwargs)
+        context['access'] = self.object.has_access(self.request.user)
+        return context
 
 
 class OrganizationCreateView(LoginRequiredMixin, CreateView):
@@ -77,7 +96,7 @@ class OrganizationLocationList(DetailView):
         return context
 
 
-class OrganizationLocationAdd(LoginRequiredMixin, SingleObjectMixin, FormView):
+class OrganizationLocationAdd(LoginRequiredMixin, NGOContextMixin, FormView):
     """
     Add new location to organization's locations list.
     """
@@ -101,7 +120,7 @@ class OrganizationLocationAdd(LoginRequiredMixin, SingleObjectMixin, FormView):
                        kwargs={'slug': self.object.slug})
 
 
-class OrganizationLocationDelete(SingleObjectMixin, View):
+class OrganizationLocationDelete(NGOContextMixin, View):
     """
     Delete location from organizations locations list.
     """
@@ -176,7 +195,7 @@ class OrganizationMemberDelete(SingleObjectMixin, View):
                                 kwargs={'slug': self.object.slug}))
 
 
-class InviteUsers(SingleObjectMixin, FormView):
+class InviteUsers(NGOContextMixin, FormView):
     """
     Invite others to this organization by sending them email.
     """
@@ -239,3 +258,17 @@ class InviteAcceptView(LoginRequiredMixin, DetailView):
         messages.add_message(request, messages.SUCCESS,
                              _(u"You have accepted invitation"))
         return redirect(self.object.organization.get_absolute_url())
+
+
+class NGONewsCreate(LoginRequiredMixin, NGOContextMixin, View):
+    """
+    Users that are members of organization may publish contents on this page.
+    """
+    form_class = BlogEntryForm
+    template_name = 'organizations/organization_news_form.html'
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(NGONewsCreate, self).get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return render(request, self.template_name, context)

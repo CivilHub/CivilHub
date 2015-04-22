@@ -32,4 +32,6 @@ class Bookmark(models.Model):
 
     def __str__(self):
         """ Try to return objects name. """
+        if not hasattr(self.content_object, '__unicode__'):
+            return u"Bookmark"
         return self.content_object.__unicode__()

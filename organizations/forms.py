@@ -3,8 +3,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
-from taggit.forms import TagField
-
 from locations.models import Location
 
 from .models import Organization
@@ -18,7 +16,7 @@ class OrganizationForm(forms.ModelForm):
     class Meta:
         model = Organization
         exclude = ('slug', 'creator', 'users', 'locations', 'projects',
-                   'verified', 'image' )
+                   'verified', 'image')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
@@ -27,6 +25,8 @@ class OrganizationForm(forms.ModelForm):
             'krs': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'website': forms.TextInput(attrs={'class': 'form-control'}),
+            'tags': forms.TextInput(
+                attrs={'class': 'form-control custom-tagsinput'}),
         }
 
 
@@ -34,8 +34,8 @@ class OrganizationLocationForm(forms.Form):
     """
     Allows to choose locations from ID list rather than gets entire queryset.
     """
-    locations = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control autocomplete-plholder'}))
+    locations = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control autocomplete-plholder'}))
 
     def clean_locations(self):
         id_list = [int(x) for x in self.cleaned_data['locations'].split(',')]

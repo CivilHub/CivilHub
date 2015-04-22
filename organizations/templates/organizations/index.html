@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}{% load i18n %}
+{% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block header %}<style type="text/css">
 .user-logo {
   background-image: url({{ organization.background_url }});
@@ -12,7 +12,10 @@
 }
 </style>
 <div class="user-logo">
-  <div class="container"><h1>{{ organization }}</h1></div>
+  <div class="container">
+    <h1>{{ organization }}</h1>
+    {% follow_button organization %}
+  </div>
 </div>
 <nav id="filter-navbar" class="navbar-default" role="navigation">
   <div class="container">

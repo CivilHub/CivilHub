@@ -112,6 +112,7 @@ INSTALLED_APPS = (
     'hitcounter',  # Count visits for different content types
     'organizations', # Manage non-governmental organizations (NGO)
     'activities',  # Manage activity streams and different action hooks
+    'simpleblog',  # Simplified blog functionality for NGO and projects
 
     'raven.contrib.django.raven_compat',
     'analytical',
