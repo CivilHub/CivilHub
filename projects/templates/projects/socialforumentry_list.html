@@ -57,19 +57,16 @@
   {% include 'places_core/pagination.html' %}
   {% if user.is_authenticated and not discussion.is_closed %}<div class="reply-entry">
     <div class="row">
-      <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-        <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-avatar user-window-toggle" data-target="{{ user.creator.pk }}">
+      <div class="col-xs-1 entry-avatar-nomg">
+        <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-avatar">
         <p class="custom-centered discussionPH">{{ user.profile.rank_pts }}</p>
       </div>
       <div class="col-xs-11 discussion-entry-content border0">
-        <form action="{% url 'projects:create_entry' project_slug=object.slug discussion_slug=discussion.slug %}" method="post" class="form-horizontal">
-          {% csrf_token %}
-          {{ answer_form.topic }}
-          {{ answer_form.creator }}
+        <form action="{% url 'projects:create_entry' project_slug=object.slug discussion_slug=discussion.slug %}" method="post" class="form-horizontal">{% csrf_token %}{{ answer_form.topic }}{{ answer_form.creator }}
           <div class="form-group">
             <div class="col-sm-12">{{ answer_form.content }}</div>
           </div>
-          <div class="form-group">
+          <div class="form-group text-right mb0">
             <div class="col-sm-12 text-right">
               <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Reply" %}</button>
             </div>

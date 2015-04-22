@@ -19,218 +19,207 @@
 {% block navigation_location %}<div class="location-page-discussion">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
 
-    <input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
-    {% visit_counter discussion %}
-    <div class="col-sm-9 main-content contentPX">
-        <div class="discussion-list-entry">
-            {% if user.is_authenticated %}
-            <h1 class="submenuHeading"><span class="submenu-toggle"> </span></h1>
-            <div class="entry-submenu">
-                <ul>{% with discussion|content_type as ctype %}
-                    {% if map_markers %}
-                        <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}">{% trans "Show on map" %}</a></li>
-                    {% endif %}
-                    {% if marker_form %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ discussion.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
-                    <li></li>
-                    {% if user == discussion.creator %}
-                    <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
-                    {% endif %}
-                    {% if user.is_superuser or is_moderator %}
-                    <li><a href="{% url 'locations:remove_content' ctype.pk discussion.pk %}">{% trans "Delete" %}</a></li>
-                    {% endif %}
-                    {% if user.is_authenticated and user != discussion.creator %}
-                        <li>{% report_link discussion %}</li>
-                    {% endif %}{% endwith %}
-                    <li>{% bookmark_form discussion user %}</li>
-                </ul>
-            </div>
-            {% endif %}
-            <div class="custom-label-list">
-                <span class="fa fa-list custom-fa"> </span>
-                <span class="custom-label-entry custom-main-label-entry">
-                    <a href="{% url 'locations:discussions' discussion.location.slug %}">{% trans "All channels" %}</a>
-                </span>
-                <span class="custom-label-entry">
-                    <a href="{% url 'locations:discussions' discussion.location.slug %}#{{ discussion.category.pk }}" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
-                </span>
-            </div>
+<input type="hidden" name="discussion_id" id="discussion-id" value="{{ discussion.pk }}" />
+{% visit_counter discussion %}
+<div class="col-sm-9 main-content contentPX">
+  <div class="discussion-list-entry">
+    {% if user.is_authenticated %}
+    <h1 class="submenuHeading"><span class="submenu-toggle"> </span></h1>
+    <div class="entry-submenu">
+      <ul>{% with discussion|content_type as ctype %}
+          {% if map_markers %}
+            <li><a href="{% url 'maps:info' ctype.pk discussion.pk %}">{% trans "Show on map" %}</a></li>
+          {% endif %}
+          {% if marker_form %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ discussion.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
+          <li></li>
+          {% if user == discussion.creator %}
+          <li><a href="{% url 'discussion:update' discussion.slug %}">{% trans "Edit" %}</a></li>
+          {% endif %}
+          {% if user.is_superuser or is_moderator %}
+          <li><a href="{% url 'locations:remove_content' ctype.pk discussion.pk %}">{% trans "Delete" %}</a></li>
+          {% endif %}
+          {% if user.is_authenticated and user != discussion.creator %}
+            <li>{% report_link discussion %}</li>
+          {% endif %}
+          {% endwith %}
+          <li>{% bookmark_form discussion user %}</li>
+      </ul>
+    </div>
+    {% endif %}
+    <div class="custom-label-list">
+      <span class="fa fa-list custom-fa"> </span>
+      <span class="custom-label-entry custom-main-label-entry">
+        <a href="{% url 'locations:discussions' discussion.location.slug %}">{% trans "All channels" %}</a>
+      </span>
+      <span class="custom-label-entry">
+        <a href="{% url 'locations:discussions' discussion.location.slug %}#{{ discussion.category.pk }}" class="forum-list-control" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ category.description }}" data-control="category" data-target="{{ category.pk }}" rel='tooltip'>{{ discussion.category }}</a>
+      </span>
+    </div>
+  </div>
 
+  <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
+
+  <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}" class="newTag">{{tag.name}}</a> {% endfor %}</p>
+
+  <div class="reply-entry">
+    <div class="row">
+      <div class="blobfish-left">&nbsp;</div>
+      <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+        <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
+        <p class="custom-centered discussionPH">{{ discussion.creator.profile.rank_pts }}</p>
+    </div>
+    <div class="col-xs-11 discussion-entry-content">
+        <p class="entry-meta">
+          <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a>
+          <span class="topic-date-col">
+            {{ discussion.date_created | timesince }} {% trans "ago" %}
+          </span>
+          <span class="entry-controls"></span>
+        </p>
+        <div class="entry-content">{{ discussion.intro | safe }}</div>
+        <div class="custom-clear">&nbsp;</div>
+        <div class="entry-footer">
+          <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+          {% if user != discussion.creator and user.is_authenticated %}
+            <a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">
+              <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+            </a>
+          {% endif %}
         </div>
+      </div>
+    </div>
+  </div>
 
-        <h1 class="discussionHeading">{{ title }}&nbsp;</h1>
-
-        <p class="discussionTags">{% trans "Tags" %}:{% for tag in discussion.tags.all %} <a href="{% url 'locations:tag_search' slug=discussion.location.slug tag=tag.name|slugify %}" class="newTag">{{tag.name}}</a> {% endfor %}</p>
-
-        <div class="reply-entry">
-            <div class="row">
-                <div class="blobfish-left">&nbsp;</div>
-                <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                    <img src="{{ discussion.creator.profile.avatar.url }}" alt="{{ discussion.creator.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ discussion.creator.pk }}" />
-                    <p class="custom-centered discussionPH">{{ discussion.creator.profile.rank_pts }}</p>
-                </div>
-                <div class="col-xs-11 discussion-entry-content">
-                    <p class="entry-meta">
-                        <a href="{{ discussion.creator.profile.get_absolute_url }}" class="user-window-toggle-detail" data-target="{{ discussion.creator.pk }}">{{ discussion.creator.get_full_name }}</a>
-                        <span class="topic-date-col">
-                            {{ discussion.date_created | timesince }} {% trans "ago" %}
-                        </span>
-                        <span class="entry-controls"></span>
-                    </p>
-                    <div class="entry-content">{{ discussion.intro | safe }}</div>
-                    <div class="custom-clear">&nbsp;</div>
-                    <div class="entry-footer">
-                        <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
-                        {% if user != discussion.creator and user.is_authenticated %}
-                            <a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">
-                                <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                            </a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+  {% for entry in replies %}<div class="reply-entry" id="reply-{{ entry.pk }}">
+    <div class="row">
+      <div class="blobfish-left">&nbsp;</div>
+      <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+        <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
+        <p class="custom-centered discussionPH">{{ entry.creator.profile.rank_pts }}</p>
+      </div>
+      <div class="col-xs-11 discussion-entry-content">
+        <p class="entry-meta">
+          <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a>
+          <span class="topic-date-col">
+            {{ entry.date_created | timesince }} {% trans "ago" %}
+            {% if entry.is_edited %}
+            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }} {% trans "ago" %}
+            {% endif %}
+          </span>
+          <span class="entry-controls"></span>
+        </p>
+        <div class="entry-content"><p>{{ entry.content | safe }}</p></div>
+        <div class="custom-clear">&nbsp;</div>
+        <div class="entry-footer">
+          <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+          {% if user == entry.creator %}
+            <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
+            <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" class="link-entry-edit" title="{% trans "Edit entry" %}">
+              <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+            </a>
+          {% else %}
+            <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
+            <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-up">
+              <span class="fa fa-angle-up custom-tooltip " title="{% trans "Vote up" %}"> </span>
+            </a> |
+            <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
+              <span class="fa fa-angle-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+            </a> |
+            <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
+              <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+            </a>
+          {% endif %}
         </div>
+      </div>
+    </div>
+  </div>{% endfor %}
 
-        {% for entry in replies %}
-            <div class="reply-entry" id="reply-{{ entry.pk }}">
-                <div class="row">
-                    <div class="blobfish-left">&nbsp;</div>
-                    <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                        <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator }}" class="user-avatar user-window-toggle" data-target="{{ entry.creator.pk }}" />
-                        <p class="custom-centered discussionPH">{{ entry.creator.profile.rank_pts }}</p>
-                    </div>
-                    <div class="col-xs-11 discussion-entry-content">
-                        <p class="entry-meta">
-                            <a href="{{ entry.creator.profile.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ entry.creator.pk }}">{{ entry.creator.get_full_name }}</a>
-                            <span class="topic-date-col">
-                                {{ entry.date_created | timesince }} {% trans "ago" %}
-                                {% if entry.is_edited %}
-                                <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }} {% trans "ago" %}
-                                {% endif %}
-                            </span>
-                            <span class="entry-controls"></span>
-                        </p>
-                        <div class="entry-content"><p>{{ entry.content | safe }}</p></div>
-                        <div class="custom-clear">&nbsp;</div>
-                        <div class="entry-footer">
-                            <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
-                            {% if user == entry.creator %}
-                                <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
-                                <a href="{% url 'discussion:entry_update' slug=discussion.slug pk=entry.pk %}" class="link-entry-edit" title="{% trans "Edit entry" %}">
-                                    <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
-                                </a>
-                            {% else %}
-                                <span class="entry-vote-count">{{ entry.calculate_votes }}</span>
-                                <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-up">
-                                    <span class="fa fa-angle-up custom-tooltip " title="{% trans "Vote up" %}"> </span>
-                                </a> |
-                                <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
-                                    <span class="fa fa-angle-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
-                                </a> |
-                                <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
-                                    <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+  {% if replies.paginator.num_pages > 1 %}<ul class="pagination">
+    {% if replies.has_previous %}
+      <li><a href="?page=1">&laquo;</a></li>
+      <li><a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a></li>
+    {% endif %}
+    {% for page in replies.paginator.page_range %}
+      <li{% if page == replies.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
+    {% endfor %}
+    {% if replies.has_next %}
+      <li><a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a></li>
+      <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
+    {% endif %}
+  </ul>{% endif %}
+
+  <div id="replies"></div>
+
+  {% if user.is_authenticated and discussion.status %}
+    <div class="reply-entry">
+      <div class="row">
+        <div class="col-xs-1 entry-avatar-nomg">
+          <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-avatar">
+          <p class="custom-centered discussionPH">{{ user.profile.rank_pts }}</p>
+        </div>
+        <div class="col-xs-11 discussion-entry-content border0">
+          <form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post">{% csrf_token %}{{ form.discussion }}{{ form.content }}
+            <div class="form-group text-right mb0">
+              <button type="submit" class="btn btn-saveBig submit-btn top15">{% trans "Reply" %}</button>
             </div>
-        {% endfor %}
+          </form>
+        </div>
+      </div>
+    </div>
+  {% elif user.is_anonymous and discussion.status %}
+    <p class="alert alert-info">{% trans "You have to be logged in to post answers." %}</p>
+  {% else %}
+    <p class="alert alert-info">{% trans "This topic is closed. You can't post answers." %}</p>
+  {% endif %}
+</div>
 
-        {% if replies.paginator.num_pages > 1 %}<ul class="pagination">
+<div class="col-sm-3 boxPX">
+  {% include 'locations/sidebar.html' %}
+</div>
 
-            {% if replies.has_previous %}
-                <li><a href="?page=1">&laquo;</a></li>
-                <li><a href="?page={{ replies.previous_page_number }}">{% trans "previous" %}</a></li>
-            {% endif %}
-
-            {% for page in replies.paginator.page_range %}
-                <li{% if page == replies.number %} class="active"{% endif %}><a href="?page={{ page }}">{{ page }}</a></li>
-            {% endfor %}
-
-            {% if replies.has_next %}
-                <li><a href="?page={{ replies.next_page_number }}">{% trans "next" %}</a></li>
-                <li><a href="?page={{ replies.paginator.num_pages }}">&raquo;</a></li>
-            {% endif %}
-
-        </ul>{% endif %}
-
-        <div id="replies"></div>
-
-        {% if user.is_authenticated and discussion.status %}
-
-            <div class="text-right mt-m5">
-                <button type="button" class="btn btn-saveBig reply-entry-btn">{% trans "Reply" %}</button>
-            </div>
-            <form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post" class="hidden-form">
-                {% csrf_token %}
-                {{ form }}
-                <div class="form-group text-right mb0">
-                    <button type="submit" class="btn btn-saveBig submit-btn top15">{% trans "Submit" %}</button>
-                </div>
-            </form>
-
-        {% elif user.is_anonymous and discussion.status %}
-
-            <p class="alert alert-info">{% trans "You have to be logged in to post answers." %}</p>
-
+<script type="text/template" id="reply-tpl">
+  <div class="row">
+    <div class="blobfish-left">&nbsp;</div>
+    <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
+      <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar user-window-toggle" data-target="<%= creator_id %>" />
+      <p class="custom-centered discussionPH"></p>
+    </div>
+    <div class="col-xs-11 discussion-entry-content">
+      <p class="entry-meta">
+        <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
+        <span class="topic-date-col">
+          <span class="date-created"><%= date_created %></span>
+          <% if (is_edited) { %>
+            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <span class="date-edited"><%= date_edited %></span>
+          <% } %>
+        </span>
+        <span class="entry-controls"></span>
+      </p>
+      <div class="entry-content"><%= content %></div>
+      <div class="custom-clear">&nbsp;</div>
+      <div class="entry-footer">
+        <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+        {% if user == entry.creator %}
+          <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
+          <a href="" class="link-entry-edit" title="{% trans "Edit entry" %}">
+              <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
+          </a>
         {% else %}
-
-            <p class="alert alert-info">{% trans "This topic is closed. You can't post answers." %}</p>
-
+          <span class="entry-vote-count"><%= vote_count %></span>
+          <a href="" class="entry-vote entry-vote-up">
+            <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
+          </a> |
+          <a href="" class="entry-vote entry-vote-down">
+            <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
+          </a> |
+          <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
+            <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
+          </a>
         {% endif %}
-
-
+        | {% bookmark_form for discussion %}
+      </div>
     </div>
-
-    <div class="col-sm-3 boxPX">
-        {% include 'locations/sidebar.html' %}
-    </div>
-
-    <script type="text/template" id="reply-tpl">
-        <div class="row">
-            <div class="blobfish-left">&nbsp;</div>
-            <div class="col-xs-1 entry-avatar-col entry-avatar-nomg">
-                <img src="<%= creator_avatar %>" alt="<%= creator_username %>" class="user-avatar user-window-toggle" data-target="<%= creator_id %>" />
-                <p class="custom-centered discussionPH"></p>
-            </div>
-            <div class="col-xs-11 discussion-entry-content">
-                <p class="entry-meta">
-                    <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
-                    <span class="topic-date-col">
-                        <span class="date-created"><%= date_created %></span>
-                        <% if (is_edited) { %>
-                            <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> <span class="date-edited"><%= date_edited %></span>
-                        <% } %>
-                    </span>
-                    <span class="entry-controls"></span>
-                </p>
-                <div class="entry-content"><%= content %></div>
-                <div class="custom-clear">&nbsp;</div>
-                <div class="entry-footer">
-                    <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
-                    {% if user == entry.creator %}
-                        <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
-                        <a href="" class="link-entry-edit" title="{% trans "Edit entry" %}">
-                            <span class="fa fa-edit"> </span> {% trans "Edit entry" %}
-                        </a>
-                    {% else %}
-                        <span class="entry-vote-count"><%= vote_count %></span>
-                        <a href="" class="entry-vote entry-vote-up">
-                            <span class="fa fa-chevron-up custom-tooltip" title="{% trans "Vote up" %}"> </span>
-                        </a> |
-                        <a href="" class="entry-vote entry-vote-down">
-                            <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
-                        </a> |
-                        <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
-                            <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                        </a>
-                    {% endif %}
-                    | {% bookmark_form for discussion %}
-                </div>
-            </div>
-        </div>
-    </script>
-
-    {% include 'locations/category-form.html' %}
-
+  </div>
+</script>
+{% include 'locations/category-form.html' %}
 {% endblock %}
