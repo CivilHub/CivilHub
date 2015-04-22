@@ -1,27 +1,36 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% block location_navbar %}<div class="socialproject-summary-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}
-<div class="col-sm-9 main-project-content">
+<div class="col-sm-6 main-project-content">
   <h1>{{ object }}</h1>
   <div>{{ object.description|safe }}</div>
 </div>
-<div class="col-sm-3">
-  <div class="activity-stream">
-    {% for action in actions %}<div class="row action-entry">
-      <div class="entry-avatar-col">
-        <div class="actiAvatar"> <img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.profile }}" /> </div>
-        <div class="actiNick"><a href="{{ action.actor.profile.get_absolute_url }}" class="locActorNick"><h5>{{ action.actor.profile }}</h5></a>
-          <p>
+<div class="col-sm-6">
+  <div class="activity-stream wrapper-timeline">
+    <ul class="ac-timeline">
+      {% for action in actions %}<li class="timeline-item">
+      <div class="timeline-wrap">
+        <span class="date custom-tooltip" title=""></span>
+        <a href="{{ action.actor.profile.get_absolute_url }}" class="timeline-user">
+          <span class="user-window-toggle" data-target="{{ action.actor.pk }}"><img src="{{ action.actor.profile.avatar.url }}" alt="{{ action.actor.profile }}" /></span>
+          <span class="user-pts">{{ action.actor.profile.rank_pts }}</span>
+        </a>
+        <div class="timeline-content panel">
+          <span class="arrow arrow-left arrow-top"></span>
+          <div class="timeline-content-head">
+          <a href="{{ action.actor.profile.get_absolute_url }}">{{ action.actor.profile }}</a>
             {{ action.verb }}
             {% if action.action_object %}
-              {% if action.action_object.get_absolute_url %}<span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>
-              {% else %}<span class="actiTitle"> <a href="{{ action.action_object.get_absolute_url }}" class="locObjectName">{{ action.action_object }}</a></span>{% endif %}
-              <span class="actiCategory"> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
-            {% else %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span>{% endif %}
-          </p>
-          <div class="actiClock"><span class="custom-tooltip" title="{{ action.timestamp|timesince }} {% trans "ago" %}"><span class="fa fa-clock-o">{% comment %} <span class="locTimeAdd">{{ action.timestamp|timesince }} {% trans "ago" %}</span> {% endcomment %}</span></span></div>
+              {% if action.action_object.get_absolute_url %}<span> <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a></span>
+              {% else %}<span> <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a></span>
+              {% endif %}
+              <span> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
+            {% else %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span>
+            {% endif %}
+        </div>
         </div>
       </div>
-    </div>{% endfor %}
+      </li>{% endfor %}
+    </ul>
   </div>
 </div>{% endblock %}

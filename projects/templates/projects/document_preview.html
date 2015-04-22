@@ -4,7 +4,8 @@
   <form action="{% url 'pad-download' object.pk %}" method="post" id="pad_document_prev">{% csrf_token %}
     <div class="hidden">{{ download_form }}</div>
     <button type="submit" class="txt-to to-doc custom-tooltip" title="{% trans "Download this pad in doc" %}"></button>
+    <span class="txt-to to-pdf custom-tooltip" title="{% trans "Soon" %}"></span>
   </form>
-     <a href="{% url 'pad-collaborate' document.pk %}" class="custom-tooltip to-edit" title="{% trans "Collaborate" %}"><span class="fa fa-pencil-square-o fa-2x"></span></a>
+    <a href="{% url 'pad-collaborate' document.pk %}" class="custom-tooltip to-edit" title="{% trans "Collaborate" %}"><span class="fa fa-pencil-square-o fa-2x"></span></a>
 </div>
 <div class="main-content mt25">{{ document.html|safe }}</div>{% endblock %}

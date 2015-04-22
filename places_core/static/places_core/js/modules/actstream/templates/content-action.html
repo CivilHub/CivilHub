@@ -1,9 +1,9 @@
 <div class="timeline-wrap <%= action_object.content_type.type %>">
   <span class="date custom-tooltip" title="<%= timestamp %>"></span>
-  <span class="timeline-user">
-    <img src="<%= actor.profile.avatar %>" alt="<%= actor.full_name %>" class="user-avatar avatarH ">
-    <%= actor.profile.rank_pts %>
-  </span>
+  <a class="timeline-user" href="<%= actor.profile.url %>">
+    <span class="user-window-toggle" data-target="<%= actor.id %>"><img src="<%= actor.profile.avatar %>" alt="<%= actor.full_name %>" class="user-avatar avatarH"></span>
+    <span class="user-pts"><%= actor.profile.rank_pts %></span>
+  </a>
   <div class="timeline-content panel">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">

@@ -56,6 +56,8 @@ class ActionObjectSerializer(serializers.Serializer):
     def get_title(self, obj):
         if obj._meta.model_name == 'locationgalleryitem':
             return obj.name
+        elif obj._meta.model_name == 'socialforumentry':
+            return obj.topic.__unicode__()
         return obj.__unicode__()
 
     def get_description(self, obj):
