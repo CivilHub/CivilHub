@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-22 13:10+0200\n"
-"PO-Revision-Date: 2015-04-22 11:20+0000\n"
+"POT-Creation-Date: 2015-04-22 21:32+0200\n"
+"PO-Revision-Date: 2015-04-22 19:41+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,32 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: activities/templatetags/actstream_tags.py:29
+msgid "Stop following"
+msgstr "Przestań obserwować"
+
+#: activities/templatetags/actstream_tags.py:31
+#: locations/templates/locations/index.html:61
+#: locations/templates/locations/location_list.html:65
+#: locations/templates/locations/sublocation-list.html:20
+#: places_core/templates/places_core/script-templates.html:270
+#: userspace/templates/userspace/active.html:13
+#: userspace/templates/userspace/followed-locations.html:17
+#: userspace/templates/userspace/index.html:35
+#: userspace/templates/userspace/index.html:38
+#: userspace/templates/userspace/profile.html:28
+#: userspace/templates/userspace/profile.html:29
+msgid "Follow"
+msgstr "Obserwuj"
+
+#: activities/views.py:83
+msgid "You are following this "
+msgstr "Obserwujesz to"
+
+#: activities/views.py:89
+msgid "You are no longer following this "
+msgstr "Już dłużej nie obserwujesz"
 
 #: articles/models.py:34
 msgid "subtitle"
@@ -45,7 +71,7 @@ msgstr "Ukryj komentarze"
 
 #: articles/templates/articles/features.html:16
 #: locations/templates/locations/location-navbar.html:5
-#: organizations/templates/organizations/index.html:21
+#: organizations/templates/organizations/index.html:24
 #: places_core/templates/places_core/navigation.html:6
 #: projects/templates/projects/navbar.html:6
 #: userspace/templates/userspace/profile.html:45
@@ -197,12 +223,12 @@ msgstr "Pomoc i wsparcie"
 msgid "Support category does not exist yet"
 msgstr "Kategoria pomocy jeszcze nie istnieje"
 
-#: blog/models.py:33 blog/models.py:60 organizations/models.py:49
-#: organizations/models.py:61
+#: blog/models.py:33 blog/models.py:60 organizations/models.py:47
+#: organizations/models.py:59 simpleblog/models.py:68
 msgid "category"
 msgstr "kategoria"
 
-#: blog/models.py:34 organizations/models.py:50
+#: blog/models.py:34 organizations/models.py:48
 msgid "categories"
 msgstr "kategorie"
 
@@ -394,6 +420,7 @@ msgstr "Statystyki"
 #: maps/templates/maps/pointer-modal-form.html:23
 #: organizations/templates/organizations/organization_form.html:4
 #: organizations/templates/organizations/organization_location_add.html:5
+#: organizations/templates/organizations/organization_news_form.html:4
 #: places_core/templates/places_core/script-templates.html:229
 #: polls/templates/polls/create-poll.html:76
 #: projects/templates/projects/socialforumentry_form.html:6
@@ -403,6 +430,7 @@ msgstr "Statystyki"
 #: projects/templates/projects/socialproject_update.html:13
 #: projects/templates/projects/task_form.html:16
 #: projects/templates/projects/taskgroup_form.html:16
+#: simpleblog/templates/simpleblog/blogentry_form.html:4
 #: topics/templates/topics/discussion_form.html:18
 #: topics/templates/topics/reply_update.html:9
 #: userspace/templates/userspace/background-form.html:19
@@ -437,7 +465,7 @@ msgstr "Pokaż na mapie"
 #: polls/templates/polls/poll-list.html:13
 #: polls/templates/polls/poll_list.html:14
 #: projects/templates/projects/socialforumentry_list.html:47
-#: projects/templates/projects/socialforumentry_list.html:76
+#: projects/templates/projects/socialforumentry_list.html:83
 #: projects/templates/projects/socialproject_detail.html:9
 #: projects/templates/projects/socialproject_detail.html:66
 #: topics/templates/topics/discussion_detail.html:36
@@ -507,13 +535,12 @@ msgstr "Aktualności"
 #: places_core/templates/places_core/script-templates.html:531
 #: projects/templates/projects/socialforumentry_list.html:19
 #: projects/templates/projects/socialforumentry_list.html:41
-#: projects/templates/projects/socialproject_summary.html:22
 #: templates/activity/action.html:27 templates/activity/actor.html:67
 #: templates/activity/actor.html.py:153
 #: templates/emails/activities-body-html.html:154
 #: topics/templates/topics/discussion_detail.html:75
-#: topics/templates/topics/discussion_detail.html:105
-#: topics/templates/topics/discussion_detail.html:107
+#: topics/templates/topics/discussion_detail.html:104
+#: topics/templates/topics/discussion_detail.html:106
 msgid "ago"
 msgstr "temu"
 
@@ -569,10 +596,10 @@ msgstr "dodaj pierwszą wpis na blogu"
 #: places_core/templates/places_core/script-templates.html:57
 #: places_core/templates/places_core/script-templates.html:584
 #: places_core/templates/places_core/script-templates.html:585
+#: topics/templates/topics/discussion_detail.html:117
 #: topics/templates/topics/discussion_detail.html:118
-#: topics/templates/topics/discussion_detail.html:119
-#: topics/templates/topics/discussion_detail.html:213
-#: topics/templates/topics/discussion_detail.html:214
+#: topics/templates/topics/discussion_detail.html:204
+#: topics/templates/topics/discussion_detail.html:205
 msgid "Edit entry"
 msgstr "Edycja wpisu"
 
@@ -782,7 +809,7 @@ msgstr "grupa autorów"
 msgid "authors groups"
 msgstr "grupy autorów"
 
-#: etherpad/models.py:70 projects/models.py:221
+#: etherpad/models.py:70 projects/models.py:221 simpleblog/models.py:64
 msgid "author"
 msgstr "autor"
 
@@ -830,12 +857,12 @@ msgstr "Pokaż szczegóły"
 
 #: etherpad/templates/etherpad/pad_list.html:13
 #: etherpad/templates/etherpad/pad_list.html:17
-#: projects/templates/projects/document_preview.html:8
+#: projects/templates/projects/document_preview.html:9
 msgid "Collaborate"
 msgstr "Edytuj"
 
 #: etherpad/templates/etherpad/pad_list.html:14
-#: organizations/templates/organizations/index.html:32
+#: organizations/templates/organizations/index.html:35
 msgid "Update"
 msgstr "Aktualizuj"
 
@@ -850,7 +877,7 @@ msgstr "Dołącz do projektu"
 #: locations/templates/locations/location_followers.html:54
 #: locations/templates/locations/sublocation-list.html:37
 #: places_core/templates/places_core/pagination.html:2
-#: topics/templates/topics/discussion_detail.html:143
+#: topics/templates/topics/discussion_detail.html:140
 msgid "previous"
 msgstr "poprzednie"
 
@@ -860,7 +887,7 @@ msgstr "poprzednie"
 #: locations/templates/locations/location_followers.html:62
 #: locations/templates/locations/sublocation-list.html:45
 #: places_core/templates/places_core/pagination.html:6
-#: topics/templates/topics/discussion_detail.html:151
+#: topics/templates/topics/discussion_detail.html:146
 msgid "next"
 msgstr "następne"
 
@@ -1143,7 +1170,7 @@ msgstr "Status"
 
 #: ideas/templates/ideas/idea_detail.html:42
 #: ideas/templates/ideas/idea_list.html:25
-#: organizations/templates/organizations/index.html:29
+#: organizations/templates/organizations/index.html:32
 #: projects/templates/projects/navbar.html:14
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -1258,7 +1285,7 @@ msgstr "Projekt"
 msgid "Wrong model instance"
 msgstr "Zły rodzaj modelu"
 
-#: locations/models.py:159 organizations/models.py:40 projects/models.py:35
+#: locations/models.py:159 organizations/models.py:38 projects/models.py:35
 #: projects/models.py:131 projects/models.py:155
 msgid "name"
 msgstr "nazwa"
@@ -1267,8 +1294,8 @@ msgstr "nazwa"
 msgid "slug"
 msgstr "slug"
 
-#: locations/models.py:161 organizations/models.py:43
-#: organizations/models.py:64 projects/models.py:66 projects/models.py:132
+#: locations/models.py:161 organizations/models.py:41
+#: organizations/models.py:62 projects/models.py:66 projects/models.py:132
 #: projects/models.py:156 projects/models.py:192
 msgid "description"
 msgstr "opis"
@@ -1285,7 +1312,7 @@ msgstr "wysokość geograficzna"
 msgid "alternate names"
 msgstr "alternatywne nazwy"
 
-#: locations/models.py:165 organizations/models.py:67 projects/models.py:196
+#: locations/models.py:165 organizations/models.py:65 projects/models.py:196
 msgid "creator"
 msgstr "twórca"
 
@@ -1302,9 +1329,9 @@ msgid "population"
 msgstr "ilość mieszkańców"
 
 #: locations/models.py:169 notifications/models.py:41
-#: organizations/models.py:69 organizations/models.py:141
+#: organizations/models.py:67 organizations/models.py:141
 #: projects/models.py:69 projects/models.py:158 projects/models.py:193
-#: projects/models.py:224
+#: projects/models.py:224 simpleblog/models.py:59
 msgid "date created"
 msgstr "data utworzenia"
 
@@ -1324,7 +1351,7 @@ msgstr "rodzaj"
 msgid "location"
 msgstr "lokalizacja"
 
-#: locations/models.py:182 organizations/models.py:89
+#: locations/models.py:182 organizations/models.py:87
 msgid "locations"
 msgstr "lokalizacje"
 
@@ -1352,19 +1379,6 @@ msgstr "Sublokalizacje"
 #: userspace/templates/userspace/followed-locations.html:19
 msgid "You are following"
 msgstr "Obserwujesz"
-
-#: locations/templates/locations/index.html:61
-#: locations/templates/locations/location_list.html:65
-#: locations/templates/locations/sublocation-list.html:20
-#: places_core/templates/places_core/script-templates.html:270
-#: userspace/templates/userspace/active.html:13
-#: userspace/templates/userspace/followed-locations.html:17
-#: userspace/templates/userspace/index.html:35
-#: userspace/templates/userspace/index.html:38
-#: userspace/templates/userspace/profile.html:28
-#: userspace/templates/userspace/profile.html:29
-msgid "Follow"
-msgstr "Obserwuj"
 
 #: locations/templates/locations/index.html:66
 #: projects/templates/projects/index.html:69
@@ -1531,7 +1545,7 @@ msgstr "Ekportuj do pdf"
 msgid ""
 "Generate a ready to be printed pdf file of this place and hang it in your "
 "block of flats or neighborhood and invite your neighbors to CivilHub."
-msgstr ""
+msgstr "Wygeneruj gotowy do druku PDF, który możesz wywiesić wśród swoich sąsiadów, aby zaprosić ich do korzystania z CivilHub"
 
 #: locations/templates/locations/location_followers.html:12
 #: projects/templates/projects/socialproject_participants.html:7
@@ -1615,7 +1629,7 @@ msgid "Latest"
 msgstr "Ostatnie"
 
 #: locations/templates/locations/location_forum.html:84
-#: topics/templates/topics/discussion_detail.html:51
+#: topics/templates/topics/discussion_detail.html:52
 #: topics/templates/topics/discussion_list.html:12
 msgid "All channels"
 msgstr "Wszystkie kategorie"
@@ -1886,7 +1900,7 @@ msgid "No results mathing query found."
 msgstr "Brak wyników"
 
 #: locations/templates/locations/sidebar.html:9
-#: projects/templates/projects/socialforumentry_list.html:74
+#: projects/templates/projects/socialforumentry_list.html:81
 #: projects/templates/projects/socialforumtopic_list.html:41
 #: userspace/templates/userspace/sidebar.html:14
 #: userspace/templates/userspace/sidebar.html:33
@@ -1937,7 +1951,7 @@ msgstr "Utwórz nową dyskusję"
 msgid "Create new poll"
 msgstr "Utwórz nową ankietę"
 
-#: locations/views.py:330 organizations/templates/organizations/index.html:31
+#: locations/views.py:330 organizations/templates/organizations/index.html:34
 msgid "Locations"
 msgstr "Lokalizacje"
 
@@ -2061,37 +2075,45 @@ msgstr "powiadomienia"
 msgid "Invalid user emails: "
 msgstr "Błędne adresy email:"
 
-#: organizations/models.py:66
+#: organizations/models.py:64
 msgid "created_organizations"
 msgstr "utworzone_organizacje"
 
-#: organizations/models.py:71
+#: organizations/models.py:69
 msgid "date modified"
 msgstr "data modyfikacji"
 
-#: organizations/models.py:75
+#: organizations/models.py:73
 msgid "KRS"
 msgstr "KRS"
 
-#: organizations/models.py:78
+#: organizations/models.py:76
 msgid "contact mail"
 msgstr "email kontaktowy"
 
-#: organizations/models.py:81 userspace/models.py:60
+#: organizations/models.py:79 userspace/models.py:60
 msgid "website"
 msgstr "strona internetowa"
 
-#: organizations/models.py:84
+#: organizations/models.py:82
 msgid "members"
 msgstr "członkowie"
 
-#: organizations/models.py:99
+#: organizations/models.py:97
 msgid "is verified"
 msgstr "jest zweryfikowany"
 
-#: organizations/models.py:102
+#: organizations/models.py:100
 msgid "background image"
 msgstr "zdjęcie tła"
+
+#: organizations/models.py:102 simpleblog/models.py:72
+msgid "tags"
+msgstr "tagi"
+
+#: organizations/models.py:105
+msgid "Tags separated by comma"
+msgstr "Tagi oddzielone przecinkami"
 
 #: organizations/models.py:122 organizations/models.py:135
 msgid "organization"
@@ -2121,7 +2143,7 @@ msgstr "zaproszenie"
 msgid "invitations"
 msgstr "zaproszenia"
 
-#: organizations/templates/organizations/index.html:30
+#: organizations/templates/organizations/index.html:33
 msgid "Members"
 msgstr "Członkowie"
 
@@ -2133,11 +2155,11 @@ msgstr "Dodaj więcej lokalizacji"
 msgid "Invite more users"
 msgstr "Zaproś więcej użytkowników"
 
-#: organizations/views.py:215
+#: organizations/views.py:235
 msgid "All messages sent"
 msgstr "Wszystkie wiadomości zostały wysłane"
 
-#: organizations/views.py:240
+#: organizations/views.py:260
 msgid "You have accepted invitation"
 msgstr "Zaakceptowałeś zaproszenie"
 
@@ -2160,11 +2182,11 @@ msgstr "Pornografia"
 
 #: places_core/models.py:126
 msgid "Violence/indicent content"
-msgstr ""
+msgstr "Przemoc / nieprzyzwoite treści"
 
 #: places_core/models.py:127
 msgid "Insults/Obrażanie/spread of hatred"
-msgstr ""
+msgstr "Zniewaga, obrażanie, szerzenie nienawiści"
 
 #: places_core/models.py:128
 msgid "Dangerious activities"
@@ -2212,10 +2234,10 @@ msgstr "Nie pasuje"
 #: templates/postman/view.html:20
 #: topics/templates/topics/discussion_detail.html:84
 #: topics/templates/topics/discussion_detail.html:85
+#: topics/templates/topics/discussion_detail.html:128
 #: topics/templates/topics/discussion_detail.html:129
-#: topics/templates/topics/discussion_detail.html:130
-#: topics/templates/topics/discussion_detail.html:224
-#: topics/templates/topics/discussion_detail.html:225
+#: topics/templates/topics/discussion_detail.html:215
+#: topics/templates/topics/discussion_detail.html:216
 msgid "Report abuse"
 msgstr "Zgłoś naruszenie"
 
@@ -2379,10 +2401,10 @@ msgid "Back to homepage"
 msgstr "Wróć do Strony Głównej"
 
 #: places_core/templates/places_core/script-templates.html:84
-#: projects/templates/projects/socialforumentry_list.html:65
+#: projects/templates/projects/socialforumentry_list.html:71
 #: templates/postman/base_folder.html:87 templates/postman/view.html:19
 #: templates/postman/view.html.py:50 templates/postman/view.html:60
-#: topics/templates/topics/discussion_detail.html:162
+#: topics/templates/topics/discussion_detail.html:163
 msgid "Reply"
 msgstr "Odpowiedz"
 
@@ -2402,7 +2424,7 @@ msgstr "Komentarz"
 #: places_core/templates/places_core/script-templates.html:349
 #: places_core/templates/places_core/script-templates.html:526
 #: places_core/templates/places_core/script-templates/action-template.html:21
-#: projects/templates/projects/socialproject_summary.html:19
+#: projects/templates/projects/socialproject_summary.html:27
 #: templates/activity/actor.html:148
 msgid "to"
 msgstr "do"
@@ -2418,27 +2440,27 @@ msgstr "Usuń odpowiedź"
 
 #: places_core/templates/places_core/script-templates.html:573
 #: projects/templates/projects/socialforumentry_list.html:35
-#: topics/templates/topics/discussion_detail.html:107
-#: topics/templates/topics/discussion_detail.html:202
+#: topics/templates/topics/discussion_detail.html:106
+#: topics/templates/topics/discussion_detail.html:193
 msgid "Edited"
 msgstr "Edytowany"
 
 #: places_core/templates/places_core/script-templates.html:581
 #: topics/templates/topics/discussion_detail.html:82
-#: topics/templates/topics/discussion_detail.html:115
-#: topics/templates/topics/discussion_detail.html:210
+#: topics/templates/topics/discussion_detail.html:114
+#: topics/templates/topics/discussion_detail.html:201
 msgid "Quote"
 msgstr "Cytuj"
 
 #: places_core/templates/places_core/script-templates.html:590
-#: topics/templates/topics/discussion_detail.html:124
-#: topics/templates/topics/discussion_detail.html:219
+#: topics/templates/topics/discussion_detail.html:123
+#: topics/templates/topics/discussion_detail.html:210
 msgid "Vote up"
 msgstr "Jestem na TAK"
 
 #: places_core/templates/places_core/script-templates.html:593
-#: topics/templates/topics/discussion_detail.html:127
-#: topics/templates/topics/discussion_detail.html:222
+#: topics/templates/topics/discussion_detail.html:126
+#: topics/templates/topics/discussion_detail.html:213
 msgid "Vote down"
 msgstr "Jestem na NIE"
 
@@ -2571,7 +2593,7 @@ msgstr "zadanie"
 msgid "tasks"
 msgstr "zadania"
 
-#: projects/models.py:194 projects/models.py:225
+#: projects/models.py:194 projects/models.py:225 simpleblog/models.py:61
 msgid "date edited"
 msgstr "data edycji"
 
@@ -2587,7 +2609,7 @@ msgstr "dyskusje"
 msgid "discussion"
 msgstr "Dyskusje"
 
-#: projects/models.py:222
+#: projects/models.py:222 simpleblog/models.py:57
 msgid "content"
 msgstr "zawartość"
 
@@ -2606,6 +2628,10 @@ msgstr "wpisy na forum"
 #: projects/templates/projects/document_preview.html:6
 msgid "Download this pad in doc"
 msgstr "Pobierz ten dokument w formacie doc"
+
+#: projects/templates/projects/document_preview.html:7
+msgid "Soon"
+msgstr ""
 
 #: projects/templates/projects/index.html:56
 #: projects/templates/projects/navbar.html:22
@@ -2821,6 +2847,26 @@ msgstr "Zapisano odznakę"
 #: rest/views.py:675
 msgid "gave badge to"
 msgstr "Daj symbol"
+
+#: simpleblog/models.py:46
+msgid "blog category"
+msgstr "kategoria na blogu"
+
+#: simpleblog/models.py:47
+msgid "blog categories"
+msgstr "kategorie na blogu"
+
+#: simpleblog/models.py:73
+msgid "List of tags separated by comma"
+msgstr "Wypisz tagi, oddzielając je przecinkami"
+
+#: simpleblog/models.py:86
+msgid "blog entry"
+msgstr "wpis na blogu"
+
+#: simpleblog/models.py:87
+msgid "blog entries"
+msgstr "wpisy na blogu"
 
 #: staticpages/templates/staticpages/pages/404.html:24 templates/404.html:23
 msgid "404 Page"
@@ -3145,7 +3191,7 @@ msgstr "Błąd podczas przetwarzania"
 msgid ""
 "If you want to be active in your local community then CivilHub is the right "
 "place."
-msgstr ""
+msgstr "Jeśli chcesz działać w swojej społeczności to CivilHub jest dobrym miejscem. "
 
 #: templates/easy_pdf/invitation.html:58
 msgid "See what happend recently in your neighborhood."
@@ -3453,16 +3499,11 @@ msgstr "zagłosował na %s Twój wpis"
 msgid "Are you sure you want to delete this entry?"
 msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
 
-#: topics/templates/topics/discussion_detail.html:168
-#: userspace/templates/userspace/passremind-form.html:20
-msgid "Submit"
-msgstr "Wyślij"
-
-#: topics/templates/topics/discussion_detail.html:174
+#: topics/templates/topics/discussion_detail.html:170
 msgid "You have to be logged in to post answers."
 msgstr "Musisz być zalogowany, aby móc odpowiadać"
 
-#: topics/templates/topics/discussion_detail.html:178
+#: topics/templates/topics/discussion_detail.html:172
 msgid "This topic is closed. You can't post answers."
 msgstr "Ten temat jest już zamknięty, nie możesz napisać odpowiedzi."
 
@@ -3777,6 +3818,10 @@ msgstr "Został wysłany do Ciebie email z nowym hasłem dostępu. Zalecamy zmia
 #: userspace/templates/userspace/passremind-form.html:14
 msgid "Reset password"
 msgstr "Resetuj hasło"
+
+#: userspace/templates/userspace/passremind-form.html:20
+msgid "Submit"
+msgstr "Wyślij"
 
 #: userspace/templates/userspace/profile.html:36
 msgid "Send private message"
