@@ -18,8 +18,8 @@
     <div class="col-sm-3 mt25 no-float">
       <div class="main-content p-reset">
         <div class="ac-title">
-          <div class="ac-user-head-img display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></div>
-          <div class="ac-head-user-name display-ib-m">{{ user.profile }}</div>
+          <div class="ac-user-head-img display-ib-m"><a href="{{ user.profile.get_absolute_url }}"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></a></div>
+          <div class="ac-head-user-name display-ib-m"><a href="{{ user.profile.get_absolute_url }}">{{ user.profile }}</a></div>
         </div>
         <ul class="ac-user-list list-unstyled">
           <li><a href="/messages/inbox/"><span class="fa fa-envelope-o ac-icon20"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
