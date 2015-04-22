@@ -62,3 +62,11 @@ class UserStreamMail(template_mail.TemplateMail):
     activities in places they follow. In practice this is part of user stream.
     """
     name = "activities"
+
+
+class InviteToOrganization(template_mail.TemplateMail):
+    """
+    Send this email when organization creator wants to invite users to his/her
+    organization.
+    """
+    name = "organization"

@@ -1,0 +1,12 @@
+{% extends 'organizations/index.html' %}{% load i18n %}
+{% block content %}<ul>{% for location in object_list %}
+  <li>
+    <a href="{{ location.get_absolute_url }}">{{ location }}</a>
+    {% if access %}<form class="custom-inline-form" action="{% url 'organizations:location-delete' object.slug %}" method="post">{% csrf_token %}
+      <input type="hidden" name="location_id" value="{{ location.pk }}">
+      <button type="submit">{% trans "Delete" %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if access %}<p><a href="{% url 'organizations:location-add' object.slug %}">{% trans "Add more locations" %}</a></p>{% endif %}
+{% include 'places_core/pagination.html' %}{% endblock %}

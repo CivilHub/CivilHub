@@ -7,9 +7,9 @@
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
-           'js/modules/content/content-list',
            'js/modules/common',
-           'js/modules/hotbox'],
+           'js/modules/hotbox',
+           'js/modules/actstream'],
 
   function ($, ActionList) {
     "use strict";
