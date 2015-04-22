@@ -41,6 +41,11 @@ class OrganizationCreateView(LoginRequiredMixin, CreateView):
     model = Organization
     form_class = OrganizationForm
 
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.creator = self.request.user
+        return super(OrganizationCreateView, self).form_valid(form)
+
 
 class OrganizationUpdateView(LoginRequiredMixin, UpdateView):
     """
