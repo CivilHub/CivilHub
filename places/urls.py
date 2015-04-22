@@ -97,6 +97,7 @@ from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
     url(r'^organizations/', include('organizations.urls', namespace="organizations")),
+    url(r'^simpleblog/', include('simpleblog.urls', namespace="simpleblog")),
     # user account
     url(r'^user/', include('userspace.urls', namespace='user')),
     url(r'^users/', include('userspace.urls', namespace='user')),

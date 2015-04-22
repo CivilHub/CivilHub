@@ -16,6 +16,7 @@ define(['jquery',
         'js/modules/common/abuse-report',
         'js/modules/common/cookie-warning',
         'js/modules/common/messages',
+        'js/modules/common/follow-button',
         'js/modules/notifications/notifications',
         'js/modules/ui/widgets',
         'js/modules/ui/search-toggle',
@@ -54,6 +55,7 @@ $('textarea').keypress(function (e) {
 $('.cancel-btn').on('click', function () {
   history.go(-1);
 });
+
 // Tooltips for elements shared among templates.
 $('.navbar-avatar').tooltip({ placement: 'bottom' });
 $('.custom-tooltip').tooltip();

@@ -11,8 +11,6 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
-from taggit.managers import TaggableManager
-
 from locations.models import BackgroundModelMixin, Location
 from projects.models import SlugifiedModelMixin, SocialProject
 from userspace.helpers import random_string
@@ -100,9 +98,11 @@ class Organization(SlugifiedModelMixin, BackgroundModelMixin):
     image = models.ImageField(upload_to=background_upload_path,
                               default='img/organizations/default.jpg',
                               verbose_name=_(u"background image"))
-
-    # Migration fails
-    #tags = TaggableManager(blank=True)
+    tags = models.CharField(max_length=255,
+                            verbose_name=_(u"tags"),
+                            blank=True,
+                            default="",
+                            help_text=_("Tags separated by comma"))
 
     def get_absolute_url(self):
         return reverse('organizations:detail', kwargs={'slug': self.slug, })
