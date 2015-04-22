@@ -124,7 +124,7 @@ class AbuseReport(BaseCommentAbstractModel):
     REASONS = (
         (1, _(u"Pornography")),
         (2, _(u"Violence/indicent content")),
-        (3, _(u"Insults/Obrażanie/spread of hatred")),
+        (3, _(u"Insults/spread of hatred")),
         (4, _(u"Dangerious activities")),
         (5, _(u"Usage of children")),
         (6, _(u"Spam or other misleading content")),
