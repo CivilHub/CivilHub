@@ -5,10 +5,11 @@
     <%= actor.profile.rank_pts %>
   </span>
   <div class="timeline-content panel">
+    <span class="arrow arrow-left arrow-top"></span>
+    <div class="timeline-content-head">
     <a href="<%= actor.profile.url %>"><%= actor.full_name %></a> <%= verb %>
     <% if (!_.isNull(action_object)) { %><a href="<%= action_object.url %>"><%= action_object.title %></a>
     <% } else { %><a href="<%= action_target.url %>"><%= action_target.name %></a><% } %>
-    <span class="arrow arrow-left arrow-top"></span>
-    <div class="timeline-content-head">
+    </div>
   </div>
 </div>
