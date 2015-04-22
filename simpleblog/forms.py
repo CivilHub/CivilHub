@@ -14,7 +14,7 @@ class BlogEntryForm(forms.ModelForm):
         exclude = ('slug', 'author', )
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', }),
-            'content': forms.TextArea(
+            'content': forms.Textarea(
                 attrs={'class': 'form-control custom-wysiwyg', }),
             'category': forms.Select(attrs={'class': 'form-control', }),
             'tags': forms.TextInput(
