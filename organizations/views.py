@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from civmail.messages import InviteToOrganization
 from locations.models import Location
+from places_core.helpers import ct_for_obj
 from places_core.mixins import LoginRequiredMixin
 from simpleblog.forms import BlogEntryForm
 
@@ -270,5 +271,8 @@ class NGONewsCreate(LoginRequiredMixin, NGOContextMixin, View):
     def get(self, request, **kwargs):
         self.object = self.get_object()
         context = super(NGONewsCreate, self).get_context_data(**kwargs)
-        context['form'] = self.form_class()
+        context['form'] = self.form_class(initial={
+            'content_type': ct_for_obj(self.object),
+            'object_id': self.object.pk,
+        })
         return render(request, self.template_name, context)

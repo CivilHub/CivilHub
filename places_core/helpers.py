@@ -11,6 +11,7 @@ from dateutil.relativedelta import relativedelta
 from taggit.models import Tag
 
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 from django.core.files import File
 from django.utils import timezone, translation
 
@@ -293,3 +294,12 @@ def process_background_image(imgfile, dirname=None):
         img.thumbnail((settings.BACKGROUND_IMAGE_SIZE, settings.BACKGROUND_IMAGE_SIZE))
     img.save(os.path.join(dirname, imgname), 'JPEG')
     return File(open(os.path.join(dirname, imgname)))
+
+
+def ct_for_obj(obj):
+    """
+    Returns content type of given object.
+    """
+    if not obj:
+        return None
+    return ContentType.objects.get_for_model(obj)
