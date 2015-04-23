@@ -11,26 +11,19 @@
   }
 }
 </style>
-<div class="user-logo">
+<div class="user-logo" style="background: url(http://10.0.0.235:8888/media/img/backgrounds/background_1920x300.jpg);">
   <div class="container">
-
     <div class="ngo-info">
       <div class="ngo-logo"><img src="{{ organization.logo.url }}" alt="{{ organization }}" /></div>
       <div class="ngo-more-info">
-        <div class="heading">Stowarzyszenie</div>
+        <div class="heading">{% trans "Association" %}</div>
         <div class="name"><h1>{{ organization }}</h1></div>
+        {% follow_button organization %}
       </div>
-      {% follow_button organization %}
     </div>
-
-<!--     <div class=""><img src="{{ organization.logo.url }}" /></div>
-    <h1>{{ organization }}</h1>
-    {% follow_button organization %} -->
-
-
-
   </div>
 </div>
+
 <nav id="filter-navbar" class="navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
