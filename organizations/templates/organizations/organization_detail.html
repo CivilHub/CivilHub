@@ -2,61 +2,43 @@
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/organization-detail.js"></script>{% endblock %}
 {% block container_main %}<div class="container fake-container-fill">
   {% block content %}<div class="fake-row-fill">
-
-<div class="col-sm-3 no-float">
-  <div class="main-content p-reset">
-    <div class="ac-title"><strong>{% trans "Information about the organization" %}</strong></div>
-    <div class="ac-hot-box">
-      <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong>
-        <ul class="list-unstyled mb0">
-          <li>{{ organization.name }}</li>
-        </ul>
+    <div class="col-sm-3 no-float">
+      <div class="main-content p-reset">
+        <div class="ac-title"><strong>{% trans "Information about the organization" %}</strong></div>
+        <div class="ac-hot-box">
+          <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong>
+            <ul class="list-unstyled mb0">
+              <li>{{ organization.name }}</li>
+            </ul>
+          </div>
+          <div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong>
+            <ul class="list-unstyled mb0">
+              <li>{{ organization.krs }}</li>
+            </ul>
+          </div>
+          <div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong>
+            <ul class="list-unstyled mb0">
+              <li>{{ organization.website }}</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong>
-        <ul class="list-unstyled mb0">
-          <li>{{ organization.krs }}</li>
-        </ul>
-      </div>
-      <div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong>
-        <span class="label">adasd</span>
-        <ul class="list-unstyled mb0">
-          <li>{{ organization.website }}</li>
-        </ul>
+      <div class="main-content p-reset">
+        <div class="ac-title"><strong>{% trans "Members" %}</strong></div>
+        <div class="ac-hot-box">
+          <div class="ac-hot-single-box clearfix">
+            <a href="{{ organization.creator.profile.get_absolute_url }}" class="custom-tooltip" title="{{ organization.creator.profile }}"><img src="{{ organization.creator.profile.avatar.url }}" alt="" class="ac-hot-user"></a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="main-content p-reset">
-    <div class="ac-title"><strong>{% trans "Members" %}</strong></div>
-    <div class="ac-hot-box">
-      <div class="ac-hot-single-box">
-        <img src="{{ organization.creator.profile.avatar.url }}" alt="" class="user-avatar avatarH"><span class="ac-head-user-name ">{{ organization.creator.profile }}</span>
+    <div class="col-sm-6 no-float">
+    {% actstream organization 'target' %}
+    </div>
+    <div class="col-sm-3 no-float">
+      <div class="ac-right-site">
+        <p>{{ organization.description|safe }}</p>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="col-sm-6 no-float">
-
-{% actstream organization 'target' %}
-
-</div>
-
-<div class="col-sm-3 no-float">
-  <div class="ac-right-site">
-    <p>{{ organization.description|safe }}</p>
-  </div>
-</div>
-
-<!-- 
-<h1>{{ organization }} <small>{{ organization.category }}</small></h1>
-<div>
-  <img src="{{ organization.logo.url }}" alt="{{ organization }}" width="150" height="150">
-  <div>{{ organization.description|safe }}</div>
-  <p>
-    {% trans "Created by" %} <a href="{{ organization.creator.profile.get_absolute_url }}">
-    {{ organization.creator.get_full_name }}</a> {{ organization.date_created|timesince }} {% trans "ago" %}
-  </p>
-</div> -->
-
 </div>{% endblock %}
 </div>{% endblock %}
