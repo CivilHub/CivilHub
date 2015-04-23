@@ -22,7 +22,7 @@
   .fake-container-fill{ height: 100%; display: table;
     .fake-row-fill{ height: 100%; display: table-row; }
     .no-float{ float: none !important; }  
-    .col-sm-3, .col-sm-6{ display: table-cell; vertical-align: top; }
+    .col-sm-3, .col-sm-6{ display: table-cell; vertical-align: top; z-index: 0; }
     .col-sm-3:first-child{ padding-top: 25px; }
     .col-sm-6{ padding-top: 25px; }
     .ac-right-site{ display: table; width: 100%; }
@@ -34,6 +34,8 @@
       position: fixed;
       border-left: 1px solid @border-color-de;
       margin-left: -1px;
+      z-index: -1;
+      top: 0;
     } 
   }
 }
@@ -185,12 +187,13 @@ a{
       content: "";
       box-shadow: 0 0 0 4px #FBFBFB;
     }
-    &.news{ border-color: @newscolor; }
-    &.poll{ border-color: @pollscolor; }
-    &.idea{ border-color: @ideacolor; }
-    &.discussion{ border-color: @discussioncolor; }
-    &.socialproject{ border-color: @projectscolor; }
-    &.places{ border-color: @placecolor; }
+    &.news{ border-color: @newscolor; .timeline-content{ width: 100%; } }
+    &.poll{ border-color: @pollscolor; .timeline-content{ width: 100%; } }
+    &.idea{ border-color: @ideacolor; .timeline-content{ width: 100%; } }
+    &.discussion{ border-color: @discussioncolor; .timeline-content{ width: 100%; } }
+    &.socialproject{ border-color: @projectscolor; .timeline-content{ width: 100%; } }
+    &.places{ border-color: @placecolor; .timeline-content{ width: 100%; } }
+
   }    
   .timeline-user{
     position: relative;
@@ -274,6 +277,12 @@ a{
   .timeline-content-head{
     margin-bottom: 10px;
     padding: 0 15px;
+    word-break: break-word;
+    .heading{
+      display: inline-block;
+      vertical-align: top;
+      width: 80%;
+    }
   }
   .timeline-body{
     border-top: 1px solid @border-color-de;
@@ -301,7 +310,6 @@ a{
 }
 /* Right site */
 .ac-right-site{
-  border-left: 1px solid @border-color-de;
   background-color: #FFF;
   padding: 0 15px;
   h3{
