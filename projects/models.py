@@ -41,8 +41,7 @@ class SlugifiedModelMixin(models.Model):
     def save(self, *args, **kwargs):
         self.name = strip_tags(self.name)
         slug = slugify(self.name)
-        if not self.slug:
-            self.slug = slug
+        self.slug = slug
         success = False
         retries = 0
         while not success:

@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
@@ -15,6 +15,7 @@ from locations.models import Location
 from places_core.helpers import ct_for_obj
 from places_core.mixins import LoginRequiredMixin
 from simpleblog.forms import BlogEntryForm
+from simpleblog.models import BlogEntry
 
 from .forms import NGOInviteForm, OrganizationForm, OrganizationLocationForm
 from .models import Invitation, Organization
@@ -30,6 +31,7 @@ class NGOContextMixin(SingleObjectMixin):
         context = super(NGOContextMixin, self).get_context_data(**kwargs)
         context['organization'] = self.object
         context['access'] = self.object.has_access(self.request.user)
+        context['member'] = self.request.user in self.object.users.all()
         return context
 
 
@@ -51,6 +53,7 @@ class OrganizationView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(OrganizationView, self).get_context_data(**kwargs)
         context['access'] = self.object.has_access(self.request.user)
+        context['member'] = self.request.user in self.object.users.all()
         return context
 
 
@@ -86,7 +89,7 @@ class OrganizationLocationList(DetailView):
     Presents entire list of organizations locations.
     """
     model = Organization
-    template_name = 'organizations/organization_locations.html'
+    template_name = 'organizations/location_list.html'
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
@@ -102,7 +105,7 @@ class OrganizationLocationAdd(LoginRequiredMixin, NGOContextMixin, FormView):
     Add new location to organization's locations list.
     """
     model = Organization
-    template_name = 'organizations/organization_location_add.html'
+    template_name = 'organizations/location_add.html'
     form_class = OrganizationLocationForm
     context_object_name = 'organization'
 
@@ -151,7 +154,7 @@ class OrganizationMemberList(ListView):
     List all users that are members of this organization.
     """
     model = User
-    template_name = 'organizations/organization_members.html'
+    template_name = 'organizations/member_list.html'
     paginate_by = 25
     organization = None
 
@@ -202,7 +205,7 @@ class InviteUsers(NGOContextMixin, FormView):
     """
     model = Organization
     form_class = NGOInviteForm
-    template_name = 'organizations/organization_invite.html'
+    template_name = 'organizations/member_invite.html'
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
@@ -266,7 +269,7 @@ class NGONewsCreate(LoginRequiredMixin, NGOContextMixin, View):
     Users that are members of organization may publish contents on this page.
     """
     form_class = BlogEntryForm
-    template_name = 'organizations/organization_news_form.html'
+    template_name = 'organizations/news_form.html'
 
     def get(self, request, **kwargs):
         self.object = self.get_object()
@@ -275,4 +278,18 @@ class NGONewsCreate(LoginRequiredMixin, NGOContextMixin, View):
             'content_type': ct_for_obj(self.object),
             'object_id': self.object.pk,
         })
+        return render(request, self.template_name, context)
+
+
+class NGONewsDetail(NGOContextMixin, View):
+    """
+    Show detailed page for simpleblog entry for this organization.
+    """
+    template_name = 'organizations/news_detail.html'
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(NGONewsDetail, self).get_context_data(**kwargs)
+        context['news'] = get_object_or_404(BlogEntry,
+                                            slug=self.kwargs.get('news_slug'))
         return render(request, self.template_name, context)

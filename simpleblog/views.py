@@ -1,18 +1,43 @@
 # -*- coding: utf-8 -*-
-from django.views.generic.edit import CreateView
+from django.core.exceptions import PermissionDenied
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 
 from .forms import BlogEntryForm
 from .models import BlogEntry
 
 
-class BlogEntryCreateView(CreateView):
-	"""
-	Create new blog entry.
-	"""
-	model = BlogEntry
-	form_class = BlogEntryForm
+class BlogEntryDetailView(DetailView):
+    """
+    Single blog entry page. This view should be used for entries that are not
+    bind to other content. The rest should be shown in respective apps.
+    """
+    model = BlogEntry
 
-	def form_valid(self, form):
-		obj = form.save(commit=False)
-		obj.author = self.request.user
-		return super(BlogEntryCreateView, self).form_valid(form)
+
+class BlogEntryCreateView(CreateView):
+    """
+    Create new blog entry.
+    """
+    model = BlogEntry
+    form_class = BlogEntryForm
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        return super(BlogEntryCreateView, self).form_valid(form)
+
+
+class BlogEntryUpdateView(UpdateView):
+    """
+    Update news entry - available only for admins and instance creator.
+    """
+    model = BlogEntry
+    form_class = BlogEntryForm
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        user = self.request.user
+        if not user.is_superuser and user != self.object.author:
+            raise PermissionDenied
+        return super(BlogEntryUpdateView, self).dispatch(*args, **kwargs)

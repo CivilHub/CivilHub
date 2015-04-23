@@ -1,5 +1,5 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
-{% block content %}<form action="{% url 'simpleblog:create' %}" method="post">{% csrf_token %}
+{% block content %}<form action="{% url 'simpleblog:create' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
   {{ form.as_p }}
   <button type="submit">{% trans "Save" %}</button>
 </form>{% endblock %}
