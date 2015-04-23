@@ -13,12 +13,20 @@
 </style>
 <div class="user-logo">
   <div class="container">
-    <h1>{{ organization }}</h1>
-    {% follow_button organization %}
+    <div class="ngo-info">
+      <div class="ngo-logo"><img src="{{ organization.logo.url }}" alt="{{ organization }}" /></div>
+      <div class="ngo-more-info">
+        <div class="heading">{{ organization.category }}</div>
+        <div class="name"><h1>{{ organization }}</h1></div>
+        {% follow_button organization %}
+        
+      </div>
+    </div>
     {% if access %}<a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a>{% endif %}
   </div>
 </div>
-<nav id="filter-navbar" class="navbar-default" role="navigation">
+
+<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">

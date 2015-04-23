@@ -1,4 +1,4 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<h1>{{ object }}</h1>
+{% block content %}<div class="main-content"><h1>{{ object }}</h1>
 {% if not object.has_default_image %}<img src="{{ object.image_url }}" alt="{{ object }}">{% endif %}
-<div>{{ object.content|safe }}</div>{% endblock %}
+<div>{{ object.content|safe }}</div></div>{% endblock %}
