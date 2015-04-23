@@ -1,9 +1,67 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
-{% block content %}<h1>{{ news }}</h1>
-{% if user.is_authenticated %}<h1><span class="submenu-toggle"></span></h1>{% endif %}
-<p>
-  {% trans "Created by" %} <a href="{{ news.author.profile.get_absolute_url }}">{{ news.author.get_full_name }}</a>
-  {{ news.date_created|timesince }} {% trans "ago" %}
-</p>
-{% if not news.has_default_image %}<img src="{{ news.image_url }}" alt="{{ news }}">{% endif %}
-<div>{{ news.content|safe }}</div>{% endblock %}
+{% block title %} {{ news }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ news.content|striptags|slice:":153"}}..." />{% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ news }}">
+<meta property="og:title" content="{{ news }}"/>
+<meta property="og:image" content="https://civilhub.org{{ news.image.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url " content="https://civilhub.org{{ news.get_absolute_url }}" />
+<meta property="og:description" content="{{ news.content|striptags|slice:":100" }}..."/>
+<meta property="article:author" content="https://civilhub.org{{ news.author.profile.get_absolute_url }}" />
+<meta name="keywords" content="{{ news }}">
+{% for tag in news.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
+<meta property="article:published_time" content="{{ news.date_created|date:"c" }}">
+{% if news.date_edited %}<meta property="article:modified_time" content="{{ news.date_edited|date:"c" }}">{% endif %}{% endblock %}
+{% block content %}
+<div class="col-sm-9 main-content contentPX">
+  <div class="blog-detail">
+    <div class="row">
+        <div class="col-sm-2">
+          <div class="entry-avatar-col">
+            <img src="{{ news.author.profile.avatar.url }}" alt="{{ news.author.get_full_name }}" class="user-avatar user-window-toggle" data-target="{{ news.author.pk }}" />
+            <br />{{ news.author.profile.rank_pts }}
+            {% include 'locations/share_buttons.html' %}
+          </div>
+        </div>
+      <div class="col-sm-10">
+        <div class="row news-header">
+          <div class="col-sm-11">
+            <h1>{{ news }}</h1>
+            <small>
+              {% trans "Created" %} {{ news.date_created | date:"j F Y" }} {% trans "by" %} <a href="{{ news.author.profile.get_absolute_url }}" class="blogNameCreator"><span class="user-window-toggle" data-target="{{ news.author.pk }}">{{ news.author.get_full_name }}</span></a></p>
+            </small>
+          </div>
+          <div class="col-sm-1">{% if user.is_authenticated %}<h1><span class="submenu-toggle"></span></h1>{% endif %}
+            <div class="entry-submenu">
+              <ul>
+                {% if user == news.author %}
+                <li><a href="{% url 'simpleblog:update' news.slug  %}">{% trans "Edit" %}</a></li>
+                {% endif %}
+                {% if user.is_superuser or is_moderator %}
+                <li><a href="#">{% trans "Delete" %}</a></li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% if not news.has_default_image %}<img src="{{ news.image_url }}" alt="{{ news }}">{% endif %}
+        <div class="row">
+          <div class="acticle-content news-contetn">{{ news.content|safe }}</div>
+        </div>
+      </div><!--colsm10-->
+    </div>
+  </div>
+
+</div> <!-- colsm9-->
+<div class="col-sm-3 boxPX">
+  <div class="sidebar">
+    <div class="sidebar-label">Akcje:</div>
+    <ul class="sidebar-content custom-sidebar-nav">
+      <li></li>
+    </ul>
+  </div>
+</div><!--colsm3-->
+
+{% endblock %}
