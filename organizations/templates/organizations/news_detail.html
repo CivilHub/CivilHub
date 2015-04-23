@@ -15,7 +15,7 @@
 <meta property="article:published_time" content="{{ news.date_created|date:"c" }}">
 {% if news.date_edited %}<meta property="article:modified_time" content="{{ news.date_edited|date:"c" }}">{% endif %}{% endblock %}
 {% block content %}
-<div class="col-sm-9 main-content contentPX">
+<div class="col-sm-9 main-content">
   <div class="blog-detail">
     <div class="row">
         <div class="col-sm-2">
@@ -55,12 +55,15 @@
   </div>
 
 </div> <!-- colsm9-->
-<div class="col-sm-3 boxPX">
-  <div class="sidebar">
-    <div class="sidebar-label">Akcje:</div>
-    <ul class="sidebar-content custom-sidebar-nav">
-      <li></li>
-    </ul>
+<div class="col-sm-3">
+  <div class="ac-right-site">
+    <div class="ac-small-box sm-box-invite mt0">
+      <a href="/invite-friends/" class="full-click-box"></a>
+      <div class="text-box">
+        <h3>Zaproś znajomego</h3>
+        <p>Twój znajomy nie korzysta z CivilHub? Wyślij mu zaproszenie. </p>
+      </div>
+    </div>
   </div>
 </div><!--colsm3-->
 
