@@ -1,5 +1,78 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<div class="main-content"><form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form></div>{% endblock %}
+{% block content %}<div class="col-sm-3">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Help" %}
+      <div class="sidebar-content">
+        <p><b>Create new organization</b></p>
+          <ol>
+            <li>lorem</li>
+            <li>lorem</li>
+            <li>lorem</li>
+            <li>lorem</li>
+          </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-sm-9 main-content">
+  <div class="create-form newFormCreate">
+    <h3>{% trans "Create new organization" %}</h3>
+    <form method="post" action="" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+      {% if form.errors %}{% for field, errors in form.errors.items %}{% for error in errors %}<p class="alert alert-danger">{{ field }} - {{ error }}</p>{% endfor %}{% endfor %}{% endif %}
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Name" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.name }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Category" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.category }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Description" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.description }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "KRS" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.krs }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Email" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.email }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Website" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.website }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Logo" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.logo }}</div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">
+          <label for="id_name">{% trans "Tags" %}:</label>
+        </label>
+        <div class="col-sm-10">{{ form.tags }}</div>
+      </div>
+      <div class="form-group mb0">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10 text-right">
+          <button type="submit" class="btn btn-greenBig">{% trans "Save" %}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>{% endblock %}

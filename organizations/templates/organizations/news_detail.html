@@ -40,7 +40,7 @@
                 <li><a href="{% url 'simpleblog:update' news.slug  %}">{% trans "Edit" %}</a></li>
                 {% endif %}
                 {% if user.is_superuser or is_moderator %}
-                <li><a href="#">{% trans "Delete" %}</a></li>
+                <li><a href="{% url 'simpleblog:delete' news.slug %}">{% trans "Delete" %}</a></li>
                 {% endif %}
               </ul>
             </div>
@@ -48,7 +48,7 @@
         </div>
         {% if not news.has_default_image %}<img src="{{ news.image_url }}" alt="{{ news }}">{% endif %}
         <div class="row">
-          <div class="acticle-content news-contetn">{{ news.content|safe }}</div>
+          <div class="acticle-content news-contetn"><br>{{ news.content|safe }}</div>
         </div>
       </div><!--colsm10-->
     </div>
