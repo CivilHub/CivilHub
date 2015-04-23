@@ -19,6 +19,7 @@
         <div class="heading">{{ organization.category }}</div>
         <div class="name"><h1>{{ organization }}</h1></div>
         {% follow_button organization %}
+ {% if access %}<a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a>{% endif %}
       </div>
     </div>
   </div>

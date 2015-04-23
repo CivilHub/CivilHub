@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from gallery.image import resize_background_image
 from locations.models import BackgroundModelMixin, Location
 from projects.models import SlugifiedModelMixin, SocialProject
 from userspace.helpers import random_string
@@ -127,7 +128,7 @@ class Organization(SlugifiedModelMixin, BackgroundModelMixin):
 class Invitation(models.Model):
     """
     Organization's creator and superusers may invite others to join. Invited
-    user have to confirm that he actually want to to that.
+    user have to confirm that they actually want to do that.
     """
     user = models.ForeignKey(User, related_name="ngo_invitations")
     organization = models.ForeignKey(Organization,
@@ -165,3 +166,6 @@ class Invitation(models.Model):
         unique_together = ('user', 'organization', )
         verbose_name = _(u"invitation")
         verbose_name_plural = _(u"invitations")
+
+
+models.signals.post_save.connect(resize_background_image, sender=Organization)

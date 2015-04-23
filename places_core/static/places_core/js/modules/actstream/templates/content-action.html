@@ -7,11 +7,9 @@
   <div class="timeline-content panel">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">
-      <div class="heading">
-        <a href="<%= actor.profile.url %>"><%= actor.full_name %></a>
-          <%= verb %> <%= action_object.content_type.name %>
+      <a href="<%= actor.profile.url %>"><%= actor.full_name %></a>
+        <%= verb %> <%= action_object.content_type.name %>
         <a href="<%= action_object.url %>"><%= action_object.title %></a>
-      </div>
         <% if (!_.isNull(action_target)) { %><span class="pull-right">&nbsp;<a href="<%= action_target.url %>"><%= action_target.name %></a></span><% } %>
       <div class="clear">&nbsp;</div>
     </div>

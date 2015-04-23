@@ -1,30 +1,40 @@
 # -*- coding: utf-8 -*-
-import os, json, sys, hashlib, random
+import hashlib
+import json
+import os
+import random
+import sys
+
 from PIL import Image
 from datetime import datetime
 from slugify import slugify
-from django.utils.translation import ugettext as _
-from django.views.generic import View, DetailView, ListView, FormView, UpdateView
-from django.http import HttpResponse, Http404, HttpResponseForbidden
+
 from django.conf import settings
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from actstream import action
-from userspace.models import UserProfile
-from locations.models import Location
-from locations.links import LINKS_MAP as links
-from comments.models import CustomComment
-from places_core.permissions import is_moderator
-from places_core.helpers import TagFilter
-from .models import LocationGalleryItem, UserGalleryItem
-from .forms import UserItemForm, SimpleItemForm, LocationItemForm
-from .serializers import UserMediaSerializer
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, Http404, HttpResponseForbidden
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.translation import ugettext as _
+from django.views.generic import View, DetailView, ListView, FormView, UpdateView
 
-from rest.permissions import IsOwnerOrReadOnly
+from actstream import action
 from rest_framework import viewsets
 from rest_framework.response import Response
+
+from comments.models import CustomComment
+from locations.links import LINKS_MAP as links
+from locations.models import Location
+from places_core.helpers import TagFilter
+from places_core.permissions import is_moderator
+from rest.permissions import IsOwnerOrReadOnly
+from userspace.models import UserProfile
+
+from .forms import UserItemForm, SimpleItemForm, LocationItemForm
+from .models import LocationGalleryItem, UserGalleryItem
+from .serializers import UserMediaSerializer
+
 
 # Helper functions
 # ------------------------------------------------------------------------------

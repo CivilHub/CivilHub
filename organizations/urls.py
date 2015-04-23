@@ -6,6 +6,7 @@ import views
 urlpatterns = patterns('',
     url(r'^accept/(?P<key>[\w-]+)/', views.InviteAcceptView.as_view(), name="accept"),
     url(r'^create/', views.OrganizationCreateView.as_view(), name="create"),
+    url(r'^(?P<slug>[\w-]+)/background/', views.NGOBackgroundView.as_view(), name="background"),
     url(r'^(?P<slug>[\w-]+)/news/create/', views.NGONewsCreate.as_view(), name="news-create"),
     url(r'^(?P<slug>[\w-]+)/news/(?P<news_slug>[\w-]+)/', views.NGONewsDetail.as_view(), name="news-detail"),
     url(r'^(?P<slug>[\w-]+)/invite/', views.InviteUsers.as_view(), name="invite"),
