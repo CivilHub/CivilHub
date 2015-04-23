@@ -14,6 +14,8 @@ from places_core.helpers import sanitizeHtml
 from places_core.models import ImagableItemMixin
 from projects.models import SlugifiedModelMixin
 
+from .signals import blog_entry_created_action
+
 
 class BlogManager(models.Manager):
     """
@@ -96,9 +98,19 @@ class BlogEntry(SlugifiedModelMixin, ImagableItemMixin):
         self.content = sanitizeHtml(self.content)
         super(BlogEntry, self).save(*args, **kwargs)
 
+    def has_access(self, user):
+        """ Check if particular user can delete/update this entry. """
+        if user.is_superuser:
+            return True
+        return user == self.author
+
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = _(u"blog entry")
         verbose_name_plural = _(u"blog entries")
+
+
+models.signals.post_save.connect(blog_entry_created_action, sender=BlogEntry)
+models.signals.post_save.connect(adjust_uploaded_image, sender=BlogEntry)

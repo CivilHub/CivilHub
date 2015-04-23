@@ -10,8 +10,12 @@ from rest_framework import serializers
 from places_core.helpers import truncatehtml
 from userspace.serializers import UserDetailSerializer
 
-
-content_objects = ['discussion', 'idea', 'news', 'poll', 'socialproject', ]
+content_objects = ['discussion',
+                   'idea',
+                   'news',
+                   'poll',
+                   'socialproject',
+                   'blogentry', ]
 
 
 def serialize_content_object(instance):
@@ -73,6 +77,8 @@ class ActionObjectSerializer(serializers.Serializer):
             desc = obj.description
         elif obj._meta.model_name == 'locationgalleryitem':
             desc = '<img src="{}" alt="{}">'.format(obj.url(), obj.name)
+        elif obj._meta.model_name == 'blogentry':
+            desc = obj.content
         else:
             desc = ""
         return truncatehtml(desc, 200)
@@ -90,10 +96,7 @@ class ActionObjectSerializer(serializers.Serializer):
     def get_image(self, obj):
         if not hasattr(obj, 'thumbnail'):
             return None
-        image_data = {
-            'url': obj.image_url,
-            'thumbnail': obj.thumbnail,
-        }
+        image_data = {'url': obj.image_url, 'thumbnail': obj.thumbnail, }
         if hasattr(obj, 'has_default_image'):
             image_data['is_default'] = obj.has_default_image
         if hasattr(obj, 'retina_thumbnail'):

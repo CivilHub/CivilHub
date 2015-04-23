@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+from PIL import Image
+
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
+from gallery.image import handle_tmp_image
 from locations.models import Location
 
 from .models import Organization
@@ -67,3 +70,35 @@ class NGOInviteForm(forms.Form):
             raise forms.ValidationError(
                 _(u"Invalid user emails: ") + ", ".join(invalid_emails))
         return emails
+
+
+class NGOBackgroundForm(forms.Form):
+    """
+    Use image crop to change organization's background image.
+    """
+    image = forms.ImageField(
+        label=_("Image"),
+        widget=forms.FileInput(attrs={'title': _("Choose picture")}))
+    x = forms.IntegerField(widget=forms.HiddenInput())
+    y = forms.IntegerField(widget=forms.HiddenInput())
+    x2 = forms.IntegerField(widget=forms.HiddenInput())
+    y2 = forms.IntegerField(widget=forms.HiddenInput())
+    organization = forms.ModelChoiceField(queryset=Organization.objects.all(),
+                                          widget=forms.HiddenInput())
+
+    def is_valid(self):
+        valid = super(NGOBackgroundForm, self).is_valid()
+        if not valid:
+            return valid
+        self.save()
+        return True
+
+    def save(self, commit=True):
+        instance = self.cleaned_data['organization']
+        image = Image.open(self.cleaned_data['image'])
+        box = (self.cleaned_data['x'], self.cleaned_data['y'],
+               self.cleaned_data['x2'], self.cleaned_data['y2'], )
+        instance.image = handle_tmp_image(image.crop(box))
+        if commit:
+            instance.save()
+        return instance

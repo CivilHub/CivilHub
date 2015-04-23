@@ -10,6 +10,8 @@ from django.views.generic import ListView, DetailView, TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, FormView, UpdateView
 
+from actstream.actions import follow
+
 from civmail.messages import InviteToOrganization
 from locations.models import Location
 from places_core.helpers import ct_for_obj
@@ -17,7 +19,7 @@ from places_core.mixins import LoginRequiredMixin
 from simpleblog.forms import BlogEntryForm
 from simpleblog.models import BlogEntry
 
-from .forms import NGOInviteForm, OrganizationForm, OrganizationLocationForm
+from .forms import NGOInviteForm, OrganizationForm, OrganizationLocationForm, NGOBackgroundForm
 from .models import Invitation, Organization
 
 
@@ -67,6 +69,10 @@ class OrganizationCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.creator = self.request.user
+        obj.save()
+        form.save_m2m()
+        obj.users.add(self.request.user)
+        follow(self.request.user, obj)
         return super(OrganizationCreateView, self).form_valid(form)
 
 
@@ -293,3 +299,25 @@ class NGONewsDetail(NGOContextMixin, View):
         context['news'] = get_object_or_404(BlogEntry,
                                             slug=self.kwargs.get('news_slug'))
         return render(request, self.template_name, context)
+
+
+class NGOBackgroundView(NGOContextMixin, View):
+    """
+    A static form that allows to upload and crop background images for organizations.
+    """
+    template_name = 'organizations/organization_background.html'
+    form_class = NGOBackgroundForm
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(NGOBackgroundView, self).get_context_data()
+        context['form'] = self.form_class(
+            initial={'organization': self.object, })
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if not form.is_valid():
+            return render(request, self.template_name, {'form': form, })
+        ngo = form.cleaned_data['organization']
+        return redirect(ngo.get_absolute_url())

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import PermissionDenied
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 from .forms import BlogEntryForm
 from .models import BlogEntry
@@ -37,7 +37,24 @@ class BlogEntryUpdateView(UpdateView):
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
-        user = self.request.user
-        if not user.is_superuser and user != self.object.author:
+        if not self.object.has_access(self.request.user):
             raise PermissionDenied
         return super(BlogEntryUpdateView, self).dispatch(*args, **kwargs)
+
+
+class BlogEntryDeleteView(DeleteView):
+    """
+    This should be accessible only by admnins and objects author.
+    """
+    model = BlogEntry
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.object.has_access(self.request.user):
+            raise PermissionDenied
+        return super(BlogEntryDeleteView, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        if hasattr(self.object.content_object, 'get_absolute_url'):
+            return self.object.content_object.get_absolute_url()
+        return self.object.author.profile.get_absolute_url()

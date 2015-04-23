@@ -1,0 +1,6 @@
+{% extends 'organizations/index.html' %}{% load i18n staticfiles civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/organization-background.js"></script>{% endblock %}
+{% block content %}<form class="imagecrop-form" method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Save" %}</button>
+</form>{% endblock %}

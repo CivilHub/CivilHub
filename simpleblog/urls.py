@@ -6,5 +6,6 @@ import views
 urlpatterns = patterns('',
     url(r'^create/', views.BlogEntryCreateView.as_view(), name="create"),
     url(r'^(?P<slug>[\w-]+)/update', views.BlogEntryUpdateView.as_view(), name="update"),
+    url(r'^(?P<slug>[\w-]+)/delete', views.BlogEntryDeleteView.as_view(), name="delete"),
     url(r'^(?P<slug>[\w-]+)/', views.BlogEntryDetailView.as_view(), name="detail"),
 )
