@@ -52,7 +52,7 @@ class NGOInviteForm(forms.Form):
     emails = forms.CharField(
         label=_(u"Emails"),
         help_text=_(u"Enter email addresses separated with comma"),
-        widget=forms.TextInput(attrs={'class': 'email-input', }))
+        widget=forms.TextInput(attrs={'class': 'form-control email-input', }))
 
     def clean_emails(self):
         emails = [x.strip() for x in self.cleaned_data['emails'].split(',')]

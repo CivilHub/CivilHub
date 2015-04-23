@@ -4,10 +4,14 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from gallery.image import adjust_uploaded_image
+from places_core.helpers import sanitizeHtml
+from places_core.models import ImagableItemMixin
 from projects.models import SlugifiedModelMixin
 
 
@@ -48,7 +52,7 @@ class BlogCategory(models.Model):
 
 
 @python_2_unicode_compatible
-class BlogEntry(SlugifiedModelMixin):
+class BlogEntry(SlugifiedModelMixin, ImagableItemMixin):
     """
     Basic class for simplified blog entries. Blog entry may be tied to another
     content, for example organization, project or location. This way we can use
@@ -78,6 +82,19 @@ class BlogEntry(SlugifiedModelMixin):
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     objects = BlogManager()
+
+    def get_absolute_url(self):
+        if self.content_object is not None:
+            if self.content_object._meta.model_name == 'organization':
+                return reverse('organizations:news-detail', kwargs={
+                    'slug': self.content_object.slug,
+                    'news_slug': self.slug,
+                })
+        return reverse('simpleblog:detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        self.content = sanitizeHtml(self.content)
+        super(BlogEntry, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

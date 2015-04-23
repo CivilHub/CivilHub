@@ -116,7 +116,7 @@ INSTALLED_APPS = (
 
     'raven.contrib.django.raven_compat',
     'analytical',
-    # django-activity-stream - powinien być ostatni na liście
+    # django-activity-stream - have to be last on this list
     'actstream',
 )
 

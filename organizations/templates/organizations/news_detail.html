@@ -1,0 +1,9 @@
+{% extends 'organizations/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ news }}</h1>
+{% if user.is_authenticated %}<h1><span class="submenu-toggle"></span></h1>{% endif %}
+<p>
+  {% trans "Created by" %} <a href="{{ news.author.profile.get_absolute_url }}">{{ news.author.get_full_name }}</a>
+  {{ news.date_created|timesince }} {% trans "ago" %}
+</p>
+{% if not news.has_default_image %}<img src="{{ news.image_url }}" alt="{{ news }}">{% endif %}
+<div>{{ news.content|safe }}</div>{% endblock %}
