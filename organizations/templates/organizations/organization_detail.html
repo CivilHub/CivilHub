@@ -1,4 +1,5 @@
-{% extends 'organizations/index.html' %}{% load i18n %}
+{% extends 'organizations/index.html' %}{% load i18n staticfiles actstream_tags civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/organization-detail.js"></script>{% endblock %}
 {% block container_main %}<div class="container fake-container-fill">
   {% block content %}<div class="fake-row-fill">
 
@@ -35,6 +36,8 @@
 </div>
 
 <div class="col-sm-6 no-float">
+
+{% actstream organization 'target' %}
 
 </div>
 
