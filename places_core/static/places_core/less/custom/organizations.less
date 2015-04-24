@@ -3,11 +3,15 @@
 }
 .ngo-logo{
   .display-ib-m;
-  img{
-    width:135px;
-    height: 135px;
-    .border-radius(50%);
-    background: #FFF;
+}
+img.ngo-logo-img{
+  width:135px;
+  height: 135px;
+  .border-radius(50%);
+  background: #FFF;
+  &.min{
+    width: 90px;
+    height: 90px;
   }
 }
 .ngo-more-info{
@@ -50,8 +54,9 @@
 .n-sublocation{
   height: 250px;
   width: 100%;
-  max-width: 270px;
   position: relative;
+  .bg-nor-cen-con;
+  background-size: cover;
 
   border: 1px solid @border-color-de;
   .border-radius(4px);

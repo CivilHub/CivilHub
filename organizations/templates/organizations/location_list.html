@@ -1,26 +1,22 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}
-
-
 <div class="n-top-heading-spage">
   <h1>{% trans "Locations" %}</h1>
   <h2>{% trans "Place where we operate" %}</h2>
-
 </div>
 {% if access %}<p class="text-center"><a href="{% url 'organizations:location-add' object.slug %}"><strong>{% trans "Add more locations" %}</strong></a></p>{% endif %}
 {% for location in object_list %}
   {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
   <div class="col-sm-3">
-    <div class="n-sublocation">
-      <img src="{{ location.thumb_url }}" class="n-sublocation-bg">
+    <div class="n-sublocation" style="background-image: url({{ location.background_url }});">
       <div class="n-sublocation-content">
         <div class="n-sublocation-box">
         <a href="{{ location.get_absolute_url }}" class="name">{{ location }}</a>
          {% if user not in location.users.all and user.is_authenticated %}
-                <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
-            {% else %}
-                <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
-            {% endif %}
+            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+          {% else %}
+            <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+          {% endif %}
           </div>
       </div>
     </div>
@@ -31,7 +27,5 @@
   </div>
   {% if forloop.counter|divisibleby:4 or forloop.counter == location.count %}</div>{% endif %}
 {% endfor %}
-
-
 {% include 'places_core/pagination.html' %}{% endblock %}
 

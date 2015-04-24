@@ -1,50 +1,24 @@
-{% extends 'places_core/base.html' %}{% load i18n %}
+{% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block content %}
-<ul>
-{% for item in object_list %}
-  <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
-{% endfor %}
-</ul>
-<!-- 
-<div class="sublocations followers-entry">
+<div class="n-top-heading-spage">
   <h1>{% trans "Organization list" %}</h1>
- -->
-
-<!--     {% for item in object_list %}
-      <div class="col-sm-3">
-        <div class="sublocation">
-          <a href="{{ item.get_absolute_url }}" class="full-click-box"></a>
-          <img src="{{ item.logo.url }}" alt="{{ item }}">
-          <div class="sublocation-content">
-            <a href="{{ item.get_absolute_url }}">{{ item }}</a>
-          </div>
+</div>
+<div class="row mb20">
+  {% for item in object_list %}<div class="col-sm-6">
+    <div class="n-sublocation" style="background-image: url({{ item.background_url }});">
+      <div class="n-sublocation-content">
+        <div class="mb20"><a href="{{ item.get_absolute_url }}"><img src="{{ item.logo.url }}" alt="{{ item }}" class="ngo-logo-img min" /></a></div>
+        <div class="n-sublocation-box">
+          <a href="{{ item.get_absolute_url }}" class="name">{{ item }}</a>
+          {% if user not in item.users.all and user.is_authenticated %}
+            <button type="button" class="btn-follow-location" data-location-id="{{ item.pk }}">{% trans "Follow" %}</button>
+          {% else %}
+            <button type="button" class="btn-unfollow-location" data-location-id="{{ item.pk }}">{% trans "You are following" %}</button>
+          {% endif %}
         </div>
       </div>
-
-    {% endfor %} -->
-
-<!--     {% for item in object_list %}
-    <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="follower">
-                
-                <div class="follower-header">
-                <a href="">
-                    <div class="follower-background"><img alt="Bartosz Bujakowski" src="/media/img/backgrounds/background_270x190.jpg"></div>
-                    <div class="follower-photo"><img alt="Bartosz Bujakowski" src="/media/img/avatars/6d33ae9d-59c5-4a86-92a5-c7ea4d6effb0172.png"></div>
-                    </a>
-                </div>
-                
-                <div class="follower-info">
-                    <p class="follower-name">
-                        <a href="">{{ item }}</a>
-                    </p>
-                                        
-                </div>
-            </div>
-        </div>
-   {% endfor %} -->
-
-
+    </div>
+  </div>{% endfor %}
+</div>
 {% include 'places_core/pagination.html' %}
-<!-- </div> -->
 {% endblock %}

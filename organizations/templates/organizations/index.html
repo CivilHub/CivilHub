@@ -14,7 +14,7 @@
 <div class="user-logo">
   <div class="container">
     <div class="ngo-info">
-      <div class="ngo-logo"><img src="{{ organization.logo.url }}" alt="{{ organization }}" /></div>
+      <div class="ngo-logo"><img src="{{ organization.logo.url }}" alt="{{ organization }}" class="ngo-logo-img"/></div>
       <div class="ngo-more-info">
         <div class="heading">{{ organization.category }}</div>
         <div class="name"><h1>{{ organization }}</h1></div>
@@ -39,10 +39,10 @@
     <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav navbar-nav-userspace">
         <li><a href="{% url 'organizations:detail' organization.slug %}">{% trans "Summary" %}</a></li>
-        <li><a href="{% url 'organizations:info' organization.slug %}">{% trans "about" %}</a></li>
+        <li><a href="{% url 'organizations:news-create' organization.slug %}">{% trans "Write" %}</a></li>
+        <li><a href="{% url 'organizations:info' organization.slug %}">{% trans "About Us" %}</a></li>
         <li><a href="{% url 'organizations:members' organization.slug %}">{% trans "Members" %}</a></li>
         <li><a href="{% url 'organizations:locations' organization.slug %}">{% trans "Locations" %}</a></li>
-        <li><a href="{% url 'organizations:news-create' organization.slug %}">{% trans "Write" %}</a></li>
         {% if access %}<li><a href="{% url 'organizations:update' organization.slug %}">{% trans "Update" %}</a></li>{% endif %}
       </ul>
     </div>
