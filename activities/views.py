@@ -79,7 +79,7 @@ class FollowObjectView(APIView):
         self.instance = self.get_object()
         if not self.instance in following(request.user):
             try:
-                follow(request.user, self.instance)
+                follow(request.user, self.instance, actor_only=False)
                 msg = _(u"You are following this ")
                 is_follower = True
             except ImproperlyConfigured as e:

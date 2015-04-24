@@ -22,6 +22,7 @@ router.register('countries', api.CountryAPIViewSet, 'countries')
 router.add_api_view('follow', url(r'^follow/', api.LocationFollowAPIView.as_view(), name='follow'))
 router.add_api_view('contents', url(r'^contents/', api.LocationSummaryAPI.as_view(), name='contents'))
 router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name='capital'))
+router.add_api_view('autocomplete', url(r'^autocomplete/', api.LocationSearchAPI.as_view(), name='autocomplete'))
 
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
@@ -67,7 +68,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/gallery/delete/(?P<pk>\d+)/', location_gallery_delete, name='remove_picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
-    
+
     # PROJECTS in locations
     url(r'^(?P<location_slug>[\w-]+)/projects/create/', project_views.CreateProjectView.as_view(), name='project_create'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/details/', project_views.ProjectSummaryView.as_view(), name='project_summary'),

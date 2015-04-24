@@ -271,7 +271,7 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 #-------------------------------------------------------------------------------
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MANAGER': 'actstream.managers.ActionManager',
+    'MANAGER': 'activities.managers.CivilActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
     'USE_JSONFIELD': True,
@@ -357,7 +357,7 @@ CACHES = {
 EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
 EMAIL_HOST_USER     = config['email_user']
-EMAIL_HOST_PASSWORD = config['email_pass']
+EMAIL_HOST_PASSWORD = str(config['email_pass'])
 EMAIL_USE_TLS       = True
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'test@composly.com'

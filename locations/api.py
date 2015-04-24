@@ -25,11 +25,28 @@ from .serializers import SimpleLocationSerializer, \
                          LocationListSerializer, \
                          CountrySerializer, \
                          ContentPaginatedSerializer, \
-                         MapLocationSerializer
+                         MapLocationSerializer, \
+                         AutocompleteLocationSeraializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 
 redis_cache = cache.get_cache('default')
+
+
+class LocationSearchAPI(APIView):
+    """
+    Provides simple autocomplete functionality.
+    """
+    permission_classes = (rest_permissions.AllowAny, )
+    serializer_class = AutocompleteLocationSeraializer
+
+    def get(self, request, **kwargs):
+        q = request.QUERY_PARAMS.get('term', '')
+        if len(q) < 4:
+            raise Http404
+        qs = Location.objects.filter(name__icontains=q.lower())
+        serializer = self.serializer_class(qs, many=True)
+        return Response(serializer.data)
 
 
 class CapitalAPI(APIView):
@@ -54,7 +71,7 @@ class CapitalAPI(APIView):
 
 
 class LocationSummaryAPI(APIView):
-    """ 
+    """
     A view that allows to download a list of all elements in a given location
     (idea, discussion, poll, news). In the query we give the pk of the location
     we are interested in, e.g:
@@ -154,7 +171,7 @@ class LocationFollowAPIView(APIView):
     user started following a location, we receive something like this:
      ```{
         follow: true
-    }```   
+    }```
     """
     permission_classes = (rest_permissions.IsAuthenticated,)
 
@@ -249,7 +266,7 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
     serializer_class = MyActionsSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
-    
+
     def get_queryset(self, pk=None, ct=None):
         from actstream.models import Action, model_stream
         if not pk: return []
@@ -268,12 +285,12 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         if ct:
             stream = stream.filter(action_object_content_type_id=ct)
         return stream
-        
+
     def list(self, request):
         pk = request.QUERY_PARAMS.get('pk', None)
         ct = request.QUERY_PARAMS.get('ct', None)
         queryset = self.get_queryset(pk, ct)
-        
+
         page = request.QUERY_PARAMS.get('page')
         paginator = Paginator(queryset, 48)
         try:
@@ -310,7 +327,7 @@ class LocationMapViewSet(viewsets.ModelViewSet):
 class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Get sublocations in location with provided ID, for example:
-    
+
     ```/api-locations/sublocations/pk=1```
     """
     queryset = Location.objects.all()

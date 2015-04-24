@@ -34,7 +34,7 @@ class BlogManager(models.Manager):
         """
         Return all blog entries created by given user.
         """
-        return super(BlogManager).get_queryset().filter(author=user)
+        return super(BlogManager, self).get_queryset().filter(author=user)
 
 
 @python_2_unicode_compatible

@@ -37,7 +37,7 @@ class OrganizationLocationForm(forms.Form):
     """
     Allows to choose locations from ID list rather than gets entire queryset.
     """
-    locations = forms.CharField(widget=forms.TextInput(
+    locations = forms.CharField(widget=forms.HiddenInput(
         attrs={'class': 'form-control autocomplete-plholder'}))
 
     def clean_locations(self):

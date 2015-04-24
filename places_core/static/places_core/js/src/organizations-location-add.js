@@ -8,7 +8,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/common',
            'js/modules/locations/follow',
-           'js/modules/locations/autocomplete'],
+           'js/modules/ui/autocomplete'],
 
   function ($) {
     "use strict";

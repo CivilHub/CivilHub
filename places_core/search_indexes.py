@@ -93,7 +93,6 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
     username = indexes.CharField(model_attr='username')
     first_name = indexes.CharField(model_attr='first_name')
     last_name = indexes.CharField(model_attr='last_name')
-    email = indexes.CharField(model_attr='email')
 
     def get_model(self):
         return User

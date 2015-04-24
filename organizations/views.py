@@ -201,8 +201,8 @@ class OrganizationMemberDelete(SingleObjectMixin, View):
         if user in self.object.users.all():
             self.object.users.remove(user)
             self.object.save()
-            Invitation.objects.get(user=user,
-                                   organization=self.object).delete()
+            for i in Invitation.objects.filter(user=user, organization=self.object):
+                i.delete()
         return redirect(reverse('organizations:members',
                                 kwargs={'slug': self.object.slug}))
 

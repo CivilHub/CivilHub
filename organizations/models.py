@@ -16,6 +16,8 @@ from locations.models import BackgroundModelMixin, Location
 from projects.models import SlugifiedModelMixin, SocialProject
 from userspace.helpers import random_string
 
+from .actions import joined_ngo_action
+
 
 def logo_upload_path(instance, filename):
     """
@@ -153,6 +155,7 @@ class Invitation(models.Model):
         if self.user not in self.organization.users.all():
             self.organization.users.add(self.user)
             self.organization.save()
+            joined_ngo_action(self.user, self.organization)
 
     def save(self, *args, **kwargs):
         if not self.key:

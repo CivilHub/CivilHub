@@ -12,6 +12,22 @@ from .forms import LocationForm
 from .helpers import get_followers_from_location
 
 
+class ParentChildrenChainTestCase(TestCase):
+    """ """
+    fixtures = ['fixtures/users.json',
+                'fixtures/locations.json',]
+
+    def test_location_parent_id_list(self):
+        l = Location.objects.get(slug='brzeg-pl-1')
+        ids = l.get_parent_id_list()
+        self.assertEqual(len(ids), 2)
+        self.assertIn(l.parent.pk, ids)
+        self.assertIn(l.parent.parent.pk, ids)
+        pl = Location.objects.get(ids[-1])
+        self.assertEqual(pl.country_code, 'PL')
+        self.assertEqual(pl.kind, 'country')
+
+
 class MarkerCacheTestCase(TestCase):
     """ """
     fixtures = ['fixtures/users.json',]
