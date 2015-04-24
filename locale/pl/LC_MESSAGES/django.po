@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 10:17+0200\n"
-"PO-Revision-Date: 2015-04-24 08:22+0000\n"
+"POT-Creation-Date: 2015-04-24 22:08+0200\n"
+"PO-Revision-Date: 2015-04-24 20:13+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,7 @@ msgstr "Przestań obserwować"
 #: locations/templates/locations/index.html:61
 #: locations/templates/locations/location_list.html:65
 #: locations/templates/locations/sublocation-list.html:20
+#: organizations/templates/organizations/location_list.html:16
 #: places_core/templates/places_core/script-templates.html:270
 #: userspace/templates/userspace/active.html:13
 #: userspace/templates/userspace/followed-locations.html:17
@@ -39,11 +40,11 @@ msgstr "Przestań obserwować"
 msgid "Follow"
 msgstr "Obserwuj"
 
-#: activities/views.py:83
+#: activities/views.py:85
 msgid "You are following this "
 msgstr "Obserwujesz to"
 
-#: activities/views.py:89
+#: activities/views.py:91
 msgid "You are no longer following this "
 msgstr "Już dłużej nie obserwujesz"
 
@@ -71,7 +72,7 @@ msgstr "Ukryj komentarze"
 
 #: articles/templates/articles/features.html:16
 #: locations/templates/locations/location-navbar.html:5
-#: organizations/templates/organizations/index.html:33
+#: organizations/templates/organizations/index.html:31
 #: places_core/templates/places_core/navigation.html:6
 #: projects/templates/projects/navbar.html:6
 #: userspace/templates/userspace/profile.html:45
@@ -223,12 +224,12 @@ msgstr "Pomoc i wsparcie"
 msgid "Support category does not exist yet"
 msgstr "Kategoria pomocy jeszcze nie istnieje"
 
-#: blog/models.py:33 blog/models.py:60 organizations/models.py:48
-#: organizations/models.py:60 simpleblog/models.py:74
+#: blog/models.py:33 blog/models.py:60 organizations/models.py:50
+#: organizations/models.py:62 simpleblog/models.py:74
 msgid "category"
 msgstr "kategoria"
 
-#: blog/models.py:34 organizations/models.py:49
+#: blog/models.py:34 organizations/models.py:51
 msgid "categories"
 msgstr "kategorie"
 
@@ -294,7 +295,8 @@ msgstr "Najstarsze"
 #: locations/templates/locations/location_news.html:20
 #: locations/templates/locations/location_news.html:25
 #: organizations/templates/organizations/news_form.html:25
-#: organizations/templates/organizations/organization_form.html:30
+#: organizations/templates/organizations/organization_form.html:29
+#: organizations/templates/organizations/organization_update.html:29
 #: topics/forms.py:24
 msgid "Category"
 msgstr "Kategoria"
@@ -421,10 +423,11 @@ msgstr "Statystyki"
 #: locations/templates/locations/location_idea_form.html:30
 #: maps/templates/maps/minimap.html:26 maps/templates/maps/pointer-form.html:9
 #: maps/templates/maps/pointer-modal-form.html:23
-#: organizations/templates/organizations/location_add.html:5
+#: organizations/templates/organizations/location_add.html:7
 #: organizations/templates/organizations/news_form.html:38
 #: organizations/templates/organizations/organization_background.html:5
-#: organizations/templates/organizations/organization_form.html:73
+#: organizations/templates/organizations/organization_form.html:72
+#: organizations/templates/organizations/organization_update.html:72
 #: places_core/templates/places_core/script-templates.html:229
 #: polls/templates/polls/create-poll.html:76
 #: projects/templates/projects/socialforumentry_form.html:6
@@ -488,8 +491,7 @@ msgstr "Edytuj"
 #: locations/templates/locations/content-remove.html:14
 #: locations/templates/locations/location_form.html:37
 #: locations/templates/locations/location_polls.html:78
-#: organizations/templates/organizations/location_list.html:7
-#: organizations/templates/organizations/member_list.html:7
+#: organizations/templates/organizations/location_list.html:25
 #: organizations/templates/organizations/news_detail.html:42
 #: places_core/templates/places_core/script-templates.html:495
 #: polls/templates/polls/poll-details.html:27
@@ -534,12 +536,14 @@ msgstr "Anuluj"
 #: blog/templates/blog/news_list.html:2
 #: locations/templates/locations/location-navbar.html:14
 #: maps/templates/maps/index.html:85
+#: organizations/templates/organizations/index.html:40
 #: places_core/templates/places_core/navigation.html:91
 #: templates/activity/actor.html:99 templates/easy_pdf/invitation.html:57
 msgid "News"
 msgstr "Aktualności"
 
 #: blog/templates/blog/news_list.html:15
+#: organizations/templates/organizations/news_list.html:12
 #: organizations/templates/organizations/organization_info.html:6
 #: places_core/templates/places_core/script-templates.html:531
 #: projects/templates/projects/socialforumentry_list.html:19
@@ -560,6 +564,7 @@ msgstr "temu"
 #: locations/templates/locations/location_ideas.html:95
 #: locations/templates/locations/location_news.html:112
 #: locations/templates/locations/location_polls.html:105
+#: organizations/templates/organizations/news_list.html:19
 #: polls/templates/polls/poll_list.html:28
 #: projects/templates/projects/socialforumtopic_list.html:32
 #: topics/templates/topics/discussion_list.html:40
@@ -568,6 +573,7 @@ msgstr "Smutny Civilian"
 
 #: blog/templates/blog/news_list.html:24
 #: locations/templates/locations/location_news.html:114
+#: organizations/templates/organizations/news_list.html:21
 msgid "We didn't find any news"
 msgstr "Nie znaleźliśmy żadnych aktualności"
 
@@ -579,6 +585,7 @@ msgstr "Nie znaleźliśmy żadnych aktualności"
 #: locations/templates/locations/location_news.html:114
 #: locations/templates/locations/location_polls.html:107
 #: organizations/templates/organizations/news_form.html:3
+#: organizations/templates/organizations/news_list.html:21
 #: polls/templates/polls/poll_list.html:30
 #: topics/templates/topics/discussion_list.html:42
 msgid "in"
@@ -591,6 +598,7 @@ msgstr "w"
 #: locations/templates/locations/location_ideas.html:98
 #: locations/templates/locations/location_news.html:115
 #: locations/templates/locations/location_polls.html:108
+#: organizations/templates/organizations/news_list.html:22
 #: polls/templates/polls/poll_list.html:31
 #: projects/templates/projects/socialforumtopic_list.html:35
 #: topics/templates/topics/discussion_list.html:43
@@ -599,6 +607,7 @@ msgstr "Proszę"
 
 #: blog/templates/blog/news_list.html:26
 #: locations/templates/locations/location_news.html:120
+#: organizations/templates/organizations/news_list.html:23
 msgid "add first news"
 msgstr "dodaj pierwszą wpis na blogu"
 
@@ -697,7 +706,7 @@ msgstr "Oddziel adresy przecinkami"
 #: civmail/templates/civmail/invite-friends.html:21
 #: civmail/templates/civmail/invite-users.html:22
 #: locations/templates/locations/invite-users.html:16
-#: organizations/templates/organizations/member_invite.html:4
+#: organizations/templates/organizations/member_invite.html:5
 #: places_core/templates/places_core/abuse-report.html:8
 #: polls/templates/polls/poll-details.html:38
 #: templates/postman/base_write.html:27
@@ -872,7 +881,8 @@ msgid "Collaborate"
 msgstr "Edytuj"
 
 #: etherpad/templates/etherpad/pad_list.html:14
-#: organizations/templates/organizations/index.html:46
+#: organizations/templates/organizations/index.html:44
+#: organizations/templates/organizations/organization_update.html:18
 msgid "Update"
 msgstr "Aktualizuj"
 
@@ -938,7 +948,8 @@ msgstr "Wybierz zdjęcie"
 #: locations/templates/locations/location_form.html:47
 #: locations/templates/locations/location_news.html:96
 #: organizations/templates/organizations/news_form.html:13
-#: organizations/templates/organizations/organization_form.html:24
+#: organizations/templates/organizations/organization_form.html:23
+#: organizations/templates/organizations/organization_update.html:23
 #: places_core/templates/places_core/script-templates.html:218
 #: places_core/templates/places_core/script-templates.html:302
 #: staticpages/templates/staticpages/pages/home-c.html:72
@@ -951,7 +962,8 @@ msgstr "Nazwa"
 #: locations/forms.py:79 locations/templates/locations/category-form.html:25
 #: locations/templates/locations/location_form.html:53
 #: locations/templates/locations/location_news.html:100
-#: organizations/templates/organizations/organization_form.html:36
+#: organizations/templates/organizations/organization_form.html:35
+#: organizations/templates/organizations/organization_update.html:35
 #: places_core/templates/places_core/script-templates.html:222
 #: places_core/templates/places_core/script-templates.html:306
 msgid "Description"
@@ -1050,7 +1062,8 @@ msgstr "liczniki odwiedzin"
 #: locations/forms.py:125 locations/templates/locations/sidebar.html:63
 #: locations/templates/locations/tag-search.html:43
 #: organizations/templates/organizations/news_form.html:31
-#: organizations/templates/organizations/organization_form.html:66
+#: organizations/templates/organizations/organization_form.html:65
+#: organizations/templates/organizations/organization_update.html:65
 #: polls/forms.py:31 topics/forms.py:32
 #: topics/templates/topics/discussion_detail.html:62
 msgid "Tags"
@@ -1092,7 +1105,15 @@ msgstr "głos"
 msgid "votes"
 msgstr "głosy"
 
-#: ideas/models.py:143
+#: ideas/models.py:134
+msgid "positive"
+msgstr "pozytywny"
+
+#: ideas/models.py:136
+msgid "negative"
+msgstr "negatywny"
+
+#: ideas/models.py:146
 #, python-format
 msgid "voted %s for your idea"
 msgstr "zagłosowano %s na Twój pomysł"
@@ -1163,7 +1184,6 @@ msgstr "Nie aktywny"
 #: ideas/templates/ideas/idea_basic.html:38
 #: ideas/templates/ideas/idea_list.html:31 ideas/templates/ideas/ideas.html:42
 #: locations/templates/locations/location_polls.html:68
-#: organizations/templates/organizations/organization_info.html:5
 #: places_core/templates/places_core/script-templates.html:183
 #: polls/templates/polls/poll_list.html:10
 #: projects/templates/projects/socialproject_detail.html:91
@@ -1187,7 +1207,7 @@ msgstr "Status"
 
 #: ideas/templates/ideas/idea_detail.html:42
 #: ideas/templates/ideas/idea_list.html:25
-#: organizations/templates/organizations/index.html:41
+#: organizations/templates/organizations/index.html:39
 #: projects/templates/projects/navbar.html:14
 msgid "Summary"
 msgstr "Podsumowanie"
@@ -1233,20 +1253,20 @@ msgstr "Zamknięte"
 msgid "You voted already on this idea"
 msgstr "Już głosowałeś na tą idee"
 
-#: ideas/views.py:63 rest/views.py:396
+#: ideas/views.py:64 rest/views.py:396
 msgid "voted on"
 msgstr "zagłosowano na"
 
-#: ideas/views.py:84 locations/templates/locations/category-form.html:16
+#: ideas/views.py:85 locations/templates/locations/category-form.html:16
 #: places_core/templates/places_core/script-templates.html:213
 msgid "Create new category"
 msgstr "Wybierz nową kategorię"
 
-#: ideas/views.py:124
+#: ideas/views.py:125
 msgid "no votes yet"
 msgstr "brak głosów"
 
-#: ideas/views.py:148
+#: ideas/views.py:149
 msgid "create new idea"
 msgstr "stwórz nowy pomysł"
 
@@ -1302,7 +1322,7 @@ msgstr "Projekt"
 msgid "Wrong model instance"
 msgstr "Zły rodzaj modelu"
 
-#: locations/models.py:159 organizations/models.py:39 projects/models.py:35
+#: locations/models.py:159 organizations/models.py:41 projects/models.py:35
 #: projects/models.py:130 projects/models.py:154
 msgid "name"
 msgstr "nazwa"
@@ -1311,8 +1331,8 @@ msgstr "nazwa"
 msgid "slug"
 msgstr "slug"
 
-#: locations/models.py:161 organizations/models.py:42
-#: organizations/models.py:63 projects/models.py:65 projects/models.py:131
+#: locations/models.py:161 organizations/models.py:44
+#: organizations/models.py:65 projects/models.py:65 projects/models.py:131
 #: projects/models.py:155 projects/models.py:191
 msgid "description"
 msgstr "opis"
@@ -1329,7 +1349,7 @@ msgstr "wysokość geograficzna"
 msgid "alternate names"
 msgstr "alternatywne nazwy"
 
-#: locations/models.py:165 organizations/models.py:66 projects/models.py:195
+#: locations/models.py:165 organizations/models.py:68 projects/models.py:195
 msgid "creator"
 msgstr "twórca"
 
@@ -1346,7 +1366,7 @@ msgid "population"
 msgstr "ilość mieszkańców"
 
 #: locations/models.py:169 notifications/models.py:41
-#: organizations/models.py:68 organizations/models.py:142
+#: organizations/models.py:70 organizations/models.py:144
 #: projects/models.py:68 projects/models.py:157 projects/models.py:192
 #: projects/models.py:223 simpleblog/models.py:65
 msgid "date created"
@@ -1361,18 +1381,34 @@ msgid "image"
 msgstr "zdjęcie"
 
 #: locations/models.py:173
+msgid "parent list"
+msgstr "lista lokalizacji nadrzędnych"
+
+#: locations/models.py:175
+msgid "List of parent location ID's separated with comma"
+msgstr "Lista ID nadrzędnych lokalizacji, oddzielona przecinkami"
+
+#: locations/models.py:177
+msgid "children list"
+msgstr "lista sublokalizacji"
+
+#: locations/models.py:179
+msgid "List of children ID's separated with comma"
+msgstr "Lista ID sublokalizacji oddzielona przecinkami"
+
+#: locations/models.py:181
 msgid "kind"
 msgstr "rodzaj"
 
-#: locations/models.py:181 projects/models.py:66
+#: locations/models.py:189 projects/models.py:66
 msgid "location"
 msgstr "lokalizacja"
 
-#: locations/models.py:182 organizations/models.py:88
+#: locations/models.py:190 organizations/models.py:90
 msgid "locations"
 msgstr "lokalizacje"
 
-#: locations/models.py:190
+#: locations/models.py:198
 msgid "Unknown"
 msgstr "Nieznany"
 
@@ -1391,6 +1427,7 @@ msgstr "Sublokalizacje"
 #: locations/templates/locations/index.html:59
 #: locations/templates/locations/location_list.html:63
 #: locations/templates/locations/sublocation-list.html:22
+#: organizations/templates/organizations/location_list.html:18
 #: places_core/templates/places_core/script-templates.html:268
 #: userspace/templates/userspace/active.html:14
 #: userspace/templates/userspace/followed-locations.html:19
@@ -1398,7 +1435,7 @@ msgid "You are following"
 msgstr "Obserwujesz"
 
 #: locations/templates/locations/index.html:66
-#: organizations/templates/organizations/index.html:25
+#: organizations/templates/organizations/index.html:24
 #: projects/templates/projects/index.html:69
 #: userspace/templates/userspace/index.html:52
 #: userspace/templates/userspace/profile.html:38
@@ -1587,6 +1624,7 @@ msgstr "Utwórz nową lokalizację"
 #: locations/templates/locations/location_form.html:26
 #: organizations/templates/organizations/news_form.html:46
 #: organizations/templates/organizations/organization_form.html:4
+#: organizations/templates/organizations/organization_update.html:4
 #: projects/templates/projects/socialproject_form.html:7
 msgid "Help"
 msgstr "Pomoc"
@@ -1922,6 +1960,7 @@ msgid "No results mathing query found."
 msgstr "Brak wyników"
 
 #: locations/templates/locations/sidebar.html:9
+#: organizations/templates/organizations/news_list.html:28
 #: projects/templates/projects/socialforumentry_list.html:81
 #: projects/templates/projects/socialforumtopic_list.html:41
 #: userspace/templates/userspace/sidebar.html:14
@@ -1939,6 +1978,7 @@ msgstr "Utworzony ankietę"
 
 #: locations/templates/locations/sidebar.html:24
 #: locations/templates/locations/sidebar.html:40
+#: organizations/templates/organizations/news_list.html:31
 msgid "Add news"
 msgstr "Dodaj aktualność"
 
@@ -1973,7 +2013,8 @@ msgstr "Utwórz nową dyskusję"
 msgid "Create new poll"
 msgstr "Utwórz nową ankietę"
 
-#: locations/views.py:330 organizations/templates/organizations/index.html:44
+#: locations/views.py:330 organizations/templates/organizations/index.html:43
+#: organizations/templates/organizations/location_list.html:4
 msgid "Locations"
 msgstr "Lokalizacje"
 
@@ -2093,101 +2134,122 @@ msgstr "powiadomienie"
 msgid "notifications"
 msgstr "powiadomienia"
 
+#: organizations/actions.py:16
+msgid "joined"
+msgstr "dołączył"
+
 #: organizations/forms.py:71
 msgid "Invalid user emails: "
 msgstr "Błędne adresy email:"
 
-#: organizations/models.py:65
+#: organizations/models.py:67
 msgid "created_organizations"
 msgstr "utworzone_organizacje"
 
-#: organizations/models.py:70
+#: organizations/models.py:72
 msgid "date modified"
 msgstr "data modyfikacji"
 
-#: organizations/models.py:74
+#: organizations/models.py:76
 #: organizations/templates/organizations/organization_detail.html:14
-#: organizations/templates/organizations/organization_form.html:42
+#: organizations/templates/organizations/organization_form.html:41
 #: organizations/templates/organizations/organization_info.html:17
+#: organizations/templates/organizations/organization_update.html:41
 msgid "KRS"
 msgstr "KRS"
 
-#: organizations/models.py:77
+#: organizations/models.py:79
 msgid "contact mail"
 msgstr "email kontaktowy"
 
-#: organizations/models.py:80 userspace/models.py:60
+#: organizations/models.py:82 userspace/models.py:60
 msgid "website"
 msgstr "strona internetowa"
 
-#: organizations/models.py:83
+#: organizations/models.py:85
 msgid "members"
 msgstr "członkowie"
 
-#: organizations/models.py:98
+#: organizations/models.py:100
 msgid "is verified"
 msgstr "jest zweryfikowany"
 
-#: organizations/models.py:101
+#: organizations/models.py:103
 msgid "background image"
 msgstr "zdjęcie tła"
 
-#: organizations/models.py:103 simpleblog/models.py:78
+#: organizations/models.py:105 simpleblog/models.py:78
 msgid "tags"
 msgstr "tagi"
 
-#: organizations/models.py:106
+#: organizations/models.py:108
 msgid "Tags separated by comma"
 msgstr "Tagi oddzielone przecinkami"
 
-#: organizations/models.py:123 organizations/models.py:136
+#: organizations/models.py:125 organizations/models.py:138
 msgid "organization"
 msgstr "organizacja"
 
-#: organizations/models.py:124
+#: organizations/models.py:126
 msgid "organizations"
 msgstr "organizacje"
 
-#: organizations/models.py:139
+#: organizations/models.py:141
 msgid "key"
 msgstr "klucz"
 
-#: organizations/models.py:145
+#: organizations/models.py:147
 msgid "date accepted"
 msgstr "data akceptacji"
 
-#: organizations/models.py:147
+#: organizations/models.py:149
 msgid "is accepted"
 msgstr "jest zaakceptowany"
 
-#: organizations/models.py:167
+#: organizations/models.py:170
 msgid "invitation"
 msgstr "zaproszenie"
 
-#: organizations/models.py:168
+#: organizations/models.py:171
 msgid "invitations"
 msgstr "zaproszenia"
 
-#: organizations/templates/organizations/index.html:42 userspace/models.py:55
-msgid "about"
-msgstr "o mnie"
+#: organizations/templates/organizations/index.html:41
+#: places_core/templates/places_core/footer.html:34
+msgid "About Us"
+msgstr "O nas"
 
-#: organizations/templates/organizations/index.html:43
+#: organizations/templates/organizations/index.html:42
+#: organizations/templates/organizations/member_list.html:3
 #: organizations/templates/organizations/organization_detail.html:27
 msgid "Members"
 msgstr "Członkowie"
 
-#: organizations/templates/organizations/index.html:45
-msgid "Write"
-msgstr "Napisz"
-
-#: organizations/templates/organizations/location_list.html:11
+#: organizations/templates/organizations/location_add.html:3
+#: organizations/templates/organizations/location_list.html:7
 msgid "Add more locations"
 msgstr "Dodaj więcej lokalizacji"
 
-#: organizations/templates/organizations/member_list.html:11
+#: organizations/templates/organizations/location_list.html:5
+msgid "Place where we operate"
+msgstr "Lokalizacje w których działamy"
+
+#: organizations/templates/organizations/member_invite.html:2
+#: organizations/templates/organizations/member_list.html:5
 msgid "Invite more users"
 msgstr "Zaproś więcej użytkowników"
+
+#: organizations/templates/organizations/member_list.html:4
+msgid "People cooperate in this organization"
+msgstr "Osoby działające w tej organizacji"
+
+#: organizations/templates/organizations/member_list.html:19
+msgid "pts"
+msgstr ""
+
+#: organizations/templates/organizations/member_list.html:25
+msgid "Delete member"
+msgstr "Usuń członka organizacji"
 
 #: organizations/templates/organizations/news_form.html:19 topics/forms.py:44
 msgid "Content"
@@ -2203,26 +2265,34 @@ msgid "Organization name"
 msgstr "Nazwa organizacji"
 
 #: organizations/templates/organizations/organization_detail.html:19
-#: organizations/templates/organizations/organization_form.html:54
+#: organizations/templates/organizations/organization_form.html:53
 #: organizations/templates/organizations/organization_info.html:19
+#: organizations/templates/organizations/organization_update.html:53
 #: userspace/templates/userspace/index.html:48
 #: userspace/templates/userspace/profile.html:35
 msgid "Website"
 msgstr "Strona internetowa"
 
-#: organizations/templates/organizations/organization_form.html:19
+#: organizations/templates/organizations/organization_form.html:6
+#: organizations/templates/organizations/organization_form.html:18
 msgid "Create new organization"
 msgstr "Utwórz organizację"
 
-#: organizations/templates/organizations/organization_form.html:48
+#: organizations/templates/organizations/organization_form.html:47
 #: organizations/templates/organizations/organization_info.html:18
+#: organizations/templates/organizations/organization_update.html:47
 #: userspace/templates/userspace/login.html:20
 msgid "Email"
 msgstr "Email"
 
-#: organizations/templates/organizations/organization_form.html:60
+#: organizations/templates/organizations/organization_form.html:59
+#: organizations/templates/organizations/organization_update.html:59
 msgid "Logo"
 msgstr "Logo"
+
+#: organizations/templates/organizations/organization_info.html:5
+msgid "Organization created by"
+msgstr "Organizacja utworzona przez:"
 
 #: organizations/templates/organizations/organization_info.html:13
 #: templates/search/search.html:85
@@ -2233,25 +2303,29 @@ msgstr "Dodatkowe informacje"
 msgid "Organization profil"
 msgstr "Profil organizacji"
 
-#: organizations/views.py:244
+#: organizations/templates/organizations/organization_list.html:4
+msgid "Organization list"
+msgstr "Lista organizacji"
+
+#: organizations/views.py:246
 msgid "All messages sent"
 msgstr "Wszystkie wiadomości zostały wysłane"
 
-#: organizations/views.py:269
+#: organizations/views.py:271
 msgid "You have accepted invitation"
 msgstr "Zaakceptowałeś zaproszenie"
 
-#: places_core/actstreams.py:30 places_core/actstreams.py:50
-#: places_core/actstreams.py:67 projects/signals.py:10 projects/signals.py:29
+#: places_core/actstreams.py:30 places_core/actstreams.py:51
+#: places_core/actstreams.py:70 projects/signals.py:10 projects/signals.py:29
 #: simpleblog/signals.py:16 simpleblog/signals.py:20
 msgid "created"
 msgstr "utworzył"
 
-#: places_core/actstreams.py:89
+#: places_core/actstreams.py:95
 msgid "commented"
 msgstr "skomentował"
 
-#: places_core/actstreams.py:99
+#: places_core/actstreams.py:105
 msgid "answered your comment"
 msgstr "odpowiedział na Twój komentarz"
 
@@ -2383,10 +2457,6 @@ msgstr "Blog"
 #: places_core/templates/places_core/navigation.html:50
 msgid "Creed"
 msgstr "Kredo"
-
-#: places_core/templates/places_core/footer.html:34
-msgid "About Us"
-msgstr "O nas"
 
 #: places_core/templates/places_core/footer.html:35
 #: places_core/templates/places_core/navigation.html:53
@@ -2551,11 +2621,11 @@ msgstr "Jestem na NIE"
 msgid "Help in translate"
 msgstr "Pomóż w tłumaczeniu"
 
-#: places_core/views.py:177
+#: places_core/views.py:83
 msgid "Send abuse report"
 msgstr "Zgłoś naruszeni zasad"
 
-#: places_core/views.py:233
+#: places_core/views.py:139
 msgid "Report sent"
 msgstr "Raport wysłano"
 
@@ -3708,6 +3778,10 @@ msgstr "Podaj proszę adres email."
 #: userspace/models.py:53
 msgid "language"
 msgstr "język"
+
+#: userspace/models.py:55
+msgid "about"
+msgstr "o mnie"
 
 #: userspace/models.py:56
 msgid "points"
