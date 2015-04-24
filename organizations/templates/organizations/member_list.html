@@ -1,12 +1,30 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
-{% block content %}<ul>{% for member in object_list %}
-  <li>
-    <a href="{{ member.profile.get_absolute_url }}">{{ member.get_full_name }}</a>
-    {% if access %}<form class="custom-inline-form" action="{% url 'organizations:member-delete' organization.slug %}" method="post">{% csrf_token %}
+{% block content %}<div class="followers-entry">
+  <h1>{% trans "Members" %}</h1>
+  <h2>{% trans "People cooperate in this organization" %}</h2>
+  {% if access %}<p class="text-center top15"><a href="{% url 'organizations:invite' organization.slug %}"><strong>{% trans "Invite more users" %}</strong></a></p>{% endif %}
+  <div class="row">
+    {% for member in object_list %}<div class="col-md-2 col-sm-4 col-xs-6">
+      <div class="follower">
+        <div class="follower-header">
+          <a href="{{ member.profile.get_absolute_url }}">
+            <div class="follower-background"><img src="{{ member.profile.thumb_url }}" alt="{{ member.get_full_name }}" /></div>
+            <div class="follower-photo"><img src="{{ member.profile.avatar.url }}" alt="{{ member.get_full_name }}"></div>
+          </a>
+        </div>
+        <div class="follower-info">
+          <p class="follower-name">
+            <a href="{{ member.profile.get_absolute_url }}">{{ member.get_full_name }}</a>
+          </p>
+          <div class="points"><span class="points-count">{{ member.profile.rank_pts }}</span> {% trans "pts" %}</div>
+        </div>
+      </div>
+      {% if access %}<form class="custom-inline-form" action="{% url 'organizations:member-delete' organization.slug %}" method="post">{% csrf_token %}
       <input type="hidden" name="user_id" value="{{ member.pk }}">
-      <button type="submit">{% trans "Delete" %}</button>
-    </form>{% endif %}
-  </li>
-{% endfor %}</ul>
-{% if access %}<p><a href="{% url 'organizations:invite' organization.slug %}">{% trans "Invite more users" %}</a></p>{% endif %}
-{% include 'places_core/pagination.html' %}{% endblock %}
+      <div class="form-group text-center mb0">
+        <button type="submit" class="text-danger">{% trans "Delete member" %}</button>
+      </div>
+      </form>{% endif %}
+    </div>{% endfor %}
+  </div>
+</div>{% include 'places_core/pagination.html' %}{% endblock %}

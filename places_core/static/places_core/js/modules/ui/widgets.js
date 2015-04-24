@@ -98,10 +98,4 @@ $(document).ready(function () {
   $('.email-input').emailInput();
 });
 
-$(document).ready(function () {
-  var $input = $('<input type="text">');
-  $input.addClass('form-control auto-fake-input');
-  $('.autocomplete-plholder').hide().after($input);
-});
-
 });

@@ -1,9 +1,30 @@
 # -*- coding: utf-8 -*-
+from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import gettext as _
+
 from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
-from django.utils.translation import gettext as _
-from django.contrib.contenttypes.models import ContentType
+
 from .models import Location, Country
+
+
+class AutocompleteLocationSeraializer(serializers.ModelSerializer):
+    """
+    This is serializer especially for autocomplete.
+    """
+    value = serializers.Field(source='pk')
+    label = serializers.SerializerMethodField('get_label')
+
+    def get_label(self, obj):
+        names = [obj.__unicode__(), ]
+        qs = Location.objects.filter(pk__in=obj.get_parents)\
+                            .order_by('-kind').values('name', )
+        names = names + [x['name'] for x in qs]
+        return " ".join(names)
+
+    class Meta:
+        model = Location
+        fields = ('value', 'label', )
 
 
 class ContentObjectSerializer(serializers.Serializer):
@@ -50,7 +71,7 @@ class MapLocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ('id', 'name', 'latitude', 'longitude',)
+        fields = ('id', 'name', 'latitude', 'longitude', )
 
 
 class SimpleLocationSerializer(serializers.ModelSerializer):
@@ -82,7 +103,7 @@ class LocationListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = ('id', 'name', 'slug', 'followed',)
+        fields = ('id', 'name', 'slug', 'followed', )
 
 
 class CountrySerializer(serializers.ModelSerializer):

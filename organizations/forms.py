@@ -37,7 +37,7 @@ class OrganizationLocationForm(forms.Form):
     """
     Allows to choose locations from ID list rather than gets entire queryset.
     """
-    locations = forms.CharField(widget=forms.TextInput(
+    locations = forms.CharField(widget=forms.HiddenInput(
         attrs={'class': 'form-control autocomplete-plholder'}))
 
     def clean_locations(self):
@@ -77,8 +77,8 @@ class NGOBackgroundForm(forms.Form):
     Use image crop to change organization's background image.
     """
     image = forms.ImageField(
-        label=_("Image"),
-        widget=forms.FileInput(attrs={'title': _("Choose picture")}))
+        label=_(u"Image"),
+        widget=forms.FileInput(attrs={'title': _(u"Choose picture")}))
     x = forms.IntegerField(widget=forms.HiddenInput())
     y = forms.IntegerField(widget=forms.HiddenInput())
     x2 = forms.IntegerField(widget=forms.HiddenInput())

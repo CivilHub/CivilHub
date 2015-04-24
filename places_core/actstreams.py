@@ -37,19 +37,22 @@ post_save.connect(create_place_action_hook, sender=Location)
 def create_object_action_hook(sender, instance, created, **kwargs):
     """
     Inform about the creation of a new object. It is possible
-    to plugg evocation of this idea for each object that has the field 
+    to plugg evocation of this idea for each object that has the field
     'creator' and 'location' - i.e. for modules that inherit from a location.
     """
-    if created:
-        prof = UserProfile.objects.get(user=instance.creator)
-        prof.rank_pts += 5
-        prof.save()
-        action.send(
-            instance.creator,
-            action_object = instance,
-            verb = _(u"created"),
-            target = instance.location
-        )
+    if not created:
+        return True
+    prof = UserProfile.objects.get(user=instance.creator)
+    prof.rank_pts += 5
+    prof.save()
+    action.send(
+        instance.creator,
+        action_object = instance,
+        verb = _(u"created"),
+        target = instance.location
+    )
+    # This way author will be notified about comments etc.
+    follow(instance.creator, instance)
 post_save.connect(create_object_action_hook, sender=Idea)
 post_save.connect(create_object_action_hook, sender=News)
 
@@ -67,6 +70,8 @@ def create_raw_object_action_hook(sender, instance, created, **kwargs):
             verb = _(u"created"),
             target = instance.location
         )
+        # This way author will be notified about comments etc.
+        follow(instance.creator, instance)
 post_save.connect(create_object_action_hook, sender=Discussion)
 post_save.connect(create_object_action_hook, sender=Poll)
 
@@ -88,7 +93,7 @@ def comment_action_hook(sender, instance, created, **kwargs):
         action_object = instance.content_object,
         verb = _(u"commented"),
         comment = instance.comment,
-        comment_url = instance.content_object.get_absolute_url() + '#comment-' + str(instance.pk)
+        comment_url = instance.content_object.get_absolute_url()
     )
     # Send notification to parent comment author (if this is answer for comment)
     if instance.parent is not None:

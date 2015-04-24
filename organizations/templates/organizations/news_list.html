@@ -1,0 +1,35 @@
+{% extends 'organizations/index.html' %}{% load i18n %}
+{% block content %}
+{% if object_list.count %}<div class="col-sm-9 content-container blogDivNews main-content">
+  {% for news in object_list %}<div class="row">
+    <div class="col-sm-9">
+      <h3 class="blogTitleNews"><a href="{{ news.get_absolute_url }}">{{ news }}</a></h3>
+      <p class="custom-booklike acticle-content blogNewsContent">{{ news.content|safe|truncatechars:200 }}</p>
+      <div class="clear">&nbsp;</div>
+      <p class="author">
+        <img src="{{ news.author.profile.avatar.url }}" alt="{{ news.author.profile }}" class="user-avatar user-window-toggle minUserAvatar" />
+        <a href="{{ news.author.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ news.author.pk }}">{{ news.author.profile }}</span></a>
+        <span class="date-created">{{ news.date_created|timesince }} {% trans "ago" %}</span>.
+      </p>
+    </div>
+    <div class="col-sm-3">{% if not news.has_default_image %}<img class="content-image" data-jslghtbx="{{ news.image.url }}" src="{{ news.thumbnail }}">{% endif %}</div>
+  </div>{% endfor %}
+  {% include 'places_core/pagination.html' %}
+</div>{% else %}<div class="col-sm-9 no-entries">
+  <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+  <h2>
+    {% trans "We didn't find any news" %} <p>{% trans "in" %} {{ organization }}.</p><br /> 
+    {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'organizations:news-create' organization.slug %}" >
+    {% else %}<a href="/users/login" >{% endif %}{% trans "add first news" %}</a>.
+  </h2>
+</div>{% endif %}
+<div class="col-sm-3">
+  <div class="sidebar"> 
+    <div class="sidebar-label">{% trans "Actions" %}:</div>
+    <ul class="sidebar-content custom-sidebar-nav">  
+      <li>
+        <a href="{% url 'organizations:news-create' organization.slug %}">{% trans "Add news" %}</a>
+      </li>
+    </ul>
+  </div>
+</div>{% endblock %}

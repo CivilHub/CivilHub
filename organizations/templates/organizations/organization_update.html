@@ -1,21 +1,21 @@
-{% extends 'places_core/base.html' %}{% load i18n %}
+{% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}<div class="col-sm-3">
   <div class="sidebar left">
     <div class="sidebar-label">{% trans "Help" %}</div>
-    <div class="sidebar-content">
-      <strong>{% trans "Create new organization" %}</strong>
-      <ol>
-        <li>lorem</li>
-        <li>lorem</li>
-        <li>lorem</li>
-        <li>lorem</li>
-      </ol>
+      <div class="sidebar-content">
+        <strong>Create new organization</strong>
+        <ol>
+          <li>lorem</li>
+          <li>lorem</li>
+          <li>lorem</li>
+          <li>lorem</li>
+        </ol>
     </div>
   </div>
 </div>
 <div class="col-sm-9 main-content">
   <div class="create-form newFormCreate">
-    <h3>{% trans "Create new organization" %}</h3>
+    <h3>{% trans "Update" %} {{ organization }}</h3>
     <form method="post" action="" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
       {% if form.errors %}{% for field, errors in form.errors.items %}{% for error in errors %}<p class="alert alert-danger">{{ field }} - {{ error }}</p>{% endfor %}{% endfor %}{% endif %}
       <div class="form-group">

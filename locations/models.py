@@ -169,6 +169,14 @@ class Location(models.Model, BackgroundModelMixin):
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
     country_code = models.CharField(max_length=10, verbose_name=_(u"country code"))
     image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg', verbose_name=_(u"image"))
+    # Hold entire parent chain for faster searching (hopefully)
+    parent_list = models.CharField(max_length=255, verbose_name=_(u"parent list"),
+           blank=True, null=True,
+           help_text=_(u"List of parent location ID's separated with comma"))
+    # Hold 1-st level children list
+    children_list = models.CharField(max_length=255, verbose_name=_(u"children list"),
+           blank=True, null=True,
+           help_text=_(u"List of children ID's separated with comma"))
     # Here we mark regions/cities/capitals etc. with geonames
     kind = models.CharField(max_length=10, verbose_name=_(u"kind"))
 
@@ -207,6 +215,7 @@ class Location(models.Model, BackgroundModelMixin):
         self.description = sanitizeHtml(self.description)
         if self.parent is not None:
             self.country_code = self.parent.country_code
+        self.parent_list = ",".join([str(x) for x in self.get_parent_id_list()])
         # We generate the appropriate slug
         if not self.slug:
             slug_entry = slugify('-'.join([self.name, self.country_code]))
@@ -266,13 +275,27 @@ class Location(models.Model, BackgroundModelMixin):
                 a.get_ancestor_chain(ancestors, response)
         return ancestors
 
+    def get_parent_id_list(self, ids=None):
+        if ids is None:
+            ids = []
+        if self.parent is not None:
+            ids.append(self.parent.pk)
+            self.parent.get_parent_id_list(ids)
+        return ids
+
+    @property
+    def get_parents(self):
+        if self.parent_list is None:
+            return []
+        return [int(x) for x in self.parent_list.split(',')]
+
     def get_children_id_list(self, ids=None):
         """ Returns all id's of sublocations for this location. """
-        if ids == None: ids = []
+        if ids is None:
+            ids = []
         for a in self.location_set.all():
             ids.append(a.pk)
-            if a.location_set.count() > 0:
-                a.get_children_id_list(ids)
+            a.get_children_id_list(ids)
         return ids
 
     def count_users_actions(self, user):

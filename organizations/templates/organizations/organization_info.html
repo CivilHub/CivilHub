@@ -1,8 +1,8 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}<div class="col-sm-9 main-content">
   <div class="text-center">
-    <h1 class="mt0">{{ organization }} <small>{{ organization.category }}</small></h1>
-    <p>{% trans "Created by" %} <a href="{{ organization.creator.profile.get_absolute_url }}">
+    <h1 class="mt0 mb0">{{ organization }}</h1><h3 class="mt0 text-muted">{{ organization.category }}</h3>
+    <p>{% trans "Organization created by" %} <a href="{{ organization.creator.profile.get_absolute_url }}">
     {{ organization.creator.get_full_name }}</a> {{ organization.date_created|timesince }} {% trans "ago" %}</p>
     <img src="{{ organization.logo.url }}" alt="{{ organization }}" class="mw100" /><br /><br />
   </div>

@@ -1,6 +1,7 @@
 {% extends 'organizations/index.html' %}{% load i18n staticfiles civil_tags %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/organizations-location-add.js"></script>{% endblock %}
-{% block content %}<form action="" method="post">{% csrf_token %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Add more locations" %}</h3>
+<form action="" method="post">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn btn-greenBig">{% trans "Save" %}</button>
+</form></div>{% endblock %}
