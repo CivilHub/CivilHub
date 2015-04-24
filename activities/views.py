@@ -7,7 +7,7 @@ from django.http import Http404
 from django.utils.translation import ugettext as _
 
 from actstream.actions import follow, unfollow
-from actstream.models import Action, following, actor_stream, model_stream
+from actstream.models import Action, following, actor_stream, target_stream
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -40,7 +40,7 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
         if stream_type == 'actor':
             return actor_stream(self.request_object)
         elif stream_type == 'target':
-            return model_stream(self.request_object)
+            return target_stream(self.request_object)
         else:
             return Action.objects.mystream(self.request_object)
 
