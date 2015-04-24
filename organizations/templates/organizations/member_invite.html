@@ -1,5 +1,6 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
-{% block content %}<form method="post" action="">{% csrf_token %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Invite more users" %}</h3>
+<form method="post" action="">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Send" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn btn-greenBig">{% trans "Send" %}</button>
+</form></div>{% endblock %}

@@ -82,6 +82,8 @@ class OrganizationUpdateView(LoginRequiredMixin, UpdateView):
     """
     model = Organization
     form_class = OrganizationForm
+    context_object_name = 'organization'
+    template_name = 'organizations/organization_update.html'
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
@@ -284,6 +286,19 @@ class NGONewsCreate(LoginRequiredMixin, NGOContextMixin, View):
             'content_type': ct_for_obj(self.object),
             'object_id': self.object.pk,
         })
+        return render(request, self.template_name, context)
+
+
+class NGONewsList(NGOContextMixin, View):
+    """
+    Present list of all news items made in this NGO.
+    """
+    template_name = 'organizations/news_list.html'
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(NGONewsList, self).get_context_data(**kwargs)
+        context['object_list'] = BlogEntry.objects.get_published_in(self.object)
         return render(request, self.template_name, context)
 
 

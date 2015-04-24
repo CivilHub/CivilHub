@@ -27,7 +27,7 @@ class BlogManager(models.Manager):
         Return list of blog entries published (tied to) given object.
         """
         ct = ContentType.objects.get_for_model(obj).pk
-        return super(BlogManager).get_queryset()\
+        return super(BlogManager, self).get_queryset()\
             .filter(content_type__id=ct, object_id=obj.pk)
 
     def get_published_by(self, user):

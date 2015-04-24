@@ -1,7 +1,7 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}<div class="followers-entry">
   <h1>{% trans "Members" %}</h1>
-  <h2>{% trans "People working in this organization" %}</h2>
+  <h2>{% trans "People cooperate in this organization" %}</h2>
   {% if access %}<p class="text-center top15"><a href="{% url 'organizations:invite' organization.slug %}"><strong>{% trans "Invite more users" %}</strong></a></p>{% endif %}
   <div class="row">
     {% for member in object_list %}<div class="col-md-2 col-sm-4 col-xs-6">
@@ -16,7 +16,7 @@
           <p class="follower-name">
             <a href="{{ member.profile.get_absolute_url }}">{{ member.get_full_name }}</a>
           </p>
-          <div class="points"><span class="points-count">{{ member.profile.rank_pts }}</span>{% trans "pts" %}</div>
+          <div class="points"><span class="points-count">{{ member.profile.rank_pts }}</span> {% trans "pts" %}</div>
         </div>
       </div>
       {% if access %}<form class="custom-inline-form" action="{% url 'organizations:member-delete' organization.slug %}" method="post">{% csrf_token %}

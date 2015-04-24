@@ -77,8 +77,8 @@ class NGOBackgroundForm(forms.Form):
     Use image crop to change organization's background image.
     """
     image = forms.ImageField(
-        label=_("Image"),
-        widget=forms.FileInput(attrs={'title': _("Choose picture")}))
+        label=_(u"Image"),
+        widget=forms.FileInput(attrs={'title': _(u"Choose picture")}))
     x = forms.IntegerField(widget=forms.HiddenInput())
     y = forms.IntegerField(widget=forms.HiddenInput())
     x2 = forms.IntegerField(widget=forms.HiddenInput())

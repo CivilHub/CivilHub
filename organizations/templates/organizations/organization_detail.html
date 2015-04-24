@@ -27,6 +27,11 @@
         <div class="ac-title"><strong>{% trans "Members" %}</strong></div>
         <div class="ac-hot-box">
           <div class="ac-hot-single-box clearfix">
+
+            {% for members in  members %}
+              {{ members }}
+            {% endfor %}
+
             <a href="{{ organization.creator.profile.get_absolute_url }}" class="custom-tooltip" title="{{ organization.creator.profile }}"><img src="{{ organization.creator.profile.avatar.url }}" alt="" class="ac-hot-user"></a>
           </div>
         </div>
