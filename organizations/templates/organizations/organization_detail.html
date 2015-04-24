@@ -32,13 +32,13 @@
               <div class="follower">
                 <a href="{{ member.profile.get_absolute_url }}" class="custom-tooltip" title="{{ member.get_full_name }}"><img src="{{ member.profile.avatar.url }}" alt="{{ member.get_full_name }}" /></a></div>
               {% endfor %}
-            </div>       
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-6 no-float">
-    {% actstream organization 'target' %}
+    {% actstream organization 'ngo' %}
     </div>
     <div class="col-sm-3 no-float">
       <div class="ac-right-site">

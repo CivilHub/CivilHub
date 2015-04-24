@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from collections import defaultdict
 
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.db.models import get_model
 
@@ -36,5 +37,30 @@ class CivilActionManager(ActionManager):
                 action_object_content_type=content_type_id,
                 action_object_object_id__in=object_ids,
             )
+
+        return self.filter(q, **kwargs)
+
+    @stream
+    def ngostream(self, obj, **kwargs):
+        """
+        Activity stream for NGO, presents actions of all memebers.
+        """
+        q = Q()
+        check(obj)
+
+        if not hasattr(obj, 'users'):
+            return self.none()
+
+        self_type = ContentType.objects.get_for_model(obj)
+        user_type = ContentType.objects.get(app_label="auth", model="user")
+        user_list = [int(x.pk) for x in obj.users.all()]
+
+        q = q | Q(
+            target_content_type=self_type,
+            target_object_id=obj.pk)
+
+        q = q | Q(
+            actor_content_type=user_type,
+            actor_object_id__in=user_list)
 
         return self.filter(q, **kwargs)
