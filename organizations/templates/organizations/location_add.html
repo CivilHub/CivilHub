@@ -3,5 +3,7 @@
 {% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Add more locations" %}</h3>
 <form action="" method="post">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="btn btn-greenBig">{% trans "Save" %}</button>
+  <div class="form-group mb0 top15">
+    <button type="submit" class="btn btn-greenBig">{% trans "Save" %}</button>
+  </div>
 </form></div>{% endblock %}
