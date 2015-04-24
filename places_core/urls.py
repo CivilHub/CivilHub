@@ -8,7 +8,7 @@ import views
 
 
 router = routers.DefaultRouter()
-router.register('content-types', api.ContentTypeAPIViewSet, 'content_types')
+router.register('content_types', api.ContentTypeAPIViewSet, 'content_types')
 router.register('search', api.SearchResultsAPIViewSet, 'search')
 
 

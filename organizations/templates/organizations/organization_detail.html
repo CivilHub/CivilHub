@@ -27,15 +27,12 @@
         <div class="ac-title"><strong>{% trans "Members" %}</strong></div>
         <div class="ac-hot-box">
           <div class="ac-hot-single-box clearfix">
-
-              <div class="followers-box">
-            {% for member in  organization.users.all %}
-
-            <div class="follower">
-            <a href="{{ member.profile.get_absolute_url }}" class="custom-tooltip" title="{{ member.get_full_name }}"><img src="{{ member.profile.avatar.url }}" alt="{{ member.get_full_name }}" /></a></div>
-            {% endfor %}</div>
-
-            <!-- <a href="{{ organization.creator.profile.get_absolute_url }}" class="custom-tooltip" title="{{ organization.creator.profile }}"><img src="{{ organization.creator.profile.avatar.url }}" alt="" class="ac-hot-user"></a> -->
+            <div class="followers-box">
+              {% for member in  organization.users.all %}
+              <div class="follower">
+                <a href="{{ member.profile.get_absolute_url }}" class="custom-tooltip" title="{{ member.get_full_name }}"><img src="{{ member.profile.avatar.url }}" alt="{{ member.get_full_name }}" /></a></div>
+              {% endfor %}
+            </div>       
           </div>
         </div>
       </div>

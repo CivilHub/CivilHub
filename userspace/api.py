@@ -138,7 +138,7 @@ class UserSummaryAPI(rest_views.APIView):
         content = request.QUERY_PARAMS.get('content', 'all')
         time = request.QUERY_PARAMS.get('time', 'any')
         haystack = request.QUERY_PARAMS.get('haystack', None)
-        
+
         content_objects = []
         for location in request.user.profile.followed_locations():
             content_objects += location.content_objects()
@@ -179,8 +179,8 @@ class UserFollowAPIView(rest_views.APIView):
     request. It returns a true or false value depending on whether we start/stop
     to follow another unser .
     An example of such an answer:
-          ```{'fallow': true }```   
-    
+          ```{'fallow': true }```
+
     """
     permission_classes = (rest_permissions.IsAuthenticated,)
 
@@ -212,7 +212,7 @@ class UserAPIViewSet(viewsets.ModelViewSet):
     Required fields: *username*, *first_name*, *last_name*, *password*, *email*
 
     **WARNING**: This view does not use Django authorization policy (because
-    it is impossible). It needs to be **CAREFULLY** thought over on how to 
+    it is impossible). It needs to be **CAREFULLY** thought over on how to
     implement this system in the production environment.
     """
     queryset = User.objects.all()
@@ -227,14 +227,14 @@ class UserAuthAPIViewSet(viewsets.ViewSet):
     `/api-userspace/social_auth/`
 
     Here we send the provider's name and the uid user social auth in order
-    to download the instance of the user in Django system. The data need to 
-    be send via get, if the user exists in the system, his/her serialized 
+    to download the instance of the user in Django system. The data need to
+    be send via get, if the user exists in the system, his/her serialized
     data will be returned, in the other case we will receive the answer "Forbidden"
     An example:
 
     ```/api-userspace/socials/?provider=google-plus?id=tester@gmail.com```
-    
-    **TODO**: It is worth to think about encripting this interface!!!    
+
+    **TODO**: It is worth to think about encripting this interface!!!
     """
     queryset = User.objects.all()
     serializer_class = UserAuthSerializer
@@ -256,14 +256,14 @@ class CredentialCheckAPIView(rest_views.APIView):
     the user name is already registered in the system.
 
     #### A sample query for an email address:
-    
+
     ```/api-userspace/credentials/?email=tester@test.pl```
-    
+
     ####  sample query for a user name:
-    
+
     ```/api-userspace/credentials/?uname=tester```
 
-    In both cases we receive in return a simple object with the property of 
+    In both cases we receive in return a simple object with the property of
     'valid' set to 'true' or 'false'.
     """
     queryset = User.objects.all()

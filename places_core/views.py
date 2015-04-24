@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
-from django.views.generic import TemplateView, View
+from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.contenttypes.models import ContentType
