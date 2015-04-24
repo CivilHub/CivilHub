@@ -1,5 +1,50 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<ul>{% for item in object_list %}
+{% block content %}
+<ul>
+{% for item in object_list %}
   <li><a href="{{ item.get_absolute_url }}">{{ item }}</a></li>
-{% endfor %}</ul>
-{% include 'places_core/pagination.html' %}{% endblock %}
+{% endfor %}
+</ul>
+<!-- 
+<div class="sublocations followers-entry">
+  <h1>{% trans "Organization list" %}</h1>
+ -->
+
+<!--     {% for item in object_list %}
+      <div class="col-sm-3">
+        <div class="sublocation">
+          <a href="{{ item.get_absolute_url }}" class="full-click-box"></a>
+          <img src="{{ item.logo.url }}" alt="{{ item }}">
+          <div class="sublocation-content">
+            <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %} -->
+
+<!--     {% for item in object_list %}
+    <div class="col-md-2 col-sm-4 col-xs-6">
+            <div class="follower">
+                
+                <div class="follower-header">
+                <a href="">
+                    <div class="follower-background"><img alt="Bartosz Bujakowski" src="/media/img/backgrounds/background_270x190.jpg"></div>
+                    <div class="follower-photo"><img alt="Bartosz Bujakowski" src="/media/img/avatars/6d33ae9d-59c5-4a86-92a5-c7ea4d6effb0172.png"></div>
+                    </a>
+                </div>
+                
+                <div class="follower-info">
+                    <p class="follower-name">
+                        <a href="">{{ item }}</a>
+                    </p>
+                                        
+                </div>
+            </div>
+        </div>
+   {% endfor %} -->
+
+
+{% include 'places_core/pagination.html' %}
+<!-- </div> -->
+{% endblock %}
