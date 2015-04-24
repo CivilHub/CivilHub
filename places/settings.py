@@ -275,7 +275,7 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 #-------------------------------------------------------------------------------
 # django-activity-stream settings
 ACTSTREAM_SETTINGS = {
-    'MANAGER': 'actstream.managers.ActionManager',
+    'MANAGER': 'activities.managers.CivilActionManager',
     'FETCH_RELATIONS': True,
     'USE_PREFETCH': True,
     'USE_JSONFIELD': True,

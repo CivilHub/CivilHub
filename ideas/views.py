@@ -59,7 +59,8 @@ def vote(request):
             }
             action.send(
                 request.user,
-                action_object=idea,
+                action_object=user_vote,
+                target=user_vote.idea,
                 verb= _('voted on'),
                 vote = True if request.POST.get('vote') == 'up' else False
             )

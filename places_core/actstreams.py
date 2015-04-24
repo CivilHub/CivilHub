@@ -90,7 +90,8 @@ def comment_action_hook(sender, instance, created, **kwargs):
     # Send action for user and location activity streams
     action.send(
         instance.user,
-        action_object = instance.content_object,
+        action_object = instance,
+        target = instance.content_object,
         verb = _(u"commented"),
         comment = instance.comment,
         comment_url = instance.content_object.get_absolute_url()
