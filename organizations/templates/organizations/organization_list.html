@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}{% load i18n %}
+{% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block content %}
 <div class="n-top-heading-spage">
   <h1>{% trans "Organization list" %}</h1>
@@ -10,11 +10,7 @@
         <div class="mb20"><a href="{{ item.get_absolute_url }}"><img src="{{ item.logo.url }}" alt="{{ item }}" class="ngo-logo-img min" /></a></div>
         <div class="n-sublocation-box">
           <a href="{{ item.get_absolute_url }}" class="name">{{ item }}</a>
-          {% if user not in item.users.all and user.is_authenticated %}
-            <button type="button" class="btn-follow-location" data-location-id="{{ item.pk }}">{% trans "Follow" %}</button>
-          {% else %}
-            <button type="button" class="btn-unfollow-location" data-location-id="{{ item.pk }}">{% trans "You are following" %}</button>
-          {% endif %}
+          {% if user.is_authenticated %}{% follow_button item %}{% endif %}
         </div>
       </div>
     </div>
