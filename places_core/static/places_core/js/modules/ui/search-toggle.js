@@ -11,10 +11,10 @@ require(['jquery'], function ($) {
 function toggleSearch ($box) {
   if ($box.hasClass('hidden')) {
     $box.removeClass('hidden')
-      .animate({ width: '100%' }, 200);
+      .animate({ width: "160px" }, 200);
   } else {
     $box.addClass('hidden')
-      .animate({ width: '0%' }, 200);
+      .animate({ width: "0px" }, 200);
   }
 }
 
