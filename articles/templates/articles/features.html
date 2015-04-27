@@ -1,4 +1,6 @@
 {% extends 'places_core/features-base.html' %}{% load i18n staticfiles postman_tags civil_tags %}
+{% block title %} {{ article.title }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ article.content|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ article.title }}">

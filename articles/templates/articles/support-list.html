@@ -1,5 +1,16 @@
-{% extends 'places_core/base.html' %}
-{% load i18n staticfiles civil_tags %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+{% block title %} {{ article.title }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ article.content|striptags|slice:":153"}}..." />{% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ article.title }}">
+<meta property="og:title" content="{{ article.title }}"/>
+<meta property="og:url " content="https://civilhub.org{{ article.get_absolute_url }}" />
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="article:published_time" content="{{ article.created|date:"c" }}">
+{% if article.edited %}<meta property="article:modified_time" content="{{ article.edited|date:"c" }}">{% endif %}
+<meta property="og:description" content="{{ article.content|striptags|slice:":100" }}..." />
+<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
 {% block header %}
 <div class="headerBGa headerBGSupport">
   <h1 class="headerTitleBG">{% trans "Support" %}</h1>
