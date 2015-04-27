@@ -8,7 +8,9 @@
     {% for l in profile.followed_locations %}
     <div class="col-lg-3 col-sm-3">
         <div class="sublocation">
-            <img src="{{ l.thumb_url }}" />
+            <div class="carousel-inner"><img src="{{ l.thumb_url }}" />
+              <a href="{{ l.get_absolute_url }}" class="full-click-box"></a>
+            </div>
             <div class="sublocation-content">
                 <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
             </div>
