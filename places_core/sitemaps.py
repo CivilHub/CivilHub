@@ -80,3 +80,12 @@ class EtherpadSitemap(Sitemap):
 
     def items(self):
         return Pad.objects.all()
+
+
+from organizations.models import Organization
+class OrganizationSitemap(Sitemap):
+    changefreq = "hourly"
+    priority = 0.5
+
+    def items(self):
+        return Organization.objects.all()

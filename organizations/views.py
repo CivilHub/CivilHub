@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -19,7 +19,11 @@ from places_core.mixins import LoginRequiredMixin
 from simpleblog.forms import BlogEntryForm
 from simpleblog.models import BlogEntry
 
-from .forms import NGOInviteForm, OrganizationForm, OrganizationLocationForm, NGOBackgroundForm
+from .forms import NGOInviteForm, \
+                   OrganizationForm, \
+                   OrganizationLocationForm, \
+                   NGOBackgroundForm, \
+                   NGOProjectForm
 from .models import Invitation, Organization
 
 
@@ -201,7 +205,8 @@ class OrganizationMemberDelete(SingleObjectMixin, View):
         if user in self.object.users.all():
             self.object.users.remove(user)
             self.object.save()
-            for i in Invitation.objects.filter(user=user, organization=self.object):
+            for i in Invitation.objects.filter(user=user,
+                                               organization=self.object):
                 i.delete()
         return redirect(reverse('organizations:members',
                                 kwargs={'slug': self.object.slug}))
@@ -336,3 +341,62 @@ class NGOBackgroundView(NGOContextMixin, View):
             return render(request, self.template_name, {'form': form, })
         ngo = form.cleaned_data['organization']
         return redirect(ngo.get_absolute_url())
+
+
+class NGOProjectList(NGOContextMixin, View):
+    """
+    Nanages list of projects where given organization is a mentor.
+    """
+    template_name = 'organizations/socialproject_list.html'
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(NGOProjectList, self).get_context_data()
+        context['object_list'] = self.object.projects.all()
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        user = request.user
+        if user.is_anonymous() or not self.object.has_access(user):
+            raise PermissionDenied
+        try:
+            project_id = int(request.POST.get('project_id'))
+        except (TypeError, ValueError):
+            raise Http404
+        try:
+            project = self.object.projects.get(pk=project_id)
+        except ObjectDoesNotExist:
+            raise Http404
+        self.object.projects.remove(project)
+        return redirect(reverse('organizations:project-list',
+                                kwargs={'slug': self.object.slug, }))
+
+
+class NGOProjectAdd(LoginRequiredMixin, NGOContextMixin, View):
+    """
+    Authorized users may add new projects to NGO's project list.
+    """
+    template_name = 'organizations/socialproject_form.html'
+    form_class = NGOProjectForm
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        user = request.user
+        if not self.object.has_access(user):
+            raise Http404
+        context = super(NGOProjectAdd, self).get_context_data()
+        context['form'] = self.form_class(instance=self.object)
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        form = self.form_class(request.POST, instance=self.object)
+        if not form.is_valid():
+            context = super(NGOProjectAdd, self).get_context_data()
+            context['form'] = form
+            return render(request, self.template_name, context)
+        obj = form.save(commit=False)
+        form.save_m2m()
+        return redirect(reverse('organizations:project-list',
+                                kwargs={'slug': self.object.slug, }))

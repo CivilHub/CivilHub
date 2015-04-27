@@ -52,7 +52,7 @@ def create_object_action_hook(sender, instance, created, **kwargs):
         target = instance.location
     )
     # This way author will be notified about comments etc.
-    follow(instance.creator, instance)
+    follow(instance.creator, instance, send_action=False)
 post_save.connect(create_object_action_hook, sender=Idea)
 post_save.connect(create_object_action_hook, sender=News)
 
@@ -71,7 +71,7 @@ def create_raw_object_action_hook(sender, instance, created, **kwargs):
             target = instance.location
         )
         # This way author will be notified about comments etc.
-        follow(instance.creator, instance)
+        follow(instance.creator, instance, send_action=False)
 post_save.connect(create_object_action_hook, sender=Discussion)
 post_save.connect(create_object_action_hook, sender=Poll)
 
