@@ -6,3 +6,4 @@ class IdeaStreamConfig(AppConfig):
 
     def ready(self):
         registry.register(self.get_model('Idea'))
+        registry.register(self.get_model('Vote'))

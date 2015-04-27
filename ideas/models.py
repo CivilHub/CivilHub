@@ -101,13 +101,13 @@ class Idea(ImagableItemMixin, models.Model):
                 retries += 1
                 self.slug = "{}-{}".format(slug, retries)
         super(Idea, self).save(*args, **kwargs)
-    
+
     def get_absolute_url(self):
         return reverse('locations:idea_detail', kwargs={
             'slug':self.slug,
             'place_slug': self.location.slug,
         })
-        
+
     def get_description(self):
         return truncatehtml(self.description, 100)
 
@@ -130,7 +130,10 @@ class Vote(models.Model):
         verbose_name_plural = _(u"votes")
 
     def __str__(self):
-        return self.user.username
+        if self.vote:
+            return _(u"positive")
+        else:
+            return _(u"negative")
 
 
 def vote_notification(sender, instance, created, **kwargs):
