@@ -16,7 +16,7 @@ function toggleSearch ($box) {
     $box.addClass('hidden')
       .animate({ width: '0%' }, 200);
   }
-};
+}
 
 $(document).ready(function () {
   $('#search-bar-icon').on('click', function (e) {
