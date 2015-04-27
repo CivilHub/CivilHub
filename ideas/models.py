@@ -30,7 +30,7 @@ class Category(models.Model):
     description = models.TextField(max_length=1024)
 
     class Meta:
-        ordering = ['name',]
+        ordering = ['name', ]
 
     def __str__(self):
         return self.name
@@ -39,12 +39,8 @@ class Category(models.Model):
 @python_2_unicode_compatible
 class Idea(ImagableItemMixin, models.Model):
     """ """
-    STATUS_CHOICES = (
-        (1, _(u"active")),
-        (2, _(u"completed")),
-        (3, _(u"in progress")),
-        (4, _(u"project")),
-    )
+    STATUS_CHOICES = ((1, _(u"active")), (2, _(u"completed")),
+                      (3, _(u"in progress")), (4, _(u"project")), )
 
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -60,7 +56,7 @@ class Idea(ImagableItemMixin, models.Model):
     tags = TaggableManager()
 
     class Meta:
-        ordering = ['name',]
+        ordering = ['name', ]
         verbose_name = _(u"idea")
         verbose_name_plural = _(u"ideas")
 
@@ -103,10 +99,10 @@ class Idea(ImagableItemMixin, models.Model):
         super(Idea, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('locations:idea_detail', kwargs={
-            'slug':self.slug,
-            'place_slug': self.location.slug,
-        })
+        return reverse(
+            'locations:idea_detail',
+            kwargs={'slug': self.slug,
+                    'place_slug': self.location.slug, })
 
     def get_description(self):
         return truncatehtml(self.description, 100)
@@ -125,15 +121,12 @@ class Vote(models.Model):
     date_voted = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('user', 'idea',)
+        unique_together = ('user', 'idea', )
         verbose_name = _(u"vote")
         verbose_name_plural = _(u"votes")
 
     def __str__(self):
-        if self.vote:
-            return _(u"positive")
-        else:
-            return _(u"negative")
+        return unicode(self.vote)
 
 
 def vote_notification(sender, instance, created, **kwargs):
@@ -142,9 +135,10 @@ def vote_notification(sender, instance, created, **kwargs):
         return True
     suff = "up" if instance.vote else "down"
     notify(instance.user, instance.idea.creator,
-        key="vote",
-        verb=_(u"voted %s for your idea" % suff),
-        action_object=instance,
-        action_target=instance.idea
-    )
+           key="vote",
+           verb=_(u"voted %s for your idea" % suff),
+           action_object=instance,
+           action_target=instance.idea)
+
+
 models.signals.post_save.connect(vote_notification, sender=Vote)

@@ -21,8 +21,8 @@
 .location-logo {
   background-image: url({{ object.background_url }});
 }
-@media 
-(-webkit-min-device-pixel-ratio: 2), 
+@media
+(-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
   .location-logo {
     background-image: url({{ object.retina_background_url }});
@@ -51,7 +51,7 @@
       <div class="project-name"><h1>{{ object }}</h1></div>
       <div class="project-content"><p>{{ object.description|safe|removetags:"p"|slice:'300' }}</p></div>
       <div class="join-project-btn">
-        {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
+        {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
           {% if user in object.participants.all %}<div class="join-project-btn">
             <button type="submit" class="submit-button invisible">{% trans "Leave the Project" %}</button>
           </div>
