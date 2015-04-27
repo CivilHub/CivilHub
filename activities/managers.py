@@ -10,7 +10,6 @@ from actstream.registry import check
 
 
 class CivilActionManager(ActionManager):
-
     @stream
     def mystream(self, obj, **kwargs):
         """
@@ -27,16 +26,12 @@ class CivilActionManager(ActionManager):
             objects_by_content_type[content_type_id].append(object_id)
 
         for content_type_id, object_ids in objects_by_content_type.items():
-            q = q | Q(
-                actor_content_type=content_type_id,
-                actor_object_id__in=object_ids,
-            ) | Q(
-                target_content_type=content_type_id,
-                target_object_id__in=object_ids,
-            ) | Q(
-                action_object_content_type=content_type_id,
-                action_object_object_id__in=object_ids,
-            )
+            q = q | Q(actor_content_type=content_type_id,
+                      actor_object_id__in=object_ids, ) | Q(
+                          target_content_type=content_type_id,
+                          target_object_id__in=object_ids, ) | Q(
+                              action_object_content_type=content_type_id,
+                              action_object_object_id__in=object_ids, )
 
         return self.filter(q, **kwargs)
 
@@ -55,12 +50,29 @@ class CivilActionManager(ActionManager):
         user_type = ContentType.objects.get(app_label="auth", model="user")
         user_list = [int(x.pk) for x in obj.users.all()]
 
-        q = q | Q(
-            target_content_type=self_type,
-            target_object_id=obj.pk)
+        q = q | Q(target_content_type=self_type, target_object_id=obj.pk)
 
-        q = q | Q(
-            actor_content_type=user_type,
-            actor_object_id__in=user_list)
+        q = q | Q(actor_content_type=user_type, actor_object_id__in=user_list)
+
+        return self.filter(q, **kwargs)
+
+    @stream
+    def location(self, obj, **kwargs):
+        """
+        Actstream for location - we try to include also actions related to
+        different content types published in this location, eg. comments
+        and votes.
+        """
+        q = Q()
+        check(obj)
+
+        if not hasattr(obj, 'published_items'):
+            return self.none()
+
+        self_type = ContentType.objects.get_for_model(obj)
+        q = q | Q(target_content_type=self_type, target_object_id=obj.pk)
+
+        for ct, id_list in obj.published_items().iteritems():
+            q = q | Q(target_content_type=ct, target_object_id__in=id_list)
 
         return self.filter(q, **kwargs)

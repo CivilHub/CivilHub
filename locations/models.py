@@ -18,10 +18,11 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
 from places_core.storage import OverwriteStorage, ReplaceStorage
-from places_core.helpers import sanitizeHtml, sort_by_locale
 from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
                            delete_image, rename_background_file
+
+from .managers import LocationLocaleManager
 
 
 def get_upload_path(instance, filename):
@@ -32,6 +33,7 @@ def obj_to_dict(obj):
     """
     A helper that changes various types of content into a unified format,
     that will help us show them in templates. Works as a simple serializer.
+    *deprecated* - it's much better to use activities app.
     """
     content_type = ContentType.objects.get_for_model(obj)
 
@@ -39,9 +41,9 @@ def obj_to_dict(obj):
         'type': content_type.model,
         'name': capfirst(_(content_type.model)),
         'slug': obj.slug,
-        'ct'  : content_type.pk,
-        'pk'  : obj.pk,
-        'url' : obj.get_absolute_url(),
+        'ct': content_type.pk,
+        'pk': obj.pk,
+        'url': obj.get_absolute_url(),
         'title': obj.__unicode__(),
         'image': obj.image_url,
         'thumbnail': obj.thumbnail,
@@ -57,11 +59,13 @@ def obj_to_dict(obj):
         },
     }
 
-    if hasattr(obj, 'category') and obj.category is not None and obj.category.pk:
-        context.update({'category': {
-            'pk': obj.category.pk,
-            'name': obj.category.__unicode__(),
-        }})
+    if hasattr(obj,
+               'category') and obj.category is not None and obj.category.pk:
+        context.update({
+            'category':
+            {'pk': obj.category.pk,
+             'name': obj.category.__unicode__(), }
+        })
 
     if hasattr(obj, 'retina_thumbnail') and not obj.has_default_image:
         context['retina_thumbnail'] = obj.retina_thumbnail
@@ -72,7 +76,7 @@ def obj_to_dict(obj):
     if content_type.model == 'idea':
         context.update({
             'description': obj.description,
-            'meta': {'votes': obj.get_votes(),}
+            'meta': {'votes': obj.get_votes(), }
         })
 
     elif content_type.model == 'poll':
@@ -84,9 +88,7 @@ def obj_to_dict(obj):
     elif content_type.model == 'discussion':
         context.update({
             'description': obj.intro,
-            'meta': {
-                'answers': obj.entry_set.count(),
-            }
+            'meta': {'answers': obj.entry_set.count(), }
         })
 
     elif content_type.model == 'socialproject':
@@ -108,19 +110,10 @@ class AlterLocationName(models.Model):
         return self.altername
 
 
-class LocationLocaleManager(models.Manager):
-    """
-    A manager that allows to order locations albhabetically with local utf-8 signs
-    taken into account.
-    """
-    def get_queryset(self):
-        return sort_by_locale(super(LocationLocaleManager, self).get_queryset(),
-                                lambda x: x.__unicode__(), get_language())
-
-
 class BackgroundModelMixin(object):
     """ A mixin for models that take care of the background image."""
-    def get_image_url(self, size=(1920,300), retina=False):
+
+    def get_image_url(self, size=(1920, 300), retina=False):
 
         # Get first part of image url
         url = self.image.url.split('/')
@@ -143,7 +136,7 @@ class BackgroundModelMixin(object):
         return u"{}/{}".format(url, filename)
 
     def thumb_url(self, retina=False):
-        return self.get_image_url((270,190))
+        return self.get_image_url((270, 190))
 
     def background_url(self):
         return self.get_image_url()
@@ -152,31 +145,60 @@ class BackgroundModelMixin(object):
         return self.get_image_url(retina=True)
 
 
-
 @python_2_unicode_compatible
 class Location(models.Model, BackgroundModelMixin):
     """ Basic location model. """
     name = models.CharField(max_length=200, verbose_name=_(u"name"))
-    slug = models.SlugField(max_length=200, unique=True, verbose_name=_(u"slug"))
-    description = models.TextField(max_length=10000, blank=True, verbose_name=_(u"description"))
-    latitude = models.FloatField(blank=True, null=True, verbose_name=_(u"latitude"))
-    longitude = models.FloatField(blank=True, null=True, verbose_name=_(u"longitude"))
-    names = models.ManyToManyField(AlterLocationName, blank=True, null=True, related_name='alternames', verbose_name=_(u"alternate names"))
-    creator = models.ForeignKey(User, blank=True, related_name='created_locations', verbose_name=_(u"creator"))
+    slug = models.SlugField(max_length=200,
+                            unique=True,
+                            verbose_name=_(u"slug"))
+    description = models.TextField(max_length=10000,
+                                   blank=True,
+                                   verbose_name=_(u"description"))
+    latitude = models.FloatField(blank=True,
+                                 null=True,
+                                 verbose_name=_(u"latitude"))
+    longitude = models.FloatField(blank=True,
+                                  null=True,
+                                  verbose_name=_(u"longitude"))
+    names = models.ManyToManyField(AlterLocationName,
+                                   blank=True,
+                                   null=True,
+                                   related_name='alternames',
+                                   verbose_name=_(u"alternate names"))
+    creator = models.ForeignKey(User,
+                                blank=True,
+                                related_name='created_locations',
+                                verbose_name=_(u"creator"))
     users = models.ManyToManyField(User, blank=True, verbose_name=_(u"users"))
-    parent = models.ForeignKey('Location', blank=True, null=True, verbose_name=_(u"parent"))
-    population = models.IntegerField(blank=True, null=True, verbose_name=_(u"population"))
-    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date created"))
-    country_code = models.CharField(max_length=10, verbose_name=_(u"country code"))
-    image = models.ImageField(upload_to=get_upload_path, default='img/locations/nowhere.jpg', verbose_name=_(u"image"))
+    parent = models.ForeignKey('Location',
+                               blank=True,
+                               null=True,
+                               verbose_name=_(u"parent"))
+    population = models.IntegerField(blank=True,
+                                     null=True,
+                                     verbose_name=_(u"population"))
+    date_created = models.DateTimeField(auto_now_add=True,
+                                        verbose_name=_(u"date created"))
+    country_code = models.CharField(max_length=10,
+                                    verbose_name=_(u"country code"))
+    image = models.ImageField(upload_to=get_upload_path,
+                              default='img/locations/nowhere.jpg',
+                              verbose_name=_(u"image"))
     # Hold entire parent chain for faster searching (hopefully)
-    parent_list = models.CharField(max_length=255, verbose_name=_(u"parent list"),
-           blank=True, null=True,
-           help_text=_(u"List of parent location ID's separated with comma"))
+    parent_list = models.CharField(
+        max_length=255,
+        verbose_name=_(u"parent list"),
+        blank=True,
+        null=True,
+        help_text=_(u"List of parent location ID's separated with comma"))
     # Hold 1-st level children list
-    children_list = models.CharField(max_length=255, verbose_name=_(u"children list"),
-           blank=True, null=True,
-           help_text=_(u"List of children ID's separated with comma"))
+    children_list = models.CharField(
+        max_length=255,
+        verbose_name=_(u"children list"),
+        blank=True,
+        null=True,
+        help_text=_(u"List of children ID's separated with comma"))
     # Here we mark regions/cities/capitals etc. with geonames
     kind = models.CharField(max_length=10, verbose_name=_(u"kind"))
 
@@ -184,8 +206,10 @@ class Location(models.Model, BackgroundModelMixin):
     objects = models.Manager()
     locale_sorted = LocationLocaleManager()
 
+    #contents = LocationContentManager
+
     class Meta:
-        ordering = ['name',]
+        ordering = ['name', ]
         verbose_name = _(u"location")
         verbose_name_plural = _(u"locations")
 
@@ -215,7 +239,8 @@ class Location(models.Model, BackgroundModelMixin):
         self.description = sanitizeHtml(self.description)
         if self.parent is not None:
             self.country_code = self.parent.country_code
-        self.parent_list = ",".join([str(x) for x in self.get_parent_id_list()])
+        self.parent_list = ",".join([str(x)
+                                     for x in self.get_parent_id_list()])
         # We generate the appropriate slug
         if not self.slug:
             slug_entry = slugify('-'.join([self.name, self.country_code]))
@@ -245,9 +270,9 @@ class Location(models.Model, BackgroundModelMixin):
         if self.parent:
             if response == 'JSON':
                 parents.append({
-                    'pk'  : self.parent.pk,
+                    'pk': self.parent.pk,
                     'name': self.parent.__unicode__(),
-                    'url' : self.parent.get_absolute_url(),
+                    'url': self.parent.get_absolute_url(),
                 })
             else:
                 parents.append(self.parent)
@@ -265,10 +290,9 @@ class Location(models.Model, BackgroundModelMixin):
             ancestors = []
         for a in self.location_set.all():
             if response == 'JSON':
-                ancestors.append({
-                    'name': a.__unicode__(),
-                    'url' : a.get_absolute_url(),
-                })
+                ancestors.append(
+                    {'name': a.__unicode__(),
+                     'url': a.get_absolute_url(), })
             else:
                 ancestors.append(a)
             if a.location_set.count() > 0:
@@ -317,17 +341,16 @@ class Location(models.Model, BackgroundModelMixin):
         """ Show the most active followers of current place. """
         tmp = []
         for user in self.users.all():
-            tmp.append({
-                'user' : user,
-                'count': self.count_users_actions(user),
-            })
+            tmp.append(
+                {'user': user,
+                 'count': self.count_users_actions(user), })
         tmp = sorted(tmp, key=operator.itemgetter('count'))
         actions = reversed(tmp)
 
         return actions
 
     def get_absolute_url(self):
-        return reverse('locations:details', kwargs={'slug':self.slug})
+        return reverse('locations:details', kwargs={'slug': self.slug})
 
     def get_description(self):
         return self.description
@@ -346,6 +369,45 @@ class Location(models.Model, BackgroundModelMixin):
         qs += [obj_to_dict(x) for x in self.projects.all()]
         return sorted(qs, key=lambda x: x['date_created'], reverse=True)
 
+    def published_items(self, content_type=None):
+        """
+        Returns list of content item ID's grouped by content type.
+        Very useful for content management and activity stream relation.
+        TODO: select content type/content types to choose from.
+        FIXME: this is REALLY ugly...
+        """
+        content_type_list = {
+            ContentType.objects.get(app_label='ideas',
+                                    model='idea').pk: [
+                                        int(x[0])
+                                        for x in self.idea_set.values_list('pk')
+                                    ],
+            ContentType.objects.get(app_label='polls',
+                                    model='poll').pk: [
+                                        int(x[0])
+                                        for x in self.poll_set.values_list('pk')
+                                    ],
+            ContentType.objects.get(app_label='topics',
+                                    model='discussion').pk:
+            [int(x[0]) for x in self.discussion_set.values_list('pk')],
+            ContentType.objects.get(app_label='projects',
+                                    model='socialproject').pk: [
+                                        int(x[0])
+                                        for x in self.idea_set.values_list('pk')
+                                    ],
+            ContentType.objects.get(app_label='gallery',
+                                    model='locationgalleryitem').pk: [
+                                        int(x[0])
+                                        for x in self.pictures.values_list('pk')
+                                    ],
+            ContentType.objects.get(app_label='blog',
+                                    model='news').pk: [
+                                        int(x[0])
+                                        for x in self.news_set.values_list('pk')
+                                    ],
+        }
+        return content_type_list
+
     def __str__(self):
         lang = get_language().split('-')[0]
         alt = self.names.filter(language=lang)
@@ -353,6 +415,7 @@ class Location(models.Model, BackgroundModelMixin):
             return self.name
         else:
             return alt[0].altername
+
 
 post_save.connect(resize_background_image, sender=Location)
 
@@ -364,7 +427,7 @@ class Country(models.Model):
     location = models.OneToOneField(Location, related_name='country')
 
     class Meta:
-        ordering = ['code',]
+        ordering = ['code', ]
 
     def get_capital(self):
         try:
