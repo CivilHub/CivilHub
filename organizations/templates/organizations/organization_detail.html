@@ -32,8 +32,6 @@
               <div class="follower">
                 <a href="{{ member.profile.get_absolute_url }}" class="custom-tooltip" title="{{ member.get_full_name }}"><img src="{{ member.profile.avatar.url }}" alt="{{ member.get_full_name }}" /></a></div>
               {% endfor %}
-              <div class="follower">
-                <a href="{{ organization.creator.profile.get_absolute_url }}" class="custom-tooltip" title="{{ organization.creator.get_full_name }}"><img src="{{ organization.creator.profile.avatar.url }}" alt="{{ organization.creator.get_full_name }}" /></a></div>
             </div>
           </div>
         </div>
