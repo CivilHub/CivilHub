@@ -140,12 +140,3 @@ class ReportView(CreateView):
             })
             return HttpResponse(context, content_type="application/json")
         return super(ReportView, self).form_valid()
-
-
-class TestView(TemplateView):
-    """ This is test. """
-    template_name = 'staticpages/pages/testpage.html'
-
-    def get(self, request, **kwargs):
-        context = {}
-        return render(request, self.template_name, context)

@@ -1,9 +1,0 @@
-{% extends 'places_core/base.html' %}
-{% load i18n staticfiles civil_tags %}
-{% comment %} Brief template {% endcomment %}
-{% block header %}{% endblock %}
-{% block container_main %}
-  {% block content %}
-    {{ article.content |safe }}
-  {% endblock %}
-{% endblock %}
