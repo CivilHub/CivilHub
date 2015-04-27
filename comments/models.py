@@ -111,8 +111,15 @@ def comment_notification(sender, instance, created, **kwargs):
                    verb=_(u"commented task"),
                    action_object=instance,
                    action_target=instance.content_object)
-    elif instance.user != instance.content_object.creator:
-        notify(instance.user, instance.content_object.creator,
+
+    target_user = None
+    if hasattr(instance.content_object, 'creator'):
+        target_user = instance.content_object.creator
+    elif hasattr(instance.content_object, 'author'):
+        target_user = instance.content_object.author
+
+    if target_user is not None and instance.user != target_user:
+        notify(instance.user, target_user,
                key="customcomment",
                verb=_(u"commented your {}".format(
                    instance.content_object._meta.verbose_name.title())),

@@ -14,11 +14,11 @@ function ($, ActionList) {
 function getMinimalPtr () {
   var h = $(document).height();
   if (h <= 5000) {
-    return 50;
+    return 10;
   } else if (h <= 10000) {
-    return 60;
+    return 30;
   } else {
-    return 75;
+    return 50;
   }
 }
 

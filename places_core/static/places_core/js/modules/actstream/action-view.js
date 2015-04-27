@@ -15,7 +15,14 @@ function (_, Backbone, moment, utils, html, contentHtml) {
 
 "use strict";
 
-var FIXED_ITEMS = ['idea', 'discussion', 'news', 'poll', 'locationgalleryitem'];
+var FIXED_ITEMS = [
+  'idea',
+  'discussion',
+  'news',
+  'poll',
+  'locationgalleryitem',
+  'blogentry'
+];
 
 var ActionView = Backbone.View.extend({
 
@@ -58,7 +65,8 @@ var ActionView = Backbone.View.extend({
       if (utils.isRetina() && !_.isUndefined(image.retina_thumbnail)) {
         src = image.retina_thumbnail;
       }
-      $image.insertAfter(this.$('.full-click-box:first')).attr('src', src);
+      $image.attr('src', src)
+        .insertAfter(this.$('.full-click-box:first'));
     }
   }
 });

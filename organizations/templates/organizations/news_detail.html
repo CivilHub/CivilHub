@@ -1,5 +1,6 @@
-{% extends 'organizations/index.html' %}{% load i18n %}
+{% extends 'organizations/index.html' %}{% load i18n comment_tags civil_tags staticfiles %}
 {% block title %} {{ news }} - Civilhub.org {% endblock %}
+{% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/organization-blog.js"></script>{% endblock %}
 {% block description %}<meta name="description" content="{{ news.content|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
@@ -49,6 +50,16 @@
         <div class="row">
           <div class="acticle-content news-contetn"><br>{{ news.content|safe }}</div>
         </div>
+        <div class="row">{% with news|content_type as ctype %}
+          <input type="hidden" id="target-id" value="{{ news.pk }}" />
+          <input type="hidden" id="target-label" value="simpleblog" />
+          <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
+          <div class="blogEntryComments">
+          <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
+            <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
+          </div>
+          {% include 'comments/commentlist.html' %}
+        {% endwith %}</div>
       </div><!--colsm10-->
     </div>
   </div>
