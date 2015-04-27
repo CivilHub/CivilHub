@@ -129,7 +129,7 @@
                 <tr>
                   <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="200">
                     <h1>{% trans "You've received an invitation!" %}</h1><br>
-                    <span><a href="{{ user.profile.get_absolute_url }}" style="color: #0083FB;">@{{ user.get_full_name }}</a></span> {% trans "has invited you to join his organization" %}
+                    <span><a href="{{ user_link }}" style="color: #0083FB;">@{{ user_name }}</a></span> {% trans "has invited you to join his organization" %}
                   </td>
                 </tr>
               </table>
@@ -157,12 +157,12 @@
                             <table cellspacing="0" cellpadding="0" width="120">
                               <tr>
                                 <td  style="vertical-align:middle; text-align:center;" class="mobile-img">
-                                <img  style="border:1px solid #a1a1a1;" src="{{ user.avatar.url }}"  width="90" height="90" alt="profile"/>
+                                <img  style="border:1px solid #a1a1a1;" src="{{ user_img }}"  width="90" height="90" alt="profile"/>
                                 </td>
                               </tr>
                               <tr>
                                <td style="font-size:12px; padding-top:5px; text-align:center;">
-                                <a style="color:#0083FB;" href="">@{{ user.get_full_name }}</a>
+                                <a style="color:#0083FB;" href="">@{{ user_link }}</a>
                                 </td>
                               </tr>
                             </table>
@@ -176,7 +176,7 @@
                         </tr>
                         <tr>
                           <td class="mobile-block mobile-padding" style="text-align:center; padding: 0 50px;">
-                            {{ link }}
+                            <p><a href="{{ link }}">{% trans "Join" %}</a></p>
                           </td>
                         </tr>
                         <tr>
