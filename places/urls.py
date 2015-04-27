@@ -49,6 +49,7 @@ sitemaps = {
     'projects': sitemaps.ProjectsSitemap,
     'articles': sitemaps.ArticleSitemap,
     'documents': sitemaps.EtherpadSitemap,
+    'organizations': sitemaps.OrganizationSitemap,
 }
 # Javascript translations catalog
 js_info_dict = {

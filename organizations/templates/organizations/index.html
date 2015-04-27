@@ -41,6 +41,7 @@
         <li><a href="{% url 'organizations:info' organization.slug %}">{% trans "About Us" %}</a></li>
         <li><a href="{% url 'organizations:members' organization.slug %}">{% trans "Members" %}</a></li>
         <li><a href="{% url 'organizations:locations' organization.slug %}">{% trans "Locations" %}</a></li>
+        <li><a href="{% url 'organizations:project-list' organization.slug %}">{% trans "Projects" %}</a></li>
         {% if access %}<li><a href="{% url 'organizations:update' organization.slug %}">{% trans "Update" %}</a></li>{% endif %}
       </ul>
     </div>
