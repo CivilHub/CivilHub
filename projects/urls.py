@@ -4,6 +4,7 @@ import views
 
 urlpatterns = patterns('',
     url(r'^discussions/(?P<pk>\d+)/delete/', views.ProjectForumDeleteView.as_view(), name="discussion_delete"),
+    url(r'^(?P<project_slug>[\w-]+)/organizations/add/', views.AddProjectToNGO.as_view(), name="organization_add"),
     url(r'^(?P<slug>[\w-]+)/background/', views.ProjectBackgroundView.as_view(), name="background"),
     url(r'^(?P<slug>[\w-]+)/documents/(?P<document_slug>[\w-]+)/', views.ProjectDocumentPreview.as_view(), name="document"),
     url(r'^(?P<slug>[\w-]+)/documents/', views.ProjectDocumentsList.as_view(), name="documents"),

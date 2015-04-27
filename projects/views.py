@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
+from django.contrib import messages
 from django.contrib.auth.views import login_required
 from django.contrib.contenttypes.models import ContentType
 
@@ -32,7 +33,7 @@ from .permissions import check_access
 from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
 from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm, \
                    DiscussionAnswerForm, SocialForumCreateForm, SocialForumUpdateForm, \
-                   DocumentForm
+                   DocumentForm, ProjectNGOForm
 
 
 @require_POST
@@ -71,17 +72,17 @@ def toggle_task_state(request, pk):
     task.save()
     project_actions.finished_task(request.user, task)
     if request.is_ajax():
-        context = json.dumps({
-            'success': True,
-            'is_done': task.is_done,
-            'message': message,
-        })
+        context = json.dumps(
+            {'success': True,
+             'is_done': task.is_done,
+             'message': message, })
         return HttpResponse(context, content_type="application/json")
     return redirect(task.get_absolute_url())
 
 
 class ProjectContextMixin(LocationContextMixin):
     """ A mixin for forms that create tasks and groups of tasks. """
+
     def get_context_data(self, form=None):
         group_id = self.kwargs.get('group_id')
         project_slug = self.kwargs.get('slug')
@@ -89,22 +90,34 @@ class ProjectContextMixin(LocationContextMixin):
         context = super(ProjectContextMixin, self).get_context_data(form)
         context['form'] = form
         if project_slug is not None:
-            context['object'] = get_object_or_404(SocialProject, slug=project_slug)
-            context['project_access'] = check_access(context['object'], self.request.user)
+            context['object'] = get_object_or_404(SocialProject,
+                                                  slug=project_slug)
+            context['project_access'] = check_access(context['object'],
+                                                     self.request.user)
         if location_slug is not None:
-            context['location'] = get_object_or_404(Location, slug=location_slug)
+            context['location'] = get_object_or_404(Location,
+                                                    slug=location_slug)
         return context
 
 
 class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
     """ We check whether the user has the proper access rights. """
-    def get(self, request, location_slug=None, slug=None, group_id=None, task_id=None):
+
+    def get(self, request,
+            location_slug=None,
+            slug=None,
+            group_id=None,
+            task_id=None):
         # TODO: We can show something more appropriate than 403.
         if not check_access(self.get_object(), request.user):
             raise PermissionDenied
         return super(ProjectAccessMixin, self).get(request)
 
-    def post(self, request, slug=None, location_slug=None, group_id=None, task_id=None):
+    def post(self, request,
+             slug=None,
+             location_slug=None,
+             group_id=None,
+             task_id=None):
         if not check_access(self.get_object(), request.user):
             raise PermissionDenied
         return super(ProjectAccessMixin, self).post(request)
@@ -112,6 +125,7 @@ class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
 
 class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
     """ Adding/removing the user from the project (as a whole). """
+
     def post(self, request, location_slug=None, slug=None):
         project = get_object_or_404(SocialProject, slug=slug)
         if project.participants.filter(pk=request.user.pk).exists():
@@ -131,16 +145,17 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
             project_actions.joined_to_project(request.user, project)
             follow(request.user, project, actor_only=False)
         if request.is_ajax():
-            context = {'success': True, 'message': message,}
+            context = {'success': True, 'message': message, }
             return HttpResponse(context, content_type="application/json")
-        return redirect(reverse('locations:project_details', kwargs={
-            'location_slug': location_slug,
-            'slug': project.slug,
-        }))
+        return redirect(reverse(
+            'locations:project_details',
+            kwargs={'location_slug': location_slug,
+                    'slug': project.slug, }))
 
 
 class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
     """ Adding/removing users from a concrete task. """
+
     def post(self, request, location_slug=None, slug=None, task_id=None):
         task = get_object_or_404(Task, pk=task_id)
         if task.participants.filter(pk=request.user.pk).exists():
@@ -148,22 +163,26 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
             message = _("You are no longer in this task")
         else:
             task.participants.add(request.user)
-            if not task.group.project.participants.filter(pk=request.user.pk).exists():
+            if not task.group.project.participants.filter(
+                pk=request.user.pk).exists():
                 task.group.project.participants.add(request.user)
-                task.group.project.authors_group.authors.add(request.user.author)
-                project_actions.joined_to_project(request.user, task.group.project)
+                task.group.project.authors_group.authors.add(
+                    request.user.author)
+                project_actions.joined_to_project(request.user,
+                                                  task.group.project)
                 follow(request.user, task.group.project, actor_only=False)
             else:
                 project_actions.joined_to_task(request.user, task)
             message = _("You have joined this task")
         if request.is_ajax():
-            context = {'success': True, 'message': message,}
+            context = {'success': True, 'message': message, }
             return HttpResponse(context, content_type="application/json")
-        return redirect(reverse('locations:task_details', kwargs={
-            'location_slug': location_slug,
-            'slug': task.group.project.slug,
-            'task_id': task.pk,
-        }))
+        return redirect(reverse('locations:task_details',
+                                kwargs={
+                                    'location_slug': location_slug,
+                                    'slug': task.group.project.slug,
+                                    'task_id': task.pk,
+                                }))
 
 
 class CreateTaskGroupView(ProjectContextMixin, CreateView):
@@ -179,7 +198,8 @@ class CreateTaskGroupView(ProjectContextMixin, CreateView):
         project_slug = self.kwargs.get('slug')
         if project_slug is not None:
             initial.update({
-                'project': get_object_or_404(SocialProject, slug=project_slug)
+                'project': get_object_or_404(SocialProject,
+                                             slug=project_slug)
             })
         initial.update({'creator': self.request.user.pk})
         return initial
@@ -269,7 +289,8 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         initial = super(CreateProjectView, self).get_initial()
         location_slug = self.kwargs.get('location_slug')
         if location_slug is not None:
-            initial['location'] = get_object_or_404(Location, slug=location_slug)
+            initial['location'] = get_object_or_404(Location,
+                                                    slug=location_slug)
         initial['creator'] = self.request.user.pk
         return initial
 
@@ -282,8 +303,11 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         try:
             for m in json.loads(self.request.POST.get('markers')):
                 marker = MapPointer.objects.create(
-                    content_type=ContentType.objects.get_for_model(SocialProject),
-                    object_pk=obj.pk, latitude=m['lat'], longitude=m['lng'])
+                    content_type=ContentType.objects.get_for_model(
+                        SocialProject),
+                    object_pk=obj.pk,
+                    latitude=m['lat'],
+                    longitude=m['lng'])
         except Exception:
             # FIXME: silent fail, should be a flash message
             pass
@@ -325,7 +349,8 @@ class ProjectParticipantsView(LocationContextMixin, ListView):
 
     def get_context_data(self):
         context = super(ProjectParticipantsView, self).get_context_data()
-        context['object'] = get_object_or_404(SocialProject, slug=self.project_slug)
+        context['object'] = get_object_or_404(SocialProject,
+                                              slug=self.project_slug)
         return context
 
 
@@ -354,12 +379,14 @@ class ProjectDocumentsList(ListView):
     paginate_by = 25
 
     def get_queryset(self):
-        project = get_object_or_404(SocialProject, slug=self.kwargs.get('slug'))
+        project = get_object_or_404(SocialProject,
+                                    slug=self.kwargs.get('slug'))
         return self.model.objects.filter(group=project.authors_group)
 
     def get_context_data(self):
         context = super(ProjectDocumentsList, self).get_context_data()
-        project = get_object_or_404(SocialProject, slug=self.kwargs.get('slug'))
+        project = get_object_or_404(SocialProject,
+                                    slug=self.kwargs.get('slug'))
         context['object'] = project
         context['location'] = project.location
         context['document_form'] = DocumentForm(
@@ -377,9 +404,8 @@ class ProjectDocumentPreview(LocationContextMixin, DetailView):
         document_slug = self.kwargs.get('document_slug')
         context['document'] = get_object_or_404(Pad, slug=document_slug)
         context['location'] = self.object.location
-        context['download_form'] = ServePadForm(initial={
-            'pad': context['document'],
-        })
+        context['download_form'] = ServePadForm(
+            initial={'pad': context['document'], })
         return context
 
 
@@ -401,55 +427,57 @@ class ProjectBackgroundView(ProjectAccessMixin, FormView):
         return context
 
     def form_valid(self, form):
-        box = (
-            form.cleaned_data['x'],
-            form.cleaned_data['y'],
-            form.cleaned_data['x2'],
-            form.cleaned_data['y2'],
-        )
+        box = (form.cleaned_data['x'], form.cleaned_data['y'],
+               form.cleaned_data['x2'], form.cleaned_data['y2'], )
         obj = self.get_object()
         image = Image.open(form.cleaned_data['image'])
         image = image.crop(box)
         obj.image = handle_tmp_image(image)
         obj.save()
-        return redirect(reverse('locations:project_details',
-            kwargs={
-                'location_slug': obj.location.slug,
-                'slug': obj.slug,
-            }
-        ))
+        return redirect(reverse(
+            'locations:project_details',
+            kwargs={'location_slug': obj.location.slug,
+                    'slug': obj.slug, }))
 
 
 class ProjectForumContextMixin(ProjectContextMixin):
     """ A mixin for discussion subpages for this project. """
+
     def get_context_data(self, form=None, **kwargs):
         context = super(ProjectForumContextMixin, self).get_context_data()
         project_slug = self.kwargs.get('project_slug')
         if project_slug is not None:
-            context['object'] = get_object_or_404(SocialProject, slug=project_slug)
+            context['object'] = get_object_or_404(SocialProject,
+                                                  slug=project_slug)
             context['location'] = context['object'].location
-            context['is_moderator'] = is_moderator(self.request.user, context['location'])
+            context['is_moderator'] = is_moderator(self.request.user,
+                                                   context['location'])
         if form is not None:
             context['form'] = form
         discussion_slug = self.kwargs.get('discussion_slug')
         if discussion_slug is not None:
-            context['discussion'] = get_object_or_404(SocialForumTopic, slug=discussion_slug)
+            context['discussion'] = get_object_or_404(SocialForumTopic,
+                                                      slug=discussion_slug)
         return context
 
 
-class ProjectForumUpdateMixin(LoginRequiredMixin, UpdateView, ProjectForumContextMixin):
+class ProjectForumUpdateMixin(LoginRequiredMixin, UpdateView,
+                              ProjectForumContextMixin):
     """ A mixin for discussion edition forms and discussion entries. """
+
     def permission_check_(self):
         if not check_access(self.get_object(), self.request.user):
             raise PermissionDenied
 
     def get(self, request, project_slug=None, discussion_slug=None, pk=None):
         self.permission_check_()
-        return super(ProjectForumUpdateMixin, self).get(request, project_slug, discussion_slug)
+        return super(ProjectForumUpdateMixin, self).get(request, project_slug,
+                                                        discussion_slug)
 
     def post(self, request, project_slug=None, discussion_slug=None, pk=None):
         self.permission_check_()
-        return super(ProjectForumUpdateMixin, self).post(request, project_slug, discussion_slug)
+        return super(ProjectForumUpdateMixin, self).post(request, project_slug,
+                                                         discussion_slug)
 
 
 class ProjectForumListView(ProjectForumContextMixin, ListView):
@@ -490,7 +518,8 @@ class ProjectForumDetailView(ProjectForumContextMixin, ListView):
         return context
 
 
-class ProjectForumCreateView(LoginRequiredMixin, CreateView, ProjectForumContextMixin):
+class ProjectForumCreateView(LoginRequiredMixin, CreateView,
+                             ProjectForumContextMixin):
     """ New discussion creation within a project. """
     model = SocialForumTopic
     form_class = SocialForumCreateForm
@@ -502,7 +531,8 @@ class ProjectForumCreateView(LoginRequiredMixin, CreateView, ProjectForumContext
         form.instance.creator = self.request.user
         project_slug = self.kwargs.get('project_slug')
         if project_slug is not None:
-            form.instance.project = get_object_or_404(SocialProject, slug=project_slug)
+            form.instance.project = get_object_or_404(SocialProject,
+                                                      slug=project_slug)
         return super(ProjectForumCreateView, self).form_valid(form)
 
 
@@ -513,13 +543,14 @@ class ProjectForumUpdateView(ProjectForumUpdateMixin):
     slug_url_kwarg = 'discussion_slug'
 
 
-class ProjectForumDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContextMixin):
+class ProjectForumDeleteView(LoginRequiredMixin, DeleteView,
+                             ProjectForumContextMixin):
     """ Discussion deletion - only for admins and mods! """
     model = SocialForumTopic
 
     def get_success_url(self):
-        return reverse('projects:discussions', kwargs={
-            'project_slug': self.object.project.slug})
+        return reverse('projects:discussions',
+                       kwargs={'project_slug': self.object.project.slug})
 
     def post(self, request, pk=None):
         if not is_moderator(request.user, self.get_object().project.location):
@@ -527,7 +558,8 @@ class ProjectForumDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContext
         return super(ProjectForumDeleteView, self).post(request, pk)
 
 
-class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView, ProjectForumContextMixin):
+class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView,
+                                   ProjectForumContextMixin):
     """ Discussion answer. """
     model = SocialForumEntry
     form_class = DiscussionAnswerForm
@@ -539,7 +571,8 @@ class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView, ProjectForumC
         initial = super(ProjectForumAnswerCreateView, self).get_initial()
         discussion_slug = self.kwargs.get('discussion_slug')
         if discussion_slug is not None:
-            initial['topic'] = get_object_or_404(SocialForumTopic, slug=discussion_slug)
+            initial['topic'] = get_object_or_404(SocialForumTopic,
+                                                 slug=discussion_slug)
         initial['creator'] = self.request.user
         return initial
 
@@ -557,7 +590,8 @@ class ProjectForumAnswerUpdateView(ProjectForumUpdateMixin):
         return self.object.topic.get_absolute_url()
 
 
-class ProjectForumAnswerDeleteView(LoginRequiredMixin, DeleteView, ProjectForumContextMixin):
+class ProjectForumAnswerDeleteView(LoginRequiredMixin, DeleteView,
+                                   ProjectForumContextMixin):
     """ Discussion entries deletion - admins, mods and project owners. """
     model = SocialForumEntry
 
@@ -568,3 +602,45 @@ class ProjectForumAnswerDeleteView(LoginRequiredMixin, DeleteView, ProjectForumC
         if not check_access(self.get_object().topic.project, request.user):
             raise PermissionDenied
         return super(ProjectForumAnswerDeleteView, self).post(request, pk)
+
+
+class AddProjectToNGO(LoginRequiredMixin, View):
+    """
+    Allows users that joined to some organizations to add this project for
+    NGO's project list.
+    """
+    template_name = 'projects/organization_add.html'
+    form_class = ProjectNGOForm
+    object = None
+
+    def get_object(self, **kwargs):
+        if self.object is None:
+            project_slug = self.kwargs.get('project_slug')
+            self.object = get_object_or_404(SocialProject, slug=project_slug)
+        return self.object
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        return {
+            'object': self.object,
+            'location': self.object.location,
+            'project_access': check_access(self.object, self.request.user),
+        }
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data(**kwargs)
+        initial = {'project': self.object, }
+        context['form'] = self.form_class(initial=initial, request=request)
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        context = self.get_context_data(**kwargs)
+        form = self.form_class(request.POST, request=request)
+        if not form.is_valid():
+            context['form'] = form
+            return render(request, self.template_name, context)
+        obj = form.save()
+        msg = _(u"Your organization was added to project mentors")
+        messages.add_message(request, messages.SUCCESS, msg)
+        return redirect(reverse('organizations:project-list',
+                                kwargs={'slug': obj.slug, }))

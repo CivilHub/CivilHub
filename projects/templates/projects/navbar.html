@@ -16,9 +16,12 @@
         <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>
         <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants">{% trans "Participants" %}</a></li>
         <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>
+        {% if user.is_authenticated and user.organizations.count %}<li>
+          <a href="{% url 'projects:organization_add' object.slug %}">{% trans "Add your organization" %}</a>
+        </li>{% endif %}
       </ul>{% if user in object.participants.all %}
       <ul class="nav navbar-nav navbar-right">
-        <li><form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %} 
+        <li><form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
             <button type="submit" class="btn-link btn-link-fix">{% trans "Leave the Project" %}</button>
         </form></li>
       </ul>{% endif %}

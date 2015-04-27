@@ -1,0 +1,6 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<h3>{% trans "Choose one from your organizations to which you want to add this project" %}</h3>
+<form method="post" action="">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Save" %}</button>
+</form>{% endblock %}

@@ -369,6 +369,8 @@ class NGOProjectList(NGOContextMixin, View):
         except ObjectDoesNotExist:
             raise Http404
         self.object.projects.remove(project)
+        msg = _(u"Project has been removed from organizations list")
+        messages.add_message(request, messages.SUCCESS, msg)
         return redirect(reverse('organizations:project-list',
                                 kwargs={'slug': self.object.slug, }))
 

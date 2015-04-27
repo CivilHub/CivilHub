@@ -7,7 +7,4 @@
       <button type="submit">{% trans "Delete" %}</button>
     </form>{% endif %}
   </li>
-{% endfor %}</ul>
-{% if access %}<p>
-  <a href="{% url 'organizations:project-add' organization.slug %}">{% trans "Add project" %}</a>
-</p>{% endif %}{% endblock %}
+{% endfor %}</ul>{% endblock %}
