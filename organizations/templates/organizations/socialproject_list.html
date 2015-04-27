@@ -1,0 +1,13 @@
+{% extends 'organizations/index.html' %}{% load i18n %}
+{% block content %}<ul>{% for item in object_list %}
+  <li>
+    <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+    {% if access %}<form class="custom-inline-form" method="post" action="">{% csrf_token %}
+      <input type="hidden" name="project_id" value="{{ item.pk }}">
+      <button type="submit">{% trans "Delete" %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if access %}<p>
+  <a href="{% url 'organizations:project-add' organization.slug %}">{% trans "Add project" %}</a>
+</p>{% endif %}{% endblock %}

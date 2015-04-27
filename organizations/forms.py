@@ -102,3 +102,12 @@ class NGOBackgroundForm(forms.Form):
         if commit:
             instance.save()
         return instance
+
+
+class NGOProjectForm(forms.ModelForm):
+    """
+    Add project to the list of projects where given NGO is a mentor.
+    """
+    class Meta:
+        model = Organization
+        fields = ('projects', )

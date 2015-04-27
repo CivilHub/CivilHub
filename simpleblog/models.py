@@ -108,6 +108,7 @@ class BlogEntry(SlugifiedModelMixin, ImagableItemMixin):
         return self.name
 
     class Meta:
+        ordering = ['-date_created', ]
         verbose_name = _(u"blog entry")
         verbose_name_plural = _(u"blog entries")
 
