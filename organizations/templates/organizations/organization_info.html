@@ -14,9 +14,9 @@
     <div class="ac-hot-box">
       <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong><p class="mb0">{{ organization.name }}</p></div>
       <div class="ac-hot-single-box"><strong>{% trans "Organization profil" %}:</strong><p class="mb0">{{ organization.category }}</p></div>
-      <div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong><p class="mb0">{{ organization.krs }}</p></div>
-      <div class="ac-hot-single-box"><strong>{% trans "Email" %}:</strong><p class="mb0">{{ organization.email }}</p></div>
-      <div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong><p class="mb0">{{ organization.website }}</p></div>
+      {% if organization.krs %}<div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong><p class="mb0">{{ organization.krs }}</p></div>{% endif %}
+      {% if organization.email %}<div class="ac-hot-single-box"><strong>{% trans "Email" %}:</strong><p class="mb0"><a href="mailto:{{ organization.email }}" rel="nofollow">{{ organization.email }}</a></p></div>{% endif %}
+      {% if organization.website %}<div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong><p class="mb0"><a href="{{ organization.website }}" target="_blank" rel="nofollow">{{ organization.website }}</a></p></div>{% endif %}
     </div>
   </div>
 </div>{% endblock %}

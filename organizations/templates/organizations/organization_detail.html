@@ -6,21 +6,21 @@
       <div class="main-content p-reset">
         <div class="ac-title"><strong>{% trans "Information about the organization" %}</strong></div>
         <div class="ac-hot-box">
-          <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong>
+          <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:asd</strong>
             <ul class="list-unstyled mb0">
               <li>{{ organization.name }}</li>
             </ul>
           </div>
-          <div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong>
+          {% if organization.krs %}<div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong>
             <ul class="list-unstyled mb0">
               <li>{{ organization.krs }}</li>
             </ul>
-          </div>
-          <div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong>
+          </div>{% endif %}
+          {% if organization.website %}<div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong>
             <ul class="list-unstyled mb0">
-              <li>{{ organization.website }}</li>
+              <li><a href="{{ organization.website }}" target="_blank" rel="nofollow">{{ organization.website }}</a></li>
             </ul>
-          </div>
+          </div>{% endif %}
         </div>
       </div>
       <div class="main-content p-reset">

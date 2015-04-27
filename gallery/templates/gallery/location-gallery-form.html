@@ -3,7 +3,7 @@
 
 {% block navigation_location %}<div class="location-page-gallery">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
-  <div class="col-sm-9 main-content">
+  <div class="col-sm-9 main-content contentPX">
     <div class="create-form newFormCreate">
       <h3>{% trans "Create gallery in" %} {{ location }}</h3>
       <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" id="location-gallery-form">
@@ -19,7 +19,7 @@
     </div>
   </div>
   
-  <div class="col-sm-3">
+  <div class="col-sm-3 boxPX">
     {% include 'locations/sidebar.html' %}
   </div>
 {% endblock %}
