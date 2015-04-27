@@ -1,8 +1,7 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}
-{% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}<div class="col-sm-3">
-
-
+{% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
+<div class="col-sm-3">
   <div class="locBox loc-box-project">
     <div class="locBoxHeader" style="background-image: url({{ item.image.url }})">
       <div class="locBoxLoc"><a href="{{ location.get_absolute_url }}">{{ location }}</a></div>
@@ -20,19 +19,10 @@
     <div class="locBoxCat"></div>
     <div class="locBoxBody"><a href="{{ item.get_absolute_url }}"> </a><p><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars:115 }}</a></p></div>
   </div>
-</div>
-
-
-{% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}{% endblock %}
-<!-- 
-<ul>{% for item in object_list %}
-  <li>
-    <a href="{{ item.get_absolute_url }}">{{ item }}</a>
     {% if access %}<form class="custom-inline-form" method="post" action="">{% csrf_token %}
       <input type="hidden" name="project_id" value="{{ item.pk }}">
-      <button type="submit">{% trans "Delete" %}</button>
+      <button type="submit" class="text-danger">{% trans "Delete" %}</button>
     </form>{% endif %}
-  </li>
-{% endfor %}</ul> -->
-
+</div>
+{% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}{% endblock %}
 
