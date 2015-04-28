@@ -19,7 +19,7 @@ router.register('markers', api.LocationMapViewSet, 'markers')
 router.register('actions', api.LocationActionsRestViewSet, 'actions')
 router.register('sublocations', api.SublocationAPIViewSet, 'sublocations')
 router.register('countries', api.CountryAPIViewSet, 'countries')
-router.add_api_view('follow', url(r'^follow/', api.LocationFollowAPIView.as_view(), name='follow'))
+router.add_api_view('follow', url(r'^follow/', api.LocationFollowAPI.as_view(), name='follow'))
 router.add_api_view('contents', url(r'^contents/', api.LocationSummaryAPI.as_view(), name='contents'))
 router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name='capital'))
 router.add_api_view('autocomplete', url(r'^autocomplete/', api.LocationSearchAPI.as_view(), name='autocomplete'))
@@ -91,9 +91,6 @@ urlpatterns = patterns('',
     url(r'delete/(?P<slug>[\w-]+)/', DeleteLocationView.as_view(), name='delete'),
     url(r'update/(?P<slug>[\w-]+)/', UpdateLocationView.as_view(), name='update'),
 
-    # Ajaxs functions
-    url(r'add_follower/(?P<pk>\d+)', add_follower, name='add_follower'),
-    url(r'remove_follower/(?P<pk>\d+)', remove_follower, name='remove_follower'),
     url(r'background/(?P<pk>\d+)', LocationBackgroundView.as_view(), name='background'),
     url(r'email_invite/(?P<location_slug>[\w-]+)', InviteUsersByEmailView.as_view(), name='email-invite'),
     url(r'invite_users/(?P<pk>\d+)', InviteUsersView.as_view(), name='invite'),

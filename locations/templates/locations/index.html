@@ -16,8 +16,8 @@
 .location-logo {
     background-image: url({{ location.background_url }});
 }
-@media 
-(-webkit-min-device-pixel-ratio: 2), 
+@media
+(-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
     .location-logo {
         background-image: url({{ location.retina_background_url }});
@@ -27,7 +27,7 @@
 <nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
 <div class="container">
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
-    
+
     <ul class="nav navbar-nav">
         <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"></div></a></li>
         {% for parent in location.get_parent_chain %}
@@ -44,28 +44,28 @@
         </li>
         {% endif %}
     </ul>
-    
+
 </div>
 </div>
 </nav>
 <div class="location-logo">
     <div class="container" style="height: 100%; position: relative;">
-        <div class="title-container"> 
+        <div class="title-container">
             <div class="location-name-title" id="tour-location-name"><h1>{{ location }}</h1></div>
             {% comment %}<div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>{% endcomment %}
-            
+
         {% if user in location.users.all %}
-            <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+            <button type="button" class="loc-fllw-btn btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
         {% else %}
-            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            <button type="button" class="loc-fllw-btn btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
         {% endif %}
-            
+
         </div>
-        
+
         {% if user.is_superuser or is_moderator %}<a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
         <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>{% endif %}
         {% if user.is_superuser %}<a class="change-background-btn" href="{% url 'civmail:followers-message' location.pk %}">{% trans "Send message to followers" %}</a>{% endif %}
-        
+
     </div>
 </div>
 

@@ -9,7 +9,10 @@ from django.core import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext as _
 
+from actstream.actions import follow, unfollow
+from actstream.models import following
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import permissions as rest_permissions
@@ -28,7 +31,6 @@ from .serializers import SimpleLocationSerializer, \
                          MapLocationSerializer, \
                          AutocompleteLocationSeraializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
-
 
 redis_cache = cache.get_cache('default')
 
@@ -54,7 +56,7 @@ class CapitalAPI(APIView):
     A view that searches for a capital of a country most suitable for the location
     of the current user. You don't have to pass in any parameters.
     """
-    permission_classes = (rest_permissions.AllowAny,)
+    permission_classes = (rest_permissions.AllowAny, )
 
     def get(self, request):
         code = GeoIP().country(get_ip(self.request))\
@@ -63,7 +65,8 @@ class CapitalAPI(APIView):
         try:
             country = Country.objects.get(code=code)
         except Country.DoesNotExist:
-            country = get_object_or_404(Country, code=settings.DEFAULT_COUNTRY_CODE)
+            country = get_object_or_404(Country,
+                                        code=settings.DEFAULT_COUNTRY_CODE)
         capital = country.get_capital()
         if capital is not None:
             serializer = LocationListSerializer(capital)
@@ -88,7 +91,7 @@ class LocationSummaryAPI(APIView):
         `per_page` - Number of elements to show on one page (max 100)<br>
     """
     paginate_by = 48
-    permission_classes = (rest_permissions.AllowAny,)
+    permission_classes = (rest_permissions.AllowAny, )
 
     def get(self, request):
 
@@ -129,7 +132,8 @@ class LocationSummaryAPI(APIView):
         content_objects = location.content_objects()
 
         if content != 'all':
-            content_objects = [x for x in content_objects if x['type']==content]
+            content_objects = [x for x in content_objects
+                               if x['type'] == content]
         if time is not None:
             content_objects = [x for x in content_objects\
                                     if x['date_created'] >= time.isoformat()]
@@ -137,61 +141,73 @@ class LocationSummaryAPI(APIView):
             content_objects = [x for x in content_objects \
                                     if haystack.lower() in x['title'].lower()]
         if category is not None:
-            content_objects = [x for x in content_objects if x['category']['pk']==category]
+            content_objects = [x for x in content_objects
+                               if x['category']['pk'] == category]
 
         # Sort results option (Opcje sortowania wyników (is applicable to concrete objects)
         sortby = self.request.QUERY_PARAMS.get('sortby')
         if sortby == 'title':
             content_objects = sort_by_locale(content_objects,
-                            lambda x: x['title'], translation.get_language())
+                                             lambda x: x['title'],
+                                             translation.get_language())
         elif sortby == 'oldest':
             content_objects.sort(key=lambda x: x['date_created'])
         elif sortby == 'newest':
-            content_objects.sort(key=lambda x: x['date_created'], reversed=True)
+            content_objects.sort(key=lambda x: x['date_created'],
+                                 reversed=True)
         elif sortby == 'user':
-            content_objects.sort(key=lambda x: x['creator']['name'].split(' ')[1])
+            content_objects.sort(
+                key=lambda x: x['creator']['name'].split(' ')[1])
 
         paginator = Paginator(content_objects, per_page)
         try:
             items = paginator.page(page)
         except EmptyPage:
             items = paginator.page(1)
-        serializer = ContentPaginatedSerializer(items, context={'request': request})
+        serializer = ContentPaginatedSerializer(items,
+                                                context={'request': request})
 
         return Response(serializer.data)
 
 
-class LocationFollowAPIView(APIView):
+class LocationFollowAPI(APIView):
     """
-    Exit REST on the follow location function. Generally, we send here POST
-    with one parameter - 'pk' of the location. If the user is already observing
-    this location he will be deleted from the list of followers and vice-versa.
-    Each time in return we get an object with the value of follow set to either
-    'ture' or 'fale' depending on the actual state after the change, i.e. if the
-    user started following a location, we receive something like this:
-     ```{
-        follow: true
-    }```
+    Follow/unfollow location. GET request to find out that current user already
+    follow location passed with `pk` query parameter. Perform POST request to
+    toggle follow/unfollow state.
     """
-    permission_classes = (rest_permissions.IsAuthenticated,)
+    permission_classes = (rest_permissions.IsAuthenticated, )
+    location = None
 
-    def post(self, request):
-        pk = request.DATA.get('pk', None)
+    def _get_location(self):
+        if self.location is not None:
+            return self.location
+        try:
+            location_id = int(self.request.QUERY_PARAMS.get('pk'))
+        except (TypeError, ValueError):
+            raise Http404
+        self.location = get_object_or_404(Location, pk=location_id)
+        return self.location
+
+    def get(self, request, **kwargs):
+        self.location = self._get_location()
+        return Response(
+            {'following': self.location in following(request.user), })
+
+    def post(self, request, **kwargs):
         user = request.user
-        context = {}
-        if pk:
-            location = get_object_or_404(Location, pk=pk)
-            if not location.users.filter(pk=user.pk).exists():
-                location.users.add(user)
-                location.save()
-                follow(user, location, actor_only = False)
-                context['follow'] = True
-            else:
-                location.users.remove(user)
-                location.save()
-                unfollow(user, location)
-                context['follow'] = False
-        return Response(context)
+        self.location = self._get_location()
+        if self.location in following(user):
+            unfollow(user, self.location)
+            self.location.users.remove(user)
+            msg = _(u"You stopped following")
+        else:
+            follow(user, self.location, actor_only=False)
+            self.location.users.add(user)
+            msg = _(u"You are following")
+        return Response(
+            {'following': self.location in following(user),
+             'message': msg, })
 
 
 class LocationAPIViewSet(viewsets.ModelViewSet):
@@ -209,8 +225,7 @@ class LocationAPIViewSet(viewsets.ModelViewSet):
     serializer_class = SimpleLocationSerializer
     paginate_by = settings.LIST_PAGINATION_LIMIT
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsModeratorOrReadOnly,
-                          IsOwnerOrReadOnly,)
+                          IsModeratorOrReadOnly, IsOwnerOrReadOnly, )
 
     def list(self, request):
         code = request.QUERY_PARAMS.get('code', None)
@@ -240,7 +255,8 @@ class CountryAPIViewSet(viewsets.ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
     paginate_by = None
-    permission_classes = (rest_permissions.DjangoModelPermissionsOrAnonReadOnly,)
+    permission_classes = (
+        rest_permissions.DjangoModelPermissionsOrAnonReadOnly, )
 
     def get_queryset(self):
         code = self.request.QUERY_PARAMS.get('code') or None
@@ -265,20 +281,21 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
     """
     serializer_class = MyActionsSerializer
     permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+                          IsOwnerOrReadOnly, )
 
     def get_queryset(self, pk=None, ct=None):
         from actstream.models import Action, model_stream
         if not pk: return []
         content_type = ContentType.objects.get_for_model(Location).pk
-        stream = model_stream(Location).filter(target_content_type_id=content_type)
+        stream = model_stream(Location).filter(
+            target_content_type_id=content_type)
         try:
             location = Location.objects.get(pk=pk)
             stream = stream.filter(target_object_id=location.pk)
             ctid = ContentType.objects.get_for_model(Idea).pk
             vote_actions = [a.pk for a in Action.objects.all() if \
                             hasattr(a.action_object, 'location') and \
-                            a.action_object.location==location]
+                            a.action_object.location == location]
             stream = stream | Action.objects.filter(pk__in=vote_actions)
         except Location.DoesNotExist:
             return []
@@ -300,7 +317,8 @@ class LocationActionsRestViewSet(viewsets.ViewSet):
         except EmptyPage:
             actions = paginator.page(paginator.num_pages)
 
-        serializer = PaginatedActionSerializer(actions, context={'request': request})
+        serializer = PaginatedActionSerializer(actions,
+                                               context={'request': request})
         return Response(serializer.data)
 
 
@@ -312,9 +330,10 @@ class LocationMapViewSet(viewsets.ModelViewSet):
 
     ```/api-locations/markers/?term=awa```
     """
-    queryset = Location.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+    queryset = Location.objects.exclude(latitude__isnull=True).exclude(
+        longitude__isnull=True)
     serializer_class = MapLocationSerializer
-    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (rest_permissions.IsAuthenticatedOrReadOnly, )
     http_method_names = [u'get']
 
     def get_queryset(self):
@@ -332,7 +351,7 @@ class SublocationAPIViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = Location.objects.all()
     serializer_class = LocationListSerializer
-    permission_classes = (rest_permissions.AllowAny,)
+    permission_classes = (rest_permissions.AllowAny, )
     paginate_by = None
 
     def get_queryset(self):

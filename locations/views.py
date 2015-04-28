@@ -615,57 +615,6 @@ class InviteUsersView(LoginRequiredMixin, View):
         return HttpResponse(json.dumps(ctx))
 
 
-@login_required
-@require_POST
-def add_follower(request, pk):
-    """ Add user to locations followers. """
-    location = get_object_or_404(Location, pk=pk)
-    user = request.user
-    location.users.add(user)
-    if user != location.creator:
-        notify(user,
-            location.creator,
-            verb=_(u"joined to your location"),
-            key="follower",
-            action_target=location
-        )
-    try:
-        location.save()
-        follow(user, location, actor_only=False)
-        response = {
-            'success': True,
-            'message': _('You follow this location'),
-        }
-    except:
-        response = {
-            'success': False,
-            'message': _('Something, somewhere went terribly wrong'),
-        }
-    return HttpResponse(json.dumps(response))
-
-
-@login_required
-@require_POST
-def remove_follower(request, pk):
-    """ Remove user from locations followers. """
-    location = get_object_or_404(Location, pk=pk)
-    user = request.user
-    location.users.remove(user)
-    try:
-        location.save()
-        unfollow(user, location)
-        response = {
-            'success': True,
-            'message': _('You stop following this location'),
-        }
-    except:
-        response = {
-            'success': False,
-            'message': _('Something, somewhere went terribly wrong'),
-        }
-    return HttpResponse(json.dumps(response))
-
-
 class InviteUsersByEmailView(LoginRequiredMixin, FormView):
     """
     Invite users to follow selected location using only their email addresses.
