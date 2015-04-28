@@ -7,13 +7,12 @@
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/locations/location-list/col-view',
-           'js/modules/locations/follow-button',
            'vector',
            'worldmap',
            'js/modules/common',
-           'js/modules/locations/follow'],
+           'js/modules/locations/follow'], 
 
-  function ($, ColView, fb) {
+  function ($, ColView) {
 
     // openPlaceholderWindow
     // ---------------------
@@ -103,14 +102,26 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           }
 
           followButton.on('click', function (e) {
-            var $this = $(e.currentTarget);
-            fb.followRequest($this.attr('data-target'), function (response) {
-              var txt = response.following ? gettext('You are following')
-                                           : gettext('Follow');
-              $this.text(txt + ' ' + name)
-                .toggleClass('btn-follow-location')
-                .toggleClass('btn-unfollow-location');
-            }, $this);
+            e.preventDefault();
+            if (followButton.hasClass('btn-unfollow-location')) {
+              $.post('/remove_follower/' + targetID,
+                  { csrfmiddlewaretoken: getCookie('csrftoken') },
+                  function (resp) {
+                    followButton
+                      .addClass('btn-follow-location')
+                      .removeClass('btn-unfollow-location')
+                      .text(gettext('Follow') + ' ' + name);
+                  });
+            } else {
+              $.post('/add_follower/' + targetID,
+                { csrfmiddlewaretoken: getCookie('csrftoken') },
+                function (resp) {
+                  followButton
+                    .addClass('btn-unfollow-location')
+                    .removeClass('btn-follow-location')
+                    .text(gettext('You are following') + ' ' + name);
+                });
+            }
           });
 
         } else {
