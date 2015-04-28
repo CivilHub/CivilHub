@@ -72,9 +72,7 @@
     <div class="col-sm-3 mt25 no-float">
       <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ cuser.pk }}"><div class="ac-title"><span class="badge badge-btn">10</span>{% trans "Hot news" %}</div></div>
     </div>
-    <div class="col-sm-6 mt25 no-float">
-      <div class="activity-stream wrapper-timeline"></div>
-    </div>
+    <div class="col-sm-6 mt25 no-float">{% actstream cuser 'actor' %}</div>
     <div class="col-sm-3 no-float">
       <div class="ac-right-site">
         <div class="menu-box">
