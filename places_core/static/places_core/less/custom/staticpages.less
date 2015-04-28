@@ -1250,7 +1250,6 @@ padding-bottom: 40px;
 
 
     .teamPeople{
-        max-width: 572px;
         width: 100%;
         margin: 0 auto;
         text-align: center;
@@ -1367,7 +1366,54 @@ padding-bottom: 40px;
             }
 
     }
-
+    .team_tooltip_heading {
+        color: #0083fb;
+    }
+    a.team_tooltip {
+      position: relative;
+      display: inline;
+    }
+    a.team_tooltip span {
+      color: #4d4747;
+      position: absolute;
+      width: 300px;
+      background: white;
+      border: 1px solid #bfbfbf;
+      height: auto;
+      visibility: hidden;
+      border-radius: 4px;
+      text-align: left;
+      padding: 10px;
+    }
+    a.team_tooltip span:before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -12px;
+      width: 0;
+      height: 0;
+      border-top: 12px solid #bfbfbf;
+      border-right: 12px solid transparent;
+      border-left: 12px solid transparent;
+    }
+    a.team_tooltip span:after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -10px;
+      width: 0; height: 0;
+      border-top: 10px solid #FFFFFF;
+      border-right: 10px solid transparent;
+      border-left: 10px solid transparent;
+    }
+    a:hover.team_tooltip span {
+      visibility: visible;
+      bottom: 145px;
+      left: -38%;
+      z-index: 100;
+    }
 
 
 }
