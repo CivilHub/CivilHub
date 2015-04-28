@@ -6737,3 +6737,249 @@ small.green{
 .open-source-img-outer {
     text-align: center;
 }
+/*
+# History Timeline
+*/
+.history-timeline-container {
+    margin-top: 80px;
+
+    .no_h2 {
+        margin-top: 20px;
+    }
+    .history_box {
+        width: 45%;
+        border: 1px solid #bfbfbf;
+        border-radius: 4px;
+    }
+    .history_txt {
+        padding: 0 20px 20px 20px;
+    }
+    .history_box::before {
+        content: "";
+        position: absolute;
+        width: 59px;
+        height: 4px;
+        left: 45%;
+        top: 50%;
+        background: #0083fb;
+    }
+    /* circle */
+    .circle_before::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-left: -8px;
+        margin-top: -7px;
+        display: block;
+        background: rgb(251, 251, 251);
+        border: 5px solid #0083fb;
+        border-radius: 100px;
+        z-index: 10;
+    }
+    .history_box_right {
+        position: relative;
+        width: 45%;
+        left:55%;
+        border: 1px solid #bfbfbf;
+        border-radius: 4px;
+    }
+    .circle_before_right::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        margin-left: -67px;
+        margin-top: -7px;
+        display: block;
+        background: rgb(251, 251, 251);
+        border: 5px solid #0083fb;
+        border-radius: 100px;
+        z-index: 10;
+    }
+    .history_box_right::after {
+        content: "";
+        position: absolute;
+        left:-59px;
+        top: 50%;
+        width: 59px;
+        height: 4px;
+        background: #0083fb;
+    }
+    .history_img {
+        height:200px;
+        border-bottom: 1px solid #bfbfbf;
+        background-size: cover;
+
+    }
+    .timeline_year_outer {
+        text-align: center;
+    }
+    .timeline_year {
+        font-size: 32px;
+        color: white;
+        font-weight: bold;
+        position: relative;
+        padding: 10px 20px;
+        background: #0083fb;
+        display: inline-block;
+        border-radius: 4px;
+    }
+    .timeline_month {
+        font-size: 22px;
+        color: white;
+        position: relative;
+        padding: 5px 15px;
+        background: #0083fb;
+        display: inline-block;
+        border-radius: 4px;
+    }
+    .year-month-separator {
+        width: 4px;
+        height: 20px;
+        margin-left: 4px;
+        margin-bottom: -5px;
+        background: #0083fb;
+        display: inline-block;
+    }
+    .timeline-container {
+        position: relative;
+        margin: 0;
+        padding-bottom: 20px
+    }
+    .timeline-container::before {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 100%;
+        left: 50%;
+        margin-left: auto;
+        background: #0083fb;
+    }
+    /* media queries */
+    @media only screen and (min-width : 992px) and (max-width : 1200px) {
+        .circle_before_right::before {
+            margin-left: -58px;
+        }
+        .history_box_right::after {
+            width: 49px;
+            left:-49px;
+        }
+    }
+    @media only screen and (min-width : 768px) and (max-width : 991px) {
+        .history_box::before {
+            width: 49px;
+        }
+        .circle_before_right::before {
+            margin-left: -47px;
+        }
+        .history_box_right::after {
+            width: 38px;
+            left:-38px;
+        }
+    }
+    /* one line */
+    @media only screen and (max-width : 767px) {
+        
+        .timeline_year_outer {
+            text-align: right;
+        }
+        .timeline-container::before {
+            right: 0;
+            margin-right: 20px
+        }
+        .year-month-separator {
+            margin-right: 20px;
+        }
+        .history_box {
+            width: 85%;
+        }
+        .history_box::before {
+            width: 11%;
+            left: 85%;
+        }
+        .circle_before::before {
+            left: 100%;
+            margin-left: -31px;
+        }
+        .history_box_right {
+            position: static;
+            left: 0;
+            width: 85%
+        }
+        .history_box_right::after {
+            display: none;
+        }
+        .history_box_right::before {
+            content: "";
+            position: absolute;
+            left: 85%;
+            top: 50%;
+            width: 11%;
+            height: 4px;
+            background: #0083fb;
+        }
+        .circle_before_right::before {
+            right:0;
+            margin-right: 11px;
+        }
+    }
+    /* images */
+    .kwiecien_2015 { background-image: url(https://civilhub.org/media/filer_public/14/7a/147ac3e2-8e53-481e-a5cd-9f1f1f586a0a/img2.jpg); }
+    .marzec_2015 { background-image: url(https://civilhub.org/media/filer_public/85/54/8554522a-f5c9-4301-aa49-32c3cfa34904/img1.jpg); }
+    .luty_2015 { background-image: url(https://civilhub.org/media/filer_public/7f/67/7f671a98-5391-419e-aef5-c3e97dfa6bc3/img3.jpg); }
+    .styczen_2015 { background-image: url(https://civilhub.org/media/filer_public/e8/a5/e8a5acf8-1d18-4333-b97d-1da5e51fc8e4/img4.jpg); }
+    .pazdziernik_2014 { background-image: url(https://civilhub.org/media/filer_public/d4/11/d41177dd-2da3-4434-a8e8-fe0bd910a7c9/img5.jpg); }
+    .wrzesien_2014 { background-image: url(https://civilhub.org/media/filer_public/8a/e6/8ae6af68-bf6c-4793-b0b4-5237e778c20b/img6.jpg); }
+    .czerwiec_2014 { background-image: url(https://civilhub.org/media/filer_public/d4/53/d45339a2-4905-4764-a086-608e895d1501/img7.jpg); }
+    .maj_2014 { background-image: url(https://civilhub.org/media/filer_public/72/5d/725d3411-e492-4b37-a443-1af127735e98/img8.jpg); }
+    .kwiecien_2014 { background-image: url(https://civilhub.org/media/filer_public/b7/52/b752a56e-acb0-4181-b21e-40c0fba9aaca/img9.jpg); }
+    .styczen_2014 { background-image: url(https://civilhub.org/media/filer_public/64/f0/64f06795-d98c-435c-8827-4a73e59fc869/img10.jpg); }
+    ._2013 { background-image: url(https://civilhub.org/media/filer_public/26/f4/26f4a1c9-28c3-4196-ba06-6000c90934ca/img11.jpg); }
+    ._2012 { background-image: url(https://civilhub.org/media/filer_public/ca/04/ca040384-dea0-413c-84be-37c4a650e088/img12.jpg); }
+    .czerwiec_2011 { background-image: url(https://civilhub.org/media/filer_public/92/ad/92adfa5e-daa5-4260-a2d1-0f9fb67d04ec/img13.jpg); }
+    ._2010 { background-image: url(https://civilhub.org/media/filer_public/00/74/0074ba28-fdb8-4ba9-8ce0-81f9aeb10c11/img14.jpg); }
+    .pazdziernik_2009 { background-image: url(https://civilhub.org/media/filer_public/3e/d0/3ed0820c-a727-4bb4-b830-cdaaa6800a17/img15.jpg); }
+    .wrzesien_2009 { background-image: url(https://civilhub.org/media/filer_public/c7/09/c709c549-1147-4ef8-8bce-65021720de2c/img15_5.jpg); }
+    .czerwiec_2009 { background-image: url(https://civilhub.org/media/filer_public/e4/65/e4656efa-4268-4d95-a390-85f93688b843/img16.jpg); }
+    .maj_2009 { background-image: url(https://civilhub.org/media/filer_public/23/26/2326355e-a284-49d7-bfe6-024a7e33e3c6/img17.jpg); }
+    /* img retina */
+    @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+        .history_img {  
+        }
+        .kwiecien_2015 { background-image: url(https://civilhub.org/media/filer_public/62/c7/62c7e291-7812-4e90-98bf-c623cbf34105/img22x.jpg); }
+        .marzec_2015 { background-image: url(https://civilhub.org/media/filer_public/66/2a/662a5403-bdb3-49c4-8d32-6ae6d31ea41e/img12x.jpg); }
+        .luty_2015 { background-image: url(https://civilhub.org/media/filer_public/9a/c0/9ac01ff8-a03f-4560-840a-dbf940237176/img32x.jpg); }
+        .styczen_2015 { background-image: url(https://civilhub.org/media/filer_public/1f/7a/1f7a2166-bc13-4101-8148-f25abb15df77/img42x.jpg); }
+        .pazdziernik_2014 { background-image: url(https://civilhub.org/media/filer_public/a3/df/a3df39c6-695c-4e0b-81e9-67db56ee1986/img52x.jpg); }
+        .wrzesien_2014 { background-image: url(https://civilhub.org/media/filer_public/61/e2/61e24104-4fca-4f66-a4df-5e682160cad0/img62x.jpg); }
+        .czerwiec_2014 { background-image: url(https://civilhub.org/media/filer_public/c8/35/c835d332-1a9b-4b67-80f3-95a773965f42/img72x.jpg); }
+        .maj_2014 { background-image: url(https://civilhub.org/media/filer_public/cc/5a/cc5a0476-c7fd-49b9-b89d-9a669b783848/img82x.jpg); }
+        .kwiecien_2014 { background-image: url(https://civilhub.org/media/filer_public/45/f9/45f90353-3a25-49ed-8417-cc73d1f4a157/img92x.jpg); }
+        .styczen_2014 { background-image: url(https://civilhub.org/media/filer_public/c5/f9/c5f9a948-9ee4-45f2-8c6b-bb42dca8de0f/img102x.jpg); }
+        ._2013 { background-image: url(https://civilhub.org/media/filer_public/87/6f/876f1104-828f-4ad8-a1ff-6f13cf8cef0e/img112x.jpg); }
+        ._2012 { background-image: url(https://civilhub.org/media/filer_public/bb/12/bb12b946-341e-4966-a3d5-5aababaaa886/img122x.jpg); }
+        .czerwiec_2011 { background-image: url(https://civilhub.org/media/filer_public/9c/ff/9cffac11-35ae-4de4-a16f-d73f15cef249/img132x.jpg); }
+        ._2010 { background-image: url(https://civilhub.org/media/filer_public/c0/c1/c0c1a6e9-a6ff-4aa0-8ae9-5f3971afd3ce/img142x.jpg); }
+        .pazdziernik_2009 { background-image: url(https://civilhub.org/media/filer_public/98/d7/98d766eb-7035-4106-ba7b-a8f9cd7329d1/img152x.jpg); }
+        .wrzesien_2009 { background-image: url(https://civilhub.org/media/filer_public/f6/9f/f69fee95-e5ee-47d7-aa6e-c35e533b60b8/img15_52x.jpg); }
+        .czerwiec_2009 { background-image: url(https://civilhub.org/media/filer_public/d7/58/d758f67c-3892-4b44-9940-71487b1175fc/img162x.jpg); }
+        .maj_2009 { background-image: url(https://civilhub.org/media/filer_public/c5/30/c530d969-0cb8-4221-a799-e799df3e0519/img172x.jpg); }
+    }
+    /* img media queries */
+    @media only screen and (min-width : 992px) and (max-width : 1200px) {
+        .history_img {
+            height: 164px;
+        }
+    }
+    @media only screen and (min-width : 768px) and (max-width : 991px) {
+            .history_img {
+            height: 136px;
+        }
+    }
+}
