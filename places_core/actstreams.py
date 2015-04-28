@@ -30,7 +30,7 @@ def create_place_action_hook(sender, instance, created, **kwargs):
         action.send(instance.creator, action_object=instance, verb=_('created'))
         instance.users.add(instance.creator)
         instance.creator.profile.mod_areas.add(instance)
-        follow(instance.creator, instance, actor_only = False)
+        follow(instance.creator, instance, actor_only=False, send_action=False)
 post_save.connect(create_place_action_hook, sender=Location)
 
 

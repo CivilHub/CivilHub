@@ -3,6 +3,7 @@ import json
 
 from django.core.serializers import serialize
 from django.template.defaultfilters import timesince
+from django.utils.translation import ugettext as _
 
 from actstream.models import Action
 from rest_framework import serializers
@@ -79,6 +80,16 @@ class ActionObjectSerializer(serializers.Serializer):
             desc = '<img src="{}" alt="{}">'.format(obj.url(), obj.name)
         elif obj._meta.model_name == 'blogentry':
             desc = obj.content
+        elif obj._meta.model_name == 'vote' \
+            or obj._meta.model_name == 'commentvote':
+            if obj.vote:
+                class_name = 'alert-success'
+                label_text = _(u"Voted yes")
+            else:
+                class_name = 'alert-danger'
+                label_text = _(u"Voted no")
+            return u'<div class="alert {}">{}</div>'.format(class_name,
+                                                            label_text)
         else:
             desc = ""
         return truncatehtml(desc, 200)
@@ -141,11 +152,8 @@ class ActionSerializer(serializers.ModelSerializer):
     def get_action_object(self, obj):
         if not obj.action_object:
             return None
-        try:
-            serializer = ActionObjectSerializer(obj.action_object)
-            return serializer.data
-        except WrongModelInstance:
-            return serialize_content_object(obj.action_object)
+        serializer = ActionObjectSerializer(obj.action_object)
+        return serializer.data
 
     def get_action_target(self, obj):
         if not obj.target:

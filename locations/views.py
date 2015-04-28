@@ -147,7 +147,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
 
     def get(self, request, *args, **kwargs):
         slug = kwargs['slug']
-        self.parent_object = Location.objects.get(slug=slug) 
+        self.parent_object = Location.objects.get(slug=slug)
         ctx = {
                 'title': _('Create new discussion'),
                 'location': self.parent_object,
@@ -173,7 +173,7 @@ class LocationDiscussionCreate(LoginRequiredMixin, CreateView):
         except Exception:
             # FIXME: silent fail, powinna być flash message
             pass
-        return redirect(reverse('locations:topic', 
+        return redirect(reverse('locations:topic',
             kwargs = {
                 'place_slug': obj.location.slug,
                 'slug': obj.slug,
@@ -235,7 +235,7 @@ class LocationFollowersList(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
-        
+
         followers = self.object.users.all()
         max_per_page = settings.LIST_PAGINATION_LIMIT
         paginator    = Paginator(followers, max_per_page)
@@ -252,7 +252,7 @@ class LocationFollowersList(DetailView):
             context['navigation'] = False
         else:
             context['navigation'] = True
-            
+
         context['title'] = self.object.name + ', ' + _("Followers")
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
@@ -500,7 +500,7 @@ class LocationContentSearch(View):
 class LocationContentFilter(View):
     """
     A content filter by category site.This type of filtering is
-    useful only for certain types of content. Same sa above, we 
+    useful only for certain types of content. Same sa above, we
     only gather content from the location that the user is currently
     viewing.
     """
@@ -530,7 +530,7 @@ class LocationContentFilter(View):
 class LocationContentDelete(View):
     """
     A universal view that allows the admins and mods to delete the content from
-    "subject" locations. 
+    "subject" locations.
     """
     http_method_names = [u'get', u'post',]
     template_name = 'locations/content-remove.html'
@@ -560,7 +560,7 @@ class InviteUsersView(LoginRequiredMixin, View):
     """
     A view with the from of invite a other users to 'follow' a location in mind.
     It defines the methods that return the form for the modal and send an email
-    to the chosen users. 
+    to the chosen users.
     """
     http_method_names = [u'get', u'post']
     template_name = 'locations/invite-users.html'
@@ -631,7 +631,7 @@ def add_follower(request, pk):
         )
     try:
         location.save()
-        follow(user, location, actor_only = False)
+        follow(user, location, actor_only=False)
         response = {
             'success': True,
             'message': _('You follow this location'),

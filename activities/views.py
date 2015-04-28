@@ -43,6 +43,8 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
             return target_stream(self.request_object)
         elif stream_type == 'ngo':
             return Action.objects.ngostream(self.request_object)
+        elif stream_type == 'location':
+            return Action.objects.location(self.request_object)
         else:
             return Action.objects.mystream(self.request_object)
 

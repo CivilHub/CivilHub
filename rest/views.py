@@ -49,7 +49,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
     serializer_class = MyActionsSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
-    
+
     def get_queryset(self, pk=None, ct=None):
         from userspace.helpers import UserActionStream
         #if self.request.user.is_anonymous(): return None
@@ -73,7 +73,7 @@ class UserActionsRestViewSet(viewsets.ViewSet):
             return UserActionStream(user).get_actions('topics.discussion')
         elif ct == 'gallery':
             return UserActionStream(user).get_actions('gallery.locationgalleryitem')
-        
+
     def list(self, request):
         pk = request.QUERY_PARAMS.get('pk')
         ct = request.QUERY_PARAMS.get('content')
@@ -131,7 +131,7 @@ class CurrentUserViewSet(viewsets.ModelViewSet):
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    
+
     def list(self, request, pk=None):
         if pk:
             user = get_object_or_404(User, pk=pk)
