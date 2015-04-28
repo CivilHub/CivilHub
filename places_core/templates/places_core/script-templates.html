@@ -21,7 +21,7 @@
 
         <div class="clearTextBlogContent"><p class="custom-booklike acticle-content blogNewsContent"><%= description %></p></div>
         <div class="clear">&nbsp;</div>
-        
+
         <div class="row">
             <div class="col-xs-12">
                 <div class="blogAuthorDiv">
@@ -48,7 +48,7 @@
     <div class="row comment-row comment-entry-heading commentNext">
         <div class="col-xs-1 comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="comment-author-avatar user-window-toggle" /></div>
         <div class="comment-main-col">
-            <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a> 
+            <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a>
             <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
             <span class="comment-controls">
                 <% if (username === $('#target-user').val()) { %>
@@ -73,14 +73,14 @@
                     <p><span class="comment-total-votes"><%= total_votes %></span>
                 <% } %>
                 {% endif %}
-                
+
                 {% comment %}
                 Replies: <span class="badge reply-counter"><%= replies %></span> <a class="show-replies" href="#">({% trans "hide" %}) </a>
                 {% endcomment %}
-                
-                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> {% endif %} 
-                
-                <% if (replies) { %> &bull; <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a><% } %> 
+
+                {% if user.is_authenticated %} &nbsp; &bull; <a class="comment-reply" href="#">{% trans "Reply" %}</a> {% endif %}
+
+                <% if (replies) { %> &bull; <a class="show-replies" href="#">({% trans "hide" %}) <%= replies %> {% trans "replies" %}</a><% } %>
 
                 </p>
                 <div class="comment-votes-detail">
@@ -177,10 +177,10 @@
                 {% trans "Last edited" %} <span class="date-edited"><%= date_edited %></span>.
             <% } %>{% endcomment %}
         </p>
-        
+
         <div class="idea-summary acticle-content">
             <%= description.substring(0,320) %>...
-        </div> 
+        </div>
         <a class="full-link" href="<%= url %>">{% trans "See full version" %}</a>
         <div class="clear">&nbsp;</div>
         <div>
@@ -252,19 +252,19 @@
     <div class="list-entry-details" style="display:none;">
         <div style="transform: translate(0, 50%);">
         <h4><%= name %></h4>
-            
+
             <% if (followed) { %>
-                <button type="button" class="btn-unfollow-location unfollow-entry" data-target="<%= id %>">{% trans "You are following" %}</button>
+                <button type="button" class="follow-btn btn-unfollow-location unfollow-entry" data-target="<%= id %>">{% trans "You are following" %}</button>
             <% } else { %>
-                <button type="button" class="btn-follow-location follow-entry" data-target="<%= id %>">{% trans "Follow" %}</button>
+                <button type="button" class="follow-btn btn-follow-location follow-entry" data-target="<%= id %>">{% trans "Follow" %}</button>
             <% } %>
         <form action="/<%= slug %>">
             <button type="submit" class="btn-goto btn-unfollow-location" data-target="<%= id %>">{% trans "Go to" %}</button>
         </form>
         </div>
-        
+
         <a href="#" class="hide-details sprite-icon"><span class="ch-icon ch-close">&nbsp;</span></a>
-        
+
     </div>
 </script>
 
@@ -346,10 +346,10 @@
     <% if (!_.isEmpty(object_ct)) { %>
     <div class="entry-meta-col">
         <div class="entry-header"></div>
-        
+
         <div class="entry-body"><a href="<%= object.url %>"><%= description %></a></div>
 
-        
+
         <div class="clear">&nbsp;</div>
         <div class="entry-footer"></div>
     </div><!-- // .entry-meta-col -->
@@ -367,7 +367,7 @@
     <div class="locBoxHeader">
         <div class="locBoxLoc"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></div>
         <div class="locBoxIcon">
-            <div class="locBoxBookmark"> 
+            <div class="locBoxBookmark">
                 {% comment %}<a href="#" class="custom-tooltip-right btn-add-bookmark btn-bookmark" title="{% trans "Bookmark" %}"{% if exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>
                 <a href="#" class="custom-tooltip-right btn-remove-bookmark btn-bookmark" title="{% trans "Remove bookmark" %}"{% if not exists %} style="display: none;"{% endif %}><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-bookmark-o fa-stack-1x fa-inverse"></i></span></a>{% endcomment %}
             </div>
@@ -404,7 +404,7 @@
 
     <span class="message-content"><p class="messageName">{{ user.get_full_name }}</p><%= message %></span>
     <button type="button" class="close" data-dismiss="alert">
-        <span aria-hidden="true">&times;</span> 
+        <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>
     </button>
 
@@ -416,10 +416,10 @@
         <h4>
             <span class="text-title">{% trans "Sublocations" %}</span>
               <button type="button" class="close" data-dismiss="dropdown-menu">
-                <span aria-hidden="true"><i class="fa fa-times"></i></span>         
+                <span aria-hidden="true"><i class="fa fa-times"></i></span>
                 <span class="sr-only">Close</span>
             </button>
-            <a href="#"><span class="fa fa-search">&nbsp;</span></a>         
+            <a href="#"><span class="fa fa-search">&nbsp;</span></a>
         </h4>
         <span class="search-title">
             <form role="presentation" class="sublocation-search form-inline">
@@ -444,7 +444,7 @@
     </div>
     <div class="userPopupName"><a href="<%= user_link %>"><%= fullname %></a></div>
 </div>
-<div class="userPopupBottom">           
+<div class="userPopupBottom">
     <div class="user-popup-details">
         <div class="userPopupDetails"><% for (var i = 0; i < follows.length; i++) { %>
             <%= follows[i].name %>,&nbsp;
@@ -497,7 +497,7 @@
         <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar" />
         <%= actor.rank_pts %>
     </div>
-    
+
     <div class="col-md-10 entry-meta-col">
         <div class="entry-header">
             <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
@@ -549,7 +549,7 @@
         </div>
         <div class="col-xs-11 discussion-entry-content">
             <p class="entry-meta">
-                <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a> 
+                <a href="<%= creator_url %>" class="user-window-toggle" data-target="<%= creator_id %>"><%= creator_fullname %></a>
                 <span class="topic-date-col">
                     <span class="date-created"><%= date_created %></span>
                     <% if (is_edited) { %>
@@ -577,7 +577,7 @@
                     </a> |
                     <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
                         <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
-                    </a> 
+                    </a>
                 {% endif %}
                 | {% bookmark_form for discussion %}
             </div>
