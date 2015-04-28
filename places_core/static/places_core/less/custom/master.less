@@ -46,6 +46,7 @@
 @import "counters.less";
 @import "newactivities.less";
 @import "organizations.less";
+@import "postman.less";
 
 
 /* General classes to use in entire project */
@@ -425,4 +426,41 @@ div.tagsinput{
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
+}
+
+
+//btn-folllow, btn-unfollow
+
+.btn-follow{
+  background-color: #85BE00;
+  display: block;
+  cursor: pointer;
+  border: 0;
+  line-height: 25px;
+  padding: 0 5px;
+  color: #FFF;
+  text-align: center;
+  text-decoration: none;
+  &:hover, &:focus{ color: #FFF; text-decoration: none; }
+}
+.btn-unfollow{
+  .btn-follow;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.btn-follow-location{
+  height: 25px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  color:#fff;
+  background-color: #85BE00;
+}
+#follow-button{
+  .btn-follow-location;
+  width: auto;
+  padding: 0 5px;
+}
+.btn-unfollow-location{
+  .btn-follow-location;
+  background-color: rgba(0, 0, 0, 0.5);
 }

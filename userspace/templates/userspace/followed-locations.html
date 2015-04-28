@@ -1,28 +1,18 @@
-{% extends 'places_core/base.html' %}
-{% load staticfiles i18n %}
-
+{% extends 'places_core/base.html' %}{% load staticfiles i18n actstream_tags %}
 {% block header %}<center><h1 class="topHeadingH">{% trans "My places" %}</h1></center>{% endblock %}
-
-{% block content %}
-<div class="container sublocations">
-    {% for l in profile.followed_locations %}
-    <div class="col-lg-3 col-sm-3">
-        <div class="sublocation">
-            <div class="carousel-inner"><img src="{{ l.thumb_url }}" />
-              <a href="{{ l.get_absolute_url }}" class="full-click-box"></a>
-            </div>
-            <div class="sublocation-content">
-                <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
-            </div>
-            
-            {% if user not in l.users.all and user.is_authenticated %}
-                <button type="button" class="btn-follow-location" data-location-id="{{ l.pk }}">{% trans "Follow" %}</button>
-            {% else %}
-                <button type="button" class="btn-unfollow-location" data-location-id="{{ l.pk }}">{% trans "You are following" %}</button>
-            {% endif %}
-                <div class="followers">{{ l.users.count }}</div>
-        </div>
+{% block content %}<div class="container sublocations">
+  {% for l in profile.followed_locations %}
+  <div class="col-lg-3 col-sm-3">
+    <div class="sublocation">
+      <div class="carousel-inner"><img src="{{ l.thumb_url }}" />
+        <a href="{{ l.get_absolute_url }}" class="full-click-box"></a>
+      </div>
+      <div class="sublocation-content">
+        <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
+      </div>
+      {% follow_button l %}
+      <div class="followers">{{ l.users.count }}</div>
     </div>
-    {% endfor %}
-</div>
-{% endblock %}
+  </div>
+  {% endfor %}
+</div>{% endblock %}

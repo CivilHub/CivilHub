@@ -1,65 +1,48 @@
-{% extends "postman/base.html" %}
-{% load url from future %}
-{% load i18n postman_tags civil_tags %}
-
+{% extends "postman/base.html" %}{% load url from future %}{% load i18n postman_tags civil_tags %}
 {% block content %}
-
 <div id="postman" class="col-sm-9">
-
-<div class="main-content">
-
-
-<form action="" method="post" class="formPostmanView">{% csrf_token %}
-<input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
-<a class="btn btn-postmanButton btn-sm custom-tooltip" href="{{ next_url }}" title="{% trans "Back" %}"><span class="fa fa-chevron-circle-left">&nbsp;</span></a>
-<span id="pm_buttons">
-<button type="submit" class="btn btn-postmanButton btn-sm custom-tooltip" title="{% trans "Delete" %}" onclick="this.form.action='{% url 'postman_delete' %}?next={{ next_url|urlencode }}'"><span class="fa fa-minus-circle">&nbsp;</span></button>
-{% if not archived %}<button class="btn btn-postmanButton btn-sm custom-tooltip" type="submit" title="{% trans "Archive" %}" onclick="this.form.action='{% url 'postman_archive' %}?next={{ next_url|urlencode }}'"><span class="fa fa-archive">&nbsp;</span></button>{% endif %}
-</span>
-{% if reply_to_pk %}<a class="btn btn-postmanButton btn-sm custom-tooltip" title="{% trans "Reply" %}" href="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}"><span class="fa fa-mail-reply">&nbsp;</span></a>{% endif %}
-{% if message.sender != user %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link btn btn-postmanButton btn-sm custom-tooltip" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
-</form>
-
-
-{% for message in pm_messages %}
-<div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}" {% if message.recipient == user %}id="myReplayView"{% endif %}>
-
-		<div class="avatarView">{% if message.sender == user %}<img src="{{ user.profile.avatar.url }}">{% else %}<img src="{{ message.sender.profile.avatar.url }}">{% endif %}</div>
-		 <div class="pm_container">		 	
-
-		 	<div class="pm_header">
-			  <span class="pm_sender">{%comment %}{{ message.obfuscated_sender|or_me:user }}{% endcomment %} {{message.sender.get_full_name }}</span> &raquo;
-			  <span class="pm_recipient">{% comment %}{{ message.obfuscated_recipient|or_me:user }}{% endcomment %}{{ message.recipient.get_full_name|or_me:user.get_full_name }}</span> |
-			  <span class="pm_date">{{ message.sent_at|date:"DATETIME_FORMAT"}}</span> |
-			  <span class="pm_subject">{{ message.subject }}</span>
-			{% if message.is_rejected %}  <div class="pm_status">{% trans "Rejected" %}{% if message.moderation_reason %}{% trans ":" %} {{ message.moderation_reason }}{% endif %}</div>{% endif %}
-		 	</div>
-		 	<div class="pm_body">{{ message.body|linebreaksbr }}</div>
-		</div>
-</div>
-
-
-{% if forloop.last %}
-
-{% if reply_to_pk %}
-
-
-
-<h4>{% trans 'Reply' %}</h4>
-<form action="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post">{% csrf_token %}
-	<div class="form-group col-sm-1">
-		<div class="avatartextareaReplay"><img src="{{ user.profile.avatar.url }}"></div>
-	</div>
-
-<div id="pm_reply" class="form-group col-sm-11 textareaReplyH">
-  <textarea id="id_body" rows="1" name="body" cols="55" class="form-control"></textarea>
-</div>
-<div class="form-group custom-align-r margiBz">
-  <button type="submit" class="btn btn-saveBig">{% trans 'Reply' %}</button>
-</div>
-</form>{% endif %}
-{% endif %}
-{% endfor %}
-</div>
+  <div class="main-content">
+    <form action="" method="post" class="formPostmanView">{% csrf_token %}
+      <input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
+      <a class="btn btn-postmanButton btn-sm custom-tooltip" href="{{ next_url }}" title="{% trans "Back" %}"><span class="fa fa-chevron-circle-left">&nbsp;</span></a>
+      <span id="pm_buttons">
+      <button type="submit" class="btn btn-postmanButton btn-sm custom-tooltip" title="{% trans "Delete" %}" onclick="this.form.action='{% url 'postman_delete' %}?next={{ next_url|urlencode }}'"><span class="fa fa-minus-circle">&nbsp;</span></button>
+      {% if not archived %}<button class="btn btn-postmanButton btn-sm custom-tooltip" type="submit" title="{% trans "Archive" %}" onclick="this.form.action='{% url 'postman_archive' %}?next={{ next_url|urlencode }}'"><span class="fa fa-archive">&nbsp;</span></button>{% endif %}
+      </span>
+      {% if reply_to_pk %}<a class="btn btn-postmanButton btn-sm custom-tooltip" title="{% trans "Reply" %}" href="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}"><span class="fa fa-mail-reply">&nbsp;</span></a>{% endif %}
+      {% if message.sender != user %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link btn btn-postmanButton btn-sm custom-tooltip" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
+    </form>
+    {% for message in pm_messages %}
+    <div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}" {% if message.recipient == user %}id="myReplayView"{% endif %}>
+      <div class="avatarView">{% if message.sender == user %}<img src="{{ user.profile.avatar.url }}">{% else %}<img src="{{ message.sender.profile.avatar.url }}">{% endif %}</div>
+        <div class="pm_container">
+          <div class="postman-panel">
+            <div class="postman-heading"><span>{{ message.sender.get_full_name }}</span> <span class="pull-right">{{ message.sent_at|date:"d/m/Y/ H:i "}}</span></div>
+            <div class="postman-body">{{ message.body|linebreaksbr }}</div>
+          </div>
+      </div>
+    </div>
+      {% if forloop.last %}
+        {% if reply_to_pk %}
+        <h4>{% trans 'Reply' %}</h4>
+          <form action="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post" class="form-horizontal postman-form">{% csrf_token %}
+            <div class="form-group">
+              <div class="col-sm-1">
+                <div class="avatarViewIMG"><img src="{{ user.profile.avatar.url }}"></div>
+              </div>
+              <div class="col-sm-11 postman-entrymsg">
+                <textarea id="id_body" rows="1" name="body" cols="55" class="form-control postman-textarea"></textarea>
+              </div>
+            </div>
+            <div class="form-group custom-align-r mb0">
+              <div class="col-sm-12">
+                <button type="submit" class="btn btn-saveBig">{% trans 'Reply' %}</button>
+              </div>
+            </div>
+          </form>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
