@@ -1,7 +1,8 @@
 {% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags comment_tags %}
+{% block title %}{{ article.title }} - Civilhub.org {% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
-<meta name="twitter:title" content="{{ title }}">
+<meta name="twitter:title" content="{{ article.title }}">
 <meta property="og:title" content="{{ article.title }}"/>
 <meta property="og:url " content="https://civilhub.org{{ article.get_absolute_url }}" />
 <meta property="og:site_name" content="CivilHub"/>
