@@ -1,4 +1,4 @@
-{% extends 'organizations/index.html' %}{% load i18n %}
+{% extends 'organizations/index.html' %}{% load i18n actstream_tags %}
 {% block content %}
 <div class="n-top-heading-spage">
   <h1>{% trans "Locations" %}</h1>
@@ -12,11 +12,7 @@
       <div class="n-sublocation-content">
         <div class="n-sublocation-box">
         <a href="{{ location.get_absolute_url }}" class="name">{{ location }}</a>
-         {% if user not in location.users.all and user.is_authenticated %}
-            <button type="button" class="btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
-          {% else %}
-            <button type="button" class="btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
-          {% endif %}
+          {% follow_button location %}
           </div>
       </div>
     </div>
