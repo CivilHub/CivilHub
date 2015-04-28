@@ -9,13 +9,23 @@ define(['underscore',
         'moment',
         'js/modules/utils/utils',
         'text!js/modules/actstream/templates/simple-action.html',
-        'text!js/modules/actstream/templates/content-action.html'],
+        'text!js/modules/actstream/templates/content-action.html',
+        'text!js/modules/actstream/templates/comment-action.html'],
 
-function (_, Backbone, moment, utils, html, contentHtml) {
+function (_, Backbone, moment, utils, html, contentHtml, commentHtml) {
 
 "use strict";
 
-var FIXED_ITEMS = ['idea', 'discussion', 'news', 'poll', 'locationgalleryitem'];
+var FIXED_ITEMS = [
+  'idea',
+  'discussion',
+  'news',
+  'poll',
+  'locationgalleryitem',
+  'blogentry'
+];
+
+var COMMENTED_ITEMS = ['vote', 'commentvote'];
 
 var ActionView = Backbone.View.extend({
 
@@ -29,18 +39,31 @@ var ActionView = Backbone.View.extend({
 
   contentTemplate: _.template(contentHtml),
 
+  commentTemplate: _.template(commentHtml),
+
   render: function () {
     var attrs = this.model.toJSON();
-    var tpl = this.template;
-    if (!_.isNull(attrs.action_object) &&
-      _.indexOf(FIXED_ITEMS, attrs.action_object.content_type.type) >= 0) {
-      tpl = this.contentTemplate;
-    }
+    var tpl = this.selectTemplate();
     attrs.timestamp = moment(attrs.timestamp).fromNow();
     this.$el.html(tpl(attrs));
     this.$('.date').tooltip();
     this.fixImage();
     return this;
+  },
+
+  selectTemplate: function () {
+    var attrs = this.model.toJSON();
+    var tpl = this.template;
+    var ct;
+    if (!_.isNull(attrs.action_object)) {
+      ct = attrs.action_object.content_type.type;
+      if (_.indexOf(FIXED_ITEMS, ct) !== -1) {
+        tpl = this.contentTemplate;
+      } else if (_.indexOf(COMMENTED_ITEMS, ct) !== -1) {
+        tpl = this.commentTemplate;
+      }
+    }
+    return tpl;
   },
 
   fixImage: function () {
@@ -58,7 +81,8 @@ var ActionView = Backbone.View.extend({
       if (utils.isRetina() && !_.isUndefined(image.retina_thumbnail)) {
         src = image.retina_thumbnail;
       }
-      $image.insertAfter(this.$('.full-click-box:first')).attr('src', src);
+      $image.attr('src', src)
+        .insertAfter(this.$('.full-click-box:first'));
     }
   }
 });

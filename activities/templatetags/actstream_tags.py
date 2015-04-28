@@ -22,12 +22,26 @@ def actstream(obj, stream_type='user'):
 
 @register.simple_tag(takes_context=True)
 def follow_button(context, obj):
+    """
+    Displays follow button for any target object. It is supposed
+    to work with some kind of front-end scripts.
+    """
     user = context['user']
-    if user.is_anonymous():
+
+    if user.is_anonymous() or user == obj:
         return ''
+
     if obj in following(user):
-        txt = _(u"Stop following")
+        class_name = 'btn-unfollow'
+        label_text = _(u"Stop following")
     else:
-        txt = _(u"Follow")
-    return '<a class="civ-follow-btn" href="#" data-ct="{}" data-pk="{}">{}</a>'.format(
-        ContentType.objects.get_for_model(obj).pk, obj.pk, txt)
+        class_name = 'btn-follow'
+        label_text = _(u"Follow")
+
+    content_type = ContentType.objects.get_for_model(obj).pk
+    template = """<a class="civ-follow-btn {}"
+         href="#"
+         data-ct="{}"
+         data-pk="{}">{}</a>"""
+
+    return template.format(class_name, content_type, obj.pk, label_text)

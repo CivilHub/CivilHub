@@ -1,47 +1,45 @@
 //
 // follow.js
 // =========
-//
-// Service of 'follow location' and 'stop following buttons'
+
+// This is follow button ONLY for location objects. Necessary
+// because of legacy methods related to Location model.
 
 require(['jquery',
+         'js/modules/utils/utils',
          'js/modules/ui/ui'],
 
-function ($, ui) {
-    
-  "use strict";
+function ($, utils, ui) {
 
-  var sendFollowRequest = function (e) {
-      
-    var $button = $(e.currentTarget),
-    
-      follow = $button.hasClass('btn-follow-location'),
-  
-      url = (follow) ? '/locations/add_follower/{id}/'
-                     : '/locations/remove_follower/{id}/',
-                     
-      txt = (follow) ? gettext('You are following') : gettext('Follow');
-        
-    url = url.replace(/{id}/g, $button.attr('data-location-id'));
+"use strict";
 
-    $.post(url, {csrfmiddlewaretoken: getCookie('csrftoken')},
-      function (resp) {
-        resp = JSON.parse(resp);
-        if (resp.success) {
-          ui.message.success(resp.message);
-          $button
-            .toggleClass('btn-follow-location')
-            .toggleClass('btn-unfollow-location')
-            .text(txt);
-        } else {
-          ui.message.alert(resp.message);
-        }
-      }
-    );
-  };
-  
-  $(document).ready(function () {
-    $('.btn-follow-location, .btn-unfollow-location')
-      .on('click', sendFollowRequest);
+var APIURL = '/api-locations/follow/?pk=';
+
+function followRequest (pk, callback, context) {
+  var token = utils.getCookie('csrftoken');
+  $.post(APIURL + pk, { csrfmiddlewaretoken: token },
+    function (response) {
+      ui.message.success(response.message);
+      callback.call(context, response);
+    }
+  );
+}
+
+function settext (following) {
+  return following ? gettext("Stop following")
+                   : gettext("Follow");
+}
+
+$(document).ready(function () {
+  $('.loc-fllw-btn').on('click', function (e) {
+    var id = $(this).attr('data-location-id');
+    e.preventDefault();
+    followRequest(id, function (response) {
+      $(this).text(settext(response.following))
+        .toggleClass('btn-follow-location')
+        .toggleClass('btn-unfollow-location');
+    }, this);
   });
+});
+
 });

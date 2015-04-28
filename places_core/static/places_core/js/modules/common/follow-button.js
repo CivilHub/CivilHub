@@ -41,6 +41,8 @@ FollowButton.prototype.toggle = function () {
     if (response.success) {
       ui.message.success(response.message);
       this.setTxt(response.following);
+      this.$el.toggleClass('btn-follow')
+        .toggleClass('btn-unfollow');
     } else {
       ui.message.danger(response.message);
     }

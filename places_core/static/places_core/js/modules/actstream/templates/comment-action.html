@@ -1,0 +1,20 @@
+<div class="timeline-wrap <%= action_object.content_type.type %>">
+  <span class="date custom-tooltip" title="<%= timestamp %>"></span>
+  <a class="timeline-user" href="<%= actor.profile.url %>">
+    <span class="user-window-toggle" data-target="<%= actor.id %>"><img src="<%= actor.profile.avatar %>" alt="<%= actor.full_name %>" class="user-avatar avatarH"></span>
+    <span class="user-pts"><%= actor.profile.rank_pts %></span>
+  </a>
+  <div class="timeline-content panel">
+    <span class="arrow arrow-left arrow-top"></span>
+    <div class="timeline-content-head">
+      <a href="<%= actor.profile.url %>"><%= actor.full_name %></a>
+        <%= verb %> <%= action_target.kind.name %>
+        <span class="pull-right">&nbsp;<a href="<%= action_target.url %>"><%= action_target.name %></a></span>
+      <div class="clear">&nbsp;</div>
+    </div>
+    <div class="panel-body timeline-body">
+      <a href="<%= action_object.url %>" class="full-click-box"></a>
+      <%= action_object.description %>
+    </div>
+  </div>
+</div>
