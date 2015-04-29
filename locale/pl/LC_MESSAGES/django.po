@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-29 15:33+0200\n"
-"PO-Revision-Date: 2015-04-29 13:40+0000\n"
+"POT-Creation-Date: 2015-04-29 16:36+0200\n"
+"PO-Revision-Date: 2015-04-29 14:39+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/civilhub/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -226,6 +226,35 @@ msgstr "Pomoc i wsparcie"
 msgid "Support category does not exist yet"
 msgstr "Kategoria pomocy jeszcze nie istnieje"
 
+#: blog/forms.py:15 blog/templates/blog/blog_navbar.html:7
+#: ideas/templates/ideas/navbar.html:7
+#: locations/templates/locations/location_ideas.html:19
+#: locations/templates/locations/location_news.html:17
+#: locations/templates/locations/location_news.html:97
+#: locations/templates/locations/location_polls.html:67
+#: places_core/templates/places_core/script-templates.html:303
+#: polls/forms.py:15 polls/templates/polls/navbar.html:7
+#: polls/templates/polls/poll_list.html:9
+msgid "Title"
+msgstr "Tytuł"
+
+#: blog/forms.py:20 organizations/templates/organizations/news_form.html:19
+#: topics/forms.py:44
+msgid "Content"
+msgstr "Treść"
+
+#: blog/forms.py:24 ideas/forms.py:51 ideas/templates/ideas/idea_basic.html:45
+#: ideas/templates/ideas/idea_detail.html:67 locations/forms.py:95
+#: locations/forms.py:125 locations/templates/locations/sidebar.html:63
+#: locations/templates/locations/tag-search.html:31
+#: organizations/templates/organizations/news_form.html:31
+#: organizations/templates/organizations/organization_form.html:68
+#: organizations/templates/organizations/organization_update.html:65
+#: polls/forms.py:31 topics/forms.py:32
+#: topics/templates/topics/discussion_detail.html:62
+msgid "Tags"
+msgstr "Tagi"
+
 #: blog/models.py:33 blog/models.py:60 organizations/models.py:50
 #: organizations/models.py:62 simpleblog/models.py:74
 msgid "category"
@@ -256,17 +285,6 @@ msgstr "usunął Twoją aktualność - {}"
 #: polls/templates/polls/navbar.html:5 topics/templates/topics/navbar.html:5
 msgid "Sort by"
 msgstr "Sortuj"
-
-#: blog/templates/blog/blog_navbar.html:7 ideas/templates/ideas/navbar.html:7
-#: locations/templates/locations/location_ideas.html:19
-#: locations/templates/locations/location_news.html:17
-#: locations/templates/locations/location_news.html:97
-#: locations/templates/locations/location_polls.html:67
-#: places_core/templates/places_core/script-templates.html:303
-#: polls/forms.py:15 polls/templates/polls/navbar.html:7
-#: polls/templates/polls/poll_list.html:9
-msgid "Title"
-msgstr "Tytuł"
 
 #: blog/templates/blog/blog_navbar.html:8
 #: comments/templates/comments/commentlist.html:9
@@ -548,7 +566,7 @@ msgid "News"
 msgstr "Aktualności"
 
 #: blog/templates/blog/news_list.html:15
-#: organizations/templates/organizations/news_list.html:12
+#: organizations/templates/organizations/news_list.html:13
 #: organizations/templates/organizations/organization_info.html:6
 #: places_core/templates/places_core/script-templates.html:531
 #: projects/templates/projects/socialforumentry_list.html:19
@@ -569,7 +587,7 @@ msgstr "temu"
 #: locations/templates/locations/location_ideas.html:95
 #: locations/templates/locations/location_news.html:112
 #: locations/templates/locations/location_polls.html:105
-#: organizations/templates/organizations/news_list.html:19
+#: organizations/templates/organizations/news_list.html:20
 #: polls/templates/polls/poll_list.html:28
 #: projects/templates/projects/socialforumtopic_list.html:32
 #: topics/templates/topics/discussion_list.html:40
@@ -578,7 +596,7 @@ msgstr "Smutny Civilian"
 
 #: blog/templates/blog/news_list.html:24
 #: locations/templates/locations/location_news.html:114
-#: organizations/templates/organizations/news_list.html:21
+#: organizations/templates/organizations/news_list.html:22
 msgid "We didn't find any news"
 msgstr "Nie znaleźliśmy żadnych aktualności"
 
@@ -590,7 +608,7 @@ msgstr "Nie znaleźliśmy żadnych aktualności"
 #: locations/templates/locations/location_news.html:114
 #: locations/templates/locations/location_polls.html:107
 #: organizations/templates/organizations/news_form.html:3
-#: organizations/templates/organizations/news_list.html:21
+#: organizations/templates/organizations/news_list.html:22
 #: polls/templates/polls/poll_list.html:30
 #: topics/templates/topics/discussion_list.html:42
 msgid "in"
@@ -603,7 +621,7 @@ msgstr "w"
 #: locations/templates/locations/location_ideas.html:98
 #: locations/templates/locations/location_news.html:115
 #: locations/templates/locations/location_polls.html:108
-#: organizations/templates/organizations/news_list.html:22
+#: organizations/templates/organizations/news_list.html:23
 #: polls/templates/polls/poll_list.html:31
 #: projects/templates/projects/socialforumtopic_list.html:35
 #: topics/templates/topics/discussion_list.html:43
@@ -612,7 +630,7 @@ msgstr "Proszę"
 
 #: blog/templates/blog/news_list.html:26
 #: locations/templates/locations/location_news.html:120
-#: organizations/templates/organizations/news_list.html:23
+#: organizations/templates/organizations/news_list.html:24
 msgid "add first news"
 msgstr "dodaj pierwszą wpis na blogu"
 
@@ -759,7 +777,7 @@ msgstr "Dodaj email"
 msgid "Close"
 msgstr "Zamknij"
 
-#: civmail/views.py:33 civmail/views.py:86 locations/views.py:650
+#: civmail/views.py:33 civmail/views.py:86 locations/views.py:670
 msgid "All messages sent successfully"
 msgstr "Wiadomości wysłane"
 
@@ -1061,18 +1079,6 @@ msgstr "licznik odwiedzin"
 #: hitcounter/models.py:44
 msgid "visit counters"
 msgstr "liczniki odwiedzin"
-
-#: ideas/forms.py:51 ideas/templates/ideas/idea_basic.html:45
-#: ideas/templates/ideas/idea_detail.html:67 locations/forms.py:95
-#: locations/forms.py:125 locations/templates/locations/sidebar.html:63
-#: locations/templates/locations/tag-search.html:43
-#: organizations/templates/organizations/news_form.html:31
-#: organizations/templates/organizations/organization_form.html:68
-#: organizations/templates/organizations/organization_update.html:65
-#: polls/forms.py:31 topics/forms.py:32
-#: topics/templates/topics/discussion_detail.html:62
-msgid "Tags"
-msgstr "Tagi"
 
 #: ideas/models.py:42
 msgid "active"
@@ -1440,7 +1446,7 @@ msgstr "Sublokalizacje"
 msgid "Change background image"
 msgstr "Zmień zdjęcie tła"
 
-#: locations/templates/locations/index.html:67 locations/views.py:429
+#: locations/templates/locations/index.html:67 locations/views.py:449
 msgid "Edit this location"
 msgstr "Edytuj lokalizacje"
 
@@ -1602,6 +1608,10 @@ msgid ""
 "Generate a ready to be printed pdf file of this place and hang it in your "
 "block of flats or neighborhood and invite your neighbors to CivilHub."
 msgstr "Wygeneruj gotowy do druku PDF, który możesz wywiesić wśród swoich sąsiadów, aby zaprosić ich do korzystania z CivilHub"
+
+#: locations/templates/locations/location_detail.html:82
+msgid "Topics"
+msgstr "Tematy"
 
 #: locations/templates/locations/location_followers.html:12
 #: projects/templates/projects/socialproject_participants.html:7
@@ -1959,7 +1969,7 @@ msgid "No results mathing query found."
 msgstr "Brak wyników"
 
 #: locations/templates/locations/sidebar.html:9
-#: organizations/templates/organizations/news_list.html:28
+#: organizations/templates/organizations/news_list.html:29
 #: projects/templates/projects/socialforumentry_list.html:81
 #: projects/templates/projects/socialforumtopic_list.html:41
 #: userspace/templates/userspace/sidebar.html:14
@@ -1977,7 +1987,7 @@ msgstr "Utworzony ankietę"
 
 #: locations/templates/locations/sidebar.html:24
 #: locations/templates/locations/sidebar.html:40
-#: organizations/templates/organizations/news_list.html:31
+#: organizations/templates/organizations/news_list.html:32
 msgid "Add news"
 msgstr "Dodaj aktualność"
 
@@ -2017,31 +2027,31 @@ msgstr "Utwórz nową ankietę"
 msgid "Locations"
 msgstr "Lokalizacje"
 
-#: locations/views.py:407
+#: locations/views.py:427
 msgid "create new location"
 msgstr "Utwórz nową lokalizację"
 
-#: locations/views.py:493
+#: locations/views.py:513
 msgid "Search by tag"
 msgstr "Szukaj po tagu"
 
-#: locations/views.py:523
+#: locations/views.py:543
 msgid "Search by category"
 msgstr "Szukaj po kategori"
 
-#: locations/views.py:542
+#: locations/views.py:562
 msgid "Confirm delete"
 msgstr "Potwierdź usunięcie"
 
-#: locations/views.py:602
+#: locations/views.py:622
 msgid "invited you to follow"
 msgstr "zaprosił Cię do obserwowania"
 
-#: locations/views.py:606
+#: locations/views.py:626
 msgid "Successfully send invitation"
 msgstr "Pomyślnie wysłano zaproszenie"
 
-#: locations/views.py:612
+#: locations/views.py:632
 msgid "User field cannot be empty"
 msgstr "Nazwa użytkownika nie może być pusta"
 
@@ -2228,15 +2238,11 @@ msgstr "Osoby działające w tej organizacji"
 
 #: organizations/templates/organizations/member_list.html:19
 msgid "pts"
-msgstr ""
+msgstr "pts"
 
 #: organizations/templates/organizations/member_list.html:25
 msgid "Delete member"
 msgstr "Usuń członka organizacji"
-
-#: organizations/templates/organizations/news_form.html:19 topics/forms.py:44
-msgid "Content"
-msgstr "Treść"
 
 #: organizations/templates/organizations/organization_detail.html:7
 msgid "Information about the organization"

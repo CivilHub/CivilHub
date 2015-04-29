@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-29 15:33+0200\n"
+"POT-Creation-Date: 2015-04-29 16:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -222,6 +222,35 @@ msgstr ""
 msgid "Support category does not exist yet"
 msgstr ""
 
+#: blog/forms.py:15 blog/templates/blog/blog_navbar.html:7
+#: ideas/templates/ideas/navbar.html:7
+#: locations/templates/locations/location_ideas.html:19
+#: locations/templates/locations/location_news.html:17
+#: locations/templates/locations/location_news.html:97
+#: locations/templates/locations/location_polls.html:67
+#: places_core/templates/places_core/script-templates.html:303
+#: polls/forms.py:15 polls/templates/polls/navbar.html:7
+#: polls/templates/polls/poll_list.html:9
+msgid "Title"
+msgstr ""
+
+#: blog/forms.py:20 organizations/templates/organizations/news_form.html:19
+#: topics/forms.py:44
+msgid "Content"
+msgstr ""
+
+#: blog/forms.py:24 ideas/forms.py:51 ideas/templates/ideas/idea_basic.html:45
+#: ideas/templates/ideas/idea_detail.html:67 locations/forms.py:95
+#: locations/forms.py:125 locations/templates/locations/sidebar.html:63
+#: locations/templates/locations/tag-search.html:31
+#: organizations/templates/organizations/news_form.html:31
+#: organizations/templates/organizations/organization_form.html:68
+#: organizations/templates/organizations/organization_update.html:65
+#: polls/forms.py:31 topics/forms.py:32
+#: topics/templates/topics/discussion_detail.html:62
+msgid "Tags"
+msgstr ""
+
 #: blog/models.py:33 blog/models.py:60 organizations/models.py:50
 #: organizations/models.py:62 simpleblog/models.py:74
 msgid "category"
@@ -251,17 +280,6 @@ msgstr ""
 #: locations/templates/locations/navbar.html:5
 #: polls/templates/polls/navbar.html:5 topics/templates/topics/navbar.html:5
 msgid "Sort by"
-msgstr ""
-
-#: blog/templates/blog/blog_navbar.html:7 ideas/templates/ideas/navbar.html:7
-#: locations/templates/locations/location_ideas.html:19
-#: locations/templates/locations/location_news.html:17
-#: locations/templates/locations/location_news.html:97
-#: locations/templates/locations/location_polls.html:67
-#: places_core/templates/places_core/script-templates.html:303
-#: polls/forms.py:15 polls/templates/polls/navbar.html:7
-#: polls/templates/polls/poll_list.html:9
-msgid "Title"
 msgstr ""
 
 #: blog/templates/blog/blog_navbar.html:8
@@ -544,7 +562,7 @@ msgid "News"
 msgstr ""
 
 #: blog/templates/blog/news_list.html:15
-#: organizations/templates/organizations/news_list.html:12
+#: organizations/templates/organizations/news_list.html:13
 #: organizations/templates/organizations/organization_info.html:6
 #: places_core/templates/places_core/script-templates.html:531
 #: projects/templates/projects/socialforumentry_list.html:19
@@ -565,7 +583,7 @@ msgstr ""
 #: locations/templates/locations/location_ideas.html:95
 #: locations/templates/locations/location_news.html:112
 #: locations/templates/locations/location_polls.html:105
-#: organizations/templates/organizations/news_list.html:19
+#: organizations/templates/organizations/news_list.html:20
 #: polls/templates/polls/poll_list.html:28
 #: projects/templates/projects/socialforumtopic_list.html:32
 #: topics/templates/topics/discussion_list.html:40
@@ -574,7 +592,7 @@ msgstr ""
 
 #: blog/templates/blog/news_list.html:24
 #: locations/templates/locations/location_news.html:114
-#: organizations/templates/organizations/news_list.html:21
+#: organizations/templates/organizations/news_list.html:22
 msgid "We didn't find any news"
 msgstr ""
 
@@ -586,7 +604,7 @@ msgstr ""
 #: locations/templates/locations/location_news.html:114
 #: locations/templates/locations/location_polls.html:107
 #: organizations/templates/organizations/news_form.html:3
-#: organizations/templates/organizations/news_list.html:21
+#: organizations/templates/organizations/news_list.html:22
 #: polls/templates/polls/poll_list.html:30
 #: topics/templates/topics/discussion_list.html:42
 msgid "in"
@@ -599,7 +617,7 @@ msgstr ""
 #: locations/templates/locations/location_ideas.html:98
 #: locations/templates/locations/location_news.html:115
 #: locations/templates/locations/location_polls.html:108
-#: organizations/templates/organizations/news_list.html:22
+#: organizations/templates/organizations/news_list.html:23
 #: polls/templates/polls/poll_list.html:31
 #: projects/templates/projects/socialforumtopic_list.html:35
 #: topics/templates/topics/discussion_list.html:43
@@ -608,7 +626,7 @@ msgstr ""
 
 #: blog/templates/blog/news_list.html:26
 #: locations/templates/locations/location_news.html:120
-#: organizations/templates/organizations/news_list.html:23
+#: organizations/templates/organizations/news_list.html:24
 msgid "add first news"
 msgstr ""
 
@@ -755,7 +773,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: civmail/views.py:33 civmail/views.py:86 locations/views.py:650
+#: civmail/views.py:33 civmail/views.py:86 locations/views.py:670
 msgid "All messages sent successfully"
 msgstr ""
 
@@ -1056,18 +1074,6 @@ msgstr ""
 
 #: hitcounter/models.py:44
 msgid "visit counters"
-msgstr ""
-
-#: ideas/forms.py:51 ideas/templates/ideas/idea_basic.html:45
-#: ideas/templates/ideas/idea_detail.html:67 locations/forms.py:95
-#: locations/forms.py:125 locations/templates/locations/sidebar.html:63
-#: locations/templates/locations/tag-search.html:43
-#: organizations/templates/organizations/news_form.html:31
-#: organizations/templates/organizations/organization_form.html:68
-#: organizations/templates/organizations/organization_update.html:65
-#: polls/forms.py:31 topics/forms.py:32
-#: topics/templates/topics/discussion_detail.html:62
-msgid "Tags"
 msgstr ""
 
 #: ideas/models.py:42
@@ -1436,7 +1442,7 @@ msgstr ""
 msgid "Change background image"
 msgstr ""
 
-#: locations/templates/locations/index.html:67 locations/views.py:429
+#: locations/templates/locations/index.html:67 locations/views.py:449
 msgid "Edit this location"
 msgstr ""
 
@@ -1597,6 +1603,10 @@ msgstr ""
 msgid ""
 "Generate a ready to be printed pdf file of this place and hang it in your "
 "block of flats or neighborhood and invite your neighbors to CivilHub."
+msgstr ""
+
+#: locations/templates/locations/location_detail.html:82
+msgid "Topics"
 msgstr ""
 
 #: locations/templates/locations/location_followers.html:12
@@ -1954,7 +1964,7 @@ msgid "No results mathing query found."
 msgstr ""
 
 #: locations/templates/locations/sidebar.html:9
-#: organizations/templates/organizations/news_list.html:28
+#: organizations/templates/organizations/news_list.html:29
 #: projects/templates/projects/socialforumentry_list.html:81
 #: projects/templates/projects/socialforumtopic_list.html:41
 #: userspace/templates/userspace/sidebar.html:14
@@ -1972,7 +1982,7 @@ msgstr ""
 
 #: locations/templates/locations/sidebar.html:24
 #: locations/templates/locations/sidebar.html:40
-#: organizations/templates/organizations/news_list.html:31
+#: organizations/templates/organizations/news_list.html:32
 msgid "Add news"
 msgstr ""
 
@@ -2012,31 +2022,31 @@ msgstr ""
 msgid "Locations"
 msgstr ""
 
-#: locations/views.py:407
+#: locations/views.py:427
 msgid "create new location"
 msgstr ""
 
-#: locations/views.py:493
+#: locations/views.py:513
 msgid "Search by tag"
 msgstr ""
 
-#: locations/views.py:523
+#: locations/views.py:543
 msgid "Search by category"
 msgstr ""
 
-#: locations/views.py:542
+#: locations/views.py:562
 msgid "Confirm delete"
 msgstr ""
 
-#: locations/views.py:602
+#: locations/views.py:622
 msgid "invited you to follow"
 msgstr ""
 
-#: locations/views.py:606
+#: locations/views.py:626
 msgid "Successfully send invitation"
 msgstr ""
 
-#: locations/views.py:612
+#: locations/views.py:632
 msgid "User field cannot be empty"
 msgstr ""
 
@@ -2227,10 +2237,6 @@ msgstr ""
 
 #: organizations/templates/organizations/member_list.html:25
 msgid "Delete member"
-msgstr ""
-
-#: organizations/templates/organizations/news_form.html:19 topics/forms.py:44
-msgid "Content"
 msgstr ""
 
 #: organizations/templates/organizations/organization_detail.html:7
