@@ -17,114 +17,40 @@
     }
   }
   .tag-n{
-    a{
-      color: #5B5B5B;
-    }
+    a{ color: #5B5B5B; }
   }
 }
-
-.tag1{font-size:100%;}
-.tag2{font-size:120%;}
-.tag3{font-size:140%;}
-.tag4{font-size:160%;}
-.tag5{font-size:180%;}
-
 /* alternative layout */
-
 .tags .alt{
-    text-align:left;
-    padding:0;
-    background:none;
-    }
-.tags .alt li{
+  text-align:left;
+  padding:0;
+  background:none;
+  li{
     padding:2px 10px;
     background:#efefef;
     display:block;
-    }
-.tags .tag1, 
-.tags .tag2, 
-.tags .tag3, 
-.tags .tag4, 
-.tags .tag5{font-size:100%;
-    a{
-        padding: 3px 9px;
-        margin-right: 2px;
-        white-space: nowrap;
-        display: inline;
-        font-size: 10px;
-        line-height: 10px;
-        color: #fff;
-        border-radius: 20px;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        background: #48B0F7;
-    }
+  }
 }
-
-/*
-.tags .tag1{background:#7cc0f4;}
-.tags .tag2{background:#67abe0;}
-.tags .tag3{background:#4d92c7;}
-.tags .tag4{background:#3277ad;}
-.tags .tag5{background:#266ca2;}
-*/
-/* // Tag cloud */
-
-/* Single tag */
-
-
-.tag {
-    background: url(/static/places_core/img/tag/center.png) 16px 0 repeat-x;
-    background-size: 1px 30px;
-    line-height: 36px;
-    padding: 6px 4px 7px 4px;
-    position: relative;
-    margin-left: 18px;
-    margin-right: 8px;
-    color: #5e5e5e !important;
-    font-size: 12px;
+.newTag{
+  padding: 3px 9px;
+  margin-right: 2px;
+  white-space: nowrap;
+  display: inline;
+  font-size: 10px;
+  line-height: 10px;
+  color: #fff;
+  .border-radius(20px);
+  background: #48B0F7;
 }
-
-.tag:before {
-    background: url(/static/places_core/img/tag/left.png) 0 0 no-repeat;
-    background-size: 18px;
-    position: absolute;
-    content: "";
-    height: 30px;
-    width: 16px;
-    top: 0;
-    right: 100%;
+.tags .tag1,
+.tags .tag2,
+.tags .tag3,
+.tags .tag4,
+.tags .tag5{
+  font-size:100%;
+  a{ .newTag; }
 }
-.tag:after {
-    background: url(/static/places_core/img/tag/right.png) 0 0 no-repeat;
-    background-size: 6px;
-    position: absolute;
-    content: "";
-    height: 30px;
-    width: 6px;
-    top: 0;
-    left: 100%;
-}
-
-
-
-
-a.newTag{
-
-    padding: 3px 9px;
-    margin-right: 2px;
-    white-space: nowrap;
-    display: inline;
-    font-size: 10px;
-    line-height: 10px;
-    color: #fff;
-    border-radius: 20px;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    background: #48B0F7;
-}
-
-
+//Site location/search/tag
 .tags-Box-Search{
     padding: 0 !important;
     background: transparent !important;
