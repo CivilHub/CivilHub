@@ -99,41 +99,27 @@
 }
 
 #idea-list-view {
-    //padding: 0px 10px;
-
-    h3.allHeadingThree{
-        margin-bottom:  5px;
-        a{
-            color: #50616d;
-            font-size: 21px;
-            font-weight: bold;
-        }
+  h3.allHeadingThree{
+    margin-bottom:  5px;
+    a{
+      color: #50616d;
+      font-size: 21px;
+      font-weight: bold;
     }
-
-    p.createBY{
-        font-size: 12px;
-        //font-weight: 200;
-        margin: 0;
+  }
+  p.createBY{
+    font-size: 12px;
+    margin: 0;
+  }
+  .idea-summary {
+    &.acticle-content{ font-size: 15px; }
+    a { color: #666; 
+      &:hover{ color: #999;}
     }
-    .idea-summary {
-        &.acticle-content{
-            font-size: 15px;
-            text-align: left;
-        }
-    
-        a {
-            color: #666;
-        }
-        
-        a:hover {
-            color: #999;
-        }
-        
-        p {
-            text-align: justify;
-        }
-        
+    p{ margin-bottom: 0;
+      img{display: none;}
     }
+  }
 }
 
 //edycja idei

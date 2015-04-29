@@ -77,6 +77,16 @@
               <p>{% trans "Generate a ready to be printed pdf file of this place and hang it in your block of flats or neighborhood and invite your neighbors to CivilHub." %}</p>
             </div>
         </div>
+        {% if tags %}
+        <div class="menu-box tags-n">
+          <h3><span class="fa fa-tags"></span> {% trans "Topics" %}</h3>
+          <ul class="list-unstyled">
+            {% for tag, counter in tags %}
+               <li class="tag-entry tag-n" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">#{{ tag }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
       </div>
     </div>
   </div>{% endblock %}
