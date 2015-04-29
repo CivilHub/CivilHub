@@ -1,4 +1,5 @@
-{% extends 'organizations/index.html' %}{% load i18n %}
+{% extends 'organizations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/organization-news-list.js"></script>{% endblock %}
 {% block content %}
 {% if object_list.count %}<div class="col-sm-9 content-container blogDivNews main-content">
   {% for news in object_list %}<div class="row">
