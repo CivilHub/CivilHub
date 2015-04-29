@@ -1,8 +1,7 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
 
 {% block content %}<div class="col-sm-9 main-content contentPX tags-Box-Search">
-    {% for item in items %}
-      {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row">{% endif %}
+    <div class="row">{% for item in items %}
         {% with item|content_type as ctype %}<div class="col-sm-4 locBoxH">
           <div class="locBox loc-box-{{ ctype.name }}">
             <div class="locBoxHeader" style="background-image:url({{ item.image.url }})">
@@ -23,19 +22,17 @@
             {% if item.description %}{{ item.description|striptags|truncatechars:115 }}{% elif item.question %}{{ item.question|striptags|truncatechars:115 }}{% else %}{{ item.content|striptags|truncatechars:115 }}{% endif %}</a>
           </div>
         </div><!-- /.locBox -->
-      </div>{% endwith %}
-    {% if forloop.counter|divisibleby:3 or forloop.counter == files.count %}</div>{% endif %}
-  {% endfor %}
-  </div>
+      </div>{% endwith %} {% endfor %}
+    </div>
 </div>{% endblock %}
 
 {% block sidebar %}<div class="col-sm-3 boxPX">
   <div class="sidebar">
     <div class="sidebar-label">{% trans "Tags" %}:</div>
-    <div class="sidebar-content tags">
+    <div class="sidebar-content tags-n">
       <ul>
       {% for tag, counter in tags %}
-        <li class="tag-entry" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">{{ tag }}</a></li>
+        <li class="tag-entry tag-n" data-counter="{{ counter }}"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">#{{ tag }}</a></li>
       {% endfor %}
       </ul>
     </div>
