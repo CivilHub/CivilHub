@@ -48,7 +48,7 @@
         </div>
         {% if not news.has_default_image %}<img src="{{ news.image_url }}" alt="{{ news }}">{% endif %}
         <div class="row">
-          <div class="acticle-content news-contetn"><br>{{ news.content|safe }}</div>
+          <div class="acticle-content news-contetn mt25">{{ news.content|safe }}</div>
         </div>
         <div class="row">{% with news|content_type as ctype %}
           <input type="hidden" id="target-id" value="{{ news.pk }}" />
