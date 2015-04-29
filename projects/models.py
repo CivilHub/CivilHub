@@ -202,7 +202,7 @@ class SocialForumTopic(SlugifiedModelMixin):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('projects:discussion', 
+        return reverse('projects:discussion',
             kwargs={
                 'project_slug': self.project.slug,
                 'discussion_slug': self.slug,
@@ -236,6 +236,9 @@ class SocialForumEntry(models.Model):
             # The owner or the mod has edited the entry.
             self.is_edited = True
         super(SocialForumEntry, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return u"Answer for %s" % self.topic.__unicode__()
 
 
 def cleanup(sender, instance, **kwargs):
