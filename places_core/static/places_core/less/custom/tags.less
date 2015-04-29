@@ -1,23 +1,27 @@
 /* Tag cloud */
-.tags ul{
+.tags-n,
+.tags{
+  ul{
     margin: 0;
     padding: 0px;
     text-align:left;
-    }
-.tags li{
+  }
+  li{
     margin:0px 0px 5px 0px;
     padding:0px 0px 0px 4px;
     list-style:none;
     display:inline-block;
+    a{
+      text-decoration:none;
+      color:#fff;
     }
-.tags li a{
-    text-decoration:none;
-    color:#fff;
-    //padding:0 2px;  
+  }
+  .tag-n{
+    a{
+      color: #5B5B5B;
     }
-.tags li a:hover{   
-    //color:#cff400;
-    }       
+  }
+}
 
 .tag1{font-size:100%;}
 .tag2{font-size:120%;}
@@ -56,6 +60,7 @@
         background: #48B0F7;
     }
 }
+
 /*
 .tags .tag1{background:#7cc0f4;}
 .tags .tag2{background:#67abe0;}
