@@ -162,6 +162,7 @@ class ProjectGalleryForm(forms.ModelForm):
         model = ContentObjectGallery
         exclude = ('dirname', )
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'content_type': forms.HiddenInput(),
             'object_id': forms.HiddenInput()
         }
@@ -173,3 +174,8 @@ class ProjectPictureForm(forms.ModelForm):
     class Meta:
         model = ContentObjectPicture
         exclude = ('gallery', 'uploaded_by', )
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control custom-wysiwyg-no-gallery'})
+        }

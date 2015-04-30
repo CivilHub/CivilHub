@@ -1,15 +1,24 @@
 {% extends 'projects/index.html' %}{% load i18n civil_tags %}
 {% block require_scripts %}<script src="{% module_path 'projects-gallery' %}"></script>{% endblock %}
-{% block content %}<h1>{{ gallery }}</h1>
-<ul>{% for picture in page_obj %}
-  <li>
-    <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
-    <p><a href="{{ picture.get_absolute_url }}">{{ picture }}</a></p>
-    <div>{% trans "Uploaded by" %} {{ picture.uploaded_by.profile }} {{ picture.date_uploaded|timesince }} {% trans "ago" %}</div>
-    <div>{{ picture.description|safe }}</div>
-  </li>
-{% endfor %}</ul>
-{% include 'places_core/pagination.html' %}
-{% if gallery_access %}<a href="{% url 'projects:gallery-upload' object.slug gallery.pk %}">
-  {% trans "Add new picture" %}
-</a>{% endif %}{% endblock %}
+{% block content %}
+<div class="followers-entry">
+  <h1>{{ gallery }}</h1>
+  {% if gallery_access %}<p class="text-center top15 mb20"><a href="{% url 'projects:gallery-upload' object.slug gallery.pk %}"><strong>{% trans "Add new picture" %}</strong></a></p>{% endif %}
+{% for picture in page_obj %}
+  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:2 %}<div class="row">{% endif %}
+<div class="col-sm-6 picture-horizontal-gallery">
+  <div class="main-content">
+    <div class="row">
+      <div class="col-md-5 ">
+         <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
+      </div>
+      <div class="col-md-7">
+        <a href="{{ picture.get_absolute_url }}"><strong>{{ picture }}</strong></a>
+        <div class="top15">{{ picture.description|safe|truncatechars:"100" }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+  {% if forloop.counter|divisibleby:2 or forloop.counter == picture.count %}</div>{% endif %}
+{% endfor %}</div>
+{% endblock %}
