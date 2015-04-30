@@ -81,18 +81,22 @@ class FollowObjectView(APIView):
 
     def post(self, request):
         self.instance = self.get_object()
+        instance_name = self.instance._meta.verbose_name.lower()
+
         if not self.instance in following(request.user):
             try:
-                follow(request.user, self.instance, actor_only=False)
-                msg = _(u"You are following this ")
+                follow(request.user, self.instance,
+                       actor_only=False,
+                       send_action=False)
+                msg = _(u"You are following this %s" % instance_name)
                 is_follower = True
             except ImproperlyConfigured as e:
                 return Response({'success': False, 'message': str(e)})
         else:
             unfollow(request.user, self.instance)
-            msg = _(u"You are no longer following this ")
+            msg = _(u"You are no longer following this %s" % instance_name)
             is_follower = False
-        msg += self.instance._meta.verbose_name.lower()
+
         return Response(
             {'success': True,
              'message': msg,

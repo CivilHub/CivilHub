@@ -1,0 +1,8 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<h1>{{ object }}</h1>
+<img src="{{ object.thumb }}" alt="{{ object }}">
+<p>
+  {% trans "Uploaded by" %} {{ object.uploaded_by.profile }}
+  {{ object.date_uploaded|timesince }} {% trans "ago" %}
+</p>
+<div>{{ object.description|safe }}</div>{% endblock %}

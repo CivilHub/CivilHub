@@ -7,7 +7,7 @@ from polls.views import PollDetails, PollResults, PollListView
 from gallery.views import LocationGalleryView, PlacePictureView, \
                            LocationGalleryCreateView, location_gallery_delete, \
                            LocationGalleryUpdateView
-from projects import views as project_views
+from projects.views import base as project_views
 import api
 from locations.views import *
 from staticpages.views import PageView

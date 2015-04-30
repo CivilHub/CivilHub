@@ -1,0 +1,6 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}<form method="post" action="{% url 'gallery:picture-upload' gallery.pk %}" enctype="multipart/form-data">
+  {% csrf_token %}{{ form.as_p }}
+  <button type="submit">{% trans "Save" %}</button>
+  {{ gallery.pk }}
+</form>{% endblock %}

@@ -63,6 +63,19 @@ class Idea(ImagableItemMixin, models.Model):
     def __str__(self):
         return self.name
 
+    def check_access(self, user):
+        access = user.is_authenticated()
+        if not access:
+            return False
+        if user.is_superuser:
+            access = True
+        elif user == self.creator:
+            access = True
+        elif self.location in user.profile.mod_areas.all():
+            access = True
+        return access
+
+
     def get_votes(self):
         votes_up = self.vote_set.filter(vote=True).count()
         votes_down = self.vote_set.filter(vote=False).count()

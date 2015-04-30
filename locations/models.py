@@ -311,7 +311,7 @@ class Location(models.Model, BackgroundModelMixin):
     def get_parents(self):
         if self.parent_list is None:
             return []
-        return [int(x) for x in self.parent_list.split(',')]
+        return [int(x) for x in self.parent_list.split(',') if x]
 
     def get_children_id_list(self, ids=None):
         """ Returns all id's of sublocations for this location. """

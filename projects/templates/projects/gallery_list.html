@@ -1,0 +1,16 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "Album List" %}</h1>
+<ul>{% for item in object_list %}
+  <li>
+    <a href="{{ item.get_absolute_url }}">
+      {% if item.cover %}<img src="{{ item.cover }}" alt="{{ item }}">
+      {% else %}{{ item }}{% endif %}
+    </a>
+    {% if project_access %}<form class="custom-inline-form" method="post" action="{% url 'projects:gallery-delete' object.slug item.pk %}">
+      {% csrf_token %}<button type="submit">{% trans "Delete" %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if gallery_access %}<a href="{% url 'projects:gallery-create' object.slug %}">
+  {% trans "Create new gallery" %}
+</a>{% endif %}{% endblock %}

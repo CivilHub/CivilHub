@@ -17,7 +17,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import View, DetailView, ListView, FormView, UpdateView
+from django.views.generic import View, DetailView, DeleteView, ListView,\
+                                 FormView, UpdateView
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.edit import CreateView
 
 from actstream import action
 from rest_framework import viewsets
@@ -31,8 +34,11 @@ from places_core.permissions import is_moderator
 from rest.permissions import IsOwnerOrReadOnly
 from userspace.models import UserProfile
 
-from .forms import UserItemForm, SimpleItemForm, LocationItemForm
-from .models import LocationGalleryItem, UserGalleryItem
+from .forms import ContentGalleryForm, UserItemForm, \
+                   SimpleItemForm, LocationItemForm, \
+                   PictureUploadForm
+from .models import ContentObjectGallery, ContentObjectPicture, \
+                    LocationGalleryItem, UserGalleryItem
 from .serializers import UserMediaSerializer
 
 
@@ -121,8 +127,8 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
                 'message': _("Cannot create gallery"),
                 'level': 'danger',
             })
-        
-        username = request.user.username    
+
+        username = request.user.username
         filepath = os.path.join(settings.MEDIA_ROOT, username)
         image = Image.open(request.FILES.get('file'))
         filename = gallery_item_name()
@@ -131,15 +137,15 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
             image.thumbnail(settings.IMAGE_MAX_SIZE)
         image.save(os.path.join(filepath, filename), "JPEG")
         create_gallery_thumbnail(username, filename)
-        
+
         item = UserGalleryItem(
             user = request.user,
             picture_name = filename,
         )
         item.save()
-        
+
         serializer = self.serializer_class(item, context={'request':request})
-        
+
         return Response({
             'success': True,
             'message': _("File uploaded"),
@@ -156,7 +162,7 @@ class UserGalleryAPIViewSet(viewsets.ModelViewSet):
             })
 
         item = get_object_or_404(UserGallerItem, pk=pk)
-        
+
         try:
             item.delete()
         except Exception as ex:
@@ -210,7 +216,7 @@ class UserGalleryCreateView(FormView):
 
     def form_valid(self, form, **kwargs):
         create_gallery(self.request.user.username)
-        username = self.request.user.username    
+        username = self.request.user.username
         filepath = os.path.join(settings.MEDIA_ROOT, username)
         image = Image.open(form.cleaned_data['image'])
         filename = gallery_item_name()
@@ -219,7 +225,7 @@ class UserGalleryCreateView(FormView):
             image.thumbnail(settings.IMAGE_MAX_SIZE)
         image.save(os.path.join(filepath, filename), "JPEG")
         create_gallery_thumbnail(username, filename)
-        
+
         item = UserGalleryItem(
             user = self.request.user,
             picture_name = filename,
@@ -313,7 +319,7 @@ class LocationGalleryView(ListView):
 
 class LocationGalleryCreateView(FormView):
     """
-    Allows to add new images to the gallery of a location. 
+    Allows to add new images to the gallery of a location.
     """
     form_class = LocationItemForm
     template_name = 'gallery/location-gallery-form.html'
@@ -343,7 +349,7 @@ class LocationGalleryCreateView(FormView):
             image.thumbnail(settings.IMAGE_MAX_SIZE)
         image.save(os.path.join(filepath, filename), "JPEG")
         create_gallery_thumbnail(username, filename)
-        
+
         item = LocationGalleryItem(
             user = self.request.user,
             picture_name = filename,
@@ -426,3 +432,88 @@ class PlacePictureView(DetailView):
         context['picture'] = self.get_object()
         context['links'] = links['gallery']
         return context
+
+
+class GalleryCreateView(CreateView):
+    """
+    Create new gallery - universal view. We expect user to be redirected
+    with proper `ct` and `pk` parameters matching model for which gallery will
+    be published. In other case stand-alone gallery will be created.
+    """
+    model = ContentObjectGallery
+    form_class = ContentGalleryForm
+
+    def get_initial(self):
+        initial = super(GalleryCreateView, self).get_initial()
+        try:
+            pk = int(self.kwargs.get('pk'))
+            ct = int(self.kwargs.get('ct'))
+        except (TypeError, ValueError):
+            # We assume that `published_in` sould be null
+            return initial
+        initial.update({'content_type': ct, 'object_id': pk, })
+        return initial
+
+
+class GalleryDeleteView(DeleteView):
+    """ Delete gallery.
+    """
+    model = ContentObjectGallery
+
+
+class GalleryDetailView(DetailView):
+    """ Show single gallery, most often used for stand-alone galleries.
+    """
+    model = ContentObjectGallery
+
+
+class PictureDeleteView(DeleteView):
+    """ Delete single picture from gallery.
+    """
+    model = ContentObjectPicture
+
+    def get_success_url(self):
+        return self.object.gallery.get_absolute_url()
+
+
+class PictureDetailView(DetailView):
+    """ Show detailed info about selected gallery item.
+    """
+    model = ContentObjectPicture
+
+
+class PictureUploadView(SingleObjectMixin, View):
+    """ Universal view that allows us to upload picture to any gallery.
+    """
+    model = ContentObjectGallery
+    template_name = 'gallery/picture_form.html'
+    form_class = PictureUploadForm
+
+    def dispatch(self, *args, **kwargs):
+        user = self.request.user
+        if user.is_anonymous():
+            raise Http404
+        self.object = self.get_object()
+        return super(PictureUploadView, self).dispatch(*args, **kwargs)
+
+    def get_initial(self):
+        return {'gallery': self.get_object(), }
+
+    def get(self, request, **kwargs):
+        context = super(PictureUploadView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class(initial=self.get_initial())
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.uploaded_by = request.user
+            obj.save()
+            return redirect(obj.get_absolute_url())
+        if request.is_ajax():
+            context = json.dumps(form.errors)
+            return HttpResponse(context, content_type="application/json")
+        context = super(PictureUploadView, self).get_context_data(**kwargs)
+        context['form'] = form
+        return render(request, self.template_name, context)

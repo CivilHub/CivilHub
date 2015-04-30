@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from locations.models import Location
 from places_core.forms import BootstrapBaseForm
 
-from .models import UserGalleryItem, LocationGalleryItem
+from .models import ContentObjectGallery, ContentObjectPicture, \
+                    UserGalleryItem, LocationGalleryItem
 
 
 class BackgroundForm(forms.Form, BootstrapBaseForm):
@@ -77,3 +78,34 @@ class LocationItemForm(forms.ModelForm, BootstrapBaseForm):
     class Meta:
         model = LocationGalleryItem
         fields = ('image', 'name', 'description', 'location', )
+
+
+class ContentGalleryForm(forms.ModelForm):
+    """ Form for new kind of galleries universal for all models.
+    """
+    class Meta:
+        model = ContentObjectGallery
+        exclude = ('dirname', )
+        widgets = {
+            'content_type': forms.HiddenInput(),
+            'object_id': forms.HiddenInput(),
+        }
+
+
+class PictureUpdateForm(forms.ModelForm):
+    """ Simplified form for updating ContentObjectPicture instances.
+    """
+    class Meta:
+        model = ContentObjectPicture
+        fields = ('name', 'description', )
+
+
+class PictureUploadForm(forms.ModelForm):
+    """ Unified form for uploading pictures.
+    """
+    class Meta:
+        model = ContentObjectPicture
+        exclude = ('uploaded_by', )
+        widgets = {
+            'gallery': forms.HiddenInput(),
+        }

@@ -202,7 +202,7 @@ class LocationFollowAPI(APIView):
             self.location.users.remove(user)
             msg = _(u"You stopped following")
         else:
-            follow(user, self.location, actor_only=False)
+            follow(user, self.location, actor_only=False, send_action=False)
             self.location.users.add(user)
             msg = _(u"You are following")
         return Response(
