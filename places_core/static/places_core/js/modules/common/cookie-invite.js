@@ -35,6 +35,12 @@ function showCookieInvite () {
   });
 }
 
-$(document).ready(showCookieInvite);
+$(document).ready(function(){
+  if(CivilApp.currentUserId == null){
+    return;
+  } else { 
+    showCookieInvite();
+  }
+});
 
 });
