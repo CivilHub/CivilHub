@@ -1096,12 +1096,16 @@ img{
             max-width: 70px;
             width: 100%;
             vertical-align: top;
-            margin: 0 10px 0 5px;
+            margin: 0 60px 0 5px;
             @media(max-width: 991px){
                 margin: 0 auto 10px auto;
             }
         }
-
+        .inviteInputL {
+            .tagsinput {
+                height: 100% !important;
+            }
+        }
        
     }
 
@@ -1222,7 +1226,7 @@ padding-bottom: 40px;
 (min-resolution: 192dpi) { 
     background-image: url('../img/team_background@2x.png');
 }
-
+.teamSubHeader,
 .teamHeader{
     text-align: center;
     margin: 5.5% 0;
@@ -1247,7 +1251,9 @@ padding-bottom: 40px;
         }
     }
 }
-
+.teamSubHeader {
+    margin: 0 0 4% 0;
+}
 
     .teamPeople{
         width: 100%;
@@ -1415,7 +1421,19 @@ padding-bottom: 40px;
       z-index: 100;
     }
 
-
+    .team_browserstack_logo {
+        display: inline-block;
+        width: 170px;
+        height: 37px;
+        background-image: url("https://civilhub.org/media/filer_public/79/ed/79ed5145-9d5d-4192-aa92-6c1ebee64d76/browserstack_logo.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        @media 
+            (-webkit-min-device-pixel-ratio: 2), 
+            (min-resolution: 192dpi) { 
+            background-image: url("https://civilhub.org/media/filer_public/66/44/6644e6a3-06eb-4aa5-b158-2b0ed4d50c4b/browserstack_logo2x.png");
+        }
+    }
 }
 
 //bookmarks Page
@@ -7028,5 +7046,94 @@ small.green{
             .history_img {
             height: 136px;
         }
+    }
+}
+
+/*
+# Licence Page
+*/
+.headerLicence {
+    background-image: url('../img/licence/licence_bg.jpg');
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+        background-image: url('../img/licence/licence_bg@2x.jpg');
+    }
+}
+
+.licence-static-page {
+    h2 {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .licence_free_to {
+        h2 {
+            color: #84bd00;
+        }
+    }
+    .licence_you_must {
+        h2 {
+            color: #c20001;
+        }
+        .licence_li_row {
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+        .licence_img {
+            margin-right: 15px;
+            height: 80px;
+            width: 80px;
+            display: inline-block;
+            float: left;
+        }
+        .licence_li_text {
+            float: left;
+            width: 80%;
+            padding-top: 20px;
+            display: inline-block;
+        }
+        .cc_img {
+            .licence_img;
+            background-image: url('../img/licence/cc.png');
+            background-size: contain;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url('../img/licence/cc@2x.png');
+            }
+        }
+        .by_img {
+            .licence_img;
+            background-image: url('../img/licence/by.png');
+            background-size: contain;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url('../img/licence/by@2x.png');
+            }
+        }
+        .nc_img {
+            .licence_img;
+            background-image: url('../img/licence/nc.png');
+            background-size: contain;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url('../img/licence/nc@2x.png');
+            }
+        }
+        .sa_img {
+            .licence_img;
+            background-image: url('../img/licence/sa.png');
+            background-size: contain;
+            @media
+            (-webkit-min-device-pixel-ratio: 2),
+            (min-resolution: 192dpi){
+                background-image: url('../img/licence/sa@2x.png');
+            }
+        }
+    }
+    .licence_final_notes {
+        margin-bottom: 20px;
     }
 }

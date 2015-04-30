@@ -31,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^for-city-administration/', views.TopLevelArticleView.as_view(article_slug='for-city-administration', template_name='articles/brief.html'), name='history-timeline'),
     url(r'^about-us-two/', views.TopLevelArticleView.as_view(article_slug='about-us-two', template_name='articles/clear.html'), name='about-us-two'),
     url(r'^open-source/', views.TopLevelArticleView.as_view(article_slug='open-source', template_name='articles/clear.html'), name='open-source'),
+    url(r'^licence/', views.TopLevelArticleView.as_view(article_slug='licence', template_name='articles/licence.html'), name='licence'),
 )
