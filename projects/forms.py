@@ -174,3 +174,8 @@ class ProjectPictureForm(forms.ModelForm):
     class Meta:
         model = ContentObjectPicture
         exclude = ('gallery', 'uploaded_by', )
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control custom-wysiwyg-no-gallery'})
+        }
