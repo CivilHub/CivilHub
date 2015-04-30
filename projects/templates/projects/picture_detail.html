@@ -1,13 +1,16 @@
 {% extends 'projects/index.html' %}{% load i18n %}
-{% block content %}<h1>{{ picture }}</h1>
-<img src="{{ picture.image.url }}" alt="{{ picture }}">
-<p>
-  {% trans "Uploaded by" %} {{ picture.uploaded_by.profile }}
-  {{ picture.date_uploaded|timesince }} {% trans "ago" %}
-</p>
-{% if gallery_access %}<form class="custom-inline-form" action="{% url 'gallery:picture-delete' picture.pk %}" method="post">
-  {% csrf_token %}{{ form.as_p }}
-  <button type="submit">{% trans "Delete" %}</button>
-</form>
-<a href="{% url 'projects:picture-update' object.slug picture.pk %}">{% trans "Edit" %}</a>{% endif %}
-<div>{{ picture.description|safe }}</div>{% endblock %}
+{% block content %}
+<div class="main-content blogDivNews">
+  <h1 class="mt0">{{ picture }}</h1>
+  <div><img src="{{ picture.image.url }}" alt="{{ picture }}" class="img-responsive" /></div>
+  {% if gallery_access %}<div class="pull-right"><form class="custom-inline-form" action="{% url 'gallery:picture-delete' picture.pk %}" method="post">
+    {% csrf_token %}{{ form.as_p }}
+    <button type="submit" class="text-danger">{% trans "Delete" %}</button>
+  </form>
+  <a href="{% url 'projects:picture-update' object.slug picture.pk %}" class="text-info">{% trans "Edit" %}</a></div>{% endif %}
+  <p class="blogNewsContent">
+    {% trans "Uploaded by" %} {{ picture.uploaded_by.profile }}
+    {{ picture.date_uploaded|timesince }} {% trans "ago" %}
+  </p>
+  <div class="blogNewsContent">{{ picture.description|safe }}</div>
+</div>{% endblock %}

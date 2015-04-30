@@ -162,6 +162,7 @@ class ProjectGalleryForm(forms.ModelForm):
         model = ContentObjectGallery
         exclude = ('dirname', )
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'content_type': forms.HiddenInput(),
             'object_id': forms.HiddenInput()
         }

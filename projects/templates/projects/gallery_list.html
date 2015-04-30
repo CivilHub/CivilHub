@@ -1,16 +1,26 @@
 {% extends 'projects/index.html' %}{% load i18n %}
-{% block content %}<h1>{% trans "Album List" %}</h1>
-<ul>{% for item in object_list %}
-  <li>
-    <a href="{{ item.get_absolute_url }}">
-      {% if item.cover %}<img src="{{ item.cover }}" alt="{{ item }}">
-      {% else %}{{ item }}{% endif %}
-    </a>
-    {% if project_access %}<form class="custom-inline-form" method="post" action="{% url 'projects:gallery-delete' object.slug item.pk %}">
-      {% csrf_token %}<button type="submit">{% trans "Delete" %}</button>
+{% block content %}<div class="followers-entry">
+  <h1>{% trans "Albym List" %}</h1>
+  {% if gallery_access %}<p class="text-center top15 mb20"><a href="{% url 'projects:gallery-create' object.slug %}"><strong>{% trans "Create new gallery" %}</strong></a></p>{% endif %}
+{% for item in object_list %}
+  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="panel panel-default">
+        <div class="panel-body p-reset">
+          <a href="{{item.get_absolute_url }}">
+            <img src="{{ item.cover }}" alt="{{ item }}" class="img-responsive" />
+          </a>
+        </div>
+        <div class="panel-footer">
+          <a href="{{ item.get_absolute_url }}">{{ item }}</a>
+        </div>
+      </div>
+      {% if project_access %}<form class="custom-inline-form" method="post" action="{% url 'projects:gallery-delete' object.slug item.pk %}">
+      {% csrf_token %}<button type="submit" class="text-danger">{% trans "Delete" %}</button>
     </form>{% endif %}
-  </li>
-{% endfor %}</ul>
-{% if gallery_access %}<a href="{% url 'projects:gallery-create' object.slug %}">
-  {% trans "Create new gallery" %}
-</a>{% endif %}{% endblock %}
+    </div>
+  {% if forloop.counter|divisibleby:4 or forloop.counter == item.count %}</div>{% endif %}
+{% endfor %}
+</div>
+{% include 'places_core/pagination.html' %}
+{% endblock %}

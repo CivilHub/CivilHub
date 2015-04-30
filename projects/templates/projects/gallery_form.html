@@ -1,5 +1,6 @@
 {% extends 'projects/index.html' %}{% load i18n %}
-{% block content %}<form action="" method="post">{% csrf_token %}
+{% block content %}
+<div class="main-content create-form newFormCreate"><h3>{% trans "Create new gallery" %}</h3><form action="" method="post" class="form-horizontal">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn-greenBig">{% trans "Save" %}</button>
+</form></div>{% endblock %}
