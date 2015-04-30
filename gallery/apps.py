@@ -6,3 +6,5 @@ class GalleryStreamConfig(AppConfig):
 
     def ready(self):
         registry.register(self.get_model('LocationGalleryItem'))
+        registry.register(self.get_model('ContentObjectGallery'))
+        registry.register(self.get_model('ContentObjectPicture'))

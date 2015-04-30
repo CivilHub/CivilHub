@@ -16,6 +16,7 @@
         <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>
         <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants">{% trans "Participants" %}</a></li>
         <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>
+        <li><a href="{% url 'projects:gallery-list' object.slug %}" class="prodocuments">{% trans "Galleries" %}</a></li>
         {% if user.is_authenticated and user.organizations.count %}<li>
           <a href="{% url 'projects:organization_add' object.slug %}">{% trans "Add your organization" %}</a>
         </li>{% endif %}

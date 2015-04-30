@@ -11,9 +11,10 @@ router.register('votes', api.IdeaVoteAPIViewSet, 'votes')
 
 urlpatterns = patterns('',
     url(r'categories/create/', CreateCategory.as_view(), name='new_category'),
-    url(r'^$', IdeasListView.as_view(), name='index'),
+    #url(r'^$', IdeasListView.as_view(), name='index'),
     url(r'vote/', vote, name='vote'),
     url(r'create/', CreateIdeaView.as_view(), name='create'),
     url(r'details/(?P<slug>[\w-]+)', IdeasDetailView.as_view(), name='details'),
     url(r'update/(?P<slug>[\w-]+)', UpdateIdeaView.as_view(), name='update'),
+    url(r'(?P<slug>[\w-]+)/gallery/upload/', PictureUploadView.as_view(), name='picture-upload'),
 )

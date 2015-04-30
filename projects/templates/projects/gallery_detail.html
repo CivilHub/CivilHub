@@ -1,0 +1,15 @@
+{% extends 'projects/index.html' %}{% load i18n civil_tags %}
+{% block require_scripts %}<script src="{% module_path 'projects-gallery' %}"></script>{% endblock %}
+{% block content %}<h1>{{ gallery }}</h1>
+<ul>{% for picture in page_obj %}
+  <li>
+    <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
+    <p><a href="{{ picture.get_absolute_url }}">{{ picture }}</a></p>
+    <div>{% trans "Uploaded by" %} {{ picture.uploaded_by.profile }} {{ picture.date_uploaded|timesince }} {% trans "ago" %}</div>
+    <div>{{ picture.description|safe }}</div>
+  </li>
+{% endfor %}</ul>
+{% include 'places_core/pagination.html' %}
+{% if gallery_access %}<a href="{% url 'projects:gallery-upload' object.slug gallery.pk %}">
+  {% trans "Add new picture" %}
+</a>{% endif %}{% endblock %}

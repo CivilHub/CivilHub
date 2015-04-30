@@ -43,6 +43,18 @@ def js_path():
 
 
 @register.simple_tag
+def module_path(module='default'):
+    """ Return path to given js module. Use for require.js
+    """
+    from django.templatetags.static import static
+    url = 'dist'
+    if settings.DEBUG:
+        url = 'src'
+    return static('places_core/js/%s/%s.js' %(url, module))
+
+
+
+@register.simple_tag
 def require_config():
     f = open(os.path.join(settings.BASE_DIR, 'places_core/static/places_core/js/config.json'))
     conf = f.read()

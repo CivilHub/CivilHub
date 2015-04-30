@@ -5,14 +5,18 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import render
 
-from django.views.generic import DetailView
+from django.views.generic import DetailView, View
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.utils.translation import ugettext as _
 
 from actstream import action
 
 from comments.models import CustomComment
+from gallery.forms import PictureUploadForm
+from gallery.models import ContentObjectGallery
 from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
 from maps.forms import AjaxPointerForm
@@ -107,7 +111,8 @@ class IdeasListView(IdeasContextMixin, SearchableListMixin):
 
 
 class IdeasDetailView(DetailView):
-    """ Detailed idea view. """
+    """ Detailed idea view.
+    """
     model = Idea
 
     def get_object(self):
@@ -131,6 +136,9 @@ class IdeasDetailView(DetailView):
         context['title'] = self.object.name + " | " + self.object.location.name + " - Civilhub.org"
         context['location'] = self.object.location
         context['links'] = links['ideas']
+        context['idea_access'] = self.object.check_access(self.request.user)
+        context['gallery'] = ContentObjectGallery.objects\
+                                .for_object(self.object).first()
         if self.request.user == self.object.creator:
             context['marker_form'] = AjaxPointerForm(initial={
                 'content_type': ContentType.objects.get_for_model(self.object),
@@ -181,3 +189,33 @@ class UpdateIdeaView(UpdateView):
         form.instance.edited = True
         form.date_edited = timezone.now()
         return super(UpdateIdeaView, self).form_valid(form)
+
+
+class PictureUploadView(SingleObjectMixin, View):
+    """ This view allows users to upload pictures for idea's gallery.
+    """
+    model = Idea
+    form_class = PictureUploadForm
+    template_name = 'ideas/picture_form.html'
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super(PictureUploadView, self).get_context_data(**kwargs)
+        context.update({
+            'idea': self.object,
+            'location': self.object.location,
+            'links': links['ideas'],
+            'is_moderator': is_moderator(self.request.user, self.object.location),
+        })
+        return context
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        try:
+            gallery = ContentObjectGallery.objects.for_object(self.object)[0]
+        except IndexError:
+            gallery = ContentObjectGallery.objects.create(published_in=self.object)
+        context = self.get_context_data(**kwargs)
+        context['form'] = self.form_class(initial={'gallery': gallery, })
+        context['gallery'] = gallery
+        return render(request, self.template_name, context)

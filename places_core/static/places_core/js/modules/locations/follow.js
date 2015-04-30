@@ -7,35 +7,19 @@
 
 require(['jquery',
          'js/modules/utils/utils',
-         'js/modules/ui/ui'],
+         'js/modules/ui/ui',
+         'js/modules/locations/follow-button'],
 
-function ($, utils, ui) {
+function ($, utils, ui, fb) {
 
 "use strict";
-
-var APIURL = '/api-locations/follow/?pk=';
-
-function followRequest (pk, callback, context) {
-  var token = utils.getCookie('csrftoken');
-  $.post(APIURL + pk, { csrfmiddlewaretoken: token },
-    function (response) {
-      ui.message.success(response.message);
-      callback.call(context, response);
-    }
-  );
-}
-
-function settext (following) {
-  return following ? gettext("Stop following")
-                   : gettext("Follow");
-}
 
 $(document).ready(function () {
   $('.loc-fllw-btn').on('click', function (e) {
     var id = $(this).attr('data-location-id');
     e.preventDefault();
-    followRequest(id, function (response) {
-      $(this).text(settext(response.following))
+    fb.followRequest(id, function (response) {
+      $(this).text(fb.settext(response.following))
         .toggleClass('btn-follow-location')
         .toggleClass('btn-unfollow-location');
     }, this);

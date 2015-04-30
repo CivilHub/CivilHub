@@ -1,39 +1,37 @@
 # -*- coding: utf-8 -*-
 import json
+
 from PIL import Image
 
-from django.http import HttpResponse
-from django.views.generic import View, ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404, render, redirect
-from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 from django.contrib import messages
 from django.contrib.auth.views import login_required
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.utils.translation import ugettext as _
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
+from django.views.generic import DetailView, ListView, View
+from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 
-from actstream.models import Action
 from actstream.actions import follow, unfollow
+from actstream.models import Action
 
-from etherpad.forms import ServePadForm
-from etherpad.models import Pad
 from gallery.forms import BackgroundForm
 from gallery.image import handle_tmp_image
 from locations.mixins import LocationContextMixin
 from locations.models import Location
 from maps.models import MapPointer
 from places_core.mixins import LoginRequiredMixin
-from places_core.permissions import is_moderator
 from userspace.models import UserProfile
 
-import actions as project_actions
-from .permissions import check_access
-from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
-from .forms import CreateProjectForm, UpdateProjectForm, TaskGroupForm, TaskForm, \
-                   DiscussionAnswerForm, SocialForumCreateForm, SocialForumUpdateForm, \
-                   DocumentForm, ProjectNGOForm
+from ..actions import finished_task, joined_to_project, \
+                      joined_to_task, leaved_project
+from ..forms import CreateProjectForm, TaskForm, TaskGroupForm, \
+                    ProjectNGOForm, UpdateProjectForm
+from ..models import Task, TaskGroup, SocialProject
+from ..permissions import check_access
+from .mixins import ProjectAccessMixin, ProjectContextMixin
 
 
 @require_POST
@@ -70,7 +68,7 @@ def toggle_task_state(request, pk):
         task.is_done = True
         message = _(u"Task marked as finished")
     task.save()
-    project_actions.finished_task(request.user, task)
+    finished_task(request.user, task)
     if request.is_ajax():
         context = json.dumps(
             {'success': True,
@@ -78,49 +76,6 @@ def toggle_task_state(request, pk):
              'message': message, })
         return HttpResponse(context, content_type="application/json")
     return redirect(task.get_absolute_url())
-
-
-class ProjectContextMixin(LocationContextMixin):
-    """ A mixin for forms that create tasks and groups of tasks. """
-
-    def get_context_data(self, form=None):
-        group_id = self.kwargs.get('group_id')
-        project_slug = self.kwargs.get('slug')
-        location_slug = self.kwargs.get('location_slug')
-        context = super(ProjectContextMixin, self).get_context_data(form)
-        context['form'] = form
-        if project_slug is not None:
-            context['object'] = get_object_or_404(SocialProject,
-                                                  slug=project_slug)
-            context['project_access'] = check_access(context['object'],
-                                                     self.request.user)
-        if location_slug is not None:
-            context['location'] = get_object_or_404(Location,
-                                                    slug=location_slug)
-        return context
-
-
-class ProjectAccessMixin(LoginRequiredMixin, ProjectContextMixin):
-    """ We check whether the user has the proper access rights. """
-
-    def get(self, request,
-            location_slug=None,
-            slug=None,
-            group_id=None,
-            task_id=None):
-        # TODO: We can show something more appropriate than 403.
-        if not check_access(self.get_object(), request.user):
-            raise PermissionDenied
-        return super(ProjectAccessMixin, self).get(request)
-
-    def post(self, request,
-             slug=None,
-             location_slug=None,
-             group_id=None,
-             task_id=None):
-        if not check_access(self.get_object(), request.user):
-            raise PermissionDenied
-        return super(ProjectAccessMixin, self).post(request)
 
 
 class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
@@ -136,13 +91,13 @@ class JoinProjectView(LoginRequiredMixin, LocationContextMixin, View):
                     if task.participants.filter(pk=request.user.pk).exists():
                         task.participants.remove(request.user)
             message = _("You are no longer in this project")
-            project_actions.leaved_project(request.user, project)
+            leaved_project(request.user, project)
             unfollow(request.user, project)
         else:
             project.participants.add(request.user)
             project.authors_group.authors.add(request.user.author)
             message = _("You have joined to this project")
-            project_actions.joined_to_project(request.user, project)
+            joined_to_project(request.user, project)
             follow(request.user, project, actor_only=False)
         if request.is_ajax():
             context = {'success': True, 'message': message, }
@@ -168,11 +123,11 @@ class JoinTaskView(LoginRequiredMixin, LocationContextMixin, View):
                 task.group.project.participants.add(request.user)
                 task.group.project.authors_group.authors.add(
                     request.user.author)
-                project_actions.joined_to_project(request.user,
+                joined_to_project(request.user,
                                                   task.group.project)
                 follow(request.user, task.group.project, actor_only=False)
             else:
-                project_actions.joined_to_task(request.user, task)
+                joined_to_task(request.user, task)
             message = _("You have joined this task")
         if request.is_ajax():
             context = {'success': True, 'message': message, }
@@ -373,42 +328,6 @@ class ProjectDetailView(ProjectContextMixin, DetailView):
         return context
 
 
-class ProjectDocumentsList(ListView):
-    """ List all documents created for this project. """
-    model = Pad
-    paginate_by = 25
-
-    def get_queryset(self):
-        project = get_object_or_404(SocialProject,
-                                    slug=self.kwargs.get('slug'))
-        return self.model.objects.filter(group=project.authors_group)
-
-    def get_context_data(self):
-        context = super(ProjectDocumentsList, self).get_context_data()
-        project = get_object_or_404(SocialProject,
-                                    slug=self.kwargs.get('slug'))
-        context['object'] = project
-        context['location'] = project.location
-        context['document_form'] = DocumentForm(
-            initial={'group': project.authors_group})
-        return context
-
-
-class ProjectDocumentPreview(LocationContextMixin, DetailView):
-    """ Show single document in HTML format. """
-    model = SocialProject
-    template_name = 'projects/document_preview.html'
-
-    def get_context_data(self, object=None):
-        context = super(ProjectDocumentPreview, self).get_context_data()
-        document_slug = self.kwargs.get('document_slug')
-        context['document'] = get_object_or_404(Pad, slug=document_slug)
-        context['location'] = self.object.location
-        context['download_form'] = ServePadForm(
-            initial={'pad': context['document'], })
-        return context
-
-
 class ProjectBackgroundView(ProjectAccessMixin, FormView):
     """ Background image change for the whole project. """
     form_class = BackgroundForm
@@ -438,170 +357,6 @@ class ProjectBackgroundView(ProjectAccessMixin, FormView):
             'locations:project_details',
             kwargs={'location_slug': obj.location.slug,
                     'slug': obj.slug, }))
-
-
-class ProjectForumContextMixin(ProjectContextMixin):
-    """ A mixin for discussion subpages for this project. """
-
-    def get_context_data(self, form=None, **kwargs):
-        context = super(ProjectForumContextMixin, self).get_context_data()
-        project_slug = self.kwargs.get('project_slug')
-        if project_slug is not None:
-            context['object'] = get_object_or_404(SocialProject,
-                                                  slug=project_slug)
-            context['location'] = context['object'].location
-            context['is_moderator'] = is_moderator(self.request.user,
-                                                   context['location'])
-        if form is not None:
-            context['form'] = form
-        discussion_slug = self.kwargs.get('discussion_slug')
-        if discussion_slug is not None:
-            context['discussion'] = get_object_or_404(SocialForumTopic,
-                                                      slug=discussion_slug)
-        return context
-
-
-class ProjectForumUpdateMixin(LoginRequiredMixin, UpdateView,
-                              ProjectForumContextMixin):
-    """ A mixin for discussion edition forms and discussion entries. """
-
-    def permission_check_(self):
-        if not check_access(self.get_object(), self.request.user):
-            raise PermissionDenied
-
-    def get(self, request, project_slug=None, discussion_slug=None, pk=None):
-        self.permission_check_()
-        return super(ProjectForumUpdateMixin, self).get(request, project_slug,
-                                                        discussion_slug)
-
-    def post(self, request, project_slug=None, discussion_slug=None, pk=None):
-        self.permission_check_()
-        return super(ProjectForumUpdateMixin, self).post(request, project_slug,
-                                                         discussion_slug)
-
-
-class ProjectForumListView(ProjectForumContextMixin, ListView):
-    """ A list of discussions within one project. """
-    model = SocialForumTopic
-    paginate_by = 25
-
-    def get_queryset(self):
-        qs = super(ProjectForumListView, self).get_queryset()
-        project_slug = self.kwargs.get('project_slug')
-        if project_slug is not None:
-            qs = qs.filter(project__slug=project_slug)
-        return qs
-
-
-class ProjectForumDetailView(ProjectForumContextMixin, ListView):
-    """ One discussion with answers. """
-    model = SocialForumEntry
-    paginate_by = 25
-
-    def get_queryset(self):
-        qs = super(ProjectForumDetailView, self).get_queryset()
-        discussion_slug = self.kwargs.get('discussion_slug')
-        if discussion_slug is not None:
-            qs = qs.filter(topic__slug=discussion_slug)
-        return qs
-
-    def get_context_data(self):
-        context = super(ProjectForumDetailView, self).get_context_data()
-        discussion_slug = self.kwargs.get('discussion_slug')
-        if discussion_slug is not None:
-            context['answer_form'] = DiscussionAnswerForm(initial={
-                'topic': context['discussion'],
-                'creator': self.request.user,
-            })
-            context['project_access'] = check_access(
-                context['discussion'].project, self.request.user)
-        return context
-
-
-class ProjectForumCreateView(LoginRequiredMixin, CreateView,
-                             ProjectForumContextMixin):
-    """ New discussion creation within a project. """
-    model = SocialForumTopic
-    form_class = SocialForumCreateForm
-
-    def get_success_url(self):
-        return self.object.get_absolute_url()
-
-    def form_valid(self, form):
-        form.instance.creator = self.request.user
-        project_slug = self.kwargs.get('project_slug')
-        if project_slug is not None:
-            form.instance.project = get_object_or_404(SocialProject,
-                                                      slug=project_slug)
-        return super(ProjectForumCreateView, self).form_valid(form)
-
-
-class ProjectForumUpdateView(ProjectForumUpdateMixin):
-    """ Existing discussion edition. """
-    model = SocialForumTopic
-    form_class = SocialForumUpdateForm
-    slug_url_kwarg = 'discussion_slug'
-
-
-class ProjectForumDeleteView(LoginRequiredMixin, DeleteView,
-                             ProjectForumContextMixin):
-    """ Discussion deletion - only for admins and mods! """
-    model = SocialForumTopic
-
-    def get_success_url(self):
-        return reverse('projects:discussions',
-                       kwargs={'project_slug': self.object.project.slug})
-
-    def post(self, request, pk=None):
-        if not is_moderator(request.user, self.get_object().project.location):
-            raise PermissionDenied
-        return super(ProjectForumDeleteView, self).post(request, pk)
-
-
-class ProjectForumAnswerCreateView(LoginRequiredMixin, CreateView,
-                                   ProjectForumContextMixin):
-    """ Discussion answer. """
-    model = SocialForumEntry
-    form_class = DiscussionAnswerForm
-
-    def get_success_url(self):
-        return self.object.topic.get_absolute_url()
-
-    def get_initial(self):
-        initial = super(ProjectForumAnswerCreateView, self).get_initial()
-        discussion_slug = self.kwargs.get('discussion_slug')
-        if discussion_slug is not None:
-            initial['topic'] = get_object_or_404(SocialForumTopic,
-                                                 slug=discussion_slug)
-        initial['creator'] = self.request.user
-        return initial
-
-    def form_valid(self, form):
-        form.instance.creator = self.request.user
-        return super(ProjectForumAnswerCreateView, self).form_valid(form)
-
-
-class ProjectForumAnswerUpdateView(ProjectForumUpdateMixin):
-    """ Edition of your own discussion answers, possibly for admins. """
-    model = SocialForumEntry
-    form_class = DiscussionAnswerForm
-
-    def get_success_url(self):
-        return self.object.topic.get_absolute_url()
-
-
-class ProjectForumAnswerDeleteView(LoginRequiredMixin, DeleteView,
-                                   ProjectForumContextMixin):
-    """ Discussion entries deletion - admins, mods and project owners. """
-    model = SocialForumEntry
-
-    def get_success_url(self):
-        return self.object.topic.get_absolute_url()
-
-    def post(self, request, pk=None):
-        if not check_access(self.get_object().topic.project, request.user):
-            raise PermissionDenied
-        return super(ProjectForumAnswerDeleteView, self).post(request, pk)
 
 
 class AddProjectToNGO(LoginRequiredMixin, View):

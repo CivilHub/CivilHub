@@ -1,0 +1,11 @@
+{% extends 'places_core/base.html' %}{% load i18n civil_tags %}
+{% block require_scripts %}<script src="{% module_path 'projects-gallery' %}"></script>{% endblock %}
+{% block content %}<h1>{{ object }}</h1>
+<ul>{% for picture in object.pictures.all %}
+  <li>
+    <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
+    <p>{{ picture }}</p>
+    <div>{% trans "Uploaded by" %} {{ picture.uploaded_by.profile }} {{ picture.date_uploaded|timesince }} {% trans "ago" %}</div>
+    <div>{{ picture.description|safe }}</div>
+  </li>
+{% endfor %}</ul>{% endblock %}

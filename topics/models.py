@@ -82,6 +82,7 @@ class Discussion(ImagableItemMixin, models.Model):
         verbose_name_plural = _(u"discussions")
 
 
+@python_2_unicode_compatible
 class Entry(MPTTModel):
     """
     Single forum entry.
@@ -118,6 +119,9 @@ class Entry(MPTTModel):
 
     def get_absolute_url(self):
         return self.discussion.get_absolute_url()
+
+    def __str__(self):
+        return u"Answer for %s" % self.discussion.__unicode__()
 
     class Meta:
         ordering = ['-date_created',]

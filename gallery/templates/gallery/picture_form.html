@@ -1,0 +1,4 @@
+{% load i18n %}<form method="post" action="{% url 'gallery:picture-upload' object.pk %}" enctype="multipart/form-data">
+  {% csrf_token %}{{ form.as_p }}
+  <button type="submit">{% trans "Save" %}</button>
+</form>

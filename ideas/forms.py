@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from taggit.forms import TagField
-from ideas.models import Idea, Category
+
 from locations.models import Location
 from places_core.forms import BootstrapBaseForm
+
+from .models import Idea, Category
 
 
 class CategoryForm(forms.ModelForm):

@@ -2,10 +2,12 @@
 from django import forms
 
 from etherpad.models import Pad
+from gallery.models import ContentObjectGallery, ContentObjectPicture
 from organizations.models import Organization
 from places_core.forms import BootstrapBaseForm
 
-from .models import SocialProject, TaskGroup, Task, SocialForumTopic, SocialForumEntry
+from .models import SocialProject, TaskGroup, Task, \
+                    SocialForumTopic, SocialForumEntry
 
 
 class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
@@ -151,3 +153,23 @@ class ProjectNGOForm(forms.Form):
         if not project in organization.projects.all():
             organization.projects.add(project)
         return organization
+
+
+class ProjectGalleryForm(forms.ModelForm):
+    """ Simplified form for gallery creation.
+    """
+    class Meta:
+        model = ContentObjectGallery
+        exclude = ('dirname', )
+        widgets = {
+            'content_type': forms.HiddenInput(),
+            'object_id': forms.HiddenInput()
+        }
+
+
+class ProjectPictureForm(forms.ModelForm):
+    """ This form allows users to upload gallery items.
+    """
+    class Meta:
+        model = ContentObjectPicture
+        exclude = ('gallery', 'uploaded_by', )
