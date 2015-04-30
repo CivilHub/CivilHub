@@ -80,7 +80,7 @@
 <body>
 {% analytical_body_top %}
 
-<div id="cookie-if"></div>
+{% if user.is_authenticated %}<div id="cookie-if"></div>{% endif %}
 <div id="messages"></div>
 <div id="cookie-msg"></div>
     
