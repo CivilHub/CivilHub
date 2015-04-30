@@ -1,5 +1,6 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
 {% block content %}
+{% if object_list.count %}
 {% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
 <div class="col-sm-3">
   <div class="locBox loc-box-project">
@@ -24,5 +25,10 @@
       <button type="submit" class="text-danger">{% trans "Delete" %}</button>
     </form>{% endif %}
 </div>
-{% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}{% endblock %}
-
+{% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}
+{% else %}
+<div class="col-sm-12 no-entries">
+  <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+  <h2>{% trans "This organization does not support any projects" %}.</h2>
+</div>
+{% endif %}{% endblock %}
