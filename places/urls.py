@@ -156,7 +156,13 @@ urlpatterns += patterns('',
     # copy-paste method.
     url(r'^home/', PageView.as_view(page='home')),
     url(r'^home-b/', PageView.as_view(page='home-b')),
+    url(r'^home-c/', PageView.as_view(page='home-c')),
+    url(r'^home-d/', PageView.as_view(page='home-d')),
     url(r'^home-e/', PageView.as_view(page='home-e')),
+    url(r'^home-f/', PageView.as_view(page='home-f')),
+    url(r'^home-g/', PageView.as_view(page='home-g')),
+    url(r'^home-h/', PageView.as_view(page='home-h')),
+    
     #url(r'^about/', PageView.as_view(page='about')),
     #url(r'^privacy/', PageView.as_view(page='privacy')),
     #url(r'^terms/', PageView.as_view(page='terms')),
