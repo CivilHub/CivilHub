@@ -2,7 +2,7 @@
 {% load i18n %}{% if gallery.pictures.count %}<div id="carousel-{{ gallery.pk }}" class="carousel slide civ-carousel" data-ride="carousel">
   <div class="carousel-inner" role="listbox">
     {% for picture in gallery.pictures.all %}<div class="item{% if forloop.counter == 1 %} active{% endif %}">
-      <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
+      <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx-caption="{{ picture.name }}" data-jslghtbx="{{ picture.image.url }}" data-jslghtbx-group="same">
       {% if picture.name %}<div class="carousel-caption">{{ picture.name }}</div>{% endif %}
     </div>{% endfor %}
   </div>
