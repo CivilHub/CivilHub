@@ -107,5 +107,7 @@ class PictureUploadForm(forms.ModelForm):
         model = ContentObjectPicture
         exclude = ('uploaded_by', )
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
             'gallery': forms.HiddenInput(),
         }
