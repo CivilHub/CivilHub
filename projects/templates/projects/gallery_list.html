@@ -1,4 +1,5 @@
 {% extends 'projects/index.html' %}{% load i18n %}
+{% block location_navbar %}<div class="socialproject-galleries-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="followers-entry">
   <h1>{% trans "Galleries List" %}</h1>
   {% if gallery_access %}<p class="text-center top15 mb20"><a href="{% url 'projects:gallery-create' object.slug %}"><strong>{% trans "Create new gallery" %}</strong></a></p>{% endif %}
