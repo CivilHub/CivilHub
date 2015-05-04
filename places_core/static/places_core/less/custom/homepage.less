@@ -386,7 +386,7 @@ body.body-Home {
         margin: 0 auto;
         display: inline-block;
         background-position: center center;
-    }                                
+    }
 }
 
 
@@ -399,9 +399,7 @@ body.body-Home {
     p{
     padding: 5px 25px 5px 25px;
     border: 1px solid #FFF;
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
+    .border-radius(15px);
     transition: 0.2s;
     -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
@@ -419,7 +417,7 @@ body.body-Home {
 }
     @media(max-width: 750px){
         .login-Home,
-        .features-Home{
+        .brief-Home{
             display: inline-block;
             margin-right: 0 !important;
             margin-top: 50px;
@@ -431,15 +429,12 @@ body.body-Home {
                 display: inline-block;
             }
         }
-        .login-Home{
-
-        }
-        .features-Home{
+        .brief-Home{
             margin-left: -77px;
         }
     }
-.brief-Home,
-.features-Home{
+
+.brief-Home{
     position: fixed;
     top: 25px;
     right: 150px;
@@ -449,26 +444,19 @@ body.body-Home {
     -webkit-transition: 0.2s;
     -moz-transition: 0.2s;
     -o-transition: 0.2s;
-
         &:hover{
             p{
-                color: #FFF;
                 border-bottom: 1px solid #FFF;
                 padding-bottom: 5px;
-             
                 transition: 0.2s;
                 -webkit-transition: 0.2s;
                 -moz-transition: 0.2s;
                 -o-transition: 0.2s;
             }
-
         }
+        p{ color: #FFF; }
+}
 
-}
-.brief-Home{ 
-    right: 220px;
-    a{ color: #FFF; }
-}
 
 .content_box-Home{
     position: fixed;
@@ -513,9 +501,7 @@ body.body-Home {
         text-align: center;
         padding: 5px 25px 5px 25px;
         border: 1px solid #FFF;
-        border-radius: 25px;
-        -webkit-border-radius: 25px;
-        -moz-border-radius: 25px;
+        .border-radius(25px);
         //width: 70px;
         //width: 122px;
         &:hover{
@@ -624,9 +610,7 @@ body.body-Home {
     padding: 0 10px 0 10px;
     background: rgba(0,0,0,0.6);
     border: 1px solid rgba(0,0,0,0.6);
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+    .border-radius(15px);
     position: relative;
     bottom: -1px;
 }
@@ -654,12 +638,8 @@ body.body-Home {
     .divider{ width: 100%; border-bottom: 1px solid #C2C2C2;}
     p{color: #666; font-size: 18px; line-height: 28px;}
     h1,h2{ color: #333; font-weight: 300; }
-    h1{
-        font-size: 46px;
-    }
-    h2{
-        font-size: 32px;
-    }
+    h1{ font-size: 46px; }
+    h2{ font-size: 32px; }
     .homeD-s1{
     background-image: url(../img/home-d/bg-home.png);
     background-size: cover;
@@ -684,9 +664,7 @@ body.body-Home {
                 color: #fff;
                 text-decoration: none;
                 &.alink-home{
-                    &:hover{
-                        color: #0083FB !important;
-                    }
+                    &:hover{ color: #0083FB !important; }
                 }
             } 
         }
@@ -831,7 +809,6 @@ body.body-Home {
     }
     .homeD-s3{
         padding: 4%;
-
     }
     .homeD-s6{
         .bg-homeD-s6{
