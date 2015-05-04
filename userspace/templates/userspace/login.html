@@ -1,5 +1,8 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
-{% block content %}<div class="login-page">
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
+{% block content %}
+<div class="fort-top"></div><div class="login-page">
   {% if welcome_msg %}<p class="alert alert-success">{% blocktrans %}Thank you for registeration. You can now log in.{% endblocktrans %}</p>{% endif %}    
   {% if form.errors %}<div class="alert alert-danger fade in" style="margin:0px auto;">{% trans 'Login credentials invalid' %}
     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -17,8 +20,10 @@
         <div class="input-section row">
           <form class="form-horizontal" action="{% url 'user:login' %}" method="post">{% csrf_token %}
             <input type="hidden" name="next" value="{{ request.GET.next }}" />
+            <div class="form">
             <input class="form-control" id="username" maxlength="32" name="email" placeholder="{% trans "Email" %}" type="email" autofocus value="{{ form.email.value|default_if_none:'' }}">
             <input class="form-control" id="password" maxlength="64" name="password" placeholder="{% trans "Password" %}" type="password">
+            </div>
             <div class="remember-me">
               <input checked="checked" id="id_remember_me" name="remember_me" type="checkbox">{% trans "Remember me on this computer" %}
             </div>
