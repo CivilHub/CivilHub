@@ -64,9 +64,6 @@
       </div>
       {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
       <div class="acticle-content clearfix mt25">{{ idea.description|safe }}</div>
-      <p class="ideaEntryTags">{% trans "Tags" %}:
-        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
-      </p>
       {% visit_counter idea %}
       <!-- Carousel -->
       {% if gallery.pictures.count %}<div id="carousel-{{ gallery.pk }}" class="carousel slide" data-ride="carousel">
@@ -87,6 +84,9 @@
       </div>{% endif %}
       <!-- / Carousel -->
       {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}">{% trans "Add picture" %}</a>{% endif %}
+      {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
+        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
+      </p>{% endif %}
       <div class="ideaEntryComments">
         <p>
           {% get_comment_count idea %} {% trans "Comments" %}
