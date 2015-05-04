@@ -1,0 +1,5 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<form action="" method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Proceed" %}</button>
+</form>{% endblock %}

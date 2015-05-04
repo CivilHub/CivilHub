@@ -185,14 +185,23 @@ class ContentObjectGallery(models.Model):
         super(ContentObjectGallery, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        url_entry = 'gallery:album-preview'
+        url_kwarg = {'pk': self.pk, }
         if self.published_in is not None:
             model_name = self.published_in._meta.model_name
             if model_name == 'socialproject':
-                return reverse('projects:gallery-preview', kwargs={
+                url_entry = 'projects:gallery-preview'
+                url_kwarg = {
                     'slug': self.published_in.slug,
                     'gallery_pk': self.pk,
-                })
-        return reverse('gallery:album-preview', kwargs={'pk': self.pk, })
+                }
+            elif model_name == 'idea':
+                url_entry = 'locations:idea_detail'
+                url_kwarg = {
+                    'place_slug': self.published_in.location.slug,
+                    'slug': self.published_in.slug,
+                }
+        return reverse(url_entry, kwargs=url_kwarg)
 
     def __str__(self):
         if len(self.name):
@@ -236,6 +245,10 @@ class ContentObjectPicture(models.Model):
     @property
     def thumb(self):
         return fix_path(self.image.url)
+
+    @property
+    def thumb_small(self):
+        return fix_path(self.image.url, 'SMALL')
 
     def get_absolute_url(self):
         url_entry = 'gallery:picture-detail'

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .image import crop
+from .image import generate_thumbs
 from .storage import rmdir, massrm
 
 
@@ -18,4 +18,4 @@ def cleanup_image(sender, instance, **kwargs):
 def adjust_images(sender, instance, **kwargs):
     """ Crop image.
     """
-    crop(instance.image.path)
+    generate_thumbs(instance.image.path)

@@ -92,10 +92,14 @@ class FollowObjectView(APIView):
                 is_follower = True
             except ImproperlyConfigured as e:
                 return Response({'success': False, 'message': str(e)})
+            if instance_name == 'location':
+                self.instance.users.add(request.user)
         else:
             unfollow(request.user, self.instance)
             msg = _(u"You are no longer following this %s" % instance_name)
             is_follower = False
+            if instance_name == 'location':
+                self.instance.users.remove(request.user)
 
         return Response(
             {'success': True,

@@ -345,25 +345,11 @@ class LocationDetailView(LocationViewMixin):
     """ Detailed location view. """
     template_name = 'locations/location_detail.html'
 
-    def get(self, request, slug, tag=None):
-        location = get_object_or_404(Location, slug=slug)
-        t_filter = TagFilter(location)
-        tags = t_filter.get_items()
-        items = []
-
-        if tag:
-            try:
-                tag = Tag.objects.get(slug=tag)
-                all_items = tag.taggit_taggeditem_items.all()
-            except Tag.DoesNotExist:
-                all_items = []
-            items = [x.content_object for x in all_items if x.content_object.location==location]
-
-        return render(request, self.template_name, {
-                'location': location,
-                'items'   : items,
-                'tags'    : [x for x in tags][:100],
-            })
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super(LocationDetailView, self).get_context_data(**kwargs)
+        context['tags'] = TagFilter(self.object).get_items()
+        return context
 
 
 class LocationActionsView(LocationViewMixin):

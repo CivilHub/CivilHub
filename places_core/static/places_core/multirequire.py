@@ -14,18 +14,18 @@
 #
 # skompresuje tylko skrypty dla podstrony tworzenia/edycji idei.
 
-import os, subprocess, json
+import os, subprocess, json, sys
 
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-m', '--module', help="Single module to compress")
+parser.add_argument('--css', action="store_true", help="Compress only css filest")
 
 SRC_DIR = os.path.join(os.getcwd(), 'js', 'src')
 LESS_IN = os.path.join(os.getcwd(), 'less', 'style.less')
 CSS_OUT = os.path.join(os.getcwd(), 'css', 'style.min.css')
 TMP_FILE = os.path.join(os.getcwd(), 'tmp.js')
 
-subprocess.call(['lessc', '-x', LESS_IN, CSS_OUT])
 
 def compress_module(module):
     f = open(os.path.join(os.getcwd(), 'js/config.json'), 'r')
@@ -40,8 +40,12 @@ def compress_module(module):
     tmpf.close()
     subprocess.call(['r.js', '-o', TMP_FILE])
 
+
 if __name__ == '__main__':
     args = parser.parse_args()
+    subprocess.call(['lessc', '-x', LESS_IN, CSS_OUT])
+    if args.css:
+        sys.exit()
     for name in sorted(os.listdir(SRC_DIR)):
         module = os.path.splitext(name)[0]
         if args.module is None or module == args.module:

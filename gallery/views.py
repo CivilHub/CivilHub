@@ -10,6 +10,7 @@ from datetime import datetime
 from slugify import slugify
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
@@ -36,7 +37,7 @@ from userspace.models import UserProfile
 
 from .forms import ContentGalleryForm, UserItemForm, \
                    SimpleItemForm, LocationItemForm, \
-                   PictureUploadForm
+                   PictureUploadForm, MassRemoveForm
 from .models import ContentObjectGallery, ContentObjectPicture, \
                     LocationGalleryItem, UserGalleryItem
 from .serializers import UserMediaSerializer
@@ -467,6 +468,36 @@ class GalleryDetailView(DetailView):
     model = ContentObjectGallery
 
 
+class MassDeleteView(SingleObjectMixin, View):
+    """ Select multiple items to delete.
+    """
+    model = ContentObjectGallery
+    template_name = 'gallery/mass_delete.html'
+    form_class = MassRemoveForm
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        user = self.request.user
+        if user.is_anonymous():
+            raise Http404
+        return super(MassDeleteView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, **kwargs):
+        context = super(MassDeleteView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.object)
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST, instance=self.object)
+        context = super(MassDeleteView, self).get_context_data(**kwargs)
+        context['form'] = form
+        if form.is_valid():
+            msg = _(u"Selected images has been deleted")
+            messages.add_message(request, messages.SUCCESS, msg)
+            return redirect(self.object.get_absolute_url())
+        return render(request, self.template_name, context)
+
+
 class PictureDeleteView(DeleteView):
     """ Delete single picture from gallery.
     """
@@ -510,7 +541,7 @@ class PictureUploadView(SingleObjectMixin, View):
             obj = form.save(commit=False)
             obj.uploaded_by = request.user
             obj.save()
-            return redirect(obj.get_absolute_url())
+            return redirect(obj.gallery.get_absolute_url())
         if request.is_ajax():
             context = json.dumps(form.errors)
             return HttpResponse(context, content_type="application/json")

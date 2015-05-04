@@ -1,0 +1,26 @@
+<!-- Carousel -->
+{% load i18n %}{% if gallery.pictures.count %}<div id="carousel-{{ gallery.pk }}" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner" role="listbox">
+    {% for picture in gallery.pictures.all %}<div class="item{% if forloop.counter == 1 %} active{% endif %}">
+      <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
+      {% if picture.name %}<div class="carousel-caption">{{ picture.name }}</div>{% endif %}
+    </div>{% endfor %}
+  </div>
+  <a class="left carousel-control" href="#carousel-{{ gallery.pk }}" role="button" data-slide="prev">
+    <span class="fa fa-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">{% trans "Previous" %}</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-{{ gallery.pk }}" role="button" data-slide="next">
+    <span class="fa fa-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">{% trans "Next" %}</span>
+  </a>
+</div>{% endif %}
+<!-- / Carousel -->
+
+<!-- Thumbs -->
+{% if gallery.pictures.count %}<ul class="civ-carousel-indicators">
+  {% for picture in gallery.pictures.all %}<li><a href="#" data-target="#carousel-{{ gallery.pk }}" data-slide-to="{{ forloop.counter0 }}">
+    <img src="{{ picture.thumb_small }}" alt="{{ picture }}">
+  </a></li>{% endfor %}
+</ul>{% endif %}
+<!-- / Thumbs -->

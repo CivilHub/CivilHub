@@ -111,3 +111,23 @@ class PictureUploadForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'gallery': forms.HiddenInput(),
         }
+
+
+class MassRemoveForm(forms.Form):
+    """ Select gallery items to delete from handy list.
+    """
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance')
+        super(MassRemoveForm, self).__init__(*args, **kwargs)
+        self.fields['pictures'] = forms.ModelMultipleChoiceField(
+            queryset=self.instance.pictures.all(),
+            widget=forms.CheckboxSelectMultiple,
+            label=_(u"Select images you wish to remove"))
+
+    def is_valid(self):
+        valid = super(MassRemoveForm, self).is_valid()
+        if not valid:
+            return valid
+        for picture in self.cleaned_data['pictures']:
+            picture.delete()
+        return True
