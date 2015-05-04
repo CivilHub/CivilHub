@@ -1,5 +1,6 @@
-{% extends 'staticpages/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
@@ -18,6 +19,7 @@ window.GOOGLE_DATA = {
 {% block navigation %}{% endblock %}
 {% block content %}
 <style>
+.fort-top{ background: #fff;}
 /* Register box*/
 .register-box{
   display: inline-block;
@@ -301,6 +303,7 @@ ul {
   }
 }
 </style>
+<div class="fort-top"></div>
 <header>
   <a href="/"><div class="home_f_min_logo"></div></a>
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
@@ -322,6 +325,7 @@ ul {
         <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
         {% csrf_token %}
         {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
+        <div class="form">
         <div class="form-group">
           <div class="col-xs-6">
           <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
@@ -338,7 +342,7 @@ ul {
       <div class="form-group">
           <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
         </div>
-
+        </div>
         <div class="registerButtons">
 
           <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>

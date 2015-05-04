@@ -1,5 +1,6 @@
-{% extends 'staticpages/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
@@ -14,7 +15,7 @@ window.GOOGLE_DATA = {
 {% endblock %}
 
 {% block content %}
-
+<div class="fort-top"></div>
 {% comment %} First part with signup form. {% endcomment %}
 <div style="background: #fff;">
     <div class="signup-view signup-view-background">
@@ -65,6 +66,7 @@ window.GOOGLE_DATA = {
             
                 <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
                 {% csrf_token %}
+                <div class="form">
                 <input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}">
                 <div>
                  <input id="name" class="short short-left" type="text" name="first_name" placeholder="{% trans "Name" %}">
@@ -74,6 +76,7 @@ window.GOOGLE_DATA = {
                 <input id="pass1" class="long" type="password" name="password" placeholder="{% trans "Create a password" %}">
                 <input id="pass2" class="long" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
                 <div>
+                </div>
   
                 <button type="button" class="facebook-button" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');">Connect with Facebook</button>
                     
