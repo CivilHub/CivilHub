@@ -402,7 +402,7 @@ GALLERY_THUMB_SIZE = (270,170)
 
 # Sizes for thumbnails related to ContentObjectGalleries
 CO_THUMB_SIZES = {
-    'BIG': (270, 170),
+    'BIG': (570, 360),
     'SMALL': (60, 60),
 }
 
