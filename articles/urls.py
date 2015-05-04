@@ -32,4 +32,5 @@ urlpatterns = patterns('',
     url(r'^about-us-two/', views.TopLevelArticleView.as_view(article_slug='about-us-two', template_name='articles/clear.html'), name='about-us-two'),
     url(r'^open-source/', views.TopLevelArticleView.as_view(article_slug='open-source', template_name='articles/clear.html'), name='open-source'),
     url(r'^licence/', views.TopLevelArticleView.as_view(article_slug='licence', template_name='articles/licence.html'), name='licence'),
+    url(r'^events/', views.TopLevelArticleView.as_view(article_slug='events', template_name='articles/events.html'), name='events'),
 )
