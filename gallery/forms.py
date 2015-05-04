@@ -98,6 +98,10 @@ class PictureUpdateForm(forms.ModelForm):
     class Meta:
         model = ContentObjectPicture
         fields = ('name', 'description', )
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 
 class PictureUploadForm(forms.ModelForm):
