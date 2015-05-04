@@ -83,6 +83,13 @@
         </a>
       </div>{% endif %}
       <!-- / Carousel -->
+      <!-- Thumbs -->
+      {% if gallery.pictures.count %}<ul class="civ-carousel-indicators">
+        {% for picture in gallery.pictures.all %}<li><a href="#" data-target="#carousel-{{ gallery.pk }}" data-slide-to="{{ forloop.counter0 }}">
+          <img src="{{ picture.thumb_small }}" alt="{{ picture }}">
+        </a></li>{% endfor %}
+      </ul>{% endif %}
+      <!-- / Thumbs -->
       {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}">{% trans "Add picture" %}</a>{% endif %}
       {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
