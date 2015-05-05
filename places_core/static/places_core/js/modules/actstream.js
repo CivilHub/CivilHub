@@ -26,20 +26,24 @@ $.fn.activityStream = function () {
   return $(this).each(function () {
     var $this = $(this);
     var list = new ActionList({
-      type: $this.attr('data-type'),
+      mode: $this.attr('data-type'),
       ct: $this.attr('data-ct'),
       pk: $this.attr('data-pk')
     });
     function checkSrcrollPosition () {
       var ptr = ($(window).scrollTop() / $(document).height()) * 100;
       if (ptr > getMinimalPtr()) {
-        list.getPage();
+        list.nextPage();
         $(window).off('scroll', checkSrcrollPosition);
         setTimeout(function () {
           $(window).on('scroll', checkSrcrollPosition);
         }, 2000);
       }
     }
+    $('.list-controller').on('click', function (e) {
+      e.preventDefault();
+      list.filter($(this).attr('data-target'));
+    });
     $(window).on('scroll', checkSrcrollPosition);
     return this;
   });
