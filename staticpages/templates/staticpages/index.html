@@ -3,9 +3,9 @@
 {% get_current_language as LANG %}
 {% include 'places_core/header.html' %}
 
-{% comment %}A place for extra css files.{% endcomment %}
+{% comment %}A place for extra css and js files.{% endcomment %}
 {% block extra_styles %}{% endblock %}
-
+{% block extra_scripts %}{% endblock %}
 {% block require_scripts %}
 <script src="{% static 'places_core' %}/js/{% js_path %}/static-default.js"></script>
 {% endblock %}
