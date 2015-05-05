@@ -1,6 +1,5 @@
-{% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
-{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
+{% extends 'staticpages/index.html' %}
+{% load staticfiles i18n civil_tags %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
@@ -19,8 +18,6 @@ window.GOOGLE_DATA = {
 {% block navigation %}{% endblock %}
 {% block content %}
 <style>
-.brief-Home p{ color:#5e5e5e;}
-.brief-Home p:hover{ color: #FFF;}
 /* Register box*/
 .register-box{
   display: inline-block;
@@ -120,14 +117,15 @@ body {
   background-repeat:no-repeat;
   background-position:center;
   background-attachment:fixed;
-  @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-    background-image: url('https://civilhub.org/media/filer_public/47/e6/47e65ff4-e3f4-4401-9899-74c391c24ef0/homepage_h_bg2x.jpg');
-  }
 }
 .brief-Home a {
   color: #3c3c3c;
+}
+.brief-Home a p {
+  color: #5e5e5e;
+}
+.brief-Home a p:hover {
+  color: white;
 }
 .home_h_logo_outer {
   margin-top: 8%;
@@ -139,11 +137,6 @@ body {
   height: 115px;
   background-image: url('https://civilhub.org/media/filer_public/a2/af/a2af2ac7-d264-48dc-bb27-75a407e778ac/homepage_h_logo.png');
   background-size: contain;
-  @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-    background-image: url('https://civilhub.org/media/filer_public/88/9c/889cd94d-86cb-47de-b63a-864a18b95d6a/homepage_h_logo2x.png');
-  }
 }
 .home_h_center_wrapper {
   position: absolute;
@@ -271,14 +264,16 @@ ul {
     left: 20%;
     width: 210px;
     height: 31px;
-    background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
-    background-size: contain;
-    @media 
-      (-webkit-min-device-pixel-ratio: 2), 
-      (min-resolution: 192dpi) { 
-      background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
-    }    
+    background-image: url('https://civilhub.org/media/filer_public/56/92/56923229-86c3-453d-a582-cc6d6384cb2b/home_j_mini_logo_color_with_beta.png');
+    background-size: contain;  
   }
+  @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) {
+    .home_h_min_logo {
+      background-image: url('https://civilhub.org/media/filer_public/1e/84/1e844f62-1596-4895-84fb-dcc42cd9bb25/home_j_mini_logo_color_with_beta2x.png');
+    }
+  }  
   .home_h_main_text {
     margin-top: 0;
     width: 100%;
@@ -289,18 +284,29 @@ ul {
   .register-box {
   }
 }
-@media screen and (max-width: 800px){
-}
-@media screen and (max-width: 600px){
+@media screen and (max-width: 750px){
+  .home_h_center_wrapper {
+    margin-top: 0;
+  }
   .home_h_main_text h1 {
-    font-size: 40px;
+    font-size: 24px;
   }
   .home_h_main_text h2 {
-    font-size: 30px;
+    font-size: 18px;
   }
 }
+@media 
+  (-webkit-min-device-pixel-ratio: 2), 
+  (min-resolution: 192dpi) { 
+  body {
+    background-image: url('https://civilhub.org/media/filer_public/47/e6/47e65ff4-e3f4-4401-9899-74c391c24ef0/homepage_h_bg2x.jpg');
+  }
+  .home_h_logo {
+    background-image: url('https://civilhub.org/media/filer_public/88/9c/889cd94d-86cb-47de-b63a-864a18b95d6a/homepage_h_logo2x.png');
+  }
+}
+
 </style>
-<div class="fort-top"></div>
 <header>
   <a href="/"><div class="home_h_min_logo"></div></a>
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
@@ -322,7 +328,6 @@ ul {
         <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
         {% csrf_token %}
         {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
-        <div class="form">
         <div class="form-group">
           <div class="col-xs-6">
           <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
@@ -339,7 +344,7 @@ ul {
       <div class="form-group">
           <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
         </div>
-        </div>
+
         <div class="registerButtons">
 
           <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>

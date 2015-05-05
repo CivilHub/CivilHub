@@ -164,7 +164,9 @@ urlpatterns += patterns('',
     url(r'^home-f/', PageView.as_view(page='home-f')),
     url(r'^home-g/', PageView.as_view(page='home-g')),
     url(r'^home-h/', PageView.as_view(page='home-h')),
-
+    url(r'^home-h/', PageView.as_view(page='home-i')),
+    url(r'^home-h/', PageView.as_view(page='home-j')),
+    
     #url(r'^about/', PageView.as_view(page='about')),
     #url(r'^privacy/', PageView.as_view(page='privacy')),
     #url(r'^terms/', PageView.as_view(page='terms')),

@@ -1,0 +1,469 @@
+{% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
+
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
+{% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+  scope: '{{ plus_scope }}',
+  id: '{{ plus_id }}'
+}
+</script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
+{% endblock %}
+
+{% block body %}
+<body>
+{% block navigation %}{% endblock %}
+{% block content %}
+<style>
+body {
+  padding-top: 0;
+}
+/* Register box*/
+.register-box{
+  display: inline-block;
+  text-align: center;
+  width: 300px;
+  min-height: 320px; 
+  @media(max-width: 450px){
+    position: relative;
+    top: 0;
+    margin-top: 0px;
+  }
+}
+
+.register-box h1{
+  color: #3c3c3c;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+.register-box .popover{
+  color: #000;
+}
+
+.register-box .col-xs-6:first-child{
+  padding-left: 0;
+  padding-right: 5px;
+}
+.register-box .col-xs-6:last-child{
+  padding-left: 5px;
+  padding-right: 0;   
+}
+
+.register-box .form-group{
+  margin-bottom: 10px;
+}
+
+.register-box .registerButtons{
+    text-align: center;
+}
+.register-box .facebook-btn,
+.register-box .twitter-btn,
+.register-box .linkedin-btn,
+.register-box .google-btn{
+  background: #3c3c3c;
+  border: 0 none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  color: white;
+  width: 30px;
+  height: 30px;
+  margin: 0 8px;
+  font-size: 20px;
+  display: inline-block;
+  padding: 2px 7px;
+  cursor: pointer;
+}
+
+.register-box .registerButtonSubmit{
+    margin: 10px 0;
+    text-align: center;
+}
+.register-box .registerButtonSubmit button{
+  color: #FFF;
+  background-color: #84bd00;
+  border: 0px solid #000;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  line-height: 18px;
+  font-size: 14px;
+  padding: 10px 65px;
+}
+
+.register-box .terms {
+  text-align: center;
+  font-size: 10px;
+  color: #3c3c3c;
+}
+.register-box .terms a{
+  font-weight: bold;
+  color: #3c3c3c;
+}
+.register-box .terms a:hover{
+  color: #0083fb;
+}
+
+#confirmReg{
+  color: #50616D;
+  margin-top: 50px;
+  text-align: center;
+}
+/* End of register box */
+.login-Home {
+  right: 10%;
+  margin-right: 0;
+}
+.brief-Home a p {
+  color: #3c3c3c;
+}
+.brief-Home{
+    margin-right: 150px;
+    position: fixed;
+    top: 25px;
+    right: 10%;
+    padding: 5px;
+    transition: 0.2s;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -o-transition: 0.2s;
+}
+
+.brief-Home:hover p{
+  border-bottom: 1px solid #3c3c3c;
+  padding-bottom: 5px;
+  transition: 0.2s;
+  -webkit-transition: 0.2s;
+  -moz-transition: 0.2s;
+  -o-transition: 0.2s;
+}
+.home_j_left_side {
+  text-align: center;
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  background-image: url("https://civilhub.org/media/filer_public/d1/d5/d1d57ec3-17de-4d5f-a098-9fe3837e5fe8/homepage_j_bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position:center;
+  background-attachment:fixed;
+}
+.civilman {
+  position: relative;
+  top: 20%;
+  width: 288px;
+  height: 524px;
+  display: inline-block;
+  background-image: url("https://civilhub.org/media/filer_public/70/eb/70eb8781-99e7-4f01-9ba3-d024ae09857e/home_j_civilman.png");
+  background-repeat:no-repeat;
+  background-size: contain;
+  background-position:center;
+}
+
+.home_j_right_side {
+  position: absolute;
+  text-align: center;
+  right: 0;
+  width: 40%;
+  min-width: 550px;
+  height: 100%;
+  background: #fbfbfb;
+}
+
+.home_j_logo_outer {
+  position: absolute;
+  display: inline-block;
+  top: 15px;
+  margin-left: -20px;
+}
+.home_j_logo {
+  width: 337px;
+  height: 69px;
+  background-image: url('https://civilhub.org/media/filer_public/51/46/514642a2-e6c2-41d7-8267-60ad1cf33811/home_j_logo.png');
+  background-size: contain;
+}
+.home_j_center_wrapper {
+  display: inline-block;
+  position: relative;
+  top: 15%;
+  text-align: center;
+}
+.home_j_main_text {
+  display: block;
+  width: 400px;
+}
+.home_j_main_text h1{
+  color: #3c3c3c;
+  font-size: 30px;
+}
+.home_j_main_text h2{
+  color: #3c3c3c;
+  font-size: 25px;
+  text-align: left;
+}
+/* lang selector */
+.lang-selector-wrapper {
+  position: absolute;
+  bottom: 25px;
+  left: 18%;
+}
+#lang-selector {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+#lang-selector a {
+  color: white;
+}
+#lang-selector img {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+}
+#popover-lang-list {
+  display: none;
+}
+
+#lang-list .soon{ 
+  color: #0582f7;
+  font-size: 9px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid rgba(192,199,205,0.3);
+  padding: 0 2px;
+  margin-left: 2px;
+  float: right;
+  position: absolute;
+  right: 5px;
+}
+#lang-list .selected a:after {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 12px;
+  background-image: url("/static/places_core/img/check.png");
+  position: absolute;
+  right: 5px;
+  margin-top: -14px;
+}
+
+.popover-content {
+  padding: 9px 0;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+#lang-list li {
+  display: block;
+  margin: 0;
+}
+#lang-list a {
+  width: 175px;
+  position: relative;
+  display: block;
+  line-height: 1em;
+  padding: 8px 15px;
+  color: #6f7c82;
+  font-weight: 500;
+  /* margin: 0px 15px 0px 0px; */
+}
+#lang-list li:hover {
+    color:#0083fb;
+    background: rgba(255,255,255,0.5);
+    background: #F4F4F4;
+}
+#lang-list:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+} 
+#lang-list:last-child {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.login-Home p {
+  color: white;
+}
+/* media queries */ 
+@media screen and (max-width: 1300px){
+  .home_j_brief {
+    right: 36%;
+  }
+}
+@media screen and (max-width: 1100px){
+  .home_j_logo_outer {
+    margin-left: 0;
+  }
+  .home_j_left_side {
+    text-align: left;
+    padding-left: 35px;
+  }
+}
+@media screen and (max-width: 920px){
+  .home_j_left_side {
+    padding-left: 5px;
+  }
+}
+@media screen and (max-width: 900px){
+  .home_j_left_side {
+    display: none;
+  }
+  .home_j_right_side {
+    width: 100%;
+    min-width: 1px;
+  }
+  .home_j_logo_outer {
+    display: none;
+  }
+  .home_j_min_logo {
+    position: absolute;
+    top: 15px;
+    left: 20%;
+    width: 210px;
+    height: 31px;
+    background-image: url('https://civilhub.org/media/filer_public/56/92/56923229-86c3-453d-a582-cc6d6384cb2b/home_j_mini_logo_color_with_beta.png');
+    background-size: contain;
+    @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+      background-image: url('https://civilhub.org/media/filer_public/1e/84/1e844f62-1596-4895-84fb-dcc42cd9bb25/home_j_mini_logo_color_with_beta2x.png');
+    }    
+  }
+  .home_j_main_text {
+    margin-top: 0;
+    width: 80%;
+    display: inline-block;
+  }
+}
+@media screen and (max-width: 750px){
+  .login-Home p {
+    color: #3c3c3c;
+  }
+  .home_j_center_wrapper {
+    margin-top: 0;
+  }
+  .home_j_main_text h1 {
+    font-size: 24px;
+  }
+  .home_j_main_text h2 {
+    font-size: 18px;
+  }
+}
+@media 
+  (-webkit-min-device-pixel-ratio: 2), 
+  (min-resolution: 192dpi) { 
+  .home_j_left_side {
+    background-image: url('https://civilhub.org/media/filer_public/ab/e2/abe265b0-1570-4cdf-985d-511bfa4f7e18/homepage_j_bg2x.jpg');
+  }
+  .civilman {
+    background-image: url('https://civilhub.org/media/filer_public/94/04/9404b888-7e4f-478f-b0be-4460b731860f/home_j_civilman2x.png');
+  }
+  .home_j_logo {
+    background-image: url('https://civilhub.org/media/filer_public/f3/75/f375a174-8678-4312-bbec-34340b207efb/home_j_logo2x.png');
+  }
+}
+</style>
+<div class="fort-top"></div>
+
+<div class="home_j_left_side">
+  <div class="home_j_logo_outer">
+    <a href="/"><div class="home_j_logo"></div></a>
+  </div>
+  <div class="civilman"></div>
+</div>
+
+<div class="home_j_right_side">
+  <div class="home_j_center_wrapper">
+    <div class="home_j_main_text">
+      <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
+      <h2>{% trans "CivilHub is a place, where we can act together to make our local environment a better place. A place, where we can act together to make our local  nvironment a better place. Place, where we can act together to make our local environment a better plac." %}</h2>
+    </div>
+
+    <div class="register-box">
+      <h1>{% trans "Create a new account" %}</h1>
+          <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
+          {% csrf_token %}
+          {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
+          <div class="form">
+          <div class="form-group">
+            <div class="col-xs-6">
+            <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
+            <div class="col-xs-6">
+            <input id="surname" class="short form-control" type="text" name="last_name" placeholder="{% trans "Surname" %}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
+        </div>
+        <div class="form-group">
+            <input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
+        </div>
+        <div class="form-group">
+            <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+          </div>
+          </div>
+          <div class="registerButtons">
+
+            <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+                
+            <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
+                
+            <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+                    
+            <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
+              
+        </div>
+        <div class="registerButtonSubmit">
+          <button id="signup_button" type="submit" class="long signup-button btn-antiman-chg antiman antiman-fix">{% trans "Sign up" %}</button>
+      </div>
+
+      <p class="terms">
+      {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "Term of Service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "Privacy Policy" %}</a>.
+      </p>
+      
+      </form>
+      
+      <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+          {% csrf_token %}
+          <input id="at" type="hidden" name="access_token" value="" />
+          <input id="code" type="hidden" name="code" value="" />
+      </form>
+    </div><!--end of register box -->
+  </div><!--end of home_j_center_wrapper -->
+</div>
+<div class="lang-selector-wrapper">
+  <div id="lang-selector">
+    <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
+    <div id="popover-lang-list">
+      <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
+    </div>
+  </div>
+</div><!--end of home_j_right_side -->
+
+<header>
+  <a href="/"><div class="home_j_min_logo"></div></a>
+  <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
+  <div class="login-Home"><a href="{% url 'user:login' %}"><p class="btn-antiman-chg antiman">{% trans "Login" %}</p></a></div>
+</header>
+
+{% endblock %}
+{% block footer %}
+  {% include 'places_core/script-templates/flash-msg-tpl.html' %}
+  {% include 'places_core/user-popup.html' %}
+  {% include 'places_core/abuse-window-modal.html' %}
+  {% include 'places_core/sublocation-dropdown.html' %}
+  {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
+  {% include 'places_core/google-analytics.html' %}
+{% endblock %}
+
+{% endblock %}
