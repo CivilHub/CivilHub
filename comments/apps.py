@@ -6,3 +6,4 @@ class CommentStreamConfig(AppConfig):
 
     def ready(self):
         registry.register(self.get_model('CustomComment'))
+        registry.register(self.get_model('CommentVote'))

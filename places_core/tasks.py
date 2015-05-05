@@ -12,8 +12,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone, translation
 
-from actstream.models import user_stream
-
+from activities.models import user_email_stream
 from userspace.models import RegisterDemand
 from civmail.messages import *
 
@@ -38,17 +37,6 @@ def send_test_email(receiver, subject, title, msg):
         'title': title,
         'msg': msg,
     })
-
-
-@periodic_task(run_every=datetime.timedelta(days=7))
-def notification_emails():
-    """ Send activity stream emails. """
-    logger.info(u"[{}]: Started notification emails".format(timezone.now()))
-    for user in User.objects.filter(is_staff=False, is_superuser=False):
-        logger.info(u"Sending message to user {}".format(user.email))
-        translation.activate(user.profile.lang)
-        UserStreamMail().send(user.email, {'stream': user_stream(user)})
-    logger.info(u"[{}]: Finished notification emails".format(timezone.now()))
 
 
 @periodic_task(run_every=datetime.timedelta(days=1))

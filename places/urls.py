@@ -6,7 +6,8 @@ from staticpages.views import PageView, HomeView
 from userspace.views import UserActivityView
 from places_core.views import FileServeView
 admin.autodiscover()
-# include action hooks globally
+
+from civmail.admin import civmail_admin_site
 from places_core import actstreams
 
 # djangorestframework
@@ -105,6 +106,7 @@ urlpatterns += patterns('',
     url(r'^bookmarks/', include('bookmarks.urls')),
     # Email app
     url(r'^civmail/', include('civmail.urls', namespace='civmail')),
+    url(r'^civmail-admin/', include(civmail_admin_site.urls)),
     # Maps
     url(r'^maps/', include('maps.urls', namespace='maps')),
     # blog
@@ -162,7 +164,7 @@ urlpatterns += patterns('',
     url(r'^home-f/', PageView.as_view(page='home-f')),
     url(r'^home-g/', PageView.as_view(page='home-g')),
     url(r'^home-h/', PageView.as_view(page='home-h')),
-    
+
     #url(r'^about/', PageView.as_view(page='about')),
     #url(r'^privacy/', PageView.as_view(page='privacy')),
     #url(r'^terms/', PageView.as_view(page='terms')),
