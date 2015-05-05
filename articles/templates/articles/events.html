@@ -1,0 +1,13 @@
+{% extends 'places_core/base.html' %}
+{% load i18n staticfiles civil_tags %}
+{% comment %}Events tpl{% endcomment %}
+{% block header %}
+<div class="headerBGa headerBGEvents">
+  <h1 class="headerTitleBG">{{ article.title }}</h1>
+</div>
+{% endblock %}
+{% block container_main %}
+  {% block content %}
+    {{ article.content | safe }} 
+  {% endblock %}
+{% endblock %}
