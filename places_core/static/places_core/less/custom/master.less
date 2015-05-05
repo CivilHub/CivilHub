@@ -167,205 +167,84 @@
 
 /* User pop-up windows */
 .user-popup-window {
+  position: absolute;
+  clear: both;
+  width: 235px;
+  min-height: 125px;
+  font-size: 10px;
+  background: #ffffff;
+  border: 1px solid #bfbfbf;
+  .border-radius(5px);
+  z-index: 100;
+  &:after{
+    content: url('../img/msg_dzibuek_bottom.png');
     position: absolute;
-    clear: both;
-    //width: 330px;
-    width: 235px;
-    //min-height: 80px;
-    min-height: 125px;
-    
-    font-size: 10px;
-    background: #ffffff;
-    //border: 1px solid #8c8c8c;
-    //overflow: hidden;
-    border: 1px solid #bfbfbf;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    z-index: 100;
-
-
-    &:after{
-        content: url('../img/msg_dzibuek_bottom.png');
+    bottom: -12px;
+    left: 15px;
+  }
+  .userPopupTop{
+    height: 82px;
+    text-align: center;
+    .user-popup-avatar {
+    padding-top: 10px;
+      .avatarPopup{
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        -webkit-boder-radius: 50%;
+        -moz-border-radius: 50%;
+        border: 2px solid #FFF;
+        margin: 0 auto;
+        img{
+          max-width: 100%;
+          .border-radius(50%);
+        }
+      }
+      .userPopupBg{
         position: absolute;
-        bottom: -12px;
-        left: 15px;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 67%;
+        z-index: -1;
+        width: 100%;
+        background-size: cover !important;
+      }
     }
-
-
-    //.popupUserWindow{
-
-       /* &:after{
-            content: url('../img/msg_dzibuek_bottom.png');
-            display: block;
-            position: absolute;
-        } */
-
-        /*position: absolute;
-        clear: both;
-        //width: 330px;
-        width: 235px;
-        //min-height: 80px;
-        min-height: 125px;
-        
-        font-size: 10px;
-        background: #ffffff;
-        border: 1px solid #8c8c8c;
-        overflow: hidden;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        z-index: 100;*/
-
-        /*.user-popup-avatar {
-            //width: 80px;
-            //float: left;
-            /*
-            display: block;
-            margin: 0 auto;
-            wight: 50px;
-            border-radius: 50%;
-            border: 2px solid #FFF;
-            
-
-            .avatarPopup{
-                width: 45px;
-                height: 45px;
-                border-radius: 50%;
-                -webkit-boder-radius: 50%;
-                -moz-border-radius: 50%;
-                border: 2px solid #FFF;
-            }
-
-           img {
-                width: 80px;
-                height: 80px;
-            }
-        
-        }*/
-
-        .userPopupTop{
-
-            max-height: 82px;
-            min-height: 82px;
-            text-align: center;
-
-            .user-popup-avatar {
-            padding-top: 10px;
-                .avatarPopup{
-                    width: 45px;
-                    height: 45px;
-                    border-radius: 50%;
-                    -webkit-boder-radius: 50%;
-                    -moz-border-radius: 50%;
-                    border: 2px solid #FFF;
-                    margin: 0 auto;
-
-                    img{
-                        max-width: 100%;
-                        border-radius: 50%;
-                        -webkit-border-radius: 50%;
-                        -moz-border-radius: 50%;
-                    }
-                }
-
-                .userPopupBg{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 67%;
-                    z-index: -1;
-                    width: 100%;
-                    background-size: cover !important;
-                    
-                }
-
-
-            }
-
-            .userPopupName{
-            
-                a{
-                    font-size: 12px;
-                    line-height: 22px;
-                    font-weight: 600;
-                    padding: 2px 8px;
-                    background: rgba(0,0,0,0.55);
-                    color: #FFF;
-                }
-            }
-        }
-
-        .userPopupBottom{
-
-
-            border-top: 1px solid #CCC;
-            background-color:#FFF;
-            min-height: 40px;
-            max-height: 40px;
-            padding: 7px;
-
-            .user-popup-details {
-                //width: 245px;
-                //float: right;
-                //padding: 5px 0px 0px 5px;
-
-                .user-popup-personals {
-                    font-weight: bold;
-                    color: #000000;                
-                }
-
-                .userPopupDetails{
-                    font-size: 12px;
-
-                }
-            }
-        }
-
-        /*.user-popup-details {
-            //width: 245px;
-            //float: right;
-            //padding: 5px 0px 0px 5px;
-
-            .user-popup-personals {
-                font-weight: bold;
-                color: #000000;                
-            }
-
-            .userPopupName{
-                text-align: center;
-                a{
-                    font-size: 12px;
-                    line-height: 22px;
-                    font-weight: 600;
-                    padding: 2px 8px;
-                    background: rgba(0,0,0,0.55);
-                    color: #FFF;
-                }
-            }
-
-            .userPopupDetails{
-                border-top: 1px solid #CCC;
-                background-color: #FFF;
-                font-size: 12px;
-                padding: 7px;
-                max-height: 40px;
-                min-height: 40px;
-
-
-            }
-        }*/
-        .user-popup-close {
-            //float: right;
-            cursor: pointer;
-            margin-right: 5px;
-            font-size: 14px;
-            position: absolute;
-            top: 2px;
-            right: 0px;
-        }
-    //}
+    .userPopupName{
+      a{
+        font-size: 12px;
+        line-height: 22px;
+        font-weight: 600;
+        padding: 2px 8px;
+        background: rgba(0,0,0,0.55);
+        color: #FFF;
+      }
+    }
+  }
+  .userPopupBottom{
+    border-top: 1px solid #CCC;
+    background-color:#FFF;
+    height: 40px;
+    padding: 3px 7px;
+    overflow: hidden;
+    .user-popup-personals {
+      font-weight: bold;
+      color: #000000;
+    }
+    .userPopupDetails{
+      font-size: 12px;
+      padding: 0;
+    }
+  }
+  .user-popup-close {
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 14px;
+    position: absolute;
+    top: 2px;
+    right: 0px;
+  }
 }
 /* // User popup window */
 
