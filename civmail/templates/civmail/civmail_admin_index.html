@@ -1,0 +1,6 @@
+{% extends 'admin/base.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "This is content" %}!</h1>
+<form method="post" action="/civmail-admin/send/">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Send" %}</button>
+</form>{% endblock %}

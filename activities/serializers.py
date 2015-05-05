@@ -119,9 +119,14 @@ class ActionTargetSerializer(serializers.Serializer):
     """
     Simple serializer for action target.
     """
-    name = serializers.Field(source='__unicode__')
+    name = serializers.SerializerMethodField('get_name')
     kind = serializers.SerializerMethodField('get_content_type')
     url = serializers.SerializerMethodField('get_url')
+
+    def get_name(self, obj):
+        if obj._meta.model_name == 'user':
+            return obj.get_full_name()
+        return obj.__unicode__()
 
     def get_content_type(self, obj):
         return {
@@ -156,9 +161,12 @@ class ActionSerializer(serializers.ModelSerializer):
         return serializer.data
 
     def get_action_target(self, obj):
-        if not obj.target:
+        ct = obj.target_content_type
+        pk = obj.target_object_id
+        if not ct or not pk:
             return None
-        serializer = ActionTargetSerializer(obj.target)
+        target = ct.get_object_for_this_type(pk=pk)
+        serializer = ActionTargetSerializer(target)
         return serializer.data
 
     class Meta:
