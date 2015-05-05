@@ -207,6 +207,7 @@ POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_AUTO_MODERATE_AS = True
 POSTMAN_DISABLE_USER_EMAILING = True
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
+POSTMAN_SHOW_USER_AS = lambda u: u.get_full_name()
 
 
 # Social Auth
@@ -404,6 +405,13 @@ THUMB_SIZES = [
 # Maximum size for pictures in gallery. Bigger pictures will be thumbnailed.
 IMAGE_MAX_SIZE = (1024,1024)
 GALLERY_THUMB_SIZE = (270,170)
+
+# Sizes for thumbnails related to ContentObjectGalleries
+CO_THUMB_SIZES = {
+    'BIG': (570, 360),
+    'SMALL': (60, 60),
+}
+
 # Maximum size for location and profile pages background images
 BACKGROUND_IMAGE_SIZE = (1920, 300)
 # Settings for user avatar pictures

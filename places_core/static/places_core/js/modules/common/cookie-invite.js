@@ -20,7 +20,6 @@ function showCookieInvite () {
     return;
   }
 
-  console.log(html);
   $('#cookie-if').prepend(_.template(html), {})
     .hide().fadeIn('fast');
   $(nav).addClass('nav-cookie');
@@ -35,10 +34,10 @@ function showCookieInvite () {
   });
 }
 
-$(document).ready(function(){
-  if(CivilApp.currentUserId == null){
+$(document).ready(function () {
+  if (_.isNull(CivilApp.currentUserId) || CivilApp.debug) {
     return;
-  } else { 
+  } else {
     showCookieInvite();
   }
 });

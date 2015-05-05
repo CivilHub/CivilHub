@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}{% load postman_tags %}
+{% block title %}{% trans "Messaging" %}{% endblock %}
+{% block extrahead %}{{ block.super }}
+<link type="text/css" media="all" rel="stylesheet" href="
+{# dj v1.4 #}{% load static %}{% static 'postman/css/postman.css' %}
+{# dj v1.3 #}{# {{ STATIC_URL }}postman/css/postman.css #}
+{# dj v1.2 #}{# {{ MEDIA_URL }}postman/css/postman.css #}
+" />{% endblock %}
+{% block postman_menu %}
+<ul id="postman_menu">{% postman_unread as unread_count %}
+ <li><a href="{% url 'postman_inbox' %}">&raquo;&nbsp;{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+ <li><a href="{% url 'postman_sent' %}">&raquo;&nbsp;{% trans "Sent Messages" %}</a></li>
+ <li><a href="{% url 'postman_write' %}">&raquo;&nbsp;{% trans "Write" %}</a></li>
+ <li><a href="{% url 'postman_archives' %}">&raquo;&nbsp;{% trans "Archives" %}</a></li>
+ <li><a href="{% url 'postman_trash' %}">&raquo;&nbsp;{% trans "Trash" %}</a></li>
+</ul>
+{% endblock %}

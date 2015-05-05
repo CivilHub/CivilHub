@@ -1,4 +1,5 @@
 {% extends 'projects/index.html' %}{% load i18n %}
+{% block location_navbar %}<div class="socialproject-ngo-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Choose one from your organizations to which you want to add this project" %}</h3>
 <form method="post" action="">{% csrf_token %}
   {{ form.as_p }}

@@ -1,0 +1,21 @@
+/*
+ * carousel.less
+ * =============
+ *
+ * Custom styles for Bootstrap Carousel and controls.
+ */
+
+.civ-carousel-indicators {
+  list-style-type: none;
+  margin: 10px 0px;
+  padding: 0px;
+  li {
+    display: inline-block;
+    margin-left: 5px;
+    &:first-of-type { margin-left: 0px; };
+  }
+}
+.civ-carousel{ margin: 0 auto; max-width: 570px;
+  .carousel-control{ &.right, &.left{ background: transparent; } }
+  .carousel-inner{ img{ cursor: pointer; } }
+}

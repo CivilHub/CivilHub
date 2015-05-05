@@ -64,29 +64,14 @@
       </div>
       {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
       <div class="acticle-content clearfix mt25">{{ idea.description|safe }}</div>
-      <p class="ideaEntryTags">{% trans "Tags" %}:
-        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
-      </p>
       {% visit_counter idea %}
-      <!-- Carousel -->
-      {% if gallery.pictures.count %}<div id="carousel-{{ gallery.pk }}" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner" role="listbox">
-          {% for picture in gallery.pictures.all %}<div class="item{% if forloop.counter == 1 %} active{% endif %}">
-            <img class="content-image" src="{{ picture.thumb }}" alt="{{ picture }}" data-jslghtbx="{{ picture.image.url }}">
-            {% if picture.name %}<div class="carousel-caption">{{ picture.name }}</div>{% endif %}
-          </div>{% endfor %}
-        </div>
-        <a class="left carousel-control" href="#carousel-{{ gallery.pk }}" role="button" data-slide="prev">
-          <span class="fa fa-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">{% trans "Previous" %}</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-{{ gallery.pk }}" role="button" data-slide="next">
-          <span class="fa fa-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">{% trans "Next" %}</span>
-        </a>
-      </div>{% endif %}
-      <!-- / Carousel -->
-      {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}">{% trans "Add picture" %}</a>{% endif %}
+      {% if gallery.pictures.count %}<h4>{% trans "Gallery" %}:</h4>{% endif %}
+      {% include 'gallery/carousel.html' %}
+      {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
+      {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
+      {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
+        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
+      </p>{% endif %}
       <div class="ideaEntryComments">
         <p>
           {% get_comment_count idea %} {% trans "Comments" %}

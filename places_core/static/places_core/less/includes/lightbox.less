@@ -65,7 +65,7 @@
   visibility: hidden; }
   .jslghtbx-contentwrapper > img {
     background: #fff;
-    padding: .5em;
+    padding: .0em;
     display: none;
     height: auto;
     margin-left: auto;
@@ -88,7 +88,7 @@
   max-width: 450px;
   color: #fff;
   text-align: center;
-  font-size: .9em; }
+}
 
 .jslghtbx-active .jslghtbx-caption {
   display: block; }
@@ -162,18 +162,21 @@
     border-left-color: #787878; }
   @media screen and (min-width: 451px) {
     .jslghtbx-next {
-      right: .6em; }
+      right: .1em; }
       .jslghtbx-next.jslghtbx-no-img {
-        border-top: 110px solid transparent;
-        border-bottom: 110px solid transparent;
-        border-left: 40px solid #FFF; } }
-  @media screen and (max-width: 600px) {
-    .jslghtbx-next.jslghtbx-no-img {
-      right: 5px;
-      padding-left: 0;
-      border-top: 60px solid transparent;
-      border-bottom: 60px solid transparent;
-      border-left: 15px solid #FFF; } }
+        &:before{
+          content: '\203a';
+          font-family: FontAwesome;
+        }
+        &:hover:before{ color: #0083fb; }
+          position: absolute;
+          z-index: 5;
+          display: inline-block;
+          width: 60px;
+          height: 60px;
+          margin-top: -30px;
+          font-size: 60px;
+        } }
   @media screen and (max-width: 450px) {
     .jslghtbx-next {
       right: .2em;
@@ -185,18 +188,22 @@
     border-right-color: #787878; }
   @media screen and (min-width: 451px) {
     .jslghtbx-prev {
-      left: .6em; }
+      left: .1em; }
       .jslghtbx-prev.jslghtbx-no-img {
-        border-top: 110px solid transparent;
-        border-bottom: 110px solid transparent;
-        border-right: 40px solid #FFF; } }
-  @media screen and (max-width: 600px) {
-    .jslghtbx-prev.jslghtbx-no-img {
-      left: 5px;
-      padding-right: 0;
-      border-top: 60px solid transparent;
-      border-bottom: 60px solid transparent;
-      border-right: 15px solid #FFF; } }
+        &:before{
+          content: '\2039';
+          font-family: FontAwesome;
+        }
+        &:hover:before{ color: #0083bf; }
+          position: absolute;
+          z-index: 5;
+          display: inline-block;
+          width: 60px;
+          height: 60px;
+          margin-top: -30px;
+          font-size: 60px; 
+          text-align: right;
+          } }
   @media screen and (max-width: 450px) {
     .jslghtbx-prev {
       left: .2em;

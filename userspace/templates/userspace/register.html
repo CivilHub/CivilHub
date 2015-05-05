@@ -1,22 +1,26 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
-{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>{% endblock %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
+<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>
+{% endblock %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
 {% block body %}<body class="body-nopd body-register">
   {% block navigation %}{% endblock %}
-  {% block content %}<div id="register-Page">
+  {% block content %}<div class="fort-top"></div><div id="register-Page">
     <a href="/"><div class="logo-Home"></div></a>
     <div class="brief-Home">
       <a href="/brief/"><p>{% trans "Brief" %}</p></a>
     </div>
-    <div class="features-Home">
+    {% comment %}<div class="features-Home">
       <a href="/features/"><p>{% trans "Features" %}</p></a>
-    </div>
+    </div>{% endcomment %}
     <div class="login-Home">
       <a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a>
     </div>
     <div class="register-box">
       <h1>{% trans "Create a new account" %}</h1>
       <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">{% csrf_token %}
+        <div class="form">
         <div class="form-group">
           <div class="col-xs-6">
             <input id="name" class="short short-left form-control{% if form.errors.first_name %} error-popover" data-content="{% for error in form.errors.first_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="first_name" placeholder="{% trans "First name" %}" value="{{ form.first_name.value|default_if_none:"" }}"></div>
@@ -32,6 +36,7 @@
         </div>
         <div class="form-group">
           <input id="pass2" class="long form-control{% if form.errors.password2 %} error-popover" data-content="{% for error in form.errors.password2 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password2" placeholder="{% trans "Repeat password" %}">
+        </div>
         </div>
         <div class="registerButtons">
           <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>

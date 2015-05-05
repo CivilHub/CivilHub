@@ -14,7 +14,7 @@
       </div>
       <div class="col-md-7">
         <a href="{{ picture.get_absolute_url }}"><strong>{{ picture }}</strong></a>
-        <div class="top15">{{ picture.description|safe|truncatechars:"100" }}</div>
+        <div class="top15"><a href="{{ picture.get_absolute_url }}">{{ picture.description|safe|truncatechars:"100" }}</a></div>
       </div>
     </div>
   </div>

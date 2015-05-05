@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-import os, re, StringIO
-from django.core.files.uploadedfile import InMemoryUploadedFile
+import os
+import re
+import StringIO
+
 from PIL import Image
+
 from django.conf import settings
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .image_manager import ImageManager
 
@@ -254,30 +258,26 @@ def adjust_uploaded_image(sender, instance, **kwargs):
     image.save("{}_thumbnail.jpg".format(filename), 'JPEG')
 
 
-def fix_path(filepath):
+# Functions and methods for ContentObjectGallery and ContentObjectPicture
+# ------------------------------------------------------------------------------
+
+
+def fix_path(filepath, size='BIG'):
     """
     Returns path to fixed images (i.e. images with proper suffix) based on
     full path to image provided as argument.
     """
     path_parts = filepath.split('/')
     name = path_parts.pop()
-    path_parts.append("fx_" + name)
+    size_prefix = "%dx%d_" % settings.CO_THUMB_SIZES.get(size.upper())
+    path_parts.append(size_prefix + name)
     return "/".join(path_parts)
 
 
-def crop(filepath):
+def crop(image, max_size):
+    """ Takes PIL image and tuple with width and height and performs "smart cut".
     """
-    This function takes path to image file as argument and creates cropped
-    version with fixed size and name. Additionally, original will be converted
-    to JPEG.
-    """
-    image = Image.open(filepath)
-
-    # First convert all uploaded originals to JPG format
-    image.save(filepath, 'JPEG')
-
-    # Calculate image and thumb sizes
-    max_w, max_h = settings.GALLERY_THUMB_SIZE
+    max_w, max_h = max_size
     width, height = image.getdata().size
 
     # Find ratio
@@ -300,6 +300,18 @@ def crop(filepath):
         stop_x = start_x + x_factor
         box = (start_x, 0, stop_x, max_h)
 
-    # Crop and save image with fixed name
-    image = image.crop(box)
-    image.save(fix_path(filepath), 'JPEG')
+    return image.crop(box)
+
+
+def generate_thumbs(filepath):
+    """ Creates thumbs for all selected sizes for ContentObjectPicture.
+    """
+    image = Image.open(filepath)
+
+    # First convert all uploaded originals to JPG format
+    image = image.convert('RGB')
+    image.save(filepath, 'JPEG')
+
+    for label, size in settings.CO_THUMB_SIZES.iteritems():
+        thumb = crop(image.copy(), size)
+        thumb.save(fix_path(filepath, label), 'JPEG')

@@ -15,7 +15,7 @@ from django.utils.translation import ugettext as _
 from actstream import action
 
 from comments.models import CustomComment
-from gallery.forms import PictureUploadForm
+from gallery.forms import PictureUploadForm, MassRemoveForm
 from gallery.models import ContentObjectGallery
 from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
@@ -191,16 +191,22 @@ class UpdateIdeaView(UpdateView):
         return super(UpdateIdeaView, self).form_valid(form)
 
 
-class PictureUploadView(SingleObjectMixin, View):
-    """ This view allows users to upload pictures for idea's gallery.
+class IdeaGalleryMixin(SingleObjectMixin):
+    """ Common context for all idea-related gallery views.
     """
     model = Idea
-    form_class = PictureUploadForm
-    template_name = 'ideas/picture_form.html'
+
+    def get_gallery(self):
+        self.object = self.get_object()
+        try:
+            gallery = ContentObjectGallery.objects.for_object(self.object)[0]
+        except IndexError:
+            gallery = ContentObjectGallery.objects.create(published_in=self.object)
+        return gallery
 
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
-        context = super(PictureUploadView, self).get_context_data(**kwargs)
+        context = super(IdeaGalleryMixin, self).get_context_data(**kwargs)
         context.update({
             'idea': self.object,
             'location': self.object.location,
@@ -209,12 +215,32 @@ class PictureUploadView(SingleObjectMixin, View):
         })
         return context
 
-    def get(self, request, **kwargs):
+
+class IdeaGalleryAccessMixin(LoginRequiredMixin, IdeaGalleryMixin, View):
+    """ Context for update and delete views.
+    """
+    def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
-        try:
-            gallery = ContentObjectGallery.objects.for_object(self.object)[0]
-        except IndexError:
-            gallery = ContentObjectGallery.objects.create(published_in=self.object)
+        user = self.request.user
+        access = False
+        if is_moderator(user, self.object.location):
+            access = True
+        elif user == self.object.creator:
+            access = True
+        if not access:
+            raise PermissionDenied
+        return super(IdeaGalleryAccessMixin, self).dispatch(*args, **kwargs)
+
+
+class PictureUploadView(IdeaGalleryMixin, View):
+    """ This view allows users to upload pictures for idea's gallery.
+    """
+    model = Idea
+    form_class = PictureUploadForm
+    template_name = 'ideas/picture_form.html'
+
+    def get(self, request, **kwargs):
+        gallery = self.get_gallery()
         context = self.get_context_data(**kwargs)
         context['form'] = self.form_class(initial={'gallery': gallery, })
         context['gallery'] = gallery

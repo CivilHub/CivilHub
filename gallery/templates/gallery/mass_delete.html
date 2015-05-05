@@ -1,0 +1,10 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<div class="main-content"><form action="" method="post">{% csrf_token %}
+  <div class="create-form newFormCreate"><h3>{{ form.pictures.label }}</h3></div>
+  <p class="text-danger">{% if form.pictures %}<ul class="list-unstyled">
+    {% for p in form.pictures %}
+      <li>{{ p }}</li>
+    {% endfor %}
+  </ul>{% endif %}</p>
+  <button type="submit" class="btn btn-minusDelete">{% trans "Delete" %}</button>
+</form></div>{% endblock %}

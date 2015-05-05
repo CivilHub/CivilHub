@@ -1,0 +1,555 @@
+# Greek translation of django-postman.
+# Copyright (C) 2011 Patrick Samson
+# This file is distributed under the same license as the django-postman package.
+# 
+# Translators:
+# Patrick Samson <maxcom@laposte.net>, 2011.
+# Markos Gogoulos <mgogoulos@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: django-postman\n"
+"Report-Msgid-Bugs-To: http://bitbucket.org/psam/django-postman/issues\n"
+"POT-Creation-Date: 2012-12-10 22:57+0100\n"
+"PO-Revision-Date: 2011-04-26 18:39+0000\n"
+"Last-Translator: Markos Gogoulos <mgogoulos@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\admin.py:25
+msgid "Sender and Recipient cannot be both undefined."
+msgstr ""
+"Ο αποστολέας και ο παραλήπτης δεν μπορούν να είναι και οι δυο απροσδιόριστοι."
+
+#: .\admin.py:32
+msgid "Visitor's email is in excess."
+msgstr "Το e-mail του επισκέπτη είναι σε περίσσεια."
+
+#: .\admin.py:37
+msgid "Visitor's email is missing."
+msgstr "Το e-mail του επισκέπτη λείπει."
+
+#: .\admin.py:43
+msgid "Reading date must be later to sending date."
+msgstr ""
+"Η ημερομηνία ανάγνωσης πρέπει να είναι μεταγενέστερη της ημερομηνίας "
+"αποστολής."
+
+#: .\admin.py:48
+msgid "Deletion date by sender must be later to sending date."
+msgstr ""
+"Η ημερομηνία διαγραφής πρέπει να είναι μεταγενέστερη της ημερομηνίας "
+"αποστολής."
+
+#: .\admin.py:53
+msgid "Deletion date by recipient must be later to sending date."
+msgstr ""
+"Η ημερομηνία διαγραφής από τον αποδέκτη πρέπει να είναι μεταγενέστερη της "
+"ημερομηνίας αποστολής."
+
+#: .\admin.py:61
+msgid "Response date must be later to sending date."
+msgstr ""
+"Η ημερομηνία ανταπόκρισης πρέπει να είναι μεταγενέστερη της ημερομηνίας "
+"αποστολής."
+
+#: .\admin.py:63
+msgid "The message cannot be replied without having been read."
+msgstr "Το μήνυμα δεν μπορεί να απαντηθεί χωρίς να έχει πρώτα διαβάσει."
+
+#: .\admin.py:65
+msgid "Response date must be later to reading date."
+msgstr ""
+"Η ημερομηνία της απόκρισης πρέπει να είναι μεταγενέστερη της ημερομηνίας "
+"ανάγνωσης."
+
+#: .\admin.py:67
+msgid "Response date cannot be set without at least one reply."
+msgstr ""
+"Η ημερομηνία της ανταπόκρισης δεν μπορεί να ρυθμιστεί χωρίς μια τουλάχιστον "
+"απάντηση."
+
+#: .\admin.py:69
+msgid "The message cannot be replied without being in a conversation."
+msgstr "Το μήνυμα δεν μπορεί να απαντηθεί χωρίς να είναι σε μια συνομιλία."
+
+#: .\admin.py:92 .\admin.py:170 .\templates\postman\view.html.py:6
+msgid "Message"
+msgstr "Μήνυμα"
+
+#: .\admin.py:97
+msgid "Dates"
+msgstr "Ημερομηνίες"
+
+#: .\admin.py:102 .\admin.py:174
+msgid "Moderation"
+msgstr "Τροποποίηση"
+
+#: .\fields.py:27
+msgid "Some usernames are unknown or no more active: {users}."
+msgstr "Μερικοί χρήστες είναι άγνωστοι ή δεν είναι πλεον ενεργοί: {users}."
+
+#: .\fields.py:28
+msgid ""
+"Ensure this value has at most {limit_value} distinct items (it has "
+"{show_value})."
+msgstr ""
+"Βεβαιωθείτε ότι αυτή η τιμή έχει το πολύ {limit_value} διακριτές θέσεις "
+"(έχει {show_value})."
+
+#: .\fields.py:29
+msgid ""
+"Ensure this value has at least {limit_value} distinct items (it has "
+"{show_value})."
+msgstr ""
+"Βεβαιωθείτε ότι αυτή η τιμή έχει τουλάχιστον {limit_value} διακριτές θέσεις "
+"(έχει {show_value})."
+
+#: .\fields.py:30
+msgid "Some usernames are rejected: {users}."
+msgstr "Τα παρακάτω ονόματα απορρίπτονται: {users}."
+
+#: .\fields.py:31 .\forms.py:71
+msgid "{username}"
+msgstr "{username}"
+
+#: .\fields.py:32 .\forms.py:72
+msgid "{username} ({reason})"
+msgstr "{username} ({reason})"
+
+#: .\forms.py:70
+msgid "Writing to some users is not possible: {users}."
+msgstr "Δεν ήταν εφικτή η αποστολή στους χρήστες: {users}."
+
+#: .\forms.py:155 .\forms.py:168
+msgid "Recipients"
+msgstr "Αποδέκτες"
+
+#: .\forms.py:155 .\forms.py:168 .\templates\postman\base_folder.html.py:34
+#: .\templates\postman\reply.html.py:4
+msgid "Recipient"
+msgstr "Αποδέκτης"
+
+#: .\forms.py:167
+msgid "Email"
+msgstr "Email"
+
+#: .\forms.py:184
+msgid "Undefined recipient."
+msgstr "Απροσδιόριστος παραλήπτης."
+
+#: .\forms.py:205
+msgid "Additional recipients"
+msgstr "Πρόσθετοι αποδέκτες"
+
+#: .\forms.py:205
+msgid "Additional recipient"
+msgstr "Πρόσθετος παραλήπτης"
+
+#: .\models.py:27
+msgid "Pending"
+msgstr "Σε αναμονή"
+
+#: .\models.py:28
+msgid "Accepted"
+msgstr "Αποδεκτά"
+
+#: .\models.py:29 .\templates\postman\view.html.py:14
+msgid "Rejected"
+msgstr "Απορρίφθηκαν"
+
+#: .\models.py:242
+msgid "subject"
+msgstr "θέμα"
+
+#: .\models.py:243
+msgid "body"
+msgstr "σώμα"
+
+#: .\models.py:244 .\models.py:326
+msgid "sender"
+msgstr "αποστολέας"
+
+#: .\models.py:245 .\models.py:350
+msgid "recipient"
+msgstr "αποδέκτης"
+
+#: .\models.py:246
+msgid "visitor"
+msgstr "επισκέπτης"
+
+#: .\models.py:247
+msgid "parent message"
+msgstr "μήνυμα γονέας"
+
+#: .\models.py:248
+msgid "root message"
+msgstr "αρχικό μήνυμα"
+
+#: .\models.py:249
+msgid "sent at"
+msgstr "εστάλη στις"
+
+#: .\models.py:250
+msgid "read at"
+msgstr "διαβάστηκε στις"
+
+#: .\models.py:251
+msgid "replied at"
+msgstr "απαντήθηκε σε"
+
+#: .\models.py:252
+msgid "archived by sender"
+msgstr "αρχειοθέτηση ανά αποστολέα"
+
+#: .\models.py:253
+msgid "archived by recipient"
+msgstr "αρχειοθέτηση ανά παραλήπτη"
+
+#: .\models.py:254
+msgid "deleted by sender at"
+msgstr "έχει διαγραφεί από τον αποστολέα στις"
+
+#: .\models.py:255
+msgid "deleted by recipient at"
+msgstr "έχει διαγραφεί από τον αποδέκτη στις"
+
+#: .\models.py:257
+msgid "status"
+msgstr "κατάσταση"
+
+#: .\models.py:259
+msgid "moderator"
+msgstr "διαχειριστής"
+
+#: .\models.py:260
+msgid "moderated at"
+msgstr "τροποποιήθηκε στις"
+
+#: .\models.py:261
+msgid "rejection reason"
+msgstr "λόγος απόρριψης"
+
+#: .\models.py:266
+msgid "message"
+msgstr "μήνυμα"
+
+#: .\models.py:267
+msgid "messages"
+msgstr "μηνύματα"
+
+#: .\models.py:378
+msgid "Undefined sender."
+msgstr "Απροσδιόριστος αποστολέας."
+
+#: .\models.py:523
+msgid "pending message"
+msgstr "μήνυμα εν αναμονή"
+
+#: .\models.py:524
+msgid "pending messages"
+msgstr "μηνύματα που εκκρεμούν"
+
+#: .\utils.py:37
+msgid "> "
+msgstr "> "
+
+#: .\utils.py:53
+msgid ""
+"\n"
+"\n"
+"{sender} wrote:\n"
+"{body}\n"
+msgstr ""
+"\n"
+"\n"
+"{sender} έγραψε:\n"
+"{body}\n"
+
+#: .\utils.py:63
+msgid "Re: {subject}"
+msgstr "Re: {subject}"
+
+#: .\views.py:144 .\views.py:206
+msgid "Message successfully sent."
+msgstr "Το μήνυμα έχει αποσταλεί με επιτυχία."
+
+#: .\views.py:146 .\views.py:208
+msgid "Message rejected for at least one recipient."
+msgstr "Το μήνυμα έχει απορριφθεί για τουλάχιστον έναν παραλήπτη."
+
+#: .\views.py:299
+msgid "Select at least one object."
+msgstr "Επιλέξτε τουλάχιστον ένα αντικείμενο."
+
+#: .\views.py:306
+msgid "Messages or conversations successfully archived."
+msgstr "Μηνύματα ή συνομιλίες που έχουν αρχειοθετηθεί."
+
+#: .\views.py:312
+msgid "Messages or conversations successfully deleted."
+msgstr "Μηνύματα ή συνομιλίες που έχουν διαγραφεί."
+
+#: .\views.py:318
+msgid "Messages or conversations successfully recovered."
+msgstr "Μηνύματα ή συνομιλίες που έχουν ανακτηθεί."
+
+#: .\management\__init__.py:15
+msgid "Message Rejected"
+msgstr "Το μήνυμα έχει απορριφθεί"
+
+#: .\management\__init__.py:15
+msgid "Your message has been rejected"
+msgstr "Το μήνυμά σας έχει απορριφθεί"
+
+#: .\management\__init__.py:16
+msgid "Message Received"
+msgstr "Μήνυμα Ελήφθη"
+
+#: .\management\__init__.py:16
+msgid "You have received a message"
+msgstr "Έχετε ένα μήνυμα"
+
+#: .\management\__init__.py:17
+msgid "Reply Received"
+msgstr "Απάντηση ελήφθη"
+
+#: .\management\__init__.py:17
+msgid "You have received a reply"
+msgstr "Έχετε λάβει μια απάντηση"
+
+#: .\templates\admin\postman\pendingmessage\change_form.html.py:17
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Παρακαλούμε διορθώστε το παρακάτω λάθος."
+msgstr[1] "Παρακαλούμε διορθώστε τα παρακάτω λάθη."
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:6
+msgid "Accept"
+msgstr "Αποδοχή"
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:7
+msgid "Reject"
+msgstr "Απόρριψη"
+
+#: .\templates\postman\archives.html.py:3
+msgid "Archived Messages"
+msgstr "Αρχείο μηνυμάτων"
+
+#: .\templates\postman\archives.html.py:7
+msgid ""
+"Messages in this folder will never be removed. You can use this folder for "
+"long term storage."
+msgstr ""
+"Τα μηνύματα σε αυτό το φάκελο δεν θα αφαιρεθούν ποτέ. Μπορείτε να τον "
+"χρησιμοποιήσετε  για μακροχρόνια αποθήκευση."
+
+#: .\templates\postman\base.html.py:4
+msgid "Messaging"
+msgstr "Μηνύματα"
+
+#: .\templates\postman\base.html.py:13
+msgid "Inbox"
+msgstr "Εισερχόμενα"
+
+#: .\templates\postman\base.html.py:14 .\templates\postman\sent.html.py:3
+msgid "Sent Messages"
+msgstr "Απεσταλμένα"
+
+#: .\templates\postman\base.html.py:15 .\templates\postman\write.html.py:3
+msgid "Write"
+msgstr "Γράψτε"
+
+#: .\templates\postman\base.html.py:16
+msgid "Archives"
+msgstr "Αρχεία"
+
+#: .\templates\postman\base.html.py:17
+msgid "Trash"
+msgstr "Σκουπίδια"
+
+#: .\templates\postman\base_folder.html.py:16
+msgid "Sorry, this page number is invalid."
+msgstr "Λυπούμαι, ο αριθμός αυτής της σελίδας δεν είναι έγκυρος."
+
+#: .\templates\postman\base_folder.html.py:20
+msgid "by conversation"
+msgstr "κατά συνομιλία"
+
+#: .\templates\postman\base_folder.html.py:21
+msgid "by message"
+msgstr "ανά μήνυμα"
+
+#: .\templates\postman\base_folder.html.py:25
+#: .\templates\postman\view.html.py:23
+msgid "Delete"
+msgstr "Διαγράψτε"
+
+#: .\templates\postman\base_folder.html.py:26
+#: .\templates\postman\view.html.py:24
+msgid "Archive"
+msgstr "Αρχείο"
+
+#: .\templates\postman\base_folder.html.py:27
+msgid "Undelete"
+msgstr "Ξεδιαγράψτε"
+
+#: .\templates\postman\base_folder.html.py:32
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: .\templates\postman\base_folder.html.py:33
+msgid "Sender"
+msgstr "Αποστολέας"
+
+#: .\templates\postman\base_folder.html.py:35
+msgid "Subject"
+msgstr "Θέμα"
+
+#: .\templates\postman\base_folder.html.py:36
+msgid "Date"
+msgstr "Ημερομηνία"
+
+#: .\templates\postman\base_folder.html.py:51
+msgid "g:i A,M j,n/j/y"
+msgstr "g:i A,M j,n/j/y"
+
+#: .\templates\postman\base_folder.html.py:58
+msgid "No messages."
+msgstr "Δεν υπάρχουν μηνύματα."
+
+#: .\templates\postman\base_write.html.py:33
+msgid "Send"
+msgstr "Αποστολή"
+
+#: .\templates\postman\email_user.txt.py:1
+msgid "Dear user,"
+msgstr "Αγαπητέ χρήστη,"
+
+#: .\templates\postman\email_user.txt.py:3
+#: .\templates\postman\email_visitor.txt.py:3
+#, python-format
+msgid "On %(date)s, you asked to send a message to the user '%(recipient)s'."
+msgstr ""
+"Στις %(date)s , ζητήσατε να στείλετε ένα μήνυμα στον χρήστη '%(recipient)s'."
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid "Your message has been rejected by the moderator"
+msgstr "Το μήνυμά σας έχει απορριφθεί από το διαχειριστή"
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid ", for the following reason:"
+msgstr ", για τους ακόλουθους λόγους:"
+
+#: .\templates\postman\email_user.txt.py:9
+#: .\templates\postman\email_visitor.txt.py:10
+#, python-format
+msgid "On %(date)s, you sent a message to the user '%(sender)s'."
+msgstr "Στις %(date)s, στείλατε ένα μήνυμα στον χρήστη ' %(sender)s '."
+
+#: .\templates\postman\email_user.txt.py:10
+msgid "Your correspondent has given you an answer."
+msgstr "Ο συνομιλητής σας έχει δώσει μια απάντηση."
+
+#: .\templates\postman\email_user.txt.py:11
+#, python-format
+msgid "You have received a copy of a response from the user '%(sender)s'."
+msgstr "Έχετε λάβει ένα αντίγραφο της απάντησης από το χρήστη '%(sender)s'."
+
+#: .\templates\postman\email_user.txt.py:13
+#, python-format
+msgid "You have received a message from the user '%(sender)s'."
+msgstr "Έχετε λάβει ένα μήνυμα από το χρήστη '%(sender)s'."
+
+#: .\templates\postman\email_user.txt.py:16
+#: .\templates\postman\email_visitor.txt.py:14
+msgid "Thank you again for your interest in our services."
+msgstr "Ευχαριστούμε και πάλι για το ενδιαφέρον σας στις υπηρεσίες μας."
+
+#: .\templates\postman\email_user.txt.py:17
+#: .\templates\postman\email_visitor.txt.py:16
+msgid "The site administrator"
+msgstr "Ο διαχειριστής του site"
+
+#: .\templates\postman\email_user.txt.py:19
+#: .\templates\postman\email_visitor.txt.py:18
+msgid ""
+"Note: This message is issued by an automated system.\n"
+"Do not reply, this would not be taken into account."
+msgstr ""
+"Σημείωση: Το μήνυμα αυτό έχει αποσταλεί από αυτοματοποιημένο σύστημα. Μην "
+"απαντήσετε, καθώς το μήνυμα σας δεν θα ληφθεί υπόψη."
+
+#: .\templates\postman\email_user_subject.txt.py:1
+#: .\templates\postman\email_visitor_subject.txt.py:1
+#, python-format
+msgid "Message \"%(subject)s\" on the site %(sitename)s"
+msgstr "Το μήνυμα \" %(subject)s \" στον ιστοτόπο %(sitename)s "
+
+#: .\templates\postman\email_visitor.txt.py:1
+msgid "Dear visitor,"
+msgstr "Αγαπητέ επισκέπτη,"
+
+#: .\templates\postman\email_visitor.txt.py:8
+msgid "As a reminder, please find below the content of your message."
+msgstr ""
+"Σαν υπενθύμιση, μπορείτε να βρείτε παρακάτω το περιεχόμενο του μηνύματός σας."
+
+#: .\templates\postman\email_visitor.txt.py:11
+msgid "Please find below the answer from your correspondent."
+msgstr "Παρακάτω βρείτε την απάντηση από τον συνομιλητή σας."
+
+#: .\templates\postman\email_visitor.txt.py:15
+msgid "For more comfort, we encourage you to open an account on the site."
+msgstr ""
+"Για περισσότερη άνεση, σας προτείνουμε να ανοίξετε ένα λογαριασμό στη σελίδα."
+
+#: .\templates\postman\inbox.html.py:3
+msgid "Received Messages"
+msgstr "Ληφθέντα μηνύματα"
+
+#: .\templates\postman\inbox.html.py:6
+msgid "Received"
+msgstr "Παρελήφθη"
+
+#: .\templates\postman\reply.html.py:3 .\templates\postman\view.html.py:26
+#: .\templates\postman\view.html.py:29 .\templates\postman\view.html.py:32
+msgid "Reply"
+msgstr "Απάντηση"
+
+#: .\templates\postman\sent.html.py:6
+msgid "Sent"
+msgstr "Εστάλη"
+
+#: .\templates\postman\trash.html.py:3
+msgid "Deleted Messages"
+msgstr "Διαγραμμένα μηνύματα"
+
+#: .\templates\postman\trash.html.py:10
+msgid ""
+"Messages in this folder can be removed from time to time. For long term "
+"storage, use instead the archive folder."
+msgstr ""
+"Τα μηνύματα σε αυτό το φάκελο ενδέχεται να αφαιρεθούν από καιρό σε καιρό. "
+"Για μακροχρόνια αποθήκευση, χρησιμοποιήστε το φάκελο αρχειοθέτησης."
+
+#: .\templates\postman\view.html.py:6
+msgid "Conversation"
+msgstr "Συνομιλία"
+
+#: .\templates\postman\view.html.py:14
+msgid ":"
+msgstr ":"
+
+#: .\templates\postman\view.html.py:21
+msgid "Back"
+msgstr "Επιστροφή"
+
+#: .\templatetags\postman_tags.py:48
+msgid "<me>"
+msgstr "<me>"
