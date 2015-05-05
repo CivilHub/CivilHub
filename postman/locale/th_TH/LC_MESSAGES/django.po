@@ -1,0 +1,523 @@
+# Thai (Thailand) translation of django-postman.
+# Copyright (C) 2011 Patrick Samson
+# This file is distributed under the same license as the django-postman package.
+# 
+# Translators:
+# sipp11 <sipp11@mycapsules.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: django-postman\n"
+"Report-Msgid-Bugs-To: http://bitbucket.org/psam/django-postman/issues\n"
+"POT-Creation-Date: 2012-12-10 23:00+0100\n"
+"PO-Revision-Date: 2013-08-23 15:03+0000\n"
+"Last-Translator: sipp11 <sipp11@mycapsules.com>\n"
+"Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/django-postman/language/th_TH/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th_TH\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\admin.py:25
+msgid "Sender and Recipient cannot be both undefined."
+msgstr "จะต้องมีทั้งชื่อผู้รับและผู้ส่ง"
+
+#: .\admin.py:32
+msgid "Visitor's email is in excess."
+msgstr "อีเมล์ของผู้เยี่ยมเยียนไม่ถูกต้อง"
+
+#: .\admin.py:37
+msgid "Visitor's email is missing."
+msgstr "ไม่มีอีเมล์ของผู้เยี่ยมเยียน"
+
+#: .\admin.py:43
+msgid "Reading date must be later to sending date."
+msgstr "วันที่อ่านจะต้องอยู่หลังวันส่ง"
+
+#: .\admin.py:48
+msgid "Deletion date by sender must be later to sending date."
+msgstr "วันที่ลบโดยผู้ส่งจะต้องอยู่หลังวันส่ง"
+
+#: .\admin.py:53
+msgid "Deletion date by recipient must be later to sending date."
+msgstr "วันที่ลบโดยผู้รับจะต้องอยู่หลังวันส่ง"
+
+#: .\admin.py:61
+msgid "Response date must be later to sending date."
+msgstr "วันที่ตอบรับจะต้องอยู่หลังวันส่ง"
+
+#: .\admin.py:63
+msgid "The message cannot be replied without having been read."
+msgstr "ข้อความนี้ไม่สามารถตอบโต้โดยที่ไม่มีการอ่านก่อน"
+
+#: .\admin.py:65
+msgid "Response date must be later to reading date."
+msgstr "วันที่ตอบรับจะต้องอยู่หลังวันที่อ่าน"
+
+#: .\admin.py:67
+msgid "Response date cannot be set without at least one reply."
+msgstr "ไม่สามารถกำหนดวันที่ตอบรับได้ถ้ายังไม่มีการตอบรับ"
+
+#: .\admin.py:69
+msgid "The message cannot be replied without being in a conversation."
+msgstr "ข้อความนี้ไม่สามารถตอบกลับได้อย่างอิสระ (จะต้องรวมเป็นบทสนทนา)"
+
+#: .\admin.py:92 .\admin.py:170 .\templates\postman\view.html.py:6
+msgid "Message"
+msgstr "ข้อความ"
+
+#: .\admin.py:97
+msgid "Dates"
+msgstr "วัน"
+
+#: .\admin.py:102 .\admin.py:174
+msgid "Moderation"
+msgstr "การตรวจสอบ"
+
+#: .\fields.py:27
+msgid "Some usernames are unknown or no more active: {users}."
+msgstr "ไม่มีผู้ใช้ชื่อ: {users} หรือบัญชีของผู้ใช้ข้างต้นไม่สามารถใช้งานได้ใช้ในขณะนี้"
+
+#: .\fields.py:28
+msgid ""
+"Ensure this value has at most {limit_value} distinct items (it has "
+"{show_value})."
+msgstr "โปรดตรวจสอบด้วยว่าจะต้องมีไม่เกิน {limit_value} ค่า ซึ่งตอนนี้มี {show_value}"
+
+#: .\fields.py:29
+msgid ""
+"Ensure this value has at least {limit_value} distinct items (it has "
+"{show_value})."
+msgstr "โปรดตรวจสอบด้วยว่าจะต้องมีไม่น้อยกว่า {limit_value} ค่า ซึ่งตอนนี้มี {show_value}"
+
+#: .\fields.py:30
+msgid "Some usernames are rejected: {users}."
+msgstr "ผู้ใช้ที่ปฏิเสธ: {users}"
+
+#: .\fields.py:31 .\forms.py:71
+msgid "{username}"
+msgstr "{username}"
+
+#: .\fields.py:32 .\forms.py:72
+msgid "{username} ({reason})"
+msgstr "{username} ({reason})"
+
+#: .\forms.py:70
+msgid "Writing to some users is not possible: {users}."
+msgstr "ไม่สามารถเขียนข้อความถึง: {users}"
+
+#: .\forms.py:155 .\forms.py:168
+msgid "Recipients"
+msgstr "ผู้รับ"
+
+#: .\forms.py:155 .\forms.py:168 .\templates\postman\base_folder.html.py:34
+#: .\templates\postman\reply.html.py:4
+msgid "Recipient"
+msgstr "ผู้รับ"
+
+#: .\forms.py:167
+msgid "Email"
+msgstr "อีเมล์"
+
+#: .\forms.py:184
+msgid "Undefined recipient."
+msgstr "ยังไม่ได้กำหนดผู้รับ"
+
+#: .\forms.py:205
+msgid "Additional recipients"
+msgstr "ผู้รับเพิ่มเติม"
+
+#: .\forms.py:205
+msgid "Additional recipient"
+msgstr "ผู้รับเพิ่มเติม"
+
+#: .\models.py:27
+msgid "Pending"
+msgstr "รอการพิจารณา"
+
+#: .\models.py:28
+msgid "Accepted"
+msgstr "ยอมรับ"
+
+#: .\models.py:29 .\templates\postman\view.html.py:14
+msgid "Rejected"
+msgstr "ปฏิเสธ"
+
+#: .\models.py:242
+msgid "subject"
+msgstr "ชื่อเรื่อง"
+
+#: .\models.py:243
+msgid "body"
+msgstr "เนื้อหา"
+
+#: .\models.py:244 .\models.py:326
+msgid "sender"
+msgstr "ผู้ส่ง"
+
+#: .\models.py:245 .\models.py:350
+msgid "recipient"
+msgstr "ผู้รับ"
+
+#: .\models.py:246
+msgid "visitor"
+msgstr "ผู้เยี่ยมเยียน"
+
+#: .\models.py:247
+msgid "parent message"
+msgstr "ข้อความก่อนหน้านี้"
+
+#: .\models.py:248
+msgid "root message"
+msgstr "ข้อความเริ่มต้น"
+
+#: .\models.py:249
+msgid "sent at"
+msgstr "ส่งเมื่อ"
+
+#: .\models.py:250
+msgid "read at"
+msgstr "อ่านเมื่อ"
+
+#: .\models.py:251
+msgid "replied at"
+msgstr "ตอบกลับเมื่อ"
+
+#: .\models.py:252
+msgid "archived by sender"
+msgstr "ถูกเก็บโดยผู้ส่ง"
+
+#: .\models.py:253
+msgid "archived by recipient"
+msgstr "ถูกเก็บโดยผู้รับ"
+
+#: .\models.py:254
+msgid "deleted by sender at"
+msgstr "ถูกลบโดยผู้ส่งเมื่อ"
+
+#: .\models.py:255
+msgid "deleted by recipient at"
+msgstr "ถูกลบโดยผู้รับเมื่อ"
+
+#: .\models.py:257
+msgid "status"
+msgstr "สถานะ"
+
+#: .\models.py:259
+msgid "moderator"
+msgstr "ผู้ตรวจสอบ"
+
+#: .\models.py:260
+msgid "moderated at"
+msgstr "ถูกตรวจสอบเมื่อ"
+
+#: .\models.py:261
+msgid "rejection reason"
+msgstr "เหตุผลที่ถูกปฏิเสธ"
+
+#: .\models.py:266
+msgid "message"
+msgstr "เนื้อหา"
+
+#: .\models.py:267
+msgid "messages"
+msgstr "เนื้อหา"
+
+#: .\models.py:378
+msgid "Undefined sender."
+msgstr "ยังไม่ได้กำหนดชื่อผู้ส่ง"
+
+#: .\models.py:523
+msgid "pending message"
+msgstr "ข้อความอยู่ระหว่างการพิจารณา"
+
+#: .\models.py:524
+msgid "pending messages"
+msgstr "ข้อความอยู่ระหว่างการพิจารณา"
+
+#: .\utils.py:37
+msgid "> "
+msgstr "> "
+
+#: .\utils.py:53
+msgid ""
+"\n"
+"\n"
+"{sender} wrote:\n"
+"{body}\n"
+msgstr "\n\n{sender} เขียน:\n{body}\n"
+
+#: .\utils.py:63
+msgid "Re: {subject}"
+msgstr "Re: ตอบกลับ: {subject}"
+
+#: .\views.py:144 .\views.py:206
+msgid "Message successfully sent."
+msgstr "ข้อความถูกส่งเรียบร้อยแล้ว"
+
+#: .\views.py:146 .\views.py:208
+msgid "Message rejected for at least one recipient."
+msgstr "ข้อความถูกปฏิเสธจากอย่างน้อยผู้รับ 1 คน"
+
+#: .\views.py:299
+msgid "Select at least one object."
+msgstr "เลือกอย่างน้อย 1 อย่าง"
+
+#: .\views.py:306
+msgid "Messages or conversations successfully archived."
+msgstr "ข้อความหรือบทสนทนาถูกจัดเก็บเรียบร้อยแล้ว"
+
+#: .\views.py:312
+msgid "Messages or conversations successfully deleted."
+msgstr "ข้อความหรือบทสนทนาถูกลบเรียบร้อยแล้ว"
+
+#: .\views.py:318
+msgid "Messages or conversations successfully recovered."
+msgstr "ข้อความหรือบทสนทนาถูกกู้คืนเรียบร้อยแล้ว"
+
+#: .\management\__init__.py:15
+msgid "Message Rejected"
+msgstr "ข้อความถูกปฏิเสธ"
+
+#: .\management\__init__.py:15
+msgid "Your message has been rejected"
+msgstr "ข้อความของคุณถูกปฏิเสธ"
+
+#: .\management\__init__.py:16
+msgid "Message Received"
+msgstr "ข้อความได้รับแล้ว"
+
+#: .\management\__init__.py:16
+msgid "You have received a message"
+msgstr "คุณได้รับข้อความใหม่"
+
+#: .\management\__init__.py:17
+msgid "Reply Received"
+msgstr "ได้รับข้อความตอบกลับ"
+
+#: .\management\__init__.py:17
+msgid "You have received a reply"
+msgstr "คุณได้รับการตอบโต้จากข้อความของคุณ"
+
+#: .\templates\admin\postman\pendingmessage\change_form.html.py:17
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "โปรดแก้ไขข้อผิดพลาดข้างล่างนี้"
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:6
+msgid "Accept"
+msgstr "ยอมรับ"
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:7
+msgid "Reject"
+msgstr "ปฏิเสธ"
+
+#: .\templates\postman\archives.html.py:3
+msgid "Archived Messages"
+msgstr "ข้อความที่ถูกจัดเก็บแล้ว"
+
+#: .\templates\postman\archives.html.py:7
+msgid ""
+"Messages in this folder will never be removed. You can use this folder for "
+"long term storage."
+msgstr "ข้อความในโฟลเดอร์นี้จะไม่ถูกลบ"
+
+#: .\templates\postman\base.html.py:4
+msgid "Messaging"
+msgstr "ระบบส่งข้อความ"
+
+#: .\templates\postman\base.html.py:13
+msgid "Inbox"
+msgstr "กล่องข้อความ"
+
+#: .\templates\postman\base.html.py:14 .\templates\postman\sent.html.py:3
+msgid "Sent Messages"
+msgstr "ข้อความที่ส่งแล้ว"
+
+#: .\templates\postman\base.html.py:15 .\templates\postman\write.html.py:3
+msgid "Write"
+msgstr "เขียน"
+
+#: .\templates\postman\base.html.py:16
+msgid "Archives"
+msgstr "กล่องจัดเก็บ"
+
+#: .\templates\postman\base.html.py:17
+msgid "Trash"
+msgstr "ถังขยะ"
+
+#: .\templates\postman\base_folder.html.py:16
+msgid "Sorry, this page number is invalid."
+msgstr "ขออภัย เลขหน้านี้ไม่ถูกต้อง"
+
+#: .\templates\postman\base_folder.html.py:20
+msgid "by conversation"
+msgstr "เรียงตามบทสนทนา"
+
+#: .\templates\postman\base_folder.html.py:21
+msgid "by message"
+msgstr "เรียงตามข้อความ"
+
+#: .\templates\postman\base_folder.html.py:25
+#: .\templates\postman\view.html.py:23
+msgid "Delete"
+msgstr "ลบ"
+
+#: .\templates\postman\base_folder.html.py:26
+#: .\templates\postman\view.html.py:24
+msgid "Archive"
+msgstr "เก็บ"
+
+#: .\templates\postman\base_folder.html.py:27
+msgid "Undelete"
+msgstr "ยกเลิกการลบ"
+
+#: .\templates\postman\base_folder.html.py:32
+msgid "Action"
+msgstr "เพิ่มเติม"
+
+#: .\templates\postman\base_folder.html.py:33
+msgid "Sender"
+msgstr "ผู้ส่ง"
+
+#: .\templates\postman\base_folder.html.py:35
+msgid "Subject"
+msgstr "ชื่อเรื่อง"
+
+#: .\templates\postman\base_folder.html.py:36
+msgid "Date"
+msgstr "วันที่"
+
+#: .\templates\postman\base_folder.html.py:51
+msgid "g:i A,M j,n/j/y"
+msgstr "g:i A,M j,n/j/y"
+
+#: .\templates\postman\base_folder.html.py:58
+msgid "No messages."
+msgstr "ไม่มีข้อความ"
+
+#: .\templates\postman\base_write.html.py:33
+msgid "Send"
+msgstr "ส่ง"
+
+#: .\templates\postman\email_user.txt.py:1
+msgid "Dear user,"
+msgstr "สวัสดี, "
+
+#: .\templates\postman\email_user.txt.py:3
+#: .\templates\postman\email_visitor.txt.py:3
+#, python-format
+msgid "On %(date)s, you asked to send a message to the user '%(recipient)s'."
+msgstr "เมื่อวันที่ %(date)s คุณได้ร้องขอเพื่อจะส่งข้อความไปยัง %(recipient)s"
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid "Your message has been rejected by the moderator"
+msgstr "ข้อความของคุณถูกปฏิเสธจากผู้ตรวจสอบ"
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid ", for the following reason:"
+msgstr "ด้วยเหตุผลดังนี้:"
+
+#: .\templates\postman\email_user.txt.py:9
+#: .\templates\postman\email_visitor.txt.py:10
+#, python-format
+msgid "On %(date)s, you sent a message to the user '%(sender)s'."
+msgstr "เมื่อ %(date)s, คุณได้ส่งข้อความไปยัง '%(sender)s'"
+
+#: .\templates\postman\email_user.txt.py:10
+msgid "Your correspondent has given you an answer."
+msgstr "ผู้ที่คุณส่งข้อความถึงได้ตอบกลับข้อความของคุณ"
+
+#: .\templates\postman\email_user.txt.py:11
+#, python-format
+msgid "You have received a copy of a response from the user '%(sender)s'."
+msgstr "คุณได้รับข้อความฉบับคัดลอกจาก %(sender)s"
+
+#: .\templates\postman\email_user.txt.py:13
+#, python-format
+msgid "You have received a message from the user '%(sender)s'."
+msgstr "คุณได้รับข้อความจาก %(sender)s"
+
+#: .\templates\postman\email_user.txt.py:16
+#: .\templates\postman\email_visitor.txt.py:14
+msgid "Thank you again for your interest in our services."
+msgstr "ขอบคุณที่สนใจในบริการของเรา"
+
+#: .\templates\postman\email_user.txt.py:17
+#: .\templates\postman\email_visitor.txt.py:16
+msgid "The site administrator"
+msgstr "ผู้ดูแลระบบ"
+
+#: .\templates\postman\email_user.txt.py:19
+#: .\templates\postman\email_visitor.txt.py:18
+msgid ""
+"Note: This message is issued by an automated system.\n"
+"Do not reply, this would not be taken into account."
+msgstr "เพิ่มเติม: ข้อความนี้มาจากระบบอัตโนมัติ\nกรุณาอย่าตอบกลับ เพราะจะไม่มีผู้รับข้อความของท่าน"
+
+#: .\templates\postman\email_user_subject.txt.py:1
+#: .\templates\postman\email_visitor_subject.txt.py:1
+#, python-format
+msgid "Message \"%(subject)s\" on the site %(sitename)s"
+msgstr "ข้อความ \"%(subject)s\" จากเว็บไซด์ %(sitename)s"
+
+#: .\templates\postman\email_visitor.txt.py:1
+msgid "Dear visitor,"
+msgstr "สวัสดี, "
+
+#: .\templates\postman\email_visitor.txt.py:8
+msgid "As a reminder, please find below the content of your message."
+msgstr "เนื้อความของข้อความของคุณมีดังนี้"
+
+#: .\templates\postman\email_visitor.txt.py:11
+msgid "Please find below the answer from your correspondent."
+msgstr "ข้อความตอบกลับอยู่ข้างล่าง"
+
+#: .\templates\postman\email_visitor.txt.py:15
+msgid "For more comfort, we encourage you to open an account on the site."
+msgstr "แนะนำให้คุณสมัครสมาชิกกับเว็บไซด์ของเราเพื่อความสะดวกในการติดต่อ"
+
+#: .\templates\postman\inbox.html.py:3
+msgid "Received Messages"
+msgstr "จดหมายของคุณ"
+
+#: .\templates\postman\inbox.html.py:6
+msgid "Received"
+msgstr "ได้รับ"
+
+#: .\templates\postman\reply.html.py:3 .\templates\postman\view.html.py:26
+#: .\templates\postman\view.html.py:29 .\templates\postman\view.html.py:32
+msgid "Reply"
+msgstr "ตอบกลับ"
+
+#: .\templates\postman\sent.html.py:6
+msgid "Sent"
+msgstr "ส่ง"
+
+#: .\templates\postman\trash.html.py:3
+msgid "Deleted Messages"
+msgstr "ข้อความที่ถูกลบ"
+
+#: .\templates\postman\trash.html.py:10
+msgid ""
+"Messages in this folder can be removed from time to time. For long term "
+"storage, use instead the archive folder."
+msgstr "ข้อความในกล่องนี้จะถูกลบจากระบบอัตโนมัติ ในกรณีที่ต้องเก็บข้อความแนะนำให้ย้ายไปอยู่ในกล่องจัดเก็บ"
+
+#: .\templates\postman\view.html.py:6
+msgid "Conversation"
+msgstr "บทสนทนา"
+
+#: .\templates\postman\view.html.py:14
+msgid ":"
+msgstr ":"
+
+#: .\templates\postman\view.html.py:21
+msgid "Back"
+msgstr "กลับ"
+
+#: .\templatetags\postman_tags.py:48
+msgid "<me>"
+msgstr "<ตัวเอง>"

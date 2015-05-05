@@ -1,0 +1,59 @@
+{% extends "autocomplete.html" %}{% comment %}
+This is a custom template for django-ajax-selects version 1.2+ (not for 1.1.4/5).
+Channel:		postman_multiple_as1-2
+Form Field:		AutoCompleteField
+Usage:			Entering of multiple values.
+
+There is no such template provided in the django-ajax-selects application.
+
+{% endcomment %}
+{% block script %}
+	addAutoComplete("{{html_id}}", function(html_id) {
+		function split(val) {
+			return val.split(/,\s*/);
+		}
+		function extractLast(term) {
+			return split(term).pop();
+		}
+
+		$("#"+html_id)
+		// don't navigate away from the field on tab when selecting an item
+		.bind("keydown", function(event) {
+			if (event.keyCode === $.ui.keyCode.TAB &&
+					$(this).data("autocomplete").menu.active) {
+				event.preventDefault();
+			}
+		})
+		.autocomplete({
+			source: function(request, response) {
+				$.getJSON("{{lookup_url}}", {
+					term: extractLast(request.term)
+				}, response);
+			},
+			search: function() {
+				// custom minLength
+				var term = extractLast(this.value);
+				if (term.length < {{min_length}}) {
+					return false;
+				}
+			},
+			focus: function() {
+				// prevent value inserted on focus
+				return false;
+			},
+			select: function(event, ui) {
+				var terms = split(this.value);
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push(ui.item.value);
+				// add placeholder to get the comma-and-space at the end
+				terms.push("");
+				this.value = terms.join(", ");
+				$(this).trigger("added");
+				return false;
+			}
+		}).autocompletehtml();
+	});
+{% block extra_script %}{% endblock %}
+{% endblock %}

@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^details/(?P<pk>\d+)', PollDetails.as_view(), name='details'),
     url(r'^results/(?P<pk>\d+)', PollResults.as_view(), name='results'),
     url(r'^verify/(?P<pk>\d+)', save_answers, name='verify'),
+    url(r'(?P<slug>[\w-]+)/', SimplePollTakeView.as_view(), name='test'),
 )

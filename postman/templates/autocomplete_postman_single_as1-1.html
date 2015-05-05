@@ -1,0 +1,23 @@
+{% extends "autocomplete.html" %}{% comment %}
+This is a custom template for django-ajax-selects version 1.1.4/5 (not for 1.2+).
+Channel:		postman_single_as1-1
+Form Field:		AutoCompleteField
+Usage:			Basic entering of a single value.
+
+It is the same as the default template, except that it fixes the issue:
+http://code.google.com/p/django-ajax-selects/issues/detail?id=57
+Note: this template is also used in the test suite.
+
+{% endcomment %}
+{% block script %}
+	$('#{{ html_id }}').autocomplete('{{ lookup_url }}', {
+		width: 320,
+		formatItem: function(row) { return row[1]; },
+		formatResult: function(row) { return row[2]; },
+		dataType: "text"
+	})
+	$('#{{ html_id }}').result(function(event, data, formatted) {
+		$('#{{ html_id }}').trigger("added");
+	})
+{% block extra_script %}{% endblock %}
+{% endblock %}

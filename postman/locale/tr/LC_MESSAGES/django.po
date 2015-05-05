@@ -1,0 +1,531 @@
+# Turkish translation of django-postman.
+# Copyright (C) 2011 Patrick Samson
+# This file is distributed under the same license as the django-postman package.
+# 
+# Translators:
+# Tolga GÜNDOĞAN <tgundogan@gmail.com>, 2012
+# Ahmet Emre Aladağ <emre@woramo.com>, 2012
+# ysfkc <raiden@ceviz.net>, 2012
+# Gökmen Görgen <gokmen@alageek.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: django-postman\n"
+"Report-Msgid-Bugs-To: http://bitbucket.org/psam/django-postman/issues\n"
+"POT-Creation-Date: 2012-12-10 23:00+0100\n"
+"PO-Revision-Date: 2013-08-27 10:21+0000\n"
+"Last-Translator: Gökmen Görgen <gokmen@alageek.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/django-postman/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\admin.py:25
+msgid "Sender and Recipient cannot be both undefined."
+msgstr "Gönderen ve alıcının tanımlanması zorunludur."
+
+#: .\admin.py:32
+msgid "Visitor's email is in excess."
+msgstr "Alıcı zaten seçilmiş, ayrıca eposta adresi yazmayınız."
+
+#: .\admin.py:37
+msgid "Visitor's email is missing."
+msgstr "Alıcının eposta adresi belirtilmemiş."
+
+#: .\admin.py:43
+msgid "Reading date must be later to sending date."
+msgstr "Okuma tarihi gönderme tarihinden daha sonra olmalı."
+
+#: .\admin.py:48
+msgid "Deletion date by sender must be later to sending date."
+msgstr "Gönderenin silme tarihi, gönderme tarihinden daha sonra olmalı."
+
+#: .\admin.py:53
+msgid "Deletion date by recipient must be later to sending date."
+msgstr "Alıcının silme tarihi, gönderme tarihinden daha sonra olmalı."
+
+#: .\admin.py:61
+msgid "Response date must be later to sending date."
+msgstr "Cevap tarihi, gönderme tarihinden daha sonra olmalı."
+
+#: .\admin.py:63
+msgid "The message cannot be replied without having been read."
+msgstr "Mesaj okunmuş olmadan cevaplanamaz."
+
+#: .\admin.py:65
+msgid "Response date must be later to reading date."
+msgstr "Cevap tarihi, okuma tarihinden daha sonra olmalı."
+
+#: .\admin.py:67
+msgid "Response date cannot be set without at least one reply."
+msgstr "En az bir cevap olmadan, cevap tarihi belirlenemez."
+
+#: .\admin.py:69
+msgid "The message cannot be replied without being in a conversation."
+msgstr "Bir yazışma olmadan mesaj yanıtlanamaz."
+
+#: .\admin.py:92 .\admin.py:170 .\templates\postman\view.html.py:6
+msgid "Message"
+msgstr "Mesaj"
+
+#: .\admin.py:97
+msgid "Dates"
+msgstr "Tarihler"
+
+#: .\admin.py:102 .\admin.py:174
+msgid "Moderation"
+msgstr "Yönetim"
+
+#: .\fields.py:27
+msgid "Some usernames are unknown or no more active: {users}."
+msgstr "Bazı kullanıcı isimleri bilinmiyor veya artık aktif değiller: {users}."
+
+#: .\fields.py:28
+msgid ""
+"Ensure this value has at most {limit_value} distinct items (it has "
+"{show_value})."
+msgstr "Bu değerin en çok {limit_value} farklı öğesi ({show_value} si var) olduğuna emin olun."
+
+#: .\fields.py:29
+msgid ""
+"Ensure this value has at least {limit_value} distinct items (it has "
+"{show_value})."
+msgstr "Bu değerin en az {limit_value} farklı öğesi ({show_value} si var) olduğuna emin olun."
+
+#: .\fields.py:30
+msgid "Some usernames are rejected: {users}."
+msgstr "Bazı kullanıcı isimleri kabul edilmedi: {users}."
+
+#: .\fields.py:31 .\forms.py:71
+msgid "{username}"
+msgstr "{username}"
+
+#: .\fields.py:32 .\forms.py:72
+msgid "{username} ({reason})"
+msgstr "{username} ({reason})"
+
+#: .\forms.py:70
+msgid "Writing to some users is not possible: {users}."
+msgstr "Bazı kullanıcılara mesaj gönderilemiyor: {users}."
+
+#: .\forms.py:155 .\forms.py:168
+msgid "Recipients"
+msgstr "Alıcılar"
+
+#: .\forms.py:155 .\forms.py:168 .\templates\postman\base_folder.html.py:34
+#: .\templates\postman\reply.html.py:4
+msgid "Recipient"
+msgstr "Alıcı"
+
+#: .\forms.py:167
+msgid "Email"
+msgstr "Eposta"
+
+#: .\forms.py:184
+msgid "Undefined recipient."
+msgstr "Tanımsız alıcı."
+
+#: .\forms.py:205
+msgid "Additional recipients"
+msgstr "Ek alıcılar"
+
+#: .\forms.py:205
+msgid "Additional recipient"
+msgstr "Ek alıcı"
+
+#: .\models.py:27
+msgid "Pending"
+msgstr "Beklemede"
+
+#: .\models.py:28
+msgid "Accepted"
+msgstr "Kabul edildi"
+
+#: .\models.py:29 .\templates\postman\view.html.py:14
+msgid "Rejected"
+msgstr "Reddedildi"
+
+#: .\models.py:242
+msgid "subject"
+msgstr "konu"
+
+#: .\models.py:243
+msgid "body"
+msgstr "mesaj"
+
+#: .\models.py:244 .\models.py:326
+msgid "sender"
+msgstr "gönderen"
+
+#: .\models.py:245 .\models.py:350
+msgid "recipient"
+msgstr "alıcı"
+
+#: .\models.py:246
+msgid "visitor"
+msgstr "alıcı epostası"
+
+#: .\models.py:247
+msgid "parent message"
+msgstr "ana mesaj"
+
+#: .\models.py:248
+msgid "root message"
+msgstr "kök mesaj"
+
+#: .\models.py:249
+msgid "sent at"
+msgstr "gönderim tarihi"
+
+#: .\models.py:250
+msgid "read at"
+msgstr "okuma tarihi"
+
+#: .\models.py:251
+msgid "replied at"
+msgstr "cevaplama tarihi"
+
+#: .\models.py:252
+msgid "archived by sender"
+msgstr "gönderen tarafından arşivlendi"
+
+#: .\models.py:253
+msgid "archived by recipient"
+msgstr "alıcı tarafından arşivlendi"
+
+#: .\models.py:254
+msgid "deleted by sender at"
+msgstr "gönderen tarafından silinme tarihi"
+
+#: .\models.py:255
+msgid "deleted by recipient at"
+msgstr "alıcı tarafından silinme tarihi"
+
+#: .\models.py:257
+msgid "status"
+msgstr "durum"
+
+#: .\models.py:259
+msgid "moderator"
+msgstr "denetleyici"
+
+#: .\models.py:260
+msgid "moderated at"
+msgstr "denetim tarihi"
+
+#: .\models.py:261
+msgid "rejection reason"
+msgstr "reddedilme nedeni"
+
+#: .\models.py:266
+msgid "message"
+msgstr "mesaj"
+
+#: .\models.py:267
+msgid "messages"
+msgstr "mesajlar"
+
+#: .\models.py:378
+msgid "Undefined sender."
+msgstr "Tanımsız gönderen."
+
+#: .\models.py:523
+msgid "pending message"
+msgstr "bekleyen mesaj"
+
+#: .\models.py:524
+msgid "pending messages"
+msgstr "bekleyen mesajlar"
+
+#: .\utils.py:37
+msgid "> "
+msgstr "> "
+
+#: .\utils.py:53
+msgid ""
+"\n"
+"\n"
+"{sender} wrote:\n"
+"{body}\n"
+msgstr ""
+"\n"
+"\n"
+"{sender} yazdı:\n"
+"{body}\n"
+
+#: .\utils.py:63
+msgid "Re: {subject}"
+msgstr "Ynt: {subject}"
+
+#: .\views.py:144 .\views.py:206
+msgid "Message successfully sent."
+msgstr "Mesaj başarıyla gönderildi."
+
+#: .\views.py:146 .\views.py:208
+msgid "Message rejected for at least one recipient."
+msgstr "Mesaj bazı alıcılara gönderilemedi."
+
+#: .\views.py:299
+msgid "Select at least one object."
+msgstr "En az birini seçiniz."
+
+#: .\views.py:306
+msgid "Messages or conversations successfully archived."
+msgstr "Mesajlar veya yazışmalar arşivlendi."
+
+#: .\views.py:312
+msgid "Messages or conversations successfully deleted."
+msgstr "Mesajlar veya yazışmalar başarıyla silindi."
+
+#: .\views.py:318
+msgid "Messages or conversations successfully recovered."
+msgstr "Mesajlar veya yazışmalar başarıyla kurtarıldı."
+
+#: .\management\__init__.py:15
+msgid "Message Rejected"
+msgstr "Mesaj Reddedildi"
+
+#: .\management\__init__.py:15
+msgid "Your message has been rejected"
+msgstr "Mesajınız reddedildi"
+
+#: .\management\__init__.py:16
+msgid "Message Received"
+msgstr "Mesaj Alındı"
+
+#: .\management\__init__.py:16
+msgid "You have received a message"
+msgstr "Bir mesaj aldınız"
+
+#: .\management\__init__.py:17
+msgid "Reply Received"
+msgstr "Cevap Alındı"
+
+#: .\management\__init__.py:17
+msgid "You have received a reply"
+msgstr "Bir cevap aldınız"
+
+#: .\templates\admin\postman\pendingmessage\change_form.html.py:17
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] "Lütfen aşağıdaki hatayı düzeltiniz."
+msgstr[1] "Lütfen aşağıdaki hataları düzeltiniz."
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:6
+msgid "Accept"
+msgstr "Kabul et"
+
+#: .\templates\admin\postman\pendingmessage\submit_line.html.py:7
+msgid "Reject"
+msgstr "Reddet"
+
+#: .\templates\postman\archives.html.py:3
+msgid "Archived Messages"
+msgstr "Arşivlenmiş Mesajlar"
+
+#: .\templates\postman\archives.html.py:7
+msgid ""
+"Messages in this folder will never be removed. You can use this folder for "
+"long term storage."
+msgstr "Bu dizindeki mesajlar asla silinmemiş olacak. Uzun süre saklamak istediğiniz mesajlarınız için bu dizini kullanabilirsiniz."
+
+#: .\templates\postman\base.html.py:4
+msgid "Messaging"
+msgstr "Mesajlaşma"
+
+#: .\templates\postman\base.html.py:13
+msgid "Inbox"
+msgstr "Gelen Kutusu"
+
+#: .\templates\postman\base.html.py:14 .\templates\postman\sent.html.py:3
+msgid "Sent Messages"
+msgstr "Gönderilen Mesajlar"
+
+#: .\templates\postman\base.html.py:15 .\templates\postman\write.html.py:3
+msgid "Write"
+msgstr "Yeni mesaj yaz"
+
+#: .\templates\postman\base.html.py:16
+msgid "Archives"
+msgstr "Arşivler"
+
+#: .\templates\postman\base.html.py:17
+msgid "Trash"
+msgstr "Çöp Kutusu"
+
+#: .\templates\postman\base_folder.html.py:16
+msgid "Sorry, this page number is invalid."
+msgstr "Üzgünüz, bu sayfa numarası geçersiz."
+
+#: .\templates\postman\base_folder.html.py:20
+msgid "by conversation"
+msgstr "yazışmaya göre"
+
+#: .\templates\postman\base_folder.html.py:21
+msgid "by message"
+msgstr "mesaja göre"
+
+#: .\templates\postman\base_folder.html.py:25
+#: .\templates\postman\view.html.py:23
+msgid "Delete"
+msgstr "Sil"
+
+#: .\templates\postman\base_folder.html.py:26
+#: .\templates\postman\view.html.py:24
+msgid "Archive"
+msgstr "Arşivle"
+
+#: .\templates\postman\base_folder.html.py:27
+msgid "Undelete"
+msgstr "Silmeyi geri al"
+
+#: .\templates\postman\base_folder.html.py:32
+msgid "Action"
+msgstr "Eylem"
+
+#: .\templates\postman\base_folder.html.py:33
+msgid "Sender"
+msgstr "Gönderen"
+
+#: .\templates\postman\base_folder.html.py:35
+msgid "Subject"
+msgstr "Konu"
+
+#: .\templates\postman\base_folder.html.py:36
+msgid "Date"
+msgstr "Tarih"
+
+#: .\templates\postman\base_folder.html.py:51
+msgid "g:i A,M j,n/j/y"
+msgstr "g:i A,M j,n/j/y"
+
+#: .\templates\postman\base_folder.html.py:58
+msgid "No messages."
+msgstr "Mesaj yok."
+
+#: .\templates\postman\base_write.html.py:33
+msgid "Send"
+msgstr "Gönder"
+
+#: .\templates\postman\email_user.txt.py:1
+msgid "Dear user,"
+msgstr "Sayın kullanıcı,"
+
+#: .\templates\postman\email_user.txt.py:3
+#: .\templates\postman\email_visitor.txt.py:3
+#, python-format
+msgid "On %(date)s, you asked to send a message to the user '%(recipient)s'."
+msgstr "%(date)s tarihinde, '%(recipient)s' kullanıcısına mesaj göndermek istediniz."
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid "Your message has been rejected by the moderator"
+msgstr "Mesajınız yönetim tarafından reddedilmiştir"
+
+#: .\templates\postman\email_user.txt.py:5
+#: .\templates\postman\email_visitor.txt.py:5
+msgid ", for the following reason:"
+msgstr ", nedeni:"
+
+#: .\templates\postman\email_user.txt.py:9
+#: .\templates\postman\email_visitor.txt.py:10
+#, python-format
+msgid "On %(date)s, you sent a message to the user '%(sender)s'."
+msgstr "%(date)s tarihinde, '%(sender)s' kullanıcısına mesaj gönderdiniz."
+
+#: .\templates\postman\email_user.txt.py:10
+msgid "Your correspondent has given you an answer."
+msgstr "Yazıştığınız kişi size cevap yazdı."
+
+#: .\templates\postman\email_user.txt.py:11
+#, python-format
+msgid "You have received a copy of a response from the user '%(sender)s'."
+msgstr "'%(sender)s' kullanıcısından, yanıtın bir kopyasını aldınız."
+
+#: .\templates\postman\email_user.txt.py:13
+#, python-format
+msgid "You have received a message from the user '%(sender)s'."
+msgstr "'%(sender)s' kullanıcısından mesaj aldınız."
+
+#: .\templates\postman\email_user.txt.py:16
+#: .\templates\postman\email_visitor.txt.py:14
+msgid "Thank you again for your interest in our services."
+msgstr "Hizmetlerimize olan ilginizden dolayı tekrar teşekkür ederiz."
+
+#: .\templates\postman\email_user.txt.py:17
+#: .\templates\postman\email_visitor.txt.py:16
+msgid "The site administrator"
+msgstr "Site yöneticisi"
+
+#: .\templates\postman\email_user.txt.py:19
+#: .\templates\postman\email_visitor.txt.py:18
+msgid ""
+"Note: This message is issued by an automated system.\n"
+"Do not reply, this would not be taken into account."
+msgstr "Not: Bu mesaj otomatik sistem tarafından yazılmıştır.\nLütfen cevap yazmayınız, sistem cevapları almamaktadır."
+
+#: .\templates\postman\email_user_subject.txt.py:1
+#: .\templates\postman\email_visitor_subject.txt.py:1
+#, python-format
+msgid "Message \"%(subject)s\" on the site %(sitename)s"
+msgstr "%(sitename)s sitesinden mesaj aldınız: \"%(subject)s\""
+
+#: .\templates\postman\email_visitor.txt.py:1
+msgid "Dear visitor,"
+msgstr "Sayın ziyaretçi,"
+
+#: .\templates\postman\email_visitor.txt.py:8
+msgid "As a reminder, please find below the content of your message."
+msgstr "Bir hatırlatma olarak, aşağıda mesajınızı görebilirsiniz."
+
+#: .\templates\postman\email_visitor.txt.py:11
+msgid "Please find below the answer from your correspondent."
+msgstr "Aşağıda yazıştığınız kişiden gelen mesajı okuyabilirsiniz."
+
+#: .\templates\postman\email_visitor.txt.py:15
+msgid "For more comfort, we encourage you to open an account on the site."
+msgstr "Daha rahat yazışmak için, sitemizde hesap açmanızı öneririz."
+
+#: .\templates\postman\inbox.html.py:3
+msgid "Received Messages"
+msgstr "Alınan Mesajlar"
+
+#: .\templates\postman\inbox.html.py:6
+msgid "Received"
+msgstr "Alındı"
+
+#: .\templates\postman\reply.html.py:3 .\templates\postman\view.html.py:26
+#: .\templates\postman\view.html.py:29 .\templates\postman\view.html.py:32
+msgid "Reply"
+msgstr "Cevapla"
+
+#: .\templates\postman\sent.html.py:6
+msgid "Sent"
+msgstr "Gönderildi"
+
+#: .\templates\postman\trash.html.py:3
+msgid "Deleted Messages"
+msgstr "Silinen Mesajlar"
+
+#: .\templates\postman\trash.html.py:10
+msgid ""
+"Messages in this folder can be removed from time to time. For long term "
+"storage, use instead the archive folder."
+msgstr "Bu dizindeki mesajlar zaman zaman silinmektedir. Mesajlarınızı saklamak için, arşiv dizinini kullanınız."
+
+#: .\templates\postman\view.html.py:6
+msgid "Conversation"
+msgstr "Yazışma"
+
+#: .\templates\postman\view.html.py:14
+msgid ":"
+msgstr ":"
+
+#: .\templates\postman\view.html.py:21
+msgid "Back"
+msgstr "Geri"
+
+#: .\templatetags\postman_tags.py:48
+msgid "<me>"
+msgstr "<ben>"

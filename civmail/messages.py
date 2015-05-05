@@ -70,3 +70,15 @@ class InviteToOrganization(template_mail.TemplateMail):
     organization.
     """
     name = "organization"
+
+
+class PostmanNotifyMail(template_mail.TemplateMail):
+    """ Custom message for Postman notification.
+    """
+    name = "postman"
+
+
+class MassMailTemplate(template_mail.TemplateMail):
+    """ Simple newsletter functionality.
+    """
+    name = "newsletter"
