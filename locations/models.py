@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
+from places_core.helpers import sanitizeHtml
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
