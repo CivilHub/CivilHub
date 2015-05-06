@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<form action="" method="post">{% csrf_token %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Poll" %}</h3><form action="" method="post" class="form-unstyled">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <div class="form-group mb0 text-right"><button type="submit" class="btn-saveBig">{% trans "Save" %}</button></div>
+</form></div>{% endblock %}

@@ -89,7 +89,7 @@ class SimplePollForm(forms.Form):
         else:
             self.fields["question_%d" % question.pk] = forms.CharField(
                 label=question.text,
-                widget=forms.TextInput())
+                widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     def create_choice_field(self, question):
         if question.question_type == 1:

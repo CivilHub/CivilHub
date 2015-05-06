@@ -10,7 +10,15 @@
         margin-top: 0px;
         margin-bottom: 15px;
     }
-
+    &.newFormCreate{
+      >h3{
+        font-size: 16px;
+        line-height: 26px;
+        margin: -15px -15px 15px;
+        border-bottom: 1px solid #DDD;
+        padding: 5px 20px;
+      }
+    }
     /*
      * Ukrywamy elementy, które zastąpimy Google mapą.
      */
@@ -45,6 +53,19 @@
     }
 }
 
+.form-unstyled{
+  ul{
+    list-style: none;
+    padding: 0;
+  }
+  ul.errorlist{
+    .alert; .alert-danger;
+  }
+  p>label{
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
 
 /*******************************
  * TWORZENIE NOWEJ LOKALIZACJI *
@@ -109,9 +130,7 @@
     height: 40px;
     img{
         max-width: 100%;
-        border-radius: 50%;
-        -moz-border-radius: 50%;
-        -webkit-border-radisu: 50%;
+        .border-radius(50%);
     }
 }
 //form bordeR:0
