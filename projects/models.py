@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import mimetypes
 import os
-from uuid import uuid4
 from slugify import slugify
+from uuid import uuid4
 
 from django.db import models
 from django.utils.html import strip_tags
@@ -25,6 +26,12 @@ from .signals import project_created_action, project_task_action
 def get_upload_path(instance, filename):
     """ I set a path and a random name for the background image of the project. """
     return 'img/projects/' + uuid4().hex + os.path.splitext(filename)[1]
+
+
+def get_attachment_path(instance, filename):
+    """ Same as above, but for attachment files.
+    """
+    return 'attachments/' + uuid4().hex + os.path.splitext(filename)[1]
 
 
 class SlugifiedModelMixin(models.Model):
@@ -253,3 +260,32 @@ models.signals.post_save.connect(project_task_action, sender=SocialForumTopic)
 models.signals.post_save.connect(project_task_action, sender=SocialForumEntry)
 models.signals.post_save.connect(project_task_action, sender=TaskGroup)
 models.signals.post_save.connect(project_task_action, sender=Task)
+
+
+@python_2_unicode_compatible
+class Attachment(models.Model):
+    """ Simple model holding files attached to project which visitors may download.
+    """
+    project = models.ForeignKey(SocialProject, related_name="attachments", verbose_name=_(u"project"))
+    description = models.TextField(blank=True, default="", verbose_name=_(u"description"))
+    attachment = models.FileField(upload_to='attachments/', max_length=200, verbose_name=_(u"file"))
+    date_uploaded = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date uploaded"))
+    uploaded_by = models.ForeignKey(User, related_name="attachments", verbose_name=_(u"user"))
+    mime_type = models.CharField(max_length=255, default="")
+
+    def save(self, *args, **kwargs):
+        if not self.mime_type:
+            self.mime_type = mimetypes.guess_type(self.attachment.path)[0]
+        super(Attachment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.attachment.name.split('/')[-1]
+
+
+def cleanup_attachment(sender, instance, **kwargs):
+    """ Make sure that files will be deleted along with attachments.
+    """
+    instance.attachment.delete(save=False)
+
+
+models.signals.pre_delete.connect(cleanup_attachment, sender=Attachment)

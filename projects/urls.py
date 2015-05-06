@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, include, url
 
-from views import base, forum, documents, galleries
+from views import attachments, base, forum, documents, galleries
 
 urlpatterns = patterns('',
     url(r'^discussions/(?P<pk>\d+)/delete/', forum.ProjectForumDeleteView.as_view(), name="discussion_delete"),
+    url(r'^attachments/(?P<pk>\d+)/', attachments.get_attachment, name="get-attachment"),
     url(r'^(?P<project_slug>[\w-]+)/organizations/add/', base.AddProjectToNGO.as_view(), name="organization_add"),
+    url(r'^(?P<slug>[\w-]+)/attachments/upload/', attachments.AttachmentUpladView.as_view(), name="attachment-upload"),
     url(r'^(?P<slug>[\w-]+)/picture/(?P<picture_pk>\d+)/update/', galleries.ProjectPictureUpdate.as_view(), name="picture-update"),
     url(r'^(?P<slug>[\w-]+)/picture/(?P<picture_pk>\d+)/', galleries.ProjectPictureView.as_view(), name="picture-detail"),
     url(r'^(?P<slug>[\w-]+)/galleries/(?P<gallery_pk>\d+)delete/', galleries.ProjectGalleryDelete.as_view(), name="gallery-delete"),
