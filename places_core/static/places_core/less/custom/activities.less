@@ -1,9 +1,6 @@
 .activities-page {
-    padding-top: 15px;
-
-
+  padding-top: 15px;
 }
-    
 
 a.full-click-box{
     position: absolute;
@@ -13,7 +10,7 @@ a.full-click-box{
     left: 0;
     z-index: 10;
 }
-  .user-data {
+/*  .user-data {
   
     text-align: center;
     
@@ -55,141 +52,109 @@ a.full-click-box{
     &>* {
       position: relative;
     }
-  }
+  }*/
   
-  .activity-stream {
-  
-    padding-right: 0px;
-
-    .action-entry {
-        background: transparent;
-        margin-left: 0px;
-        background: #FFF;
-        margin-bottom: 20px;
-        border-radius: 4px;
-        -webkit-border-radius: 4px;
-        border: 1px solid #F0EFEF;
-
-        .entry-avatar-col {
-            padding-left: 0px;
-            padding-right: 0px;
-            margin-top: 0px;
-            text-align: left;
-            padding: 15px 15px 12px 15px;
-            position: relative;
-
-            &:hover{
-            background: #F3F3F3;
-            }
-
-            .actiClock{
-                position: absolute;
-                top: 50%;
-                font-size: 10px;
-                margin-top: -6px;
-                right: 15px;
-                cursor: pointer;
-
-            }
-            .actiAvatar{
-                width: 30px;
-                max-width: 19%;
-                //height: 30px;
-                border-radius: 50%;
-                -webkit-border-radius: 50%;
-                -moz-border-radius: 50%;
-                overflow: hidden;
-                display: inline-block;
-                vertical-align: middle;
-                margin-right: 10px;
-                img{
-                    max-width: 100%;
-                    height: auto;
-                }
-                @media(min-width: 768px) and (max-width: 991px){
-                    margin: 0;
-
-                }
-            }
-            .actiNick{
-                max-width: 80%;
-                display: inline-block;
-                vertical-align: middle;
-                padding-right: 6px;
-                p{
-                    margin-bottom: 0;
-                }
-                h5{
-                    margin: 0;
-                }
-                a{
-                    text-decoration: none;
-                }
-            }
+.activity-stream {
+  padding-right: 0px;
+  .action-entry {
+    background: transparent;
+    margin-left: 0px;
+    background: #FFF;
+    margin-bottom: 20px;
+    .border-radius(4px);
+    border: 1px solid #F0EFEF;
+    .entry-avatar-col {
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-top: 0px;
+      text-align: left;
+      padding: 15px 15px 12px 15px;
+      position: relative;
+      &:hover{ background: #F3F3F3; }
+      .actiClock{
+        position: absolute;
+        top: 50%;
+        font-size: 10px;
+        margin-top: -6px;
+        right: 15px;
+        cursor: pointer;
+      }
+      .actiAvatar{
+        width: 30px;
+        max-width: 19%;
+        .border-radius(50%);
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        img{
+          max-width: 100%;
+          height: auto;
         }
-        .entry-meta-col {
-            border-top: 1px solid #F0EFEF;
-            //min-height: 78px;
-            padding: 0px;
-            //text-align: justify;
-            //padding-left: 14px;
-            padding: 5px 15px 15px;
-            p{
-                margin: 0;
-            }
-            .entry-header {
-                margin-bottom: 7px;  
-                font-size: 15px; 
-                p{
-                    margin-bottom: 0px;
-                    font-size: 11px;
-                }
-                .locActorNick,
-                .locObjectName{
-                    font-size: 11px;
-                    font-weight: 600;
-                }
+        @media(min-width: 768px) and (max-width: 991px){ margin: 0; }
+      }
+      .actiNick{
+        max-width: 80%;
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 6px;
+        p{ margin-bottom: 0; }
+        h5{ margin: 0; }
+        a{ text-decoration: none; }
+      }
+    }
+    .entry-meta-col {
+      border-top: 1px solid #F0EFEF;
+      padding: 0px;
+      padding: 5px 15px 15px;
+      p{
+        margin: 0;
+      }
+      .entry-header {
+        margin-bottom: 7px;  
+        font-size: 15px; 
+        p{
+          margin-bottom: 0px;
+          font-size: 11px;
+        }
+        .locActorNick,
+        .locObjectName{
+          font-size: 11px;
+          font-weight: 600;
+        }
 
-                .locTimeAdd{
-                    font-weight: 200;
-                    font-size: 10px;
-                    line-height: 18px;
-                }
-                a {
-                    //font-weight: bold;
-                }
-                a.activitesName{
-                    color: #0083FB;
-                }
-                
-                a:hover {
-                    text-decoration: none;
-                }
-            }
-            
-            .entry-body {
-                font-size: 13px;
-                img {
-                    max-width: 100%;
-                    height: auto;
-                    display: block;
-                    margin: 0 auto 7px auto;
-                    float: none;
-                }
-                ol, ul{
-                    padding: 0;
-                    margin: 0;
-                }
-                a{
-                    text-decoration: none;
-                }
-            }
-            .entry-footer {
-                position: absolute;
-                bottom: 0;
-            }
-            
-            .vote-up,
+        .locTimeAdd{
+          font-weight: 200;
+          font-size: 10px;
+          line-height: 18px;
+        }
+        a.activitesName{ color: #0083FB; }
+        a:hover { text-decoration: none; }
+      }
+      .entry-body {
+        font-size: 13px;
+        img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          margin: 0 auto 7px auto;
+          float: none;
+        }
+        ol, ul{
+          padding: 0;
+          margin: 0;
+        }
+        a{ text-decoration: none; }
+      }
+      .entry-footer {
+        position: absolute;
+        bottom: 0;
+      }
+    }
+  }
+}
+  //to bylo wyzej
+/*            .vote-up,
             .vote-down {
                 height: 30px;
                 width: 150px;
@@ -205,39 +170,35 @@ a.full-click-box{
                     color:#FFF;
                     text-decoration: none;
                 }
-            }
+            }*/
             
-            .vote-up {
-                background: -moz-linear-gradient(top,  #afeb4d 0%, #8ad111 100%); /* FF3.6+ */
-                background: -webkit-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* Chrome10+,Safari5.1+ */
-                background: -o-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* Opera 11.10+ */
-                background: -ms-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); /* IE10+ */
-                background: linear-gradient(to bottom,  #afeb4d 0%,#8ad111 100%); /* W3C */
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afeb4d', endColorstr='#8ad111',GradientType=0 ); /* IE6-9 */
-                //border: 1px solid #C5EF7F;
-            }
+/*            .vote-up {
+                background: -moz-linear-gradient(top,  #afeb4d 0%, #8ad111 100%); 
+                background: -webkit-linear-gradient(top,  #afeb4d 0%,#8ad111 100%); 
+                background: -o-linear-gradient(top,  #afeb4d 0%,#8ad111 100%);
+                background: -ms-linear-gradient(top,  #afeb4d 0%,#8ad111 100%);
+                background: linear-gradient(to bottom,  #afeb4d 0%,#8ad111 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#afeb4d', endColorstr='#8ad111',GradientType=0 );
+                
+            }*/
             
-            .vote-down {
-                background: -moz-linear-gradient(top,  #ec5c73 0%, #f00924 100%); /* FF3.6+ */
-                background: -webkit-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* Chrome10+,Safari5.1+ */
-                background: -o-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* Opera 11.10+ */
-                background: -ms-linear-gradient(top,  #ec5c73 0%,#f00924 100%); /* IE10+ */
-                background: linear-gradient(to bottom,  #ec5c73 0%,#f00924 100%); /* W3C */
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ec5c73', endColorstr='#f00924',GradientType=0 ); /* IE6-9 */
-                //border: 1px solid #F38699;
-            }
-        }
+/*            .vote-down {
+                background: -moz-linear-gradient(top,  #ec5c73 0%, #f00924 100%);
+                background: -webkit-linear-gradient(top,  #ec5c73 0%,#f00924 100%);
+                background: -o-linear-gradient(top,  #ec5c73 0%,#f00924 100%);
+                background: -ms-linear-gradient(top,  #ec5c73 0%,#f00924 100%); 
+                background: linear-gradient(to bottom,  #ec5c73 0%,#f00924 100%); 
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ec5c73', endColorstr='#f00924',GradientType=0 ); 
+            }*/
 
-    }
-  }
 
-  .colHP{
+/*  .colHP{
     padding-left: 0;
     padding-right: 0;
     
-  }
+  }*/
 
-  .containerLocationCollection{
+/*  .containerLocationCollection{
     .row{
         margin-left: 0;
         margin-right: 0;
@@ -245,320 +206,269 @@ a.full-click-box{
     p.alert{
         margin-right: 15px;
     }
+  }*/
+//SPRAWDZIC czy to zyje
+.colHline{
+  min-height: 100%;
+  max-height: 100%;
+  height: auto;
+  margin: -20px 0 -2px;
+  padding: 20px 0 2px;
+  @media(max-width: 768px){
+    border: 0 none !important;
+    text-align: center;
   }
-
-  .colHline{
-
-    min-height: 100%;
-    max-height: 100%;
-    height: auto;
-
-    margin-top: -20px;
-    padding-top: 20px;
-    margin-bottom: -2px;
-    padding-bottom: 2px;
-    @media(max-width: 768px){
-        border: 0 none !important;
-        text-align: center;
-    }
-  }
-  .colHlineR{
+}
+/*  .colHlineR{
     border-right: 1px solid #DEDEDE;
 
 
-  }
-  .colHlineL{
+  }*/
+/*  .colHlineL{
     margin-left: -1px;
     border-left: 1px solid #DEDEDE;
 
+  }*/
+
+
+.avatarH{
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #FFF;
+  background-color: #FFF;
+}
+//strona z tagami
+.locBoxH{
+  padding: 0 0 0 0;
+  max-width: 270px;
+  margin-right: 15px;
+  &:nth-child(n+3){
+    margin-right:14px;
+    @media(max-width: 991px){ margin-right: 0; }
   }
-
-
-    .avatarH{
-        //width: 40px;
-        //height: 40px;
-        max-width: 100%;
-        height: auto;
-        border: 1px solid #FFF;
-        background-color: #FFF;
+  @media(max-width: 1200px){ max-width: 220px; }
+  @media(max-width: 991px){
+    padding: 5px;
+    margin-right: 0;
+  }
+  &.col-sm-4{
+    @media(max-width:768px){
+      width: 100%;
+      max-width: 200px;
+      display: inline-block;
+      vertical-align: top;
     }
-   .locBoxH{
-        padding: 0 0 0 0;
-        max-width: 270px;
-        margin-right: 15px;
-        &:nth-child(n+3){
-            margin-right:14px;
-            @media(max-width: 991px){
-                margin-right: 0;
-            }
-        }
-        @media(max-width: 1200px){
-            max-width: 220px;
-        }
-        @media(max-width: 991px){
-            padding: 5px;
-            margin-right: 0;
-        }
-
-        &.col-sm-4{
-            @media(max-width:768px){
-                width: 100%;
-                max-width: 200px;
-                display: inline-block;
-                vertical-align: top;
-            }
-            @media(max-width: 650px){
-                max-width: none;
-                width: 33%;
-            }
-        }
-        &.col-sm-3{
-
-            @media(max-width: 768px){
-                width: 25%;
-                display: inline-block;
-                vertical-align: top;
-            }
-            @media(max-width: 650px){
-                width: 50%;
-                max-width: none;
-            }
-        }
-        &.col-sm-3,
-        &.col-sm-4{
-            @media(max-width: 500px){
-                width: 100%;
-                max-width: 270px;
-                display: block;
-                margin: 0 auto !important;
-            }   
-        }            
-
+    @media(max-width: 650px){
+      max-width: none;
+      width: 33%;
     }
-
-  .locBox{
-    border: 1px solid #DEDEDE;
-    border-radius: 4px;
-    margin-bottom: 22px;
-
-    position: relative; //for a.full-click-box
-
-    .borderLeftRightRadius{
-        border-top-left-radius: 4px;
-        -webkit-border-top-left-radius: 4px;
-        -moz-border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        -webkit-border-top-right-radius: 4px;
-        -moz-border-top-right-radius: 4px;
+  }
+  &.col-sm-3{
+    @media(max-width: 768px){
+      width: 25%;
+      display: inline-block;
+      vertical-align: top;
     }
-    .locBoxHeader{
-        //background-image: url('../img/locationBox.png');
-        background-position: center center !important;
-        background-repeat: no-repeat;
-        background-size: cover !important;
-        background-color: #0083fb !important;
-        padding: 10px;
+    @media(max-width: 650px){
+      width: 50%;
+      max-width: none;
+    }
+  }
+  &.col-sm-3,
+  &.col-sm-4{
+    @media(max-width: 500px){
+      width: 100%;
+      max-width: 270px;
+      display: block;
+      margin: 0 auto !important;
+    }
+  }
+}
 
+.locBox{
+  border: 1px solid #DEDEDE;
+  border-radius: 4px;
+  margin-bottom: 22px;
+  position: relative; //for a.full-click-box
+  .locBoxHeader{
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #0083fb;
+    padding: 10px;
+    color: #FFF;
+    height: 179px;
+    .border-radius(4px 4px 0 0);
+    position: relative;
+    @media(min-width: 768px) and (max-width: 991px){ height: 139px; }
+    //jedynie zrobione zeby pokazac jeden box bez background-image - noBG
+    /*&.noBG{ background-image: none; }*/
+    &:before{
+      .border-radius(4px 4px 0 0);
+      content:"";
+      position: absolute;
+      top:0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.76;
+      background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+    }
+    >div{ position: relative; }
+    .locBoxLoc,
+    .locBoxIcon{
+      width: 48%;
+      display: inline-block;
+      vertical-align: top;
+      font-size: 10px;
+      text-align: left;
+      /*.locBoxBookmark,
+      .locBoxMarker{
+          text-align: right;
+          margin-bottom: 10px;
+          margin-right: -8px;
+          a{
+              color: #FFF;
+          }
+          .fa-stack{
+              width: 21px;
+              height: 21px;
+              line-height: 21px;
+          }
+          .fa-stack-2x{
+              border-radius: 50%;
+              -webkit-border-radius: 50%;
+              -moz-border-radius: 50%;
+              color: transparent;
+              border: 1px solid #FFF;
+          }
+      }*/
+      a{
         color: #FFF;
-        max-height: 179px;
-        height: 100%;
-        min-height: 179px;
-        .borderLeftRightRadius;
-        position: relative;
-        @media(min-width: 768px) and (max-width: 991px){
-            min-height: 139px;
-        }
-
-        //jedynie zrobione zeby pokazac jeden box bez background-image - noBG
-        &.noBG{
-            background-image: none;
-        }
-        &:before{
-            .borderLeftRightRadius;
-             content:"";
-            position: absolute;
-            top:0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.76;
-            background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
-
-
-        }
-        >div{
-            
-            position: relative;
-        }
-
-        .locBoxLoc,
-        .locBoxIcon{
-            width: 48%;
-            display: inline-block;
-            vertical-align: top;
-            font-size: 10px;
-            text-align: left;
-            .locBoxBookmark,
-            .locBoxMarker{
-                text-align: right;
-                margin-bottom: 10px;
-                margin-right: -8px;
-                a{
-                    color: #FFF;
-                }
-                .fa-stack{
-                    width: 21px;
-                    height: 21px;
-                    line-height: 21px;
-                }
-                .fa-stack-2x{
-                    border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    color: transparent;
-                    border: 1px solid #FFF;
-                }
-            }
-            a{
-                color: #FFF;
-                text-decoration: none;
-            }
-        }
-
-        .locBoxContainer{
-            position: absolute;
-            bottom: 15px;
-            z-index: 2;
-            @media(min-width: 500px) and (max-width: 1200px){
-                width: 100%;
-                padding-right: 15px;
-            }
-            .locBoxAuthor{
-                display: inline-block;
-                height: 40px;
-                width: 40px;
-                vertical-align: middle;
-                margin-left: 5px;
-                padding-right: 53px;
-                border-right: 1px solid #FFF;
-
-                >a{
-                    display: inline-block;
-                    width: 40px;
-                    height: 40px;
-                }
-                @media(min-width: 500px) and (max-width: 1200px){
-                    display: block;
-                    padding-right: 5px;
-                    border-right: 0 none;
-                    margin: 0;
-                    text-align: center;
-                    width: 100%;
-                }
-
-            }
-            .locBoxTitle{
-                display: inline-block;
-                font-size: 14px;
-                font-weight: bold;
-                padding-left: 10px;
-                padding-right: 15px;
-                max-width: 74%;
-                vertical-align: middle;
-                a{
-                    color: #FFF;
-                    text-decoration: none;
-                }
-                @media(min-width: 500px) and (max-width: 1200px){
-                    max-width: 100%;
-                    padding-left: 0;
-                    padding-right: 5px;
-                }
-            }
-        }
+        text-decoration: none;
+      }
     }
+    .locBoxContainer{
+      position: absolute;
+      bottom: 15px;
+      z-index: 2;
+      @media(min-width: 500px) and (max-width: 1200px){
+        width: 100%;
+        padding-right: 15px;
+      }
+      .locBoxAuthor{
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+        vertical-align: middle;
+        margin-left: 5px;
+        padding-right: 53px;
+        border-right: 1px solid #FFF;
+        >a{
+          display: inline-block;
+          width: 40px;
+          height: 40px;
+        }
+        @media(min-width: 500px) and (max-width: 1200px){
+          display: block;
+          padding-right: 5px;
+          border-right: 0 none;
+          margin: 0;
+          text-align: center;
+          width: 100%;
+        }
+      }
+      .locBoxTitle{
+        display: inline-block;
+        font-size: 14px;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-right: 15px;
+        max-width: 74%;
+        vertical-align: middle;
+        a{
+          color: #FFF;
+          text-decoration: none;
+        }
+        @media(min-width: 500px) and (max-width: 1200px){
+          max-width: 100%;
+          padding-left: 0;
+          padding-right: 5px;
+        }
+      }
+    }
+  }
+  .locBoxCat{
+    font-size: 10px;
+    color: #FFF;
+    text-transform: uppercase;
+    padding: 10px;
+    a{
+      color: #FFF;
+      text-decoration: none;
+    }
+  }
+  &.loc-box-idea{
+      .locBoxCat{
+        background-color: #639f25;
+      }
+  }
+  // Unicode characters in classnames are invalid.
+  &.loc-box-news{
     .locBoxCat{
-        //background-color: #84bd00;
-        font-size: 10px;
-        color: #FFF;
-        text-transform: uppercase;
-        padding: 10px;
-        a{
-            color: #FFF;
-            text-decoration: none;
-        }
+      background-color: #3743bb;
     }
-    &.loc-box-idea,
-    &.loc-box-pomysł{
-        .locBoxCat{
-            background-color: #639f25;
-        }
-    }
-    // Unicode characters in classnames are invalid.
-    &.loc-box-news,
-    &.loc-box-aktualność{
-        .locBoxCat{
-            background-color: #3743bb;
-        }
-    }
-    &.loc-box-discussion,
-    &.loc-box-Dyskusje{
-        .locBoxCat{
-            background-color: #0d6336;
-        }
-    }
-    &.loc-box-poll,
-    &.loc-box-ankieta{
-        .locBoxCat{
-            background-color: #efa101;
-        }
-    }
-    &.loc-box-socialproject {
-        .locBoxCat{
-            background-color: #202020;
-        }
-    }
-
-    .locBoxBody{
-        font-size: 10px;
-        padding: 10px;
-        line-height: 12px;
-        max-height: 54px;
-        min-height: 54px;
-        overflow: hidden;
-        p{
-            margin-bottom: 0;
-            img{
-                display: none;
-            }
-            &:nth-of-type(n+4){
-                display: none;
-            }
-        }
-        ol,ul{
-            padding: 0;
-            margin: 0;
-            list-style: none;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        @media(max-width: 991px){
-            max-height: none;
-        }
-        a{
-            color: #666;
-            text-decoration: none;
-        }
-    }
-
   }
+  &.loc-box-discussion{
+    .locBoxCat{
+      background-color: #0d6336;
+    }
+  }
+  &.loc-box-poll{
+    .locBoxCat{
+      background-color: #efa101;
+    }
+  }
+  &.loc-box-socialproject {
+    .locBoxCat{
+      background-color: #202020;
+    }
+  }
+  .locBoxBody{
+    font-size: 10px;
+    padding: 10px;
+    line-height: 12px;
+    max-height: 54px;
+    min-height: 54px;
+    overflow: hidden;
+    p{ margin-bottom: 0;
+      img{ display: none; }
+      &:nth-of-type(n+4){ display: none; }
+    }
+    ol,ul{
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    @media(max-width: 991px){
+      max-height: none;
+    }
+    a{
+      color: #666;
+      text-decoration: none;
+    }
+  }
+}
 
-#profActi{
+/*#profActi{
     padding-left: 0;
 }
+*/
