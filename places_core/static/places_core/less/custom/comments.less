@@ -1,156 +1,88 @@
-#comments {
-    
-    .comment {
-        
-        //margin-bottom: 10px;
-        margin-bottom: 0px;
-        
-        .comment-main-col {
-          padding-left: 50px;
-          padding-right: 0px;
-        }
-        
-        .subcomments {
-            
-            //margin-top: 20px;
-            margin-top: 0px;
-            
-        }
-        
-        .comment-content {
-            
-            font-size: 14px;
-            line-height: 20px;
-            
-        }
-        
-        .comment-author-name {
-        
-            font-size: 12px;
-            
-        }
-        
-        .comment-date-from-now {
-            
-            
-            
-        }
-        
-        .comment-meta-options {
-            
-            p {
-                font-size: 12px;    
-                .comment-total-votes {
-                    
-                   margin-right: 10px; 
-                    
-                }
 
-                color: #878787;
-                
-                a {
-                    
-                    color: #878787;
-                    
-                    &:hover {
-                        
-                        color: @link-hover-color;
-                        
-                    }
-                    
-                }
-                
-            }
-            
-        }
-
-        .commentNext{
-            margin-top: 0px;
-        }
-        
-    }
-    
+.comment {
+  /*margin-bottom: 0px;*/
+  a{ color: #8c8c8c;
+    &:hover{ color: #0083FB; }
+  }
+  p,a{ font-size: 12px; }
+  .comment-total-votes { margin-right: 10px; }
+  .comment-main-col {
+    padding-left: 50px;
+    padding-right: 0px;
+  }
+  .comment-author-name { color: #0087ff; }
+  .comment-date-from-now{ color: #8c8c8c; }
+  .comment-controls {
+    opacity: 0;
+    float: right;
+    transition: all .3s
+  }
+  /*.subcomments { margin-top: 0px; }*/
+  /*.comment-content {
+    font-size: 14px;
+    line-height: 20px;
+  }*/
+  /*commentNext{
+      margin-top: 0px;
+  }*/
 }
 
-/* Comments */  
+
+/* Comments */
 
 .commentformarea {
-
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-
-    .avatarCommentsAutor{
-        padding: 0;
-        margin-right: -15px;
-        img{
-            width: 40px;
-            height: 40px;
-        }
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  .avatarCommentsAutor{
+    padding: 0;
+  /*  margin-right: -15px;*/
+    img{
+      width: 40px;
+      height: 40px;
     }
-  
+  }
   //ukryte w js sortowanie
  #comment-order-controls{
-    
-    margin-top: -20px;
-    padding-bottom: 20px;
-    font-size: 12px;
-
+  margin-top: -20px;
+  padding-bottom: 20px;
+  font-size: 12px;
  }
-
- #user-comment-form{
-    margin-right: -30px;
- }
-
+/* #user-comment-form{
+  margin-right: -30px;
+ }*/
   textarea{
-    border-radius: 0;
-    box-shadow: 0 0 0 transparent;
-    -webkit-box-shadow: 0 0 0 transparent;
-    -moz-box-shadow: 0 0 0 transparent;
-    //margin: 11px 0;
-    resize: vertical;
-    overflow: hidden;
+  border-radius: 0;
+  box-shadow: 0 0 0 transparent;
+  -webkit-box-shadow: 0 0 0 transparent;
+  -moz-box-shadow: 0 0 0 transparent;
+  resize: vertical;
+  overflow: hidden;
   }
-
   width: 100%;
-  
   .current-user-comment-avatar {
     margin-top: 10px;
   }
-  
-  .btn-submit-comment-main {
+  /*.btn-submit-comment-main {
     float: right;
-  }
-
- 
+  }*/
 }
 /* // Comments */
 
 @media all and (max-width: 768px) {
-    
-    #comments {
-        
-        .comment {
-            
-            .col-sm-11 {
-                
-                padding-left: 50px;
-                
-            }
-            
-        }
-        
+  #comments {
+    .comment {
+      .col-sm-11 { padding-left: 50px; }
     }
-    
+  }
 }
 .customEntry-comments{
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 18px;
-    border-bottom: 1px solid #5B5757;
-    margin-bottom: 25px;
-
-    .custom-comments-toggle{
-        float: right;
-        text-decoration: none;
-    }
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 18px;
+  border-bottom: 1px solid #5B5757;
+  margin-bottom: 25px;
+  .custom-comments-toggle{
+    float: right;
+    text-decoration: none;
+  }
 }
