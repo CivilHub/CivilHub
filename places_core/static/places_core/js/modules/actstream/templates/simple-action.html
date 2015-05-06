@@ -9,7 +9,7 @@
     <div class="timeline-content-head">
     <a href="<%= actor.profile.url %>"><%= actor.full_name %></a> <%= verb %>
     <% if (!_.isNull(action_object)) { %><a href="<%= action_object.url %>"><%= action_object.title %></a>
-    <% } else { %><a href="<%= action_target.url %>"><%= action_target.name %></a><% } %>
+    <% } else if (!_.isNull(action_target)) { %><a href="<%= action_target.url %>"><%= action_target.name %></a><% } %>
     </div>
   </div>
 </div>

@@ -8,11 +8,12 @@ define(['jquery',
         'underscore',
         'backbone',
         'CUri',
+        'js/modules/actstream/action-model',
         'js/modules/actstream/action-collection',
         'js/modules/actstream/action-view',
         'jpaginate'],
 
-function ($, _, Backbone, CUri, ActionCollection, ActionView) {
+function ($, _, Backbone, CUri, ActionModel, ActionCollection, ActionView) {
 
 "use strict";
 
@@ -88,13 +89,17 @@ var ActionList = Backbone.View.extend({
       }, this);
       this.$spinner.appendTo(this.$el);
     } else {
-      this.$el.append('<p class="alert alert-info">' + gettext("No activity yet") + '</p>');
+      this.$el.append(([
+        '<p class="alert alert-info">',
+        gettext("No activity yet"),
+        '</p>']).join('')
+      );
     }
   },
 
   renderPage: function (collection, data) {
     _.each(data.results, function (item) {
-      this.renderItem(item);
+      this.renderItem(new ActionModel(item));
     }, this);
   },
 
