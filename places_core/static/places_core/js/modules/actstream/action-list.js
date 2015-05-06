@@ -48,7 +48,6 @@ var ActionList = Backbone.View.extend({
 
     this.collection = new ActionCollection();
     this.collection.url = this.url.url();
-    this.listenTo(this.collection, 'add', this.renderItem);
     _.bindAll(this, 'render');
     _.bindAll(this, 'renderPage');
     this.collection.fetch({ success: this.render });

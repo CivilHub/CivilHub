@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.utils.translation import ugettext as _
 
 from etherpad.models import Pad
 from gallery.models import ContentObjectGallery, ContentObjectPicture
 from organizations.models import Organization
 from places_core.forms import BootstrapBaseForm
 
-from .models import SocialProject, TaskGroup, Task, \
+from .models import Attachment, SocialProject, TaskGroup, Task, \
                     SocialForumTopic, SocialForumEntry
 
 
@@ -179,3 +180,21 @@ class ProjectPictureForm(forms.ModelForm):
             'description': forms.Textarea(
                 attrs={'class': 'form-control custom-wysiwyg-no-gallery'})
         }
+
+
+MAX_FILE_SIZE = 4 # In megabytes
+
+class AttachmentUploadForm(forms.ModelForm):
+    """ Upload attachment files for projects.
+    """
+    class Meta:
+        model = Attachment
+        exclude = ('mime_type', 'uploaded_by', )
+        widgets = {'project': forms.HiddenInput(), }
+
+    def clean_attachment(self):
+        attachment = self.cleaned_data['attachment']
+        if attachment._size > MAX_FILE_SIZE * 1024 * 1024:
+            err_msg = _(u"File is too big (%d MB)" % MAX_FILE_SIZE)
+            raise forms.ValidationError(err_msg)
+        return attachment
