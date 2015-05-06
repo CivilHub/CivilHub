@@ -3,6 +3,7 @@ import json
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from django.db.models import Q
 from django.http import Http404
 from django.utils.translation import ugettext as _
 
@@ -21,12 +22,20 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
     related to specific target. Returned queryset is based on 3 parameters:<br>
         `type` - "actor", "target" or "user"<br>
         `ct`   - Content Type ID for object in question<br>
-        `pk`   - ID of selected object
+        `pk`   - ID of selected object<br>
+        `content` - content filter in form of &lt;app_label&gt;&lt;model&gt; pair
     """
     model = Action
     serializer_class = ActionSerializer
     paginate_by = 15
     request_object = None
+
+    def content_filter(self):
+        content_filter = self.request.QUERY_PARAMS.get('content', 'all')
+        if content_filter == 'all':
+            return None
+        app_label, model = content_filter.split('.')
+        return ContentType.objects.get(app_label=app_label, model=model).pk
 
     def get_queryset(self):
         stream_type = self.request.QUERY_PARAMS.get('type')
@@ -38,15 +47,20 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
         ct = ContentType.objects.get(pk=content_type)
         self.request_object = ct.get_object_for_this_type(pk=object_id)
         if stream_type == 'actor':
-            return actor_stream(self.request_object)
+            qs = actor_stream(self.request_object)
         elif stream_type == 'target':
-            return target_stream(self.request_object)
+            qs = target_stream(self.request_object)
         elif stream_type == 'ngo':
-            return Action.objects.ngostream(self.request_object)
+            qs = Action.objects.ngostream(self.request_object)
         elif stream_type == 'location':
-            return Action.objects.location(self.request_object)
+            qs = Action.objects.location(self.request_object)
         else:
-            return Action.objects.mystream(self.request_object)
+            qs = Action.objects.mystream(self.request_object)
+        content_filter = self.content_filter()
+        if content_filter is not None:
+            qs = qs.filter(Q(action_object_content_type__pk=content_filter) |
+                           Q(target_content_type__pk=content_filter))
+        return qs
 
 
 class FollowObjectView(APIView):

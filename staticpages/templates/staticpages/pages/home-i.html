@@ -21,17 +21,19 @@ window.GOOGLE_DATA = {
 <style>
 /* Register box*/
 .register-box{
+  display: inline-block;
+  text-align: center;
   width: 300px;
-  min-height: 320px;
-  position: relative;
-  top: 65%;
-  left: 50%;
-  margin-left: -150px;   
+  min-height: 320px; 
   @media(max-width: 450px){
     position: relative;
     top: 0;
     margin-top: 0px;
   }
+}
+
+.form-control {
+  border: 0px;
 }
 
 .register-box h1{
@@ -100,6 +102,7 @@ window.GOOGLE_DATA = {
   text-align: center;
   font-size: 10px;
   color: white;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
 }
 .register-box .terms a{
   font-weight: bold;
@@ -116,7 +119,7 @@ window.GOOGLE_DATA = {
 }
 /* End of register box */
 body {
-  background-image: url("https://civilhub.org/media/filer_public/52/34/52347e19-aceb-4b03-9948-6d3b7a15ace3/homepage_e_bg.jpg");
+  background-image: url("https://civilhub.org/media/filer_public/2c/10/2c103a7b-38b0-4500-9f0b-6b22c6c438ad/homepage_i_bg.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -125,34 +128,47 @@ body {
   background-position:center;
   background-attachment:fixed;
 }
-.home_e_center_wrapper {
+.home_i_logo_outer {
+  margin-top: 8%;
   text-align: center;
-  position: relative;
-  top: 14%;  
 }
-.home_e_logo {
-  position: absolute;
-  top: 15px;
-  left: 20%;
-  width: 210px;
-  height: 31px;
-  background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
+.home_i_logo {
+  display: inline-block;
+  width: 639px;
+  height: 118px;
+  background-image: url('https://civilhub.org/media/filer_public/a0/a0/a0a0ceb1-8d1d-4588-8169-aad86b6b9516/homepage_g_logo.png');
   background-size: contain;
-  @media 
 }
-.home_e_main_text {
+.home_i_center_wrapper {
+  position: absolute;
+  margin-top: 50px;
+  width: 100%;
   text-align: center;
-  position: relative;
+  background: rgba(0,0,0,0.20);
 }
-.home_e_main_text h1{
-  color: white;
-  font-size: 50px;
+.home_i_main_text {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  margin-top: 25px;
+  width: 400px;
   text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
 }
-.home_e_main_text h2{
+.home_i_separator {
+  display: inline-block;
+  text-align: center;
+  margin: 0 50px;
+  width: 1px;
+  height: 350px;
+  background: white;
+}
+.home_i_main_text h1{
   color: white;
-  font-size: 40px;
-  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
+  font-size: 30px;
+}
+.home_i_main_text h2{
+  color: white;
+  font-size: 25px;
 }
 /* lang selector */
 .lang-selector-wrapper {
@@ -241,58 +257,78 @@ ul {
 }
 /* media queries */ 
 @media screen and (max-width: 1300px){
-  .home_e_center_wrapper {
-    top: 10%;
-  }
-  .home_e_brief {
+  .home_i_brief {
     right: 36%;
   }
 }
-@media screen and (max-width: 800px){
-  .home_e_brief {
-    right: 40%;
+@media screen and (max-width: 860px){
+  .home_i_logo_outer {
+    display: none;
   }
-  .home_e_main_text {
-    top: 11%; 
+  .home_i_min_logo {
+    position: absolute;
+    top: 15px;
+    left: 20%;
+    width: 210px;
+    height: 31px;
+    background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
+    background-size: contain;   
   }
-}
-@media screen and (max-width: 767px){
-  .home_e_main_text h1 {
-    font-size: 24px;
+  @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) {
+    .home_i_min_logo {
+      background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
+    }
+  } 
+  .home_i_main_text {
+    margin-top: 0;
+    width: 100%;
   }
-  .home_e_main_text h2 {
-    font-size: 18px;
+  .home_i_separator {
+    display: none;
+  }
+  .register-box {
   }
 }
 @media screen and (max-width: 750px){
-  .home_e_center_wrapper {
-    top: 0;
+  .home_i_center_wrapper {
+    margin-top: 0;
+  }
+  .home_i_main_text h1 {
+    font-size: 24px;
+  }
+  .home_i_main_text h2 {
+    font-size: 18px;
   }
 }
-/* retina */
 @media 
   (-webkit-min-device-pixel-ratio: 2), 
   (min-resolution: 192dpi) {
-    body {
-        background-image: url('https://civilhub.org/media/filer_public/2a/62/2a62ff09-16ae-484e-a152-a9296661bdc6/homepage_e_bg2x.jpg');
-    }
-  .home_e_logo {
-    background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
+  body {
+    background-image: url('https://civilhub.org/media/filer_public/33/f9/33f9b110-0118-4e68-8935-d396ca4198ce/homepage_i_bg2x.jpg');
+  }
+  .home_i_logo {
+    background-image: url('https://civilhub.org/media/filer_public/32/15/32157660-4a19-41c0-a5bf-76991364a5d9/homepage_g_logo2x.png');    
   }
 }
 </style>
 <div class="fort-top"></div>
 <header>
-  <a href="/"><div class="home_e_logo"></div></a>
+  <a href="/"><div class="home_i_min_logo"></div></a>
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
   <div class="login-Home"><a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a></div>
 </header>
-
-<div class="home_e_center_wrapper">
-  <div class="home_e_main_text">
+<div class="home_i_logo_outer">
+  <a href="/"><div class="home_i_logo"></div></a>
+</div>
+<div class="home_i_center_wrapper">
+  <div class="home_i_main_text">
     <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-    <h2>{% trans "CivilHub is a space, where we can act together <br>to make our local environment a better place" %}</h2>
+    <h2>{% trans "CivilHub is a place, where we can act together to make our local environment a better place. A place, where we can act together to make our local  nvironment a better place. Place, where we can act together to make our local environment a better plac." %}</h2>
   </div>
+
+  <div class="home_i_separator"></div>
 
   <div class="register-box">
     <h1>{% trans "Create a new account" %}</h1>
@@ -344,8 +380,7 @@ ul {
         <input id="code" type="hidden" name="code" value="" />
     </form>
   </div><!--end of register box -->
-</div><!--end of home_e_center_wrapper -->
-
+</div><!--end of home_i_center_wrapper -->
 <div class="lang-selector-wrapper">
   <div id="lang-selector">
     <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>

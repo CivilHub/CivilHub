@@ -138,11 +138,6 @@ body {
   height: 115px;
   background-image: url('https://civilhub.org/media/filer_public/18/5d/185dd1d5-31f9-483c-84f9-234a6b9e4722/homepage_f_logo.png');
   background-size: contain;
-  @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-    background-image: url('https://civilhub.org/media/filer_public/35/8a/358aa7ee-6615-4fe9-98f1-0ba1ba46e105/homepage_f_logo2x.png');
-  }
 }
 .home_f_center_wrapper {
   position: absolute;
@@ -292,14 +287,22 @@ ul {
   .register-box {
   }
 }
-@media screen and (max-width: 800px){
-}
-@media screen and (max-width: 600px){
+@media screen and (max-width: 750px){
+  .home_f_center_wrapper {
+    margin-top: 0;
+  }
   .home_f_main_text h1 {
-    font-size: 40px;
+    font-size: 24px;
   }
   .home_f_main_text h2 {
-    font-size: 30px;
+    font-size: 18px;
+  }
+}
+@media 
+  (-webkit-min-device-pixel-ratio: 2), 
+  (min-resolution: 192dpi) {
+    .home_f_logo {
+    background-image: url('https://civilhub.org/media/filer_public/35/8a/358aa7ee-6615-4fe9-98f1-0ba1ba46e105/homepage_f_logo2x.png');
   }
 }
 </style>
