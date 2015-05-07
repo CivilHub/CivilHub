@@ -27,7 +27,7 @@ class HotBoxAPIView(APIView):
     def get_queryset(self):
         uid = self.request.QUERY_PARAMS.get('uid')
         lid = self.request.QUERY_PARAMS.get('lid')
-        time_diff = timezone.now() - datetime.timedelta(days=7)
+        time_diff = timezone.now() - datetime.timedelta(days=30)
         if lid is not None:
             location = get_object_or_404(Location, pk=lid)
             news_set = location.news_set.filter(date_created__gte=time_diff)

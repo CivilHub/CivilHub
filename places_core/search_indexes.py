@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
+
 from haystack import indexes
-from locations.models import Location
-from topics.models import Discussion
+
 from blog.models import News
 from ideas.models import Idea
+from locations.models import Location
+from organizations.models import Organization
 from polls.models import Poll
+from topics.models import Discussion
 
 
 class LocationIndex(indexes.SearchIndex, indexes.Indexable):
@@ -46,7 +49,6 @@ class NewsIndex(indexes.SearchIndex, indexes.Indexable):
     """
     text = indexes.CharField(document=True)
     title = indexes.CharField(model_attr='title')
-    content = indexes.CharField(model_attr='content')
 
     def get_model(self):
         return News
@@ -61,7 +63,6 @@ class IdeasIndex(indexes.SearchIndex, indexes.Indexable):
     """
     text = indexes.CharField(document=True)
     name = indexes.CharField(model_attr='name')
-    description = indexes.CharField(model_attr='description')
 
     def get_model(self):
         return Idea
@@ -96,6 +97,19 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return User
+
+    def index_queryset(self, using=None):
+        return self.get_model().objects.all()
+
+
+class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
+    """ Search for NGO
+    """
+    text = indexes.CharField(document=True)
+    name = indexes.CharField(model_attr='name')
+
+    def get_model(self):
+        return Organization
 
     def index_queryset(self, using=None):
         return self.get_model().objects.all()
