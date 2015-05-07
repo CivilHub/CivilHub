@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 22:15+0200\n"
+"POT-Creation-Date: 2015-05-07 09:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -447,6 +447,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:229
 #: polls/templates/polls/create-poll.html:76
 #: polls/templates/polls/simplepoll_form.html:4
+#: projects/templates/projects/attachment_form.html:4
 #: projects/templates/projects/gallery_form.html:5
 #: projects/templates/projects/organization_add.html:6
 #: projects/templates/projects/picture_form.html:5
@@ -906,7 +907,7 @@ msgstr ""
 msgid "authors groups"
 msgstr ""
 
-#: etherpad/models.py:70 projects/models.py:220 simpleblog/models.py:70
+#: etherpad/models.py:70 projects/models.py:227 simpleblog/models.py:70
 msgid "author"
 msgstr ""
 
@@ -1066,8 +1067,8 @@ msgid "Select images you wish to remove"
 msgstr ""
 
 #: gallery/models.py:169 gallery/models.py:233 locations/models.py:152
-#: organizations/models.py:41 projects/models.py:35 projects/models.py:130
-#: projects/models.py:154
+#: organizations/models.py:41 projects/models.py:42 projects/models.py:137
+#: projects/models.py:161
 msgid "name"
 msgstr ""
 
@@ -1080,8 +1081,8 @@ msgid "image galleries"
 msgstr ""
 
 #: gallery/models.py:236 locations/models.py:158 organizations/models.py:44
-#: organizations/models.py:65 projects/models.py:65 projects/models.py:131
-#: projects/models.py:155 projects/models.py:191
+#: organizations/models.py:65 projects/models.py:72 projects/models.py:138
+#: projects/models.py:162 projects/models.py:198 projects/models.py:270
 msgid "description"
 msgstr ""
 
@@ -1093,7 +1094,7 @@ msgstr ""
 msgid "image"
 msgstr ""
 
-#: gallery/models.py:242
+#: gallery/models.py:242 projects/models.py:272
 msgid "date uploaded"
 msgstr ""
 
@@ -1246,8 +1247,8 @@ msgstr ""
 msgid "in progress"
 msgstr ""
 
-#: ideas/models.py:43 projects/models.py:77 projects/models.py:132
-#: projects/models.py:190
+#: ideas/models.py:43 projects/models.py:84 projects/models.py:139
+#: projects/models.py:197 projects/models.py:269
 msgid "project"
 msgstr ""
 
@@ -1504,7 +1505,7 @@ msgstr ""
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:155 projects/models.py:36
+#: locations/models.py:155 projects/models.py:43
 msgid "slug"
 msgstr ""
 
@@ -1520,7 +1521,7 @@ msgstr ""
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:173 organizations/models.py:68 projects/models.py:195
+#: locations/models.py:173 organizations/models.py:68 projects/models.py:202
 msgid "creator"
 msgstr ""
 
@@ -1538,8 +1539,8 @@ msgstr ""
 
 #: locations/models.py:183 notifications/models.py:41
 #: organizations/models.py:70 organizations/models.py:144
-#: projects/models.py:68 projects/models.py:157 projects/models.py:192
-#: projects/models.py:223 simpleblog/models.py:65
+#: projects/models.py:75 projects/models.py:164 projects/models.py:199
+#: projects/models.py:230 simpleblog/models.py:65
 msgid "date created"
 msgstr ""
 
@@ -1567,7 +1568,7 @@ msgstr ""
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:214 projects/models.py:66
+#: locations/models.py:214 projects/models.py:73
 msgid "location"
 msgstr ""
 
@@ -2251,7 +2252,7 @@ msgstr ""
 msgid "Markers created"
 msgstr ""
 
-#: notifications/models.py:39 polls/models.py:153
+#: notifications/models.py:39 polls/models.py:153 projects/models.py:273
 msgid "user"
 msgstr ""
 
@@ -2715,6 +2716,7 @@ msgid "Discussion"
 msgstr ""
 
 #: places_core/templates/places_core/navigation.html:104
+#: polls/templates/polls/simplepoll_form.html:2
 msgid "Poll"
 msgstr ""
 
@@ -2915,88 +2917,97 @@ msgstr ""
 msgid "leaved project"
 msgstr ""
 
-#: projects/forms.py:144
+#: projects/forms.py:145
 msgid "You have to be logged in"
 msgstr ""
 
-#: projects/forms.py:147
+#: projects/forms.py:148
 msgid "You don't have permission to do that"
 msgstr ""
 
-#: projects/models.py:67 projects/models.py:160
+#: projects/forms.py:198
+#, python-format
+msgid "File is too big (%d MB)"
+msgstr ""
+
+#: projects/models.py:74 projects/models.py:167
 msgid "participants"
 msgstr ""
 
-#: projects/models.py:69 projects/models.py:158
+#: projects/models.py:76 projects/models.py:165
 msgid "date changed"
 msgstr ""
 
-#: projects/models.py:70 projects/models.py:161
+#: projects/models.py:77 projects/models.py:168
 msgid "finished"
 msgstr ""
 
-#: projects/models.py:71 projects/models.py:133 projects/models.py:162
+#: projects/models.py:78 projects/models.py:140 projects/models.py:169
 msgid "created by"
 msgstr ""
 
-#: projects/models.py:78
+#: projects/models.py:85
 msgid "projects"
 msgstr ""
 
-#: projects/models.py:139
+#: projects/models.py:146
 msgid "task group"
 msgstr ""
 
-#: projects/models.py:140
+#: projects/models.py:147
 msgid "task groups"
 msgstr ""
 
-#: projects/models.py:156
+#: projects/models.py:163
 msgid "group"
 msgstr ""
 
-#: projects/models.py:159
+#: projects/models.py:166
 msgid "time limit"
 msgstr ""
 
-#: projects/models.py:168
+#: projects/models.py:175
 msgid "task"
 msgstr ""
 
-#: projects/models.py:169
+#: projects/models.py:176
 msgid "tasks"
 msgstr ""
 
-#: projects/models.py:193 projects/models.py:224 simpleblog/models.py:67
+#: projects/models.py:200 projects/models.py:231 simpleblog/models.py:67
 msgid "date edited"
 msgstr ""
 
-#: projects/models.py:194
+#: projects/models.py:201
 msgid "closed"
 msgstr ""
 
-#: projects/models.py:199 topics/models.py:82
+#: projects/models.py:206 topics/models.py:82
 msgid "discussions"
 msgstr ""
 
-#: projects/models.py:219 templates/search/search.html:52 topics/models.py:81
+#: projects/models.py:226 templates/search/search.html:52 topics/models.py:81
 msgid "discussion"
 msgstr ""
 
-#: projects/models.py:221 simpleblog/models.py:63
+#: projects/models.py:228 simpleblog/models.py:63
 msgid "content"
 msgstr ""
 
-#: projects/models.py:222
+#: projects/models.py:229
 msgid "edited"
 msgstr ""
 
-#: projects/models.py:230
+#: projects/models.py:237
 msgid "forum entry"
 msgstr ""
 
-#: projects/models.py:231
+#: projects/models.py:238
 msgid "forum entries"
+msgstr ""
+
+#: projects/models.py:271
+msgid "file"
 msgstr ""
 
 #: projects/templates/projects/document_preview.html:6
@@ -3175,6 +3186,10 @@ msgstr ""
 
 #: projects/templates/projects/taskgroup_form.html:12
 msgid "Create new group"
+msgstr ""
+
+#: projects/views/attachments.py:61
+msgid "Files uploaded"
 msgstr ""
 
 #: projects/views/base.py:66

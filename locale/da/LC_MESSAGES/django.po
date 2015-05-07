@@ -1,21 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 22:15+0200\n"
-"PO-Revision-Date: 2015-05-03 08:00+0000\n"
+"POT-Creation-Date: 2015-05-07 09:44+0200\n"
+"PO-Revision-Date: 2015-05-07 07:45+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
-"Language-Team: Danish (http://www.transifex.com/projects/p/civilhub/language/"
-"da/)\n"
-"Language: da\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/civilhub/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: activities/serializers.py:87 rest/serializers.py:136
@@ -448,6 +447,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:229
 #: polls/templates/polls/create-poll.html:76
 #: polls/templates/polls/simplepoll_form.html:4
+#: projects/templates/projects/attachment_form.html:4
 #: projects/templates/projects/gallery_form.html:5
 #: projects/templates/projects/organization_add.html:6
 #: projects/templates/projects/picture_form.html:5
@@ -907,7 +907,7 @@ msgstr ""
 msgid "authors groups"
 msgstr ""
 
-#: etherpad/models.py:70 projects/models.py:220 simpleblog/models.py:70
+#: etherpad/models.py:70 projects/models.py:227 simpleblog/models.py:70
 msgid "author"
 msgstr ""
 
@@ -1067,8 +1067,8 @@ msgid "Select images you wish to remove"
 msgstr ""
 
 #: gallery/models.py:169 gallery/models.py:233 locations/models.py:152
-#: organizations/models.py:41 projects/models.py:35 projects/models.py:130
-#: projects/models.py:154
+#: organizations/models.py:41 projects/models.py:42 projects/models.py:137
+#: projects/models.py:161
 msgid "name"
 msgstr ""
 
@@ -1081,8 +1081,8 @@ msgid "image galleries"
 msgstr ""
 
 #: gallery/models.py:236 locations/models.py:158 organizations/models.py:44
-#: organizations/models.py:65 projects/models.py:65 projects/models.py:131
-#: projects/models.py:155 projects/models.py:191
+#: organizations/models.py:65 projects/models.py:72 projects/models.py:138
+#: projects/models.py:162 projects/models.py:198 projects/models.py:270
 msgid "description"
 msgstr ""
 
@@ -1094,7 +1094,7 @@ msgstr ""
 msgid "image"
 msgstr ""
 
-#: gallery/models.py:242
+#: gallery/models.py:242 projects/models.py:272
 msgid "date uploaded"
 msgstr ""
 
@@ -1247,8 +1247,8 @@ msgstr ""
 msgid "in progress"
 msgstr ""
 
-#: ideas/models.py:43 projects/models.py:77 projects/models.py:132
-#: projects/models.py:190
+#: ideas/models.py:43 projects/models.py:84 projects/models.py:139
+#: projects/models.py:197 projects/models.py:269
 msgid "project"
 msgstr ""
 
@@ -1505,7 +1505,7 @@ msgstr ""
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:155 projects/models.py:36
+#: locations/models.py:155 projects/models.py:43
 msgid "slug"
 msgstr ""
 
@@ -1521,7 +1521,7 @@ msgstr ""
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:173 organizations/models.py:68 projects/models.py:195
+#: locations/models.py:173 organizations/models.py:68 projects/models.py:202
 msgid "creator"
 msgstr ""
 
@@ -1539,8 +1539,8 @@ msgstr ""
 
 #: locations/models.py:183 notifications/models.py:41
 #: organizations/models.py:70 organizations/models.py:144
-#: projects/models.py:68 projects/models.py:157 projects/models.py:192
-#: projects/models.py:223 simpleblog/models.py:65
+#: projects/models.py:75 projects/models.py:164 projects/models.py:199
+#: projects/models.py:230 simpleblog/models.py:65
 msgid "date created"
 msgstr ""
 
@@ -1568,7 +1568,7 @@ msgstr ""
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:214 projects/models.py:66
+#: locations/models.py:214 projects/models.py:73
 msgid "location"
 msgstr ""
 
@@ -1811,13 +1811,14 @@ msgstr ""
 #: locations/templates/locations/location_form.html:32
 msgid ""
 "Choose the 'parent' i.e. specify where your place is located. For example: "
-"the city of New York is located in United States -> Empire State -> New York "
-"City."
+"the city of New York is located in United States -> Empire State -> New York"
+" City."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:33
 msgid ""
-"Pinning the place on a map will make it easier for your neighbors to find it."
+"Pinning the place on a map will make it easier for your neighbors to find "
+"it."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:57
@@ -2252,7 +2253,7 @@ msgstr ""
 msgid "Markers created"
 msgstr ""
 
-#: notifications/models.py:39 polls/models.py:153
+#: notifications/models.py:39 polls/models.py:153 projects/models.py:273
 msgid "user"
 msgstr ""
 
@@ -2716,6 +2717,7 @@ msgid "Discussion"
 msgstr ""
 
 #: places_core/templates/places_core/navigation.html:104
+#: polls/templates/polls/simplepoll_form.html:2
 msgid "Poll"
 msgstr ""
 
@@ -2916,88 +2918,97 @@ msgstr ""
 msgid "leaved project"
 msgstr ""
 
-#: projects/forms.py:144
+#: projects/forms.py:145
 msgid "You have to be logged in"
 msgstr ""
 
-#: projects/forms.py:147
+#: projects/forms.py:148
 msgid "You don't have permission to do that"
 msgstr ""
 
-#: projects/models.py:67 projects/models.py:160
+#: projects/forms.py:198
+#, python-format
+msgid "File is too big (%d MB)"
+msgstr ""
+
+#: projects/models.py:74 projects/models.py:167
 msgid "participants"
 msgstr ""
 
-#: projects/models.py:69 projects/models.py:158
+#: projects/models.py:76 projects/models.py:165
 msgid "date changed"
 msgstr ""
 
-#: projects/models.py:70 projects/models.py:161
+#: projects/models.py:77 projects/models.py:168
 msgid "finished"
 msgstr ""
 
-#: projects/models.py:71 projects/models.py:133 projects/models.py:162
+#: projects/models.py:78 projects/models.py:140 projects/models.py:169
 msgid "created by"
 msgstr ""
 
-#: projects/models.py:78
+#: projects/models.py:85
 msgid "projects"
 msgstr ""
 
-#: projects/models.py:139
+#: projects/models.py:146
 msgid "task group"
 msgstr ""
 
-#: projects/models.py:140
+#: projects/models.py:147
 msgid "task groups"
 msgstr ""
 
-#: projects/models.py:156
+#: projects/models.py:163
 msgid "group"
 msgstr ""
 
-#: projects/models.py:159
+#: projects/models.py:166
 msgid "time limit"
 msgstr ""
 
-#: projects/models.py:168
+#: projects/models.py:175
 msgid "task"
 msgstr ""
 
-#: projects/models.py:169
+#: projects/models.py:176
 msgid "tasks"
 msgstr ""
 
-#: projects/models.py:193 projects/models.py:224 simpleblog/models.py:67
+#: projects/models.py:200 projects/models.py:231 simpleblog/models.py:67
 msgid "date edited"
 msgstr ""
 
-#: projects/models.py:194
+#: projects/models.py:201
 msgid "closed"
 msgstr ""
 
-#: projects/models.py:199 topics/models.py:82
+#: projects/models.py:206 topics/models.py:82
 msgid "discussions"
 msgstr ""
 
-#: projects/models.py:219 templates/search/search.html:52 topics/models.py:81
+#: projects/models.py:226 templates/search/search.html:52 topics/models.py:81
 msgid "discussion"
 msgstr ""
 
-#: projects/models.py:221 simpleblog/models.py:63
+#: projects/models.py:228 simpleblog/models.py:63
 msgid "content"
 msgstr ""
 
-#: projects/models.py:222
+#: projects/models.py:229
 msgid "edited"
 msgstr ""
 
-#: projects/models.py:230
+#: projects/models.py:237
 msgid "forum entry"
 msgstr ""
 
-#: projects/models.py:231
+#: projects/models.py:238
 msgid "forum entries"
+msgstr ""
+
+#: projects/models.py:271
+msgid "file"
 msgstr ""
 
 #: projects/templates/projects/document_preview.html:6
@@ -3144,8 +3155,8 @@ msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:11
 msgid ""
-"The goal of a project is to implement previously created ideas, however, you "
-"can always start a project from scratch."
+"The goal of a project is to implement previously created ideas, however, you"
+" can always start a project from scratch."
 msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:12
@@ -3176,6 +3187,10 @@ msgstr ""
 
 #: projects/templates/projects/taskgroup_form.html:12
 msgid "Create new group"
+msgstr ""
+
+#: projects/views/attachments.py:61
+msgid "Files uploaded"
 msgstr ""
 
 #: projects/views/base.py:66
@@ -3450,8 +3465,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:138
 msgid ""
-"Great collaboration starts with communication. We always want to know what's "
-"happening near us."
+"Great collaboration starts with communication. We always want to know what's"
+" happening near us."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:142
@@ -3512,8 +3527,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:183
 msgid ""
-"We want everyone to use modern tools for collaboration in local communities. "
-"Apps must be free, modern and simple."
+"We want everyone to use modern tools for collaboration in local communities."
+" Apps must be free, modern and simple."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:190
@@ -3601,8 +3616,8 @@ msgstr ""
 #: staticpages/templates/staticpages/pages/home-i.html:328
 #: staticpages/templates/staticpages/pages/home-j.html:389
 msgid ""
-"CivilHub is a place, where we can act together to make our local environment "
-"a better place. A place, where we can act together to make our local  "
+"CivilHub is a place, where we can act together to make our local environment"
+" a better place. A place, where we can act together to make our local  "
 "nvironment a better place. Place, where we can act together to make our "
 "local environment a better plac."
 msgstr ""
@@ -3736,8 +3751,7 @@ msgstr ""
 #: templates/emails/content-body-html.html:179
 msgid ""
 "\"Hey,\n"
-"                                      here's your invite! Come check out my "
-"CivilHub when you have a chance. You'll love it!\""
+"                                      here's your invite! Come check out my CivilHub when you have a chance. You'll love it!\""
 msgstr ""
 
 #: templates/emails/content-body-html.html:200
@@ -3845,8 +3859,8 @@ msgstr ""
 #: templates/emails/welcome-body-text.html:3
 #, python-format
 msgid ""
-"There's one last step until your account is 100%% ready. We just need you to "
-"activate your account."
+"There's one last step until your account is 100%% ready. We just need you to"
+" activate your account."
 msgstr ""
 
 #: templates/emails/welcome-body-html.html:164
@@ -4283,8 +4297,7 @@ msgstr ""
 #: userspace/templates/userspace/register-errors.html:5
 msgid ""
 "\n"
-"    Your registration was successfull, but there was an error with sending "
-"you\n"
+"    Your registration was successfull, but there was an error with sending you\n"
 "    email. Copy link provided below and paste it into browsers address bar\n"
 "    to finish registration.\n"
 msgstr ""
