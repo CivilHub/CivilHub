@@ -77,6 +77,7 @@ from places_core.urls import router as core_router
 from gallery.urls import router as gallery_router
 from notifications.urls import router as notification_router
 from activities.urls import router as activity_router
+from hitcounter.urls import router as hitcounter_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -88,6 +89,7 @@ urlpatterns = patterns('',
     url(r'^api-gallery/', include(gallery_router.urls)),
     url(r'^api-notifications/', include(notification_router.urls)),
     url(r'^api-activities/', include(activity_router.urls)),
+    url(r'^api-hitcounter/', include(hitcounter_router.urls)),
 )
 
 from civmail.views import InviteFriendsView

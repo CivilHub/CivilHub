@@ -19,12 +19,12 @@
           <span class="arrow arrow-left arrow-top"></span>
           <div class="timeline-content-head">
           <a href="{{ action.actor.profile.get_absolute_url }}">{{ action.actor.profile }}</a>
-            {{ action.verb }}
+            {% trans action.verb %}
             {% if action.action_object %}
               {% if action.action_object.get_absolute_url %}<span> <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a></span>
               {% else %}<span> <a href="{{ action.action_object.get_absolute_url }}">{{ action.action_object }}</a></span>
               {% endif %}
-              <span> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span> 
+              <span> {% trans "to" %} <a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span>
             {% else %}<a href="{{ action.target.get_absolute_url }}">{{ action.target }}</a></span>
             {% endif %}
         </div>

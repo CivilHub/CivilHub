@@ -2,6 +2,6 @@
 <span class="pull-right custom-tooltip-right fa fa-calendar" title="<%= date_created %>"></span>
 <div class="ac-hot-box-title">
   <p><a href="<%= url %>"><%= title %></a></p>
-  <span class="ac-hot-box-location"><%= location %></span><span class="bg-color-news ac-hot-box-category"><%= gettext("News") %></span>
+  <span class="ac-hot-box-location"><%= location.name %></span><span class="bg-color-news ac-hot-box-category"><%= content_type.name %></span>
 </div>
-<div class="ac-hot-box-content"><p><a href="<%= url %>"><%= content %></a></p></div>
+<div class="ac-hot-box-content"><p><a href="<%= url %>"><%= description %></a></p></div>

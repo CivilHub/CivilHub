@@ -45,6 +45,12 @@ class ActionObjectSerializer(serializers.Serializer):
     location = serializers.SerializerMethodField('get_location')
     url = serializers.SerializerMethodField('get_url')
     image = serializers.SerializerMethodField('get_image')
+    date_created = serializers.SerializerMethodField('get_creation_date')
+
+    def get_creation_date(self, obj):
+        if hasattr(obj, 'date_created'):
+            return obj.date_created
+        return None
 
     def get_content_type(self, obj):
         return {
@@ -147,6 +153,7 @@ class ActionSerializer(serializers.ModelSerializer):
     actor = serializers.SerializerMethodField('get_actor_data')
     action_object = serializers.SerializerMethodField('get_action_object')
     action_target = serializers.SerializerMethodField('get_action_target')
+    verb = serializers.SerializerMethodField('get_verb')
 
     def get_actor_data(self, obj):
         if obj.actor is None:
@@ -168,6 +175,9 @@ class ActionSerializer(serializers.ModelSerializer):
         target = ct.get_object_for_this_type(pk=pk)
         serializer = ActionTargetSerializer(target)
         return serializer.data
+
+    def get_verb(self, obj):
+        return _(obj.verb)
 
     class Meta:
         model = Action
