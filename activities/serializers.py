@@ -132,6 +132,8 @@ class ActionTargetSerializer(serializers.Serializer):
     def get_name(self, obj):
         if obj._meta.model_name == 'user':
             return obj.get_full_name()
+        elif obj._meta.model_name == 'locationgalleryitem':
+            return obj.name
         return obj.__unicode__()
 
     def get_content_type(self, obj):
@@ -178,6 +180,14 @@ class ActionSerializer(serializers.ModelSerializer):
 
     def get_verb(self, obj):
         return _(obj.verb)
+
+    def to_representation(self, data):
+        data = data.filter(user=self.request.user, edition__hide=False)
+        return super(ActionSerializer, self).to_representation(data)
+
+    def __init__(self, *args, **kwargs):
+        self.filter = kwargs.get('filter')
+        super(ActionSerializer, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Action

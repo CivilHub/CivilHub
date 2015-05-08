@@ -78,7 +78,9 @@ class SearchableListMixin(ListView):
         if location_slug is None:
             qs = self.model.objects.all()
         else:
-            qs = self.model.objects.filter(location__slug=location_slug)
+            l = get_object_or_404(Location, slug=location_slug)
+            id_list = [l.pk, ] + [x[0] for x in l.location_set.values_list('pk')]
+            qs = self.model.objects.filter(location__pk__in=id_list)
 
         # We filter results only within one category
         try:

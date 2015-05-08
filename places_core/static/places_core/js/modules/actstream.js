@@ -22,6 +22,17 @@ function getMinimalPtr () {
   }
 }
 
+function getStreamFilters ($el) {
+  var filters = {};
+  $el.each(function () {
+    if ($(this).hasClass('active')) {
+      filters[$(this).attr('data-control')] = $(this).attr('data-target');
+    }
+  });
+  filters.haystack = $('#haystack').val();
+  return filters;
+}
+
 $.fn.activityStream = function () {
   return $(this).each(function () {
     var $this = $(this);
@@ -42,7 +53,10 @@ $.fn.activityStream = function () {
     }
     $('.list-controller').on('click', function (e) {
       e.preventDefault();
-      list.filter($(this).attr('data-target'));
+      $('[data-control="' + $(this).attr('data-control') + '"]')
+        .removeClass('active');
+      $(this).addClass('active');
+      list.filter(getStreamFilters($('.list-controller')));
     });
     $(window).on('scroll', checkSrcrollPosition);
     return this;

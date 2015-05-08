@@ -70,7 +70,8 @@ class CivilActionManager(ActionManager):
             return self.none()
 
         self_type = ContentType.objects.get_for_model(obj)
-        q = q | Q(target_content_type=self_type, target_object_id=obj.pk)
+        id_list = [obj.pk, ] + [x[0] for x in obj.location_set.values_list('pk')]
+        q = q | Q(target_content_type=self_type, target_object_id__in=id_list)
 
         for ct, id_list in obj.published_items().iteritems():
             q = q | Q(target_content_type=ct, target_object_id__in=id_list)

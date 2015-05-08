@@ -58,12 +58,11 @@ var ActionList = Backbone.View.extend({
       .hide();
   },
 
-  filter: function (content) {
-    if (content === 'all') {
-      this.url.del('content');
-    } else {
-      this.url.add('content', content);
-    }
+  filter: function (params) {
+    var uri = this.url;
+    _.each(params, function (value, param) {
+      uri.add(param, value);
+    });
     this.currentPage = 1;
     this.url.add('page', this.currentPage);
     this.collection.url = this.url.url();

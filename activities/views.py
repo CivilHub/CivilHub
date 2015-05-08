@@ -13,6 +13,8 @@ from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from places_core.helpers import get_time_difference
+
 from .serializers import ActionSerializer
 
 
@@ -37,6 +39,9 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
         app_label, model = content_filter.split('.')
         return ContentType.objects.get(app_label=app_label, model=model).pk
 
+    def date_filter(self):
+        return get_time_difference(self.request.QUERY_PARAMS.get('time'))
+
     def get_queryset(self):
         stream_type = self.request.QUERY_PARAMS.get('type')
         try:
@@ -60,6 +65,9 @@ class ActivityViewSet(viewsets.ReadOnlyModelViewSet):
         if content_filter is not None:
             qs = qs.filter(Q(action_object_content_type__pk=content_filter) |
                            Q(target_content_type__pk=content_filter))
+        date_filter = self.date_filter()
+        if date_filter is not None:
+            qs = qs.filter(timestamp__gte=date_filter)
         return qs
 
 
