@@ -14,7 +14,7 @@ function ($, _, utils, html) {
 "use strict";
 
 function showCookieWarning () {
-  if (utils.getCookie('cookie_msg') || CivilApp.debug) {
+  if (utils.getCookie('cookie_msg') && CivilApp.debug) {
     return;
   }
   $('#cookie-msg').prepend(_.template(html), {})

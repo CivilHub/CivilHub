@@ -35,7 +35,7 @@ function showCookieInvite () {
 }
 
 $(document).ready(function () {
-  if (_.isNull(CivilApp.currentUserId) || CivilApp.debug) {
+  if (_.isNull(CivilApp.currentUserId) && CivilApp.debug) {
     return;
   } else {
     showCookieInvite();
