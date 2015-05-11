@@ -9,7 +9,7 @@
 <div class="footer">
 <div class="container">
     <div class="row">
-    
+
         <div class="col-md-5 left-side">
             <a href="/privacy">{% trans "Privacy Policy" %}</a>
             <a href="/terms">{% trans "Terms of Use" %}</a>
@@ -25,7 +25,7 @@
             <a href="/"><img src="{% static "places_core/img/footer_logo@2x.png" %}" alt="CivilHub" /></a>
             {% endif %}
         </div>
-    
+
         <div class="col-md-5 right-side">
             <a href="/features">{% trans "Feature" %}</a>
             <a href="/support">{% trans "Support" %}</a>
@@ -34,13 +34,13 @@
             <a href="/team">{% trans "About Us" %}</a>
             <a href="/contact">{% trans "Contact" %}</a>
         </div>
-    
+
     </div>
-    
+
     <div class="row  share-buttons">
 
 {% endcache %}
-        
+
         <div class="col-md-3" id="footerDivLang">
             <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
                 <input type="text" name="next" value="{{ request.path }}" />
@@ -60,7 +60,7 @@
             <!-- Twitter -->
             <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            
+
             <!-- Facebook -->
             {% if LANG == 'pl' %}
                 <script>(function(d, s, id) {
@@ -80,7 +80,7 @@
                 }(document, 'script', 'facebook-jssdk'));</script>
             {% endif %}
                 <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-            
+
             <!-- Google 1+ -->
             <div class="g-plusone" data-size="medium"></div>
             <script type="text/javascript">
@@ -94,7 +94,7 @@
             </script>
 
         </div>
-        
+
     </div><!-- /.row -->
 
     <div class="row">
@@ -109,7 +109,7 @@
 
         </div>
     </div>
-    
+
 </div><!-- /.container -->
 
 {% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}

@@ -281,6 +281,16 @@ class Location(models.Model, BackgroundModelMixin):
                 self.parent.get_parent_chain(parents, response)
         return reversed(parents)
 
+    def parents(self, parents=None):
+        if parents is None:
+            parents = []
+        if self.parent is not None:
+            parents.append(self.parent)
+            if self.parent.parent is not None:
+                self.parent.parents(parents)
+        return parents
+
+
     def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """
         Get all sublocations and return dictionary of name - url pairs. The

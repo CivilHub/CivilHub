@@ -113,6 +113,7 @@ INSTALLED_APPS = (
     'organizations', # Manage non-governmental organizations (NGO)
     'activities',  # Manage activity streams and different action hooks
     'simpleblog',  # Simplified blog functionality for NGO and projects
+    'guides',
 
     'raven.contrib.django.raven_compat',
     'analytical',

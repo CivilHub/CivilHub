@@ -1,0 +1,5 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ title }} {{ filter_object }}</h1>
+<ul>{% for guide in object_list %}
+  <li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>
+{% endfor %}</ul>{% endblock %}
