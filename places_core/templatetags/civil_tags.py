@@ -204,3 +204,8 @@ def report_link(obj):
     ct = ContentType.objects.get_for_model(obj)
     return '<a href="#" class="abuse-link" data-ct="{}" data-pk="{}">{}</a>'\
         .format(ct.pk, obj.pk, _(u"Report abuse"))
+
+
+@register.simple_tag
+def get_verbose_name(object):
+    return object._meta.verbose_name.title()

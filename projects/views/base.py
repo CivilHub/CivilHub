@@ -19,7 +19,7 @@ from actstream.models import Action
 
 from gallery.forms import BackgroundForm
 from gallery.image import handle_tmp_image
-from locations.mixins import LocationContextMixin
+from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.models import Location
 from maps.models import MapPointer
 from places_core.mixins import LoginRequiredMixin
@@ -219,15 +219,9 @@ class DeleteTaskView(ProjectAccessMixin, DeleteView):
         return self.object.group.project.get_absolute_url()
 
 
-class ProjectListView(LocationContextMixin, ListView):
+class ProjectListView(LocationContextMixin, SearchableListMixin, ListView):
     """ A list of projects in one location. """
     model = SocialProject
-
-    def get_queryset(self):
-        location_slug = self.kwargs.get('location_slug')
-        if location_slug is None:
-            return SocialProject.objects.all()
-        return SocialProject.objects.filter(location__slug=location_slug)
 
 
 class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):

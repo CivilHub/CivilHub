@@ -29,6 +29,7 @@ from rest_framework.response import Response
 
 from comments.models import CustomComment
 from locations.links import LINKS_MAP as links
+from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.models import Location
 from places_core.helpers import TagFilter
 from places_core.permissions import is_moderator
@@ -294,28 +295,20 @@ class ImageView(View):
 # Static views - location gallery
 # ------------------------------------------------------------------------------
 
-class LocationGalleryView(ListView):
+class LocationGalleryView(LocationContextMixin, SearchableListMixin):
     """ The main site of the location gallery. """
-    queryset = LocationGalleryItem.objects.all()
+    model = LocationGalleryItem
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'
     paginate_by = settings.PLACE_GALLERY_LIMIT
 
-    def get_current_location(self):
-        location = get_object_or_404(Location, slug=self.kwargs['slug'])
-        return location
-
     def get_context_data(self, **kwargs):
+        location = get_object_or_404(Location, slug=self.kwargs.get('slug'))
         context = super(LocationGalleryView, self).get_context_data(**kwargs)
-        context['title'] = _("Gallery")
-        context['location'] = self.get_current_location()
-        context['links'] = links['gallery']
-        context['is_moderator'] = is_moderator(self.request.user, context['location'])
+        context.update({
+            'links': links['gallery'],
+            'location': location, })
         return context
-
-    def get_queryset(self):
-        location = self.get_current_location()
-        return LocationGalleryItem.objects.filter(location=location)
 
 
 class LocationGalleryCreateView(FormView):

@@ -11,7 +11,7 @@ function ($, HotBox) {
 
 "use strict";
 
-var baseUrl = '/api-blog/hotbox/';
+var baseUrl = '/api-hitcounter/hot-box/';
 
 $.fn.hotBoxInitializer = function () {
   return $(this).each(function () {
