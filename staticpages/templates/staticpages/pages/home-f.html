@@ -26,11 +26,6 @@ window.GOOGLE_DATA = {
   text-align: center;
   width: 300px;
   min-height: 320px; 
-  @media(max-width: 450px){
-    position: relative;
-    top: 0;
-    margin-top: 0px;
-  }
 }
 
 .form-control {
@@ -129,7 +124,6 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#309cfe', endColorstr='#0083fb',GradientType=1 );
 }
 .home_f_logo_outer {
-  margin-top: 8%;
   text-align: center;
 }
 .home_f_logo {
@@ -139,9 +133,16 @@ body {
   background-image: url('https://civilhub.org/media/filer_public/18/5d/185dd1d5-31f9-483c-84f9-234a6b9e4722/homepage_f_logo.png');
   background-size: contain;
 }
+.home_f_main_wrapper {
+  position: absolute;
+  height: 550px;
+  width: 100%;
+  top: 50%;
+  margin-top: -275px;
+}
 .home_f_center_wrapper {
   position: absolute;
-  margin-top: 50px;
+  margin-top: 40px;
   width: 100%;
   text-align: center;
 }
@@ -263,6 +264,18 @@ ul {
   .home_f_logo_outer {
     display: none;
   }
+
+  .home_f_main_wrapper {
+    height: 480px;
+    margin-top: -220px;
+  }
+
+  .register-box h1 {
+    margin-top: 0;
+  }
+  .home_f_center_wrapper {
+    margin-top: 0;
+  }
   .home_f_min_logo {
     position: absolute;
     top: 15px;
@@ -270,21 +283,27 @@ ul {
     width: 210px;
     height: 31px;
     background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
-    background-size: contain;
-    @media 
-      (-webkit-min-device-pixel-ratio: 2), 
-      (min-resolution: 192dpi) { 
-      background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
-    }    
+    background-size: contain;  
   }
+  @media 
+    (-webkit-min-device-pixel-ratio: 2), 
+    (min-resolution: 192dpi) { 
+    .home_f_min_logo {
+      background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
+    }
+  }  
   .home_f_main_text {
     margin-top: 0;
     width: 100%;
   }
+  .home_f_main_text h1{
+    margin-top: 0;
+  }
+  .home_f_main_text h2{
+    margin-top: 0;
+  }
   .home_f_separator {
     display: none;
-  }
-  .register-box {
   }
 }
 @media screen and (max-width: 750px){
@@ -312,68 +331,70 @@ ul {
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
   <div class="login-Home"><a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a></div>
 </header>
-<div class="home_f_logo_outer">
-  <a href="/"><div class="home_f_logo"></div></a>
-</div>
-<div class="home_f_center_wrapper">
-  <div class="home_f_main_text">
-    <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-    <h2>{% trans "CivilHub is a place, where we can act together to make our local environment a better place. A place, where we can act together to make our local  nvironment a better place. Place, where we can act together to make our local environment a better plac." %}</h2>
+<div class="home_f_main_wrapper">
+  <div class="home_f_logo_outer">
+    <a href="/"><div class="home_f_logo"></div></a>
   </div>
-
-  <div class="home_f_separator"></div>
-
-  <div class="register-box">
-    <h1>{% trans "Create a new account" %}</h1>
-        <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
-        {% csrf_token %}
-        {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
-        <div class="form">
-        <div class="form-group">
-          <div class="col-xs-6">
-          <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
-          <div class="col-xs-6">
-          <input id="surname" class="short form-control" type="text" name="last_name" placeholder="{% trans "Surname" %}" >
-          </div>
-        </div>
-        <div class="form-group">
-          <input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
-      </div>
-      <div class="form-group">
-          <input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
-      </div>
-      <div class="form-group">
-          <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
-        </div>
-        </div>
-        <div class="registerButtons">
-
-          <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
-              
-          <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
-              
-          <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
-                  
-          <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
-            
-      </div>
-      <div class="registerButtonSubmit">
-        <button id="signup_button" type="submit" class="long signup-button btn-antiman-chw antiman antiman-fix">{% trans "Sign up" %}</button>
+  <div class="home_f_center_wrapper">
+    <div class="home_f_main_text">
+      <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
+      <h2>{% trans "CivilHub is a place, where we can act together to make our local environment a better place. A place, where we can act together to make our local  nvironment a better place. Place, where we can act together to make our local environment a better plac." %}</h2>
     </div>
 
-    <p class="terms">
-    {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "Term of Service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "Privacy Policy" %}</a>.
-    </p>
-    
-    </form>
-    
-    <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
-        {% csrf_token %}
-        <input id="at" type="hidden" name="access_token" value="" />
-        <input id="code" type="hidden" name="code" value="" />
-    </form>
-  </div><!--end of register box -->
-</div><!--end of home_f_center_wrapper -->
+    <div class="home_f_separator"></div>
+
+    <div class="register-box">
+      <h1>{% trans "Create a new account" %}</h1>
+          <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
+          {% csrf_token %}
+          {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
+          <div class="form">
+          <div class="form-group">
+            <div class="col-xs-6">
+            <input id="name" class="short short-left form-control" type="text" name="first_name" placeholder="{% trans "Name" %}" ></div>
+            <div class="col-xs-6">
+            <input id="surname" class="short form-control" type="text" name="last_name" placeholder="{% trans "Surname" %}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
+        </div>
+        <div class="form-group">
+            <input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
+        </div>
+        <div class="form-group">
+            <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+          </div>
+          </div>
+          <div class="registerButtons">
+
+            <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+                
+            <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
+                
+            <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+                    
+            <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
+              
+        </div>
+        <div class="registerButtonSubmit">
+          <button id="signup_button" type="submit" class="long signup-button btn-antiman-chw antiman antiman-fix">{% trans "Sign up" %}</button>
+      </div>
+
+      <p class="terms">
+      {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "Term of Service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "Privacy Policy" %}</a>.
+      </p>
+      
+      </form>
+      
+      <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
+          {% csrf_token %}
+          <input id="at" type="hidden" name="access_token" value="" />
+          <input id="code" type="hidden" name="code" value="" />
+      </form>
+    </div><!--end of register box -->
+  </div><!--end of home_f_center_wrapper -->
+</div><!-- end of home_f_main_wrapper -->
 <div class="lang-selector-wrapper">
   <div id="lang-selector">
     <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>

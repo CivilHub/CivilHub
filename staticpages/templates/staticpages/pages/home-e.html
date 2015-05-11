@@ -24,14 +24,8 @@ window.GOOGLE_DATA = {
   width: 300px;
   min-height: 320px;
   position: relative;
-  top: 65%;
   left: 50%;
   margin-left: -150px;   
-  @media(max-width: 450px){
-    position: relative;
-    top: 0;
-    margin-top: 0px;
-  }
 }
 
 .register-box h1{
@@ -127,8 +121,11 @@ body {
 }
 .home_e_center_wrapper {
   text-align: center;
-  position: relative;
-  top: 14%;  
+  position: absolute;
+  width: 100%;
+  height: 560px;
+  top: 50%;
+  margin-top: -280px; 
 }
 .home_e_logo {
   position: absolute;
@@ -138,7 +135,6 @@ body {
   height: 31px;
   background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
   background-size: contain;
-  @media 
 }
 .home_e_main_text {
   text-align: center;
@@ -241,22 +237,27 @@ ul {
 }
 /* media queries */ 
 @media screen and (max-width: 1300px){
-  .home_e_center_wrapper {
-    top: 10%;
-  }
   .home_e_brief {
     right: 36%;
   }
 }
-@media screen and (max-width: 800px){
+@media screen and (max-width: 805px){
+   .home_e_center_wrapper {
+    height: 520px;
+    margin-top: -260px; 
+   }
   .home_e_brief {
     right: 40%;
   }
-  .home_e_main_text {
-    top: 11%; 
+  .home_e_main_text h1 {
+    font-size: 28px;
+  }
+  .home_e_main_text h2 {
+    font-size: 20px;
+    margin-top: 10px;
   }
 }
-@media screen and (max-width: 767px){
+@media screen and (max-width: 500px){
   .home_e_main_text h1 {
     font-size: 24px;
   }
@@ -264,16 +265,12 @@ ul {
     font-size: 18px;
   }
 }
-@media screen and (max-width: 750px){
-  .home_e_center_wrapper {
-    top: 0;
-  }
-}
+
 /* retina */
 @media 
   (-webkit-min-device-pixel-ratio: 2), 
   (min-resolution: 192dpi) {
-    body {
+  body {
         background-image: url('https://civilhub.org/media/filer_public/2a/62/2a62ff09-16ae-484e-a152-a9296661bdc6/homepage_e_bg2x.jpg');
     }
   .home_e_logo {
