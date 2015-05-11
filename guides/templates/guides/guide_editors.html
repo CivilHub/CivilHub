@@ -1,0 +1,16 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ object }}</h1>
+<p>{% trans "Owned by" %} {{ object.owner.profile }}</p>
+<ul>{% for editor in object.editors.all %}
+  <li>
+    <a href="{{ editor.profile.get_absolute_url }}">{{ editor.profile }}</a>
+    {% if guide_access %}<form action="{% url 'guides:delete-editor' object.slug %}" method="post" class="custom-inline-form">{% csrf_token %}
+      <input type="hidden" name="user_id" id="id_user_id" value="{{ editor.pk }}">
+      <button type="submit">{% trans "Delete" %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+{% if guide_access %}<form action="" method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">{% trans "Invite users" %}</button>
+</form>{% endif %}{% endblock %}

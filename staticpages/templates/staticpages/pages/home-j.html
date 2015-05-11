@@ -158,11 +158,12 @@ body {
 }
 .civilman {
   position: relative;
-  top: 20%;
-  width: 288px;
-  height: 524px;
+  top: 50%;
+  margin-top: -316px;
+  width: 337px;
+  height: 633px;
   display: inline-block;
-  background-image: url("https://civilhub.org/media/filer_public/70/eb/70eb8781-99e7-4f01-9ba3-d024ae09857e/home_j_civilman.png");
+  background-image: url("https://civilhub.org/media/filer_public/cc/b1/ccb1ddd0-ba33-4d33-b2d3-2ed7eb8d3ec5/home_j_civilman_with_logo.png");
   background-repeat:no-repeat;
   background-size: contain;
   background-position:center;
@@ -177,28 +178,17 @@ body {
   height: 100%;
   background: #fbfbfb;
 }
-
-.home_j_logo_outer {
-  position: absolute;
-  display: inline-block;
-  top: 15px;
-  margin-left: -20px;
-}
-.home_j_logo {
-  width: 337px;
-  height: 69px;
-  background-image: url('https://civilhub.org/media/filer_public/51/46/514642a2-e6c2-41d7-8267-60ad1cf33811/home_j_logo.png');
-  background-size: contain;
-}
 .home_j_center_wrapper {
   display: inline-block;
   position: relative;
-  top: 15%;
+  top: 50%;
+  margin-top: -293px;
   text-align: center;
 }
 .home_j_main_text {
   display: block;
   width: 400px;
+  text-align: center;
 }
 .home_j_main_text h1{
   color: #3c3c3c;
@@ -207,7 +197,6 @@ body {
 .home_j_main_text h2{
   color: #3c3c3c;
   font-size: 25px;
-  text-align: left;
 }
 /* lang selector */
 .lang-selector-wrapper {
@@ -301,9 +290,6 @@ ul {
   }
 }
 @media screen and (max-width: 1100px){
-  .home_j_logo_outer {
-    margin-left: 0;
-  }
   .home_j_left_side {
     text-align: left;
     padding-left: 35px;
@@ -321,9 +307,6 @@ ul {
   .home_j_right_side {
     width: 100%;
     min-width: 1px;
-  }
-  .home_j_logo_outer {
-    display: none;
   }
   .home_j_min_logo {
     position: absolute;
@@ -366,27 +349,23 @@ ul {
     background-image: url('https://civilhub.org/media/filer_public/ab/e2/abe265b0-1570-4cdf-985d-511bfa4f7e18/homepage_j_bg2x.jpg');
   }
   .civilman {
-    background-image: url('https://civilhub.org/media/filer_public/94/04/9404b888-7e4f-478f-b0be-4460b731860f/home_j_civilman2x.png');
-  }
-  .home_j_logo {
-    background-image: url('https://civilhub.org/media/filer_public/f3/75/f375a174-8678-4312-bbec-34340b207efb/home_j_logo2x.png');
+    background-image: url('https://civilhub.org/media/filer_public/c8/5d/c85d4985-569b-46a0-a133-fa4a2e8b0514/home_j_civilman_with_logo2x.png');
   }
 }
 </style>
 <div class="fort-top"></div>
 
 <div class="home_j_left_side">
-  <div class="home_j_logo_outer">
-    <a href="/"><div class="home_j_logo"></div></a>
-  </div>
-  <div class="civilman"></div>
+  <a href="/">
+   <div class="civilman"></div>
+  </a>
 </div>
 
 <div class="home_j_right_side">
   <div class="home_j_center_wrapper">
     <div class="home_j_main_text">
       <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-      <h2>{% trans "CivilHub is a place, where we can act together to make our local environment a better place. A place, where we can act together to make our local  nvironment a better place. Place, where we can act together to make our local environment a better plac." %}</h2>
+      <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better place." %}</h2>
     </div>
 
     <div class="register-box">

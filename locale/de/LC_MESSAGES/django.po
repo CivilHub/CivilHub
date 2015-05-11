@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-07 09:44+0200\n"
-"PO-Revision-Date: 2015-05-07 07:45+0000\n"
+"POT-Creation-Date: 2015-05-11 10:53+0200\n"
+"PO-Revision-Date: 2015-05-11 08:54+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/civilhub/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: activities/serializers.py:87 rest/serializers.py:136
+#: activities/serializers.py:93 rest/serializers.py:136
 msgid "Voted yes"
 msgstr "Stimm ja"
 
-#: activities/serializers.py:90 rest/serializers.py:139
+#: activities/serializers.py:96 rest/serializers.py:139
 msgid "Voted no"
 msgstr "Stimm nein"
 
@@ -40,12 +40,12 @@ msgstr "Nicht mehr folgen"
 msgid "Follow"
 msgstr "Folgen"
 
-#: activities/views.py:105
+#: activities/views.py:113
 #, python-format
 msgid "You are following this %s"
 msgstr "Du folgst %s"
 
-#: activities/views.py:113
+#: activities/views.py:121
 #, python-format
 msgid "You are no longer following this %s"
 msgstr "Du folgst nicht mehr %s"
@@ -156,6 +156,7 @@ msgstr "Profil bearbeiten"
 #: staticpages/templates/staticpages/pages/home-h.html:361
 #: staticpages/templates/staticpages/pages/home-i.html:369
 #: staticpages/templates/staticpages/pages/home-j.html:428
+#: staticpages/templates/staticpages/pages/home-k.html:746
 #: staticpages/templates/staticpages/pages/home.html:22
 #: staticpages/templates/staticpages/pages/register.html:67
 #: userspace/templates/userspace/register.html:49
@@ -171,6 +172,8 @@ msgstr "Registrieren"
 #: staticpages/templates/staticpages/pages/home-h.html:313
 #: staticpages/templates/staticpages/pages/home-i.html:320
 #: staticpages/templates/staticpages/pages/home-j.html:457
+#: staticpages/templates/staticpages/pages/home-k.html:713
+#: staticpages/templates/staticpages/pages/home-k.html:714
 #: staticpages/templates/staticpages/pages/home.html:18
 #: staticpages/templates/staticpages/pages/register.html:26
 #: userspace/templates/userspace/login.html:31
@@ -240,16 +243,17 @@ msgstr "Hilfe und Unterstützung"
 msgid "Support category does not exist yet"
 msgstr "Kategorie für Unterstützung existiert noch nicht"
 
-#: blog/models.py:33 blog/models.py:60 organizations/models.py:50
-#: organizations/models.py:62 simpleblog/models.py:74
+#: blog/models.py:33 blog/models.py:60 guides/models.py:27 guides/models.py:63
+#: organizations/models.py:50 organizations/models.py:62
+#: simpleblog/models.py:74
 msgid "category"
 msgstr "Kategorie"
 
-#: blog/models.py:34 organizations/models.py:51
+#: blog/models.py:34 guides/models.py:28 organizations/models.py:51
 msgid "categories"
 msgstr "Kategorien"
 
-#: blog/models.py:68 templates/search/search.html:30
+#: blog/models.py:68 templates/search/search.html:29
 msgid "news"
 msgstr "Nachrichten"
 
@@ -301,7 +305,8 @@ msgid "Oldest"
 msgstr "Alteste"
 
 #: blog/templates/blog/blog_navbar.html:10
-#: blog/templates/blog/blog_navbar.html:15 ideas/forms.py:51
+#: blog/templates/blog/blog_navbar.html:15
+#: guides/templates/guides/guide_detail.html:10 ideas/forms.py:51
 #: ideas/templates/ideas/idea_basic.html:50
 #: ideas/templates/ideas/navbar.html:10 ideas/templates/ideas/navbar.html:23
 #: locations/forms.py:85 locations/forms.py:116
@@ -432,6 +437,8 @@ msgstr "Statistik"
 #: gallery/templates/gallery/location-gallery-form.html:15
 #: gallery/templates/gallery/media-editor.html:17
 #: gallery/templates/gallery/picture_form.html:3
+#: guides/templates/guides/guide_confirm_delete.html:5
+#: guides/templates/guides/guide_form.html:4
 #: ideas/templates/ideas/category-create.html:9
 #: ideas/templates/ideas/idea-category.html:26
 #: ideas/templates/ideas/idea_form.html:29
@@ -473,6 +480,7 @@ msgid "Save"
 msgstr "Aufschreiben"
 
 #: blog/templates/blog/news_detail.html:44
+#: guides/templates/guides/guide_detail.html:8
 #: organizations/templates/organizations/news_detail.html:33
 msgid "Created"
 msgstr "Gemacht"
@@ -514,6 +522,8 @@ msgstr "bearbeiten"
 #: gallery/templates/gallery/mass_delete.html:9
 #: gallery/templates/gallery/picture-view.html:9
 #: gallery/templates/gallery/user-gallery.html:14
+#: guides/templates/guides/guide_detail.html:5
+#: guides/templates/guides/guide_editors.html:9
 #: ideas/templates/ideas/idea_detail.html:53
 #: locations/templates/locations/content-remove.html:14
 #: locations/templates/locations/location_form.html:37
@@ -575,6 +585,7 @@ msgstr "Neuheit"
 #: blog/templates/blog/news_list.html:15
 #: gallery/templates/gallery/contentobjectgallery_detail.html:8
 #: gallery/templates/gallery/contentobjectpicture_detail.html:6
+#: guides/templates/guides/guide_detail.html:8
 #: organizations/templates/organizations/news_list.html:13
 #: organizations/templates/organizations/organization_info.html:6
 #: places_core/templates/places_core/script-templates.html:528
@@ -729,7 +740,7 @@ msgstr "Betreff"
 msgid "message"
 msgstr "Nachricht"
 
-#: civmail/models.py:23
+#: civmail/models.py:23 guides/models.py:67
 msgid "status"
 msgstr "Status"
 
@@ -837,7 +848,7 @@ msgstr "Adresse addieren"
 msgid "Close"
 msgstr "Schließen"
 
-#: civmail/views.py:33 civmail/views.py:86 locations/views.py:656
+#: civmail/views.py:33 civmail/views.py:86 locations/views.py:661
 msgid "All messages sent successfully"
 msgstr "Alle Nachrichten erfolgreich gesendet"
 
@@ -915,7 +926,7 @@ msgstr "Autoren Gruppen"
 msgid "author"
 msgstr "Autor"
 
-#: etherpad/models.py:71
+#: etherpad/models.py:71 guides/models.py:60
 msgid "authors"
 msgstr "Autoren"
 
@@ -964,6 +975,7 @@ msgid "Collaborate"
 msgstr "Zusammenarbeiten"
 
 #: etherpad/templates/etherpad/pad_list.html:14
+#: guides/templates/guides/guide_detail.html:4
 #: organizations/templates/organizations/index.html:45
 #: organizations/templates/organizations/organization_update.html:18
 msgid "Update"
@@ -1050,6 +1062,7 @@ msgstr "Wählen Sie ein Bild"
 #: staticpages/templates/staticpages/pages/home-h.html:334
 #: staticpages/templates/staticpages/pages/home-i.html:342
 #: staticpages/templates/staticpages/pages/home-j.html:401
+#: staticpages/templates/staticpages/pages/home-k.html:730
 #: staticpages/templates/staticpages/pages/register.html:40
 msgid "Name"
 msgstr "Name"
@@ -1070,9 +1083,9 @@ msgstr "Beschreibung"
 msgid "Select images you wish to remove"
 msgstr "Wähle Bilder die du entfernen möchtest"
 
-#: gallery/models.py:169 gallery/models.py:233 locations/models.py:152
-#: organizations/models.py:41 projects/models.py:42 projects/models.py:137
-#: projects/models.py:161
+#: gallery/models.py:169 gallery/models.py:233 guides/models.py:20
+#: guides/models.py:35 locations/models.py:152 organizations/models.py:41
+#: projects/models.py:42 projects/models.py:137 projects/models.py:161
 msgid "name"
 msgstr "Name"
 
@@ -1084,9 +1097,10 @@ msgstr "Bildergallerie"
 msgid "image galleries"
 msgstr "Bildergallerien"
 
-#: gallery/models.py:236 locations/models.py:158 organizations/models.py:44
-#: organizations/models.py:65 projects/models.py:72 projects/models.py:138
-#: projects/models.py:162 projects/models.py:198 projects/models.py:270
+#: gallery/models.py:236 guides/models.py:21 locations/models.py:158
+#: organizations/models.py:44 organizations/models.py:65 projects/models.py:72
+#: projects/models.py:138 projects/models.py:162 projects/models.py:198
+#: projects/models.py:270
 msgid "description"
 msgstr "Beschreibung"
 
@@ -1117,14 +1131,14 @@ msgstr "Bilder"
 #: gallery/templates/gallery/carousel.html:11
 #: places_core/templates/places_core/paginator.html:14
 #: places_core/templates/places_core/script-templates.html:323
-#: templates/search/search.html:71
+#: templates/search/search.html:70
 msgid "Previous"
 msgstr "Frühe"
 
 #: gallery/templates/gallery/carousel.html:15
 #: places_core/templates/places_core/paginator.html:18
 #: places_core/templates/places_core/script-templates.html:327
-#: templates/search/search.html:73
+#: templates/search/search.html:72
 msgid "Next"
 msgstr "Nächste"
 
@@ -1165,8 +1179,8 @@ msgstr "Meine Datei"
 
 #: gallery/templates/gallery/media-uploader.html:24
 #: gallery/templates/gallery/user-gallery-form.html:9
-#: gallery/templates/gallery/user-gallery.html:3 gallery/views.py:195
-#: gallery/views.py:310 ideas/templates/ideas/idea_detail.html:68
+#: gallery/templates/gallery/user-gallery.html:3 gallery/views.py:196
+#: ideas/templates/ideas/idea_detail.html:68
 #: locations/templates/locations/location-navbar.html:19
 #: places_core/templates/places_core/navigation.html:106
 #: userspace/templates/userspace/profile.html:56
@@ -1183,51 +1197,119 @@ msgstr "Auswahl"
 msgid "Upload"
 msgstr "Hochladen"
 
-#: gallery/views.py:128
+#: gallery/views.py:129
 msgid "Cannot create gallery"
 msgstr "Die Gallerie kann nicht erschaffen sein"
 
-#: gallery/views.py:152
+#: gallery/views.py:153
 msgid "File uploaded"
 msgstr "Datei hochgeladen"
 
-#: gallery/views.py:162
+#: gallery/views.py:163
 msgid "No item ID provided"
 msgstr "Keine Eintrags-ID angegeben"
 
-#: gallery/views.py:179 rest/views.py:703 rest/views.py:724
+#: gallery/views.py:180 rest/views.py:703 rest/views.py:724
 msgid "Item deleted"
 msgstr "Eintrag gelöscht"
 
-#: gallery/views.py:215 gallery/views.py:336
+#: gallery/views.py:216 gallery/views.py:329
 msgid "Add pictures"
 msgstr "Bilder hinzufügen"
 
-#: gallery/views.py:249 gallery/views.py:381
+#: gallery/views.py:250 gallery/views.py:374
 msgid "Edit picture data"
 msgstr "Bildinformationen bearbeiten"
 
-#: gallery/views.py:267
+#: gallery/views.py:268
 msgid "Edit image"
 msgstr "Bild bearbeiten"
 
-#: gallery/views.py:366
+#: gallery/views.py:359
 msgid "uploaded"
 msgstr "hochgeladen"
 
-#: gallery/views.py:495
+#: gallery/views.py:488
 msgid "Selected images has been deleted"
 msgstr "Ausgewählte Bilder wurden gelöscht"
 
-#: hitcounter/models.py:43
-msgid "visit counter"
-msgstr "Besucherzähler"
+#: guides/models.py:41
+msgid "tag"
+msgstr ""
 
-#: hitcounter/models.py:44
-msgid "visit counters"
-msgstr "Besucherzähler"
+#: guides/models.py:42 guides/models.py:62 organizations/models.py:105
+#: simpleblog/models.py:78
+msgid "tags"
+msgstr "Schlüsselwörter"
 
-#: ideas/forms.py:54 ideas/templates/ideas/idea_basic.html:45
+#: guides/models.py:53
+msgid "draft"
+msgstr ""
+
+#: guides/models.py:54
+msgid "published"
+msgstr ""
+
+#: guides/models.py:56
+msgid "owner"
+msgstr ""
+
+#: guides/models.py:57
+msgid "editors"
+msgstr ""
+
+#: guides/models.py:58
+msgid ""
+"Select people permitted to modify this guide. You don't have to include "
+"yourself if you're owner."
+msgstr ""
+
+#: guides/models.py:59 projects/models.py:228 simpleblog/models.py:63
+msgid "content"
+msgstr "Inhalt"
+
+#: guides/models.py:61 locations/models.py:214 projects/models.py:73
+msgid "location"
+msgstr "Ort"
+
+#: guides/models.py:64 locations/models.py:183 notifications/models.py:41
+#: organizations/models.py:70 organizations/models.py:144
+#: projects/models.py:75 projects/models.py:164 projects/models.py:199
+#: projects/models.py:230 simpleblog/models.py:65
+msgid "date created"
+msgstr "Erstellungsdatum"
+
+#: guides/models.py:65
+msgid "last modified"
+msgstr ""
+
+#: guides/models.py:66 organizations/models.py:126
+msgid "organizations"
+msgstr "Organisationen"
+
+#: guides/models.py:90
+msgid "guide"
+msgstr ""
+
+#: guides/models.py:91
+msgid "guides"
+msgstr ""
+
+#: guides/templates/guides/guide_confirm_delete.html:2
+msgid "Are you sure you want to delete this guide"
+msgstr ""
+
+#: guides/templates/guides/guide_confirm_delete.html:6
+#: templates/postman/view.html:7
+msgid "Back"
+msgstr "Zurück"
+
+#: guides/templates/guides/guide_detail.html:6
+msgid "Editors"
+msgstr ""
+
+#: guides/templates/guides/guide_detail.html:14 ideas/forms.py:54
+#: ideas/templates/ideas/idea_basic.html:45
 #: ideas/templates/ideas/idea_detail.html:72 locations/forms.py:95
 #: locations/forms.py:125 locations/templates/locations/sidebar.html:63
 #: locations/templates/locations/tag-search.html:31
@@ -1238,6 +1320,35 @@ msgstr "Besucherzähler"
 #: topics/templates/topics/discussion_detail.html:62
 msgid "Tags"
 msgstr "Tags"
+
+#: guides/templates/guides/guide_detail.html:16
+msgid "Authors"
+msgstr ""
+
+#: guides/templates/guides/guide_editors.html:3
+msgid "Owned by"
+msgstr ""
+
+#: guides/templates/guides/guide_editors.html:15
+#: locations/templates/locations/invite-users.html:6
+msgid "Invite users"
+msgstr "Einlade die Benutzeren"
+
+#: guides/views.py:119
+msgid "Guides tagged by"
+msgstr ""
+
+#: guides/views.py:137
+msgid "Guides in category"
+msgstr ""
+
+#: hitcounter/models.py:43
+msgid "visit counter"
+msgstr "Besucherzähler"
+
+#: hitcounter/models.py:44
+msgid "visit counters"
+msgstr "Besucherzähler"
 
 #: ideas/models.py:42
 msgid "active"
@@ -1256,7 +1367,7 @@ msgstr "in Bearbeitung"
 msgid "project"
 msgstr "Projekt"
 
-#: ideas/models.py:60 templates/search/search.html:38
+#: ideas/models.py:60 templates/search/search.html:36
 msgid "idea"
 msgstr "Idee"
 
@@ -1541,13 +1652,6 @@ msgstr "Übergeordnet"
 msgid "population"
 msgstr "Bevölkerung"
 
-#: locations/models.py:183 notifications/models.py:41
-#: organizations/models.py:70 organizations/models.py:144
-#: projects/models.py:75 projects/models.py:164 projects/models.py:199
-#: projects/models.py:230 simpleblog/models.py:65
-msgid "date created"
-msgstr "Erstellungsdatum"
-
 #: locations/models.py:185
 msgid "country code"
 msgstr "Ländercode"
@@ -1571,10 +1675,6 @@ msgstr "Liste der Untegeordneten IDs durch Komma getrennt"
 #: locations/models.py:204
 msgid "kind"
 msgstr ""
-
-#: locations/models.py:214 projects/models.py:73
-msgid "location"
-msgstr "Ort"
 
 #: locations/models.py:215 organizations/models.py:90
 msgid "locations"
@@ -1611,10 +1711,6 @@ msgstr "Diesen Ort bearbeiten"
 #: locations/templates/locations/index.html:68
 msgid "Send message to followers"
 msgstr "Nachricht an Abonnenten schicken"
-
-#: locations/templates/locations/invite-users.html:6
-msgid "Invite users"
-msgstr "Einlade die Benutzeren"
 
 #: locations/templates/locations/location-navbar.html:13
 msgid "Home"
@@ -2189,27 +2285,27 @@ msgstr "Locations"
 msgid "create new location"
 msgstr "Mach neue Lage"
 
-#: locations/views.py:499
+#: locations/views.py:504
 msgid "Search by tag"
 msgstr "Suche bei Tag"
 
-#: locations/views.py:529
+#: locations/views.py:534
 msgid "Search by category"
 msgstr "Suche bei Kategorie"
 
-#: locations/views.py:548
+#: locations/views.py:553
 msgid "Confirm delete"
 msgstr "Löschen bestätigen"
 
-#: locations/views.py:608
+#: locations/views.py:613
 msgid "invited you to follow"
 msgstr "hat Dich zu folgen einladen"
 
-#: locations/views.py:612
+#: locations/views.py:617
 msgid "Successfully send invitation"
 msgstr "Einladung erfolgreich gesendet"
 
-#: locations/views.py:618
+#: locations/views.py:623
 msgid "User field cannot be empty"
 msgstr "Benutzersfeld kann nicht leer sein"
 
@@ -2329,10 +2425,6 @@ msgstr "Ist verzifiziert"
 msgid "background image"
 msgstr "Hintergrundbild"
 
-#: organizations/models.py:105 simpleblog/models.py:78
-msgid "tags"
-msgstr "Schlüsselwörter"
-
 #: organizations/models.py:108
 msgid "Tags separated by comma"
 msgstr "Schlüsselwörter durch Kommas getrennt"
@@ -2340,10 +2432,6 @@ msgstr "Schlüsselwörter durch Kommas getrennt"
 #: organizations/models.py:125 organizations/models.py:138
 msgid "organization"
 msgstr "Organisation"
-
-#: organizations/models.py:126
-msgid "organizations"
-msgstr "Organisationen"
 
 #: organizations/models.py:141
 msgid "key"
@@ -2446,7 +2534,7 @@ msgid "Organization created by"
 msgstr "Organisation erstellt von"
 
 #: organizations/templates/organizations/organization_info.html:13
-#: templates/search/search.html:85
+#: templates/search/search.html:84
 msgid "Additional informations"
 msgstr "Zusätzliche Informationen"
 
@@ -2571,6 +2659,7 @@ msgstr "CivilHub - Die Leute haben die Macht. Die besten Werkzeuge um gemeinsam 
 #: staticpages/templates/staticpages/pages/home-h.html:365
 #: staticpages/templates/staticpages/pages/home-i.html:373
 #: staticpages/templates/staticpages/pages/home-j.html:432
+#: staticpages/templates/staticpages/pages/home-k.html:750
 #: staticpages/templates/staticpages/pages/home.html:40
 #: staticpages/templates/staticpages/pages/register.html:71
 #: templates/emails/activities-body-html.html:186
@@ -2662,6 +2751,7 @@ msgstr "Alle auswählen"
 #: staticpages/templates/staticpages/pages/home-h.html:312
 #: staticpages/templates/staticpages/pages/home-i.html:319
 #: staticpages/templates/staticpages/pages/home-j.html:456
+#: staticpages/templates/staticpages/pages/home-k.html:712
 #: staticpages/templates/staticpages/pages/home.html:17
 #: userspace/templates/userspace/register.html:12
 msgid "Brief"
@@ -2825,7 +2915,7 @@ msgstr "Mehrfach"
 msgid "Select answer"
 msgstr "Auswahl die Antwort"
 
-#: polls/models.py:64 polls/models.py:154 templates/search/search.html:45
+#: polls/models.py:64 polls/models.py:154 templates/search/search.html:42
 msgid "poll"
 msgstr "Umfrage"
 
@@ -2991,13 +3081,9 @@ msgstr "geschlossen"
 msgid "discussions"
 msgstr "Gespräche"
 
-#: projects/models.py:226 templates/search/search.html:52 topics/models.py:81
+#: projects/models.py:226 templates/search/search.html:48 topics/models.py:81
 msgid "discussion"
 msgstr "Diskussion"
-
-#: projects/models.py:228 simpleblog/models.py:63
-msgid "content"
-msgstr "Inhalt"
 
 #: projects/models.py:229
 msgid "edited"
@@ -3221,7 +3307,7 @@ msgstr "Du nimmst nicht länger an dieser Aufgabe teil"
 msgid "You have joined this task"
 msgstr "Du nimmst an dieser Aufgabe teil"
 
-#: projects/views/base.py:398
+#: projects/views/base.py:392
 msgid "Your organization was added to project mentors"
 msgstr "Deine Organisation wurde als Mentor des Projektes aufgenommen"
 
@@ -3310,6 +3396,7 @@ msgstr "Zurück nach Home Page"
 #: staticpages/templates/staticpages/pages/home-h.html:4
 #: staticpages/templates/staticpages/pages/home-i.html:5
 #: staticpages/templates/staticpages/pages/home-j.html:5
+#: staticpages/templates/staticpages/pages/home-k.html:4
 #: staticpages/templates/staticpages/pages/home.html:3
 #: staticpages/templates/staticpages/pages/register.html:4
 #: userspace/templates/userspace/register.html:2
@@ -3346,6 +3433,7 @@ msgstr "Dein Nutzername"
 #: staticpages/templates/staticpages/pages/home-h.html:336
 #: staticpages/templates/staticpages/pages/home-i.html:344
 #: staticpages/templates/staticpages/pages/home-j.html:403
+#: staticpages/templates/staticpages/pages/home-k.html:732
 #: staticpages/templates/staticpages/pages/register.html:42
 #: userspace/templates/userspace/register.html:29
 msgid "Surname"
@@ -3358,6 +3446,7 @@ msgstr "Nachname"
 #: staticpages/templates/staticpages/pages/home-h.html:340
 #: staticpages/templates/staticpages/pages/home-i.html:348
 #: staticpages/templates/staticpages/pages/home-j.html:407
+#: staticpages/templates/staticpages/pages/home-k.html:736
 #: staticpages/templates/staticpages/pages/register.html:46
 #: userspace/templates/userspace/register.html:33
 msgid "Your email"
@@ -3370,6 +3459,7 @@ msgstr "Deine Mail"
 #: staticpages/templates/staticpages/pages/home-h.html:343
 #: staticpages/templates/staticpages/pages/home-i.html:351
 #: staticpages/templates/staticpages/pages/home-j.html:410
+#: staticpages/templates/staticpages/pages/home-k.html:739
 #: staticpages/templates/staticpages/pages/register.html:49
 #: userspace/templates/userspace/register.html:36
 msgid "Create a password"
@@ -3382,6 +3472,7 @@ msgstr "Passwort wählen"
 #: staticpages/templates/staticpages/pages/home-h.html:346
 #: staticpages/templates/staticpages/pages/home-i.html:354
 #: staticpages/templates/staticpages/pages/home-j.html:413
+#: staticpages/templates/staticpages/pages/home-k.html:742
 #: staticpages/templates/staticpages/pages/register.html:52
 #: userspace/forms.py:129 userspace/templates/userspace/register.html:39
 msgid "Repeat password"
@@ -3409,6 +3500,7 @@ msgstr "Verbinden mit Google+"
 #: staticpages/templates/staticpages/pages/home-h.html:365
 #: staticpages/templates/staticpages/pages/home-i.html:373
 #: staticpages/templates/staticpages/pages/home-j.html:432
+#: staticpages/templates/staticpages/pages/home-k.html:750
 #: staticpages/templates/staticpages/pages/register.html:71
 #: userspace/templates/userspace/register.html:51
 msgid "By clicking &quot;Sign up&quot;, you agree to our"
@@ -3426,6 +3518,7 @@ msgstr "Richtlinien"
 #: staticpages/templates/staticpages/pages/home-h.html:365
 #: staticpages/templates/staticpages/pages/home-i.html:373
 #: staticpages/templates/staticpages/pages/home-j.html:432
+#: staticpages/templates/staticpages/pages/home-k.html:750
 #: staticpages/templates/staticpages/pages/register.html:71
 #: userspace/templates/userspace/register.html:51
 #: userspace/templates/userspace/twitter-email-form.html:51
@@ -3599,6 +3692,7 @@ msgstr "CivilHub ist ein Raum, an dem wir zusammenkommen  können <br>um unser U
 #: staticpages/templates/staticpages/pages/home-h.html:327
 #: staticpages/templates/staticpages/pages/home-i.html:334
 #: staticpages/templates/staticpages/pages/home-j.html:393
+#: staticpages/templates/staticpages/pages/home-k.html:723
 #: staticpages/templates/staticpages/pages/register.html:33
 #: userspace/templates/userspace/register.html:22
 msgid "Create a new account"
@@ -3610,6 +3704,7 @@ msgstr "Neues Konto anlegen"
 #: staticpages/templates/staticpages/pages/home-h.html:365
 #: staticpages/templates/staticpages/pages/home-i.html:373
 #: staticpages/templates/staticpages/pages/home-j.html:432
+#: staticpages/templates/staticpages/pages/home-k.html:750
 #: staticpages/templates/staticpages/pages/register.html:71
 msgid "Term of Service"
 msgstr "Richtlinien"
@@ -3951,10 +4046,6 @@ msgstr "Betreff"
 msgid "Message"
 msgstr "Nachricht"
 
-#: templates/postman/view.html:7
-msgid "Back"
-msgstr "Zurück"
-
 #: templates/search/search.html:18
 msgid "Results"
 msgstr "Ergebnisse"
@@ -3963,7 +4054,7 @@ msgstr "Ergebnisse"
 msgid "location in"
 msgstr "Ort in"
 
-#: templates/search/search.html:32 templates/search/search.html.py:54
+#: templates/search/search.html:31 templates/search/search.html.py:50
 msgid "More..."
 msgstr "Mehr..."
 

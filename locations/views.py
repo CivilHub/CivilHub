@@ -438,9 +438,14 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        """ We have to cleanup old markers to save changes. """
+        # We have to cleanup old markers to save changes.
         for mp in MapPointer.objects.for_model(form.instance):
             mp.delete()
+        lang = translation.get_language_from_request(self.request)
+        # Update translation in editing user's language
+        for an in form.instance.names.filter(language=lang):
+            an.altername = form.instance.name
+            an.save()
         return super(UpdateLocationView, self).form_valid(form)
 
 

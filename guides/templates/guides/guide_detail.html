@@ -1,0 +1,19 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}<h1>{{ object }}</h1>
+{% if guide_access %}<ul>
+  <li><a href="{% url 'guides:update' object.location.slug object.slug %}">{% trans "Update" %}</a></li>
+  <li><a href="{% url 'guides:delete' object.location.slug object.slug %}">{% trans "Delete" %}</a></li>
+  <li><a href="{% url 'guides:editors' object.location.slug object.slug %}">{% trans "Editors" %}</a></li>
+</ul>{% endif %}
+<p>{% trans "Created" %} {{ guide.created_at|timesince }} {% trans "ago" %}</p>
+{% if object.category %}<p>
+  {% trans "Category" %}: <a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ object.category }}</a>
+</p>{% endif %}
+<div>{{ object.content|safe }}</div>
+{% if object.tags.count %}<p>
+  {% trans "Tags" %}: {% for tag in object.tags.all %}<a href="{% url 'guides:list-filter-tag' guide.location.slug tag.pk %}">#{{ tag }}</a> {% endfor %}
+</p>{% endif %}
+<p>{% trans "Authors" %}:</p>
+<ul>{% for author in object.authors.all %}
+  <li><a href="{{ author.profile.get_absolute_url }}">{{ author.profile }}</a></li>
+{% endfor %}</ul>{% endblock %}

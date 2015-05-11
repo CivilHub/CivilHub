@@ -1,0 +1,6 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}{% for l in location_set %}
+<h2>{{ l }}</h2>
+<ul>{% for guide in l.guides.all %}
+  {% if guide.status == 2 %}<li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>{% endif %}
+{% endfor %}</ul>{% endfor %}{% endblock %}

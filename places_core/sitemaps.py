@@ -89,3 +89,12 @@ class OrganizationSitemap(Sitemap):
 
     def items(self):
         return Organization.objects.all()
+
+
+from guides.models import Guide
+class GuideSitemap(Sitemap):
+    changefreq = "dayly"
+    priority = 0.5
+
+    def items(self):
+        return Guide.objects.all()
