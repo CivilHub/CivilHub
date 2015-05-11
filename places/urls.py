@@ -170,7 +170,6 @@ urlpatterns += patterns('',
     url(r'^home-h/', PageView.as_view(page='home-h')),
     url(r'^home-i/', PageView.as_view(page='home-i')),
     url(r'^home-j/', PageView.as_view(page='home-j')),
-    url(r'^home-k/', PageView.as_view(page='home-k')),
 
     #url(r'^about/', PageView.as_view(page='about')),
     #url(r'^privacy/', PageView.as_view(page='privacy')),
