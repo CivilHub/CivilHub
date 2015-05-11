@@ -243,12 +243,11 @@ class Location(models.Model, BackgroundModelMixin):
         self.parent_list = ",".join([str(x)
                                      for x in self.get_parent_id_list()])
         # We generate the appropriate slug
-        if not self.slug:
-            slug_entry = slugify('-'.join([self.name, self.country_code]))
-            chk = Location.objects.filter(slug__icontains=slug_entry).count()
-            if chk:
-                slug_entry = slug_entry + '-' + str(chk)
-            self.slug = slug_entry
+        slug_entry = slugify('-'.join([self.name, self.country_code]))
+        chk = len(Location.objects.filter(slug=slug_entry).exclude(pk=self.pk))
+        if chk:
+            slug_entry = slug_entry + '-' + str(chk)
+        self.slug = slug_entry
         # We check whether the image has changed and if needed, we delete the old one
         # FIXME: we are using signal for now, this is no longer necessary and deprecated.
         try:

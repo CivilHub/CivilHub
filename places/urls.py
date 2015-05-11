@@ -51,6 +51,7 @@ sitemaps = {
     'articles': sitemaps.ArticleSitemap,
     'documents': sitemaps.EtherpadSitemap,
     'organizations': sitemaps.OrganizationSitemap,
+    'guides': sitemaps.GuideSitemap,
 }
 # Javascript translations catalog
 js_info_dict = {
@@ -100,6 +101,7 @@ urlpatterns += patterns('',
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
+    url(r'^guides/', include('guides.urls', namespace="guides")),
     url(r'^organizations/', include('organizations.urls', namespace="organizations")),
     url(r'^simpleblog/', include('simpleblog.urls', namespace="simpleblog")),
     # user account
@@ -169,7 +171,7 @@ urlpatterns += patterns('',
     url(r'^home-i/', PageView.as_view(page='home-i')),
     url(r'^home-j/', PageView.as_view(page='home-j')),
     url(r'^home-k/', PageView.as_view(page='home-k')),
-    
+
     #url(r'^about/', PageView.as_view(page='about')),
     #url(r'^privacy/', PageView.as_view(page='privacy')),
     #url(r'^terms/', PageView.as_view(page='terms')),
