@@ -21,71 +21,83 @@
 <script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-ideas">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% with idea as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
-<div class="main-content col-sm-9 contentPX">
-  <div class="row idea-entry">
-    <div class="idea-votes col-sm-3 idea-votesH">
-      <div class="vote-form">
-        <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
-        <div class="vote-controls">
-          {% if user.is_authenticated %}<button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-          <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
-          {% else %}<a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
-          <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>{% endif %}
-        </div>
+
+<div class="col-sm-12 main-content">
+ <p><span class="submenu-toggle mt0"> </span></p>
+  <div class="entry-submenu">
+    <ul>{% with idea|content_type as ctype %}
+      {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
+      {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
+      <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
+      {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
+      <li></li>
+      {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
+      <li>{% endwith %}{% bookmark_form idea user %}</li>
+    </ul>
+  </div>
+  <div class="row ivotepage">
+    <h1 class="text-center">{{ idea.name }}</h1>
+  <div class="col-sm-9 mt25 p-reset">
+    {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
+    {% visit_counter idea %}
+  </div><!--9-->
+  {% include 'ideas/idea-votes.html' %}
+  <div class="col-sm-3 mt25 p-reset">
+    <div class="iauthor-info">
+      <div class="display-ib-m"><img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="current-user-avatar60 user-window-toggle" data-target="{{ idea.creator.pk }}" /></div>
+      <div class="display-ib-m"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
       </div>
-      <div class="clear">&nbsp;</div>
-      <div class="idea-summary">
-        <div class="idea-status-state">
-          {% if idea.status %}<label class="label label-success custom-tooltip-right" title="{% trans "Status" %}">{{ idea.get_status_display|capfirst }}</label>
-          {% else %}<label class="label label-danger custom-tooltip-right" title="{% trans "Status" %}">{% trans "Inactive" %}</label>{% endif %}
-        </div>
-        <div class="idea-vote-count custom-tooltip-right" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
-      </div>
-      {% include 'locations/share_buttons.html' %}
     </div>
-    <div class="col-sm-9 idea-Content">
-      <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
-      <div class="entry-submenu">
-        <ul>{% with idea|content_type as ctype %}
-          {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
-          {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-          <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
-          {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
-          <li></li>
-          {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
-          <li>{% endwith %}{% bookmark_form idea user %}</li>
-        </ul>
+    <div class="vote-form">
+      <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.all.count }}</h2><p>{% trans "Total vote"%}</p></div>
+      <div class="ivotes text-center"><h2>VOTES</h2><p>{% trans "Positive votes" %}</p></div>
+      <div class="vote-controls text-center">
+        {% if user.is_authenticated %}<p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
+        <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
+        {% else %}<p class="mb20"><a class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn btn-block" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}">{% trans "Vote YES" %}</a></p>
+        <p><a class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn btn-block" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}">{% trans "Vote NO" %}</a></p>{% endif %}
       </div>
-      <div class="author-info">
-        <small>
-          <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar mini user-window-toggle" data-target="{{ idea.creator.pk }}" />
-          <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
-        </small>
-      </div>
-      {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
-      <div class="acticle-content clearfix mt25">{{ idea.description|safe }}</div>
-      {% visit_counter idea %}
+    </div>
+  </div><!--3-->
+
+  <div class="col-sm-12">
+    <div class="row mb20">
+      <ul class="itab-nav list-inline">
+        <li><a href="" class="active">{% trans "About" %}</a></li>
+        <li><a href="">{% trans "News" %}</a></li>
+        <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
+      </ul>
+    </div>
+    <div class="row">
+      <div class="col-sm-9 p-reset">
       {% if gallery.pictures.count %}<h4>{% trans "Gallery" %}:</h4>{% endif %}
       {% include 'gallery/carousel.html' %}
       {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
       {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
-      {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
-        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
-      </p>{% endif %}
-      <div class="ideaEntryComments">
+      <div class="acticle-content clearfix">{{ idea.description|safe }}</div>
+      <div class="customEntry-comments">
         <p>
           {% get_comment_count idea %} {% trans "Comments" %}
-          {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
+          {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle custom-comments-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
         </p>
       </div>
       <input type="hidden" id="target-id" value="{{ idea.pk }}" />
       <input type="hidden" id="target-label" value="ideas" />
       <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
       {% include 'comments/commentlist.html' %}
+      </div>
+      <div class="col-sm-3 p-reset text-center">
+        <div class="ibutton-share mt25">
+          <div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
+          <div class="btn-i300 btn-itblue mb20 text-left"><span class="fa fa-twitter-square fa-pa"></span> {% trans "Share this on Twitter" %}</div>
+          <div class="btn-i300 btn-ilblue mb20 text-left"><span class="fa fa-linkedin-square fa-pa"></span> {% trans "Share this on LinkedIn" %}</div>
+          <div class="btn-i300 btn-igred mb20 text-left"><span class="fa fa-google-plus-square fa-pa"></span> {% trans "Share this on Google+" %}</div>
+          <div class="divider mb20"></div>
+          <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-left" title="{% trans "Summary" %}" data-target="{{ idea.pk }}"><span class="fa fa-eye fa-pa"></span> {% trans "See who as voted" %}</div>
+        </div>
+      </div>
     </div>
   </div>
+  </div>
 </div>
-{% include 'ideas/idea-votes.html' %}
-<div class="col-sm-3 boxPX">
-  {% include 'locations/sidebar.html' %}
-</div>{% endblock %}
+{% endblock %}
