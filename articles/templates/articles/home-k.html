@@ -1,0 +1,32 @@
+{% extends 'staticpages/index.html' %}
+{% load staticfiles i18n civil_tags %}
+
+{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
+{% block require_scripts %}
+<script>
+window.GOOGLE_DATA = {
+  scope: '{{ plus_scope }}',
+  id: '{{ plus_id }}'
+}
+</script>
+<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
+{% endblock %}
+
+{% block body %}
+<body>
+{% block navigation %}{% endblock %}
+{% block content %}
+
+{% endblock %}
+{% block footer %}
+  {% include 'places_core/footer.html' %}
+  {% include 'places_core/script-templates/flash-msg-tpl.html' %}
+  {% include 'places_core/user-popup.html' %}
+  {% include 'places_core/abuse-window-modal.html' %}
+  {% include 'places_core/sublocation-dropdown.html' %}
+  {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
+  {% include 'places_core/google-analytics.html' %}
+{% endblock %}
+
+{% endblock %}

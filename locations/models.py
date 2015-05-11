@@ -243,12 +243,11 @@ class Location(models.Model, BackgroundModelMixin):
         self.parent_list = ",".join([str(x)
                                      for x in self.get_parent_id_list()])
         # We generate the appropriate slug
-        if not self.slug:
-            slug_entry = slugify('-'.join([self.name, self.country_code]))
-            chk = Location.objects.filter(slug__icontains=slug_entry).count()
-            if chk:
-                slug_entry = slug_entry + '-' + str(chk)
-            self.slug = slug_entry
+        slug_entry = slugify('-'.join([self.name, self.country_code]))
+        chk = len(Location.objects.filter(slug=slug_entry).exclude(pk=self.pk))
+        if chk:
+            slug_entry = slug_entry + '-' + str(chk)
+        self.slug = slug_entry
         # We check whether the image has changed and if needed, we delete the old one
         # FIXME: we are using signal for now, this is no longer necessary and deprecated.
         try:
@@ -280,6 +279,16 @@ class Location(models.Model, BackgroundModelMixin):
             if self.parent.parent:
                 self.parent.get_parent_chain(parents, response)
         return reversed(parents)
+
+    def parents(self, parents=None):
+        if parents is None:
+            parents = []
+        if self.parent is not None:
+            parents.append(self.parent)
+            if self.parent.parent is not None:
+                self.parent.parents(parents)
+        return parents
+
 
     def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """
