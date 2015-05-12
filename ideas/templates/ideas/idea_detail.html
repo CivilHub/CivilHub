@@ -30,6 +30,7 @@
       {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
       <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
       {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
+      {% if idea_access %}<li><a href="{% url 'locations:idea-news-create' location.slug idea.slug %}">{% trans "Write news" %}</a></li>{% endif %}
       <li></li>
       {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
       <li>{% endwith %}{% bookmark_form idea user %}</li>
@@ -52,10 +53,8 @@
       <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.all.count }}</h2><p>{% trans "Total vote"%}</p></div>
       <div class="ivotes text-center"><h2>{{idea.votes_down.all.count}}{{ idea.user_get_full_name}}</h2><p>{% trans "Positive votes" %}</p></div>
       <div class="vote-controls text-center">
-        {% if user.is_authenticated %}<p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
-        <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
-        {% else %}<p class="mb20"><a class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn btn-block" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}">{% trans "Vote YES" %}</a></p>
-        <p><a class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn btn-block" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}">{% trans "Vote NO" %}</a></p>{% endif %}
+        <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
+        <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
       </div>
     </div>
   </div><!--3-->
@@ -78,6 +77,43 @@
       {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
       {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
       <div class="acticle-content clearfix">{{ idea.description|safe }}</div>
+
+      {% if user.is_anonymous %}<div class="modal fade" id="login-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">{% trans "Login" %}</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" method="post" action="{% url 'user:login' %}?next={{ request.path }}">{% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <div class="form-group">
+                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Email" %}</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="email" name="email" id="modal_login_email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Password" %}</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="password" name="password" id="modal_login_password">
+                  </div>
+                </div>
+              </form>
+              <div class="text-center"><a href="/login/facebook/?next={{ request.path }}" class="facebook-button">{% trans "Connect with Facebook" %}</a>
+              <a href="/login/google-plus/?next={{ request.path }}" class="google-button">{% trans "Connect with Google+" %}</a></div>
+              <div class="text-center"><a href="/login/twitter/?next={{ request.path }}" class="twitter-button">{% trans "Connect with Twitter" %}</a>
+              <a href="/login/linkedin/?next={{ request.path }}" class="linkedin-button">{% trans "Connect with Linkedin" %}</a></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-cancelBig" data-dismiss="modal">{% trans "Close" %}</button>
+              <button type="submit" class="btn btn-greenBig">{% trans "Login" %}</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div>{% endif %}
+
       <div class="customEntry-comments">
         <p>
           {% get_comment_count idea %} {% trans "Comments" %}

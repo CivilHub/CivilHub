@@ -8,8 +8,8 @@
       <div class="modal-body">
         <h4><%= gettext("Thank you for your vote. Please, share this page with your friends") %>.</h4>
         <p>
-          <a class="trigger-link" data-backend="Facebook" href="https://www.facebook.com/sharer/sharer.php?app_id=<%= CivilApp.fbClientToken %>&sdk=joey&u="<%= window.location.href %>"&display=popup&ref=plugin&src=share_button">Facebook</a>
-          <a data-backend="Twitter" href="https://twitter.com/intent/tweet?original_referer=<%= window.location.href %>&related=anywhereTheJavascriptAPI&text=<%= document.title %>&tw_p=tweetbutton&url=<%= window.location.href %>">Twitter</a>
+          <a class="trigger-link facebook-button" data-backend="Facebook" href="https://www.facebook.com/sharer/sharer.php?app_id=<%= CivilApp.fbClientToken %>&sdk=joey&u="<%= window.location.href %>"&display=popup&ref=plugin&src=share_button">Facebook</a>
+          <a data-backend="Twitter" href="https://twitter.com/intent/tweet?original_referer=<%= window.location.href %>&related=anywhereTheJavascriptAPI&text=<%= document.title %>&tw_p=tweetbutton&url=<%= window.location.href %>" class="twitter-button">Twitter</a>
         </p>
       </div>
       <div class="modal-footer">

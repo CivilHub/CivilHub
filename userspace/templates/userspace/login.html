@@ -11,7 +11,7 @@
     <h1 class="login-form-header">{% trans "Sign In" %}</h1>
     <div class="login-form-body">
       <div class="login-social row">
-        <a class="facebook-button" href="{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">Connect with Facebook</a>
+        <a class="facebook-button" href="{% url 'social:begin' 'facebook' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Facebook" %}</a>
         <a class="twitter-button" href="{% url 'social:begin' 'twitter' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Twitter" %}</a>                
         <a class="linkedin-button" href="{% url 'social:begin' 'linkedin' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">{% trans "Connect with Linkedin" %}</a>                    
         <a class="google-button" href="{% url 'social:begin' 'google-plus' %}">{% trans "Connect with Google+" %}</a>
