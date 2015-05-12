@@ -7,6 +7,7 @@
 
 {% block idea_news %}
 <div class="wrapper-timeline">
+  {% if idea_access %}<a href="{% url 'locations:idea-news-create' location.slug idea.slug %}">{% trans "Create news" %}</a>{% endif %}
   {% for news in object_list %}<div class="timeline-item">
     <div class="timeline-wrap idea ml0">
       <span class="date"></span>

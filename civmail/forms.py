@@ -3,7 +3,9 @@ import sys
 import inspect
 
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 
 from locations.models import Location
@@ -63,4 +65,39 @@ class TestSendMailForm(forms.Form):
         for recipient in self.cleaned_data['recipients']:
             message_context.update({'lang': recipient.profile.lang, })
             message.send(recipient.email, message_context)
+        return True
+
+
+class ContactForm(forms.Form):
+    """ Forms for visitors to send messages fo us.
+    """
+    name = forms.CharField(max_length=128, label=_(u"name"))
+    email = forms.EmailField(label=_(u"email"))
+    message = forms.CharField(label=_(u"message"),
+        widget=forms.EmailInput(attrs={'maxlength': '500', }))
+
+    def __init__(self, *args, **kwargs):
+        try:
+            self.request = kwargs.pop('request')
+        except KeyError:
+            self.request = None
+        super(ContactForm, self).__init__(*args, **kwargs)
+
+    def is_valid(self):
+        valid = super(ContactForm, self).is_valid()
+        if not valid:
+            return valid
+        message = mails.ContactEmail()
+        message.send(settings.CONTACT_EMAIL_ADDRESS, {
+            'sender': self.cleaned_data['name'],
+            'message': self.cleaned_data['message'], })
+        message = mails.ContactResponseEmail()
+        email_context = {
+            'subject': _("Contact message"),
+            'message': self.cleaned_data['message'],
+        }
+        if self.request is not None:
+            email_context.update({
+                'lang': translation.get_language_from_request(self.request), })
+        message.send(self.cleaned_data['email'], email_context)
         return True

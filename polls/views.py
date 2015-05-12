@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from django.http import HttpResponse
@@ -16,13 +17,15 @@ from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import View, DetailView
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import ProcessFormView
+from django.views.generic.edit import ProcessFormView, UpdateView
 
 from maps.models import MapPointer
 from locations.models import Location
 from locations.links import LINKS_MAP as links
 from places_core.helpers import SimplePaginator, truncatehtml
 from places_core.mixins import LoginRequiredMixin
+from places_core.permissions import is_moderator
+from polls.forms import PollUpdateForm
 from userspace.models import UserProfile
 
 from .models import Poll, Answer, AnswerSet, SimplePoll, SimplePollAnswerSet
@@ -52,6 +55,20 @@ class PollListView(PollsContextMixin, SearchableListMixin):
         return qs.filter(title__icontains=self.request.GET.get('haystack', ''))
 
 
+class PollUpdateView(LoginRequiredMixin, PollsContextMixin, UpdateView):
+    """ Update existing poll. Only superusers and moderators can access this view.
+    """
+    model = Poll
+    form_class = PollUpdateForm
+
+    def dispatch(self, *args, **kwargs):
+        self.location = self.get_current_location()
+        user = self.request.user
+        if not user.is_superuser and not is_moderator(user, self.location):
+            raise PermissionDenied
+        return super(PollUpdateView, self).dispatch(*args, **kwargs)
+
+
 class PollDetails(DetailView):
     """
     Detailed poll view.
@@ -66,6 +83,7 @@ class PollDetails(DetailView):
         context['title'] = self.object.title
         context['form'] = PollEntryAnswerForm(self.object)
         context['links'] = links['polls']
+        context['is_moderator'] = is_moderator(self.request.user, self.object.location)
         context['map_markers'] = MapPointer.objects.filter(
             content_type=ContentType.objects.get_for_model(Poll)).filter(
                 object_pk=self.object.pk)

@@ -40,6 +40,19 @@ class PollForm(forms.ModelForm, BootstrapBaseForm):
         fields = ('title', 'question', 'location', 'multiple', 'tags', 'image')
 
 
+class PollUpdateForm(forms.ModelForm):
+    """
+    """
+    class Meta:
+        model = Poll
+        exclude = ('slug', 'creator', 'location', )
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', }),
+            'question': forms.Textarea(attrs={
+                'class': 'form-control custom-wysiwyg-no-gallery', }),
+        }
+
+
 class PollEntryAnswerForm(forms.Form):
     """
     Print form for single poll's question and let user participate!

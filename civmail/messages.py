@@ -82,3 +82,15 @@ class MassMailTemplate(template_mail.TemplateMail):
     """ Simple newsletter functionality.
     """
     name = "newsletter"
+
+
+class ContactEmail(template_mail.TemplateMail):
+    """ Email sent when user filled contact form.
+    """
+    name = "contact_mail"
+
+
+class ContactResponseEmail(template_mail.TemplateMail):
+    """ Email to send in response for contact message.
+    """
+    name = "response_mail"

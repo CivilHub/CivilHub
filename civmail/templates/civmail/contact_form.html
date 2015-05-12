@@ -1,0 +1,44 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block header %}<div class="headerBGa headerBGBlog">
+  <h1 class="headerTitleBG">{% trans "Contact us" %}</h1>
+</div>{% endblock %}
+{% block content %}<div class="row contact-page top15">
+  <div class="col-md-9 main-content">
+    <div class="col-md-12">
+      <h1>{% trans "Kontakt" %}</h1>
+      {% blocktrans %}<p>If you have a question about our website, please write to us.<br />We will try to answer all your questions.<br /><br />If you want to include your country in our database, also write to us.</p>{% endblocktrans %}
+    </div>
+    <div class="contact-form">
+      {% if form.errors %}<p class="alert alert-danger">{% trans "Please, correct errors below" %}</p>{% endif %}
+      <form class="form" action="" method="post">{% csrf_token %}
+        <div class="col-md-6 form-group">
+          <label for="{{ form.name.id_for_label }}">{{ form.name.label|capfirst }}:</label><br />
+          {% if form.errors.name %}{% for error in form.errors.name %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}{% endif %}
+          <input id="{{ form.name.id_for_label }}" type="text" name="{{ form.name.name }}" maxlength="{{ form.fields.name.widget.attrs.maxlength }}" value="{{ form.name.value|default_if_none:'' }}">
+        </div>
+        <div class="col-md-6 form-group">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label|capfirst }}:</label><br />
+          {% if form.errors.email %}{% for error in form.errors.email %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}{% endif %}
+          <input id="{{ form.email.id_for_label }}" type="email" name="{{ form.email.name }}"  value="{{ form.email.value|default_if_none:'' }}">
+        </div>
+        <div class="col-md-12 form-group">
+          <label for="{{ form.message.id_for_label }}">{{ form.message.label|capfirst }}:</label><br />
+          {% if form.errors.message %}{% for error in form.errors.message %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}{% endif %}
+          <textarea id="{{ form.message.id_for_label }}" name="{{ form.message.name }}" cols="20" rows="5" maxlength="{{ form.fields.message.widget.attrs.maxlength }}">{{ form.message.value|default_if_none:'' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="sidebar contact-sidebar">
+      <div class="sidebar-label">{% trans "Contact details" %}</div>
+      <div class="sidebar-content">
+        {% blocktrans %}<h4>Email:</h4> office@civilhub.org
+        <h4>Phone:</h4> +48 790 123 456
+        <h4>Skype:</h4> civilhuborg
+        <h4>Address:</h4> CivilHub<br />Jasna 10 Street<br />00-013 Warsaw<br />Poland{% endblocktrans %}
+      </div>
+    </div>
+  </div>
+</div>{% endblock %}

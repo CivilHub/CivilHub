@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns('',
-    url(r'^contact/', views.TopLevelArticleView.as_view(article_slug='contact'), name='contact'),
+    #url(r'^contact/', views.TopLevelArticleView.as_view(article_slug='contact'), name='contact'),
     url(r'^cookies/', views.TopLevelArticleView.as_view(article_slug='cookies'), name='cookies'),
     url(r'^privacy/', views.TopLevelArticleView.as_view(article_slug='privacy'), name='privacy'),
     url(r'^about-us/', views.TopLevelArticleView.as_view(article_slug='about-us'), name='about-us'),
