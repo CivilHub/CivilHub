@@ -27,10 +27,8 @@
       <div class="vote-form">
         <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
         <div class="vote-controls">
-          {% if user.is_authenticated %}<button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-          <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
-          {% else %}<a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
-          <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>{% endif %}
+          <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right{% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
+          <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right{% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
         </div>
       </div>
       <div class="clear">&nbsp;</div>
@@ -51,6 +49,7 @@
           {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
           <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
           {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
+          {% if idea_access %}<li><a href="{% url 'locations:idea-news-create' location.slug idea.slug %}">{% trans "Write news" %}</a></li>{% endif %}
           <li></li>
           {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
           <li>{% endwith %}{% bookmark_form idea user %}</li>
@@ -72,6 +71,49 @@
       {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
         {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
       </p>{% endif %}
+
+      {% comment %}
+        Login user via modal form. This should be moved to some common location, e.g. footer.html,
+        but styles for Bootstrap Modal not working if it's not included directly in content.
+        SERIOUS CSS ISSUE!
+      {% endcomment %}
+
+      {% if user.is_anonymous %}<div class="modal fade" id="login-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">{% trans "Login" %}</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal" method="post" action="{% url 'user:login' %}?next={{ request.path }}">{% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <div class="form-group">
+                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Email" %}</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="email" name="email" id="modal_login_email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Password" %}</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="password" name="password" id="modal_login_password">
+                  </div>
+                </div>
+              </form>
+              <a href="/login/facebook/?next={{ request.path }}">{% trans "Facebook" %}</a>
+              <a href="/login/google-plus/?next={{ request.path }}">{% trans "Google+" %}</a>
+              <a href="/login/twitter/?next={{ request.path }}">{% trans "Twitter" %}</a>
+              <a href="/login/linkedin/?next={{ request.path }}">{% trans "LinkedIn" %}</a>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+              <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div>{% endif %}
+
       <div class="ideaEntryComments">
         <p>
           {% get_comment_count idea %} {% trans "Comments" %}

@@ -1,0 +1,9 @@
+{% extends 'locations/index.html' %}{% load i18n %}
+{% block content %}{% for news in object_list %}<div>
+  <h2>{{ news }}</h2>
+  {% if idea_access %}<p>
+    <a href="{% url 'simpleblog:update' news.slug  %}">{% trans "Edit" %}</a>
+    <a href="{% url 'simpleblog:delete' news.slug %}">{% trans "Delete" %}</a>
+  </p>{% endif %}
+  <div>{{ news.content|safe }}</div>
+{% endfor %}</div>{% endblock %}

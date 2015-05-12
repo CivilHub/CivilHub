@@ -22,6 +22,7 @@ define(['jquery',
         'js/modules/ui/widgets',
         'js/modules/ui/search-toggle',
         'js/modules/userspace/user-popup',
+        'js/modules/userspace/modal-login',
         'js/modules/bouncy-navigation/main'],
 
 function ($) {

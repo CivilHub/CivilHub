@@ -21,8 +21,11 @@ from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.links import LINKS_MAP as links
 from maps.forms import AjaxPointerForm
 from maps.models import MapPointer
+from places_core.helpers import ct_for_obj
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
+from simpleblog.forms import BlogEntryForm
+from simpleblog.models import BlogEntry
 
 from .models import Idea, Vote, Category
 from .forms import IdeaForm, CategoryForm
@@ -191,11 +194,30 @@ class UpdateIdeaView(UpdateView):
         return super(UpdateIdeaView, self).form_valid(form)
 
 
-class IdeaGalleryMixin(SingleObjectMixin):
-    """ Common context for all idea-related gallery views.
+class IdeaMixedContextMixin(SingleObjectMixin):
+    """
     """
     model = Idea
 
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super(IdeaMixedContextMixin, self).get_context_data(**kwargs)
+        context.update({
+            'idea': self.object,
+            'location': self.object.location,
+            'links': links['ideas'],
+            'is_moderator': is_moderator(self.request.user, self.object.location),
+            'idea_access': self.check_access(),
+        })
+        return context
+
+    def check_access(self):
+        return self.object.check_access(self.request.user)
+
+
+class IdeaGalleryMixin(IdeaMixedContextMixin):
+    """ Common context for all idea-related gallery views.
+    """
     def get_gallery(self):
         self.object = self.get_object()
         try:
@@ -204,30 +226,13 @@ class IdeaGalleryMixin(SingleObjectMixin):
             gallery = ContentObjectGallery.objects.create(published_in=self.object)
         return gallery
 
-    def get_context_data(self, **kwargs):
-        self.object = self.get_object()
-        context = super(IdeaGalleryMixin, self).get_context_data(**kwargs)
-        context.update({
-            'idea': self.object,
-            'location': self.object.location,
-            'links': links['ideas'],
-            'is_moderator': is_moderator(self.request.user, self.object.location),
-        })
-        return context
-
 
 class IdeaGalleryAccessMixin(LoginRequiredMixin, IdeaGalleryMixin, View):
     """ Context for update and delete views.
     """
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
-        user = self.request.user
-        access = False
-        if is_moderator(user, self.object.location):
-            access = True
-        elif user == self.object.creator:
-            access = True
-        if not access:
+        if not self.check_access():
             raise PermissionDenied
         return super(IdeaGalleryAccessMixin, self).dispatch(*args, **kwargs)
 
@@ -244,4 +249,41 @@ class PictureUploadView(IdeaGalleryMixin, View):
         context = self.get_context_data(**kwargs)
         context['form'] = self.form_class(initial={'gallery': gallery, })
         context['gallery'] = gallery
+        return render(request, self.template_name, context)
+
+
+class IdeaNewsAccessMixin(LoginRequiredMixin, IdeaMixedContextMixin):
+    """ Check access for update, delete and create views in blog sub-views.
+    """
+    def dispatch(self, *args, **kwargs):
+        access = False
+        self.object = self.get_object()
+        if not self.check_access():
+            raise PermissionDenied
+        return super(IdeaNewsAccessMixin, self).dispatch(*args, **kwargs)
+
+
+class IdeaNewsCrete(IdeaNewsAccessMixin, View):
+    """ Create new blog entry for selected idea.
+    """
+    template_name = 'ideas/news_form.html'
+    form_class = BlogEntryForm
+
+    def get(self, request, **kwargs):
+        context = super(IdeaNewsCrete, self).get_context_data()
+        context['form'] = self.form_class(initial={
+            'content_type': ct_for_obj(self.object),
+            'object_id': self.object.pk, })
+        return render(request, self.template_name, context)
+
+
+class IdeaNewsList(IdeaMixedContextMixin, View):
+    """ List simpleblog entries related to given idea.
+    """
+    template_name = 'ideas/news_list.html'
+
+    def get(self, request, **kwargs):
+        self.object = self.get_object()
+        context = super(IdeaNewsList, self).get_context_data()
+        context['object_list'] = BlogEntry.objects.get_published_in(self.object)
         return render(request, self.template_name, context)

@@ -87,11 +87,15 @@ class BlogEntry(SlugifiedModelMixin, ImagableItemMixin):
 
     def get_absolute_url(self):
         if self.content_object is not None:
-            if self.content_object._meta.model_name == 'organization':
+            model_name = self.content_object._meta.model_name
+            if model_name == 'organization':
                 return reverse('organizations:news-detail', kwargs={
                     'slug': self.content_object.slug,
-                    'news_slug': self.slug,
-                })
+                    'news_slug': self.slug, })
+            elif model_name == 'idea':
+                return reverse('locations:idea-news-list', kwargs={
+                    'location_slug': self.content_object.location.slug,
+                    'slug': self.content_object.slug, })
         return reverse('simpleblog:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):

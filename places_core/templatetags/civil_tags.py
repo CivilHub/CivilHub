@@ -14,7 +14,11 @@ from maps.models import MapPointer
 
 
 register = Library()
-ALLOWABLE_VALUES = ("DEBUG", "COMMENT_PAGINATOR_LIMIT",)
+ALLOWABLE_VALUES = (
+    "DEBUG",
+    "COMMENT_PAGINATOR_LIMIT",
+    "SOCIAL_AUTH_FACEBOOK_KEY",
+)
 
 
 @register.filter

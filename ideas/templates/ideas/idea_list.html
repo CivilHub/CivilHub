@@ -1,6 +1,6 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block title %}{{ location }} {% trans "Ideas" %} - Civilhub.org {% endblock %}
-{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/idea-list.js"></script>{% endblock %}
+{% block require_scripts %}<script src="{% module_path 'idea-list' %}"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-ideas">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}{% include 'ideas/navbar.html' %}
 {% if object_list %}<div class="col-sm-9 content-container contentPX main-content">
@@ -9,12 +9,6 @@
       <div class="idea-votes col-sm-3" id="tour-votes">
         <div class="vote-form">
           <div class="votes">{{ idea.get_votes }}</div>
-          <div class="vote-controls">
-            {% if user.is_authenticated %}<button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"><span class="fa fa-angle-up"></span></button>
-            <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"> <span class="fa fa-angle-down"></span></button>
-            {% else %}<a class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-up"></span></a>
-            <a class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote NO" %}" href="/user/login/?next={{ request.path }}"><span class="fa fa-angle-down"></span></a>{% endif %}
-          </div>
         </div>
         <div class="clear">&nbsp;</div>
         <div class="idea-summary">
