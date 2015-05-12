@@ -1,5 +1,5 @@
 {% extends 'organizations/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/organization-news-list.js"></script>{% endblock %}
+{% block require_scripts %}<script src="{% module_path 'organization-news-list' %}"></script>{% endblock %}
 {% block content %}
 {% if object_list.count %}<div class="col-sm-9 content-container blogDivNews main-content">
   {% for news in object_list %}<div class="row">
@@ -17,17 +17,17 @@
   </div>{% endfor %}
   {% include 'places_core/pagination.html' %}
 </div>{% else %}<div class="col-sm-9 no-entries">
-  <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+  <img src="{% static 'places_core/img/civilian.png' %}" alt="{% trans "Sad Civilian" %}">
   <h2>
-    {% trans "We didn't find any news" %} <p>{% trans "in" %} {{ organization }}.</p><br /> 
+    {% trans "We didn't find any news" %} <p>{% trans "in" %} {{ organization }}.</p><br />
     {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'organizations:news-create' organization.slug %}" >
-    {% else %}<a href="/users/login" >{% endif %}{% trans "add first news" %}</a>.
+    {% else %}<a href="{% url 'user:login' %}" >{% endif %}{% trans "add first news" %}</a>.
   </h2>
 </div>{% endif %}
 <div class="col-sm-3">
-  <div class="sidebar"> 
+  <div class="sidebar">
     <div class="sidebar-label">{% trans "Actions" %}:</div>
-    <ul class="sidebar-content custom-sidebar-nav">  
+    <ul class="sidebar-content custom-sidebar-nav">
       <li>
         <a href="{% url 'organizations:news-create' organization.slug %}">{% trans "Add news" %}</a>
       </li>

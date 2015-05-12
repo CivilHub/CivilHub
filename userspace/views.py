@@ -49,8 +49,8 @@ from .helpers import profile_activation, random_username, create_username, updat
 
 
 class UserActivityView(TemplateView):
-    """ 
-    Static view of user activity list (aka the dashboard). 
+    """
+    Static view of user activity list (aka the dashboard).
     Loading a template and a list of the last five elements of each type
     content. In addition, a separate view of the API are loaded user actions.
     """
@@ -431,6 +431,8 @@ class UserFollowedLocations(DetailView):
     model = UserProfile
     template_name = 'userspace/followed-locations.html'
     context_object_name = 'profile'
+    slug_url_kwarg = 'username'
+    slug_field = 'clean_username'
 
     def get_context_data(self, **kwargs):
         ctx = super(UserFollowedLocations, self).get_context_data()

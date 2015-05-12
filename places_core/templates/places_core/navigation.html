@@ -80,7 +80,7 @@
           <ul class="dropdown-menu">
             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "Profile" %}</a></li>
             <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
-            <li><a href="{% url 'user:locations' user.pk %}">{% trans "My Places" %}</a></li>
+            <li><a href="{% url 'user:locations' user.profile.clean_username %}">{% trans "My Places" %}</a></li>
             <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
             <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
             <li class="divider"></li>

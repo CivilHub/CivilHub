@@ -6,7 +6,7 @@
 <script>window.USER_ID = "{{ user.pk }}";</script>
 <script>window.LOCATION_ID = "{{ user.pk }}";</script>
 <script>window.CONTENT_API_URL = "/api-userspace/contents/";</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-activity.js"></script>
+<script src="{% module_path 'userspace-activity' %}"></script>
 {% endblock %}
 
 {% block title %}{% trans "Your feed" %}{% endblock %}

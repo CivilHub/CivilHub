@@ -38,6 +38,8 @@ urlpatterns = patterns('',
 
     # IDEAS
     url(r'^(?P<slug>[\w-]+)/ideas/create/', LocationIdeaCreate.as_view(), name='new_idea'),
+    url(r'^(?P<location_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/news/create/', idea_views.IdeaNewsCrete.as_view(), name='idea-news-create'),
+    url(r'^(?P<location_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/news/', idea_views.IdeaNewsList.as_view(), name='idea-news-list'),
     url(r'^(?P<place_slug>[\w-]+)/ideas/(?P<slug>[\w-]+)/', idea_views.IdeasDetailView.as_view(), name='idea_detail'),
     url(r'^(?P<location_slug>[\w-]+)/ideas/', idea_views.IdeasListView.as_view(), name='ideas'),
 

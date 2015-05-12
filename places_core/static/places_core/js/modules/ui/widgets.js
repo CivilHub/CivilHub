@@ -45,7 +45,7 @@ $.fn.customRedactor = function (options) {
   var settings = $.extend({ gallery: true }, options);
   return $(this).each(function () {
     var redactorSettings = {
-      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link']
+      buttons: ['bold', 'italic', 'formatting', 'unorderedlist', 'orderedlist', 'link']
     };
     if (settings.gallery) {
       redactorSettings.plugins = ['uploader'];
