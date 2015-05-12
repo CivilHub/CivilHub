@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
+
+from places_core.forms import BootstrapBaseForm
 
 from .models import Guide, GuideTag
 
@@ -14,11 +17,12 @@ class TagsWidget(forms.TextInput):
         return ", ".join([x[0] for x in GuideTag.objects.filter(pk__in=value).values_list('name')])
 
 
-class GuideForm(forms.ModelForm):
+class GuideForm(forms.ModelForm, BootstrapBaseForm):
     """ Customized form for guide creation in views tied to location.
     """
     tags = forms.CharField(required=False,
-        widget=TagsWidget(attrs={'class': 'form-conrol custom-tagsinput', }))
+        label= _(u"Tags"),
+        widget=TagsWidget(attrs={'class': 'form-control custom-tagsinput', }))
 
     def __init__(self, *args, **kwargs):
         super(GuideForm, self).__init__(*args, **kwargs)
@@ -36,13 +40,16 @@ class GuideForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(
                 attrs={'class': 'form-control custom-wysiwyg', }),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
 class GuideEditorsForm(forms.ModelForm):
     """
     """
-    emails = forms.CharField(widget=forms.TextInput, initial="")
+    emails = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), initial="")
 
     def clean_emails(self):
         emails = [x.strip() for x in self.cleaned_data['emails'].split(',') if x]

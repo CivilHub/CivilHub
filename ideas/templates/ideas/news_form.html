@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<form method="post" action="{% url 'simpleblog:create' %}" enctype="multipart/form-data">{% csrf_token %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Create news" %} {% trans "in" %} {{ idea.name }}</h3><form method="post" action="{% url 'simpleblog:create' %}" enctype="multipart/form-data">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn-saveBig">{% trans "Save" %}</button>
+</form></div>{% endblock %}

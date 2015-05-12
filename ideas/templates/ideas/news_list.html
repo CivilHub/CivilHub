@@ -1,9 +1,26 @@
-{% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}{% for news in object_list %}<div>
-  <h2>{{ news }}</h2>
-  {% if idea_access %}<p>
-    <a href="{% url 'simpleblog:update' news.slug  %}">{% trans "Edit" %}</a>
-    <a href="{% url 'simpleblog:delete' news.slug %}">{% trans "Delete" %}</a>
-  </p>{% endif %}
-  <div>{{ news.content|safe }}</div>
-{% endfor %}</div>{% endblock %}
+{% extends 'ideas/idea_detail_base.html' %}{% load i18n %}
+{% block idea_link%}<ul class="itab-nav list-inline">
+  <li><a href="{{ idea.get_absolute_url }}">{% trans "About" %}</a></li>
+  <li><a href="{{ idea.get_absolute_url }}news/" class="active">{% trans "News" %}</a></li>
+  <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
+</ul>{% endblock %}
+
+{% block idea_news %}
+<div class="wrapper-timeline">
+  {% for news in object_list %}<div class="timeline-item">
+    <div class="timeline-wrap idea ml0">
+      <span class="date"></span>
+      <div class="article-content">
+        <h2 class="mt0 mb0">{{ news }}</h2>
+        <p class="text-muted"><small>{{ news.date_created|date:"d/m/Y"}}</small></p>
+        {% if idea_access %}<p>
+        <a href="{% url 'simpleblog:update' news.slug %}" class="text-info">{% trans "Edit" %}</a>
+        <a href="{% url 'simpleblog:delete' news.slug %}" class="text-danger">{% trans "Delete" %}</a>
+        </p>{% endif %}
+        <div>{{ news.content|safe }}</div>
+      </div>
+    </div>
+  </div>{% endfor %}
+</div>
+
+{% endblock %}

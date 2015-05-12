@@ -1,5 +1,7 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<form method="post" action="">{% csrf_token %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Create guide" %}</h3><form method="post" action="" class="form-horizontal">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
+  <div class="form-group mb0">
+    <div class="col-sm-12 text-right"><button type="submit" class="btn-saveBig">{% trans "Save" %}</button></div>
+  </div>
 </form>{% endblock %}

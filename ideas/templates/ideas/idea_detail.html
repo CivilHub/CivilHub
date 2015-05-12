@@ -1,133 +1,18 @@
-{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags counters %}
-{% block title %} {{ idea.name }}, {{ location }} - Civilhub.org {% endblock %}
-{% block description %}<meta name="description" content="{{ idea.description|striptags|slice:":153"}}..." />{% endblock %}
-{% block meta %}
-<meta name="description" content="{{ idea.description|striptags|slice:":156"}}...">
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="CivilHub">
-<meta name="twitter:title" content="{{ title }}">
-<meta property="og:title" content="{{ idea.name }}, {{ location.name }}"/>
-<meta property="og:image" content="https://civilhub.org{{ idea.image.url }}"/>
-<meta property="og:url " content="https://civilhub.org{{ idea.get_absolute_url }}" />
-<meta property="og:site_name" content="CivilHub"/>
-<meta property="article:author" content="https://civilhub.org{{ idea.creator.profile.get_absolute_url }}" />
-<meta property="og:description" content="{{ idea.description|striptags|slice:":100" }}..." />
-<meta name="keywords" content="{{ idea.name }}, {{ idea.location }}, {% for tag in idea.tags.all %}{{ tag.name }}, {% endfor %}">
-{% for tag in idea.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}
-<meta property="article:published_time" content="{{ idea.date_created|date:"c" }}">
-{% if idea.date_edited %}<meta property="article:modified_time" content="{{ idea.date_edited|date:"c" }}">{% endif %}{% endblock %}
-{% block require_scripts %}{% get_map_pointers idea as MARKERS %}{% include 'maps/minimap.html' %}
-<script>window.commentListSize = {% page_size %};</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/idea-detail.js"></script>{% endblock %}
-{% block navigation_location %}<div class="location-page-ideas">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
-{% block content %}{% with idea as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
-<div class="main-content col-sm-9 contentPX">
-  <div class="row idea-entry">
-    <div class="idea-votes col-sm-3 idea-votesH">
-      <div class="vote-form">
-        <div class="votes" data-target-id="{{ idea.pk }}">{{ idea.get_votes }}</div>
-        <div class="vote-controls">
-          <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right{% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'><span class="fa fa-angle-up"></span></button>
-          <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right{% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"  rel='tooltip'> <span class="fa fa-angle-down"></span></button>
-        </div>
-      </div>
-      <div class="clear">&nbsp;</div>
-      <div class="idea-summary">
-        <div class="idea-status-state">
-          {% if idea.status %}<label class="label label-success custom-tooltip-right" title="{% trans "Status" %}">{{ idea.get_status_display|capfirst }}</label>
-          {% else %}<label class="label label-danger custom-tooltip-right" title="{% trans "Status" %}">{% trans "Inactive" %}</label>{% endif %}
-        </div>
-        <div class="idea-vote-count custom-tooltip-right" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{{ idea.vote_set.all.count }} {% trans "votes" %}</div>
-      </div>
-      {% include 'locations/share_buttons.html' %}
-    </div>
-    <div class="col-sm-9 idea-Content">
-      <h1 class="ideaName">{{ idea.name }}&nbsp;<span class="submenu-toggle"> </span></h1>
-      <div class="entry-submenu">
-        <ul>{% with idea|content_type as ctype %}
-          {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
-          {% if user.is_superuser or user == idea.creator or is_moderator %}<li><a href="#" data-ct="{{ ctype.pk }}" data-id="{{ idea.pk }}" class="map-marker-toggle">{% trans "Add map marker" %}</a></li>
-          <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
-          {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
-          {% if idea_access %}<li><a href="{% url 'locations:idea-news-create' location.slug idea.slug %}">{% trans "Write news" %}</a></li>{% endif %}
-          <li></li>
-          {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
-          <li>{% endwith %}{% bookmark_form idea user %}</li>
-        </ul>
-      </div>
-      <div class="author-info">
-        <small>
-          <img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="user-avatar mini user-window-toggle" data-target="{{ idea.creator.pk }}" />
-          <a href="{{ idea.creator.profile.get_absolute_url }}" class="user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a> <span class="ideaDataCreated">{{ idea.date_created }}</span>
-        </small>
-      </div>
-      {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
-      <div class="acticle-content clearfix mt25">{{ idea.description|safe }}</div>
-      {% visit_counter idea %}
-      {% if gallery.pictures.count %}<h4>{% trans "Gallery" %}:</h4>{% endif %}
-      {% include 'gallery/carousel.html' %}
-      {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
-      {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
-      {% if idea.tags.all %}<p class="ideaEntryTags">{% trans "Tags" %}:
-        {% for tag in idea.tags.all %}<a class="newTag" href="{% url 'locations:tag_search' slug=idea.location.slug tag=tag|slugify %}" />{{ tag }}</a>  {% endfor %}
-      </p>{% endif %}
-
-      {% comment %}
-        Login user via modal form. This should be moved to some common location, e.g. footer.html,
-        but styles for Bootstrap Modal not working if it's not included directly in content.
-        SERIOUS CSS ISSUE!
-      {% endcomment %}
-
-      {% if user.is_anonymous %}<div class="modal fade" id="login-modal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">{% trans "Login" %}</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" method="post" action="{% url 'user:login' %}?next={{ request.path }}">{% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <div class="form-group">
-                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Email" %}</label>
-                  <div class="col-sm-10">
-                    <input class="form-control" type="email" name="email" id="modal_login_email">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Password" %}</label>
-                  <div class="col-sm-10">
-                    <input class="form-control" type="password" name="password" id="modal_login_password">
-                  </div>
-                </div>
-              </form>
-              <a href="/login/facebook/?next={{ request.path }}">{% trans "Facebook" %}</a>
-              <a href="/login/google-plus/?next={{ request.path }}">{% trans "Google+" %}</a>
-              <a href="/login/twitter/?next={{ request.path }}">{% trans "Twitter" %}</a>
-              <a href="/login/linkedin/?next={{ request.path }}">{% trans "LinkedIn" %}</a>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
-              <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>{% endif %}
-
-      <div class="ideaEntryComments">
-        <p>
-          {% get_comment_count idea %} {% trans "Comments" %}
-          {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle entryCommentsToggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
-        </p>
-      </div>
-      <input type="hidden" id="target-id" value="{{ idea.pk }}" />
-      <input type="hidden" id="target-label" value="ideas" />
-      <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
-      {% include 'comments/commentlist.html' %}
-    </div>
+{% extends 'ideas/idea_detail_base.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags counters %}
+{% block idea_description %}
+  {% if gallery.pictures.count %}<h4>{% trans "Gallery" %}:</h4>{% endif %}
+  {% include 'gallery/carousel.html' %}
+  {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
+  {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
+  <div class="acticle-content clearfix">{{ idea.description|safe }}</div>
+  <div class="customEntry-comments">
+    <p>
+      {% get_comment_count idea %} {% trans "Comments" %}
+      {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle custom-comments-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
+    </p>
   </div>
-</div>
-{% include 'ideas/idea-votes.html' %}
-<div class="col-sm-3 boxPX">
-  {% include 'locations/sidebar.html' %}
-</div>{% endblock %}
+  <input type="hidden" id="target-id" value="{{ idea.pk }}" />
+  <input type="hidden" id="target-label" value="ideas" />
+  <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
+  {% include 'comments/commentlist.html' %}
+{% endblock %}
