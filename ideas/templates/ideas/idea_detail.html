@@ -37,7 +37,7 @@
   </div>
   <div class="row ivotepage">
     <h1 class="text-center">{{ idea.name }}</h1>
-  <div class="col-sm-9 mt25 p-reset">
+  <div class="col-sm-9 mt25 pl0">
     {% if not idea.has_default_image %}<div class="content-image" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
     {% visit_counter idea %}
   </div><!--9-->
@@ -50,7 +50,7 @@
     </div>
     <div class="vote-form">
       <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.all.count }}</h2><p>{% trans "Total vote"%}</p></div>
-      <div class="ivotes text-center"><h2>VOTES</h2><p>{% trans "Positive votes" %}</p></div>
+      <div class="ivotes text-center"><h2>{{idea.votes_down.all.count}}{{ idea.user_get_full_name}}</h2><p>{% trans "Positive votes" %}</p></div>
       <div class="vote-controls text-center">
         {% if user.is_authenticated %}<p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
         <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
@@ -59,7 +59,8 @@
       </div>
     </div>
   </div><!--3-->
-
+</div>
+<div class="row ivotepage">
   <div class="col-sm-12">
     <div class="row mb20">
       <ul class="itab-nav list-inline">
@@ -68,8 +69,10 @@
         <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
       </ul>
     </div>
-    <div class="row">
-      <div class="col-sm-9 p-reset">
+  </div>
+</div>
+    <div class="row ivotepage">
+      <div class="col-sm-9 pl0">
       {% if gallery.pictures.count %}<h4>{% trans "Gallery" %}:</h4>{% endif %}
       {% include 'gallery/carousel.html' %}
       {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
@@ -100,4 +103,5 @@
   </div>
   </div>
 </div>
+
 {% endblock %}
