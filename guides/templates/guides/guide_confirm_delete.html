@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<p>{% trans "Are you sure you want to delete this guide" %}?</p>
+{% block content %}<div class="main-content create-form newFormCreate"><p>{% trans "Are you sure you want to delete this guide" %}?</p>
 <form method="post" action="">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-  <button type="button" onclick="history.go(-1);">{% trans "Back" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn btn-minusDelete">{% trans "Delete" %}</button>
+  <button type="button" onclick="history.go(-1);" class="btn-cancelBig">{% trans "Back" %}</button>
+</form></div>{% endblock %}
