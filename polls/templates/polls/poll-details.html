@@ -24,7 +24,8 @@
       <li></li>
       {% if user.is_authenticated and user == poll.creator %}<li><a href="#" class="map-marker-toggle" data-ct="{{ ctype.pk }}" data-id="{{ poll.pk }}">{% trans "Add map marker" %}</a></li>{% endif %}
       {% if user.is_authenticated and user != poll.creator %}<li>{% report_link poll %}</li>{% endif %}
-      {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>{% endif %}{% endwith %}
+      {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk poll.pk %}">{% trans "Delete" %}</a></li>
+      <li><a href="{% url 'polls:update' poll.location.slug poll.pk %}">{% trans "Update" %}</a></li>{% endif %}{% endwith %}
       <li>{% bookmark_form poll user %}</li>
     </ul>
   </div>

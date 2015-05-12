@@ -362,8 +362,11 @@ EMAIL_HOST_USER     = config['email_user']
 EMAIL_HOST_PASSWORD = config['email_pass']
 EMAIL_USE_TLS       = True
 # Enter real email address here in future
-EMAIL_DEFAULT_ADDRESS = 'test@composly.com'
-DEFAULT_FROM_EMAIL = 'noreply@civilhub.org'
+EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
+DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
+# Where to redirect contact messages
+CONTACT_EMAIL_ADDRESS = 'grzewarz@gmail.com'
+
 # Email settings for testing purposes
 EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 # Uncomment below line to enable sending real emails.

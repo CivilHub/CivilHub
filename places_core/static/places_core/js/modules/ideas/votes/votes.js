@@ -32,7 +32,11 @@ $(document).ready(function () {
 
 function openShareWindow () {
   var tpl = _.template(html);
-  var $el = $(tpl({}));
+  var $el = $(tpl({
+    token: CivilApp.fbClientToken,
+    url: document.location.href,
+    title: document.title
+  }));
   $el.modal();
   $el.find('.trigger-link').on('click', function (e) {
     e.preventDefault();

@@ -2,6 +2,7 @@
 import json
 
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
@@ -13,7 +14,7 @@ from locations.helpers import get_followers_from_location
 from places_core.mixins import LoginRequiredMixin
 
 from civmail import messages as mails
-from .forms import FollowersEmailForm
+from .forms import ContactForm, FollowersEmailForm
 
 
 class InviteFriendsView(LoginRequiredMixin, TemplateView):
@@ -115,3 +116,19 @@ class ComposeFollowersMessage(LoginRequiredMixin, FormView):
         messages.add_message(self.request, messages.SUCCESS,
                              self.success_message)
         return super(ComposeFollowersMessage, self).form_valid(form)
+
+
+class ContactEmailView(FormView):
+    """
+    """
+    template_name = 'civmail/contact_form.html'
+    form_class = ContactForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ContactEmailView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, _("Message sent"))
+        return redirect(reverse('contact'))

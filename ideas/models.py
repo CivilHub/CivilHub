@@ -75,11 +75,26 @@ class Idea(ImagableItemMixin, models.Model):
             access = True
         return access
 
+    @property
+    def votes_up(self):
+        return self.vote_set.filter(vote=True).count()
+
+    @property
+    def votes_down(self):
+        return self.vote_set.filter(vote=False).count()
+
+    @property
+    def note(self):
+        if not self.vote_set.count():
+            note = 0
+        elif not self.votes_down:
+            note = 100
+        else:
+            note = float(self.votes_down) / float(self.votes_up) * 100.0
+        return "{}%".format(int(note))
 
     def get_votes(self):
-        votes_up = self.vote_set.filter(vote=True).count()
-        votes_down = self.vote_set.filter(vote=False).count()
-        return votes_up - votes_down
+        return self.votes_up - self.votes_down
 
     def get_comment_count(self):
         content_type = ContentType.objects.get_for_model(self)

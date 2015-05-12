@@ -27,6 +27,8 @@ router.add_api_view('autocomplete', url(r'^autocomplete/', api.LocationSearchAPI
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
     url(r'^places/', LocationListView.as_view(), name='index'),
+    url(r'^(?P<location_slug>[\w-]+)/moderators/remove/', RemoveModeratorView.as_view(), name='remove-moderator'),
+    url(r'^(?P<location_slug>[\w-]+)/moderators/', ManageModeratorsView.as_view(), name='manage-moderators'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # sub-location list
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),

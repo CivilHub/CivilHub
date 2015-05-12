@@ -93,8 +93,9 @@ urlpatterns = patterns('',
     url(r'^api-hitcounter/', include(hitcounter_router.urls)),
 )
 
-from civmail.views import InviteFriendsView
+from civmail.views import ContactEmailView, InviteFriendsView
 urlpatterns += patterns('',
+    url(r'^contact/', ContactEmailView.as_view(), name="contact"),
     url(r'^invite-friends/', InviteFriendsView.as_view(), name="invite_friends"),
 )
 

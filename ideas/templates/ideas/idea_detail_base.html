@@ -50,8 +50,8 @@
       </div>
     </div>
     <div class="vote-form">
-      <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.all.count }}</h2><p>{% trans "Total vote"%}</p></div>
-      <div class="ivotes text-center"><h2>{{ idea.votes_down }}</h2><p>{% trans "Positive votes" %}</p></div>
+      <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
+      <div class="ivotes text-center"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes" %}</p></div>
       <div class="vote-controls text-center">
         <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
         <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
