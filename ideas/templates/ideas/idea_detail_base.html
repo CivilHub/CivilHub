@@ -50,11 +50,12 @@
       </div>
     </div>
     <div class="vote-form">
-      <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
-      <div class="ivotes text-center"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes" %}</p></div>
+      <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
+      <div class="ivotes text-center col-md-6 col-sm-12 mb20"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes"%}</p></div>
       <div class="vote-controls text-center ibutton-share">
         <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
-        <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
+        <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
+        <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
       </div>
     </div>
   </div><!--3-->
@@ -76,14 +77,14 @@
       <div class="col-sm-4 text-center">
       {% include 'locations/share_buttons.html' %}
 
-        <div class="ibutton-share">
-          {% comment %}<div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
+        {% comment %}<div class="ibutton-share">
+          <div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
           <div class="btn-i300 btn-itblue mb20 text-left"><span class="fa fa-twitter-square fa-pa"></span> {% trans "Share this on Twitter" %}</div>
           <div class="btn-i300 btn-ilblue mb20 text-left"><span class="fa fa-linkedin-square fa-pa"></span> {% trans "Share this on LinkedIn" %}</div>
-          <div class="btn-i300 btn-igred mb20 text-left"><span class="fa fa-google-plus-square fa-pa"></span> {% trans "Share this on Google+" %}</div>{% endcomment %}
+          <div class="btn-i300 btn-igred mb20 text-left"><span class="fa fa-google-plus-square fa-pa"></span> {% trans "Share this on Google+" %}</div>
           <div class="divider mb20 mt25"></div>
           <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-left" title="{% trans "Summary" %}" data-target="{{ idea.pk }}"><span class="fa fa-eye fa-pa"></span> {% trans "See who as voted" %}</div>
-        </div>
+        </div>{% endcomment %}
       </div>
     </div>
   </div>
