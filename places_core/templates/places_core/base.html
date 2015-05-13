@@ -1,5 +1,5 @@
 {% load staticfiles i18n civil_tags analytical %}
-    
+
 <!DOCTYPE html>
 {% get_current_language as LANG %}
 <html lang="{{ LANG }}">
@@ -37,7 +37,7 @@
 
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" type="text/javascript"></script>
-<![endif]--> 
+<![endif]-->
 
 <script src="{% static 'places_core/includes/modernizr/modernizr.js' %}"></script>
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
@@ -66,11 +66,11 @@
     {% comment %}
         Here we define Require.js initializator, e.g. 'require.config' and
         a starting function for the application. Dependencies in Require should
-        reflect all used in the plugin and library site.  
+        reflect all used in the plugin and library site.
     {% endcomment %}
-    
+
     <script src="{% static 'places_core' %}/js/{% js_path %}/default.js"></script>
-    
+
 {% endblock %}
 
 {% comment %} ~~~~~~~~~~~~~~~ EXTRA JS FILES ~~~~~~~~~~~~~~~~ {% endcomment %}
@@ -83,35 +83,35 @@
 <div id="cookie-if"></div>
 <div id="messages"></div>
 <div id="cookie-msg"></div>
-    
+
 {% include 'places_core/navigation.html' %}
 
 {% block main_page_content %}
 <div class="main-page-content wrap">
-    
+
     <div id="messages"></div>
-    
+
     {% block header %}
-    
+
         <div class="container">
             <h1 class="custom-main-title" id="headlingBase">{{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
         </div>
-    
+
     {% endblock %}
-    
+
     {% block container_main %}
     <div class="container">
-    
+
         {% block topbar %}{% endblock %}
-        
+
         {% block content %}{% endblock %}
-        
+
         {% block sidebar %}{% endblock %}
 
     </div>
 
     {% endblock %}
-    
+
 </div>
 {% endblock %}
 {% block base_footer %}
