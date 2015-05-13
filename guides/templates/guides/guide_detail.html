@@ -11,10 +11,10 @@
       <li><a href="{% url 'guides:editors' object.location.slug object.slug %}">{% trans "Editors" %}</a></li>
     </ul>
   </div>
-<div class="container-fluid">
+<div class="container-fluid p-reset">
   <div class="col-sm-3 ac-right-site">
     <div class="menu-box bbg">
-      <h3>{% trans "Authors" %}:</h3>
+      <h3>{% trans "Authors" %}</h3>
       <ul class="list-unstyled">{% for author in object.authors.all %}
         <li class="icon-list top15"><img src="{{ author.profile.avatar.url }}" alt="{{ author.profile }}" class="current-user-avatar60 display-ib-m">
           <div class="display-ib-m"><a href="{{ author.profile.get_absolute_url }}" class="author btn-block">{{ author.profile }}</a>
@@ -23,7 +23,7 @@
       {% endfor %}</ul>
     </div>
     {% if object.tags.count %}<div class="menu-box tags-n bbg">
-      <h3>{% trans "Tags" %}:</h3>
+      <h3>{% trans "Tags" %}</h3>
       <ul class="list-unstyled">{% for tag in object.tags.all %}
         <li class="tag-entry tag-n"><a href="{% url 'guides:list-filter-tag' guide.location.slug tag.pk %}">#{{ tag }}</a></li>
       {% endfor %}</ul>
