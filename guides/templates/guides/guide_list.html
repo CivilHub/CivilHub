@@ -1,6 +1,31 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}{% for l in location_set %}
-<h2>{{ l }}</h2>
-<ul>{% for guide in l.guides.all %}
-  {% if guide.status == 2 %}<li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>{% endif %}
-{% endfor %}</ul>{% endfor %}{% endblock %}
+{% block content %}
+{% comment %}Category list
+    {% for l in location_set %}
+    <h2>{{ l }}</h2>
+    <ul>{% for guide in l.guides.all %}
+      {% if guide.status == 2 %}<li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>{% endif %}
+     {{ guide.category }}
+    {% endfor %}</ul>{% endfor %}
+{% endcomment %}
+
+
+{% for l in location_set %}<div class="row">
+  {% for giude in l.guides.all %}
+  {% if guide.status == 2 %} <a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ guide }}</a>{% endif %}
+  <div class="col-sm-4">
+    <div class="main-content">
+      <div class="guides-category c_usd small">
+        <div class="icon c_usd"><span class="fa fa-usd"></span></div>
+      </div>
+      <h4><a href="{{ guide.get_absolute_url }}">{{ giude.category }}</a></h4>
+      <div>{{ giude.category.description|safe|truncatechars:250 }}</div>
+    </div><!--main-->
+  </div><!--4-->
+  {% endfor %}
+</div>{% endfor %}
+
+
+
+
+{% endblock %}
