@@ -1,7 +1,7 @@
 {% extends 'ideas/idea_detail_base.html' %}{% load i18n %}
 {% block idea_link%}<ul class="itab-nav list-inline">
-  <li><a href="{{ idea.get_absolute_url }}">{% trans "About" %}</a></li>
-  <li><a href="{{ idea.get_absolute_url }}news/" class="active">{% trans "News" %}</a></li>
+  <li><a href="{{ idea.get_absolute_url }}">{% trans "Informations" %}</a></li>
+  <li><a href="{{ idea.get_absolute_url }}news/#news" class="active" id="news">{% trans "News" %}</a></li>
   <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
 </ul>{% endblock %}
 

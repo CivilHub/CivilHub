@@ -38,87 +38,53 @@
   </div>
   <div class="row ivotepage mb20">
     <h1 class="text-center">{{ idea.name }}</h1>
-  <div class="col-sm-9 mt25 pl0">
+  <div class="col-sm-8 mt25 pl0">
     {% if not idea.has_default_image %}<div class="content-image bigImg4" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
     {% visit_counter idea %}
   </div><!--9-->
   {% include 'ideas/idea-votes.html' %}
-  <div class="col-sm-3 mt25 p-reset">
-    <div class="iauthor-info">
+  <div class="col-sm-4 mt25">
+    <div class="iauthor-info text-center">
       <div class="display-ib-m"><img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="current-user-avatar60 user-window-toggle" data-target="{{ idea.creator.pk }}" /></div>
-      <div class="display-ib-m"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
+      <div class="display-ib-m text-left"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
       </div>
     </div>
     <div class="vote-form">
-      <div class="ivotes text-center" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
-      <div class="ivotes text-center"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes" %}</p></div>
-      <div class="vote-controls text-center">
+      <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
+      <div class="ivotes text-center col-md-6 col-sm-12 mb20"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes"%}</p></div>
+      <div class="vote-controls text-center ibutton-share">
         <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
-        <p><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
+        <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
+        <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
       </div>
     </div>
   </div><!--3-->
 </div>
 <div class="row ivotepage">
-  <div class="col-sm-12">
-    <div class="row mb20">
-      {% block idea_link%}<ul class="itab-nav list-inline">
-        <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "About" %}</a></li>
-        <li><a href="{{ idea.get_absolute_url }}news/">{% trans "News" %}</a></li>
-        <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
-      </ul>{% endblock %}
-    </div>
+  <div class="col-sm-12 pl0 mb20">
+    {% block idea_link%}<ul class="itab-nav list-inline">
+      <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "Informations" %}</a></li>
+      <li><a href="{{ idea.get_absolute_url }}news/#news">{% trans "News" %}</a></li>
+      <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
+    </ul>{% endblock %}
   </div>
 </div>
     <div class="row ivotepage">
-      <div class="col-sm-9 pl0">
-      {% if user.is_anonymous %}<div class="modal fade" id="login-modal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title">{% trans "Login" %}</h4>
-            </div>
-            <div class="modal-body">
-              <form class="form-horizontal" method="post" action="{% url 'user:login' %}?next={{ request.path }}">{% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <div class="form-group">
-                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Email" %}</label>
-                  <div class="col-sm-10">
-                    <input class="form-control" type="email" name="email" id="modal_login_email">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="modal_login_email" class="control-label col-sm-2">{% trans "Password" %}</label>
-                  <div class="col-sm-10">
-                    <input class="form-control" type="password" name="password" id="modal_login_password">
-                  </div>
-                </div>
-              </form>
-              <div class="text-center"><a href="/login/facebook/?next={{ request.path }}" class="facebook-button">{% trans "Connect with Facebook" %}</a>
-              <a href="/login/google-plus/?next={{ request.path }}" class="google-button">{% trans "Connect with Google+" %}</a></div>
-              <div class="text-center"><a href="/login/twitter/?next={{ request.path }}" class="twitter-button">{% trans "Connect with Twitter" %}</a>
-              <a href="/login/linkedin/?next={{ request.path }}" class="linkedin-button">{% trans "Connect with Linkedin" %}</a></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-cancelBig" data-dismiss="modal">{% trans "Close" %}</button>
-              <button type="submit" class="btn btn-greenBig">{% trans "Login" %}</button>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div>{% endif %}
+      <div class="col-sm-8 pl0">
       {% block idea_description %}{% endblock %}
       {% block idea_news %}{% endblock %}
       </div>
-      <div class="col-sm-3 p-reset text-center">
-        <div class="ibutton-share mt25">
-          {% comment %}<div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
+      <div class="col-sm-4 text-center">
+      {% include 'locations/share_buttons.html' %}
+
+        {% comment %}<div class="ibutton-share">
+          <div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
           <div class="btn-i300 btn-itblue mb20 text-left"><span class="fa fa-twitter-square fa-pa"></span> {% trans "Share this on Twitter" %}</div>
           <div class="btn-i300 btn-ilblue mb20 text-left"><span class="fa fa-linkedin-square fa-pa"></span> {% trans "Share this on LinkedIn" %}</div>
           <div class="btn-i300 btn-igred mb20 text-left"><span class="fa fa-google-plus-square fa-pa"></span> {% trans "Share this on Google+" %}</div>
-          <div class="divider mb20"></div>{% endcomment %}
+          <div class="divider mb20 mt25"></div>
           <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-left" title="{% trans "Summary" %}" data-target="{{ idea.pk }}"><span class="fa fa-eye fa-pa"></span> {% trans "See who as voted" %}</div>
-        </div>
+        </div>{% endcomment %}
       </div>
     </div>
   </div>
