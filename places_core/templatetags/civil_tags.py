@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import os, json
+import json
+import os
 
 from django.template import Library
 from django.conf import settings
@@ -8,9 +9,11 @@ from django.utils.translation import get_language
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
 
+from rest_framework.renderers import JSONRenderer
 from social.apps.django_app.default.models import UserSocialAuth
 
 from maps.models import MapPointer
+from userspace.serializers import UserDetailSerializer
 
 
 register = Library()
@@ -213,3 +216,19 @@ def report_link(obj):
 @register.simple_tag
 def get_verbose_name(object):
     return object._meta.verbose_name.title()
+
+
+@register.simple_tag(takes_context=True)
+def js_userdata(context):
+    """
+    This tag is very useful for passing data of logged-in user into javascript
+    context. It presents vital user info in common JSON syntax.
+    """
+    user = context['user']
+
+    if user.is_anonymous():
+        return ""
+
+    serializer = UserDetailSerializer(user)
+
+    return JSONRenderer().render(serializer.data)

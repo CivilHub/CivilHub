@@ -132,7 +132,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
 )
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'), ]
 
 
 MIDDLEWARE_CLASSES = (

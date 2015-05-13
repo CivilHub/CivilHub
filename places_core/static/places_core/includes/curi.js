@@ -97,7 +97,7 @@ CUri.prototype.post = function (fn) {
       }
     }
   };
-  req.send(this.params);
+  req.send(JSON.stringify(this.params));
 };
 
 return CUri;

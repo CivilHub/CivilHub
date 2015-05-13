@@ -108,7 +108,7 @@ var CommentView = Backbone.View.extend({
 
     // NGO members
     var ngo = this.model.get('ngo_list');
-    if (ngo.count > 0) {
+    if (!_.isUndefined(ngo) && ngo.count > 0) {
       $('<div class="text-center"><span class="fa fa-bank"></span></div>')
         .insertAfter(this.$('.user-avatar'));
       _.each(ngo.items, function (item) {
@@ -205,7 +205,8 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
       var model = new CommentModel({
         comment: $form.find('textarea').val(),
-        parent: this.model.get('id')
+        parent: this.model.get('id'),
+        ngo_list: CivilApp.user.organizations
       });
       // We do not allow empty comments
       if (model.get('comment').length <= 0) {

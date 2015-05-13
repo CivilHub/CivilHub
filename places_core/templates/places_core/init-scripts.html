@@ -45,6 +45,8 @@
 
     currentUserId: {% if user.is_authenticated %}"{{ user.pk }}"{% else %}null{% endif %},
 
+    user: {% js_userdata %},
+
     messages: [],
 
     fbClientToken: "{% settings_value 'SOCIAL_AUTH_FACEBOOK_KEY' %}"
