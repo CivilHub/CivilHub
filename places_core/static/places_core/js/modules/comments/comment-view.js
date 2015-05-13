@@ -109,7 +109,7 @@ var CommentView = Backbone.View.extend({
     // NGO members
     var ngo = this.model.get('ngo_list');
     if (ngo.count > 0) {
-      $('<div class="text-center"><span class="fa fa-bank"></span></div>')
+      $('<div class="text-center avatarViewIMG"><small class="fa fa-bank green ml0"></small></div>')
         .insertAfter(this.$('.user-avatar'));
       _.each(ngo.items, function (item) {
         this.renderBadge(item);
@@ -122,7 +122,7 @@ var CommentView = Backbone.View.extend({
   renderBadge: function (ngo) {
     var html = ([
       '<a href="', ngo.url,
-      '"><span class="badge badge-green">',
+      '"><span class="badge badge-green badge-btn comment-badge">',
       ngo.name, '</span></a>'
     ]).join('');
     $(html).insertAfter(this.$el.find('.comment-date-from-now'));
