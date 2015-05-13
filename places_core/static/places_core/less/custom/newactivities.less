@@ -12,7 +12,7 @@
 .border-radius(@radius){
   -webkit-border-radius: @radius;
   -moz-border-radius:    @radius;
-  border-radius:         @radius;  
+  border-radius:         @radius;
 }
 //for fake right site in activity
 .container{
@@ -287,8 +287,9 @@ a{
   .timeline-body{
     border-top: 1px solid @border-color-de;
     position: relative;
-    p{ 
+    p, ul, ol{
       margin-bottom: 0;
+      padding: 0;
       img{ .hidden; }
     }
     .title{
