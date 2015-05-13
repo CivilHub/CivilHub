@@ -24,7 +24,7 @@
         <ul class="ac-user-list list-unstyled">
           {% postman_unread as unread_count %}
           <li><a href="/messages/inbox/"><span class="fa fa-envelope-o ac-icon20"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
-          <li><a href="{% url 'user:locations' user.pk %}"><span class="small-icon-place ac-icon20"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></a></li>
+          <li><a href="{% url 'user:locations' user.profile.clean_username %}"><span class="small-icon-place ac-icon20"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></a></li>
           <li><span class="fa fa-heart-o ac-icon20"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
         </ul>
       </div>
