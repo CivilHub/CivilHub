@@ -34,11 +34,13 @@ var CommentView = Backbone.View.extend({
   },
 
   render: function () {
-    // adds a tooltip for voting under each comment
-    $('.comment-meta-options').find('a').tooltip();
 
     // Displays the current comment
     this.$el.html(this.template(this.model.toJSON()));
+
+    // adds a tooltip for voting under each comment
+    // Yes, but why before this element is created? :)
+    $('.comment-meta-options').find('a').tooltip();
 
     // Vote YES
     this.$el.find('.vote-up-link').click(function (e) {
@@ -104,7 +106,26 @@ var CommentView = Backbone.View.extend({
       );
     }.bind(this));
 
+    // NGO members
+    var ngo = this.model.get('ngo_list');
+    if (ngo.count > 0) {
+      $('<div class="text-center"><span class="fa fa-bank"></span></div>')
+        .insertAfter(this.$('.user-avatar'));
+      _.each(ngo.items, function (item) {
+        this.renderBadge(item);
+      }, this);
+    }
+
     return this;
+  },
+
+  renderBadge: function (ngo) {
+    var html = ([
+      '<a href="', ngo.url,
+      '"><span class="badge badge-green">',
+      ngo.name, '</span></a>'
+    ]).join('');
+    $(html).insertAfter(this.$el.find('.comment-date-from-now'));
   },
 
   editComment: function () {
