@@ -205,7 +205,8 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
       var model = new CommentModel({
         comment: $form.find('textarea').val(),
-        parent: this.model.get('id')
+        parent: this.model.get('id'),
+        ngo_list: CivilApp.user.organizations
       });
       // We do not allow empty comments
       if (model.get('comment').length <= 0) {

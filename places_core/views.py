@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.core.cache import cache
+from ipware import ip
+
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import get_current_site
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.views.generic.edit import CreateView
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import get_current_site
 from django.shortcuts import render
 
-from .models import AbuseReport
+from .models import AbuseReport, SearchTermRecord
 from .forms import AbuseReportForm
 
 
@@ -140,3 +142,32 @@ class ReportView(CreateView):
             })
             return HttpResponse(context, content_type="application/json")
         return super(ReportView, self).form_valid()
+
+
+class CivilSearchView(View):
+    """ This view records what users are searching for in service. POST data
+        shold be send by some front-end script.
+    """
+    def post(self, request, **kwargs):
+        self.term = request.POST.get('q')
+        if self.term is not None:
+            self.create_record()
+        context = json.dumps({'success': True, })
+        return HttpResponse(context, content_type="application/json")
+
+    def create_record(self):
+        record = SearchTermRecord(term=self.term)
+        record.ip_address = ip.get_ip(self.request)
+        if self.request.user.is_authenticated():
+            record.user = self.request.user
+        record.content_types = self.get_content_types()
+        record.save()
+
+    def get_content_types(self):
+        ct_list = []
+        for pair in self.request.POST.getlist('models'):
+            label, model = pair.split('.')
+            ct_list.append(str(ContentType.objects.get(
+                app_label=label, model=model).pk))
+        return ",".join(ct_list)
+
