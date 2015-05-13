@@ -23,7 +23,7 @@
 {% block content %}{% with idea as content_object %}{% include 'locations/contentobject_css.html' %}{% endwith %}
 
 <div class="col-sm-12 main-content">
- <p><span class="submenu-toggle mt0"> </span></p>
+ {% if user.is_authenticated %}<p><span class="submenu-toggle mt0"> </span></p>{% endif %}
   <div class="entry-submenu">
     <ul>{% with idea|content_type as ctype %}
       {% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}
