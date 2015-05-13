@@ -1,14 +1,17 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<ul>{% for moderator in moderators %}
-  <li>
-    <a href="{{ moderator.profile.get_absolute_url }}">{{ moderator.profile }}</a>
-    {% if user.is_superuser %}<form class="custom-inline-form" method="post" action="{% url 'locations:remove-moderator' location.slug %}">{% csrf_token %}
-      <input type="hidden" name="user_id" value="{{ moderator.pk }}">
-      <button type="submit">{% trans "Remove" %}</button>
-    </form>{% endif %}
-  </li>
-{% endfor %}</ul>
-{% if user.is_superuser %}<form method="post" action="">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">{% trans "Add users" %}</button>
-</form>{% endif %}{% endblock %}
+{% block content %}<div class="main-content create-form newFormCreate">
+  <h3>{% trans "Moderators" %}</h3>
+  <ul>{% for moderator in moderators %}
+    <li>
+      <a href="{{ moderator.profile.get_absolute_url }}">{{ moderator.profile }}</a>
+      {% if user.is_superuser %}<form class="custom-inline-form" method="post" action="{% url 'locations:remove-moderator' location.slug %}">{% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ moderator.pk }}">
+        <button type="submit">{% trans "Remove" %}</button>
+      </form>{% endif %}
+    </li>
+  {% endfor %}</ul>
+  {% if user.is_superuser %}<form method="post" action="">{% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-right"><button type="submit" class="btn-saveBig">{% trans "Add users" %}</button></div>
+  </form>{% endif %}
+</div>{% endblock %}
