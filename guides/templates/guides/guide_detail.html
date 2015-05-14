@@ -16,9 +16,9 @@
     <div class="menu-box bbg">
       <h3>{% trans "Authors" %}</h3>
       <ul class="list-unstyled">{% for author in object.authors.all %}
-        <li class="icon-list top15"><img src="{{ author.profile.avatar.url }}" alt="{{ author.profile }}" class="current-user-avatar60 display-ib-m">
+        <li class="icon-list top15"><span class="user-window-toggle" data-target="{{ author.pk }}"><img src="{{ author.profile.avatar.url }}" alt="{{ author.profile }}" class="current-user-avatar60 display-ib-m"></span>
           <div class="display-ib-m"><a href="{{ author.profile.get_absolute_url }}" class="author btn-block">{{ author.profile }}</a>
-          <a href="" class="btn-block mt0"><small>Organizacja</small></a></div>
+          {% for ngo in author.organizations.all %}<a href="{{ ngo.get_absolute_url }}" class="btn-block mt0"><small>{{ ngo }}{% if not forloop.last %},{% endif %}</small></a>{% empty %}{% endfor %}</div>
         </li>
       {% endfor %}</ul>
     </div>
