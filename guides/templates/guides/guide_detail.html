@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}{% load i18n %}
 {% block content %}<div class="col-sm-12 main-content">
-  {% if object.category %}<div class="guides-category c_usd"><h2 class="mt0 mb0 text-center"><a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ object.category }}</a></h2>
-    <div class="icon c_usd"><span class="fa fa-usd"></span></div>
+  {% if object.category %}<div class="guides-category {% if object.category.pk < 5 %}c_c-{{ object.category.pk }}{% else %}c_c-pk{% endif %}"><h2 class="mt0 mb0 text-center"><a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ object.category }}</a></h2>
+    <div class="icon {% if object.category.pk < 5 %}c_c-{{ object.category.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
   </div>
 {% endif %}{% if guide_access %}<p><span class="submenu-toggle mt0"></p>{% endif %}
   <div class="entry-submenu">

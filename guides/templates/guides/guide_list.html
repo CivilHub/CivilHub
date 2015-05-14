@@ -11,15 +11,14 @@
 
 
 {% for l in location_set %}<div class="row">
-  {% for giude in l.guides.all %}
-  {% if guide.status == 2 %} <a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ guide }}</a>{% endif %}
+  {% for guide in l.guides.all %}
   <div class="col-sm-4">
     <div class="main-content">
-      <div class="guides-category c_usd small">
-        <div class="icon c_usd"><span class="fa fa-usd"></span></div>
+      <div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
+        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
       </div>
-      <h4><a href="{{ guide.get_absolute_url }}">{{ giude.category }}</a></h4>
-      <div>{{ giude.category.description|safe|truncatechars:250 }}</div>
+      <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>
+      <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
     </div><!--main-->
   </div><!--4-->
   {% endfor %}
