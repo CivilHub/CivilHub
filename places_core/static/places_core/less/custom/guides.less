@@ -1,13 +1,24 @@
 //guides.less
 @usd: #efa101;
+@fab: #355283;
+@car: #297973;
+@file: #32934c;
+@key: #8ab73e;
 
 .c_usd{ background-color: @usd; }
+.c_fab{ background-color: @fab; }
+.c_car{ background-color: @car; }
+.c_file{ background-color: @file; }
+.c_key{ background-color: @key; }
 
 .guides-category{
   margin: -15px -15px 0;
   .border-radius(4px 4px 0 0);
   position: relative;
   min-height: 145px;
+  & ~ .container-fluid{
+  .col-sm-8, .col-sm-2{ margin: 30px 0; padding: 0 30px; }
+  }
   &.small{ min-height: 90px; }
   padding: 3% 0 7%;
   margin-bottom: 55px;
@@ -36,12 +47,20 @@
 
 @media(min-width: 768px){
   .br_usd{ border-right: 1px solid @usd; }
+  .br_fab{ border-right: 1px solid @fab; }
+  .br_car{ border-right: 1px solid @car; }
+  .br_file{ border-right: 1px solid @file; }
+  .br_key{ border-right: 1px solid @key; }
   .guides-by-category{
-    position: relative;
+/*    position: relative;
     width: 70px;
     min-height: 120px;
     margin: -15px -16px;
-    float: right;
+    float: right;*/
+    position: absolute;
+    width: 70px;
+    right: 0;
+    height: 100%;
     .small_icon{
       position: absolute;
       top: 50%;
@@ -55,6 +74,8 @@
       width: 70px;
       .border-radius(50%);
       border: 5px solid #FFF;
+      a{ color: #FFF; }
+      &:hover{ .fa{ transform: scale(1.1); } }
     }
   }
 }
