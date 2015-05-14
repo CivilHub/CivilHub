@@ -2,7 +2,7 @@
 import json
 
 from django.utils import timezone
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.core.exceptions import PermissionDenied
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render
@@ -41,39 +41,85 @@ class IdeasContextMixin(LocationContextMixin):
         return context
 
 
-def vote(request):
-    """ Make vote (up/down) on idea. """
-    if request.method == 'POST':
-        idea = Idea.objects.get(pk=request.POST['idea'])
-        votes_check = Vote.objects.filter(user=request.user).filter(idea=idea)
-        if len(votes_check) > 0:
-            response = {
-                'success': False,
-                'message': _('You voted already on this idea'),
-                'votes': idea.get_votes(),
-            }
+class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
+    """ View that manages user votes. Here we can take some data from scripts and
+        toggle vote state properly (or create new one if such does not exist yet).
+    """
+    model = Idea
+
+    L = {
+        'up': _(u"Vote YES"),
+        'down': _(u"Vote NO"),
+        'rev': _(u"Revoke"),
+    }
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        return super(IdeaVotesView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, **kwargs):
+        action = request.POST.get('vote')
+        if action is None:
+            return HttpResponseBadRequest()
+        vote = self._get_user_vote()
+        context = {}
+        if action == 'revoke':
+            if vote is not None:
+                context.update({
+                    'label': self.L['up'] if vote.vote else self.L['down'],
+                    'target': 'up' if vote.vote else 'down', })
+                vote.delete()
+            message = _(u"Your vote has been revoked")
         else:
-            user_vote = Vote(
-                user = request.user,
-                idea = idea,
-                vote = True if request.POST.get('vote') == 'up' else False
-            )
-            user_vote.save()
-            response = {
-                'success': True,
-                'message': _('Vote saved'),
-                'votes': idea.get_votes(),
-            }
-            action.send(
-                request.user,
-                action_object=user_vote,
-                target=user_vote.idea,
-                verb= _('voted on'),
-                vote = True if request.POST.get('vote') == 'up' else False
-            )
-            request.user.profile.rank_pts += 1
-            request.user.profile.save()
-        return HttpResponse(json.dumps(response), content_type="application/json")
+            action = True if action == 'up' else False
+            if vote is not None:
+                vote.vote = action
+                vote.save()
+                context.update({
+                    'old_target': 'down' if action else 'up',
+                    'old_label': self.L['down'] if action else self.L['up'], })
+            else:
+                vote = self._create_user_vote(vote=action)
+            context.update({
+                'label': self.L['rev'],
+                'target': 'revoke', })
+            message = _(u"Your vote has been saved")
+        context.update({
+            'vote': self._serialize_vote(vote),
+            'message': message, })
+        return HttpResponse(json.dumps(context), content_type="application/json")
+
+    def _create_user_vote(self, vote=False):
+        """ We have to make sure, that voting user profile will be updated only once.
+        """
+        vote, created = Vote.objects.get_or_create(idea=self.object,
+                                                   user=self.request.user,
+                                                   vote=vote)
+        if created:
+            action.send(request.user,
+                        action_object=vote,
+                        target=self.object,
+                        verb='voted on',
+                        vote=vote.vote)
+            self.request.user.profile.rank_pts += 1
+            self.request.user.profile.save()
+        return vote
+
+    def _get_user_vote(self):
+        try:
+            return self.object.vote_set.get(user=self.request.user)
+        except Vote.DoesNotExist:
+            return None
+
+    def _serialize_vote(self, vote):
+        if vote is None:
+            return None
+        return {
+            'id': vote.pk,
+            'vote': vote.vote,
+            'note': self.object.note,
+            'count': self.object.vote_set.count(),
+        }
 
 
 class CreateCategory(LoginRequiredMixin, CreateView):

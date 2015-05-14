@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags counters %}
+{% extends 'locations/index.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags counters idea_tags %}
 {% block title %} {{ idea.name }}, {{ location }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ idea.description|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}
@@ -49,15 +49,7 @@
       <div class="display-ib-m text-left"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
       </div>
     </div>
-    <div class="vote-form">
-      <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}"><h2>{{ idea.vote_set.count }}</h2><p>{% trans "Total vote"%}</p></div>
-      <div class="ivotes text-center col-md-6 col-sm-12 mb20"><h2>{{ idea.note }}</h2><p>{% trans "Positive votes"%}</p></div>
-      <div class="vote-controls text-center ibutton-share">
-        <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"  rel='tooltip'>{% trans "Vote YES" %}</button></p>
-        <p class="mb20"><button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}" data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}" rel='tooltip'>{% trans "Vote NO" %}</button></p>
-        <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
-      </div>
-    </div>
+    {% vote_area idea %}
   </div><!--3-->
 </div>
 <div class="row ivotepage">

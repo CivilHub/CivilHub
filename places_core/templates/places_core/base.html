@@ -13,7 +13,7 @@
 {% block description %}<meta name="description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />{% endblock %}
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
+<link href="{% static 'places_core/css/style.min.css' %}?V={% version %}" rel="stylesheet">
 <link href="{% static 'places_core/css/jquery-ui.css' %}" rel="stylesheet" type="text/css" />
 <link href="{% static 'places_core/css/leaflet.css' %}" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="{% static 'places_core/favicons/favicon.ico' %}">
@@ -69,7 +69,7 @@
         reflect all used in the plugin and library site.
     {% endcomment %}
 
-    <script src="{% static 'places_core' %}/js/{% js_path %}/default.js"></script>
+    <script src="{% module_path 'default' %}"></script>
 
 {% endblock %}
 
@@ -113,10 +113,10 @@
     {% endblock %}
 
 </div>
+{% include 'places_core/login-window-modal.html' %}
 {% endblock %}
 {% block base_footer %}
 {% include 'places_core/footer.html' %}
-{% include 'places_core/login-window-modal.html' %}
 {% endblock %}
 {% comment %}template for notificatioins (alert){% endcomment %}
 {% include 'places_core/script-templates/flash-msg-tpl.html' %}
