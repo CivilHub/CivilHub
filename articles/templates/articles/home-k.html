@@ -17,7 +17,7 @@ window.GOOGLE_DATA = {
 <body>
 {% block navigation %}{% endblock %}
 {% block content %}
-	{{ article.content | safe }}
+  {% evaluate article.content | safe %}
 {% endblock %}
 {% block footer %}
   {% include 'places_core/footer.html' %}
