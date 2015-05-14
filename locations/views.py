@@ -5,6 +5,8 @@ import os
 
 from dateutil.relativedelta import relativedelta
 
+from django.core.exceptions import ObjectDoesNotExist
+from django.template.base import TemplateDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
                         Http404
@@ -24,6 +26,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.shortcuts import get_current_site
 
 from taggit.models import Tag
 from actstream import action
@@ -739,3 +742,74 @@ class RemoveModeratorView(ModeratorListAccessMixin):
         if self.location in user.profile.mod_areas.all():
             user.profile.mod_areas.remove(self.location)
         return redirect(self.get_success_url())
+
+
+# Widget Factory views
+# --------------------
+
+
+class WidgetFactoryMixin(View):
+    """ Provides a common way to get widget settings from requested url.
+    """
+    def get_widget_settings(self):
+        ct = ContentType.objects.get(pk=self.kwargs.get('ct'))
+        pk = self.kwargs.get('pk')
+        try:
+            self.object = ct.get_object_for_this_type(pk=pk)
+        except ObjectDoesNotExist:
+            raise Http404
+        return {
+            'ct': ct.pk,
+            'pk': pk,
+            'lang': self.request.GET.get('lang', settings.LANGUAGE_CODE),
+            'site': get_current_site(self.request),
+            'width': str(self.request.GET.get('width', 300)),
+        }
+
+
+class ServeContentView(WidgetFactoryMixin):
+    """ Serve locations content objects. Pass response to widget on client side.
+    """
+    def get(self, request, **kwargs):
+        widget_settings = self.get_widget_settings()
+        if translation.check_for_language(widget_settings['lang']):
+            translation.activate(widget_settings['lang'])
+        try:
+            return render(request, self.get_template_name(),
+                                   self.get_context_data())
+        except TemplateDoesNotExist:
+            raise Http404
+
+    def get_context_data(self):
+        protocol = 'https' if self.request.is_secure() else 'http'
+        return {
+            'object': self.object,
+            'baseurl': "%s://%s" % (protocol, get_current_site(self.request), ),
+        }
+
+    def get_template_name(self):
+        return 'locations/widgets/{}.html'.format(self.object._meta.model_name)
+
+
+class WidgetFactory(WidgetFactoryMixin):
+    """ Creates script that points to ServeContentView.
+    """
+    def get(self, request, **kwargs):
+        widget_settings = self.get_widget_settings()
+        f = open(os.path.join(settings.BASE_DIR, 'locations/scripts/widget.js'))
+        contents = f.read().replace('{url}', self.create_url())
+        contents = contents.replace('{width}', widget_settings['width'])
+        return HttpResponse(contents, content_type="application/javascript")
+
+    def create_url(self):
+        widget_settings = self.get_widget_settings()
+        url_ctx = {
+            'protocol': 'https' if self.request.is_secure() else 'http',
+            'domain': widget_settings['site'].domain,
+            'path': reverse('locations:widget', kwargs={
+                'ct': widget_settings['ct'], 'pk': widget_settings['pk'], }),
+            'lang': widget_settings['lang'],
+            'width': widget_settings['width'],
+        }
+        url_tpl = "{protocol}://{domain}{path}?lang={lang}&width={width}"
+        return url_tpl.format(**url_ctx)
