@@ -1,40 +1,30 @@
 {% extends 'locations/index.html' %}{% load i18n %}
 {% block content %}
 <div class="col-sm-12 main-content">
-<div class="guides-category c_usd"><h2 class="mt0 mb0 text-center">{{ title }} {{ filter_object }}</h2>
-    <div class="icon c_usd"><span class="fa fa-usd"></span></div>
+<div class="guides-category {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}"><h2 class="mt0 mb0 text-center">{{ title }} {{ filter_object }}</h2>
+    <div class="icon {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
   </div>
-  <div class="mb20 clearfix"><h4>{{ filter_object.description }}</h4></div>
+  <div class="mb20 clearfix text-center"><h4>{{ filter_object.description }}</h4></div>
   <div class="container-fluid p-reset">
     {% for guide in object_list %}
-    <div class="col-sm-12 main-content">
-      <div class="row">
-        <div class="col-sm-8 br_usd">
+    {% if guide.status == 2 %}
+    <div class="col-sm-12 main-content p-reset">
+      <div class="container-fluid p-reset">
+        <div class="col-sm-8 {% if filter_object.pk < 5 %}br_br-{{ filter_object.pk }}{% else %}br_br-pk{% endif %}">
           <h3 class="mt0"><strong><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></strong></h3>
-          <div class="acticle-content">{{ guide.content|safe|truncatechars:"180"|striptags }}</div>
+          <div>{{ guide.content|safe|truncatechars:"200"|striptags }}</div>
         </div>
         <div class="col-sm-2 col-md-3">
           {% for tag in guide.tags.all %}
             <a href="{% url 'guides:list-filter-tag' guide.location.slug tag.pk %}">#{{ tag }}</a>
           {% endfor %}
         </div>
-        <div class="col-sm-2 col-md-1">
-          <div class="guides-by-category c_usd">
-            <div class="small_icon c_usd text-center"><span class="fa fa-arrow-right"></span></div>
-          </div>
+        <div class="guides-by-category {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}">
+          <div class="small_icon {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %} text-center"><a href="{{ guide.get_absolute_url }}"><span class="fa fa-arrow-right"></span></a></div>
         </div>
       </div>
-    </div>
+    </div>{% endif %}
     {% endfor %}
   </div>
 </div>
-
-
-{% comment %}
-<h1>{{ title }} {{ filter_object }}</h1>
-<ul>{% for guide in object_list %}
-  <li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>
-{% endfor %}</ul>
-{% endcomment %}
-
 {% endblock %}
