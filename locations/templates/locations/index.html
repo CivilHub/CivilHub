@@ -51,7 +51,7 @@
 <div class="location-logo">
     <div class="container" style="height: 100%; position: relative;">
         <div class="title-container">
-            <div class="location-name-title" id="tour-location-name"><h1>{{ location }}</h1></div>
+            <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
             <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
 
         {% if user in location.users.all %}
