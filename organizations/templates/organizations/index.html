@@ -21,10 +21,10 @@
         {% follow_button organization %}
       </div>
     </div>
-    {% if access %}<a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a>{% endif %}
+    {% if access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a></div>{% endif %}
   </div>
 </div>
-<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+<nav id="filter-navbar" class="navbar navbar-default mt0" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">

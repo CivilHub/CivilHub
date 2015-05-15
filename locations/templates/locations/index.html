@@ -49,7 +49,7 @@
 </div>
 </nav>
 <div class="location-logo">
-    <div class="container" style="height: 100%; position: relative;">
+    <div class="container">
         <div class="title-container">
             <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
             <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
@@ -62,10 +62,10 @@
 
         </div>
 
-        {% if user.is_superuser or is_moderator %}<a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
-        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>{% endif %}
+        {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
+        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>
         {% if user.is_superuser %}<a class="change-background-btn" href="{% url 'civmail:followers-message' location.pk %}">{% trans "Send message to followers" %}</a>
-        <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}
+        <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}</div>{% endif %}
 
     </div>
 </div>

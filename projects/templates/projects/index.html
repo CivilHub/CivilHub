@@ -66,7 +66,7 @@
         {% for p in object.participants.all %}<a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
       </div>
     </div>
-    {% if project_access %}<a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a>{% endif %}
+    {% if project_access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a></div>{% endif %}
   </div>
 </div>
 {% block location_navbar %}
