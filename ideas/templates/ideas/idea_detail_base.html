@@ -42,7 +42,7 @@
     {% visit_counter idea %}
   </div><!--9-->
   {% include 'ideas/idea-votes.html' %}
-  <div class="col-sm-4 mt25">
+  <div class="col-sm-4 mt25 pr0">
     <div class="iauthor-info text-center">
       <div class="display-ib-m"><img src="{{ idea.creator.profile.avatar.url }}" alt="{{ idea.creator.get_full_name }}" class="current-user-avatar60 user-window-toggle" data-target="{{ idea.creator.pk }}" /></div>
       <div class="display-ib-m text-left"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
@@ -52,12 +52,17 @@
   </div><!--3-->
 </div>
 <div class="row ivotepage">
-  <div class="col-sm-12 pl0 mb20">
-    {% block idea_link%}<ul class="itab-nav list-inline">
-      <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "Informations" %}</a></li>
-      <li><a href="{{ idea.get_absolute_url }}news/#news">{% trans "News" %}</a></li>
-      <li class="pull-right"><a href="">{% trans "Tell others about this idea" %}</a></li>
-    </ul>{% endblock %}
+  <div class="col-sm-12 p-reset mb20">
+    <div class="row itab-nav">
+      {% block idea_link%}<ul class="mb0 list-inline col-sm-8 pr0">
+        <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "Informations" %}</a></li>
+        <li><a href="{{ idea.get_absolute_url }}news/#news">{% trans "News" %}</a></li>
+        {% with idea|content_type as ctype %}{% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li class="pull-right"><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}{% endwith %}
+      </ul>{% endblock %}
+      <ul class="col-sm-4 list-inline mb0 pr0">
+        <li class="pull-right"><a href="#share-content">{% trans "Tell others about this idea" %}</a></li>
+      </ul>
+    </div>
   </div>
 </div>
     <div class="row ivotepage">
@@ -65,8 +70,8 @@
       {% block idea_description %}{% endblock %}
       {% block idea_news %}{% endblock %}
       </div>
-      <div class="col-sm-4 text-center">
-      {% include 'locations/share_buttons.html' %}
+      <div class="col-sm-4 text-center pr0">
+      <div id="share-content">{% include 'locations/share_buttons.html' %}</div>
 
         {% comment %}<div class="ibutton-share">
           <div class="btn-i300 btn-ifblue mb20 text-left"><span class="fa fa-facebook-square fa-pa"></span> {% trans "Share this on Facebook" %}</div>
