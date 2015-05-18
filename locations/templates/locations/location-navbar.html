@@ -21,10 +21,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% comment %}
-        <div class="custom-hide-elements">
-          <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
-          <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
-        </div>
+        <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
+        <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
         {% endcomment %}
         <li><a href="{% url 'guides:list' location.slug %}" class="lguides">{% trans "Guides" %}</a></li>
       </ul>
