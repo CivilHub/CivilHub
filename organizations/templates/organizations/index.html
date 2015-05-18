@@ -21,10 +21,10 @@
         {% follow_button organization %}
       </div>
     </div>
-    {% if access %}<a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a>{% endif %}
+    {% if access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a></div>{% endif %}
   </div>
 </div>
-<nav id="filter-navbar" class="navbar navbar-default" role="navigation">
+<nav id="filter-navbar" class="navbar navbar-default mt0" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -34,7 +34,7 @@
         <span class="icon-bar"></span>
       </button>
     </div>
-    <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
+    <div class="row collapse navbar-collapse" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav navbar-nav-userspace">
         <li><a href="{% url 'organizations:detail' organization.slug %}">{% trans "Summary" %}</a></li>
         <li><a href="{% url 'organizations:news-list' organization.slug %}">{% trans "News" %}</a></li>
