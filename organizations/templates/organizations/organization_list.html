@@ -1,5 +1,7 @@
 {% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block content %}
+<!-- 
+
 <div class="n-top-heading-spage">
   <h1>{% trans "Organization list" %}</h1>
 </div>
@@ -16,5 +18,63 @@
     </div>
   </div>{% endfor %}
 </div>
+ -->
+
+
+<div class="col-sm-3">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Filter" %}</div>
+    <div class="sidebar-content clearfix">
+     <form>
+       <div class="form-group">
+        <label for="name">{% trans "Name" %}:</label>
+        <input type="text" class="form-control input-sm" id="name">
+      </div>
+      <div class="form-group">
+        <label for="country">{% trans "Country" %}:</label>
+        <select class="form-control input-sm" id="country"></select>
+      </div>
+      <div class="form-group">
+        <label for="location">{% trans "Location" %}:</label>
+        <input type="text" class="form-control input-sm" id="location">
+      </div>
+      <div class="form-group">
+        <label for="type">{% trans "Type" %}:</label>
+        <select class="form-control input-sm" id="type"></select>
+      </div>
+      <button type="submit" class="submit-button w100">{% trans "Search" %}</button>
+     </form>
+    </div>
+  </div>
+
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Shortcuts" %}</div>
+    <div class="sidebar-content">
+      <ul class="shortcuts">
+        <li><a href="">{% trans "Organizations" %}</a></li>
+        <li><a href="">{% trans "Associations" %}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="col-sm-9">
+  <div class=" main-content create-form newFormCreate"><h3 class="text-center">{% trans "Organization list" %}</h3>
+  {% for item in object_list %}
+    <div class="container-fluid p-reset">
+
+    <div class="main-content col-sm-3 text-center">
+      <img src="{{ item.logo.url }}" alt="{{ item }}" class="avatarViewIMG">
+      <p class="mb0">{{ item }}</p></div>
+    <div class="col-sm-4">{{ item }}</div>
+    <div class="col-sm-2">Lokalizacja ?</div>
+    <div class="col-sm-2">Warszawa, Iłża ... ?</div>
+    <div class="col-sm-1"><span class="fa fa-bank text-green"></span></div>
+    </div>
+  {% endfor %}
+  </div><!-- main-content newForm-->
+</div>
+
+
 {% include 'places_core/pagination.html' %}
 {% endblock %}
