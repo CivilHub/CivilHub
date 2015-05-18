@@ -22,7 +22,7 @@
           <a href="#" id="search-bar-icon" class="custom-tooltip-right" title="{% trans "Search" %}"><span class="search-icon-top"></span></a>
           <div class="search-bar-box hidden">
             <form class="search-form" role="search" method="get" action="{% url 'search:haystack_search' %}">
-              <input type="text" name="q" id="id_q" class="form-control-search" placeholder="{% trans "Search" %}">
+              <input type="text" name="q" id="id_q" class="form-control-search" placeholder="{% trans "Search" %}" autofocus>
               <button type="submit" class="search-button hidden"><span class="fa fa-search"></span></button>
             </form>
           </div>
