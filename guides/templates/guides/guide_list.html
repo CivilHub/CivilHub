@@ -1,16 +1,19 @@
 {% extends 'locations/index.html' %}{% load i18n %}
+{% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
-{% for l in location_set %}<div class="row">
+{% for l in location_set %}
   {% for guide in l.guides.all %}
+  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row">{% endif %}
   <div class="col-sm-4">
     <div class="main-content">
       <div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
-        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
+        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a></div>
       </div>
       <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>
       <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
     </div><!--main-->
   </div><!--4-->
+  {% if forloop.counter|divisibleby:3 or forloop.counter == guide.count %}</div>{% endif %}
   {% endfor %}
-</div>{% endfor %}
+ {% endfor %}
 {% endblock %}

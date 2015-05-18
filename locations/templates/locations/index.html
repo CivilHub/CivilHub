@@ -26,7 +26,7 @@
 </style>
 <nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
 <div class="container">
-<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 
     <ul class="nav navbar-nav">
         <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"></div></a></li>
@@ -43,6 +43,10 @@
             <a href="#" class="dropdown-toggle sublocation-menu-toggle" data-target="{{ location.pk }}" data-toggle="dropdown"></a>
         </li>
         {% endif %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
+      <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
     </ul>
 
 </div>

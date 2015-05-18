@@ -20,8 +20,13 @@
         {% if location.latitude and location.longitude %}{% with location|content_type as ctype %}<li><a href="{% url 'maps:info' ctype.pk location.pk %}" class="lmap">{% trans "Map" %}</a></li>{% endwith %}{% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
-        <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
+        {% comment %}
+        <div class="custom-hide-elements">
+          <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
+          <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
+        </div>
+        {% endcomment %}
+        <li><a href="{% url 'guides:list' location.slug %}" class="lguides">{% trans "Guides" %}</a></li>
       </ul>
     </div>
   </div>

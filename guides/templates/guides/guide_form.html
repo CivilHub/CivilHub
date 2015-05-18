@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}{% load i18n %}
+{% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Create guide" %}</h3><form method="post" action="" class="form-horizontal">{% csrf_token %}
   {{ form.as_p }}
   <div class="form-group mb0">
