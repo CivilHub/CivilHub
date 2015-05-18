@@ -121,6 +121,7 @@
           </ul>
         </li>
         <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
+        <li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}"><span class="ngo-icon"></span> <span class="rwdShow">{% trans "Organizations" %}</span></a></li>
         {% if user.is_authenticated %}<li class="dropdown">
           <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}">
             <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></span>
