@@ -69,11 +69,18 @@
       <div class="col-sm-12 col-md-2 col-same-height text-center">kraj</div>
       <div class="col-sm-12 col-md-2 col-same-height text-center">
         {% for l in item.locations.all %}
-
+        {% if forloop.counter == 2 %}
+          <a href="{{ l.get_absolute_url }}">{{ l.1 }} ...</a>
+        {% elif forloop.counter == 1 %}
+          <a href="{{ l.get_absolute_url }}">{{ l }}</a>
+        {% endif %}
+    
+{% comment %}
         <a href="{{ l.get_absolute_url }}">{{ l }}</a>
         {% if not forloop.last %}, 
         {% else %}...{% endif %}
-
+        {% endif %}
+{% endcomment %}
 
         {% endfor %}
 
