@@ -29,7 +29,7 @@
         </li>
         {% if user.is_authenticated %}<li class="dropdown">
           <a class="dropdown-toggle custom-tooltip-right onlyIcon" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
-            <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %}</span>
+            <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu support-icon-box">
             <li><a href="/brief/">{% trans "Brief" %}</a></li>
@@ -52,7 +52,7 @@
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle onlyIcon custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-toggle="dropdown">
-            <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %}</span>
+            <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu civilhub-icon-top-box">
             <li><a href="/mission">{% trans "Mission" %}</a></li>
@@ -109,7 +109,7 @@
           <a href="#0" class="cd-close">Close modal</a>
         </div>{% endif %}
         <li class="dropdown">
-          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon"></span><span class="rwdShow">{% trans "Places" %}</span></a>
+          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon"></span><span class="rwdShow">{% trans "Places" %} <span class="fa fa-angle-down"></span></span></a>
           <ul class="dropdown-menu places-icon-box">
             <li>
               <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
@@ -121,9 +121,10 @@
           </ul>
         </li>
         <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
-        {% if user.is_authenticated %}<li class="dropdown">
+        {% if user.is_authenticated %}<li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}"><span class="ngo-icon"></span> <span class="rwdShow">{% trans "Organizations" %}</span></a></li>
+        <li class="dropdown">
           <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}">
-            <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %}</span></span>
+            <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span></span></span>
           </a>
           <ul class="dropdown-menu bookmarks-no-list">
             <li class="divider"></li>

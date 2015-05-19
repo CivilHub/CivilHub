@@ -44,6 +44,10 @@
         </li>
         {% endif %}
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
+      <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
+    </ul>
 
 </div>
 </div>
