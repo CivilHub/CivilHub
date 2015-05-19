@@ -137,11 +137,13 @@ class AbuseReport(BaseCommentAbstractModel):
     )
 
     sender  = models.ForeignKey(User)
-    comment = models.CharField(max_length=2048, default="", blank=True)
+    comment = models.CharField(max_length=2048, default="", blank=True,
+                               verbose_name=_(u"comment"))
     status  = models.BooleanField(default=False)
     date_reported = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    reason = models.PositiveIntegerField(choices=REASONS, default=12)
+    reason = models.PositiveIntegerField(choices=REASONS, default=12,
+                                         verbose_name=_(u"reason"))
 
     def __str__(self):
         return "<Abuse Report from: %s>" % self.sender.get_full_name()

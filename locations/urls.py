@@ -23,6 +23,8 @@ router.add_api_view('follow', url(r'^follow/', api.LocationFollowAPI.as_view(), 
 router.add_api_view('contents', url(r'^contents/', api.LocationSummaryAPI.as_view(), name='contents'))
 router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name='capital'))
 router.add_api_view('autocomplete', url(r'^autocomplete/', api.LocationSearchAPI.as_view(), name='autocomplete'))
+router.add_api_view('find-nearest', url(r'^find-nearest/', api.CitySearchAPI.as_view(), name='find-nearest'))
+
 
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),

@@ -7,6 +7,19 @@ from actstream.actions import follow, unfollow
 from .models import Location
 
 
+def get_nearest_city(lat, lng):
+    """ Find nearest big city for given latitude and longitude.
+    """
+    qs = Location.objects.filter(latitude__gte=lat-1,
+                                 latitude__lte=lat+1,
+                                 longitude__gte=lng-1,
+                                 longitude__lte=lng+1)
+    try:
+        return qs.order_by('-population')[0]
+    except IndexError:
+        return None
+
+
 def get_most_followed(country_code=None, limit=20):
     """
     We download a list of the most often followed location. We can narrow

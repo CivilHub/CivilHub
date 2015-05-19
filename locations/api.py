@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from ipware.ip import get_ip
 
 from django.conf import settings
@@ -23,6 +25,7 @@ from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.helpers import sort_by_locale, get_time_difference
 from locations.serializers import MapLocationSerializer
 
+from .helpers import get_nearest_city
 from .models import Country, Location
 from .serializers import SimpleLocationSerializer, \
                          LocationListSerializer, \
@@ -33,6 +36,28 @@ from .serializers import SimpleLocationSerializer, \
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 redis_cache = cache.get_cache('default')
+
+
+class CitySearchAPI(APIView):
+    """ Find nearest important city by latitude and longitude.
+    """
+    permission_classes = (rest_permissions.AllowAny, )
+    serializer_class = SimpleLocationSerializer
+
+    def get(self, request, **kwargs):
+        lat = float(request.QUERY_PARAMS.get('lat', 0.0))
+        lng = float(request.QUERY_PARAMS.get('lng', 0.0))
+        city = get_nearest_city(lat, lng)
+        if city is None:
+            raise Http404
+        context = {'city': self.serializer_class(city).data, }
+        country = Location.objects.get(country_code=city.country_code,
+                                       kind='country')
+        region = country.location_set.filter(pk__in=city.get_parents)[0]
+        context.update({
+            'region': self.serializer_class(region).data,
+            'country': self.serializer_class(country).data, })
+        return Response(context)
 
 
 class LocationSearchAPI(APIView):
