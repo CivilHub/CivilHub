@@ -20,6 +20,8 @@ from places_core.helpers import sanitizeHtml
 from locations.models import Location, BackgroundModelMixin
 from gallery.image import resize_background_image
 
+from places_core.helpers import truncatehtml
+
 from .signals import project_created_action, project_task_action
 
 
@@ -110,7 +112,7 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
         return self.thumb_url()
 
     def get_description(self):
-        return self.description
+        return truncatehtml(self.description, 100)
 
     def get_absolute_url(self):
         return reverse('locations:project_details', kwargs={

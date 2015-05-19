@@ -397,7 +397,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 #-------------------------------------------------------------------------------
 DEFAULT_IMG_PATH = "img/item.png"
 # "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
-DEFAULT_IMG_SIZE = (572, 572)
+DEFAULT_IMG_SIZE = (680, 680)
 DEFAULT_THUMB_SIZE = (430, 142)
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
@@ -411,7 +411,7 @@ GALLERY_THUMB_SIZE = (270,170)
 
 # Sizes for thumbnails related to ContentObjectGalleries
 CO_THUMB_SIZES = {
-    'BIG': (570, 360),
+    'BIG': (680, 425),
     'SMALL': (60, 60),
 }
 
