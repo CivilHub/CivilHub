@@ -1,26 +1,5 @@
 {% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block content %}
-<!-- 
-
-<div class="n-top-heading-spage">
-  <h1>{% trans "Organization list" %}</h1>
-</div>
-<div class="row mb20">
-  {% for item in object_list %}<div class="col-sm-6">
-    <div class="n-sublocation" style="background-image: url({{ item.background_url }});">
-      <div class="n-sublocation-content">
-        <div class="mb20"><a href="{{ item.get_absolute_url }}"><img src="{{ item.logo.url }}" alt="{{ item }}" class="ngo-logo-img min" /></a></div>
-        <div class="n-sublocation-box">
-          <a href="{{ item.get_absolute_url }}" class="name">{{ item }}</a>
-          {% if user.is_authenticated %}{% follow_button item %}{% endif %}
-        </div>
-      </div>
-    </div>
-  </div>{% endfor %}
-</div>
- -->
-
-
 <div class="col-sm-3">
   <div class="sidebar left">
     <div class="sidebar-label">{% trans "Filter" %}</div>
@@ -46,7 +25,6 @@
      </form>
     </div>
   </div>
-
   <div class="sidebar left">
     <div class="sidebar-label">{% trans "Shortcuts" %}</div>
     <div class="sidebar-content">
@@ -57,7 +35,6 @@
     </div>
   </div>
 </div>
-
 <div class="col-sm-9">
   <div class="main-content create-form newFormCreate"><h3 class="text-center nh3">{% trans "Organization list" %}</h3>
   {% for item in object_list %}
@@ -66,33 +43,20 @@
         <div class="ngo-logo-box" style="background-image: url({{ item.background_url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"><img src="{{ item.logo.url }}" alt="{{ item }}" class="current-user-avatar60 avatarViewIMG"></a></div>
       </div>
       <div class="col-sm-6 col-md-4 col-same-height text-center"><a href="{{ item.get_absolute_url }}">{{ item }}</a></div>
-      <div class="col-sm-12 col-md-2 col-same-height text-center">kraj</div>
       <div class="col-sm-12 col-md-2 col-same-height text-center">
-        {% for l in item.locations.all %}
-        {% if forloop.counter == 2 %}
-          <a href="{{ l.get_absolute_url }}">{{ l.1 }} ...</a>
-        {% elif forloop.counter == 1 %}
-          <a href="{{ l.get_absolute_url }}">{{ l }}</a>
-        {% endif %}
-    
-{% comment %}
-        <a href="{{ l.get_absolute_url }}">{{ l }}</a>
-        {% if not forloop.last %}, 
-        {% else %}...{% endif %}
-        {% endif %}
-{% endcomment %}
-
+        {% for c in item.locations.all%}{% if forloop.counter == 2 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country.1 }}</a>
+          {% elif forloop.counter == 1 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country }}</a>{% endif %}
         {% endfor %}
-
-
+      </div>
+      <div class="col-sm-12 col-md-2 col-same-height text-center">
+        {% for l in item.locations.all %}{% if forloop.counter == 2 %}<a href="{{ l.get_absolute_url }}">{{ l.1 }} ...</a>
+          {% elif forloop.counter == 1 %}<a href="{{ l.get_absolute_url }}">{{ l }}</a>{% endif %}
+        {% endfor %}
       </div>
       <div class="col-sm-12 col-md-1 col-same-height text-center"><span class="fa fa-ngo-icon-{{ item.category.pk }} text-green custom-tooltip-right" title="{{ item.category }}"></span></div>
     </div>
-
   {% endfor %}
   </div><!-- main-content newForm-->
 </div>
-
-
 {% include 'places_core/pagination.html' %}
 {% endblock %}
