@@ -6,13 +6,17 @@
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
+           'js/modules/ui/progress',
            'js/modules/projects/tasks',
            'js/modules/comments/comments',
            'js/modules/common',
            'js/modules/common/counters'],
 
-  function ($) {
+  function ($, ProgressForm) {
     "use strict";
+    $(document).ready(function () {
+      var form = new ProgressForm('checkbox-task');
+    });
     $(document).trigger('load');
   });
 });

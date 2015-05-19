@@ -96,7 +96,7 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
                                                    user=self.request.user,
                                                    vote=vote)
         if created:
-            action.send(request.user,
+            action.send(self.request.user,
                         action_object=vote,
                         target=self.object,
                         verb='voted on',

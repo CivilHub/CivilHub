@@ -22,7 +22,7 @@ def finished_task(user, task):
     task_action(user, task, _(u"finished task"))
     for participant in task.participants.all():
         notify(user, participant,
-            vert=_(u"finished task"),
+            verb=_(u"finished task"),
             key="project",
             action_tartget=task
         )

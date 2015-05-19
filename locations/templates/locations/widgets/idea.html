@@ -1,5 +1,5 @@
 {% load i18n %}<div class="widget-wrapper" style="padding:5px;background:pink">
-  <h2>{{ object }}</h2>
+  <h2><a href="{{ baseurl }}{{ object.get_absolute_url }}">{{ object }}</a></h2>
   <p>{% trans "Description" %}:</p>
   <div>{{ object.description|safe }}</div>
 
