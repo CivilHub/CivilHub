@@ -70,6 +70,8 @@ class OrganizationListView(ListView):
         elif country is not None:
             locations = Location.objects.filter(country_code=country.country_code)
             qs = qs.filter(locations__in=locations)
+        if kind is not None:
+            qs = qs.filter(category=kind)
         return qs.order_by('name').distinct()
 
     def get_context_data(self):
