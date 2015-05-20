@@ -8,6 +8,41 @@ from rest_framework.pagination import PaginationSerializer
 from .models import Location, Country
 
 
+class LocationMapDataSerializer(serializers.ModelSerializer):
+    """ Serializer for map inputs - determine initial position and zoom.
+    """
+    name = serializers.Field(source='__unicode__')
+    lat = serializers.SerializerMethodField('get_lat')
+    lng = serializers.SerializerMethodField('get_lng')
+    zoom = serializers.SerializerMethodField('get_zoom')
+
+    def get_lat(self, obj):
+        return self._get_lat_lng(obj, 'latitude')
+
+    def get_lng(self, obj):
+        return self._get_lat_lng(obj, 'longitude')
+
+    def get_zoom(self, obj):
+        if obj.kind == 'country':
+            return 4
+        elif obj.kind == 'region':
+            return 7
+        return 12
+
+    def _get_lat_lng(self, obj, attr):
+        if obj.kind == 'country' or obj.kind == 'region':
+            retval = getattr(obj.get_capital, attr)
+        else:
+            retval = getattr(obj, attr)
+        if retval is None:
+            return 0.0
+        return float(retval)
+
+    class Meta:
+        model = Location
+        fields = ('id', 'name', 'lat', 'lng', 'zoom', 'kind', )
+
+
 class AutocompleteLocationSeraializer(serializers.ModelSerializer):
     """
     This is serializer especially for autocomplete.

@@ -215,6 +215,16 @@ class Location(models.Model, BackgroundModelMixin):
         verbose_name_plural = _(u"locations")
 
     @property
+    def get_capital(self):
+        if self.kind == 'country':
+            return Location.objects.get(kind='PPLC',
+                        country_code=self.country_code)
+        country = self.get_country
+        if country is None:
+            return None
+        return country.get_capital
+
+    @property
     def get_country(self):
         if self.kind == 'country':
             return self

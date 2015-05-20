@@ -2,234 +2,223 @@
 // location-form.js
 // ================
 
-// Scripts to handle location form.
+// Scripts to handle location form. This script includes two simple Backbone
+// views to handle simplified parent location selection.
 
-define(['jquery',
-				'underscore',
-				'backbone',
-				'file-input',
-				'js/modules/ui/mapinput'],
+// TODO: fill initial parent value and create proper inputs.
 
-function ($, _, Backbone) {
-	
+require(['jquery',
+         'underscore',
+         'backbone',
+         'text!tpl/fake-input.html',
+         'js/modules/ui/mapinput'],
+
+function ($, _, Backbone, inputTPL) {
+
 "use strict";
 
-// Base sublocations API url
+// Common function to perform GET requests from within application.
+//
+// @param { String } Target url
+// @param { Object } GET parameters in object notation
+// @param { Function } Callback to use on success
+// @param { Object } Context object to pass as "this"
 
-var baseUrl = '/api-locations/sublocations/';
+function fetchData (url, data, fn, context) {
+  $.get(url, data, function (response) {
+    fn.call(context, response);
+  });
+}
 
-// Default text for trigger button
+// Represents single location selection button
 
-var defaultOpt = gettext("Click to select from list");
+var FakeInput = Backbone.View.extend({
 
-// Template for entire "syntetic" input group.
+  baseURL: '/api-locations/sublocations/',
 
-var inputTemplate = $('#input-tpl').html();
+  className: 'fake',
 
-// Template for single option in 'select' element.
+  expanded: false,
 
-var optionTemplate = '<li class="name-entry" data-value="<%= id %>"><%= name %></li>';
+  events: {
+    'click .input-indicator': 'toggleList',
+    'keyup .search-filter': 'filter'
+  },
 
-// Template for faked element that replaces original select
+  initialize: function (options) {
+    _.bindAll(this, 'toggleList');
+    this.onFetch = options.onFetch || null;
+    this.model = new Backbone.Model();
+    this.model.set({ id: options.id, label: options.label });
+    this.template = _.template(inputTPL);
+  },
 
-var textTemplate = '<input type="text" name="parent" id="id_parent" value=\
-					"<%= value %>" style="display:none;" />';
+  render: function () {
+    this.$el.html(this.template(this.model.toJSON()));
+    return this;
+  },
 
-// Display currently selected place's name.
+  toggleList: function () {
+    this.fetch();
+    this.$el.find('ul')
+      .fadeToggle('fast');
+  },
 
-var $indicator = $('<input type="text" />');
-$indicator.attr('readonly', 'readonly')
-	.addClass('form-control indicator');
+  fetch: function () {
+    var data = { pk: this.model.get('id') };
+    if (this.expanded) {
+      return;
+    }
+    fetchData(this.baseURL, data, function (r) {
+      _.each(r, function (location) {
+        this.appendOption(location.id, location.name);
+      }, this);
+      this.expanded = true;
+      if (_.isFunction(this.onFetch)) {
+        this.onFetch(this);
+      }
+    }, this);
+  },
 
-// Single "fake" input element
-// ---------------------------
+  appendOption: function (id, label) {
+    var html = '<li class="name-entry" data-value="' +
+               '<%= id %>"><%= label %></li>';
+    var tpl = _.template(html);
+    var $opt = $(tpl({ id: id, label: label }));
+    $opt.on('click', function (e) {
+      e.preventDefault();
+      this.$el.nextAll('.fake').empty().remove();
+      this.toggleList();
+      if (!_.isUndefined(this.parent)) {
+        this.parent.addInput(id, label);
+      }
+    }.bind(this));
+    this.$el.find('ul').append($opt);
+  },
 
-var InputElement = Backbone.View.extend({
-	
-	className: 'fake-input',
-	
-	template: _.template(inputTemplate),
-	
-	events: {
-		'click .name-entry': 'expand',
-		'click .input-indicator': 'toggleList',
-		'keyup .search-filter': 'filter'
-	},
-	
-	initialize: function (data) {
-		this.parent = data.parent || undefined;
-		this.parentId = data.parentId || null;
-		// Sublocations fetched from server
-		this.options = data.options || [];
-	},
-	
-	renderOption: function (option) {
-		var tpl = _.template(optionTemplate);
-		this.$el.find('ul').append($(tpl(option)));
-	},
-	
-	render: function () {
-		if (this.options.length <= 0) {
-			return false;
-		}
-		this.$el.html(this.template, null);
-		_.each(this.options, function (option) {
-			this.renderOption(option);
-		}, this);
-		this.select(defaultOpt);
-		return this;
-	},
-	
-	expand: function (e) {
-		var id = $(e.currentTarget).attr('data-value'),
-			name = $(e.currentTarget).text();
-		
-		if (this.parent !== undefined) {
-			this.$el.nextAll('.fake-input')
-				.empty().remove();
-			this.parent.expand(id);
-			$indicator.val(name);
-			this.$el.find('.selected').removeClass('selected');
-			$(e.currentTarget).addClass('selected');
-			this.select(name);
-			this.toggleList();
-		}
-	},
-	
-	// Show/hide sublocations list
-	
-	toggleList: function () {
-		var $ul = this.$el.find('ul');
-		$('ul.expanded').not($ul)
-			.hide()
-			.removeClass('expanded');
-		this.$el.find('ul').toggle()
-			.toggleClass('expanded');
-		this.$el.find('.search-filter')
-			.val('').focus();
-		this.filter();
-	},
-	
-	// Mark selected location and display it's name.
-	//
-	// @param name { string } Nazwa lokalizacji
-	
-	select: function (name) {
-		var $i = this.$el.find('.input-indicator');
-		$i.text(name);
-		if (name !== defaultOpt) {
-			$i.removeClass('btn-success')
-				.addClass('btn-primary');
-		}
-	},
-	
-	// Fiter sublocations list
-	
-	filter: function () {
-		var name = this.$el.find('.search-filter').val(),
-			re = new RegExp(name, 'i');
-		this.$el.find('.name-entry').each(function (item) {
-			if (re.test($(this).text())) {
-				$(this).show();
-			} else {
-				$(this).hide();
-			}
-		});
-	}
+  filter: function () {
+    var term = this.$('.search-filter').val();
+    var re = new RegExp(term, 'i');
+    _.each(this.$el.find('.name-entry'), function (el) {
+      if (re.test($(el).text())) {
+        $(el).show();
+      } else {
+        $(el).hide();
+      }
+    }, this);
+  }
 });
 
-// Location form
-// -------------
+// Represents entire location form
 
 var LocationForm = Backbone.View.extend({
-	
-	el:  "#new-location-form",
-	
-	initialize: function () {
-		
-		var parent = this;
-		
-		this.$el.find('[type="file"]')
-			.bootstrapFileInput();
 
-		// Minimap
+  el: '#new-location-form',
 
-		this.$el.find('#id_latitude')
-			.before('<div id="map"></div>');
-		this.$el.find('#id_latitude, #id_longitude')
-			.css('display', 'none');
-		this.$el.find('#map').mapinput({
-			single: true,
-			width : 664,
-			height: 480,
-			markers: CivilApp.markers,
-			iconPath: ([CivilApp.staticURL, 'css', 'images']).join('/'),
-			onchange: function (e, markers) {
-				$('#id_latitude').val(e.lat);
-				$('#id_longitude').val(e.lng);
-			}
-		});
-		
-		var value = $('#id_parent').val();
-		
-		// First 'faked' select input
-		
-		this.$fakeInput = new InputElement({
-			parent: parent,
-			options: CivilApp.countryList
-		});
-		
-		// Keep real field value
-		
-		this.$realInput = $(_.template(textTemplate, {
-			value: value
-		}));
-		
-		$('#id_parent').replaceWith(this.$realInput);
-		this.$indicator = $indicator;
-		this.$indicator.insertAfter(this.$realInput);
-		$(this.$fakeInput.render().el)
-			.insertAfter(this.$realInput);
+  baseURL: '/api-locations/find-nearest/',
 
-		// Fill parent name if we editing already existin location
+  events: {
+    'click .country-selector': 'toggleCountries',
+    'click .country-entry': 'selectCountry'
+  },
 
-		var parentId = parseInt($('#id_parent').val(), 10);
-		if (!isNaN(parentId)) {
-			$.get(('/api-locations/locations/{id}/').replace(/{id}/g, parentId),
-				function (location) {
-					$indicator.val(location.name);
-				}
-			);
-		}
-	},
-	
-	// Create another 'faked' input
-	//
-	// @param id { int } - ID of location, from which we want 'children'
-	
-	expand: function (id) {
-		
-		var url = ([baseUrl, '?pk=', id]).join(''),
-			fake = null,
-			parent = this;
-		
-		$.get(url, function (response) {
-			if (response.length <= 0) {
-				return false;
-			}
-			fake = new InputElement({
-				parent: parent,
-				parentId: id,
-				options: response
-			});
-			$(fake.render().el)
-				.insertAfter(this.$el.find('.fake-input').last());
-		}.bind(this));
-		
-		this.$realInput.val(id);
-	}
+  initialize: function (options) {
+    _.bindAll(this, 'fetch');
+    _.bindAll(this, 'selectCountry');
+    this.$el = $('#' + options.id);
+    this.$map = $('<div id="map"></div>');
+    this.$map.insertBefore(this.$('#id_latitude'));
+    var mapOpts = {
+      single: true,
+      width : 664,
+      height: 480,
+      markers: CivilApp.markers,
+      iconPath: ([CivilApp.staticURL, 'css', 'images']).join('/'),
+      onchange: this.fetch
+    };
+    var initLat = this.$('#id_latitude').val();
+    var initLng = this.$('#id_longitude').val();
+    if (initLat && initLng) {
+      mapOpts = _.extend(mapOpts, {
+        center: [initLat, initLng],
+        markers: [{ lat: initLat, lng: initLng }]
+      });
+    }
+    this.$map.mapinput(mapOpts);
+
+    // Fill initial parent values
+    var initial = this.$el.attr('data-initial');
+    if (initial.length > 0) {
+      console.log(initial);
+      this.reset();
+      _.each(JSON.parse(initial).reverse(), function (item) {
+        this.addInput(item.id, item.label);
+      }, this);
+    }
+  },
+
+  fetch: function (e) {
+    var data = { lat: e.lat, lng: e.lng };
+    this.reset();
+    fetchData(this.baseURL, data, function (r) {
+      this.addInput(r.country.id, r.country.name);
+      this.addInput(r.region.id, r.region.name);
+      this.$('#id_latitude').val(e.lat);
+      this.$('#id_longitude').val(e.lng);
+    }, this);
+  },
+
+  addInput: function (id, label, options, fn) {
+    var opts = options || { onFetch: null };
+    var i = new FakeInput({
+      id: id,
+      label: label,
+      onFetch: opts.onFetch
+    });
+    i.parent = this;
+    $(i.render().el)
+      .appendTo(this.$('.fake-input-placeholder'));
+    this.$('#id_parent').val(id);
+    if (_.isFunction(fn)) {
+      fn.call(this, i);
+    }
+  },
+
+  reset: function () {
+    this.$el.find('.fake').empty().remove();
+  },
+
+  toggleCountries: function () {
+    this.$('.country-selector')
+      .next('.sublist')
+      .fadeToggle('fast');
+  },
+
+  selectCountry: function (e) {
+    var id = $(e.target).attr('data-value');
+    var label = $(e.target).text();
+    this.reset();
+    this.addInput(id, label, {
+      onFetch: function (input) {
+        var id = input.$el.find('.name-entry:first').attr('data-value');
+        var label = input.$el.find('.name-entry:first').text();
+        input.parent.addInput(id, label);
+      }
+    }, function (input) {
+      input.fetch();
+    });
+  },
+
+  fillInitial: function (initial) {
+    var url = '/api-locations/locations/' + initial + '/';
+    fetchData(url, null, function (r) {
+      this.addInput(r.id, r.name);
+    });
+  }
 });
 
-return LocationForm;
+$(document).ready(function () {
+  var form = new LocationForm({ id: 'new-location-form' });
+});
 
 });

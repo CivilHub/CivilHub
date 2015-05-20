@@ -40,8 +40,7 @@
 <div class="col-sm-9 main-content top15 p25">
 	<div class="create-form">
 		{% if form.errors %}{% for field, errors in form.errors.items %}{% for error in errors %}<p class="alert alert-danger">{{ field }} - {{ error }}</p>{% endfor %}{% endfor %}{% endif %}
-		{% if action and action == 'edit' %}<form class="form-horizontal" role="form" action="{% url 'locations:update' location.slug %}" enctype="multipart/form-data" method="post" id="new-location-form">
-		{% else %}<form class="form-horizontal" role="form" action="{% url 'locations:create' %}" enctype="multipart/form-data" method="post" id="new-location-form">{% endif %}{% csrf_token %}
+		<form class="form-horizontal" data-initial="{% if parents %}[{% for p in parents %}{ &quot;id&quot;:{{ p.pk }}, &quot;label&quot;:&quot;{{ p }}&quot; }{% if forloop.counter != parents.count %},{% endif %}{% endfor %}]{% endif %}" role="form" {% if action and action == 'edit' %}action="{% url 'locations:update' location.slug %}"{% else %}action="{% url 'locations:create' %}"{% endif %} enctype="multipart/form-data" method="post" id="new-location-form">{% csrf_token %}
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_name">{% trans "Name" %}:</label>
@@ -54,31 +53,39 @@
 				</label>
 				<div class="col-sm-10">{{ form.description }}</div>
 			</div>
-			<p class="col-sm-offset-2">* {% trans "Important: Specify the location where you create" %}</p>
-			<div class="form-group">
-				<label class="control-label col-sm-2">
-					<label for="id_parent">{% trans "Parent" %}:</label>
-				</label>
-				<div class="col-sm-10">{{ form.parent }}</div>
-			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_population">{% trans "Population" %}:</label>
 				</label>
 				<div class="col-sm-10">{{ form.population }}</div>
 			</div>
+			<p class="col-sm-offset-2">* {% trans "Important: Specify the location where you create" %}</p>
+			<div class="form-group">
+				<label class="control-label col-sm-2">
+					<label for="{{ form.parent.id_for_label }}">{% trans "Parent" %}:</label>
+				</label>
+				<div class="col-sm-10 fake-input-placeholder">
+					<input type="hidden" name="{{ form.parent.name }}" id="{{ form.parent.id_for_label }}" value="{{ parents|default_if_none:"" }}">
+					<div class="fake">
+						<div class="btn btn-createLocation custom-btn-full-width input-indicator country-selector">{% trans "Choose your place on map or click here to select country" %}</div>
+						<ul class="sublist expanded" style="display:none">
+						    {% for country in countries %}<li class="name-entry country-entry" data-value="{{ country.pk }}">{{ country }}</li>{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
 			<p class="col-sm-offset-2">* {% trans "If this entry is about a specific location, you can mark it on the map" %}</p>
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_latitude"></label>
 				</label>
-				<div class="col-sm-10">{{ form.latitude }}</div>
+				<div class="col-sm-10"><input type="hidden" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:"" }}"></div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_longitude"></label>
 				</label>
-				<div class="col-sm-10">{{ form.longitude }}</div>
+				<div class="col-sm-10"><input type="hidden" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:"" }}"></div>
 			</div>{% comment %} There is anyways picture uploader, much better than just file field.
 			<div class="form-group">
 				<label class="control-label col-sm-2">
@@ -86,7 +93,7 @@
 				</label>
 				<div class="col-sm-10">{{ form.image }}</div>
 			</div>
-			<div class="form-group">        
+			<div class="form-group">
 				<div class="addImageWidth">
 					<h5>* {% trans "The image should have a width and height of 3840px by 600px" %}</h5>
 				</div>
