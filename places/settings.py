@@ -34,9 +34,9 @@ LOGGING = loggers.LOGGING
 SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 INTERNAL_IPS = config['internal_ips']
 
@@ -350,7 +350,7 @@ LANGUAGES = (
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': 'redis:6379:1',
+        'LOCATION': 'localhost:6379:1',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }

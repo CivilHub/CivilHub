@@ -3,6 +3,7 @@ import json
 
 from django.contrib.contenttypes.models import ContentType
 from django.core import serializers as dj_serializers
+from django.utils.translation import ugettext as _
 
 from rest_framework import serializers
 
@@ -26,6 +27,7 @@ def serializer_object(obj):
 class NotificationSerializer(serializers.ModelSerializer):
     """ Serializer for notification model. It is meant to be read-only. """
     actor = serializers.SerializerMethodField('get_actor_data')
+    action_verb = serializers.SerializerMethodField('get_action_verb')
     action_object = serializers.SerializerMethodField('get_action_object')
     action_target = serializers.SerializerMethodField('get_action_target')
     action_url = serializers.SerializerMethodField('get_action_url')
@@ -34,6 +36,11 @@ class NotificationSerializer(serializers.ModelSerializer):
     def get_actor_data(self, obj):
         serializer = UserDetailSerializer(obj.action_actor)
         return serializer.data
+
+    def get_action_verb(self, obj):
+        if obj.action_verb is None:
+            return ""
+        return _(obj.action_verb)
 
     def get_action_object(self, obj):
         return serializer_object(obj.action_object)

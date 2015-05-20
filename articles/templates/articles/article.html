@@ -1,4 +1,4 @@
-{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags evaluate_tags %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>{% endblock %}
 {% block title %} {{ article.title }} - Civilhub.org {% endblock %}
 {% block description %}<meta name="description" content="{{ article.content|striptags|slice:":153"}}..." />{% endblock %}
@@ -18,5 +18,5 @@
 </div>
 {% endblock %}
 {% block content %}
-  <div>{{ article.content | safe }}</div>
+  <div>{% evaluate article.content %}</div>
 {% endblock %}
