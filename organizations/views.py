@@ -25,7 +25,7 @@ from .forms import NGOInviteForm, \
                    NGOBackgroundForm, \
                    NGOProjectForm, \
                    NGOSearchForm
-from .models import Invitation, Organization
+from .models import Category, Invitation, Organization
 
 
 class NGOContextMixin(SingleObjectMixin):
@@ -77,6 +77,7 @@ class OrganizationListView(ListView):
     def get_context_data(self):
         context = super(OrganizationListView, self).get_context_data()
         context['countries'] = Location.objects.filter(kind='country')
+        context['categories'] = Category.objects.all()
         context['form'] = self.form
         return context
 
