@@ -21,7 +21,7 @@ var CommentView = Backbone.View.extend({
 
   tagName: 'div',
 
-  className: 'comment',
+  className: 'comment container-fluid p-reset',
 
   template: _.template($('#comment-template').html()),
 
