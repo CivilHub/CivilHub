@@ -1,5 +1,5 @@
 {% extends 'staticpages/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% load staticfiles i18n civil_tags evaluate_tags %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
@@ -17,7 +17,7 @@ window.GOOGLE_DATA = {
 <body>
 {% block navigation %}{% endblock %}
 {% block content %}
-  {% evaluate article.content | safe %}
+  {% evaluate article.content %}
 {% endblock %}
 {% block footer %}
   {% include 'places_core/footer.html' %}
