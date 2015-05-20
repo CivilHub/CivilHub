@@ -412,7 +412,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateLocationView, self).get_context_data(**kwargs)
-        context['countries'] = Country.objects.all()
+        context['countries'] = Location.objects.filter(kind='country')
         context['title'] = _('create new location')
         return context
 

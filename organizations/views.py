@@ -48,6 +48,11 @@ class OrganizationListView(ListView):
     model = Organization
     paginate_by = 25
 
+    def get_context_data(self):
+        context = super(OrganizationListView, self).get_context_data()
+        context['countries'] = Location.objects.filter(kind='country')
+        return context
+
 
 class OrganizationView(DetailView):
     """
