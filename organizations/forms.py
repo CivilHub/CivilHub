@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from gallery.image import handle_tmp_image
 from locations.models import Location
 
-from .models import Organization
+from .models import Category, Organization
 
 
 class OrganizationForm(forms.ModelForm):
@@ -111,3 +111,16 @@ class NGOProjectForm(forms.ModelForm):
     class Meta:
         model = Organization
         fields = ('projects', )
+
+
+class NGOSearchForm(forms.Form):
+    """ Filter search results for NGO list page.
+    """
+    name = forms.CharField(required=False, max_length=128, label=_(u"name"))
+    country = forms.ModelChoiceField(required=False, label=_(u"country"),
+        queryset=Location.objects.filter(kind='country'))
+    location = forms.CharField(required=False,
+                               max_length=128,
+                               label=_(u"location"))
+    kind = forms.ModelChoiceField(required=False, label=_(u"kind"),
+                                  queryset=Category.objects.all())
