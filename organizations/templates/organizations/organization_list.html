@@ -29,16 +29,14 @@
      </form>
     </div>
   </div>
-  <div class="sidebar left">
+  {% comment %}<div class="sidebar left">
     <div class="sidebar-label">{% trans "Shortcuts" %}</div>
     <div class="sidebar-content">
-      <ul class="shortcuts">
-        {% for item in object_list %}
-          <li><a href="/organizations/?kind={{ item.category.pk }}">{{ item.category }}</a></li>
-        {% endfor %}
-      </ul>
+      <ul class="shortcuts">{% for cat in categories %}
+        <li><a href="?kind={{ cat.pk }}">{{ cat }}</a></li>
+      {% endfor %}</ul>
     </div>
-  </div>
+  </div>{% endcomment %}
 </div>
 <div class="col-sm-9">
   <div class="main-content create-form newFormCreate"><h3 class="text-center nh3">{% trans "Organization list" %}</h3>
