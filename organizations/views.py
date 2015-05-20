@@ -23,7 +23,8 @@ from .forms import NGOInviteForm, \
                    OrganizationForm, \
                    OrganizationLocationForm, \
                    NGOBackgroundForm, \
-                   NGOProjectForm
+                   NGOProjectForm, \
+                   NGOSearchForm
 from .models import Invitation, Organization
 
 
@@ -47,10 +48,31 @@ class OrganizationListView(ListView):
     """
     model = Organization
     paginate_by = 25
+    form_class = NGOSearchForm
+
+    def get_form(self):
+        self.form =  self.form_class(self.request.GET)
+        return self.form
+
+    def get_queryset(self):
+        qs = super(OrganizationListView, self).get_queryset()
+        form = self.get_form()
+        if not form.is_valid():
+            raise Http404
+        qs = qs.filter(name__icontains=form.cleaned_data.get('name', ''))
+        location = form.cleaned_data.get('location', '')
+        locations = Location.objects.filter(name__icontains=location)
+        country = form.cleaned_data.get('country')
+        if country is not None:
+            locations = locations | Location.objects.filter(
+                                        country_code=country.country_code)
+        qs = qs.filter(locations__in=locations)
+        return qs.order_by('-name')
 
     def get_context_data(self):
         context = super(OrganizationListView, self).get_context_data()
         context['countries'] = Location.objects.filter(kind='country')
+        context['form'] = self.form
         return context
 
 
