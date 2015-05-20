@@ -59,14 +59,20 @@ class OrganizationListView(ListView):
         form = self.get_form()
         if not form.is_valid():
             raise Http404
-        qs = qs.filter(name__icontains=form.cleaned_data.get('name', ''))
-        location = form.cleaned_data.get('location', '')
-        locations = Location.objects.filter(name__icontains=location)
+        name = form.cleaned_data.get('name')
+        if name is not None:
+            qs = qs.filter(name__icontains=name)
+        location = form.cleaned_data.get('location')
         country = form.cleaned_data.get('country')
+        if location is not None:
+            locations = Location.objects.filter(name__icontains=location)
+            qs = qs.filter(locations__in=locations)
         if country is not None:
-            locations = locations | Location.objects.filter(
-                                        country_code=country.country_code)
-        qs = qs.filter(locations__in=locations)
+            countries = Location.objects.filter(country_code=country.country_code)
+            qs = qs.filter(locations__in=countries)
+        kind = form.cleaned_data.get('kind', None)
+        if kind is not None:
+            qs = qs.filter(category=kind)
         return qs.order_by('-name')
 
     def get_context_data(self):
