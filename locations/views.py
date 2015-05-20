@@ -416,6 +416,14 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
         context['title'] = _('create new location')
         return context
 
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        if form.cleaned_data['parent'] is not None:
+            parent = form.cleaned_data['parent']
+            parent_id_list = [parent.pk, ] + parent.get_parents
+            context['parents'] = Location.objects.filter(pk__in=parent_id_list)
+            return super(CreateLocationView, self).render_to_response(context)
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         obj = form.save()
@@ -438,6 +446,11 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
+        parent = self.object.parent
+        if parent is None:
+            parent = self.object
+        parent_id_list = [parent.pk, ] + parent.get_parents
+        context['parents'] = Location.objects.filter(pk__in=parent_id_list)
         return context
 
     def form_valid(self, form):
