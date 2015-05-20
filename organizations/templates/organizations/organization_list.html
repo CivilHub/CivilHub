@@ -33,8 +33,9 @@
     <div class="sidebar-label">{% trans "Shortcuts" %}</div>
     <div class="sidebar-content">
       <ul class="shortcuts">
-        <li><a href="">{% trans "Organizations" %}</a></li>
-        <li><a href="">{% trans "Associations" %}</a></li>
+        {% for item in object_list %}
+          <li><a href="/organizations/?kind={{ item.category.pk }}">{{ item.category }}</a></li>
+        {% endfor %}
       </ul>
     </div>
   </div>
