@@ -40,7 +40,7 @@
   {% for item in object_list %}
     <div class="row ngo-entry col-table">
       <div class="col-sm-6 col-md-3 text-center col-same-height text-center">
-        <div class="ngo-logo-box" style="background-image: url({{ item.background_url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"><img src="{{ item.logo.url }}" alt="{{ item }}" class="current-user-avatar60 avatarViewIMG"></a></div>
+        <div class="ngo-logo-box" style="background-image: url({{ item.logo.url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"></a></div>
       </div>
       <div class="col-sm-6 col-md-4 col-same-height text-center"><a href="{{ item.get_absolute_url }}">{{ item }}</a></div>
       <div class="col-sm-12 col-md-2 col-same-height text-center">
