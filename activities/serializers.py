@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.serializers import serialize
 from django.template.defaultfilters import timesince
 from django.utils.translation import ugettext as _
@@ -8,6 +9,7 @@ from django.utils.translation import ugettext as _
 from actstream.models import Action
 from rest_framework import serializers
 
+from comments.models import CustomComment
 from places_core.helpers import truncatehtml
 from userspace.serializers import UserDetailSerializer
 
@@ -46,6 +48,7 @@ class ActionObjectSerializer(serializers.Serializer):
     url = serializers.SerializerMethodField('get_url')
     image = serializers.SerializerMethodField('get_image')
     date_created = serializers.SerializerMethodField('get_creation_date')
+    comment_count = serializers.SerializerMethodField('get_comment_count')
 
     def get_creation_date(self, obj):
         if hasattr(obj, 'date_created'):
@@ -54,6 +57,7 @@ class ActionObjectSerializer(serializers.Serializer):
 
     def get_content_type(self, obj):
         return {
+            'id': ContentType.objects.get_for_model(obj).pk,
             'name': obj._meta.verbose_name.title(),
             'type': obj._meta.model_name,
         }
@@ -119,6 +123,9 @@ class ActionObjectSerializer(serializers.Serializer):
         if hasattr(obj, 'retina_thumbnail'):
             image_data['retina_thumbnail'] = obj.retina_thumbnail
         return image_data
+
+    def get_comment_count(self, obj):
+        return len(CustomComment.objects.for_model(obj))
 
 
 class ActionTargetSerializer(serializers.Serializer):

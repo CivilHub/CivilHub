@@ -9,11 +9,11 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common',
            'js/modules/common/counters',
            'js/modules/ideas/votes/votes',
-           'js/modules/comments/comments',
            'js/modules/maps/pointer',
            'js/modules/inviter/userinviter',
            'js/modules/locations/follow',
-           'js/modules/ui/run-lightbox'],
+           'js/modules/ui/run-lightbox',
+           'js/modules/inlines'],
 
   function ($) {
     "use strict";

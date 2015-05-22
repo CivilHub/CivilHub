@@ -43,8 +43,7 @@ class NGOContextMixin(SingleObjectMixin):
 
 
 class OrganizationListView(ListView):
-    """
-    Presents list of all registered organizations.
+    """ Presents list of all registered organizations.
     """
     model = Organization
     paginate_by = 25

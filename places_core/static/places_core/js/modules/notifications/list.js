@@ -40,7 +40,7 @@ var NotifyList = Backbone.View.extend({
     this.collection.fetch({
       success: function (collection) {
         if (collection.hasNext) {
-          $link.css('display', 'block');
+          $link.show();
         }
       }
     });

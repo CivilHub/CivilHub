@@ -38,6 +38,7 @@ from places_core.mixins import LoginRequiredMixin
 from gallery.forms import BackgroundForm
 from blog.models import News
 from ideas.models import Idea
+from organizations.models import Organization
 from polls.models import Poll
 from topics.models import Discussion
 from bookmarks.models import Bookmark
@@ -478,3 +479,23 @@ def change_background(request):
         profile.background_image = request.FILES['background']
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
+
+
+# NGO related views
+# -----------------
+
+
+class UserNGOList(DetailView):
+    """ List all organizations created by selected user.
+    """
+    model = UserProfile
+    slug_url_kwarg = 'username'
+    slug_field = 'clean_username'
+    context_object_name = 'profile'
+    template_name = 'userspace/organization_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserNGOList, self).get_context_data()
+        context['object_list'] = Organization.objects.filter(
+                                    creator=self.object.user)
+        return context

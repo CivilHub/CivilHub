@@ -1,9 +1,9 @@
-<div class="col-xs-1 comment-avatar-col"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="comment-author-avatar user-window-toggle" /></div>
+<div class="col-xs-1 comment-avatar-col"><img style="width:36px" src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="comment-author-avatar user-window-toggle" /></div>
 <div class="comment-main-col">
   <a href="<%= author.profile.url %>" class="custom-important comment-author-name user-window-toggle" data-target="<%= author.id %>"><%= author.full_name %></a>
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
   <span class="comment-controls">
-    <% if (author.id === CivilApp.user.id) { %>
+    <% if (author.id == CivilApp.user.id) { %>
       <a href="#" class="comment-edit" title="<%= gettext("Edit entry") %>">
         <span class="fa fa-edit"> </span>
       </a>
@@ -25,14 +25,11 @@
     <% } %>
     &nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
     <div class="reply-form">
-      <div class="col-xs-1 comment-avatar-col">
-        <img src="<%= CivilApp.user.avatar %>" alt="<%= CivilApp.user.fullName %>" class="comment-author-avatar user-window-toggle" />
-      </div>
       <div class="comment-main-col">
-        <form role="presentation" class="comment-form-body">
+        <form role="presentation" class="comment-form-body" style="display:none">
+          <img style="width:36px;" src="<%= CivilApp.user.profile.avatar %>" alt="<%= CivilApp.user.full_name %>" class="comment-author-avatar user-window-toggle" />
           <div class="form-group">
-            <label for="comment" class="control-label"><%= gettext("Comment") %></label>
-            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
+            <textarea class="form-control" cols="20" rows="1"></textarea>
           </div>
           <div class="form-group text-right">
             <button class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>
