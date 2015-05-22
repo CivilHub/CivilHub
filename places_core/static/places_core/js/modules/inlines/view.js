@@ -99,7 +99,7 @@ var CommentView = Backbone.View.extend({
     // NGO members
     var ngo = this.model.get('author').organizations;
     if (!_.isUndefined(ngo) && ngo.count > 0) {
-      $('<div class="ngo-badge-group"><div class="fa fa-bank"></div></div>')
+      $('<div class="ngo-badge-group"><div class="fa fa-bank text-green"></div></div>')
         .insertAfter(this.$('.comment-author-avatar:first'));
       _.each(ngo.items, function (item) {
         this.renderBadge(item);
