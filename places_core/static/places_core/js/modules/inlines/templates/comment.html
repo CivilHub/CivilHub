@@ -1,4 +1,4 @@
-<div class="comment-avatar-col pull-left"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="user-avatar avatarViewIMG comment-author-avatar" /></div>
+<div class="col-xs-1 comment-avatar-col"><img style="width:36px" src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="comment-author-avatar user-window-toggle" /></div>
 <div class="comment-main-col">
   <a href="<%= author.profile.url %>" class="custom-important comment-author-name user-window-toggle" data-target="<%= author.id %>"><%= author.full_name %></a>
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
@@ -13,7 +13,7 @@
       </a>
     <% } %>
   </span>
-  <div class="comment-content"><%= comment %></div>
+  <div class="comment-content" id="content-<%= id %>"><%= comment %></div>
   <div class="comment-meta-options">
     <% if (author.id !== CivilApp.user.id) { %>
       <p>
@@ -24,12 +24,11 @@
       <p><span class="comment-total-votes"><%= note %></span>
     <% } %>
     &nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
-    <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>
     <div class="reply-form">
-      <div class="comment-main-col p-reset">
-        <form role="presentation" class="comment-form-body postbox" style="display: none;">
-          <div class="avatar comment-avatar-col"><img src="<%= CivilApp.user.profile.avatar %>" alt="<%= CivilApp.user.full_name %>" class="user-avatar avatarViewIMG" /></div>
-          <div class="form-group textarea-wrapper">
+      <div class="comment-main-col">
+        <form role="presentation" class="comment-form-body" style="display:none">
+          <img style="width:36px;" src="<%= CivilApp.user.profile.avatar %>" alt="<%= CivilApp.user.full_name %>" class="comment-author-avatar user-window-toggle" />
+          <div class="form-group">
             <textarea class="form-control" cols="20" rows="1"></textarea>
           </div>
           <div class="form-group text-right">
@@ -39,6 +38,7 @@
         </form>
       </div>
     </div>
+    <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>
     </p>
     <div class="comment-votes-detail">
       <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
