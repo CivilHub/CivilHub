@@ -52,7 +52,6 @@ var CommentView = Backbone.View.extend({
   events: {
     'click .vote-up-link:first': 'vote',
     'click .vote-down-link:first': 'vote',
-    'click .comment-edit:first': 'toggleEdit',
     'click .comment-reply:first': 'toggleReplyForm',
     'click .show-replies:first': 'toggleReplies'
   },
@@ -75,7 +74,7 @@ var CommentView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));
-    this.$counter = this.$el.find('.comment-total-votes');
+    this.$counter = this.$el.find('.comment-total-votes:first');
     this.votes = parseInt(this.$counter.text(), 10);
     if (isNaN(this.votes)) {
       this.votes = 0;
@@ -88,6 +87,13 @@ var CommentView = Backbone.View.extend({
     this.$replyForm.find('.btn-submit-comment:first').on('click', function (e) {
       e.preventDefault();
       this.addReply();
+    }.bind(this));
+
+    // Bind content element to avoid problems with edit form
+    this.$content = this.$('#content-' + this.model.get('id'));
+
+    this.$('.comment-edit:first').on('click', function (e) {
+      this.toggleEdit(e);
     }.bind(this));
 
     // NGO members
@@ -149,13 +155,13 @@ var CommentView = Backbone.View.extend({
   // Edition form
 
   opendEdit: function () {
-    var $form = this.editFormTemplate(this.model.toJSON());
-    this.$el.find('.comment-content:first').hide().after($form);
-    this.$el.find('.btn-cancel-comment:first').on('click', function (e) {
+    var $form = $(this.editFormTemplate(this.model.toJSON()));
+    this.$content.hide().after($form);
+    $form.find('.btn-cancel-comment:first').on('click', function (e) {
       e.preventDefault();
       this.closeEdit();
     }.bind(this));
-    this.$el.find('.btn-submit-comment:first').on('click', function (e) {
+    $form.find('.btn-submit-comment:first').on('click', function (e) {
       e.preventDefault();
       this.update(this.$('.update-comment:first').val());
       this.closeEdit();
@@ -165,7 +171,7 @@ var CommentView = Backbone.View.extend({
 
   closeEdit: function () {
     this.$('.comment-update-form:first').empty().remove();
-    this.$('.comment-content:first').show();
+    this.$content.show();
     this.edited = false;
   },
 

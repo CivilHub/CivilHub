@@ -19,10 +19,6 @@ var CommentCollection = Backbone.Collection.extend({
   parse: function (data) {
     this.hasNext = data.next !== null;
     this.nextUrl = data.next;
-    _.each(data.results, function (item) {
-      console.log(item.id);
-      console.log(this.get(item.id));
-    }, this);
     return data.results;
   }
 });
