@@ -46,7 +46,7 @@
 {% comment %} Comment Template {% endcomment %}
 <script type="text/template" id="comment-template">
 
-        <div class="col-xs-1 p-reset comment-avatar-col"><img src="<%= avatar %>" alt="<%= username %>" class="user-avatar avatarViewIMG"/></div>
+        <div class="comment-avatar-col pull-left"><img src="<%= avatar %>" alt="<%= username %>" class="user-avatar avatarViewIMG"/></div>
         <div class="comment-main-col">
             <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a>
             <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
@@ -96,13 +96,14 @@
 
 {% comment %} ~~~~~~~~~~~~~~ REPLY FORM  ~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-form-template">
-    <div class="col-xs-1 p-reset comment-avatar-col">
+
+    <div class="pull-left comment-avatar-col">
         <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG" />
     </div>
     <div class="comment-main-col">
         <form role="presentation" class="comment-form-body">
             <div class="form-group">
-                <label for="comment" class="control-label">{% trans "Comment" %}</label>
+                {% comment %}<label for="comment" class="control-label">{% trans "Comment" %}</label>{% endcomment %}
                 <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
             </div>
             <div class="form-group text-right">
@@ -111,14 +112,15 @@
             </div>
         </form>
     </div>
+  
 </script>
 
 {% comment %} ~~~~~~~~~~~~~~~ EDITION FORM ~~~~~~~~~~~~~~~ {% endcomment %}
 <script type="text/template" id="comment-edit-template">
     <form role="presentation" class="comment-form-body">
         <div class="form-group">
-            <label for="comment" class="control-label">{% trans "Comment" %}</label>
-            <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"></textarea>
+            {% comment %}<label for="comment" class="control-label">{% trans "Comment" %}</label>{% endcomment %}
+            <textarea name="comment" id="comment" class="form-control" cols="20" rows="5"></textarea>
         </div>
         <div class="form-group text-right">
             <button type="submit" class="btn btn-cancelGray btn-cancel-comment">{% trans "Cancel" %}</button>

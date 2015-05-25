@@ -43,6 +43,7 @@ from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from maps.models import MapPointer
 from notifications.models import notify
+from organizations.models import Organization
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
 from places_core.mixins import LoginRequiredMixin
@@ -755,6 +756,24 @@ class RemoveModeratorView(ModeratorListAccessMixin):
         if self.location in user.profile.mod_areas.all():
             user.profile.mod_areas.remove(self.location)
         return redirect(self.get_success_url())
+
+
+# NGO related views
+# -----------------
+
+
+class LocationNGOList(LocationContextMixin, DetailView):
+    """ List all organizations that patronate this location.
+    """
+    model = Location
+    slug_url_kwarg = 'location_slug'
+    template_name = 'locations/organization_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationNGOList, self).get_context_data()
+        context['object_list'] = Organization.objects.filter(
+                                    locations__in=[self.object, ])
+        return context
 
 
 # Widget Factory views

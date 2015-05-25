@@ -107,24 +107,28 @@ def comment_notification(sender, instance, created, **kwargs):
         for user in instance.content_object.participants.exclude(
             pk=instance.user.pk):
             notify(instance.user, user,
-                   key="comment",
-                   verb=_(u"commented task"),
-                   action_object=instance,
-                   action_target=instance.content_object)
+                key="comment",
+                verb=_(u"commented task"),
+                action_object=instance,
+                action_target=instance.content_object)
 
+    # Get target user to notify depending on commented object's type.
     target_user = None
     if hasattr(instance.content_object, 'creator'):
+        # Regular content objects usually have 'creator' field
         target_user = instance.content_object.creator
     elif hasattr(instance.content_object, 'author'):
+        # Projects and some other models that use other convention
         target_user = instance.content_object.author
 
+    # Notify users only when someone else commented their objects.
     if target_user is not None and instance.user != target_user:
         notify(instance.user, target_user,
-               key="customcomment",
-               verb=_(u"commented your {}".format(
-                   instance.content_object._meta.verbose_name.title())),
-               action_object=instance,
-               action_target=instance.content_object)
+            key="customcomment",
+            verb=_(u"commented your {}".format(
+                instance.content_object._meta.verbose_name.title())),
+            action_object=instance,
+            action_target=instance.content_object)
 
 
 models.signals.post_save.connect(comment_notification, sender=CustomComment)

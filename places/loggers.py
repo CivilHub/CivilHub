@@ -39,6 +39,11 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'markers.log'),
         },
+        'tracker_tasks': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'tracker.log'),
+        },
     },
     'loggers': {
         'django': {
@@ -63,6 +68,11 @@ LOGGING = {
         },
         'maps': {
             'handlers': ['map_tasks'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'tracker': {
+            'handlers': ['tracker_tasks'],
             'level': 'INFO',
             'propagate': False,
         },

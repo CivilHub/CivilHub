@@ -1,0 +1,57 @@
+{% extends 'locations/index.html' %}{% load i18n actstream_tags civil_tags %}
+{% block content %}
+
+
+<div class="col-sm-3">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Filter" %}</div>
+    <div class="sidebar-content clearfix">
+     <form method="get" action="">
+       <div class="form-group">
+        <label for="{{ form.name.id_for_label }}">{{ form.name.label|capfirst }}:</label>
+        <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}" value="{{ form.name.value|default_if_none:"" }}" class="form-control input-sm" id="name">
+      </div>
+      <div class="form-group">
+        <label for="{{ form.kind.id_for_label }}">{{ form.kind.label|capfirst }}:</label>
+        <select name="{{ form.kind.name }}" class="form-control input-sm" id="{{ form.kind.id_for_label }}">{% for x,y in form.fields.kind.choices %}
+          <option value="{{ x }}"{% ifequal form.kind.value|as_fck_str x|as_fck_str %} selected{% endifequal %}>{{ y }}</option>
+        {% endfor %}</select>
+      </div>
+      <button type="submit" class="submit-button w100">{% trans "Search" %}</button>
+     </form>
+    </div>
+  </div>
+  {% comment %}<div class="sidebar left">
+    <div class="sidebar-label">{% trans "Shortcuts" %}</div>
+    <div class="sidebar-content">
+      <ul class="shortcuts">{% for cat in categories %}
+        <li><a href="?kind={{ cat.pk }}">{{ cat }}</a></li>
+      {% endfor %}</ul>
+    </div>
+  </div>{% endcomment %}
+</div>
+<div class="col-sm-9">
+  <div class="main-content create-form newFormCreate"><h3 class="text-center nh3">{% trans "Organization list" %}</h3>
+  {% for item in object_list %}
+    <div class="row ngo-entry col-table">
+      <div class="col-sm-6 col-md-3 text-center col-same-height text-center">
+        <div class="ngo-logo-box" style="background-image: url({{ item.logo.url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"></a></div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-same-height text-center"><a href="{{ item.get_absolute_url }}">{{ item }}</a></div>
+      <div class="col-sm-12 col-md-2 col-same-height text-center">
+        {% for c in item.locations.all%}{% if forloop.counter == 2 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country.1 }}</a>
+          {% elif forloop.counter == 1 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country }}</a>{% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-sm-12 col-md-2 col-same-height text-center">
+        {% for l in item.locations.all %}{% if forloop.counter == 2 %}<a href="{{ l.get_absolute_url }}">{{ l.1 }} ...</a>
+          {% elif forloop.counter == 1 %}<a href="{{ l.get_absolute_url }}">{{ l }}</a>{% endif %}
+        {% endfor %}
+      </div>
+      <div class="col-sm-12 col-md-1 col-same-height text-center"><span class="fa fa-ngo-icon-{{ item.category.pk }} text-green custom-tooltip-right" title="{{ item.category }}"></span></div>
+    </div>
+  {% endfor %}
+  </div><!-- main-content newForm-->
+</div>
+{% include 'places_core/pagination.html' %}
+{% endblock %}

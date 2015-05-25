@@ -97,7 +97,8 @@ def comment_action_hook(sender, instance, created, **kwargs):
         comment_url = instance.content_object.get_absolute_url()
     )
     # Send notification to parent comment author (if this is answer for comment)
-    if instance.parent is not None:
+    # but only when we don't respond to
+    if instance.parent is not None and instance.parent.user != instance.user:
         notify(
             instance.user,
             instance.parent.user,

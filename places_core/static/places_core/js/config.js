@@ -13,7 +13,7 @@ require.config({
 
   urlArgs: "bust=" + (new Date()).getTime(),
 
-  waitSeconds: 400,
+  waitSeconds: 0,
 
   "paths": {
     "text": "includes/require/text",

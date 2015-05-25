@@ -114,6 +114,7 @@ INSTALLED_APPS = (
     'activities',  # Manage activity streams and different action hooks
     'simpleblog',  # Simplified blog functionality for NGO and projects
     'guides',
+    'user_tracker',# Track user activities and statistics
 
     'raven.contrib.django.raven_compat',
     'analytical',
@@ -147,6 +148,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_tracker.middleware.VisitorTrackingMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 

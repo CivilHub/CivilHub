@@ -104,9 +104,9 @@
         <input type="hidden" id="target-id" value="{{ news.pk }}" />
         <input type="hidden" id="target-label" value="blog" />
         <input type="hidden" id="target-type" value="{{ content_type }}" />
-        <div class="blogEntryComments">
+        <div class="customEntry-comments">
         <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
-          <a class="comment-toggle blogCommentsToggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
+          <a class="comment-toggle custom-comments-toggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
         </div>
         {% include 'comments/commentlist.html' %}
       </div>

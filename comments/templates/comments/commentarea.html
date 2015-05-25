@@ -1,5 +1,17 @@
 {% load i18n %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}">
-  {% if user.is_authenticated %}<textarea name="comment" class="form-control" cols="10" rows="5"></textarea>
-  <button class="add-comment" type="button">{% trans "Add comment" %}</button>{% endif %}
+  <ul class="filters list-inline ml0">{% trans "Order by" %}:
+    <li><a href="#" data-order="new">{% trans "Newest" %}</a></li>|
+    <li><a href="#" data-order="old">{% trans "Oldest" %}</a></li>|
+    <li><a href="#" data-order="votes">{% trans "Most voted" %}</a></li>
+  </ul>
+  {% if user.is_authenticated %}
+  <div class="postbox">
+    <div class="avatar"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG"></div>
+    <div class="textarea-wrapper"><textarea name="comment" class="form-control" cols="10" rows="1"></textarea></div>
+    <div class="text-right"><button class="add-comment btn-sendBlue" type="button">{% trans "Add comment" %}</button></div>
+  </div>
+  {% endif %}
+
+
   <div class="comments"></div>
 </div>

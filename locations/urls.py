@@ -33,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^widget/(?P<ct>\d+)/(?P<pk>\d+)/', ServeContentView.as_view(), name='widget'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/remove/', RemoveModeratorView.as_view(), name='remove-moderator'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/', ManageModeratorsView.as_view(), name='manage-moderators'),
+    url(r'^(?P<location_slug>[\w-]+)/organizations/', LocationNGOList.as_view(), name='organizations'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),
     # sub-location list
     url(r'^(?P<slug>[\w-]+)/sublocations/$', SublocationList.as_view(), name='sublocations'),

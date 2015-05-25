@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.db.models import Count
 from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import ugettext as _
@@ -26,6 +27,21 @@ class CommentList(viewsets.ModelViewSet):
     case we have to pass query param `parent` with selected comment ID, eg:
 
         /api-comments/list/?parent=25
+
+    The last thing are filters. We can pass `o` parameter with one of this values:
+
+    <dl>
+        <dt><code>new</code></dt>
+        <dd>List items from newest to oldest</dd>
+
+        <dt><code>old</code></dt>
+        <dd>List items from oldest to newest</dd>
+
+        <dt><code>votes</code></dt>
+        <dd>List by total votes count (both negative and positive)</dd>
+    </dl>
+
+    Default ordering is the same as with `new` option.
     """
     model = CustomComment
     paginate_by = 5
@@ -42,6 +58,12 @@ class CommentList(viewsets.ModelViewSet):
                            parent__isnull=True)
         elif parent is not None:
             qs = qs.filter(parent__id=parent)
+        order = self.request.QUERY_PARAMS.get('o')
+        if order == 'old':
+            return qs.order_by('submit_date')
+        elif order == 'votes':
+            qs = qs.annotate(num_votes=Count('votes'))
+            return qs.order_by('-num_votes', '-submit_date')
         return qs.order_by('-submit_date')
 
     def get_serializer_class(self):

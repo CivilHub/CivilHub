@@ -7,9 +7,9 @@
   <div class="col-sm-4">
     <div class="main-content">
       <div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
-        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a></div>
+        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}">{% if guide.category %}<a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a>{% endif %}</div>
       </div>
-      <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>
+      {% if guide.category %}<h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>{% endif %}
       <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
     </div><!--main-->
   </div><!--4-->

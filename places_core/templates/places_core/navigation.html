@@ -83,6 +83,7 @@
             <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
             <li><a href="{% url 'user:locations' user.profile.clean_username %}">{% trans "My Places" %}</a></li>
             <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
+            <li><a href="{% url 'user:organizations' user.profile.clean_username %}">{% trans "Organizations" %}</a></li>
             <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
             <li class="divider"></li>
             <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
@@ -138,7 +139,7 @@
             {% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% endif %}
           </a>
         </li>
-        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="{% url 'notify-list' %}"><span class="fa fa-bell-o"><span class="rwdShow">{% trans "Notifications" %}</span></span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
+        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="#"><span class="fa fa-bell-o"><span class="rwdShow">{% trans "Notifications" %}</span></span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
       </ul>
     </div>
   </div>
