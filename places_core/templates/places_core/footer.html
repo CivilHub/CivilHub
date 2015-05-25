@@ -8,7 +8,7 @@
 
 <div class="nfooter">
   <div class="container">
-    <div class="col-xs-3 col-sm-2">
+    <div class="col-sm-2 hidden-xs">
       <div class="logo-footer">
         {% if LANG == 'pl' %}
         <a href="/"><img src="{% static "places_core/img/footer_logo_pl@2x.png" %}" alt="CivilHub" /></a>
@@ -29,7 +29,7 @@
         <li><a href="/for-organizations/">{% trans "For your Organization" %}</a></li>
       </ul>
     </div>
-    <div class="col-xs-3 col-sm-3">
+    <div class="col-xs-6 col-sm-3">
       <p><strong>Sekcja</strong></p>
       <ul class="list-unstyled">
         <li><a href="/support">{% trans "Support" %}</a></li>
@@ -39,7 +39,7 @@
         <li><a href="/contact">{% trans "Contact" %}</a></li>
       </ul>
     </div>
-    <div class="col-xs-offset-3 col-xs-6 col-sm-2">
+    <div class="col-xs-6 col-sm-2">
       <p><strong>Sekcja</strong></p>
       <ul class="list-unstyled">
         <li><a href="/features">{% trans "Feature" %}</a>
@@ -50,7 +50,7 @@
         <li><a href="/jobs">{% trans "Jobs" %}</a></li>
       </ul>
     </div>
-    <div class="col-xs-3 col-sm-2">
+    <div class="col-xs-6 col-sm-2">
       <p><strong>{% trans "About CivilHub" %}</strong></p>
       <ul class="list-unstyled">
         <li><a href="/mission">{% trans "Mission" %}</a></li>
@@ -62,83 +62,72 @@
         <li><a href="/contact">{% trans "Contact" %}</a></li>
       </ul>
     </div>
-</div>
-<div class="container  share-buttons">
-
-
-
-        <div class="col-md-3" id="footerDivLang">
-            <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
-                <input type="text" name="next" value="{{ request.path }}" />
-                <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
-            </form>
-            <div id="lang-selector">
-                <a><img src="/static/places_core/img/lang/{{ LANG }}.png" alt="{{ LANG }}"/>{% trans "Choose language" %}</a>
-                <div id="popover-lang-list">
-                    <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
-                </div>
-            </div>
+  </div>
+  <div class="container  share-buttons">
+    <div class="col-md-3" id="footerDivLang">
+      <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+        <input type="text" name="next" value="{{ request.path }}" />
+        <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+      </form>
+      <div id="lang-selector">
+        <a><img src="/static/places_core/img/lang/{{ LANG }}.png" alt="{{ LANG }}"/>{% trans "Choose language" %}</a>
+        <div id="popover-lang-list">
+          <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
         </div>
+      </div>
+    </div>
+    <div class="col-md-8" id="footerDivBut">
+      <!-- Twitter -->
+      <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
+      <!-- Facebook -->
+      {% if LANG == 'pl' %}
+          <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+      {% else %}
+          <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+      {% endif %}
+          <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 
+      <!-- Google 1+ -->
+      <div class="g-plusone" data-size="medium"></div>
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'pl'};
 
-        <div class="col-md-8" id="footerDivBut">
-            <!-- Twitter -->
-            <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-            <!-- Facebook -->
-            {% if LANG == 'pl' %}
-                <script>(function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            {% else %}
-                <script>(function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            {% endif %}
-                <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-
-            <!-- Google 1+ -->
-            <div class="g-plusone" data-size="medium"></div>
-            <script type="text/javascript">
-              window.___gcfg = {lang: 'pl'};
-
-              (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/platform.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-              })();
-            </script>
-
-        </div>
-
-    </div><!-- /.row -->
-
-    <div class="container">
-        <div class="socialSmallIcon">
-
-            <ul>
-                <li class="youtube"><a href="https://www.youtube.com/user/civilhuborg" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube-play fa-stack-1x fa-inverse"></i></span></a></li>
-                <li class="linkedin"><a href="https://www.linkedin.com/company/civilhub" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li>
-                {% comment %}<li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>{% endcomment %}
-            </ul>
-
-
-        </div>
-        <div class="by-nc-sa"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img src="/static/places_core/img/by-nc-sa.png" alt="Creative Commons Licence"/></a></div>
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
     </div>
   </div>
+  <div class="container">
+    <div class="socialSmallIcon">
+      <ul>
+        <li class="youtube"><a href="https://www.youtube.com/user/civilhuborg" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube-play fa-stack-1x fa-inverse"></i></span></a></li>
+        <li class="linkedin"><a href="https://www.linkedin.com/company/civilhub" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li>
+        {% comment %}<li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>{% endcomment %}
+      </ul>
+    </div>
+    <div class="by-nc-sa"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"><img src="/static/places_core/img/by-nc-sa.png" alt="Creative Commons Licence"/></a></div>
+  </div>
+</div>
 
 
+{% comment %}
 <div class="footer">
 <div class="container">
     <div class="row">
@@ -236,14 +225,14 @@
             <ul>
                 <li class="youtube"><a href="https://www.youtube.com/user/civilhuborg" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube-play fa-stack-1x fa-inverse"></i></span></a></li>
                 <li class="linkedin"><a href="https://www.linkedin.com/company/civilhub" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li>
-                {% comment %}<li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>{% endcomment %}
+                <li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>
             </ul>
 
 
         </div>
     </div>
 
-</div><!-- /.container -->
+</div><!-- /.container -->{% endcomment %}
 
 {% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
 
@@ -252,7 +241,6 @@
 {% include 'places_core/user-popup.html' %}
 {% include 'gallery/media-uploader.html' %}
 
-</div><!-- /.footer -->
 
 {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
 {% include 'places_core/google-analytics.html' %}
