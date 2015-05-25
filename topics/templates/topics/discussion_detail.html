@@ -81,7 +81,7 @@
         <div class="entry-footer">
           <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
           {% if user != discussion.creator and user.is_authenticated %}
-            <a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}">
+            <a href="#" title="{% trans "Report abuse" %}" class="abuse-link" data-ct="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-pk="{{ discussion.pk }}">
               <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
             </a>
           {% endif %}
@@ -125,7 +125,7 @@
             <a href="{% url 'discussion:vote' entry.pk %}" class="entry-vote entry-vote-down">
               <span class="fa fa-angle-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
             </a> |
-            <a href="" title="{% trans "Report abuse" %}" class="report-abuse-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
+            <a href="" title="{% trans "Report abuse" %}" class="abuse-link" data-ct="{{ ct }}" data-pk="{{ entry.pk }}" data-label="topics">
               <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
             </a>
           {% endif %}
@@ -212,7 +212,7 @@
           <a href="" class="entry-vote entry-vote-down">
             <span class="fa fa-chevron-down custom-tooltip" title="{% trans "Vote down" %}"> </span>
           </a> |
-          <a href="" title="{% trans "Report abuse" %}" class="report-abuse-entry-link" data-content="{{ ct }}" data-id="{{ entry.pk }}" data-label="topics">
+          <a href="" title="{% trans "Report abuse" %}" class="abuse-link" data-ct="{{ ct }}" data-pk="{{ entry.pk }}" data-label="topics">
             <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
           </a>
         {% endif %}

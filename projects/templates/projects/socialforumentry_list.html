@@ -21,7 +21,7 @@
         </p>
         <div class="entry-content">{{ discussion.description|safe }}</div>
         <div class="custom-clear">&nbsp;</div>
-        {% if user.is_authenticated and user != discussion.creator %}<div class="entry-footer text-right"> <a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ discussion.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a></div>{% endif %}
+        {% if user.is_authenticated and user != discussion.creator %}<div class="entry-footer text-right"> <a href="#" title="{% trans "Report abuse" %}" class="abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-ct="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-pk="{{ discussion.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a></div>{% endif %}
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
           {% if project_access %}<form class="custom-inline-form" action="" method="post">{% csrf_token %}
             <button type="submit" class="custom-tooltip" title="{% trans 'Delete' %}"><span class="fa fa-remove">&nbsp;</span></button>
           </form>{% endif %}
-          {% if user.is_authenticated and user != entry.creator %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-content="{% with entry|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ entry.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
+          {% if user.is_authenticated and user != entry.creator %}<a href="#" title="{% trans "Report abuse" %}" class="abuse-link custom-tooltip" title="{% trans "Report abuse" %}" data-ct="{% with entry|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-pk="{{ entry.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
         </div>
       </div>
     </div>
