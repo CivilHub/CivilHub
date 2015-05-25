@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import template
 
-from .models import Visitor
+from ..models import Visitor
 
 
 class VisitorsOnSite(template.Node):

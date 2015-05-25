@@ -18,6 +18,17 @@ if hasattr(settings, 'TRACKING_TIMEOUT'):
     TIMEOUT = int(settings.TRACKING_TIMEOUT)
 
 
+def set_timeout(timeout=None):
+    """ Helper for VisitorManager - sets activity time period based on given
+        timeout (or default setting, if None is given).
+    """
+    if timeout is None:
+        timeout = TIMEOUT
+
+    now = timezone.now()
+    return now - timedelta(minutes=timeout)
+
+
 class VisitorManager(models.Manager):
 
     def active(self, timeout=None):
@@ -25,13 +36,13 @@ class VisitorManager(models.Manager):
         Retrieves only visitors who have been active within the timeout
         period.
         """
-        if timeout is None:
-            timeout = TIMEOUT
+        return self.get_queryset().filter(last_update__gte=set_timeout(timeout))
 
-        now = timezone.now()
-        cutoff = now - timedelta(minutes=timeout)
+    def active_users(self, timeout=None):
+        """ Retrieve only registered visitors active within timeout period.
+        """
+        return self.active().filter(user__isnull=False)
 
-        return self.get_queryset().filter(last_update__gte=cutoff)
 
     def last_for_user(self, user):
         """ Returns last visitor instance for given user.
