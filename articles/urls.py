@@ -35,6 +35,6 @@ urlpatterns = patterns('',
     url(r'^events/', views.TopLevelArticleView.as_view(article_slug='events', template_name='articles/events.html'), name='events'),
     url(r'^meetup-szczecin-1/', views.TopLevelArticleView.as_view(article_slug='meetup-szczecin-1', template_name='articles/events.html'), name='meetup-szczecin-1'),
     url(r'^hackatlon-warszawa-1/', views.TopLevelArticleView.as_view(article_slug='hackatlon-warszawa-1', template_name='articles/events.html'), name='hackatlon-warszawa-1'),
-    url(r'^home-k/', views.TopLevelArticleView.as_view(article_slug='home-k', template_name='articles/home-k.html'), name='home-k'),
-    url(r'^home-l/', views.TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-l.html'), name='home-l'),   
+    url(r'^home-k/', views.TopLevelArticleView.as_view(article_slug='home-k', template_name='articles/home-page.html'), name='home-k'),
+    url(r'^home-l/', views.TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-page.html'), name='home-l'),
 )
