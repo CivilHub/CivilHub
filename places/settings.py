@@ -114,6 +114,7 @@ INSTALLED_APPS = (
     'activities',  # Manage activity streams and different action hooks
     'simpleblog',  # Simplified blog functionality for NGO and projects
     'guides',
+    'user_tracker',# Track user activities and statistics
 
     'raven.contrib.django.raven_compat',
     'analytical',

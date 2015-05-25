@@ -83,6 +83,7 @@
             <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
             <li><a href="{% url 'user:locations' user.profile.clean_username %}">{% trans "My Places" %}</a></li>
             <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
+            <li><a href="{% url 'user:organizations' user.profile.clean_username %}">{% trans "Organizations" %}</a></li>
             <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
             <li class="divider"></li>
             <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
