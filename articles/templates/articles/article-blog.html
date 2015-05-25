@@ -6,7 +6,7 @@
 <meta property="og:title" content="{{ article.title }}"/>
 <meta property="og:url " content="https://civilhub.org{{ article.get_absolute_url }}" />
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:description" content="{{ article.content|striptags|slice:":100" }}..." />
+<meta property="og:description" content="{{ article.content|striptags|slice:":153" }}..." />
 <meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>{% endblock %}
 {% block content %}<div id="blog-page">

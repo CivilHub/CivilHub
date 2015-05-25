@@ -137,11 +137,47 @@ class AbuseReport(BaseCommentAbstractModel):
     )
 
     sender  = models.ForeignKey(User)
-    comment = models.CharField(max_length=2048, default="", blank=True)
+    comment = models.CharField(max_length=2048, default="", blank=True,
+                               verbose_name=_(u"comment"))
     status  = models.BooleanField(default=False)
     date_reported = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    reason = models.PositiveIntegerField(choices=REASONS, default=12)
+    reason = models.PositiveIntegerField(choices=REASONS, default=12,
+                                         verbose_name=_(u"reason"))
 
     def __str__(self):
         return "<Abuse Report from: %s>" % self.sender.get_full_name()
+
+
+class SearchTermRecordManager(models.Manager):
+    """
+    """
+    def count_most_popular(self):
+        terms = {}
+        for record in self.all():
+            if record.term not in terms:
+                terms[record.term] = len(self.filter(term=record.term))
+            else:
+                continue
+        return sorted(terms.items(), key=lambda x: x[1], reverse=True)
+
+
+@python_2_unicode_compatible
+class SearchTermRecord(models.Model):
+    """ This model records search term when user filled search form.
+    """
+    term = models.CharField(max_length=255, verbose_name=_(u"search term"))
+    ip_address = models.IPAddressField(blank=True, null=True, verbose_name=_(u"ip address"))
+    user = models.ForeignKey(User, blank=True, null=True, verbose_name=_(u"user"))
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date"))
+    content_types = models.CharField(max_length=255, default="", blank=True, verbose_name=(u"content types"))
+
+    objects = SearchTermRecordManager()
+
+    def __str__(self):
+        return _(u"Search for") + " '%s'" % self.term
+
+    class Meta:
+        ordering = ['-date_created', ]
+        verbose_name = _(u"search record")
+        verbose_name_plural = _(u"search records")

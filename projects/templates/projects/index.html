@@ -8,7 +8,7 @@
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:image" content="https://civilhub.org{{ object.image.url }}"/>
 <meta property="og:url " content="https://civilhub.org{{ object.get_absolute_url }}" />
-<meta property="og:description" content="{{ object.description|striptags|slice:":100" }}..."/>
+<meta property="og:description" content="{{ object.description|striptags|slice:":153" }}..."/>
 <meta property="article:author" content="https://civilhub.org{{ object.creator.profile.get_absolute_url }}" />
 <meta name="keywords" content="{{ object.name }}, {{ location.name }}">
 <meta property="article:published_time" content="{{ object.date_created|date:"c" }}">
@@ -66,7 +66,7 @@
         {% for p in object.participants.all %}<a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
       </div>
     </div>
-    {% if project_access %}<a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a>{% endif %}
+    {% if project_access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a></div>{% endif %}
   </div>
 </div>
 {% block location_navbar %}

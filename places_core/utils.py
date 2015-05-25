@@ -6,6 +6,20 @@ from django.conf import settings
 DIR = os.path.join(settings.BASE_DIR, 'dump')
 
 
+def get_current_version():
+    """ Returns current PROJECT version. This is useful for static files builds,
+        e.g. scripts and styles. This way we can append common suffx for all files
+        as well as for HTML tags later.
+    """
+    try:
+        v_file = open(os.path.join(settings.BASE_DIR, 'VERSION'))
+    except IOError:
+        return '0.0.0'
+    version = v_file.read().strip()
+    v_file.close()
+    return version
+
+
 def serialize_item(model):
     """ Changes the values of model fields on a serialized value. It takes
     a concrete instance of the model as an argument and returns a dictionary. """

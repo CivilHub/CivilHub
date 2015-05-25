@@ -49,40 +49,68 @@ function openShareWindow () {
   });
 }
 
-// Vote Yes or No.
+// Main object that handles scripts for voting buttons and bind counters.
+// Constructor takes jQuery DOM element, which makes it easy to wrap function
+// into plugin.
 
-$(document).delegate('.vote-btn-active', 'click', function () {
+function VoteArea ($el) {
+  this.$el = $el;
+  this.activeBtn = null;
+  this.counter = this.$el.find('.counter');
+  this.note = this.$el.find('.note');
+  _.bindAll(this, 'showMessage');
+  this.$buttons = this.$el.find('.vote-btn-active');
+  this.$buttons.on('click', function (e) {
+    e.preventDefault();
+    this.activeBtn = $(e.target);
+    var id = this.activeBtn.attr('data-target-id');
+    var vote = this.activeBtn.attr('data-vote');
+    this.sendVote(id, vote, this.showMessage);
+  }.bind(this));
+}
 
-  var formData = {
-    csrfmiddlewaretoken: utils.getCookie('csrftoken'),
-    idea: $(this).attr('data-target-id'),
-    vote: $(this).attr('data-vote')
-  };
+// Make POST request and find out what the results are.
 
-  var $votes = $(this).parents('.idea-votes:first')
-        .find('.votes:first');
+VoteArea.prototype.sendVote = function (id, vote, fn) {
+  var data = { csrfmiddlewaretoken: utils.getCookie('csrftoken'), vote: vote };
+  $.post('/ideas/vote/' + id + '/', data, fn);
+};
 
-  var $counter = $(this).parents('.idea-votes:first')
-        .find('.idea-vote-count:first');
+// Show message with action summary and (if vote is positive) window to share.
+// This function should run as callback, when we know, what the vote and voted
+// objects states are.
 
-  var votes = parseInt($counter.text(), 10) || 0;
+VoteArea.prototype.showMessage = function (response) {
+  ui.message.success(response.message);
+  this.activeBtn
+    .attr('data-vote', response.target)
+    .text(response.label);
+  this.counter.text(response.vote.count);
+  this.note.text(response.vote.note);
+  if (!_.isUndefined(response.old_label)) {
+    this.$buttons.not(this.activeBtn)
+      .attr('data-vote', response.old_target)
+      .text(response.old_label);
+  }
+  if (response.vote.vote === true && response.target === 'revoke') {
+    openShareWindow();
+  }
+};
 
-  function callback (data) {
-    if (data.success === true) {
-      ui.message.success(data.message);
-      openShareWindow();
-      $votes.html(data.votes);
-      if (!_.isNaN(votes)) {
-        $counter.text(++votes);
-      } else {
-        $counter.text(0);
-      }
-    } else {
-      ui.message.warning(data.message);
-    }
-  };
+// jQuery wrapper for VoteArea
 
-  $.post('/ideas/vote/', formData, callback);
+$.fn.voteArea = function () {
+  return $(this).each(function () {
+    var area = new VoteArea($(this));
+    return this;
+  });
+};
+
+$(document).ready(function () {
+  if (_.isNull(CivilApp.currentUserId)) {
+    return;
+  }
+  $('.vote-form').voteArea();
 });
 
 });

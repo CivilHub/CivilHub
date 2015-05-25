@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}{% load i18n %}
+{% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="main-content create-form newFormCreate"><p>{% trans "Are you sure you want to delete this guide" %}?</p>
 <form method="post" action="">{% csrf_token %}
   {{ form.as_p }}

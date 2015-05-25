@@ -1,6 +1,9 @@
-{% extends 'staticpages/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
+
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+
 {% block require_scripts %}
 <script>
 window.GOOGLE_DATA = {
@@ -10,18 +13,320 @@ window.GOOGLE_DATA = {
 </script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
 {% endblock %}
+
+{% block body %}
+<body>
 {% block navigation %}{% endblock %}
 {% block content %}
-<div id="wrapper-Home">
-  <a href="/" class="top-logo-home"><div class="logo-Home"></div></a>
+<style>
+/* Register box*/
+.register-box{
+  width: 300px;
+  min-height: 320px;
+  position: relative;
+  left: 50%;
+  margin-left: -150px;   
+}
+
+.register-box h1{
+  color: #FFF;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
+}
+.register-box .popover{
+  color: #000;
+}
+
+.register-box .col-xs-6:first-child{
+  padding-left: 0;
+  padding-right: 5px;
+}
+.register-box .col-xs-6:last-child{
+  padding-left: 5px;
+  padding-right: 0;   
+}
+
+.register-box .form-group{
+  margin-bottom: 10px;
+}
+
+.register-box .registerButtons{
+    text-align: center;
+}
+.register-box .facebook-btn,
+.register-box .twitter-btn,
+.register-box .linkedin-btn,
+.register-box .google-btn{
+  background: #fff;
+  border: 0 none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  color: #000;
+  width: 30px;
+  height: 30px;
+  margin: 0 8px;
+  font-size: 20px;
+  display: inline-block;
+  padding: 2px 7px;
+  cursor: pointer;
+}
+
+.register-box .registerButtonSubmit{
+    margin: 10px 0;
+    text-align: center;
+}
+.register-box .registerButtonSubmit button{
+  color: #FFF;
+  background-color: #84bd00;
+  border: 0px solid #000;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  line-height: 18px;
+  font-size: 14px;
+  padding: 10px 65px;
+}
+
+.register-box .terms {
+  text-align: center;
+  font-size: 10px;
+  color: white;
+}
+.register-box .terms a{
+  font-weight: bold;
+  color: white;
+}
+.register-box .terms a:hover{
+  color: #0083fb;
+}
+
+#confirmReg{
+  color: #50616D;
+  margin-top: 50px;
+  text-align: center;
+}
+/* End of register box */
+body {
+  background-image: url("https://civilhub.org/media/filer_public/52/34/52347e19-aceb-4b03-9948-6d3b7a15ace3/homepage_e_bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-attachment:fixed;
+}
+.home_e_center_wrapper {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 560px;
+  top: 50%;
+  margin-top: -280px; 
+}
+.home_e_logo {
+  position: absolute;
+  top: 15px;
+  left: 20%;
+  width: 210px;
+  height: 31px;
+  background-image: url('https://civilhub.org/static/places_core/img/logo-Home.png');
+  background-size: contain;
+}
+.home_e_main_text {
+  text-align: center;
+  position: relative;
+}
+.home_e_main_text h1{
+  color: white;
+  font-size: 50px;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
+}
+.home_e_main_text h2{
+  color: white;
+  font-size: 40px;
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
+}
+/* lang selector */
+.lang-selector-wrapper {
+  position: absolute;
+  bottom: 25px;
+  left: 18%;
+}
+#lang-selector {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+#lang-selector a {
+  color: white;
+}
+#lang-selector img {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+}
+#popover-lang-list {
+  display: none;
+}
+
+#lang-list .soon{ 
+  color: #0582f7;
+  font-size: 9px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  text-align: center;
+  border: 1px solid rgba(192,199,205,0.3);
+  padding: 0 2px;
+  margin-left: 2px;
+  float: right;
+  position: absolute;
+  right: 5px;
+}
+#lang-list .selected a:after {
+  content: "";
+  display: block;
+  width: 13px;
+  height: 12px;
+  background-image: url("/static/places_core/img/check.png");
+  position: absolute;
+  right: 5px;
+  margin-top: -14px;
+}
+
+.popover-content {
+  padding: 9px 0;
+}
+ul {
+  padding: 0;
+  margin: 0;
+}
+#lang-list li {
+  display: block;
+  margin: 0;
+}
+#lang-list a {
+  width: 175px;
+  position: relative;
+  display: block;
+  line-height: 1em;
+  padding: 8px 15px;
+  color: #6f7c82;
+  font-weight: 500;
+  /* margin: 0px 15px 0px 0px; */
+}
+#lang-list li:hover {
+    color:#0083fb;
+    background: rgba(255,255,255,0.5);
+    background: #F4F4F4;
+}
+#lang-list:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+} 
+#lang-list:last-child {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.login-Home p {
+  color: white;
+}
+/* media queries */ 
+@media screen and (max-width: 1300px){
+  .home_e_brief {
+    right: 36%;
+  }
+}
+@media screen and (max-width: 805px){
+   .home_e_center_wrapper {
+    height: 520px;
+    margin-top: -260px; 
+   }
+  .home_e_brief {
+    right: 40%;
+  }
+  .home_e_main_text h1 {
+    font-size: 28px;
+  }
+  .home_e_main_text h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+}
+@media screen and (max-width: 500px){
+  .home_e_main_text h1 {
+    font-size: 24px;
+  }
+  .home_e_main_text h2 {
+    font-size: 18px;
+  }
+}
+
+/* retina */
+@media 
+  (-webkit-min-device-pixel-ratio: 2), 
+  (min-resolution: 192dpi) {
+  body {
+        background-image: url('https://civilhub.org/media/filer_public/2a/62/2a62ff09-16ae-484e-a152-a9296661bdc6/homepage_e_bg2x.jpg');
+    }
+  .home_e_logo {
+    background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
+  }
+}
+</style>
+<div class="fort-top"></div>
+<header>
+  <a href="/"><div class="home_e_logo"></div></a>
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
   <div class="login-Home"><a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a></div>
-  <div class="content_box-Home">
+</header>
+
+<div class="home_e_center_wrapper">
+  <div class="home_e_main_text">
     <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-    <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better place." %}</h2><br>
-    <a href="{% url 'user:register' %}"><p class="alink-home antimanA">{% trans "Sign up" %}</p></a>
+    <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better place." %}</h2>
   </div>
-  <div class="footerLang footer">   
+
+    <div class="register-box">
+      <h1>{% trans "Create a new account" %}</h1>
+      <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">{% csrf_token %}
+        <div class="form">
+        <div class="form-group">
+          <div class="col-xs-6">
+            <input id="name" class="short short-left form-control{% if form.errors.first_name %} error-popover" data-content="{% for error in form.errors.first_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="first_name" placeholder="{% trans "First name" %}" value="{{ form.first_name.value|default_if_none:"" }}"></div>
+          <div class="col-xs-6">
+            <input id="surname" class="short form-control{% if form.errors.last_name %} error-popover" data-content="{% for error in form.errors.last_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="last_name" placeholder="{% trans "Surname" %}" value="{{ form.last_name.value|default_if_none:"" }}">
+          </div>
+        </div>
+        <div class="form-group">
+          <input id="email" class="long form-control{% if form.errors.email %} error-popover" data-content="{% for error in form.errors.email %}{{ error }}{% endfor %}"{% else %}"{% endif %} type="text" name="email" placeholder="{% trans "Your email" %}" value="{{ form.email.value|default_if_none:"" }}">
+        </div>
+        <div class="form-group">
+          <input id="pass1" class="long form-control{% if form.errors.password1 %} error-popover" data-content="{% for error in form.errors.password1 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password1" placeholder="{% trans "Create a password" %}">
+        </div>
+        <div class="form-group">
+          <input id="pass2" class="long form-control{% if form.errors.password2 %} error-popover" data-content="{% for error in form.errors.password2 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password2" placeholder="{% trans "Repeat password" %}">
+        </div>
+        </div>
+        <div class="registerButtons">
+          <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+          <a class="twitter-btn" href="{% url 'social:begin' 'twitter' %}" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>   
+          <a class="linkedin-btn" href="{% url 'social:begin' 'linkedin' %}"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+          <a class="google-btn" href="{% url 'social:begin' 'google-plus' %}"><span class="fa fa-google-plus"></span></a>
+        </div>
+        <div class="registerButtonSubmit">
+          <button id="signup_button" type="submit" class="long signup-button antiman">{% trans "Sign up" %}</button>
+        </div>
+        <p class="terms">{% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.</p>
+      </form>
+    </div><!--end of register box -->
+</div><!--end of home_e_center_wrapper -->
+
+<div class="footerLang footer">   
     <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
       <input type="text" name="next" value="{{ request.path }}" />
       <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
@@ -33,15 +338,7 @@ window.GOOGLE_DATA = {
       </div>
     </div>
   </div>
-  <div class="footer-Home">
-    <ul>
-      <li><a href="http://maciejmargas.pl/" target="_blank" rel="nofollow">{% trans "About movie" %}</a></li>
-      <li><a href="/terms/">{% trans "Terms of Use" %}</a></li>
-      <li><a href="/privacy/">{% trans "Privacy Policy" %}</a></li>
-      <li><a href="#"><div class="mute_bg"><div class="volume float_left"></div><div class="tubular-mute">&nbsp;{% trans "Mute" %}</div></div></a></li>
-    </ul>
-  </div>
-</div>
+
 {% endblock %}
 {% block footer %}
   {% include 'places_core/script-templates/flash-msg-tpl.html' %}
@@ -50,4 +347,6 @@ window.GOOGLE_DATA = {
   {% include 'places_core/sublocation-dropdown.html' %}
   {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
   {% include 'places_core/google-analytics.html' %}
+{% endblock %}
+
 {% endblock %}

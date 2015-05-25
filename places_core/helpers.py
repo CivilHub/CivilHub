@@ -16,6 +16,14 @@ from django.core.files import File
 from django.utils import timezone, translation
 
 
+def round_to_ten(n):
+    n = int(n)
+    if n % 10 <= 5:
+        return (n / 10) * 10
+    else:
+        return ((n + 10) / 10) * 10
+
+
 def get_time_difference(period):
     """
     A small helper that converts the day/year/month onto a datetime in python.
@@ -47,7 +55,7 @@ def sanitizeHtml(value, base_url=None):
     """
     Allow only whitelisted tags. I have changed this method slightly to allow
     defining tag whitelist in project's settings module.
-    
+
     @see: http://stackoverflow.com/questions/16861/sanitising-user-input-using-python/25136#25136
     """
     rjs = r'[\s]*(&#x.{1,7})?'.join(list('javascript:'))
@@ -88,17 +96,17 @@ def truncatesmart(value, limit=40):
 
     # Make sure it's unicode
     value = unicode(value)
-    
+
     # Return the string itself if length is smaller or equal to the limit
     if len(value) <= limit:
         return value
-    
+
     # Cut the string
     value = value[:limit]
-    
+
     # Break into words and remove the last
     words = value.split(' ')[:-1]
-    
+
     # Join the words and return
     return ' '.join(words) + '...'
 
@@ -109,7 +117,7 @@ def truncatehtml(string, length, ellipsis='...'):
     output_length = 0
     i = 0
     pending_close_tags = {}
-    
+
     while output_length < length and i < len(string):
         c = string[i]
 
@@ -125,14 +133,14 @@ def truncatehtml(string, length, ellipsis='...'):
                 if match:
                     tag = match.groups()[0]
                     i += match.end()
-  
+
                     # save the end tag for possible later use if there is one
                     match = re.search(r'(</' + tag + '[^>]*>)', string[i:], re.IGNORECASE)
                     if match:
                         pending_close_tags[i + match.start()] = match.groups()[0]
                 else:
                     output_length += 1 # some kind of garbage, but count it in
-                    
+
         elif c == '&':
             # possible character entity, we need to skip it
             i += 1
@@ -144,13 +152,13 @@ def truncatehtml(string, length, ellipsis='...'):
             output_length += 1
         else:
             # plain old characters
-            
+
             skip_to = string.find('<', i, i + length)
             if skip_to == -1:
                 skip_to = string.find('&', i, i + length)
             if skip_to == -1:
                 skip_to = i + length
-                
+
             # clamp
             delta = min(skip_to - i,
                         length - output_length,
@@ -158,7 +166,7 @@ def truncatehtml(string, length, ellipsis='...'):
 
             output_length += delta
             i += delta
-                        
+
     output = [string[:i]]
     if output_length == length:
         output.append(ellipsis)
@@ -196,8 +204,8 @@ class SimplePaginator(object):
     A simple result paginator of queries presented in JSON format. This
     class was created with the use of views not served by Django REST
     Server in mind.
-    It takes 2 mandatory parameters - queryset to filter and total number of 
-    items to display per one page.   
+    It takes 2 mandatory parameters - queryset to filter and total number of
+    items to display per one page.
     """
     queryset = None
     per_page = 0
@@ -278,9 +286,9 @@ class TagFilter(ContentFilter):
 
 def process_background_image(imgfile, dirname=None):
     """
-    Scales image. This images are then used as background for location and 
-    profile pages. 
-    
+    Scales image. This images are then used as background for location and
+    profile pages.
+
     Function takes image file (usually from request.FILES['file']) as argument
     and changes it's size and name. If `dirname` is provided as path relative
     to MEDIA_ROOT settings, image will be saved on this path. If not ,`img`

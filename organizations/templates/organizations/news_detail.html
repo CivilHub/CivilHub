@@ -9,7 +9,7 @@
 <meta property="og:image" content="https://civilhub.org{{ news.image.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url " content="https://civilhub.org{{ news.get_absolute_url }}" />
-<meta property="og:description" content="{{ news.content|striptags|slice:":100" }}..."/>
+<meta property="og:description" content="{{ news.content|striptags|slice:":153" }}..."/>
 <meta property="article:author" content="https://civilhub.org{{ news.author.profile.get_absolute_url }}" />
 <meta name="keywords" content="{{ news }}">
 {% for tag in news.tags.all %}<meta property="article:tag" content="{{ tag }}">{% endfor %}

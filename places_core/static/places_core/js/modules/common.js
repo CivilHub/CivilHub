@@ -37,17 +37,13 @@ $('.custom-static-pagination').pagination({
 });
 
 // textarea increases the height
-$('textarea').keypress(function (e) {
-  // check if user pressed 'Enter'
-  if (e.which == 13) {
-    // get control object to modify further
-    var control = e.target;
-    // get existing 'Height' of pressed control
-    var controlHeight = $(control).height();
-    // add some height to existing height of control, I chose 17
-    // as my line-height was 17 for the control.
-    $(control).height(controlHeight + 17);
-  }
+$.each($('textarea'), function() {
+  var offset = this.offsetHeight - this.clientHeight;
+
+  var resizeTextarea = function(el) {
+    $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+  };
+  $(this).on('keyup input', function() { resizeTextarea(this); });
 });
 
 // Common simple scripts.

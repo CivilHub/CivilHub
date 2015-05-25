@@ -182,7 +182,7 @@ class ProjectPictureForm(forms.ModelForm):
         }
 
 
-MAX_FILE_SIZE = 4 # In megabytes
+MAX_FILE_SIZE = 8 # In megabytes
 
 class AttachmentUploadForm(forms.ModelForm):
     """ Upload attachment files for projects.

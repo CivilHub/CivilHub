@@ -82,7 +82,7 @@ class MyActionsSerializer(serializers.Serializer):
             return u''
 
     def serialize_selected_object(self, content_type, instance):
-        """ 
+        """
         Factory method to get serialized data for passed objects. It use's
         basic serializers if possible.
         """
@@ -128,7 +128,7 @@ class MyActionsSerializer(serializers.Serializer):
             if obj.verb == 'commented':
                 return '{} <a href="{}">{}</a>'.format(
                                         truncatehtml(obj.data['comment'], 140),
-                                        obj.data['comment_url'], 
+                                        obj.data['comment_url'],
                                         _("More"))
             elif obj.verb == 'voted on':
                 if obj.data['vote']:
@@ -162,7 +162,7 @@ class MyActionsSerializer(serializers.Serializer):
                 return u''
         except Exception:
             return u''
-        
+
     def get_action_object(self, obj):
         try:
             ct = obj.action_object_content_type
@@ -170,7 +170,7 @@ class MyActionsSerializer(serializers.Serializer):
             return self.serialize_selected_object(ct, target)
         except Exception:
             return {}
-            
+
     def get_action_target(self, obj):
         try:
             ct = obj.target_content_type
@@ -178,7 +178,7 @@ class MyActionsSerializer(serializers.Serializer):
             return self.serialize_selected_object(ct, target)
         except Exception:
             return {}
-    
+
     def get_actor_data(self, obj):
         """ WARNING: we assume that every actor is user instance!!!. """
         user = User.objects.get(pk=obj.actor_object_id)
@@ -196,7 +196,7 @@ class BasicSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
     name = serializers.CharField(source='__unicode__')
     url = serializers.Field(source='get_absolute_url')
-    
+
     class Meta:
         abstract = True
 
@@ -298,10 +298,10 @@ class NewsSerializer(ImagableModelSerializer, serializers.ModelSerializer):
     tags = serializers.SerializerMethodField('get_tags')
     comment_count = serializers.SerializerMethodField('get_comment_count')
     comment_meta = serializers.SerializerMethodField('get_comment_meta')
-    
+
     class Meta:
         model = News
-        fields = ('id', 'title', 'slug', 'link', 'content', 'date_created', 
+        fields = ('id', 'title', 'slug', 'link', 'content', 'date_created',
                   'date_edited', 'username', 'user_id', 'avatar', 'location',
                   'category', 'category_url', 'edited', 'tags', 'comment_count',
                   'user_full_name', 'creator_url', 'comment_meta', 'image',)
@@ -385,6 +385,7 @@ class CommentSerializer(serializers.ModelSerializer):
     username = serializers.Field(source='user.profile.clean_username')
     user_full_name = serializers.Field(source='user.get_full_name')
     avatar = serializers.Field(source='user.profile.avatar.url')
+    ngo_list = serializers.SerializerMethodField('get_ngo_list')
     content_type = serializers.PrimaryKeyRelatedField()
     object_pk = serializers.Field()
     replies = serializers.Field(source='get_reply_comments')
@@ -396,8 +397,20 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomComment
         fields = ('id', 'comment', 'submit_date', 'user', 'parent', 'username',
-                  'avatar', 'content_type', 'object_pk', 'replies',
+                  'avatar', 'content_type', 'object_pk', 'replies', 'ngo_list',
                   'total_votes', 'upvotes', 'downvotes', 'user_full_name', 'ct',)
+
+    def get_ngo_list(self, obj):
+        ngo = {'count': 0, 'items': [], }
+        if obj.user.is_anonymous():
+            return ngo
+        ngo['count'] = obj.user.organizations.count()
+        for org in obj.user.organizations.all():
+            ngo['items'].append({
+                'id': org.pk,
+                'name': org.name,
+                'url': org.get_absolute_url(), })
+        return ngo
 
     def get_contenttype(self, obj):
         return ContentType.objects.get_for_model(CustomComment).pk
@@ -494,9 +507,9 @@ class DiscussionSerializer(ImagableModelSerializer, serializers.ModelSerializer)
 
 
 class DiscussionReplySerializer(serializers.ModelSerializer):
-    """ 
+    """
     This is serializer to use in dynamically created list under
-    discussion - e.g. list of other user's replies. 
+    discussion - e.g. list of other user's replies.
     """
     id = serializers.Field(source='pk')
     content = serializers.CharField()

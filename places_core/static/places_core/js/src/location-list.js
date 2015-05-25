@@ -95,7 +95,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           if (resp.followed) {
             followButton
               .addClass('btn-unfollow-location')
-              .text(gettext('You are following') + ' ' + name);
+              .text(gettext('Stop following') + ' ' + name);
           } else {
             followButton
               .addClass('btn-follow-location')
@@ -105,7 +105,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
           followButton.on('click', function (e) {
             var $this = $(e.currentTarget);
             fb.followRequest($this.attr('data-target'), function (response) {
-              var txt = response.following ? gettext('You are following')
+              var txt = response.following ? gettext('Stop following')
                                            : gettext('Follow');
               $this.text(txt + ' ' + name)
                 .toggleClass('btn-follow-location')

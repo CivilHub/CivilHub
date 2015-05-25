@@ -1,5 +1,32 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<h1>{{ title }} {{ filter_object }}</h1>
-<ul>{% for guide in object_list %}
-  <li><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></li>
-{% endfor %}</ul>{% endblock %}
+{% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
+{% block content %}
+<div class="col-sm-12 main-content">
+<div class="guides-category {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}">
+  <h2 class="mt0 mb0 text-center">{{ title }} {{ filter_object }} <small class="ml30"><a href="{% url 'guides:create' location.slug %}" class="custom-tooltip-right" title="{% trans "Create guide" %}"><span class="fa fa-plus text-danger"></span></a></small></h2>
+    <div class="icon {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
+  </div>
+  <div class="mb20 clearfix text-center"><h4>{{ filter_object.description }}</h4></div>
+  <div class="container-fluid p-reset">
+    {% for guide in object_list %}
+    {% if guide.status == 2 %}
+    <div class="col-sm-12 main-content p-reset">
+      <div class="container-fluid p-reset">
+        <div class="col-sm-8 {% if filter_object.pk < 5 %}br_br-{{ filter_object.pk }}{% else %}br_br-pk{% endif %}">
+          <h3 class="mt0"><strong><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></strong></h3>
+          <div>{{ guide.content|safe|truncatechars:"200"|striptags }}</div>
+        </div>
+        <div class="col-sm-2 col-md-3">
+          {% for tag in guide.tags.all %}
+            <a href="{% url 'guides:list-filter-tag' guide.location.slug tag.pk %}">#{{ tag }}</a>
+          {% endfor %}
+        </div>
+        <div class="guides-by-category {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %}">
+          <div class="small_icon {% if filter_object.pk < 5 %}c_c-{{ filter_object.pk }}{% else %}c_c-pk{% endif %} text-center"><a href="{{ guide.get_absolute_url }}"><span class="fa fa-arrow-right"></span></a></div>
+        </div>
+      </div>
+    </div>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

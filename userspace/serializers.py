@@ -127,6 +127,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     """
     profile = serializers.SerializerMethodField('get_profile_data')
     full_name = serializers.Field(source='get_full_name')
+    organizations = serializers.SerializerMethodField('list_organizations')
 
     def get_profile_data(self, obj):
         if obj.is_anonymous():
@@ -134,11 +135,23 @@ class UserDetailSerializer(serializers.ModelSerializer):
         serializer = UserProfileSerializer(obj.profile)
         return serializer.data
 
+    def list_organizations(self, obj):
+        ngo = {'count': 0, 'items': [], }
+        if obj.is_anonymous():
+            return ngo
+        ngo['count'] = obj.organizations.count()
+        for org in obj.organizations.all():
+            ngo['items'].append({
+                'id': org.pk,
+                'name': org.name,
+                'url': org.get_absolute_url(), })
+        return ngo
+
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'full_name',
                   'email', 'is_superuser', 'date_joined', 'last_login',
-                  'profile',)
+                  'profile', 'organizations', )
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -35,6 +35,53 @@ img.ngo-logo-img{
   }
 }
 
+/*
+1 - Associations
+2 - Fundation
+3 - tree
+*/
+.fa-ngo-icon-1::before{
+  content: "\f209";
+  font-size: 22px;
+}
+.fa-ngo-icon-2::before{
+  content: "\f19c";
+  font-size: 16px;
+}
+.fa-ngo-icon-3::before{
+  content: "\f1bb";
+}
+
+.ngo-logo-box{
+  max-width: 215px;
+  min-height: 65px;
+  line-height: 62px;
+  border: 1px solid #DEDEDE;
+  .bg-nor-cen-con;
+  background-size: cover;
+  .border-radius(4px);
+  position: relative;
+  @media(max-width: 768px){ margin: 0 auto; }
+}
+
+.ngo-entry{
+  border-bottom: 1px solid #DEDEDE;
+  padding: 15px 0;
+  &:last-child{ padding: 15px 0 0; border-bottom: 0px none; }
+}
+
+ @media(min-width: 991px){
+  .col-same-height{
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+    float: none;
+  }
+  .col-table{
+    display: table;
+  }
+}
+
 //new sublocations
 //HELPERS
 .n-top-heading-spage{

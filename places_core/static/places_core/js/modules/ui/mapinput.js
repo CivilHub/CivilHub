@@ -8,28 +8,28 @@
 require(['jquery', 'leaflet'],
 
 function ($, L) {
-        
+
 "use strict";
 
 $.fn.mapinput = function (options) {
 
   var defaults = {
-      center     : [0, 0],
-      zoom       : 2,
-      maxZoom    : 18,
-      width      : 300,
-      height     : 300,
-      single     : true,
-      markers    : [],
-      maxMarkers : 10,
-      onchange   : null,
-      onexceed   : null,
-      ondelete   : null,
-      onclear    : null,
-      iconPath   : 'default',
-      exceedMsg  : "Maximum number of markers exceeded. Remove some to add more",
-      tileUrl    : 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw',
-      attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    center     : [0, 0],
+    zoom       : 2,
+    maxZoom    : 18,
+    width      : 300,
+    height     : 300,
+    single     : true,
+    markers    : [],
+    maxMarkers : 10,
+    onchange   : null,
+    onexceed   : null,
+    ondelete   : null,
+    onclear    : null,
+    iconPath   : 'default',
+    exceedMsg  : "Maximum number of markers exceeded. Remove some to add more",
+    tileUrl    : 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw',
+    attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
   };
 
   var opts = $.extend(defaults, options);
@@ -53,14 +53,14 @@ $.fn.mapinput = function (options) {
       this.$el.append($map);
 
       // Fix marker icon image path in case that auto-detect not working
-      
+
       if (opts.iconPath !== 'default')
         L.Icon.Default.imagePath = opts.iconPath;
 
       // Create Leaflet map
 
       this.map = L.map(elId).setView(opts.center, opts.zoom);
-        L.tileLayer(opts.tileUrl, {
+      L.tileLayer(opts.tileUrl, {
         attribution: opts.attribution,
         maxZoom: opts.maxZoom
       }).addTo(this.map);
@@ -98,7 +98,7 @@ $.fn.mapinput = function (options) {
 
       if (opts.onchange !== null && typeof(opts.onchange === 'function')) {
         // Common change event to fire on every occasion
-        opts.onchange({'lat': lat, 'lng': lng}, this.markers);
+        opts.onchange({ lat: lat, lng: lng }, this.markers);
       }
     },
 
@@ -131,8 +131,8 @@ $.fn.mapinput = function (options) {
 
       if (opts.ondelete !== null && typeof(opts.ondelete === 'function')) {
         opts.ondelete({
-          'lat': marker.getLatLng().lat,
-          'lng': marker.getLatLng().lng
+          lat: marker.getLatLng().lat,
+          lng: marker.getLatLng().lng
         }, this.markers);
       }
 
@@ -141,8 +141,8 @@ $.fn.mapinput = function (options) {
       if (opts.onchange !== null && typeof(opts.onchange === 'function')) {
         // Common change event to fire on every occasion
         opts.onchange({
-          'lat': marker.getLatLng().lat,
-          'lng': marker.getLatLng().lng
+          lat: marker.getLatLng().lat,
+          lng: marker.getLatLng().lng
         }, this.markers);
       }
     }

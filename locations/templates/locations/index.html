@@ -26,7 +26,7 @@
 </style>
 <nav id="location-chain-menu" class="navbar navbar-default" role="navigation">
 <div class="container">
-<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
+<div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 
     <ul class="nav navbar-nav">
         <li class="first-indicator"><a href="/places/"><div class="maker-globe-point"></div></a></li>
@@ -44,28 +44,32 @@
         </li>
         {% endif %}
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="{% url 'locations:followers' location.slug %}" id="tour-Followers" class="lfollowers">{% trans "Followers" %}</a></li>
+      <li><a href="{% url 'locations:sublocations' location.slug %}" id="tour-Subspaces" class="lsubspaces">{% trans "Subspaces" %}</a></li>
+    </ul>
 
 </div>
 </div>
 </nav>
 <div class="location-logo">
-    <div class="container" style="height: 100%; position: relative;">
+    <div class="container">
         <div class="title-container">
-            <div class="location-name-title" id="tour-location-name"><h1>{{ location }}</h1></div>
-            {% comment %}<div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>{% endcomment %}
+            <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
+            <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
 
         {% if user in location.users.all %}
-            <button type="button" class="loc-fllw-btn btn-unfollow-location" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+            <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
         {% else %}
-            <button type="button" class="loc-fllw-btn btn-follow-location" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            <button type="button" class="loc-fllw-btn btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
         {% endif %}
 
         </div>
 
-        {% if user.is_superuser or is_moderator %}<a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
-        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>{% endif %}
+        {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
+        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>
         {% if user.is_superuser %}<a class="change-background-btn" href="{% url 'civmail:followers-message' location.pk %}">{% trans "Send message to followers" %}</a>
-        <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}
+        <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}</div>{% endif %}
 
     </div>
 </div>

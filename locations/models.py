@@ -214,6 +214,15 @@ class Location(models.Model, BackgroundModelMixin):
         verbose_name = _(u"location")
         verbose_name_plural = _(u"locations")
 
+    @property
+    def get_country(self):
+        if self.kind == 'country':
+            return self
+        try:
+            return Location.objects.get(kind='country', pk__in=self.get_parents)
+        except Location.DoesNotExist:
+            return None
+
     def country_name(self):
         """ Get location's country name. """
         try:
@@ -288,7 +297,6 @@ class Location(models.Model, BackgroundModelMixin):
             if self.parent.parent is not None:
                 self.parent.parents(parents)
         return parents
-
 
     def get_ancestor_chain(self, ancestors=None, response='JSON'):
         """

@@ -1,0 +1,27 @@
+{% load i18n %}<div class="vote-form">
+  <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}">
+    <h2 class="counter">{{ idea.vote_set.count }}</h2>
+    <p>{% trans "Total vote"%}</p>
+  </div>
+  <div class="ivotes text-center col-md-6 col-sm-12 mb20">
+    <h2 class="note">{{ idea.note }}</h2>
+    <p>{% trans "Positive votes"%}</p>
+  </div>
+  <div class="vote-controls text-center ibutton-share">
+    <p class="mb20">
+      <button data-target-id="{{ idea.pk }}"
+      data-vote="{% if voted_up %}revoke{% else %}up{% endif %}"
+      class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}"
+      data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"
+      rel='tooltip'>{% if voted_up %}{% trans "Revoke" %}{% else %}{% trans "Vote YES" %}{% endif %}</button>
+    </p>
+    <p class="mb20">
+      <button data-target-id="{{ idea.pk }}"
+      data-vote="{% if voted_no %}revoke{% else %}down{% endif %}"
+      class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn {% if user.is_anonymous %} civil-login-required{% endif %}"
+      data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"
+      rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Vote NO" %}{% endif %}</button>
+    </p>
+    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
+  </div>
+</div>

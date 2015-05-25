@@ -1,0 +1,4 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<ul>{% for attachment in object_list %}
+  <li><a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a></li>
+{% endfor %}</ul>{% endblock %}

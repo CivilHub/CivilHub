@@ -1,16 +1,17 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles i18n civil_tags %}
-
+{% block require_scripts %}<script src="{% module_path 'search' %}"></script>{% endblock %}
 {% block content %}
 <div class="search-page row">
     <form method="get" action=".">
         <div class="col-lg-3">
-
             <div class="search-form custom-main-search">
-                {{ form }}
+                <label for="{{ form.q.id_for_label }}">{% trans "Search" %}</label>
+                {{ form.q }}
+                <label for="{{ form.models.id_for_label }}">{% trans "Search in" %}</label>
+                {{ form.models }}
                 <div class="button-holder form-group"><input type="submit" class="submit-button" value="{% trans 'Search' %}" ></div>
             </div>
-
         </div>
 
         <div class="main-content col-lg-6">
@@ -61,7 +62,7 @@
                     {% endif %}
 
                 {% empty %}
-                    <p>No results found.</p>
+                    <p>{% trans "No results found" %}.</p>
                 {% endfor %}
                 </ul>
 

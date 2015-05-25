@@ -1,0 +1,37 @@
+{% load i18n %}
+{% if user.is_anonymous %}<div class="modal fade" id="login-modal">
+  <div class="login-page">
+  <div class="login-form modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <h1 class="login-form-header row">{% trans "Sign In" %}</h1>
+    <div class="login-form-body">
+      <div class="login-social row">
+        <a class="facebook-button" href="/login/facebook/?next={{ request.path }}">{% trans "Connect with Facebook" %}</a>
+        <a class="twitter-button" href="/login/twitter/?next={{ request.path }}">{% trans "Connect with Twitter" %}</a>
+        <a class="linkedin-button" href="/login/linkedin/?next={{ request.path }}">{% trans "Connect with Linkedin" %}</a>
+        <a class="google-button" href="/login/google-plus/?next={{ request.path }}">{% trans "Connect with Google+" %}</a>
+      </div>
+      <div class="input-section row">
+        <form class="form-horizontal" method="post" action="{% url 'user:login' %}?next={{ request.path }}">{% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <div class="form-group">
+            <label for="modal_login_email" class="control-label sr-only">{% trans "Email" %}</label>
+            <div class="col-sm-12">
+              <input class="form-control" type="email" name="email" id="modal_login_email" placeholder="{% trans "Email" %}">
+            </div>
+          </div>
+          <div class="form-group mb0">
+            <label for="modal_login_email" class="control-label sr-only">{% trans "Password" %}</label>
+            <div class="col-sm-12">
+              <input class="form-control" type="password" name="password" id="modal_login_password" placeholder="{% trans "Password" %}">
+            </div>
+          </div>
+          <button type="submit" class="submit-button">{% trans "Login" %}</button>
+        </form>
+        <a href="{% url 'user:passreset' %}">{% trans "Forgot password" %}</a> | 
+        <a href="{% url 'user:register' %}">{% trans "Don't have account" %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>{% endif %}

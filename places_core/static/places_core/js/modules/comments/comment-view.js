@@ -34,11 +34,13 @@ var CommentView = Backbone.View.extend({
   },
 
   render: function () {
-    // adds a tooltip for voting under each comment
-    $('.comment-meta-options').find('a').tooltip();
 
     // Displays the current comment
     this.$el.html(this.template(this.model.toJSON()));
+
+    // adds a tooltip for voting under each comment
+    // Yes, but why before this element is created? :)
+    $('.comment-meta-options').find('a').tooltip();
 
     // Vote YES
     this.$el.find('.vote-up-link').click(function (e) {
@@ -104,7 +106,26 @@ var CommentView = Backbone.View.extend({
       );
     }.bind(this));
 
+    // NGO members
+    var ngo = this.model.get('ngo_list');
+    if (!_.isUndefined(ngo) && ngo.count > 0) {
+      $('<div class="text-center avatarViewIMG"><small class="fa fa-bank green ml0"></small></div>')
+        .insertAfter(this.$('.user-avatar'));
+      _.each(ngo.items, function (item) {
+        this.renderBadge(item);
+      }, this);
+    }
+
     return this;
+  },
+
+  renderBadge: function (ngo) {
+    var html = ([
+      '<a href="', ngo.url,
+      '"><span class="badge badge-green badge-btn comment-badge">',
+      ngo.name, '</span></a>'
+    ]).join('');
+    $(html).insertAfter(this.$el.find('.comment-date-from-now'));
   },
 
   editComment: function () {
@@ -184,7 +205,8 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
       var model = new CommentModel({
         comment: $form.find('textarea').val(),
-        parent: this.model.get('id')
+        parent: this.model.get('id'),
+        ngo_list: CivilApp.user.organizations
       });
       // We do not allow empty comments
       if (model.get('comment').length <= 0) {

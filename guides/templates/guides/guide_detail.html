@@ -1,14 +1,10 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}
-
-<div class="col-sm-12 main-content">
-  
-
-  {% if object.category %}<div class="guides-category c_usd"><h2 class="mt0 mb0 text-center"><a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ object.category }}</a></h2>
-  <div class="icon c_usd"><span class="fa fa-usd"></span></div>
-</div>
+{% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
+{% block content %}<div class="col-sm-12 main-content">
+  {% if object.category %}<div class="guides-category {% if object.category.pk < 5 %}c_c-{{ object.category.pk }}{% else %}c_c-pk{% endif %}"><h2 class="mt0 mb0 text-center"><a href="{% url 'guides:list-filter-category' object.location.slug object.category.pk %}">{{ object.category }}</a></h2>
+    <div class="icon {% if object.category.pk < 5 %}c_c-{{ object.category.pk }}{% else %}c_c-pk{% endif %}"><span class="fa"></span></div>
+  </div>
 {% endif %}{% if guide_access %}<p><span class="submenu-toggle mt0"></p>{% endif %}
-
   <div class="entry-submenu">
     <ul>
       <li><a href="{% url 'guides:update' object.location.slug object.slug %}">{% trans "Update" %}</a></li>
@@ -16,16 +12,19 @@
       <li><a href="{% url 'guides:editors' object.location.slug object.slug %}">{% trans "Editors" %}</a></li>
     </ul>
   </div>
-<div class="container-fluid">
+<div class="container-fluid p-reset">
   <div class="col-sm-3 ac-right-site">
-    <div class="menu-box">
-      <h3>{% trans "Authors" %}:</h3>
+    <div class="menu-box bbg">
+      <h3>{% trans "Authors" %}</h3>
       <ul class="list-unstyled">{% for author in object.authors.all %}
-        <li class="iauthor-info"><img src="{{ author.profile.avatar.url }}" alt="{{ author.profile }}" class="current-user-avatar60"><a href="{{ author.profile.get_absolute_url }}">{{ author.profile }}</a></li>
+        <li class="icon-list top15"><span class="user-window-toggle" data-target="{{ author.pk }}"><img src="{{ author.profile.avatar.url }}" alt="{{ author.profile }}" class="current-user-avatar60 display-ib-m"></span>
+          <div class="display-ib-m"><a href="{{ author.profile.get_absolute_url }}" class="author btn-block">{{ author.profile }}</a>
+          {% for ngo in author.organizations.all %}<a href="{{ ngo.get_absolute_url }}" class="btn-block mt0"><small>{{ ngo }}{% if not forloop.last %},{% endif %}</small></a>{% empty %}{% endfor %}</div>
+        </li>
       {% endfor %}</ul>
     </div>
-    {% if object.tags.count %}<div class="menu-box tags-n">
-      <h3><span class="fa fa-tags"></span>{% trans "Tags" %}:</h3>
+    {% if object.tags.count %}<div class="menu-box tags-n bbg">
+      <h3>{% trans "Tags" %}</h3>
       <ul class="list-unstyled">{% for tag in object.tags.all %}
         <li class="tag-entry tag-n"><a href="{% url 'guides:list-filter-tag' guide.location.slug tag.pk %}">#{{ tag }}</a></li>
       {% endfor %}</ul>

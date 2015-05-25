@@ -401,14 +401,18 @@ ul {
     </div><!--end of register box -->
   </div><!--end of home_i_center_wrapper -->
 </div><!-- end of home_i_main_wrapper -->
-<div class="lang-selector-wrapper">
-  <div id="lang-selector">
-    <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
-    <div id="popover-lang-list">
-      <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
+<div class="footerLang footer">   
+    <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+      <input type="text" name="next" value="{{ request.path }}" />
+      <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+    </form>
+    <div id="lang-selector">
+      <a><img src="/static/places_core/img/lang/{{ LANG }}.png" />{% trans "Choose language" %}</a>
+      <div id="popover-lang-list">
+        <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
+      </div>
     </div>
   </div>
-</div>
 
 {% endblock %}
 {% block footer %}

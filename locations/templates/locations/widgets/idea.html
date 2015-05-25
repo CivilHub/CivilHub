@@ -1,0 +1,13 @@
+{% load i18n %}<div class="widget-wrapper" style="padding:5px;background:pink">
+  <h2><a href="{{ baseurl }}{{ object.get_absolute_url }}">{{ object }}</a></h2>
+  <p>{% trans "Description" %}:</p>
+  <div>{{ object.description|safe }}</div>
+
+  <p>
+    ups: {{ object.votes_up }}<br>
+    downs: {{ object.votes_down }}<br>
+    coolness: {{ object.note }}
+  </p>
+
+  {% if not object.has_default_image %}<img src="{{ baseurl }}{{ object.thumbnail }}">{% endif %}
+</div>

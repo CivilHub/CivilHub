@@ -66,7 +66,7 @@ Minimap.prototype.setMapInput = function () {
 Minimap.prototype.sendMarkers = function () {
   var mapinput = this.$input.data('mapinput');
   var markers = $.map(mapinput.markers, function (marker) {
-    return {lat: marker.getLatLng().lat, lng: marker.getLatLng().lng};
+    return { lat: marker.getLatLng().lat, lng: marker.getLatLng().lng };
   });
   var data = {
     csrfmiddlewaretoken: utils.getCookie('csrftoken'),

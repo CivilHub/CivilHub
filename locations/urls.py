@@ -23,10 +23,14 @@ router.add_api_view('follow', url(r'^follow/', api.LocationFollowAPI.as_view(), 
 router.add_api_view('contents', url(r'^contents/', api.LocationSummaryAPI.as_view(), name='contents'))
 router.add_api_view('capital', url(r'^capital/', api.CapitalAPI.as_view(), name='capital'))
 router.add_api_view('autocomplete', url(r'^autocomplete/', api.LocationSearchAPI.as_view(), name='autocomplete'))
+router.add_api_view('find-nearest', url(r'^find-nearest/', api.CitySearchAPI.as_view(), name='find-nearest'))
+
 
 urlpatterns = patterns('',
     url(r'^create/', CreateLocationView.as_view(), name='create'),
     url(r'^places/', LocationListView.as_view(), name='index'),
+    url(r'^get-widget/(?P<ct>\d+)/(?P<pk>\d+)/', WidgetFactory.as_view(), name='get-widget'),
+    url(r'^widget/(?P<ct>\d+)/(?P<pk>\d+)/', ServeContentView.as_view(), name='widget'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/remove/', RemoveModeratorView.as_view(), name='remove-moderator'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/', ManageModeratorsView.as_view(), name='manage-moderators'),
     url(r'^(?P<slug>[\w-]+)/$', LocationDetailView.as_view(), name='details'),

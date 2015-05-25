@@ -4,19 +4,20 @@
   <h1>{% trans "Sublocations" %}</h1>
   <h2>{% blocktrans %}List of all sublocations that are inside current location.{% endblocktrans %}<br/>
       {% blocktrans %}Act not only globally, but also on local community like small city, blocks of flats or estates.{% endblocktrans %}</h2>
+  <div class="row">
   {% for sublocation in sublocations %}
-  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
-    <div class="col-sm-3">
+    <div class="col-sm-4 col-md-3">
       <div class="sublocation">
         <img src="{{ sublocation.thumb_url }}" />
         <div class="sublocation-content">
           <a href="{{ sublocation.get_absolute_url }}"><b>{{ sublocation.name }}</b></a>
         </div>
       {% follow_button sublocation %}
+      <div class="followers sprite-icon"><span class="ch-icon ch-followers"></span> {{ sublocation.users.count }}</div>
       </div>
     </div>
-  {% if forloop.counter|divisibleby:4 or forloop.counter == sublocations.count %}</div>{% endif %}
   {% endfor %}
+  </div>
 </div>
 {% if sublocations|length > 5 %}<ul class="pagination">
     {% if sublocations.has_previous %}

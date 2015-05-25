@@ -90,7 +90,7 @@ class Idea(ImagableItemMixin, models.Model):
         elif not self.votes_down:
             note = 100
         else:
-            note = float(self.votes_down) / float(self.votes_up) * 100.0
+            note = float(self.votes_up)/float(self.votes_down+self.votes_up)*100.0
         return "{}%".format(int(note))
 
     def get_votes(self):

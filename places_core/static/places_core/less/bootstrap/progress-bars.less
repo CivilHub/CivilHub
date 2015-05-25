@@ -41,18 +41,26 @@
 }
 
 // Striped bars
-.progress-striped .progress-bar {
+/*.progress-striped .progress-bar {
+  #gradient > .striped();
+  background-size: 40px 40px;
+}*/
+.progress-striped .progress-bar,
+.progress-bar-striped {
   #gradient > .striped();
   background-size: 40px 40px;
 }
 
 // Call animation for the active one
-.progress.active .progress-bar {
+/*.progress.active .progress-bar {
+  .animation(progress-bar-stripes 2s linear infinite);
+}*/
+.progress.active .progress-bar,
+.progress-bar.active {
   .animation(progress-bar-stripes 2s linear infinite);
 }
-
 // Account for lower percentages
-.progress-bar {
+/*.progress-bar {
   &[aria-valuenow="1"],
   &[aria-valuenow="2"] {
     min-width: 30px;
@@ -65,7 +73,7 @@
     background-image: none;
     box-shadow: none;
   }
-}
+}*/
 
 
 

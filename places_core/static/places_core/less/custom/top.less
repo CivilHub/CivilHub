@@ -253,6 +253,24 @@
  
 }
 
+.ngo-icon{
+  background-image: url('../img/small-ngo-icon.png');
+  height: 15px;
+  width: 15px;
+  background-position: 0 0;
+  background-size: cover;
+  display: inline-block;
+  margin-top: 2px;
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi){
+    background-image: url('../img/small-ngo-icon@2x.png');
+  }
+  &:hover{
+    background-position: 0 100%;
+  }
+}
+
 .custom-badge-indicator {
     color: #fff;
     background-color: #ff0000;

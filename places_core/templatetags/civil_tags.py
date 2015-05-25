@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
-import os, json
+import json
+import os
 
 from django.template import Library
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language
 from django.utils.safestring import mark_safe
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.shortcuts import get_current_site
 
+from rest_framework.renderers import JSONRenderer
 from social.apps.django_app.default.models import UserSocialAuth
 
 from maps.models import MapPointer
+from userspace.serializers import UserDetailSerializer
+
+from ..utils import get_current_version
 
 
 register = Library()
@@ -19,6 +26,20 @@ ALLOWABLE_VALUES = (
     "COMMENT_PAGINATOR_LIMIT",
     "SOCIAL_AUTH_FACEBOOK_KEY",
 )
+
+
+@register.simple_tag()
+def version():
+    return get_current_version()
+
+
+@register.simple_tag(takes_context=True)
+def embed_url(context, obj):
+    ct = ContentType.objects.get_for_model(obj)
+    site = get_current_site(context['request'])
+    pref = 'https' if context['request'].is_secure() else 'http'
+    return "{}://{}{}".format(pref, site.domain, reverse('locations:get-widget',
+                            kwargs={'ct': ct.pk, 'pk': obj.pk, }))
 
 
 @register.filter
@@ -54,8 +75,7 @@ def module_path(module='default'):
     url = 'dist'
     if settings.DEBUG:
         url = 'src'
-    return static('places_core/js/%s/%s.js' %(url, module))
-
+    return static('places_core/js/%s/%s.js?V=%s' % (url, module, get_current_version()))
 
 
 @register.simple_tag
@@ -213,3 +233,19 @@ def report_link(obj):
 @register.simple_tag
 def get_verbose_name(object):
     return object._meta.verbose_name.title()
+
+
+@register.simple_tag(takes_context=True)
+def js_userdata(context):
+    """
+    This tag is very useful for passing data of logged-in user into javascript
+    context. It presents vital user info in common JSON syntax.
+    """
+    user = context['user']
+
+    if user.is_anonymous():
+        return "[]"
+
+    serializer = UserDetailSerializer(user)
+
+    return JSONRenderer().render(serializer.data)
