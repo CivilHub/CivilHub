@@ -6,111 +6,132 @@
 
 <div class="clear"></div>
 
-<div class="footer">
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-5 left-side">
-            <a href="/features">{% trans "Feature" %}</a>
-            <a href="/creed">{% trans "Creed" %}</a>
-            <a href="{% url 'articles:blog' %}">{% trans "Blog" %}</a>
-            <a href="/cookies">{% trans "Cookies" %}</a>
-            <a href="/press">{% trans "Press" %}</a>
-            <a href="/jobs">{% trans "Jobs" %}</a>
-        </div>
-
-        <div class="col-md-2">
-            {% if LANG == 'pl' %}
-            <a href="/"><img src="{% static "places_core/img/footer_logo_pl@2x.png" %}" alt="CivilHub" /></a>
-            {% else %}
-            <a href="/"><img src="{% static "places_core/img/footer_logo@2x.png" %}" alt="CivilHub" /></a>
-            {% endif %}
-        </div>
-
-        <div class="col-md-5 right-side">
-            <a href="/support">{% trans "Support" %}</a>
-            <a href="/privacy">{% trans "Privacy Policy" %}</a>
-            <a href="/terms">{% trans "Terms of Use" %}</a>
-            <a href="/team">{% trans "About Us" %}</a>
-            <a href="/contact">{% trans "Contact" %}</a>
-        </div>
-
+<div class="nfooter">
+  <div class="container">
+    <div class="col-sm-2 hidden-xs">
+      <div class="logo-footer">
+        {% if LANG == 'pl' %}
+        <a href="/"><img src="{% static "places_core/img/footer_logo_pl@2x.png" %}" alt="CivilHub" /></a>
+        {% else %}
+        <a href="/"><img src="{% static "places_core/img/footer_logo@2x.png" %}" alt="CivilHub" /></a>
+        {% endif %}
+      </div>
     </div>
+    <div class="col-xs-6 col-sm-3">
+      <p><strong>{% trans "Support" %}</strong></p>
+      <ul class="list-unstyled">
+        <li><a href="/brief/">{% trans "Brief" %}</a></li>
+        <li><a href="/local-communities/">{% trans "Local Communities" %}</a></li>
+        <li><a href="/project-features/">{% trans "About Projects" %}</a></li>
+        <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
+        <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
+        <li><a href="/for-city-administration/">{% trans "For City Administration" %}</a></li>
+        <li><a href="/for-organizations/">{% trans "For your Organization" %}</a></li>
+      </ul>
+    </div>
+    <div class="col-xs-6 col-sm-3">
+      <p><strong>Sekcja</strong></p>
+      <ul class="list-unstyled">
+        <li><a href="/support">{% trans "Support" %}</a></li>
+        <li><a href="/privacy">{% trans "Privacy Policy" %}</a></li>
+        <li><a href="/terms">{% trans "Terms of Use" %}</a></li>
+        <li><a href="/team">{% trans "About Us" %}</a></li>
+        <li><a href="/contact">{% trans "Contact" %}</a></li>
+      </ul>
+    </div>
+    <div class="col-xs-6 col-sm-2">
+      <p><strong>Sekcja</strong></p>
+      <ul class="list-unstyled">
+        <li><a href="/features">{% trans "Feature" %}</a>
+        <li><a href="/creed">{% trans "Creed" %}</a></li>
+        <li><a href="{% url 'articles:blog' %}">{% trans "Blog" %}</a></li>
+        <li><a href="/cookies">{% trans "Cookies" %}</a></li>
+        <li><a href="/press">{% trans "Press" %}</a></li>
+        <li><a href="/jobs">{% trans "Jobs" %}</a></li>
+      </ul>
+    </div>
+    <div class="col-xs-6 col-sm-2">
+      <p><strong>{% trans "About CivilHub" %}</strong></p>
+      <ul class="list-unstyled">
+        <li><a href="/mission">{% trans "Mission" %}</a></li>
+        <li><a href="/team">{% trans "Team" %}</a></li>
+        <li><a href="/creed">{% trans "Creed" %}</a></li>
+        <li><a href="/history-timeline">{% trans "History" %}</a></li>
+        <li><a href="/licence">{% trans "Licence" %}</a></li>
+        <li><a href="/blog">{% trans "Our Blog" %}</a></li>
+        <li><a href="/contact">{% trans "Contact" %}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-    <div class="row  share-buttons">
-
+<div class="bfooter">
+  <div class="container  share-buttons">
 {% endcache %}
-
-        <div class="col-md-3" id="footerDivLang">
-            <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
-                <input type="text" name="next" value="{{ request.path }}" />
-                <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
-            </form>
-            <div id="lang-selector">
-                <a><img src="/static/places_core/img/lang/{{ LANG }}.png" alt="{{ LANG }}"/>{% trans "Choose language" %}</a>
-                <div id="popover-lang-list">
-                    <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
-                </div>
-            </div>
+    <div class="col-md-3" id="footerDivLang">
+      <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
+        <input type="text" name="next" value="{{ request.path }}" />
+        <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />
+      </form>
+      <div id="lang-selector">
+        <a><img src="/static/places_core/img/lang/{{ LANG }}.png" alt="{{ LANG }}"/>{% trans "Choose language" %}</a>
+        <div id="popover-lang-list">
+          <ul id="lang-list" data-current-lang="{{ LANG }}">{% langlist request %}</ul>
         </div>
-
-{% cache 600 footer_bottom LANG %}
-
-        <div class="col-md-8" id="footerDivBut">
-            <!-- Twitter -->
-            <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-            <!-- Facebook -->
-            {% if LANG == 'pl' %}
-                <script>(function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            {% else %}
-                <script>(function(d, s, id) {
-                  var js, fjs = d.getElementsByTagName(s)[0];
-                  if (d.getElementById(id)) return;
-                  js = d.createElement(s); js.id = id;
-                  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-                  fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            {% endif %}
-                <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-
-            <!-- Google 1+ -->
-            <div class="g-plusone" data-size="medium"></div>
-            <script type="text/javascript">
-              window.___gcfg = {lang: 'pl'};
-
-              (function() {
-                var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-                po.src = 'https://apis.google.com/js/platform.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-              })();
-            </script>
-
-        </div>
-
-    </div><!-- /.row -->
-
-    <div class="row">
-        <div class="socialSmallIcon">
-
-            <ul>
-                <li class="youtube"><a href="https://www.youtube.com/user/civilhuborg" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube-play fa-stack-1x fa-inverse"></i></span></a></li>
-                <li class="linkedin"><a href="https://www.linkedin.com/company/civilhub" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li>
-                {% comment %}<li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>{% endcomment %}
-            </ul>
-
-
-        </div>
+      </div>
     </div>
+{% cache 600 footer_bottom LANG %}
+    <div class="col-md-8" id="footerDivBut">
+      <!-- Twitter -->
+      <a href="https://twitter.com/CivilHub_org" class="twitter-follow-button" data-align="right" data-show-count="true">Follow @CivilHub_org</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
-</div><!-- /.container -->
+      <!-- Facebook -->
+      {% if LANG == 'pl' %}
+          <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+      {% else %}
+          <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));</script>
+      {% endif %}
+          <div class="fb-like" data-href="https://civilhub.org" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+
+      <!-- Google 1+ -->
+      <div class="g-plusone" data-size="medium"></div>
+      <script type="text/javascript">
+        window.___gcfg = {lang: 'pl'};
+
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/platform.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+      </script>
+    </div>
+  </div>
+  <div class="container">
+    <div class="socialSmallIcon">
+      <ul>
+        <li class="youtube"><a href="https://www.youtube.com/user/civilhuborg" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-youtube-play fa-stack-1x fa-inverse"></i></span></a></li>
+        <li class="linkedin"><a href="https://www.linkedin.com/company/civilhub" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-linkedin fa-stack-1x fa-inverse"></i></span></a></li>
+        {% comment %}<li class="instagram"><a href="#" target="_blank" rel="nofollow"><span class="fa-stack"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>{% endcomment %}
+      </ul>
+    </div>
+    <div class="by-nc-sa"><a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank"><img src="/static/places_core/img/by-nc-sa.png" alt="Creative Commons Licence"/></a></div>
+  </div>
+
+
+
 
 {% comment %} ~~~~~~~~~~~~~~~~~ JS TEMPLATES ~~~~~~~~~~~~~~~~~ {% endcomment %}
 
@@ -118,8 +139,7 @@
 {% include 'places_core/sublocation-dropdown.html' %}
 {% include 'places_core/user-popup.html' %}
 {% include 'gallery/media-uploader.html' %}
-
-</div><!-- /.footer -->
+</div>
 
 {% comment %} ~~~~Google Analytics code and Quantcast~~~~ {% endcomment %}
 {% include 'places_core/google-analytics.html' %}
