@@ -6,6 +6,7 @@
 
 define(['jquery',
         'underscore',
+        'moment',
         'js/modules/utils/utils'],
 
 function ($, _, utils, CommentModel) {
