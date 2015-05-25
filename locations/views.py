@@ -43,6 +43,7 @@ from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from maps.models import MapPointer
 from notifications.models import notify
+from organizations.forms import NGOSearchForm
 from organizations.models import Organization
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
@@ -768,11 +769,28 @@ class LocationNGOList(LocationContextMixin, DetailView):
     model = Location
     slug_url_kwarg = 'location_slug'
     template_name = 'locations/organization_list.html'
+    form_class = NGOSearchForm
+
+    def get_form(self):
+        self.form =  self.form_class(self.request.GET)
+        return self.form
+
+    def get_ngo_list(self):
+        qs = Organization.objects.filter(locations__in=[self.object, ])
+        form = self.get_form()
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            kind = form.cleaned_data.get('kind')
+        if name:
+            qs = qs.filter(name__icontains=name)
+        if kind is not None:
+            qs = qs.filter(category=kind)
+        return qs.order_by('name').distinct()
 
     def get_context_data(self, **kwargs):
         context = super(LocationNGOList, self).get_context_data()
-        context['object_list'] = Organization.objects.filter(
-                                    locations__in=[self.object, ])
+        context['form'] = self.get_form()
+        context['object_list'] = self.get_ngo_list()
         return context
 
 
