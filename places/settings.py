@@ -34,7 +34,7 @@ LOGGING = loggers.LOGGING
 SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
