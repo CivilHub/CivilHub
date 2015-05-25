@@ -40,7 +40,7 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'logs', 'markers.log'),
         },
         'tracker_tasks': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'tracker.log'),
         },
@@ -68,12 +68,12 @@ LOGGING = {
         },
         'maps': {
             'handlers': ['map_tasks'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
         'tracker': {
             'handlers': ['tracker_tasks'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': False,
         },
     },
