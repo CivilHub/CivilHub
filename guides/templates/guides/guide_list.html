@@ -1,19 +1,36 @@
 {% extends 'locations/index.html' %}{% load i18n %}
 {% block navigation_location %}<div class="location-page-guide">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}
-{% for l in location_set %}
-  {% for guide in l.guides.all %}
-  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row">{% endif %}
-  <div class="col-sm-4">
-    <div class="main-content">
-      <div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
-        <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}">{% if guide.category %}<a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a>{% endif %}</div>
-      </div>
-      {% if guide.category %}<h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>{% endif %}
-      <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
-    </div><!--main-->
-  </div><!--4-->
-  {% if forloop.counter|divisibleby:3 or forloop.counter == guide.count %}</div>{% endif %}
-  {% endfor %}
- {% endfor %}
+
+{% if guides_empty %}
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <div class="no-entries">
+        <img src="/static/places_core/img/civilian.png" alt="Sad Civilian">
+        <h2>
+        {% trans "We didn't find any guides" %} {% trans "in" %} {{ location }}.<br />
+        {% trans "Please" %} {% if user.is_authenticated %}<a href="../create/{{ location.slug }}/">
+        {% else %}<a href="/users/login" >{% endif %}{% trans "add first guide" %}</a>.
+        </h2>
+    </div>
+  </div>
+{% else %}
+
+  {% for l in location_set %}
+    {% for guide in l.guides.all %}
+    {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="row">{% endif %}
+    <div class="col-sm-4">
+      <div class="main-content">
+        <div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
+          <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a></div>
+        </div>
+        <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>
+        <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
+      </div><!--main-->
+    </div><!--4-->
+    {% if forloop.counter|divisibleby:3 or forloop.counter == guide.count %}</div>{% endif %}
+    {% endfor %}
+   {% endfor %}
+{% endif %}
+
 {% endblock %}
