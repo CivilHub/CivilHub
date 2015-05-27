@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+
+from articles.views import TopLevelArticleView
 from staticpages.views import PageView, HomeView
 from userspace.views import UserActivityView
 from places_core.views import FileServeView
@@ -197,7 +199,8 @@ urlpatterns += patterns('',
 
     # Default URL - Do not add anything below!!!
     #url(r'^$', PageView.as_view(page='home')),
-    url(r'^$', HomeView.as_view()),
+    #url(r'^$', HomeView.as_view()),
+    url(r'^$', TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-page.html'), name='home-l'),
 
     #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),
