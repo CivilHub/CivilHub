@@ -13,6 +13,7 @@ require(['jquery',
          'js/modules/common/bookmarks',
          'tour',
          'js/modules/bouncy-navigation/main',
+         'js/modules/notifications/notifications',
          'js/modules/ui/search-toggle'],
 
 function ($, CivilMap) {
