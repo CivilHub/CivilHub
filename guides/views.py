@@ -98,6 +98,8 @@ class GuideListView(LocationContextMixin, View):
     def get(self, request, **kwargs):
         self.location = self.get_current_location()
         context = super(GuideListView, self).get_context_data()
+        if not self.location.guides.count():
+            context['guides_empty'] = True
         context['location_set'] = [self.location, ]
         for parent in self.location.parents():
             if len(parent.guides.filter(status=2)):
