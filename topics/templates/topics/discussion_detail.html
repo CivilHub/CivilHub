@@ -79,7 +79,7 @@
         <div class="entry-content">{{ discussion.intro | safe }}</div>
         <div class="custom-clear">&nbsp;</div>
         <div class="entry-footer">
-          <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+          <a class="quote-reply-link test1"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
           {% if user != discussion.creator and user.is_authenticated %}
             <a href="#" title="{% trans "Report abuse" %}" class="abuse-link" data-ct="{% with discussion|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-pk="{{ discussion.pk }}">
               <span class="fa fa-exclamation-triangle"> </span> {% trans "Report abuse" %}
@@ -106,7 +106,9 @@
             <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }} {% trans "ago" %}
             {% endif %}
           </span>
-          <span class="entry-controls"></span>
+          <span class="entry-controls">
+            <!-- <a class="pull-right" href="{% url 'discussion:delete' %}"><span class="fa fa-remove custom-tooltip-right text-danger" title="{% trans "Delete discussion" %}">&nbsp;</span></a> -->
+          </span>
         </p>
         <div class="entry-content"><p>{{ entry.content | safe }}</p></div>
         <div class="custom-clear">&nbsp;</div>
@@ -198,7 +200,7 @@
       <div class="entry-content"><%= content %></div>
       <div class="custom-clear">&nbsp;</div>
       <div class="entry-footer">
-        <a class="quote-reply-link"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
+        <a class="quote-reply-link class3"><span class="fa fa-comment-o" title="{% trans "Quote" %}"> </span> {% trans "Quote" %}</a>
         {% if user == entry.creator %}
           <span class="entry-vote-count">{{ entry.calculate_votes }}</span> |
           <a href="" class="link-entry-edit" title="{% trans "Edit entry" %}">
