@@ -1216,49 +1216,49 @@
 
 #team-page{
 
-background-image: url('../img/team_background.png');
-background-repeat: no-repeat;
-background-size: cover;
-background-position: center 13%;
-padding-bottom: 40px;
-@media 
-(-webkit-min-device-pixel-ratio: 2), 
-(min-resolution: 192dpi) { 
+  background-image: url('../img/team_background.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center 13%;
+  padding-bottom: 40px;
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
     background-image: url('../img/team_background@2x.png');
-}
+  } }//zamykam #
 .teamSubHeader,
 .teamHeader{
-    text-align: center;
-    margin: 5.5% 0;
+  /*text-align: center; add class*/
+  margin: 5.5% 0;
 
+  h1{
+    font-size: 64px;
+    color: #4d4747;
+    line-height: 32px;
+    /*font-weight: bold; ?? why*/
+  }
+  h3{
+    font-size: 24px;
+    color: #4d4747;
+    /*font-weight: 400; Lato - 500*/
+  }
+  @media(max-width: 768px){
     h1{
-        font-size: 64px;
-        color: #4d4747;
-        line-height: 32px;
-        font-weight: bold;
+      font-size: 50px;
     }
     h3{
-        font-size: 24px;
-        color: #4d4747;
-        font-weight: 400;
+      font-size: 18px;
     }
-    @media(max-width: 768px){
-        h1{
-            font-size: 50px;
-        }
-        h3{
-            font-size: 18px;
-        }
-    }
+  }
 }
 .teamSubHeader {
-    margin: 0 0 4% 0;
+  margin: 0 0 4% 0;
 }
 
-    .teamPeople{
-        width: 100%;
-        margin: 0 auto;
-        text-align: center;
+    /*.teamPeople{ remove in html*/
+       /* width: 100%;
+        margin: 0 auto; remove*/
+        /*text-align: center; add class*/
 
         /*.top-teamPpl{
             display: inline-block;
@@ -1282,159 +1282,160 @@ padding-bottom: 40px;
             }
 
         }*/
-            .top-teamPpl,
-            .pplBox{
-                max-width: 170px;
-                width: 100%;
-                text-align: center;
-                display: inline-block;
-                vertical-align: top;
-                max-height: 190px;
-                margin-bottom: 50px;
+.top-teamPpl,
+.pplBox{
+  max-width: 170px;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  max-height: 190px;
+  margin-bottom: 50px;
+ } //zamykam1
+.pplImage{
+  width: 121px;
+  height: 121px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 2px auto;
 
-                .pplImage{
-                    width: 121px;
-                    height: 121px;
-                    border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                    -moz-border-radius: 50%;
-                    overflow: hidden;
-                    margin: 0 auto 2px auto;
-
-                    img{
-                        max-width: 100%;
-                        height: auto;
-                    }
-                }
-                .pplName{
-
-                    color: #0083fb;
-                    font-size: 14px;
-                    line-height: 18px;
-
-                }
-                .pplPos{
-                    color: #4d4747;
-                    font-size: 14px;
-                    line-height: 18px;
-                    margin-bottom: 2px;
-
-                }
-                .pplSocial{
-
-                    span{
-
-                        .fa-stack-2x{
-                            font-size: 24px;
-                        } 
-                        .fa-stack-1x{
-                            top: -1px;
-                        }
-                    }
-                    .socLinkedin{
-                        color: red;
-                        .fa-stack-2x{
-                            color: #0874b3;
-                        }
-
-
-                    }
-                    .socTwitter{
-                        .fa-stack-2x{
-                            color: #45b0e3;
-                        }
-
-                    }
-                    .socFacebook{
-                        .fa-stack-2x{
-                            color: #3c569c;
-                        }
-
-                    }
-                    .socIconCivilHub{
-                        display: inline-block;
-                        width: 21px;
-                        height: 21px;
-                        margin: 0 4px 0 3px;
-                        position: relative;
-                        top: 5px;
-                        background-image: url(../img/icon-civilhub1.png);
-                        background-repeat: no-repeat;
-                        background-position: center;
-                        background-size: contain;
-                        @media
-                        (-webkit-min-device-pixel-ratio: 2),
-                        (min-resolution: 192dpi){
-                            background-image: url(../img/icon-civilhub1@2x.png);
-                        }
-                    }
-                }
-            }
-
-    }
-    .team_tooltip_heading {
-        color: #0083fb;
-    }
-    a.team_tooltip {
-      position: relative;
-      display: inline;
-    }
-    a.team_tooltip span {
-      color: #4d4747;
-      position: absolute;
-      width: 300px;
-      background: white;
-      border: 1px solid #bfbfbf;
+    /*img{
+      max-width: 100%;
       height: auto;
-      visibility: hidden;
-      border-radius: 4px;
-      text-align: left;
-      padding: 10px;
-    }
-    a.team_tooltip span:before {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -12px;
-      width: 0;
-      height: 0;
-      border-top: 12px solid #bfbfbf;
-      border-right: 12px solid transparent;
-      border-left: 12px solid transparent;
-    }
-    a.team_tooltip span:after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -10px;
-      width: 0; height: 0;
-      border-top: 10px solid #FFFFFF;
-      border-right: 10px solid transparent;
-      border-left: 10px solid transparent;
-    }
-    a:hover.team_tooltip span {
-      visibility: visible;
-      bottom: 145px;
-      left: -38%;
-      z-index: 100;
-    }
-
-    .team_browserstack_logo {
-        display: inline-block;
-        width: 170px;
-        height: 37px;
-        background-image: url("https://civilhub.org/media/filer_public/79/ed/79ed5145-9d5d-4192-aa92-6c1ebee64d76/browserstack_logo.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-            background-image: url("https://civilhub.org/media/filer_public/66/44/6644e6a3-06eb-4aa5-b158-2b0ed4d50c4b/browserstack_logo2x.png");
-        }
-    }
+    }*/
 }
+.pplName{
+
+  color: #0083fb;
+  font-size: 14px;
+  line-height: 18px;
+
+}
+.pplPos{
+  color: #4d4747;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 2px;
+
+}
+.pplSocial{
+
+  span{
+
+    .fa-stack-2x{
+      font-size: 24px;
+    } 
+    .fa-stack-1x{
+      top: -1px;
+    }
+  }
+}//zamykam2
+.socLinkedin{
+  /*color: red; remove*/
+  .fa-stack-2x{
+    color: #0874b3;
+  }
+
+
+}
+.socTwitter{
+  .fa-stack-2x{
+    color: #45b0e3;
+  }
+
+}
+.socFacebook{
+  .fa-stack-2x{
+    color: #3c569c;
+  }
+
+}
+.socIconCivilHub{
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  margin: 0 4px 0 3px;
+  position: relative;
+  top: 5px;
+  background-image: url(../img/icon-civilhub1.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi){
+    background-image: url(../img/icon-civilhub1@2x.png);
+  }
+}
+        //}zamykam2
+      //}zamykam1
+
+   /* } remove teamppl*/
+    /*.team_tooltip_heading {
+        color: #0083fb;
+    } edit class*/
+a.team_tooltip {
+  position: relative;
+  display: inline;
+}
+a.team_tooltip span {
+  color: #4d4747;
+  position: absolute;
+  width: 300px;
+  background: white;
+  border: 1px solid #bfbfbf;
+  /*height: auto; remove*/
+  visibility: hidden;
+  border-radius: 4px;
+  /*text-align: left; add class*/
+  padding: 10px;
+}
+a.team_tooltip span:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -12px;
+  width: 0;
+  height: 0;
+  border-top: 12px solid #bfbfbf;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+}
+a.team_tooltip span:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -10px;
+  width: 0; height: 0;
+  border-top: 10px solid #FFFFFF;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+a:hover.team_tooltip span {
+  visibility: visible;
+  bottom: 145px;
+  left: -38%;
+  z-index: 100;
+}
+
+.team_browserstack_logo {
+  display: inline-block;
+  width: 170px;
+  height: 37px;
+  background-image: url("https://civilhub.org/media/filer_public/79/ed/79ed5145-9d5d-4192-aa92-6c1ebee64d76/browserstack_logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  @media 
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    background-image: url("https://civilhub.org/media/filer_public/66/44/6644e6a3-06eb-4aa5-b158-2b0ed4d50c4b/browserstack_logo2x.png");
+  }
+}
+//} #
 
 //bookmarks Page
 
