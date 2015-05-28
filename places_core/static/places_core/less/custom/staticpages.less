@@ -1440,77 +1440,77 @@ a:hover.team_tooltip span {
 //bookmarks Page
 
 #bookmark-Panel{
-    margin: 4% 0;
-    padding: 25px 25px 0;
-    background-color: #FFF;
-    border: 1px solid #dedede;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
+  margin: 4% 0;
+  padding: 15px 15px 0; //padding: 25px 25px 0;
+  /*background-color: #FFF;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px; add class*/
 
-    .bookmarks-page{
+    /*.bookmarks-page{ remove in html*/
 
-        .bookmarkLabheadling{
-            border-bottom: 1px solid #DEDEDE;
-            margin-left: -25px;
-            margin-right: -25px;
-            margin-top: -25px;
-            padding: 10px 25px;
-            font-size: 16px;
-            line-height: 25px;
+      /*.bookmarkLabheadling{
+          border-bottom: 1px solid #DEDEDE;
+          margin-left: -25px;
+          margin-right: -25px;
+          margin-top: -25px;
+          padding: 10px 25px;
+          font-size: 16px;
+          line-height: 25px;
+      } add class*/
+  h3{ margin-bottom: 0; }
+  ul{
+    /*margin: 0;
+    padding: 0; remove, add class*/
+    li{
+      border-bottom: 1px solid #DEDEDE;
+      padding: 5px 0;
+      &:last-child{
+        border-bottom: 0 none;
+      }
+
+      .bk-link{
+        width: 65%;
+        /*display: inline-block; add class*/
+        a{
+          &:hover{
+            color: #5E5E5E;
+          }
         }
-
-        ul{
-            margin: 0;
-            padding: 0;
-            li{
-                border-bottom: 1px solid #DEDEDE;
-                padding: 5px 0;
-                &:last-child{
-                    border-bottom: 0 none;
-                }
-
-                .bk-link{
-                    width: 65%;
-                    display: inline-block;
-                    a{
-                        &:hover{
-                            color: #5E5E5E;
-                        }
-                    }
-                }
-                form{
-                    width: 10%;
-                    display: inline-block;
-                    margin-bottom: 0;
-                }
-                .bk-createdTime{
-                    width: 24%;
-                    display: inline-block;
-                    text-align: right;
-                }
-                @media(max-width: 500px){
-                    form{
-                        float: right;
-                        margin-right: 10px;
-                    }
-                    .bk-createdTime{
-                        width: auto;
-                    }
-                }
-
-            }
+      }
+      form{
+        width: 10%;
+       /* display: inline-block;
+        margin-bottom: 0;*/
+      } 
+      .bk-createdTime{
+        width: 24%;
+        /*display: inline-block;
+        text-align: right; add class*/
+      }
+      @media(max-width: 500px){
+        form{
+          float: right;
+          margin-right: 10px;
         }
-
-        p{
-            margin: 0;
-            padding: 15px 0;
+        .bk-createdTime{
+          width: auto;
         }
+      }
 
     }
+  }
+
+  p{
+    /*margin: 0; add class*/
+    padding: 15px 0;
+  }
+
+    /*} remove in html*/
 
 
-}
+}//end bookmark
 .body-register{
     background-image:url('../img/register_bg.jpg');
     background-repeat: no-repeat;
