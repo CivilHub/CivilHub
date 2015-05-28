@@ -1512,140 +1512,140 @@ a:hover.team_tooltip span {
 
 }//end bookmark
 .body-register{
-    background-image:url('../img/register_bg.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;      
-    z-index: 100;
+  background-image:url('../img/register_bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  z-index: 100;
 
 
-    background-color: #000;
-    position: fixed;
-    width: 100%;
-    height: 100%;
+  background-color: #000;
+  position: fixed;
+  width: 100%;
+ /* height: 100%; remove*/
 
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
-        background-image: url('../img/register_bg@2x.jpg');
-    }
-    @media(max-width: 450px) and (max-height:580px) {
-        position: relative;
-        overflow-x: hidden;
-        height: auto;
-    }
+  @media 
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    background-image: url('../img/register_bg@2x.jpg');
+  }
+  @media(max-width: 450px) and (max-height:580px) {
+    position: relative;
+    overflow-x: hidden;
+    height: auto;
+  }
 }
 #footer-register{
-    @media(max-width: 450px){
-        position: relative;
-        bottom: 0;
-        margin: 0;
-    }
+  @media(max-width: 450px){
+    position: relative;
+    bottom: 0;
+    margin: 0;
+  }
 }
 #register-Page{
 
 
-    .features-Home,
-    .login-Home{
+  .features-Home,
+  .login-Home{
+    a{
+      color: #FFF;
+      text-decoration: none;
+    }
+    p{
+      margin-bottom: 0;
+    }
+  }
+
+  .register-box{
+    width: 300px;
+    min-height: 320px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    //margin-top: -160px;
+    margin-top: -219px;
+    margin-left: -150px;
+    @media(max-width: 450px){
+    position: relative;
+    top: 0;
+    margin-top: 0px;
+    }
+
+    h1{
+      color: #FFF;
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .formRegister{
+      .popover{
+        color: #000;
+      }
+      .col-xs-6{
+        &:first-child{
+          padding-left: 0;
+          padding-right: 5px;
+        }
+      }
+      .col-xs-6{
+        &:last-child{
+          padding-left: 5px;
+          padding-right: 0;
+        }
+      }
+      .form-group{
+        margin-bottom: 10px;
+      }
+
+      .registerButtons{
+        text-align: center;
+        .facebook-btn,
+        .twitter-btn,
+        .linkedin-btn,
+        .google-btn{
+          background: #fff;
+          border: 0 none;
+          border-radius: 4px;
+          -webkit-border-radius: 4px;
+          -moz-border-radius: 4px;
+          color: #000;
+          width: 30px;
+          height: 30px;
+          margin: 0 8px;
+          font-size: 20px;
+          display: inline-block;
+          padding: 2px 7px;
+          cursor: pointer;
+        }
+      }
+      .registerButtonSubmit{
+        margin: 10px 0;
+        text-align: center;
+
+        button{
+          color: #FFF;
+          background-color: #84bd00;
+          border: 1px solid #000;
+          border-radius: 25px;
+          -webkit-border-radius: 25px;
+          -moz-border-radius: 25px;
+          line-height: 18px;
+          font-size: 14px;
+          padding: 10px 65px;
+        }
+      }
+
+      .terms{
+        text-align: center;
+        font-size: 10px;
         a{
-            color: #FFF;
-            text-decoration: none;
+          font-weight: bold;
         }
-        p{
-            margin-bottom: 0;
-        }
+      }
     }
-
-    .register-box{
-        width: 300px;
-        min-height: 320px;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        //margin-top: -160px;
-        margin-top: -219px;
-        margin-left: -150px;   
-        @media(max-width: 450px){
-        position: relative;
-        top: 0;
-        margin-top: 0px;
-        }
-
-        h1{
-            color: #FFF;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .formRegister{
-            .popover{
-                color: #000;
-            }
-            .col-xs-6{
-                &:first-child{
-                    padding-left: 0;
-                    padding-right: 5px;
-                }
-            }
-            .col-xs-6{
-                &:last-child{
-                    padding-left: 5px;
-                    padding-right: 0;   
-                }
-            }
-            .form-group{
-                margin-bottom: 10px;
-            }
-
-            .registerButtons{
-                text-align: center;
-                .facebook-btn,
-                .twitter-btn,
-                .linkedin-btn,
-                .google-btn{
-                    background: #fff;
-                    border: 0 none;
-                    border-radius: 4px;
-                    -webkit-border-radius: 4px;
-                    -moz-border-radius: 4px;
-                    color: #000;
-                    width: 30px;
-                    height: 30px;
-                    margin: 0 8px;
-                    font-size: 20px;
-                    display: inline-block;
-                    padding: 2px 7px;
-                    cursor: pointer;
-                }
-            }
-            .registerButtonSubmit{
-                margin: 10px 0;
-                text-align: center;
-
-                button{
-                    color: #FFF;
-                    background-color: #84bd00;
-                    border: 1px solid #000;
-                    border-radius: 25px;
-                    -webkit-border-radius: 25px;
-                    -moz-border-radius: 25px;
-                    line-height: 18px;
-                    font-size: 14px;
-                    padding: 10px 65px;
-                }
-            }
-
-            .terms{
-                text-align: center;
-                font-size: 10px;
-                a{
-                    font-weight: bold;
-                }
-            }
-        }
-    }
+  }
 }
 
 //Confirm-register
