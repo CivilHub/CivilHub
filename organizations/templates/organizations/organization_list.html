@@ -1,46 +1,49 @@
-{% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
+{% extends 'places_core/base.html' %}{% load i18n actstream_tags civil_tags %}
 {% block content %}
 <div class="col-sm-3">
   <div class="sidebar left">
     <div class="sidebar-label">{% trans "Filter" %}</div>
     <div class="sidebar-content clearfix">
-     <form method="get" action=".">
+     <form method="get" action="">
        <div class="form-group">
-        <label for="name">{% trans "Name" %}:</label>
-        <input type="text" class="form-control input-sm" id="name">
+        <label for="{{ form.name.id_for_label }}">{{ form.name.label|capfirst }}:</label>
+        <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}" value="{{ form.name.value|default_if_none:"" }}" class="form-control input-sm" id="name">
       </div>
       <div class="form-group">
-        <label for="country">{% trans "Country" %}:</label>
-        <select class="form-control input-sm" id="country"></select>
+        <label for="{{ form.country.id_for_label }}">{{ form.country.label|capfirst }}:</label>
+        <select name="{{ form.country.name }}" class="form-control input-sm" id="{{ form.country.id_for_label }}">{% for x,y in form.fields.country.choices %}
+          <option value="{{ x }}"{% ifequal form.country.value|as_fck_str x|as_fck_str %} selected{% endifequal %}>{{ y }}</option>
+        {% endfor %}</select>
       </div>
       <div class="form-group">
-        <label for="location">{% trans "Location" %}:</label>
-        <input type="text" class="form-control input-sm" id="location">
+        <label for="{{ form.location.id_for_label }}">{{ form.location.label|capfirst }}:</label>
+        <input type="{{ form.location.field.widget.input_type }}" name="{{ form.location.name }}" class="form-control input-sm" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default_if_none:"" }}">
       </div>
       <div class="form-group">
-        <label for="type">{% trans "Type" %}:</label>
-        <select class="form-control input-sm" id="type"></select>
+        <label for="{{ form.kind.id_for_label }}">{{ form.kind.label|capfirst }}:</label>
+        <select name="{{ form.kind.name }}" class="form-control input-sm" id="{{ form.kind.id_for_label }}">{% for x,y in form.fields.kind.choices %}
+          <option value="{{ x }}"{% ifequal form.kind.value|as_fck_str x|as_fck_str %} selected{% endifequal %}>{{ y }}</option>
+        {% endfor %}</select>
       </div>
       <button type="submit" class="submit-button w100">{% trans "Search" %}</button>
      </form>
     </div>
   </div>
-  <div class="sidebar left">
+  {% comment %}<div class="sidebar left">
     <div class="sidebar-label">{% trans "Shortcuts" %}</div>
     <div class="sidebar-content">
-      <ul class="shortcuts">
-        <li><a href="">{% trans "Organizations" %}</a></li>
-        <li><a href="">{% trans "Associations" %}</a></li>
-      </ul>
+      <ul class="shortcuts">{% for cat in categories %}
+        <li><a href="?kind={{ cat.pk }}">{{ cat }}</a></li>
+      {% endfor %}</ul>
     </div>
-  </div>
+  </div>{% endcomment %}
 </div>
 <div class="col-sm-9">
   <div class="main-content create-form newFormCreate"><h3 class="text-center nh3">{% trans "Organization list" %}</h3>
   {% for item in object_list %}
     <div class="row ngo-entry col-table">
       <div class="col-sm-6 col-md-3 text-center col-same-height text-center">
-        <div class="ngo-logo-box" style="background-image: url({{ item.background_url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"><img src="{{ item.logo.url }}" alt="{{ item }}" class="current-user-avatar60 avatarViewIMG"></a></div>
+        <div class="ngo-logo-box" style="background-image: url({{ item.logo.url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"></a></div>
       </div>
       <div class="col-sm-6 col-md-4 col-same-height text-center"><a href="{{ item.get_absolute_url }}">{{ item }}</a></div>
       <div class="col-sm-12 col-md-2 col-same-height text-center">

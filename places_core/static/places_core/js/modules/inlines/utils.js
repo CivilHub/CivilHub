@@ -6,9 +6,10 @@
 
 define(['jquery',
         'underscore',
+        'moment',
         'js/modules/utils/utils'],
 
-function ($, _, utils) {
+function ($, _, utils, CommentModel) {
 
 "use strict";
 
@@ -36,8 +37,9 @@ cUtils.createComment = function (comment, collection, callback, context) {
   $.post('/api-comments/list/', data, function (response) {
     $.get('/api-comments/list/' + response.id + '/',
       function (data) {
-        collection.add(data);
-        callback.call(context, data);
+        if (_.isFunction(callback)) {
+          callback.call(context, data);
+        }
       }
     );
   });

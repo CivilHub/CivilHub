@@ -47,12 +47,6 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
     """
     model = Idea
 
-    L = {
-        'up': _(u"Vote YES"),
-        'down': _(u"Vote NO"),
-        'rev': _(u"Revoke"),
-    }
-
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
         return super(IdeaVotesView, self).dispatch(*args, **kwargs)
@@ -66,7 +60,7 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
         if action == 'revoke':
             if vote is not None:
                 context.update({
-                    'label': self.L['up'] if vote.vote else self.L['down'],
+                    'label': _(u"Vote YES") if vote.vote else _(u"Vote NO"),
                     'target': 'up' if vote.vote else 'down', })
                 vote.delete()
             message = _(u"Your vote has been revoked")
@@ -77,11 +71,11 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
                 vote.save()
                 context.update({
                     'old_target': 'down' if action else 'up',
-                    'old_label': self.L['down'] if action else self.L['up'], })
+                    'old_label': _(u"Vote NO") if action else _(u"Vote YES"), })
             else:
                 vote = self._create_user_vote(vote=action)
             context.update({
-                'label': self.L['rev'],
+                'label': _(u"Revoke"),
                 'target': 'revoke', })
             message = _(u"Your vote has been saved")
         context.update({

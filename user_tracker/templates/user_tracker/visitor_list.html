@@ -1,0 +1,9 @@
+{% extends 'places_core/base.html' %}{% load i18n civil_tags tracking_tags %}
+{% block require_scripts %}<script src="{% module_path 'testpage' %}"></script>{% endblock %}
+{% block content %}<h2>{% visitors_on_page as vpage %}{% trans "Visitors on page" %}: {{ vpage }}</h2>
+<h2>{% visitors_on_site as vsite %}{% trans "Visitors on site" %}: {{ vsite }}</h2>
+<ul>{% for visitor in object_list %}
+  <li>{{ visitor.user.profile }}</li>
+{% endfor %}</ul>
+<pre>{{ geodata }}</pre>
+<div id="map" data-markers="{{ geodata }}"></div>{% endblock %}

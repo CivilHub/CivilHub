@@ -10,11 +10,12 @@
       {% if not archived %}<button class="btn btn-postmanButton btn-sm custom-tooltip" type="submit" title="{% trans "Archive" %}" onclick="this.form.action='{% url 'postman_archive' %}?next={{ next_url|urlencode }}'"><span class="fa fa-archive">&nbsp;</span></button>{% endif %}
       </span>
       {% if reply_to_pk %}<a class="btn btn-postmanButton btn-sm custom-tooltip" title="{% trans "Reply" %}" href="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}"><span class="fa fa-mail-reply">&nbsp;</span></a>{% endif %}
-      {% if message.sender != user %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link btn btn-postmanButton btn-sm custom-tooltip" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}
+      {% comment %}{% if message.sender != user %}<a href="#" title="{% trans "Report abuse" %}" class="report-abuse-link btn btn-postmanButton btn-sm custom-tooltip" data-content="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" data-id="{{ message.pk }}"><span class="fa fa-exclamation-triangle">&nbsp;</span></a>{% endif %}{% endcomment %}
     </form>
     {% for message in pm_messages %}
     <div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}" {% if message.recipient == user %}id="myReplayView"{% endif %}>
-      <div class="avatarView">{% if message.sender == user %}<img src="{{ user.profile.avatar.url }}">{% else %}<img src="{{ message.sender.profile.avatar.url }}">{% endif %}</div>
+      <div class="avatarView">{% if message.sender == user %}<img src="{{ user.profile.avatar.url }}">{% else %}<img src="{{ message.sender.profile.avatar.url }}">
+        <div class="text-center"><a href="#" class="abuse-link custom-tooltip-bottom small" data-pk="{{ message.pk }}" data-ct="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" title="{% trans "Report abuse" %}"><span class="fa fa-exclamation-triangle"><span class="sr-only">{% trans "Report abuse" %}</span></span></a></div>{% endif %}</div>
         <div class="pm_container">
           <div class="postman-panel">
             <div class="postman-heading"><span>{{ message.sender.get_full_name }}</span> <span class="pull-right">{{ message.sent_at|date:"d/m/Y/ H:i "}}</span></div>

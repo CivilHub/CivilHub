@@ -5,9 +5,10 @@
 // Collection that handles comment list.
 // It may be used also for subcomments.
 
-define (['backbone'],
+define (['underscore',
+         'backbone'],
 
-function (Backbone) {
+function (_, Backbone) {
 
 "use strict";
 

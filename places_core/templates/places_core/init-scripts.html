@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags %}{% get_current_language as LANG %}<script>
+{% load staticfiles i18n civil_tags location_tags %}{% get_current_language as LANG %}<script>
 (function () {
 
   "use strict";
@@ -49,7 +49,9 @@
 
     messages: [],
 
-    fbClientToken: "{% settings_value 'SOCIAL_AUTH_FACEBOOK_KEY' %}"
+    fbClientToken: "{% settings_value 'SOCIAL_AUTH_FACEBOOK_KEY' %}",
+
+    currentLocation: {% current_location_data %}
   });
 
   {% if messages %}{% for message in messages %}CivilApp.messages.push({

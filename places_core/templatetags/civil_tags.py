@@ -28,6 +28,15 @@ ALLOWABLE_VALUES = (
 )
 
 
+@register.filter
+def as_fck_str(val):
+    """ Yes, there is actually NO WAY to compare selected model in model choice
+        field with option elements value attributes, because one is A NUMBER
+        and the latter is STRING. This is SICK!
+    """
+    return str(val)
+
+
 @register.simple_tag()
 def version():
     return get_current_version()

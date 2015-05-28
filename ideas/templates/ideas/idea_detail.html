@@ -11,8 +11,18 @@
       {% if comment.comment|length = 0 %} &nbsp; {% else %} <a class="comment-toggle custom-comments-toggle" data-target="{{ idea.pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}
     </p>
   </div>
-  <input type="hidden" id="target-id" value="{{ idea.pk }}" />
+
+  {% comment %}<!-- Embed code for idea (testing only) -->
+  <div><pre>&lt;div id="civil-widget"&gt;&lt;/div&gt;
+  &lt;script src="{% embed_url idea %}"&gt;&lt;/script&gt;</pre></div>{% endcomment %}
+
+  <!-- Old-style comment list -->
+  {% comment %}<input type="hidden" id="target-id" value="{{ idea.pk }}" />
   <input type="hidden" id="target-label" value="ideas" />
   <input type="hidden" id="target-type" value="{% obj_ct_id 'idea' %}" />
-  {% include 'comments/commentlist.html' %}
+  {% include 'comments/commentlist.html' %}{% endcomment %}
+
+  <!-- New "inline" comments -->
+  {% commentarea idea %}
+
 {% endblock %}

@@ -94,3 +94,10 @@ class ContactResponseEmail(template_mail.TemplateMail):
     """ Email to send in response for contact message.
     """
     name = "response_mail"
+
+
+class LastLoginNotifyEmail(template_mail.TemplateMail):
+    """ Email with invitation to login again for users that
+        were not active during selected time period.
+    """
+    name = "remind"

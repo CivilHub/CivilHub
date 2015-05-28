@@ -19,17 +19,18 @@ def get_comment_count(obj):
                                             object_pk=obj.pk))
 
 
-@register.simple_tag
-def commentarea(obj):
+@register.simple_tag(takes_context=True)
+def commentarea(context, obj):
     """
 	Creates comment area for given object to be used later by scripts.
 	"""
     ct = ContentType.objects.get_for_model(obj).pk
     template = loader.get_template('comments/commentarea.html')
-    context = Context({
+    ctx = Context({
+        'user': context['user'],
         'ct': ct,
         'pk': obj.pk,
         'count': len(CustomComment.objects.filter(content_type_id=ct,
                                                   object_pk=obj.pk)),
     })
-    return template.render(context)
+    return template.render(ctx)

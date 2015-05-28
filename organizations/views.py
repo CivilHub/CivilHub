@@ -23,8 +23,9 @@ from .forms import NGOInviteForm, \
                    OrganizationForm, \
                    OrganizationLocationForm, \
                    NGOBackgroundForm, \
-                   NGOProjectForm
-from .models import Invitation, Organization
+                   NGOProjectForm, \
+                   NGOSearchForm
+from .models import Category, Invitation, Organization
 
 
 class NGOContextMixin(SingleObjectMixin):
@@ -42,15 +43,41 @@ class NGOContextMixin(SingleObjectMixin):
 
 
 class OrganizationListView(ListView):
-    """
-    Presents list of all registered organizations.
+    """ Presents list of all registered organizations.
     """
     model = Organization
     paginate_by = 25
+    form_class = NGOSearchForm
+
+    def get_form(self):
+        self.form =  self.form_class(self.request.GET)
+        return self.form
+
+    def get_queryset(self):
+        qs = super(OrganizationListView, self).get_queryset()
+        form = self.get_form()
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            country = form.cleaned_data.get('country')
+            location = form.cleaned_data.get('location')
+            kind = form.cleaned_data.get('kind')
+        if name:
+            qs = qs.filter(name__icontains=name)
+        if location:
+            locations = Location.objects.filter(name__icontains=location)
+            qs = qs.filter(locations__in=locations)
+        elif country is not None:
+            locations = Location.objects.filter(country_code=country.country_code)
+            qs = qs.filter(locations__in=locations)
+        if kind is not None:
+            qs = qs.filter(category=kind)
+        return qs.order_by('name').distinct()
 
     def get_context_data(self):
         context = super(OrganizationListView, self).get_context_data()
         context['countries'] = Location.objects.filter(kind='country')
+        context['categories'] = Category.objects.all()
+        context['form'] = self.form
         return context
 
 

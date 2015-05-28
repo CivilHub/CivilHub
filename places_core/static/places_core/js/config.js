@@ -8,13 +8,13 @@
 // something in one file, we have to also include it in the other.
 
 require.config({
-  
+
   baseUrl: CivilApp.staticURL,
-  
+
   urlArgs: "bust=" + (new Date()).getTime(),
-  
-  waitSeconds: 200,
-  
+
+  waitSeconds: 0,
+
   "paths": {
     "text": "includes/require/text",
     "jquery": "includes/jquery/jquery",
@@ -70,25 +70,25 @@ require.config({
     "tagsinput": {
       "deps": ["jqueryui"]
     },
-    
+
     "jpaginate": {
       "deps": ["jquery"]
     },
-    
+
     "underscore": {
       "deps": ["jquery"],
       "exports": "_"
     },
-    
+
     "backbone": {
       "deps": ["underscore"],
       "exports": "Backbone"
     },
-    
+
     "bootstrap": {
       "deps": ["jquery"]
     },
-    
+
     "bootbox": {
       "deps": ["bootstrap"],
       "exports": "bootbox"
@@ -101,23 +101,23 @@ require.config({
     "fullpagejs": {
       "deps": ["jquery"]
     },
-    
+
     "color": {
       "deps": ["jquery"]
     },
-    
+
     "Jcrop": {
       "deps": ["color"]
     },
-    
+
     "file-input": {
       "deps": ["bootstrap"]
     },
-    
+
     "vector": {
       "deps": ["jquery"]
     },
-    
+
     "worldmap": {
       "deps": ["vector"]
     },
@@ -137,11 +137,11 @@ require.config({
     "mapplic": {
       "deps": ["jquery"]
     },
-    
+
     "plot": {
       "deps": ["jquery"]
     },
-    
+
     "dateAxisRenderer": { "deps": ["plot"] },
     "canvasTextRenderer": { "deps": ["plot"] },
     "canvasAxisTickRenderer": { "deps": ["plot"] },

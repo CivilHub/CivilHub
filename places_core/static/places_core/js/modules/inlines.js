@@ -25,6 +25,7 @@ $.fn.commentList = function () {
       currentPage: 1
     });
     $this.data('commentlist', commentlist);
+    commentlist.fetch();
     $(window).on('scroll', function () {
       if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
         commentlist.nextPage();

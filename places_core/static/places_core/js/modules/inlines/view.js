@@ -50,10 +50,10 @@ var CommentView = Backbone.View.extend({
   replied: false,
 
   events: {
-    'click .vote-link': 'vote',
-    'click .comment-edit': 'toggleEdit',
-    'click .comment-reply': 'toggleReplyForm',
-    'click .show-replies': 'toggleReplies'
+    'click .vote-up-link:first': 'vote',
+    'click .vote-down-link:first': 'vote',
+    'click .comment-reply:first': 'toggleReplyForm',
+    'click .show-replies:first': 'toggleReplies'
   },
 
   initialize: function () {
@@ -74,21 +74,48 @@ var CommentView = Backbone.View.extend({
 
   render: function () {
     this.$el.html(this.template(this.model.toJSON()));
-    this.$counter = this.$el.find('.comment-total-votes');
+    this.$counter = this.$el.find('.comment-total-votes:first');
     this.votes = parseInt(this.$counter.text(), 10);
     if (isNaN(this.votes)) {
       this.votes = 0;
     }
     this.$replyForm = this.$el.find('.reply-form');
-    this.$replyForm.find('.btn-cancel-comment').on('click', function (e) {
+    this.$replyForm.find('.btn-cancel-comment:first').on('click', function (e) {
       e.preventDefault();
       this.$replyForm.toggle();
     }.bind(this));
-    this.$replyForm.find('.btn-submit-comment').on('click', function (e) {
+    this.$replyForm.find('.btn-submit-comment:first').on('click', function (e) {
       e.preventDefault();
       this.addReply();
     }.bind(this));
+
+    // Bind content element to avoid problems with edit form
+    this.$content = this.$('#content-' + this.model.get('id'));
+
+    this.$('.comment-edit:first').on('click', function (e) {
+      this.toggleEdit(e);
+    }.bind(this));
+
+    // NGO members
+    var ngo = this.model.get('author').organizations;
+    if (!_.isUndefined(ngo) && ngo.count > 0) {
+      $('<div class="ngo-badge-group"><div class="fa fa-bank text-green"></div></div>')
+        .insertAfter(this.$('.comment-author-avatar:first'));
+      _.each(ngo.items, function (item) {
+        this.renderBadge(item);
+      }, this);
+    }
+
     return this;
+  },
+
+  renderBadge: function (ngo) {
+    var html = ([
+      '<a href="', ngo.url,
+      '"><span class="badge badge-green badge-btn comment-badge">',
+      ngo.name, '</span></a>'
+    ]).join('');
+    $(html).insertAfter(this.$el.find('.comment-date-from-now:first'));
   },
 
   update: function (comment) {
@@ -128,23 +155,23 @@ var CommentView = Backbone.View.extend({
   // Edition form
 
   opendEdit: function () {
-    var $form = this.editFormTemplate(this.model.toJSON());
-    this.$el.find('.comment-content').hide().after($form);
-    this.$el.find('.btn-cancel-comment').on('click', function (e) {
+    var $form = $(this.editFormTemplate(this.model.toJSON()));
+    this.$content.hide().after($form);
+    $form.find('.btn-cancel-comment:first').on('click', function (e) {
       e.preventDefault();
       this.closeEdit();
     }.bind(this));
-    this.$el.find('.btn-submit-comment').on('click', function (e) {
+    $form.find('.btn-submit-comment:first').on('click', function (e) {
       e.preventDefault();
-      this.update($('#comment').val());
+      this.update(this.$('.update-comment:first').val());
       this.closeEdit();
     }.bind(this));
     this.edited = true;
   },
 
   closeEdit: function () {
-    this.$el.find('.comment-form-body').empty().remove();
-    this.$el.find('.comment-content').show();
+    this.$('.comment-update-form:first').empty().remove();
+    this.$content.show();
     this.edited = false;
   },
 
@@ -165,7 +192,7 @@ var CommentView = Backbone.View.extend({
         model: comment
       });
       $(view.render().el)
-        .appendTo(this.$el.find('.subcomments'));
+        .appendTo(this.$el.find('.subcomments:first'));
     }, this);
   },
 
@@ -173,7 +200,7 @@ var CommentView = Backbone.View.extend({
     var view = new CommentView({
       model: new CommentModel(reply)
     });
-    $(view.render().el).prependTo(this.$el.find('.subcomments'));
+    $(view.render().el).prependTo(this.$el.find('.subcomments:first'));
     this.$replyForm.find('textarea:first').val('');
   },
 
@@ -184,16 +211,19 @@ var CommentView = Backbone.View.extend({
       pk: this.model.get('object_pk'),
       parent: this.model.get('id')
     }, this.collection, this.renderReply, this);
+    this.toggleReplyForm();
   },
 
   toggleReplies: function (e) {
     e.preventDefault();
-    this.$el.find('.subcomments').slideToggle('fast');
+    this.$('.subcomments:first').slideToggle('fast');
   },
 
   toggleReplyForm: function (e) {
-    e.preventDefault();
-    this.$el.find('.reply-form').toggle();
+    if (!_.isUndefined(e)) {
+      e.preventDefault();
+    }
+    this.$('.comment-form-body:first').toggle();
   }
 });
 

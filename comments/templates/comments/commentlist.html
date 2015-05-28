@@ -3,24 +3,35 @@
 <input type="hidden" id="target-user" value="{{ user.profile.clean_username }}" />
 <input type="hidden" id="target-avatar" value="{{ user.profile.avatar.url }}" />
 <input type="hidden" id="target-user-fullname" value="{{ user.get_full_name }}" />
-<div class="commentformarea row">    
+{% comment %}<div class="commentformarea row">    
   <p id="comment-order-controls">{% trans "Order by" %}:
     <a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a> |
     <a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a> |
     <a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a>
   </p>
-  {% if user.is_authenticated %}<div class="col-sm-1 p-reset">
-    <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG" />
+</div>{% endcomment %}
+    <ul class="filters list-inline ml0">{% trans "Order by" %}:
+    <li><a class="change-order-link" href="#" data-order="-submit_date">{% trans "Newest" %}</a></li>|
+    <li><a class="change-order-link" href="#" data-order="submit_date">{% trans "Oldest" %}</a></li>|
+    <li><a class="change-order-link" href="#" data-order="votes">{% trans "Most voted" %}</a></li>
+  </ul>
+
+  {% if user.is_authenticated %}
+  <div class="postbox">
+    <div class="avatar">
+      <img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG" />
+    </div>
+    <div class="textarea-wrapper">
+      <form id="user-comment-form" role="presentation" class="comment-form-body">
+        <div class="form-group">
+          <textarea name="comment" id="comment" class="form-control" cols="15" rows="1"></textarea>
+        </div>
+        <div class="form-group text-right">
+          <button type="submit" class="btn btn-sendBlue">{% trans "Submit comment" %}</button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="col-sm-11 p-reset">
-    <form id="user-comment-form" role="presentation" class="comment-form-body">
-      <div class="form-group">
-        <textarea name="comment" id="comment" class="form-control" cols="15" rows="1"></textarea>
-      </div>
-      <div class="form-group text-right">
-        <button type="submit" class="btn btn-sendBlue">{% trans "Submit comment" %}</button>
-      </div>
-    </form>
-  </div>{% endif %}
-</div>
+  {% endif %}
+
 <div id="comments"></div>

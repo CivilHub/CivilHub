@@ -4,17 +4,39 @@
 
 // Single action entry view.
 
-define(['underscore',
+define(['jquery',
+        'underscore',
         'backbone',
         'moment',
         'js/modules/utils/utils',
+        'js/modules/inlines/list',
         'text!js/modules/actstream/templates/simple-action.html',
         'text!js/modules/actstream/templates/content-action.html',
         'text!js/modules/actstream/templates/comment-action.html'],
 
-function (_, Backbone, moment, utils, html, contentHtml, commentHtml) {
+function ($, _, Backbone, moment, utils, CommentListView, html, contentHtml, commentHtml) {
 
 "use strict";
+
+$.fn.commentList = function (options) {
+  var defaults = {
+    url: '/api-comments/list/',
+    currentPage: 1
+  };
+  options = _.extend(defaults, options);
+  return $(this).each(function () {
+    var $this = $(this);
+    options = _.extend(options, {
+      $el: $this,
+      ct: $this.attr('data-ct'),
+      pk: $this.attr('data-pk'),
+      count: $this.attr('data-count')
+    });
+    var commentlist = new CommentListView(options);
+    $this.data('commentlist', commentlist);
+    return this;
+  });
+};
 
 var FIXED_ITEMS = [
   'idea',
@@ -41,13 +63,23 @@ var ActionView = Backbone.View.extend({
 
   commentTemplate: _.template(commentHtml),
 
+  events: {
+    'click .comment-toggle': 'toggleComments',
+    'click .show-more': 'fetchComments'
+  },
+
+  initialized: false,
+
   render: function () {
     var attrs = this.model.toJSON();
     var tpl = this.selectTemplate();
+    _.bindAll(this, 'toggleComments');
+    _.bindAll(this, 'fetchComments');
     attrs.timestamp = moment(attrs.timestamp).fromNow();
     this.$el.html(tpl(attrs));
     this.$('.date').tooltip();
     this.fixImage();
+    this.applyComments();
     return this;
   },
 
@@ -84,6 +116,34 @@ var ActionView = Backbone.View.extend({
       $image.attr('src', src)
         .insertAfter(this.$('.full-click-box:first'));
     }
+  },
+
+  applyComments: function () {
+    var obj = this.model.get('action_object');
+    var $c = this.$('.comment-count');
+    if (_.isNull(obj)) {
+      return;
+    }
+    this.$('.comment-area')
+      .commentList({ $counter: $c });
+    this.comments = this.$('.comment-area')
+      .data('commentlist');
+  },
+
+  toggleComments: function (e) {
+    e.preventDefault();
+    if (this.initialized) {
+      this.$('.comment-area').toggle();
+      return;
+    }
+    this.comments.fetch();
+    this.$('.comment-area').show();
+    this.initialized = true;
+  },
+
+  fetchComments: function (e) {
+    e.preventDefault();
+    this.comments.nextPage();
   }
 });
 

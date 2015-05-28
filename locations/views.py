@@ -43,6 +43,8 @@ from ideas.models import Category as IdeaCategory
 from ideas.forms import CategoryForm as IdeaCategoryForm
 from maps.models import MapPointer
 from notifications.models import notify
+from organizations.forms import NGOSearchForm
+from organizations.models import Organization
 from places_core.helpers import TagFilter, process_background_image, \
                 sort_by_locale, get_time_difference
 from places_core.mixins import LoginRequiredMixin
@@ -416,6 +418,14 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
         context['title'] = _('create new location')
         return context
 
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form)
+        if form.cleaned_data['parent'] is not None:
+            parent = form.cleaned_data['parent']
+            parent_id_list = [parent.pk, ] + parent.get_parents
+            context['parents'] = Location.objects.filter(pk__in=parent_id_list)
+            return super(CreateLocationView, self).render_to_response(context)
+
     def form_valid(self, form):
         form.instance.creator = self.request.user
         obj = form.save()
@@ -438,6 +448,11 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
+        parent = self.object.parent
+        if parent is None:
+            parent = self.object
+        parent_id_list = [parent.pk, ] + parent.get_parents
+        context['parents'] = Location.objects.filter(pk__in=parent_id_list)
         return context
 
     def form_valid(self, form):
@@ -742,6 +757,41 @@ class RemoveModeratorView(ModeratorListAccessMixin):
         if self.location in user.profile.mod_areas.all():
             user.profile.mod_areas.remove(self.location)
         return redirect(self.get_success_url())
+
+
+# NGO related views
+# -----------------
+
+
+class LocationNGOList(LocationContextMixin, DetailView):
+    """ List all organizations that patronate this location.
+    """
+    model = Location
+    slug_url_kwarg = 'location_slug'
+    template_name = 'locations/organization_list.html'
+    form_class = NGOSearchForm
+
+    def get_form(self):
+        self.form =  self.form_class(self.request.GET)
+        return self.form
+
+    def get_ngo_list(self):
+        qs = Organization.objects.filter(locations__in=[self.object, ])
+        form = self.get_form()
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            kind = form.cleaned_data.get('kind')
+        if name:
+            qs = qs.filter(name__icontains=name)
+        if kind is not None:
+            qs = qs.filter(category=kind)
+        return qs.order_by('name').distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationNGOList, self).get_context_data()
+        context['form'] = self.get_form()
+        context['object_list'] = self.get_ngo_list()
+        return context
 
 
 # Widget Factory views

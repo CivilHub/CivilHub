@@ -6,12 +6,23 @@
 // Add this scripts to forms with map inside. Form must have id 'content-form'.
 
 require(['jquery',
+         'underscore',
          'js/modules/utils/utils',
          'js/modules/ui/mapinput'],
 
-function ($, utils) {
+function ($, _, utils) {
 
 "use strict";
+
+function getMapData () {
+  var l = CivilApp.currentLocation;
+  if (_.isEmpty(l)) {
+    return {};
+  }
+  return {
+    center: [l.lat, l.lng], zoom: l.zoom
+  };
+}
 
 $(document).ready(function () {
 
@@ -30,7 +41,7 @@ $(document).ready(function () {
         content_type: civapp.ct,
         object_pk: civapp.pk,
         markers: JSON.stringify(_.map(map.markers, function (m) {
-          return {lat: m.getLatLng().lat, lng: m.getLatLng().lng};
+          return { lat: m.getLatLng().lat, lng: m.getLatLng().lng };
         }))
       };
 
@@ -38,6 +49,16 @@ $(document).ready(function () {
       console.log(response);
     });
   }
+
+  var mapOpts = {
+    single: false,
+    width: 550,
+    height: 300,
+    iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
+    tileUrl: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
+  };
+
+  mapOpts = _.extend(mapOpts, getMapData());
 
   if (window.civapp !== undefined) {
 
@@ -48,14 +69,10 @@ $(document).ready(function () {
       .replace(/{pk}/g, civapp.pk);
 
     $.get(url, function (markers) {
-      map = $('.mapinput').mapinput({
-        single: false,
-        width: 550,
-        height: 300,
-        markers: markers || [],
-        iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
-        tileUrl: 'https://b.tiles.mapbox.com/v4/grzegorz21.k01pjfol/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZ3J6ZWdvcnoyMSIsImEiOiJPX0F1MWJvIn0.sciNGCKR54oCVhfSYPFCCw'
-      }).data('mapinput');
+      mapOpts = _.extend(mapOpts, {
+        markers: markers || []
+      });
+      map = $('.mapinput').mapinput(mapOpts).data('mapinput');
       $('#content-create-form').on('submit', function (e) {
         submitMarkers(civapp.ct, civapp.pk);
       });
@@ -69,17 +86,15 @@ $(document).ready(function () {
 
     $('#content-create-form').append($i);
 
-    map = $('.mapinput').mapinput({
-      single: false,
-      width: 550,
-      height: 300,
-      iconPath: ([window.STATIC_URL, 'css', 'images']).join('/'),
+    mapOpts = _.extend(mapOpts, {
       onchange: function (e, markers) {
         $i.val(JSON.stringify(_.map(markers, function (m) {
-          return {'lat': m.getLatLng().lat, 'lng': m.getLatLng().lng};
+          return { lat: m.getLatLng().lat, lng: m.getLatLng().lng };
         })));
       }
-    }).data('mapinput');
+    });
+
+    map = $('.mapinput').mapinput(mapOpts).data('mapinput');
   }
 });
 

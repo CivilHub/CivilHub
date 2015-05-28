@@ -1,7 +1,6 @@
-<form role="presentation" class="comment-form-body">
+<form role="presentation" class="comment-form-body comment-update-form postbox">
   <div class="form-group">
-    <label for="comment" class="control-label"><%= gettext("Comment") %></label>
-    <textarea name="comment" id="comment" class="form-control" cols="20" rows="1"><%= comment %></textarea>
+    <textarea class="update-comment form-control" cols="20" rows="3"><%= comment %></textarea>
   </div>
   <div class="form-group text-right">
     <button type="submit" class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>

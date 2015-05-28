@@ -10,7 +10,7 @@
   position: absolute;
   left: 0px;
   top: 90%;
-  max-height: 600px;
+  max-height: 494px;
   background-color: #fff;
   width: 400px;
   margin-left: -355px;
@@ -19,10 +19,23 @@
   box-shadow:         3px 3px 5px 0px rgba(50, 50, 50, 0.2);
   border: 1px solid rgba(0, 0, 0, 0.15);
   padding: 5px 5px;
+  font-size: 14px; //fix features-page
+  &:before{
+    content: url('../img/msg_dzibuek.png');
+    display: block;
+    top: -15px;
+    right: 20px;
+    width:19px;
+    position: absolute;
+  }
   ul {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 460px;
   }
   li {
     min-height: 46px;

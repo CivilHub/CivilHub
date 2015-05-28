@@ -223,7 +223,7 @@ Map.prototype.addMarker = function (item) {
   }
 
   // Create popup and open it up when user clicks on marker.
-  marker.on('mouseover', function () {
+  marker.on('click', function () {
     this.markerInfo(marker);
   }.bind(this));
 };
