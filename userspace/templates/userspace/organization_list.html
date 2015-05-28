@@ -1,4 +1,21 @@
 {% extends 'userspace/index.html' %}{% load i18n %}
-{% block content %}<ul>{% for o in object_list %}
-  <li><a href="{{ o.get_absolute_url }}">{{ o }}</a></li>
-{% endfor %}</ul>{% endblock %}
+{% block content %}<div class="main-content create-form newFormCreate">
+  <h3>{% trans "Organization list" %}</h3>
+  {% for o in object_list %}<div class="row ngo-entry col-table">
+    <div class="col-sm-6 col-md-3 text-center col-same-height">
+      <div class="ngo-logo-box" style="background-image: url({{ o.logo.url }});"><a href="{{ o.get_absolute_url }}" class="full-click-box"></a></div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-same-height text-center"><a href="{{ o.get_absolute_url }}"> {{ o }}</a></div>
+    <div class="col-sm-12 col-md-2 col-same-height text-center">
+      {% for c in o.locations.all %}{% if forloop.counter == 2 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country.1 }}</a>
+        {% elif forloop.counter == 1 %}<a href="{{ c.get_country.get_absolute_url }}">{{ c.get_country }}</a>{% endif %}
+      {% endfor %}
+    </div>
+    <div class="col-sm-12 col-md-2 col-same-height text-center">
+      {% for l in o.locations.all %}{% if forloop.counter == 2 %}<a href="{{ l.get_absolute_url }}">{{ l.1 }}</a>
+        {% elif forloop.counter == 1 %}<a href="{{ l.get_absolute_url }}">{{ l }}</a>{% endif %}
+      {% endfor %}
+    </div>
+    <div class="col-sm-12 col-md-1 col-same-height text-center"><span class="fa fa-ngo-icon-{{ o.category.pk }} text-green custom-tooltip-right" title="{{ o.category }}"></span></div>
+  </div>{% endfor %}
+</div>{% endblock %}
