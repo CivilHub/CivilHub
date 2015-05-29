@@ -11,7 +11,7 @@ from .models import Category, News
 
 class NewsForm(forms.ModelForm, BootstrapBaseForm):
     """ Edit/update/create blog entry. """
-    tags = TagField(required=False)
+    tags = TagField(required=False, label= _(u"Tags"))
 
     class Meta:
         model = News

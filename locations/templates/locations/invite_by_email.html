@@ -1,5 +1,8 @@
 {% extends 'locations/index.html' %}{% load i18n %}
-{% block content %}<form action="" method="post">{% csrf_token %}
+{% block content %}
+<div class="main-content create-form newFormCreate"><h3>{% trans "Invite your friends to follow" %} {{ location }}</h3>
+<form action="" method="post">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">{% trans "Send messages" %}</button>
-</form>{% endblock %}
+  <div class="text-right"><button type="submit" class="btn-saveBig">{% trans "Send messages" %}</button></div>
+</form>
+</div>{% endblock %}
