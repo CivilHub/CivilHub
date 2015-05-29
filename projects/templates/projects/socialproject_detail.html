@@ -9,7 +9,7 @@
 </h1>{% if is_moderator or user == object.creator %}<a href="{% url 'locations:project_update' location.slug object.slug %}">{% trans "Edit" %}</a>{% endif %}
 <div id="task3-page" class="row">
   <div class="col-sm-6">
-    <div class="left-side-task">
+    <div class="left-side-task row">
       <h1>{% trans "Tasks" %}</h1>
       {% for group in object.taskgroup_set.all %}<div class="task-container">
         <div class="task-heading">
@@ -29,32 +29,32 @@
             </form>{% endwith %}
           </div>
         </div>
-        <div class="add-task-right">
+        <div class="add-task-right pull-right display-ib-m">
           <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task"></span> {% trans "Create task" %}</a>
         </div>
         {% else %}
-        <div class="add-task-right">
+        <div class="add-task-right pull-right display-ib-m">
           <a href="{% url 'user:login' %}"><span class="fa fa-plus-square add-task"></span> {% trans "Create task" %}</a>
         </div>
         {% endif %}
         {% for task in group.task_set.all %}<div class="task-content {% if task.pk == active_task.pk %} active{% endif %}">
-        <a href="{{ task.get_absolute_url }}#location-navbar" id="task-link-absolute">&nbsp;</a>
+        <a href="{{ task.get_absolute_url }}#location-navbar" id="task-link-absolute" class="full-click-box">&nbsp;</a>
           <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-1 p-reset">
               {% if user.is_authenticated %}<form class="custom-inline-form" action="{% url 'projects:toggle_task' task.pk %}" method="post">{% csrf_token %}
                 <input type="checkbox"{% if task.is_done %} checked="checked" class="custom-tooltip" title="{% trans "Task completed" %}"{% endif %} name="checkbox-task" class="custom-tooltip" title="{% trans "Task in preparation" %}"></input>
               </form>{% elif task.is_done %}<p class="label-task label-task-check custom-tooltip" title="{% trans "Completed" %}"></p>
               {% else %}<p class="label-task label-task-close custom-tooltip" title="{% trans "Ongoing" %}"></p>{% endif %}
             </div>
-            <div class="col-sm-5">
-              <span class="sub-task-title"><a href="{{ task.get_absolute_url }}">{{ task|truncatewords:4 }}</a></span>
+            <div class="col-sm-5 p-reset">
+              <span class="sub-task-title display-ib-m"><a href="{{ task.get_absolute_url }}">{{ task|truncatewords:4 }}</a></span>
             </div>
-            <div class="col-sm-5">
-              <div class="task-ppl">{% for participant in task.participants.all %}
-                <a href="{{ participant.profile.get_absolute_url }}" class="custom-tooltip" title="{{ participant.profile }}"><img src="{{ participant.profile.avatar.url }}" alt="{{ participant.profile }}"></a>
+            <div class="col-sm-5 p-reset">
+              <div class="task-ppl text-right">{% for participant in task.participants.all %}
+                <a href="{{ participant.profile.get_absolute_url }}" class="custom-tooltip task-ppll" title="{{ participant.profile }}"><img src="{{ participant.profile.avatar.url }}" alt="{{ participant.profile }}"></a>
               {% endfor %}</div>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-1 p-reset">
               <div class="custom-controls-box-task-content">{% if user.is_authenticated %}<span class="fa fa-cog">&nbsp;</span>
                 <div class="custom-controls">
                   <form class="custom-inline-form" action="{% url 'locations:task_join' location.slug object.slug task.pk %}" method="post">{% csrf_token %}
@@ -77,7 +77,7 @@
         </div><!--./task-content -->{% endfor %}
       </div><!--./task-container-->{% endfor %}
       {% if user.is_authenticated %}<div class="add-new-task-group">
-        <a href="{% url 'locations:project_create_task_group' location.slug object.slug %}"><span class="fa fa-plus-square add-task"></span><p>{% trans "Add new group" %}</p></a>
+        <a href="{% url 'locations:project_create_task_group' location.slug object.slug %}"><span class="fa fa-plus-square add-task"></span><p class="display-ib-m mb0">{% trans "Add new group" %}</p></a>
       </div>{% endif %}
     </div>
   </div><!-- ./col-sm-6 -->
@@ -88,25 +88,25 @@
         <div class="text-block-right">
           <h1>{{ active_task }}</h1>
           <div>{{ active_task.description|safe }}</div>
-          <p class="created">{% trans "Created by" %}, <a href="{{ active_task.creator.profile.get_absolute_url }}">{{ active_task.creator.profile }}</a> {{ active_task.date_created|date:'d.m.Y' }}</p>
+          <p class="created mb20">{% trans "Created by" %}, <a href="{{ active_task.creator.profile.get_absolute_url }}">{{ active_task.creator.profile }}</a> {{ active_task.date_created|date:'d.m.Y' }}</p>
           <div class="footer-text-block-right">
             <div class="project-participants {% if user in active_task.participants.all %}w100{% endif %}">
-              <p>{% trans "Task participants" %}</p>{% for p in active_task.participants.all %}
-              <a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}" alt="{{ p.profile}}"></a>{% endfor %}
+              <p class="mb0">{% trans "Task participants" %}</p>{% for p in active_task.participants.all %}
+              <a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip task-ppll" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}" alt="{{ p.profile}}"></a>{% endfor %}
             </div>{% if user in active_task.participants.all %}  {% else %}
-            <form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post">{% csrf_token %}
+            <form action="{% url 'locations:task_join' location.slug object.slug active_task.pk %}" method="post" class="display-ib-m">{% csrf_token %}
               <div class="join-btn-task">
-              {% if user in active_task.participants.all %}<button type="submit" class="submit-button">{% trans "Leave" %}</button></div>
-              {% else %}<button type="submit" class="submit-button">{% trans "Join" %}</button></div>{% endif %}
+              {% if user in active_task.participants.all %}<button type="submit" class="btn-greenBig">{% trans "Leave" %}</button></div>
+              {% else %}<button type="submit" class="btn-greenBig">{% trans "Join" %}</button></div>{% endif %}
             </form>{% endif %}
           </div>
         </div>{% endif %}
       </div><!-- ./ .task-Container-right -->
       {% if active_task %}{% with active_task|content_type as ctype %}<div class="task-comments-right">
-      <div class="top-Comments">
+      <div class="customEntry-comments">
         <p>
-          {% trans "Comments" %}: <span class="badge comment-count">{% get_comment_count active_task %}</span>
-          <a class="comment-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
+          {% trans "Comments" %}: <span class="comment-count">{% get_comment_count active_task %}</span>
+          <a class="comment-toggle custom-comments-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
         </p>
       </div>
       <input type="hidden" id="target-id" value="{{ active_task.pk }}" />
