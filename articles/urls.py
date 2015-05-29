@@ -37,4 +37,5 @@ urlpatterns = patterns('',
     url(r'^hackatlon-warszawa-1/', views.TopLevelArticleView.as_view(article_slug='hackatlon-warszawa-1', template_name='articles/events.html'), name='hackatlon-warszawa-1'),
     url(r'^home-k/', views.TopLevelArticleView.as_view(article_slug='home-k', template_name='articles/home-page.html'), name='home-k'),
     url(r'^home-l/', views.TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-page.html'), name='home-l'),
+    url(r'^points-and-badges/', views.TopLevelArticleView.as_view(article_slug='points-and-badges', template_name='articles/brief.html'), name='points-and-badges'),
 )
