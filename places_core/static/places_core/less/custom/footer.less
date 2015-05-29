@@ -272,7 +272,7 @@
 }
 #footerDivLang,
 #footerDivBut{
-    @media(max-width: 768px){
+    @media(max-width: 991px){
         display: block;
         text-align: center;
         margin: 5px 0;
@@ -307,6 +307,12 @@
     position: absolute;
     bottom: 0;
     left: 30px;
+    @media(max-width: 320px){
+      position: relative;
+      left: 50%;
+      margin-left: -53px;
+      margin-top: 10px;
+    }
   }
   .share-buttons { padding-top: 30px;
     .popover-content { padding: 10px 0px; }
