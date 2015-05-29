@@ -101,3 +101,11 @@ class LastLoginNotifyEmail(template_mail.TemplateMail):
         were not active during selected time period.
     """
     name = "remind"
+
+
+class FriendsEmail(template_mail.TemplateMail):
+    """ Send this email to new Facebook user with notification about his FB
+        friends already registered in system, and to all of this users about
+        his friend joining portal. I hope you understand.
+    """
+    name = "friends"

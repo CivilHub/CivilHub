@@ -13,8 +13,8 @@ function ($, AbuseWindow) {
 "use strict";
 
 $(document).ready(function () {
-  $('.abuse-link').on('click', function ( event ) {
-    event.preventDefault();
+  $('.abuse-link').on('click', function (e) {
+    e.preventDefault();
     var win = new AbuseWindow(
       $(this).attr('data-ct'),
       $(this).attr('data-pk')

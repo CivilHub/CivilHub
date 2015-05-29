@@ -32,7 +32,7 @@ class Category(models.Model):
         ordering = ['name',]
         verbose_name = _(u"category")
         verbose_name_plural = _(u"categories")
-    
+
     def get_absolute_url(self):
         return reverse('blog:category', kwargs={'slug':self.slug})
 
@@ -43,7 +43,7 @@ class Category(models.Model):
             if len(chk): slug_entry = slug_entry + "-" + str(len(chk))
             self.slug = slugify(slug_entry)
         super(Category, self).save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.name
 
@@ -91,7 +91,7 @@ class News(ImagableItemMixin):
                 retries += 1
                 self.slug = "{}-{}".format(slug, retries)
         super(News, self).save(*args, **kwargs)
-    
+
     def get_absolute_url(self):
         return reverse('locations:news_detail', kwargs={
             'location_slug': self.location.slug,
@@ -111,7 +111,7 @@ class News(ImagableItemMixin):
 
     def get_description(self):
         return truncatehtml(self.content, 100)
-    
+
     def __str__(self):
         return self.title
 

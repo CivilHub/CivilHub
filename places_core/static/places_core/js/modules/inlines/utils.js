@@ -9,7 +9,7 @@ define(['jquery',
         'moment',
         'js/modules/utils/utils'],
 
-function ($, _, utils, CommentModel) {
+function ($, _, moment, utils, CommentModel) {
 
 "use strict";
 
