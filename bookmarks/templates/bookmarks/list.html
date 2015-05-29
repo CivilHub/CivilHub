@@ -1,47 +1,34 @@
-{% extends 'places_core/base.html' %}
-{% load i18n %}
-
+{% extends 'places_core/base.html' %}{% load i18n %}
 {% block title %}{% trans "My bookmarks" %}{% endblock title %}
-
-{% block content %}
-<div id="bookmark-Panel" class="container">
+{% block content %}<div id="bookmark-Panel" class="main-content">
   <div class="row">
     <div class="col-sm-12">
-      <div class="bookmarks-page">
-        <div class="bookmarkLabheadling">{% trans "Bookmarks" %}:</div>
+      <div class="create-form newFormCreate">
+        <h3>{% trans "Bookmarks" %}:</h3>
         {% if bookmarks %}
-          <ul class="list-unstyled">
+          <ul class="list-unstyled mb0">
             {% for bookmark in bookmarks %}
             <li>
-              <div class="bk-link"><a href="{{ bookmark.url }}">{{ bookmark }}</a></div>
-              <form action="{% url 'bookmarks-delete' bookmark.pk %}" method="post">{% csrf_token %}
+              <div class="bk-link display-ib-m"><a href="{{ bookmark.url }}">{{ bookmark }}</a></div>
+              <form action="{% url 'bookmarks-delete' bookmark.pk %}" method="post" class="display-ib-m">{% csrf_token %}
                 <input type="hidden" name="pk" value="{{ bookmark.pk }}">
                 <button type="submit" class="btn btn-bookmarkDelete">{% trans "Delate" %}</button>
               </form>
-              <div class="bk-createdTime">{{ bookmark.created_at }}</div>
+              <div class="bk-createdTime display-ib-m text-right">{{ bookmark.created_at }}</div>
             </li>
             {% endfor %}
           </ul>
-          {% if is_paginated %}
-            <div class="pagination">
-              <span class="page-links">
-                {% if page_obj.has_previous %}
-                  <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
-                {% endif %}
-                <span class="page-current">
-                  {% trans "Page" %} {{ page_obj.number }} {% trans "z" %} {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
-                {% endif %}
-              </span>
-            </div>
-          {% endif %}
+          {% if is_paginated %}<div class="pagination">
+            <span class="page-links">
+              {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>{% endif %}
+              <span class="page-current">{% trans "Page" %} {{ page_obj.number }} {% trans "z" %} {{ page_obj.paginator.num_pages }}.</span>
+              {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">&raquo;</a>{% endif %}
+            </span>
+          </div>{% endif %}
         {% else %}
-          <p>{% trans "You don't have bookmarks" %}.</p>
+          <p class="mb0">{% trans "You don't have bookmarks" %}.</p>
         {% endif %}
       </div>
-    </div><!-- / .col-sm-9 -->
-  </div><!-- / .row -->
-</div><!-- / #user-panel -->
-{% endblock content %}
+    </div>
+  </div>
+</div>{% endblock content %}
