@@ -420,11 +420,12 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form):
         context = self.get_context_data(form=form)
-        if form.cleaned_data['parent'] is not None:
+        parent = form.cleaned_data.get('parent')
+        if parent is not None:
             parent = form.cleaned_data['parent']
             parent_id_list = [parent.pk, ] + parent.get_parents
             context['parents'] = Location.objects.filter(pk__in=parent_id_list)
-            return super(CreateLocationView, self).render_to_response(context)
+        return super(CreateLocationView, self).render_to_response(context)
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
