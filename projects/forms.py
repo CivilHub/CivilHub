@@ -16,13 +16,14 @@ class CreateProjectForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = SocialProject
-        fields = ('name', 'description', 'creator', 'location', )
+        fields = ('name', 'description', 'creator', 'location', 'idea', )
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(
                 attrs={'class': 'form-control custom-wysiwyg-no-gallery'}),
             'creator': forms.HiddenInput(),
             'location': forms.HiddenInput(),
+            'idea': forms.HiddenInput(),
         }
 
 

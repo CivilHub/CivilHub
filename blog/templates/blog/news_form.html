@@ -28,16 +28,16 @@
             </form>
         </div>
     </div>
-    
+
     <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
-    
+
     {% if user.is_authenticated %}
         {% include 'gallery/media-uploader.html' %}
         {% if user.is_superuser %}
             {% include 'locations/category-form.html' %}
         {% endif %}
     {% endif %}
-    
+
 {% endblock %}

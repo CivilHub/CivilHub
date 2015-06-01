@@ -1,0 +1,19 @@
+<div class="map-dialog place">
+  <div class="type">
+    <p><%= gettext("Place") %></p>
+  </div>
+  <div class="content">
+    <div class="author">
+    </div>
+    <div class="description">
+      <h4><a href="<%= url %>"><%= title %></a></h4>
+      <% if (followers !== undefined) { %>
+        <p><%= gettext("Followers") %>: <%= followers %></p>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="go-to">
+    <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
+  </div>
+</div>

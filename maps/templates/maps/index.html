@@ -1,49 +1,52 @@
-{% load staticfiles i18n analytical civil_tags %}
+{% load staticfiles i18n civil_tags %}
 
 {% include 'places_core/header.html' %}
 
 {% include 'places_core/script-templates.html' %}
 
+<link rel="stylesheet" href="{% static 'places_core/includes/leaflet/MarkerCluster.css' %}">
+<link rel="stylesheet" href="{% static 'places_core/includes/leaflet/MarkerCluster.Default.css' %}">
+
 <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script>
 <script>
 (function () {
-    
-  "use strict";
-  
-  window.STATIC_URL = "{% static 'places_core' %}";
-  
-  window.MAP_STATIC_URL = "{% static 'maps' %}";
 
-  window.CONTENT_TYPES = {
-  {% for type in content_types %}
-    {{ type.pk }}: {
-      content_type: "{{ type.pk }}",
-      app_label: "{{ type.app_label }}",
-      model: "{{ type.model }}"
-    },
-  {% endfor %}
-  };
+"use strict";
 
-  window.CIVILAPP = {
-    {% if active_marker %}
-    current: {
-      latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
-      longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
-      object_pk: "{{ active_marker.content_object.pk }}",
-      content_type: "{{ active_marker.content_type.pk }}"
+window.STATIC_URL = "{% static 'places_core' %}";
+
+window.MAP_STATIC_URL = "{% static 'maps' %}";
+
+window.CONTENT_TYPES = {
+{% for type in content_types %}
+  {{ type.pk }}: {
+    content_type: "{{ type.pk }}",
+    app_label: "{{ type.app_label }}",
+    model: "{{ type.model }}"
+  },
+{% endfor %}
+};
+
+window.CIVILAPP = {
+  {% if active_marker %}
+  current: {
+    latitude: ("{{ active_marker.latitude }}").replace(',', '.'),
+    longitude: ("{{ active_marker.longitude }}").replace(',', '.'),
+    object_pk: "{{ active_marker.content_object.pk }}",
+    content_type: "{{ active_marker.content_type.pk }}"
+  },{% endif %}
+  position: {
+    lat: ("{{ position.lat }}").replace(',', '.'),
+    lng: ("{{ position.lng }}").replace(',', '.')
+  },
+  icons: { {% for type in content_types %}
+    {% if type.model in icons %}'{{ type.pk }}': {
+      iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
+      iconRetinaUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}@2x.png",
+      iconSize: [23, 27]
     },{% endif %}
-    position: {
-      lat: ("{{ position.lat }}").replace(',', '.'),
-      lng: ("{{ position.lng }}").replace(',', '.')
-    },
-    icons: { {% for type in content_types %}
-      {% if type.model in icons %}'{{ type.pk }}': {
-        iconUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}.png",
-        iconRetinaUrl: "{% static 'maps' %}/icons/marker-{{ type.model }}@2x.png",
-        iconSize: [23, 27]
-      },{% endif %}
-    {% endfor %} }
-  };
+  {% endfor %} }
+};
 
 })();
 </script>
@@ -53,7 +56,6 @@
 </head>
 
 <body>
-{% analytical_body_top %}
 
 {% include 'places_core/navigation.html' %}
 
@@ -78,12 +80,12 @@
     {% trans "Show" %}
     <nav class="civ-map-controller" role="navigation">
       <ul>
-        <li><input type="checkbox" data-target="location" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-location.png' %}" /> {% trans "Places" %}</li>
-        <li><input type="checkbox" data-target="idea" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-idea.png' %}" /> {% trans "Ideas" %}</li>
-        <li><input type="checkbox" data-target="poll" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-poll.png' %}" /> {% trans "Polls" %}</li>
-        <li><input type="checkbox" data-target="discussion" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-discussion.png' %}" /> {% trans "Discussions" %}</li>
-        <li><input type="checkbox" data-target="news" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-news.png' %}" /> {% trans "News" %}</li>
-        <li><input type="checkbox" data-target="socialproject" class="map-filter-toggle" checked="checked" /> <img src="{% static 'maps/icons/marker-socialproject.png' %}" /> {% trans "Projects" %}</li>
+        <li><input type="checkbox" data-target="locations.location" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-location.png' %}" /> {% trans "Places" %}</li>
+        <li><input type="checkbox" data-target="ideas.idea" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-idea.png' %}" /> {% trans "Ideas" %}</li>
+        <li><input type="checkbox" data-target="polls.poll" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-poll.png' %}" /> {% trans "Polls" %}</li>
+        <li><input type="checkbox" data-target="topics.discussion" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-discussion.png' %}" /> {% trans "Discussions" %}</li>
+        <li><input type="checkbox" data-target="blog.news" class="map-filter-toggle" checked="checked" /><img src="{% static 'maps/icons/marker-news.png' %}" /> {% trans "News" %}</li>
+        <li><input type="checkbox" data-target="projects.socialproject" class="map-filter-toggle" checked="checked" /> <img src="{% static 'maps/icons/marker-socialproject.png' %}" /> {% trans "Projects" %}</li>
       </ul>
     </nav>
   </div>
@@ -91,53 +93,6 @@
 
 <div id="main-map"><div class="chSpinBox"><img src="{% static 'maps/images/logo.svg' %}" alt="CivilHub spin" class="fa-chSpin chSpin"><!-- <span class="fa fa-spin fa-circle-o-notch">&nbsp;</span> --></div></div>
 
-{% comment %} Dialoug box template. {% endcomment %}
-
-<script type="text/template" id="map-dialog-tpl">
-<div class="map-dialog <%= window.CONTENT_TYPES[content_type].model %>">
-  <div class="type">
-    <p><%= type %></p>
-  </div>
-  <div class="content">        
-    <div class="author">
-      <img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" />
-    </div>
-    <div class="description">
-      <h4><a href="<%= url %>"><%= title %></a></h4>
-      <%= desc %>
-    </div>
-  </div>
-  <div class="go-to">
-    <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
-  </div>
-</div>
-</script>
-
-{% comment %} Dialogue box template for location {% endcomment %}
-
-<script type="text/template" id="loc-dialog-tpl">
-<div class="map-dialog place">
-  <div class="type">
-      <p>{% trans "Place" %}</p>
-  </div>
-  <div class="content">
-      <div class="author">  
-      </div>
-      <div class="description">
-          <h4><a href="<%= url %>"><%= title %></a></h4>
-          <% if (followers !== undefined) { %>
-              <p>{% trans "Followers" %}: <%= followers %></p>
-          <% } %>
-      </div>
-  </div>
-  
-  <div class="go-to">
-      <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
-  </div>
-</div>
-</script>
-
-{% analytical_body_bottom %}
 </body>
 </html>
 {% include 'places_core/script-templates/flash-msg-tpl.html' %}

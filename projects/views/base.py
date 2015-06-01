@@ -19,6 +19,7 @@ from actstream.models import Action
 
 from gallery.forms import BackgroundForm
 from gallery.image import handle_tmp_image
+from ideas.models import Idea
 from locations.mixins import LocationContextMixin, SearchableListMixin
 from locations.models import Location
 from maps.models import MapPointer
@@ -240,15 +241,32 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         if location_slug is not None:
             initial['location'] = get_object_or_404(Location,
                                                     slug=location_slug)
+        idea_pk = self.kwargs.get('idea_pk')
+        if idea_pk is not None:
+            idea = get_object_or_404(Idea, pk=idea_pk)
+            initial['idea'] = idea
+            initial['location'] = idea.location
         initial['creator'] = self.request.user.pk
         return initial
 
     def form_valid(self, form):
         obj = form.save()
+
+        # Fill in additional many 2 many fields and author entry
         obj.participants.add(obj.creator)
         obj.authors_group.authors.add(obj.creator.author)
         obj.save()
+
+        # Start following for author - this way he will be noticed about
+        # activities related to this project.
         follow(obj.creator, obj, actor_only=False)
+
+        # Change project's idea status, if there is some related object
+        if obj.idea is not None:
+            obj.idea.status = 4
+            obj.idea.save()
+
+        # Create markers for map view
         try:
             for m in json.loads(self.request.POST.get('markers')):
                 marker = MapPointer.objects.create(
@@ -260,6 +278,7 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
         except Exception:
             # FIXME: silent fail, should be a flash message
             pass
+
         return super(CreateProjectView, self).form_valid(form)
 
 

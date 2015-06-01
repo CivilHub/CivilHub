@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+import json
+
 from rest_framework import serializers
+
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext as _
 from django.utils.timesince import timesince
+
 from .models import MapPointer
 
 
@@ -11,14 +16,24 @@ class MapPointerSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = MapPointer
-        exclude = ('id',)
+        exclude = ('id', )
 
 
 class MapClusterSerializer(serializers.Serializer):
     """ Serializer for clusters. """
+    id = serializers.IntegerField()
     lat = serializers.FloatField()
     lng = serializers.FloatField()
-    counter = serializers.IntegerField()
+    count = serializers.IntegerField()
+
+
+class MapSimpleSeraializer(serializers.ModelSerializer):
+    """ Serializes map pointer data along with it's conten object type.
+    """
+    class Meta:
+        model = MapPointer
+        fields = ('id', 'latitude', 'longitude',
+                  'content_type', 'object_pk', )
 
 
 class MapObjectSerializer(serializers.ModelSerializer):
@@ -29,10 +44,10 @@ class MapObjectSerializer(serializers.ModelSerializer):
     lat = serializers.FloatField(source='latitude')
     lng = serializers.FloatField(source='longitude')
     content_object = serializers.SerializerMethodField('get_content_object')
-    
+
     class Meta:
         model = MapPointer
-        fields = ('lat', 'lng', 'content_object',)
+        fields = ('id', 'lat', 'lng', 'content_object',)
 
     def get_content_object(self, obj):
         if obj.content_object is None:
@@ -42,9 +57,13 @@ class MapObjectSerializer(serializers.ModelSerializer):
             'id': obj.content_object.pk,
             'title': obj.content_object.__unicode__(),
             'url': obj.content_object.get_absolute_url(),
-            'type': obj.content_object._meta.verbose_name,
             'desc': obj.content_object.get_description(),
             'date': timesince(obj.content_object.date_created),
+            'type': {
+                'pk': ContentType.objects.get_for_model(obj.content_object).pk,
+                'name': obj.content_object._meta.verbose_name,
+                'kind': obj.content_object._meta.model_name,
+            },
         }
 
         # check if object is project-related
@@ -66,7 +85,6 @@ class MapObjectSerializer(serializers.ModelSerializer):
 
         # only for locations
         if hasattr(obj.content_object, 'kind'):
-            print self.context
             usr = self.context['request'].user
             tmpobj['followers'] = obj.content_object.users.count()
             tmpobj['followed'] = usr in obj.content_object.users.all()

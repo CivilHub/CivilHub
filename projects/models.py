@@ -16,9 +16,10 @@ from django.contrib.auth.models import User
 from ordered_model.models import OrderedModel
 
 from etherpad.models import EtherpadGroup, EtherpadAuthor
-from places_core.helpers import sanitizeHtml
-from locations.models import Location, BackgroundModelMixin
 from gallery.image import resize_background_image
+from ideas.models import Idea
+from locations.models import Location, BackgroundModelMixin
+from places_core.helpers import sanitizeHtml
 
 from places_core.helpers import truncatehtml
 
@@ -81,6 +82,10 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
     image = models.ImageField(blank=True, upload_to=get_upload_path, default='img/projects/default.jpg')
     # Etherpad lite authors group allows us to handle documents for project
     authors_group = models.ForeignKey(EtherpadGroup, null=True, blank=True)
+    # Ideas may be converted into projects. In this case we need this relation
+    idea = models.ForeignKey(Idea, blank=True, null=True,
+                             related_name='projects',
+                             verbose_name=_(u"idea"))
 
     class Meta:
         verbose_name = _(u"project")

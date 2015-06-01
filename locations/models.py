@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
+from maps.signals import create_marker
 from places_core.helpers import sanitizeHtml
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from gallery.image_manager import ImageManager as IM
@@ -437,6 +438,7 @@ class Location(models.Model, BackgroundModelMixin):
 
 
 post_save.connect(resize_background_image, sender=Location)
+post_save.connect(create_marker, sender=Location)
 
 
 @python_2_unicode_compatible
