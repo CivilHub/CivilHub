@@ -18,7 +18,7 @@
         <div class="text-center"><a href="#" class="abuse-link custom-tooltip-bottom small" data-pk="{{ message.pk }}" data-ct="{% with message|content_type as ctype %}{{ ctype.pk }}{% endwith %}" title="{% trans "Report abuse" %}"><span class="fa fa-exclamation-triangle"><span class="sr-only">{% trans "Report abuse" %}</span></span></a></div>{% endif %}</div>
         <div class="pm_container">
           <div class="postman-panel">
-            <div class="postman-heading"><span>{{ message.sender.get_full_name }}</span> <span class="pull-right">{{ message.sent_at|date:"d/m/Y/ H:i "}}</span></div>
+            <div class="postman-heading"><a href="{{ message.sender.profile.get_absolute_url }}">{{ message.sender.get_full_name }}</a> <span class="pull-right">{{ message.sent_at|date:"d/m/Y/ H:i "}}</span></div>
             <div class="postman-body">{{ message.body|linebreaksbr }}</div>
           </div>
       </div>
@@ -29,7 +29,7 @@
           <form action="{% url 'postman_reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post" class="form-horizontal postman-form">{% csrf_token %}
             <div class="form-group">
               <div class="col-sm-1">
-                <div class="avatarViewIMG"><img src="{{ user.profile.avatar.url }}"></div>
+                <div class="avatarViewinboxMessageAuthorIMG"><img src="{{ user.profile.avatar.url }}"></div>
               </div>
               <div class="col-sm-11 postman-entrymsg">
                 <textarea id="id_body" rows="1" name="body" cols="55" class="form-control postman-textarea"></textarea>
