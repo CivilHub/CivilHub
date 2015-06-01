@@ -75,7 +75,7 @@ def cleanup_register_demands(forced=False):
     logger.info(u"[{}]: Finished register cleanup".format(timezone.now()))
 
 
-@periodic_task(run_every=datetime.timedelta(minutes=20))
+@periodic_task(run_every=datetime.timedelta(minutes=5))
 def update_indexes():
     """ Update haystack indexes. """
     logger.info(u"[{}]: Started update indexes".format(timezone.now()))
