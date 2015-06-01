@@ -90,6 +90,7 @@ class ContactForm(forms.Form):
         message = mails.ContactEmail()
         message.send(settings.CONTACT_EMAIL_ADDRESS, {
             'sender': self.cleaned_data['name'],
+            'email': self.cleaned_data['email'],
             'message': self.cleaned_data['message'], })
         message = mails.ContactResponseEmail()
         email_context = {
