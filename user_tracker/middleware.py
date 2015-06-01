@@ -104,5 +104,4 @@ class VisitorTrackingMiddleware(object):
         try:
             visitor.save()
         except DatabaseError:
-            log.error('Problem when saving visitor information:\n%s\n\n%s' %
-                      (traceback.format_exc(), locals()))
+            log.error('Problem when saving visitor information')
