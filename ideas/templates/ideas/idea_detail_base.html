@@ -38,7 +38,7 @@
   <div class="row ivotepage mb20">
     <h1 class="text-center">{{ idea.name }}</h1>
   <div class="col-sm-8 mt25 pl0">
-    {% if not idea.has_default_image %}<div class="content-image bigImg4" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% endif %}
+    {% if not idea.has_default_image %}<div class="content-image bigImg4" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% else %}<div class="content-image bigImg4 idea-default-img"></div>{% endif %}
     {% visit_counter idea %}
   </div><!--9-->
   {% include 'ideas/idea-votes.html' %}
@@ -48,13 +48,17 @@
       <div class="display-ib-m text-left"><a href="{{ idea.creator.profile.get_absolute_url }}" class="author-bn user-window-toggle" data-target="{{ idea.creator.pk }}">{{ idea.creator.get_full_name }}</a><br><span class="ideaDataCreated">{{ idea.date_created }}</span>
       </div>
     </div>
+    <div class="acticle-content text-center ibutton-share">
+      {% if idea.status %}<h3 class="text-green custom-tooltip-right mb0 display-ib-m" title="{% trans "Status" %}"><strong>{{ idea.get_status_display|capfirst }}</strong></h3>
+      {% else %}<h3 class="text-danger custom-tooltip-right mb0 display-ib-m" title="{% trans "Status" %}"><strong>{% trans "Inactive" %}</strong></h3>{% endif %}
+    </div>
     {% vote_area idea %}
   </div><!--3-->
 </div>
 <div class="row ivotepage">
   <div class="col-sm-12 p-reset mb20">
     <div class="row itab-nav">
-      {% block idea_link%}<ul class="mb0 list-inline col-sm-8 pr0">
+      {% block idea_link %}<ul class="mb0 list-inline col-sm-8 pr0">
         <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "Informations" %}</a></li>
         <li><a href="{{ idea.get_absolute_url }}news/#news">{% trans "News" %}</a></li>
         {% with idea|content_type as ctype %}{% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li class="pull-right"><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}{% endwith %}
