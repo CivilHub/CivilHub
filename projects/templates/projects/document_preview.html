@@ -6,6 +6,6 @@
     <button type="submit" class="txt-to to-doc custom-tooltip display-ib-m" title="{% trans "Download this pad in doc" %}"></button>
     <span class="txt-to to-pdf custom-tooltip display-ib-m" title="{% trans "Soon" %}"></span>
   </form>
-    <a href="{% url 'pad-collaborate' document.pk %}" class="custom-tooltip to-edit display-ib-m" title="{% trans "Collaborate" %}"><span class="fa fa-pencil-square-o fa-2x"></span></a>
+    {% if user in object.participants.all %}<a href="{% url 'pad-collaborate' document.pk %}" class="custom-tooltip to-edit display-ib-m" title="{% trans "Collaborate" %}"><span class="fa fa-pencil-square-o fa-2x"></span></a>{% else %}<span class="custom-tooltip to-edit display-ib-m" title="{% trans "Join the Project" %}"><span class="fa fa-pencil-square-o fa-2x"></span></span>{% endif %}
 </div>
 <div class="main-content mt25">{{ document.html|safe }}</div>{% endblock %}
