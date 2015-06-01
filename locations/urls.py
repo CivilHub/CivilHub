@@ -79,6 +79,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
 
     # PROJECTS in locations
+    url(r'^(?P<location_slug>[\w-]+)/projects/create/(?P<idea_pk>\d+)/', project_views.CreateProjectView.as_view(), name='project_create_for_idea'),
     url(r'^(?P<location_slug>[\w-]+)/projects/create/', project_views.CreateProjectView.as_view(), name='project_create'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/details/', project_views.ProjectSummaryView.as_view(), name='project_summary'),
     url(r'^(?P<location_slug>[\w-]+)/projects/(?P<slug>[\w-]+)/participants/', project_views.ProjectParticipantsView.as_view(), name='project_participants'),

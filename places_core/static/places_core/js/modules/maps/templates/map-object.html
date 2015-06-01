@@ -1,0 +1,17 @@
+<div class="map-dialog <%= type.kind %>">
+  <div class="type">
+    <p><%= type.name %></p>
+  </div>
+  <div class="content">
+    <div class="author">
+      <img src="<%= img %>" alt="<%= title %>" class="map-dialog-thumb" />
+    </div>
+    <div class="description">
+      <h4><a href="<%= url %>"><%= title %></a></h4>
+      <%= desc %>
+    </div>
+  </div>
+  <div class="go-to">
+    <a href="<%= url %>"><span class="fa fa-chevron-right">&nbsp;</span></a>
+  </div>
+</div>

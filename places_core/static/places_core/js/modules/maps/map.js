@@ -2,304 +2,408 @@
 // map.js
 // ======
 
-// Main map scripts
+// Scripts to handle new version of main map.
 
 define(['jquery',
         'underscore',
-        'leaflet'],
+        'leaflet',
+        'text!js/modules/maps/templates/map-object.html',
+        'text!js/modules/maps/templates/map-location.html'],
 
-function ($, _, L) {
+function ($, _, L, oTpl, lTpl) {
 
 "use strict";
 
-var icons = {}; // We fetch icons from script in template file
-
 var defaults = {
+
+  // Id attribute of element for map - mandatory
   elementID: 'map',
+
   // Base url to get marker data
-  apiURL: '/api-maps/data/',
+  apiURL: '/api-maps/new-markers/',
+
   // URL to fetch info about specific object
   infoURL: '/api-maps/objects/',
+
+  // Change this value if you want to use custom tile set
   mapTailURL: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
   // Minimum zoom to show single markers
-  minZoom: 10,
+  minZoom: 9,
+
   // Maximum possible zoom - because of tileset settings
   maxZoom: 18,
+
   // List of content types id to fetch
   filters: [],
+
+  // Use Leaflet detect retina feature
   detectRetina: true,
+
+  // Initial default zoom
   startZoom: 12,
+
+  // Initial center position
   center: [0, 0],
+
+  // Active marker used for centering map from outer views ("show on map")
+  active: null,
+
+  // Attribution to display in map area
   attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
 };
 
-// Main map constructor
+// Array that will hold icon metadata
+
+var icons = [];
+
+// Create icons for different marker types
+
+_.each(CIVILAPP.icons, function (icon, key) {
+  icons[key] = L.icon(icon);
+});
+
+// Common shortcut for jQuery GET function taking callback as argument. You can
+// also pass 'context' argument, which simplify passing 'this' value.
 //
-// @param options { object } Simple object with options. See options for details.
+// @param String Url to send data
+// @param Object GET request data in form of plain object
+// @param Function Callback to trigger on success
+// @param Object   Context to pass as 'this' to callback.
 
-var Map = function (options) {
-  // Array to hold marker so we have some hooks to manipulate them
-  this.markers = [];
-  // Array to hold cluster markers
-  this.clusters = [];
-  // Array of content types to fetch with every API request
-  this.filters = options.filters;
-  // Fetch only data related to this location
-  this.location = null;
-  this.opts = $.extend(defaults, options);
-  this.initialize();
-  this.map.on('zoomend dragend', function () {
-    this.fetchData();
-  }.bind(this));
-  this.map.on('zoomend', function () {
-    this.clearClusters();
-    // Hide or show control panel - show it only when single
-    // markers are visible.
-    if (this.map.getZoom() >= this.opts.minZoom) {
-      $('#map-options-toggle').fadeIn('fast');
-      $('#map-options-panel').fadeIn('fast');
-    } else {
-      $('#map-options-toggle').fadeOut('fast');
-      $('#map-options-panel').fadeOut('fast');
+function fetch (url, data, callback, context) {
+  $.get(url, data, function (response) {
+    if (_.isFunction(callback)) {
+      callback.call(context, response);
     }
-  }.bind(this));
-  // Fetch starting point if zoom is big enough
-  if (this.map.getZoom() >= this.opts.minZoom) {
-    this.fetchData();
-  }
-};
-
-// Init map and create icon objects.
-
-Map.prototype.initialize = function () {
-  var center = this.opts.center;
-  var zoom = this.opts.startZoom;
-  // Mark active marker when 'show on map' option is used
-  if (!_.isUndefined(CIVILAPP.current)) {
-    var m = CIVILAPP.current;
-    center = [m.latitude, m.longitude];
-    zoom = 15;
-    this.activeMarker = L.marker(center);
-  }
-  this.map = L.map(this.opts.elementID).setView(center, zoom);
-  L.tileLayer(this.opts.mapTailURL, {
-    attribution: this.opts.attribution,
-    maxZoom: this.opts.maxZoom,
-    detectRetina: true
-  }).addTo(this.map);
-  // Create icons for different marker types
-  _.each(CIVILAPP.icons, function (icon, key) {
-    icons[key] = L.icon(icon);
   });
-};
+}
 
-// Get markers from server
 
-Map.prototype.fetchData = function () {
-  var mapData = {
-    zoom: this.map.getZoom(),
-    lat: this.map.getCenter().lat,
-    lng: this.map.getCenter().lng
-  };
-  // Check for content type filters
-  if (!_.isEmpty(this.filters)) {
-    mapData.filters = this.filters.join(',');
-  }
-  // Check for location filters
-  if (!_.isNull(this.location)) {
-    mapData.location = this.location;
-  }
-  // Clear markers on zoom-out
-  if (mapData.zoom < this.opts.minZoom) {
-    this.clearMarkers();
-    // return false;
-  } else {
-    this.clearClusters();
-  }
-  $.get(this.opts.apiURL, mapData, function (response) {
-    this.updateMarkers(response);
+// -----------------------------------------------------------------------------
+//
+// Custom wrapper for Leaflet marker
+//
+// -----------------------------------------------------------------------------
+
+function MapMarker (item) {
+
+  // This value should be set by parent object in initialize method.
+  this.apiUrl = '/';
+
+  this.marker = L.marker([item.latitude, item.longitude], {
+    icon: icons[item.content_type]
+  });
+
+  this.marker.on('click', function (e) {
+    this.getInfo();
   }.bind(this));
+
+  this.meta = {
+    id: item.id,
+    ct: item.content_type,
+    pk: parseInt(item.object_pk, 10)
+  };
+}
+
+// Allows us to pass some additional options from main map object
+//
+// @param Object Plain object with additional parameters
+
+MapMarker.prototype.initialize = function (options) {
+  this.apiUrl = options.apiUrl || defaults.infoURL;
 };
 
-// Process server data and create new markers/delete old
-//
-// @param markers { array } Array with markers fetched from server
+// Get detailed info about marked object
 
-Map.prototype.updateMarkers = function (markers) {
-  var indexes = [];
-  // Create new markers
-  _.each(markers, function (item, idx) {
-    if (this.map.getZoom() >= this.opts.minZoom) {
-      this.addMarker(item);
-    } else {
-      this.addCluster(item);
-    }
-  }, this);
-  // Find markers that are no longer available
-  _.each(this.markers, function (marker) {
-    var chk = _.find(markers, function (m) {
-      var latlng = marker.getLatLng();
-      return latlng.lat === m.latitude && latlng.lng === m.longitude;
-    }, this);
-    if (_.isUndefined(chk)) {
-      indexes.push(marker);
-    }
-  }, this);
-  // Delete unwanted old markers
-  _.each(indexes, function (marker) {
-    this.map.removeLayer(marker);
-    this.markers.splice(this.markers.indexOf(marker), 1);
+MapMarker.prototype.getInfo = function () {
+  var data = { ct: this.meta.ct, pk: this.meta.pk };
+  var popup = L.popup({ minWidth: 500, maxWidth: 500 });
+  fetch(this.apiUrl, data, function (response) {
+    var obj = response[0].content_object;
+    var tpl = obj.type.kind === 'location' ? lTpl : oTpl;
+    tpl = _.template(tpl);
+    popup.setContent(tpl(obj))
+      .setLatLng(this.marker.getLatLng())
+      .openOn(this.marker._map);
   }, this);
 };
 
-// Place new cluster on map
-//
-// @param item { object } Cluster object fetched from server
 
-Map.prototype.addCluster = function (item) {
-  var cluster = L.marker([item.lat, item.lng], {
+// -----------------------------------------------------------------------------
+//
+// Simplified marker representing cluster group
+//
+// -----------------------------------------------------------------------------
+
+function MapCluster (item) {
+  this.marker = L.marker([item.lat, item.lng], {
     icon: L.divIcon({
       className: 'count-icon',
-      html: item.counter,
+      html: item.count,
       iconSize: [40, 40]
     })
   });
-  var latlng = L.latLng(item.lat, item.lng);
+  this.meta = { id: item.id };
+}
 
-  // Check if cluster already exists
-  var chk = _.find(this.clusters, function (cluster) {
-    return cluster.getLatLng().equals(latlng);
-  });
-  if (!_.isUndefined(chk)) return false;
+// Bind events
+//
+// @param Object Plain object with options - not used for now.
 
-  this.map.addLayer(cluster);
-  this.clusters.push(cluster);
-
-  cluster.on('click', function () {
-    this.map.setView(cluster.getLatLng(), 10);
+MapCluster.prototype.initialize = function (options) {
+  this.marker.on('click', function (e) {
+    this.setMapPosition();
   }.bind(this));
 };
 
-// Destroy entire clusters array
+// Set map position to show underlying markers
 
-Map.prototype.clearClusters = function () {
-  _.each(this.clusters, function (cluster) {
-    this.map.removeLayer(cluster);
-  }, this);
-  this.clusters = [];
+MapCluster.prototype.setMapPosition = function () {
+  this.marker._map.setView(this.marker.getLatLng(), 12);
 };
 
-// Place new marker on map
+
+// -----------------------------------------------------------------------------
 //
-// @param item { object } Marker object fetched from server
+// Main map object - manages entire map and creates Leaflet objects
+//
+// @param Object Options in plain object form. They will override 'defaults'
+//
+// -----------------------------------------------------------------------------
 
-Map.prototype.addMarker = function (item) {
-  var marker = L.marker([item.latitude, item.longitude], {
-    icon: icons[item.content_type]
-  });
-  var latlng = L.latLng(item.latitude, item.longitude);
+function CivilMap (options) {
+  options = _.extend(defaults, options);
 
-  // Check if marker already exists
-  var chk = _.find(this.markers, function (marker) {
-    return marker.getLatLng().equals(latlng);
-  });
-  if (!_.isUndefined(chk)) return false;
+  // Collection of markers or clusters
+  this.markers = [];
 
-  // Extra metadata to communicate with server
-  _.extend(marker, { meta:{ ct:item.content_type,pk:item.object_pk }});
+  // Content type filters
+  this.filters = options.filters;
 
-  this.map.addLayer(marker);
-  this.markers.push(marker);
+  // Zoom value indicating switch markers/clusters
+  this.zoomSwitch = options.minZoom;
 
-  // Check if marker is selected when option 'show on map' is used, but
-  // only first time after map is loaded.
-  if (!_.isUndefined(this.activeMarker)) {
-    console.log("active marker");
-    if (marker.getLatLng().equals(this.activeMarker.getLatLng())) {
-      this.markerInfo(marker);
-      console.log(marker);
-      delete this.activeMarker;
+  // DOM element for entire map
+  this.$el = $(document.getElementById(options.elementID));
+
+  // Base URL from which to fetch markers
+  this.apiURL = options.apiURL;
+
+  // URL to get detailed info about content object
+  this.infoURL = options.infoURL;
+
+  // Create cluster that holds entire single markers collection.
+  this.cluster = new L.MarkerClusterGroup();
+
+  // Set initially active marker if you want to open popup on map initialize.
+  this.active = options.active;
+
+  // Bind events
+  this.initialize(options);
+}
+
+// Create Leaflet map and prepare markers to use.
+//
+// @param Object Options passed by constructor
+
+CivilMap.prototype.initialize = function (options) {
+  this.map = L.map(options.elementID)
+    .setView(options.center, options.startZoom);
+
+  L.tileLayer(options.mapTailURL, {
+    attribution: options.attribution,
+    maxZoom: options.maxZoom,
+    detectRetina: options.detectRetina
+  }).addTo(this.map);
+
+  this.map.addLayer(this.cluster);
+
+  this.fetchData();
+
+  this.map.on('zoomstart', function () {
+    this._currentZoom = this.map.getZoom();
+  }.bind(this));
+
+  // Control zoom level and change to markers/clusters as needed
+
+  this.map.on('zoomend', function () {
+    var i = this._currentZoom;
+    var t = this.map.getZoom();
+
+    // This is really strange, but it seems that sometimes
+    // in js 'false && true' returns true...
+
+    if (i >= this.zoomSwitch) {
+      if (t < this.zoomSwitch) {
+        this.clear();
+        $('#map-options-toggle').fadeOut('fast');
+        $('#map-options-panel').fadeOut('fast');
+      }
+    } else {
+      if (t >= this.zoomSwitch) {
+        this.clear();
+        $('#map-options-toggle').fadeIn('fast');
+        $('#map-options-panel').fadeIn('fast');
+      }
     }
-  }
+    this.fetchData();
+    this._currentZoom = t;
+  }.bind(this));
 
-  // Create popup and open it up when user clicks on marker.
-  marker.on('click', function () {
-    this.markerInfo(marker);
+  // Mark current boundaries so we can calculate difference later.
+
+  this.map.on('dragstart', function () {
+    var bounds = this.map.getBounds();
+    this._ne = bounds.getNorthEast();
+    this._sw = bounds.getSouthWest();
+  }.bind(this));
+
+  // Calculate lat/lng difference to fetch only new markers.
+
+  this.map.on('dragend', function () {
+    var bounds = this.map.getBounds();
+    var northEast = bounds.getNorthEast();
+    var southWest = bounds.getSouthWest();
+    var latDiff = northEast.lat - this._ne.lat;
+    var lngDiff = northEast.lng - this._ne.lng;
+    var ne = {
+      lat: this._ne.lat + latDiff,
+      lng: this._ne.lng + lngDiff
+    };
+    var sw = {
+      lat: this._sw.lat + latDiff,
+      lng: this._sw.lng + lngDiff
+    };
+    this.fetchData(ne, sw);
   }.bind(this));
 };
 
-// Delete single marker
-//
-// @param marker { object L.marker } Marker object
+// Fetch map data when position or zoom changes.
 
-Map.prototype.deleteMarker = function (marker) {
-  this.markers.splice(this.markers.indexOf(marker), 1);
-  this.map.removeLayer(marker);
+CivilMap.prototype.fetchData = function (ne, sw) {
+  var bounds = this.map.getBounds();
+  var northEast = ne || bounds.getNorthEast();
+  var southWest = sw || bounds.getSouthWest();
+  var data = {
+    zoom: this.map.getZoom(),
+    ne: northEast.lat + 'x' + northEast.lng,
+    sw: southWest.lat + 'x' + southWest.lng,
+    filters: encodeURIComponent(this.filters)
+  };
+  fetch(this.apiURL, data, function (response) {
+    if (this.map.getZoom() >= this.zoomSwitch) {
+      this.renderMarkers(response);
+    } else {
+      this.renderClusters(response);
+    }
+  }, this);
 };
 
-// Clear entire marker collection
+// Renders entire marker/cluster collection
+//
+// @param Array Array holding markers fetched from server
 
-Map.prototype.clearMarkers = function () {
-  _.each(this.markers, function (marker) {
-    this.map.removeLayer(marker);
+CivilMap.prototype.renderMarkers = function (markers) {
+  var chk;
+
+  // Create new markers that don't exist yet.
+
+  _.each(markers, function (m) {
+    chk = _.find(this.markers, function (marker) {
+      return marker.meta.id == m.id;
+    });
+    if (_.isUndefined(chk)) {
+      var marker = new MapMarker(m);
+      marker.initialize({ apiUrl: this.infoURL });
+      this.markers.push(marker);
+      this.cluster.addLayer(marker.marker);
+      if (!_.isNull(this.active)) {
+        if (m.content_type == this.active.content_type
+            && m.object_pk == this.active.object_pk) {
+          marker.getInfo();
+          this.active = null;
+        }
+      }
+    }
+  }, this);
+
+  // Delete objects that are no longer visible
+
+  _.each(this.markers, function (m) {
+    chk = _.find(markers, function (marker) {
+      return marker.id == m.meta.id;
+    });
+    if (_.isUndefined(chk)) {
+      this.cluster.removeLayer(m.marker);
+      this.markers.splice(this.markers.indexOf(m), 1);
+    }
+  }, this);
+};
+
+// Renders simplified markers collection, depending on zoom level
+//
+// @param Array JSON data fetched from server
+
+CivilMap.prototype.renderClusters = function (clusters) {
+  var chk;
+
+  // Similar to the above, but operating on different set of objects
+
+  _.each(clusters, function (c) {
+    chk = _.find(this.markers, function (marker) {
+      return marker.meta.id == c.id;
+    });
+    if (_.isUndefined(chk)) {
+      var cluster = new MapCluster(c);
+      cluster.initialize();
+      this.markers.push(cluster);
+      this.map.addLayer(cluster.marker);
+    }
+  }, this);
+
+  // Remove obsolete clusters
+
+  _.each(this.markers, function (m) {
+    chk = _.find(clusters, function (cluster) {
+      return cluster.id == m.meta.id;
+    });
+    if (_.isUndefined(chk)) {
+      this.map.removeLayer(m.marker);
+      this.markers.splice(this.markers.indexOf(m), 1);
+    }
+  }, this);
+};
+
+// Delete single marker and remove it from map
+//
+// @param L.Marker Marker to delete
+
+CivilMap.prototype.removeMarker = function (m) {
+  this.map.removeLayer(m.marker);
+  this.markers.splice(this.markers.indexOf(m), 1);
+};
+
+// Clear entire collection
+
+CivilMap.prototype.clear = function () {
+  this.cluster.clearLayers();
+  _.each(this.markers, function (m) {
+    this.map.removeLayer(m.marker);
   }, this);
   this.markers = [];
 };
 
-// Method to open popup with detailed info about marker object.
+// Set filters for content types to narrow results
 //
-// @param marker { L.marker } Single marker object
+// @param Array List of numeric content type ID's
 
-Map.prototype.markerInfo = function (marker) {
-  $.get(this.opts.infoURL, marker.meta, function (response) {
-    var popup = null;
-    var model = CONTENT_TYPES[marker.meta.ct].model;
-    var tpl = (model === 'location') ? '#loc-dialog-tpl'
-                                     : '#map-dialog-tpl';
-    // We have to create different template for location objects
-    tpl = _.template($(tpl).html());
-    // Little hack for template - is it really necessary?
-    response[0].content_object.content_type = marker.meta.ct;
-    popup = L.popup({ minWidth: 500, maxWidth: 500 });
-    popup.setContent(tpl(response[0].content_object))
-    .setLatLng(marker.getLatLng())
-    .openOn(this.map);
-  }.bind(this));
-};
-
-// Set filters to search only for markers related to selected content types
-//
-// @param filters { array/int/null } Single type id or array of id's. Pass null to clear.
-
-Map.prototype.setFilters = function (filters) {
-  if (filters === undefined) return false;
-  if (_.isNull(filters)) {
-    // Reset filters
-    this.filters = [];
-  } else if (_.isArray(filters)) {
-    // Array of filters
-    this.filters = filters;
-  } else {
-    // Single filter
-    this.filters = [filters];
-  }
+CivilMap.prototype.filter = function (filters) {
+  this.filters = filters;
+  this.clear();
   this.fetchData();
 };
 
-// Set filter to search only for objects related to selected location.
-//
-// @param location { int } Location's ID. null to reset.
-
-Map.prototype.setLocation = function (location) {
-  if (_.isNull(location)) {
-    this.location = null;
-    return true;
-  }
-  this.location = location.location;
-  this.map.setView([location.lat, location.lng], 10);
-  this.fetchData();
-};
-
-return Map;
+return CivilMap;
 
 });

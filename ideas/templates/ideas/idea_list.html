@@ -1,4 +1,4 @@
-{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags idea_tags %}
 {% block title %}{{ location }} {% trans "Ideas" %} - Civilhub.org {% endblock %}
 {% block require_scripts %}<script src="{% module_path 'idea-list' %}"></script>{% endblock %}
 {% block navigation_location %}<div class="location-page-ideas">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
@@ -10,8 +10,8 @@
         <div class="vote-form">
           <div class="votes">{{ idea.get_votes }}</div>
           <div class="vote-controls">
-            <button data-target-id="{{ idea.pk }}" data-vote="up" class="vote-btn custom-tooltip-right" title="{% trans "Good Idea, Vote YES" %}"></button>
-            <button data-target-id="{{ idea.pk }}" data-vote="down" class="vote-btn custom-tooltip-right" title="{% trans "Bad Idea, Vote No" %}"></button>
+            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_up %}revoke{% else %}up{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow aup" title="{% trans "Good Idea, Vote YES" %}"></button>
+            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_no %}revoke{% else %}down{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow adown" title="{% trans "Bad Idea, Vote No" %}"></button>
           </div>
         </div>
         <div class="clear">&nbsp;</div>

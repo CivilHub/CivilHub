@@ -18,13 +18,13 @@
       <a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a>
     </div>
     <div class="register-box">
-      <h1>{% trans "Create a new account" %}</h1>
+      <h1 class="text-center">{% trans "Create a new account" %}</h1>
       <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">{% csrf_token %}
         <div class="form">
         <div class="form-group">
-          <div class="col-xs-6">
+          <div class="col-xs-6 pl0">
             <input id="name" class="short short-left form-control{% if form.errors.first_name %} error-popover" data-content="{% for error in form.errors.first_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="first_name" placeholder="{% trans "First name" %}" value="{{ form.first_name.value|default_if_none:"" }}"></div>
-          <div class="col-xs-6">
+          <div class="col-xs-6 pr0">
             <input id="surname" class="short form-control{% if form.errors.last_name %} error-popover" data-content="{% for error in form.errors.last_name %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="text" name="last_name" placeholder="{% trans "Surname" %}" value="{{ form.last_name.value|default_if_none:"" }}">
           </div>
         </div>
@@ -38,16 +38,16 @@
           <input id="pass2" class="long form-control{% if form.errors.password2 %} error-popover" data-content="{% for error in form.errors.password2 %}{{ error }}{% endfor %}"{% else %}"{% endif %}" type="password" name="password2" placeholder="{% trans "Repeat password" %}">
         </div>
         </div>
-        <div class="registerButtons">
+        <div class="registerButtons text-center">
           <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
           <a class="twitter-btn" href="{% url 'social:begin' 'twitter' %}" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>   
           <a class="linkedin-btn" href="{% url 'social:begin' 'linkedin' %}"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
           <a class="google-btn" href="{% url 'social:begin' 'google-plus' %}"><span class="fa fa-google-plus"></span></a>
         </div>
-        <div class="registerButtonSubmit">
-          <button id="signup_button" type="submit" class="long signup-button antiman">{% trans "Sign up" %}</button>
+        <div class="registerButtonSubmit text-center">
+          <button id="signup_button" type="submit" class="long signup-button antiman btn-greenBig">{% trans "Sign up" %}</button>
         </div>
-        <p class="terms">{% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "term of service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "privacy policy" %}</a>.</p>
+        <p class="terms text-center">{% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank"><strong>{% trans "term of service" %}</strong></a> {% trans "and" %} <a href="/privacy" target="_blank"><strong>{% trans "privacy policy" %}</strong></a>.</p>
       </form>
     </div>
     <div class="footerLang footer" id="footer-register">   

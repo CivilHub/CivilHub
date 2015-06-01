@@ -1,31 +1,31 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
 {% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/civmail-invite.js"></script>{% endblock %}
-{% block header %}<div class="headerBGaInvi headerBGInvite">
+{% block header %}<div class="headerBGaInvi text-center headerBGInvite">
   <div class="headerInviteBox">
     <h1 class="headerTitleInvite"> {% trans "Invite friends" %} </h1>
     <a style="display:none" href="#" type="button" class="btn-googleInvite contacts-toggle" title="{% trans "You must be logged by Google" %}">{% trans "Invite friends from Gmail" %}</a>
   </div>
 </div>{% endblock %}
 {% block content %}{% include 'places_core/google-contacts-modal.html' %}
-<div class="invitePage">
-  <div class="inviteFriends">
+<div class="invitePage mt25 mb20 main-content">
+  <div class="container"><div class="inviteFriends text-center">
     <h2>{% trans "Invite a friend by sending him a message, to have the opportunity to find out what it means to force CivilHub." %}</h2>
     <h3>{% trans "Terms and Conditions" %}</h3>
   </div>
-  <div class="inviteForm"><form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">{% csrf_token %}
-    <div class="inviteInputL">
+  <div class="inviteForm text-center mt25"><form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">{% csrf_token %}
+    <div class="col-sm-4 col-sm-offset-1">
       <input type="text" name="emails" class="form-control" placeholder="{% trans "Add your friend’s email addresses" %}">
       <p class="text-left">{% trans "Separate the adressees with commas" %}</p>
     </div>
-    <div class="inviteSubmit">
+    <div class="col-sm-2 mb20">
       <button type="submit" class="btn btn-saveBig">{% trans "Send" %}</button>
     </div>
-    <div class="inviteInputR">
+    <div class="col-sm-4">
       <input type="hidden" name="name" value="civilhub.org">
       <input type="text" name="link" class="form-control" value="https://civilhub.org/" readonly>
     <div class="text-left">{% trans "Share:" %}
       <div class="fb-share-button" data-href="https://civilhub.org" data-layout="icon"></div>{% comment %}<span class="fa fa-facebook"></span>
       <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://civilhub.org"><span class="fa fa-twitter"></span></a> {% endcomment %}</div>
     </div>
-  </form></div>
+  </form></div></div>
 </div>{% endblock %}

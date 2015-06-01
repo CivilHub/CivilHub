@@ -48,8 +48,8 @@
 <div class="location-logo" id="task-page-header-block">
   <div class="container">
     <div class="title-container">
-      <div class="project-name"><h1>{{ object }}</h1></div>
-      <div class="project-content"><p>{{ object.description|safe|striptags|slice:'300' }}</p></div>
+      <div class="project-name mt25"><h1>{{ object }}</h1></div>
+      <div class="project-content text-left"><p>{{ object.description|safe|striptags|slice:'300' }}</p></div>
       <div class="join-project-btn">
         {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
           {% if user in object.participants.all %}<div class="join-project-btn">
@@ -62,8 +62,8 @@
         {% else %}<a href="{% url 'user:login' %}?next={{ object.get_absolute_url }}" class="submit-button">{% trans "Log in" %}</a> {% trans "if you want to join this project" %}{% endif %}
       </div>
       <div class="projectparticipants-icons-top">
-        <p>{% trans "Project Participants" %}</p>
-        {% for p in object.participants.all %}<a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
+        <p class="mb0"><strong>{% trans "Project Participants" %}</strong></p>
+        {% for p in object.participants.all %}<a href="{{ p.profile.get_absolute_url }}" class="custom-tooltip task-ppll" title="{{ p.profile }}"><img src="{{ p.profile.avatar.url }}"></a>{% endfor %}
       </div>
     </div>
     {% if project_access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'projects:background' object.slug %}">{% trans "Change background image" %}</a></div>{% endif %}

@@ -50,10 +50,19 @@ require.config({
     "mapplic": "includes/mapplic/mapplic",
     "jmousewheel": "includes/mapplic/jquery.mousewheel",
     "CUri": "includes/curi",
-    "lightbox": "includes/lightbox"
+    "lightbox": "includes/lightbox",
+    "facebook": "//connect.facebook.net/en_US/sdk"
   },
 
   "shim": {
+
+    "leaflet": {
+      "exports": "L"
+    },
+
+    "facebook": {
+      "exports": "FB"
+    },
 
     "tour": {
       "deps": ["bootstrap"]

@@ -3,11 +3,11 @@ from django.conf.urls import patterns, url
 from ideas.views import *
 import api
 
-from rest_framework import routers
-router = routers.DefaultRouter()
+from rest.routers import HybridRouter
+router = HybridRouter()
 router.register('idea', api.IdeaAPIViewSet, 'ideas')
 router.register('categories', api.IdeaCategoryAPIViewSet, 'categories')
-router.register('votes', api.IdeaVoteAPIViewSet, 'votes')
+router.add_api_view('vote', url(r'^vote/', api.IdeaVoteAPI.as_view(), name='vote'))
 
 urlpatterns = patterns('',
     url(r'categories/create/', CreateCategory.as_view(), name='new_category'),
