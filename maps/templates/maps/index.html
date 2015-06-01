@@ -1,5 +1,15 @@
 {% load staticfiles i18n civil_tags %}
 
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+<meta property="og:title" content="{{ title }}"/>
+<meta property="og:image" content="https://civilhub.org/static/places_core/img/map.jpg"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url " content="https://civilhub.org/maps/" />
+<meta property="og:description" content="{% trans "Jump into the map and see what is happening in your place." %}"/>
+<meta name="keywords" content="{{ title }}">{% endblock %}
+
 {% include 'places_core/header.html' %}
 
 {% include 'places_core/script-templates.html' %}

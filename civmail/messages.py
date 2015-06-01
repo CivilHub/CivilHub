@@ -105,7 +105,13 @@ class LastLoginNotifyEmail(template_mail.TemplateMail):
 
 class FriendsEmail(template_mail.TemplateMail):
     """ Send this email to new Facebook user with notification about his FB
-        friends already registered in system, and to all of this users about
-        his friend joining portal. I hope you understand.
+        friends already registered in system.
     """
     name = "friends"
+
+
+class NewFriendEmail(template_mail.TemplateMail):
+    """ Send this message to all Facebook friends of newly logged in user and
+        inform them that they frind joined Civilhub.
+    """
+    name = "new_friend"

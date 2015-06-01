@@ -2,6 +2,7 @@
 import os
 import json
 import urllib
+import urllib2
 
 from PIL import Image
 
@@ -10,12 +11,31 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
+from social.apps.django_app.default.models import UserSocialAuth
 from social.pipeline.partial import partial
 from social.exceptions import AuthException
 from rest_framework.authtoken.models import Token
 
+from civmail.messages import FriendsEmail, NewFriendEmail
 from userspace.models import UserProfile
 from userspace.helpers import random_string, create_username, update_profile_picture
+
+
+def notify_friends(user, fb_id_list):
+    if not len(fb_id_list):
+        return
+    friends = []
+    for sa in UserSocialAuth.objects.filter(provider='facebook'):
+        if int(sa.extra_data.get('id')) in fb_id_list:
+            friends.append(sa.user.pk)
+    users = User.objects.filter(pk__in=friends)
+    FriendsEmail().send(user.email, {
+        'lang': user.profile.lang,
+        'friends': users, })
+    for friend in users:
+        NewFriendEmail().send(friend.email, {
+            'lang': friend.profile.lang,
+            'friend': user, })
 
 
 def obtain_user_social_profile(response):
@@ -125,8 +145,31 @@ def get_username(strategy, details, user=None, *args, **kwargs):
     return {'username': final_username}
 
 
+def get_friends(strategy, details, response, user, *args, **kwargs):
+    """ Get list of Facebook user's friends that already are registered in
+        our application.
+    """
+    # This function is appropriate only for Facebook accounts
+    if kwargs['backend'].name != 'facebook':
+        return
+
+    # There is no point for sending email any time user log in
+    if not kwargs['is_new']:
+        return
+
+    url = 'https://graph.facebook.com/{}/friends?{}'
+    params = urllib.urlencode({
+        'access_token': response['access_token'],
+        'fields': ['id', ], })
+
+    res = json.loads(urllib2.urlopen(url.format(response['id'], params)).read())
+
+    notify_friends(user, [int(x['id']) for x in res['data']])
+
+
 def get_user_avatar(strategy, details, response, user, *args, **kwargs):
-    """ Try to get user profile avatar from social networks. """
+    """ Try to get user profile avatar from social networks.
+    """
     image_url = None
     is_default = True
     TMP_FILE = os.path.join(settings.BASE_DIR, 'media/tmp/image')

@@ -1,2 +1,3 @@
 {% load i18n %}<h1>{{ sender }} {% trans "send a message" %}:</h1>
+<p>{% trans "Sender address" %}: <a href="mailto:{{ email }}">{{ email }}</a></p>
 <div>{{ message }}</div>

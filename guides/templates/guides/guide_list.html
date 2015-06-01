@@ -12,6 +12,7 @@
         {% trans "Please" %} {% if user.is_authenticated %}<a href="../create/{{ location.slug }}/">
         {% else %}<a href="/users/login" >{% endif %}{% trans "add first guide" %}</a>.
         </h2>
+      </div>
     </div>
   </div>
 {% else %}
@@ -24,8 +25,14 @@
         {% if guide.category %}<div class="guides-category {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %} small">
           <div class="icon {% if guide.category.pk < 5 %}c_c-{{ guide.category.pk }}{% else %}c_c-pk{% endif %}"><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}"><span class="fa"></span></a></div>
         </div>
-        <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>{% endif %}
+        <h4><strong><a href="{% url 'guides:list-filter-category' guide.location.slug guide.category.pk %}">{{ guide.category }}</a></strong></h4>
         <div class="acticle-content">{{ guide.category.description|safe|truncatechars:123 }}</div>
+        {% else %}<div class="guides-category c_c-pk small">
+          <div class="icon c_c-pk"><a href="{{ guide.get_absolute_url }}"><span class="fa"></span></a></div>
+        </div>
+        <h4><strong><a href="{{ guide.get_absolute_url }}">{{ guide }}</a></strong></h4>
+        <div class="acticle-content">{{ guide.content|safe|truncatechars:123 }}</div>
+        {% endif %}
       </div><!--main-->
     </div><!--4-->
     {% if forloop.counter|divisibleby:3 or forloop.counter == guide.count %}</div>{% endif %}
