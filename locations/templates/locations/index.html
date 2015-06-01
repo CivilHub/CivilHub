@@ -56,7 +56,7 @@
     <div class="container">
         <div class="title-container">
             <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
-            <div class="followers sprite-icon"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</div>
+            <div class="followers sprite-icon"><a href="{% url 'locations:followers' location.slug %}" class="text-white"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</a></div>
 
         {% if user in location.users.all %}
             <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
