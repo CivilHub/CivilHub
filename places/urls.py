@@ -106,6 +106,7 @@ urlpatterns += patterns('',
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
+    url(r'^activities/', include('activities.urls', namespace="activities")),
     url(r'^tracker/', include('user_tracker.urls', namespace="tracker")),
     url(r'^guides/', include('guides.urls', namespace="guides")),
     url(r'^organizations/', include('organizations.urls', namespace="organizations")),

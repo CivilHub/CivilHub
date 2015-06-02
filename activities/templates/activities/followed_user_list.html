@@ -1,0 +1,38 @@
+{% extends 'userspace/index.html' %}{% load i18n actstream_tags actstream_tags %}
+{% block content %}
+<div class="col-sm-3">
+  <div class="sidebar left"> 
+    <div class="sidebar-label">{% trans "Action" %}:</div>
+    <ul class="sidebar-content custom-sidebar-nav">
+      <li><a href="{% url 'activities:followed' profile.clean_username %}">{% trans "Followed" %}</a></li>
+      <li class="hidden"><a href="{% url 'activities:facebook-friends' profile.clean_username %}">{% trans "Friends from Facebook" %}</a></li>
+    </ul>
+  </div>
+</div>
+<div class="col-sm-9">
+  <div class="row">
+  {% for f in object_list %}
+  <div class="col-xs-6 col-sm-4 col-md-3">
+    <div class="sublocation">
+    <div class="bgactive-follower" style="background-image: url({{ f.profile.background_url }});">
+      <div class="active-sublocation">
+        <div class="text-center">
+          <div><img src="{{ f.profile.avatar.url }}" alt="{{ f.profile }}" class="user-avatar mb0"></div>
+          <h4><a href="{{ f.profile.get_absolute_url }}" class="text-white acticle-content"><strong>{{ f.get_full_name }}</strong></a></h4>
+        </div>
+        {% follow_button f %}
+      </div>
+    </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="no-entries">
+    <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
+    <h2>
+      {% trans "You are currently not following anyone." %}
+    </h2>
+  </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}
