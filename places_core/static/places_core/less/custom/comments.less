@@ -135,3 +135,25 @@
   margin: 1px;
 
 }
+.block-comments{
+  border-top: 1px solid #DEDEDE;
+  background-color: #f6f6f6;
+  .avatar{ &, img{ width: 32px; height: 32px; } }
+  .textarea-wrapper{ margin: 0 0 15px 40px; }
+  .comments{
+    font-size: 12px;
+    line-height: 16px;
+    .comment-main-col{ padding-left: 40px;}
+    .comment-avatar-col{
+      img{ width:32px; height: 32px;}
+    }
+  }
+  .subcomments{
+    .comment-main-col{
+      padding-left: 25px;
+    }
+    .comment-avatar-col{
+      img{ .user-avatar-minithumb; }
+    }
+  }
+}
