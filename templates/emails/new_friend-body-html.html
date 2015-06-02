@@ -1,1 +1,201 @@
-{% load i18n %}{% trans "Your friend has joined Civilhub" %}
+{% load i18n %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CivilHub.org</title>
+  <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Lato:400);
+    /* Take care of image borders and formatting */
+    img {
+      max-width: 600px;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+    a {
+      text-decoration: none;
+      border: 0;
+      outline: none;
+      color: #0582F7;
+    }
+    a img {
+      border: none;
+    }
+    /* General styling */
+    td, h1, h2, h3  {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
+    }
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%;
+      height: 100%;
+      color: #37302d;
+      background: #ffffff;
+    }
+    table {
+      background:
+    }
+    h1, h2, h3 {
+      padding: 0;
+      margin: 0;
+      color: #4d4d4d;
+      font-weight: 400;
+    }
+    h1{
+      font-weight: bold;
+    }
+    h3 {
+      color: #21c5ba;
+      font-size: 24px;
+    }
+  </style>
+  <style type="text/css" media="screen">
+    @media screen {
+       /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+      td, h1, h2, h3 {
+        font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+      }
+    }
+  </style>
+  <style type="text/css" media="only screen and (max-width: 480px)">
+    /* Mobile styles */
+    @media only screen and (max-width: 480px) {
+      table[class="w320"] {
+        width: 320px !important;
+      }
+      table[class="w300"] {
+        width: 300px !important;
+      }
+      table[class="w290"] {
+        width: 290px !important;
+      }
+      table[class="mobile-btn"] {
+        width: 278px !important;
+        text-align: center !important;
+      }
+      td[class="w320"] {
+        width: 320px !important;
+      }
+      td[class="mobile-center"] {
+        text-align: center !important;
+      }
+      td[class="mobile-padding"] {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 20px !important;
+      }
+    }
+  </style>
+</head>
+<body class="body" style="padding:0; margin:0; display:block; background:#f7f7f7; -webkit-text-size-adjust:none" bgcolor="#f7f7f7">
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%" >
+  <tr>
+    <td align="center" valign="top" bgcolor="#f7f7f7"  width="100%">
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td width="100%">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="530" class="w320" style="background-color:#0083fb;">
+              <tr>
+                <td valign="top" style="padding:20px 20px; text-align:left;" class="mobile-center">
+                  <a href="https://civilhub.org"><img width="210" height="31" src="https://civilhub.org/static/places_core/img/logo-Home.png"></a>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7;" style="border">
+          <!--[if gte mso 9]>
+          <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:150px;">
+           <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <div>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="530" height="auto" class="w320" style="border-left: 1px solid #bfbfbf; border-right: 1px solid #bfbfbf;">
+                <tr>
+                  <td valign="middle" style="vertical-align:middle; padding: 20px 20px 0 20px; text-align:left;" class="mobile-center" height="auto">
+                    <p>{% trans "Hi" %} {{ user.profile }}, </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="middle" style="vertical-align:middle; padding: 0 20px 20px 20px; text-align:left; font-size:14px;" class="mobile-center" height="auto">
+                    <p><strong>{{ inviting_user.get_full_name }}</strong> {% trans "has found you on CivilHub through our tool for looking for friends." %}</p>
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </div>
+          <!--[if gte mso 9]>
+            </v:textbox>
+          </v:rect>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7;">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="530" class="w320" style="border-left: 1px solid #bfbfbf; border-right: 1px solid #bfbfbf; border-bottom: 3px solid #bfbfbf; padding: 0 20px;">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                      <td>
+                        <table border="0" cellpadding="10" cellspacing="0" style="background:#84bd00;" class="mobile-btn">
+                          <tbody>
+                            <tr>
+                              <td style="line-height:100%">
+                                <a href="#" style="color:white;text-decoration:none;font-size:14px">{% trans "See his/her profile" %}</a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 20px 0;" class="mobile-center">
+                        <p>
+                          {% trans "Thank you," %}<br>
+                          {% trans "CivilHub Team" %}
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr> 
+      <tr>
+        <td bgcolor="#f7f7f7" valign="top">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="530" class="w320">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="30" width="100%">
+                    <tr>
+                      <td style="padding: 20px 30px 30px 30px; font-size: 11px; color: #bfbfbf;">
+                        {% trans "This message has been sent to you automatically. If you do not want to receive these messages, make appropriate changes in your account settings." %}<br>
+                        <a href="//civilhub.org/terms/" style="font-size: 12px;">{% trans "Terms of Use" %}</a> | <a href="//civilhub.org/privacy/" style="font-size: 12px;">{% trans "Privacy Policy" %}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

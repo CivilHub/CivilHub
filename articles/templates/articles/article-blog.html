@@ -11,6 +11,7 @@
 {% if article.edited %}<meta property="article:modified_time" content="{{ article.edited|date:"c" }}">{% endif %}
 <meta property="og:description" content="{{ article.content|striptags|slice:":153" }}..." />
 <meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
+{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/blog-details.js"></script>{% endblock %}
 {% block content %}<div id="blog-page">
   <article>
     <h2><a href="{{ article.get_absolute_url }}"><strong>{{ article.title }}</strong> <br>{{ article.subtitle }}</a></h2>
