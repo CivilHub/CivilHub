@@ -99,6 +99,11 @@ urlpatterns += patterns('',
     url(r'^invite-friends/', InviteFriendsView.as_view(), name="invite_friends"),
 )
 
+from places_core.views import TestView
+urlpatterns += patterns('',
+    url(r'^sometestpage/', TestView.as_view(), name='sometestpage'),
+)
+
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
