@@ -1,0 +1,7 @@
+{% extends 'userspace/index.html' %}{% load i18n actstream_tags %}
+{% block content %}
+<a href="{% url 'activities:followed' profile.clean_username %}">{% trans "Followed" %}</a> |
+<a href="{% url 'activities:facebook-friends' profile.clean_username %}">{% trans "Facebook friends" %}</a>
+<ul>{% for f in object_list %}
+  <li><a href="{{ f.profile.get_absolute_url }}">{{ f.get_full_name }}</a> | {% follow_button f %}</li>
+{% endfor %}</ul>{% endblock %}
