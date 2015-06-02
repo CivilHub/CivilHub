@@ -12,7 +12,6 @@
 <div class="col-sm-9">
   <div class="row">
   {% for f in object_list %}
-  
   <div class="col-xs-6 col-sm-4 col-md-3">
     <div class="sublocation">
     <div class="bgactive-follower" style="background-image: url({{ f.profile.background_url }});">
@@ -36,12 +35,4 @@
   {% endfor %}
   </div>
 </div>
-
-
-
-<!-- <ul>{% for f in object_list %}
-  <li><a href="{{ f.profile.get_absolute_url }}">{{ f.get_full_name }}</a> | {% follow_button f %}</li>
-{% endfor %}</ul> -->
-
-
 {% endblock %}
