@@ -2,7 +2,16 @@
 {% load staticfiles i18n civil_tags evaluate_tags %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
-
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ article.title }}">
+<meta property="og:title" content="{{ article.title }}"/>
+<meta property="og:url" content="https://civilhub.org{{ article.get_absolute_url }}" />
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="article:published_time" content="{{ article.created|date:"c" }}">
+{% if article.edited %}<meta property="article:modified_time" content="{{ article.edited|date:"c" }}">{% endif %}
+<meta property="og:description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />
+<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
 {% block require_scripts %}
 <script>
 window.GOOGLE_DATA = {
@@ -12,7 +21,6 @@ window.GOOGLE_DATA = {
 </script>
 <script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
 {% endblock %}
-
 {% block body %}
 <body>
 {% block navigation %}{% endblock %}
