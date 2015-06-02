@@ -1,1 +1,18 @@
-{% load i18n %}{% for f in friends %}{{ f }}{% endfor %}
+{% load i18n %}
+
+CivilHub.org
+
+{% trans "Hi" %} {{ user.profile }},
+
+{% trans "By using our tool for looking for friends you have found these users:" %}
+{% for f in friends %}{{ f.profile }} ({%trans "user profile link:" %} https://civilhub.org{{ f.profile.get_absolute_url }}){% if forloop.counter < friends.count %},{% endif %} {% endfor %}{% trans "from Facebook" %}
+
+To see your full list of friends, go here:
+https://civilhub.org/
+
+{% trans "Thank you," %}
+{% trans "CivilHub Team" %}
+
+{% trans "This message has been sent to you automatically. If you do not want to receive these messages, make appropriate changes in your account settings." %}
+https://civilhub.org/terms/ {% trans "Terms of Use" %} | https://civilhub.org/privacy/ {% trans "Privacy Policy" %}
+

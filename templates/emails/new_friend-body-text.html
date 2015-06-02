@@ -1,1 +1,11 @@
-{% load i18n %}{% trans "Your friend has joined Civilhub" %}
+{% load i18n %}
+
+{% trans "Hi" %} {{ user.profile }},
+
+{{ inviting_user.get_full_name }} {% trans "has found you on CivilHub through our tool for looking for friends." %}
+
+{% trans "Thank you," %}
+{% trans "CivilHub Team" %}
+
+{% trans "This message has been sent to you automatically. If you do not want to receive these messages, make appropriate changes in your account settings." %}
+{% trans "Terms of Use" %} ({% trans "Terms of use link:" %} https//civilhub.org/terms/) | {% trans "Privacy Policy" %} ({% trans "Privacy Policy link:" %} https//civilhub.org/privacy/)
