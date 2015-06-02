@@ -67,8 +67,8 @@ Helpful:
   </div>
 
 
-{% block pm_sender_cell %}   <div class="inboxContentH"><span class="inboxMessageAuthor">{% comment %}{{ message.obfuscated_sender|or_me:user }}{% endcomment %}{{ message.sender.get_full_name|or_me:user.get_full_name }}</span>{% if message.count %} ({{ message.count }}){% endif %} <span class="inboxDateMessage">{{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}</span></div>{% endblock %}
-{% block pm_recipient_cell %}   <div class="inboxContentH"><span class="inboxMessageAuthor"> {% comment %}{{ message.obfuscated_recipient|or_me:user }}{% endcomment %} {{ message.recipient.get_full_name|or_me:user.get_full_name }}</span>{% if message.count %} ({{ message.count }}){% endif %} <span class="inboxDateMessage">{{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}</span></div>{% endblock %}
+{% block pm_sender_cell %}   <div class="inboxContentH"><a class="inboxMessageAuthor" href="{{ message.sender.profile.get_absolute_url|or_me:user.profile.get_absolute_url }}">{% comment %}{{ message.obfuscated_sender|or_me:user }}{% endcomment %}{{ message.sender.get_full_name|or_me:user.get_full_name }}</a>{% if message.count %} ({{ message.count }}){% endif %} <span class="inboxDateMessage">{{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}</span></div>{% endblock %}
+{% block pm_recipient_cell %}   <div class="inboxContentH"><a class="inboxMessageAuthor" href="{{ message.recipient.profile.get_absolute_url|or_me:user.profile.get_absolute_url }}"> {% comment %}{{ message.obfuscated_recipient|or_me:user }}{% endcomment %} {{ message.recipient.get_full_name|or_me:user.get_full_name }}</a>{% if message.count %} ({{ message.count }}){% endif %} <span class="inboxDateMessage">{{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}</span></div>{% endblock %}
   </div>
 
 
