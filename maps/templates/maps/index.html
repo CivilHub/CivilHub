@@ -1,16 +1,16 @@
 {% load staticfiles i18n civil_tags %}
+{% include 'places_core/header.html' %}
 
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
 <meta property="og:title" content="{{ title }}"/>
-<meta property="og:image" content="https://civilhub.org/static/places_core/img/map.jpg"/>
+<meta property="og:image" content="https://civilhub.org/media/filer_public/2f/d2/2fd2fa32-a8a9-4528-9d9e-9ef5f2d88f74/pl_slide_8.jpg"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:url " content="https://civilhub.org/maps/" />
+<meta property="og:url" content="https://civilhub.org/maps/" />
 <meta property="og:description" content="{% trans "Jump into the map and see what is happening in your place." %}"/>
 <meta name="keywords" content="{{ title }}">{% endblock %}
 
-{% include 'places_core/header.html' %}
 
 {% include 'places_core/script-templates.html' %}
 

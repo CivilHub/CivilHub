@@ -7,7 +7,7 @@
 <meta property="og:image" content="https://civilhub.org{{ discussion.image.url }}"/>
 <meta property="og:title" content="{{ title }}, {{ location.name }}"/>
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:url " content="https://civilhub.org{{ discussion.get_absolute_url }}" />
+<meta property="og:url" content="https://civilhub.org{{ discussion.get_absolute_url }}" />
 <meta property="article:author" content="https://civilhub.org{{ discussion.creator.profile.get_absolute_url }}" />
 <meta property="og:description" content="{{ discussion.intro|striptags|slice:":153" }}... }}" />
 <meta name="keywords" content="{{ title }}, {{ location.name }}, {% for tag in discussion.tags.all %}{{ tag.name }}, {% endfor %}">

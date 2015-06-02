@@ -7,7 +7,7 @@
 <meta property="og:title" content="{{ object.name }}, {{ location.name }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:image" content="https://civilhub.org{{ object.image.url }}"/>
-<meta property="og:url " content="https://civilhub.org{{ object.get_absolute_url }}" />
+<meta property="og:url" content="https://civilhub.org{{ object.get_absolute_url }}" />
 <meta property="og:description" content="{{ object.description|striptags|slice:":153" }}..."/>
 <meta property="article:author" content="https://civilhub.org{{ object.creator.profile.get_absolute_url }}" />
 <meta name="keywords" content="{{ object.name }}, {{ location.name }}">
@@ -49,7 +49,7 @@
   <div class="container">
     <div class="title-container">
       <div class="project-name mt25"><h1>{{ object }}</h1></div>
-      <div class="project-content text-left"><p>{{ object.description|safe|striptags|slice:'300' }}</p></div>
+      <div class="project-content text-center"><p class="text-left">{{ object.description|safe|striptags|slice:'300' }}</p></div>
       <div class="join-project-btn">
         {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
           {% if user in object.participants.all %}<div class="join-project-btn">
