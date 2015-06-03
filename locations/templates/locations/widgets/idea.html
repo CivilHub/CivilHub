@@ -1,13 +1,166 @@
-{% load i18n %}<div class="widget-wrapper" style="padding:5px;background:pink">
-  <h2><a href="{{ baseurl }}{{ object.get_absolute_url }}">{{ object }}</a></h2>
-  <p>{% trans "Description" %}:</p>
-  <div>{{ object.description|safe }}</div>
+{% load i18n %}
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <style>
+  .civ-civilhub_embedded_box_wrapper {
+    border: 1px solid #bfbfbf;
+    border-radius: 4px;
+    width: 417px;
+    height: 302px;
+    background: #fbfbfb;
+    font-family: 'Lato', sans-serif;
+  }
+  .civ-civilhub_embedded_box_wrapper a,
+  .civ-civilhub_embedded_box_wrapper p{ color: #000; }
+  .civ-civilhub_embedded_box_wrapper a.civ-h1{
+    font-size: 16px;
+    color: #3c3c3c;
+    overflow: hidden;
+    max-height: 23px;
+    max-width: 320px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .civ-header {
+    border-bottom: 1px solid #bfbfbf;
+    padding: 10px;
+    height: 16px;
+    background: #f1f1f1;
+  }
+  .civ-h1_position {
+    position: relative;
+    float: left;
+  }
+  .civ-middle {
+    padding: 10px;
+  }
+  .civ-middle-top {
+    height: 22px;
+    margin-bottom: 10px;
+  }
+  .civ-vote_btn_general {
+    text-align: center;
+    padding: 2px 15px;
+    border-radius: 100px;
+    color: white;
+    width: 40%;
+    font-size: 16px;
+  }
+  .civ-vote_yes {
+    float: left;
+    background: #84bd00;
+  }
+  .civ-vote_no {
+    float: right;
+    background: #c20001;
+  }
+  .civ-middle-text {
+    font-size: 14px;
+    clear: both;
+    height: 68px;
+    overflow: hidden;
+  }
+  .civ-middle-text a{
+    color: #000000;
+    text-decoration: none;
+  }
+  .civ-embedded_img {
+    width: 397px;
+    height: 98px;
+    margin-bottom: 10px;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+  }
+  .civ-civilhub_logo {
+    position: relative;
+    float: right;
+    background-image: url('https://civilhub.org/media/filer_public/ad/28/ad28fb42-05f2-4549-8ca2-182f56d4e2e4/logo_embeded.png');
+    width: 74px;
+    height: 13px;
+    margin-top: 3px;
+  }
+  /* icons */
+  .civ-fa-comment-icon {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-image: url('https://civilhub.org/media/filer_public/30/33/3033f5c0-7178-4916-9599-b5c6429a7ae9/fa-comment.png');
+  }
+  .civ-fa-share-icon {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-image: url('https://civilhub.org/media/filer_public/43/69/43691b6d-e2c3-4912-b4f7-f6967e1c2339/fa-share.png');
+  }
+  .civ-fa-person-icon {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-image: url('https://civilhub.org/media/filer_public/8b/f3/8bf3d7ee-c49a-4db6-9b1b-0f020c4f3e32/fa-person.png');
+  }
+  .civ-fa-check-icon {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    background-image: url('https://civilhub.org/media/filer_public/94/2c/942ce51e-0ebf-41f0-809c-20511bb7241f/fa-check.png');
+  }
+  .civ-footer {
+    border-top: 1px solid #bfbfbf;
+    padding: 10px;
+    height: 16px;
+  }
+  .civ-footer_left {
+    position: relative;
+    float: left;
+  }
+  .civ-footer_right {
+    position: relative;
+    float: right;
+  }
+  .civ-footer_right p:nth-child(4){
+    color: #84bd00;
+  }
+  .civ-footer p {
+    display: inline;
+  }
+  </style>
+</head>
+<body>
+  <div class="civ-civilhub_embedded_box_wrapper">
+    <div class="civ-header">
+      <div class="civ-h1_position">
+        <a href="{{ object.get_absolute_url }}" class="civ-h1">{{ object }}</a>
+      </div>
+      <div class="civ-civilhub_logo"></div>
+    </div>
+    <div class="civ-middle">
+      <a href="{{ baseurl }}{{ object.get_absolute_url }}"><div style="{% if not object.has_default_image %}background-image: url({{ baseurl }}{{ object.thumbnail }});{% else %}background-image: url({{ baseline }}/static/places_core/img/idea_no_img_with_border.png); background-size: contain;{% endif %}" class="civ-embedded_img"></div></a>
 
-  <p>
-    ups: {{ object.votes_up }}<br>
-    downs: {{ object.votes_down }}<br>
-    coolness: {{ object.note }}
-  </p>
-
-  {% if not object.has_default_image %}<img src="{{ baseurl }}{{ object.thumbnail }}">{% endif %}
-</div>
+      <div class="civ-middle-top">
+        <a href="{{ baseurl }}{{ object.get_absolute_url }}"><div class="civ-vote_btn_general civ-vote_yes">{% trans "Vote YES" %}</div></a>
+        <a href="{{ baseurl }}{{ object.get_absolute_url }}"><div class="civ-vote_btn_general civ-vote_no">{% trans "Vote NO"%}</div></a>
+      </div>
+      <div class="civ-middle-text">
+        <a href="{{ baseurl }}{{ object.get_absolute_url }}">{{ object.description|safe }}</a>
+      </div>
+    </div>
+    <div class="civ-footer">
+      <div class="civ-footer_left">
+        <div class="civ-fa-comment-icon"></div>
+        <p>{{ object.get_comment_count }}</p>
+        <!-- <div class="fa-share-icon"></div>
+        <p>250</p> -->
+      </div>
+      <div class="civ-footer_right">
+        <div class="civ-fa-person-icon"></div>
+        <p>{{ object.get_votes_all }}</p>
+        <div class="civ-fa-check-icon"></div>
+        <p>{{ object.note }}</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

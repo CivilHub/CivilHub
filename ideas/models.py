@@ -96,6 +96,9 @@ class Idea(ImagableItemMixin, models.Model):
     def get_votes(self):
         return self.votes_up - self.votes_down
 
+    def get_votes_all(self):
+        return self.votes_up + self.votes_down
+
     def get_comment_count(self):
         content_type = ContentType.objects.get_for_model(self)
         return CustomComment.objects.filter(object_pk=self.pk) \
