@@ -51,7 +51,9 @@
 
     fbClientToken: "{% settings_value 'SOCIAL_AUTH_FACEBOOK_KEY' %}",
 
-    currentLocation: {% current_location_data %}
+    currentLocation: {% current_location_data %},
+
+    contentTypes: {{ CT_MAP|safe }}
   });
 
   {% if messages %}{% for message in messages %}CivilApp.messages.push({

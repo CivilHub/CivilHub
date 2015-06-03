@@ -57,7 +57,10 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
             return HttpResponseBadRequest()
         vote = self._get_user_vote()
         context = {}
-        if action == 'revoke':
+        if self.object.status > 2:
+            context.update({'vote': None, })
+            message = _(u"You cannot vote for this idea anymore")
+        elif action == 'revoke':
             if vote is not None:
                 context.update({
                     'label': _(u"Vote YES") if vote.vote else _(u"Vote NO"),

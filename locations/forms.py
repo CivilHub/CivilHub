@@ -34,6 +34,13 @@ class LocationForm(forms.ModelForm, BootstrapBaseForm):
 
     def clean(self):
         cparent = self.cleaned_data.get('parent')
+
+        # Allow superuser to create new and edit existing countries/regions
+        if self.user is not None and self.user.is_superuser:
+            if cparent is not None:
+                self.cleaned_data['parent'] = Location.objects.get(pk=cparent)
+            return self.cleaned_data
+
         if cparent is None:
             msg = _(u"You have to choose at least country and region locations")
             self._errors['parent'] = ErrorList([msg])
@@ -52,6 +59,10 @@ class LocationForm(forms.ModelForm, BootstrapBaseForm):
                 self._errors['parent'] = ErrorList([msg])
                 del self.cleaned_data['parent']
         return self.cleaned_data
+
+    def __init__(self, user=None, *args, **kwargs):
+        self.user = user
+        super(LocationForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Location

@@ -30,6 +30,7 @@ def commentarea(context, obj):
         'user': context['user'],
         'ct': ct,
         'pk': obj.pk,
+        'ab': ContentType.objects.get_for_model(CustomComment).pk,
         'count': len(CustomComment.objects.filter(content_type_id=ct,
                                                   object_pk=obj.pk)),
     })

@@ -17,6 +17,7 @@ router.add_api_view('locations', url(r'locations/$', api.UserFollowedLocationsAP
 
 urlpatterns = patterns('',
     url(r'^$', views.ProfileUpdateView.as_view(), name='index'),
+    url(r'facebook-friends/', views.FindFriendsView.as_view(), name='facebook-friends'),
     url(r'register_credentials_check', views.register_credentials_check, name='register_credentials_check'),
     url(r'twitter-email/', views.SetTwitterEmailView.as_view(), name='twitter_email'),
     url(r'login/', views.LoginFormView.as_view(), name='login'),
