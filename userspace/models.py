@@ -132,12 +132,12 @@ class UserProfile(models.Model, BackgroundModelMixin):
 
     def thumbnail_small(self):
         return thumbnail(self.avatar.name, 30)
-        
+
     def thumbnail_medium(self):
         return thumbnail(self.avatar.name, 60)
 
     def thumbnail_big(self):
-        return thumbnail(self.avatar.name, 90)
+        return thumbnail(self.avatar.name, 100)
 
     def get_biggest_locations(self, limit=5):
         """
