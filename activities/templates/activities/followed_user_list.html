@@ -80,7 +80,7 @@
       </div>
       </div>
     </div>
-    {% if forloop.counter|divisibleby:4 or forloop.counter == f.count %}</div>{% endif %}
+    {% if forloop.counter|divisibleby:4 or forloop.counter == object_list|length %}</div>{% endif %}
     {% empty %}
     <div class="no-entries">
       <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
