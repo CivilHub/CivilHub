@@ -8,7 +8,7 @@
     <p>{% trans "Positive votes"%}</p>
   </div>
   <div class="vote-controls text-center ibutton-share clearfix">
-    {% if idea.status != 2 %}<p class="mb20">
+    {% if idea.status != 3 %}<p class="mb20">
       <button data-target-id="{{ idea.pk }}"
       data-vote="{% if voted_up %}revoke{% else %}up{% endif %}"
       class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}"
