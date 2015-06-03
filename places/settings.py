@@ -132,6 +132,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
+    'comments.context_processors.ctmap',
+    'places_core.context_processors.site_processor',
 )
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'), ]
 
@@ -240,6 +242,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
     'places_core.social_auth.create_user_profile',
+    'places_core.social_auth.get_friends',
     'places_core.social_auth.get_user_avatar',
     'places_core.social_auth.update_user_social_profile',
 )

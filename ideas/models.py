@@ -23,6 +23,10 @@ from places_core.helpers import truncatehtml, truncatesmart, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
 
 
+class VotingExpiredException(Exception):
+    pass
+
+
 @python_2_unicode_compatible
 class Category(models.Model):
     """ """
@@ -39,8 +43,8 @@ class Category(models.Model):
 @python_2_unicode_compatible
 class Idea(ImagableItemMixin, models.Model):
     """ """
-    STATUS_CHOICES = ((1, _(u"active")), (2, _(u"completed")),
-                      (3, _(u"in progress")), (4, _(u"project")), )
+    STATUS_CHOICES = ((1, _(u"active")), (2, _(u"in progress")),
+                      (3, _(u"completed")), (4, _(u"project")), )
 
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -96,14 +100,31 @@ class Idea(ImagableItemMixin, models.Model):
     def get_votes(self):
         return self.votes_up - self.votes_down
 
-    def get_votes_all(self):
-        return self.votes_up + self.votes_down
-
     def get_comment_count(self):
         content_type = ContentType.objects.get_for_model(self)
         return CustomComment.objects.filter(object_pk=self.pk) \
                                     .filter(content_type=content_type) \
                                     .count()
+
+    def vote(self, user, vote=False, revoke=False):
+        """ Semi-automatic voting. Just pass voting user and vote False/True.
+        """
+        if self.status > 2:
+            raise VotingExpiredException
+
+        user_vote = self.vote_set.filter(user=user).first()
+
+        if user_vote is not None and revoke:
+            user_vote.delete()
+            return None
+
+        if user_vote is None:
+            user_vote = Vote.objects.create(idea=self, user=user, vote=vote)
+        else:
+            user_vote.vote = vote
+            user_vote.save()
+
+        return user_vote
 
     def save(self, *args, **kwargs):
         self.name = strip_tags(self.name)

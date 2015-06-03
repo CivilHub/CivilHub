@@ -441,6 +441,11 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
     model = Location
     form_class = LocationForm
 
+    def get_form_kwargs(self):
+        form_kwargs = super(UpdateLocationView, self).get_form_kwargs()
+        form_kwargs.update({'user': self.request.user, })
+        return form_kwargs
+
     def get_context_data(self, **kwargs):
         location = super(UpdateLocationView, self).get_object()
         context = super(UpdateLocationView, self).get_context_data(**kwargs)
@@ -457,9 +462,6 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        # We have to cleanup old markers to save changes.
-        for mp in MapPointer.objects.for_model(form.instance):
-            mp.delete()
         lang = translation.get_language_from_request(self.request)
         # Update translation in editing user's language
         for an in form.instance.names.filter(language=lang):

@@ -10,13 +10,15 @@ define(['jquery',
         'CUri',
         'js/modules/ui/ui',
         'js/modules/utils/utils',
+        'js/modules/utils/abuse-window',
         'js/modules/inlines/utils',
         'js/modules/inlines/model',
         'js/modules/inlines/collection',
+        'js/modules/inlines/vote-summary',
         'text!js/modules/inlines/templates/comment.html',
         'text!js/modules/inlines/templates/edit_form.html'],
 
-function ($, _, Backbone, CUri, ui, utils, cUtils, CommentModel, CommentCollection, html, form) {
+function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel, CommentCollection, VoteSummary, html, form) {
 
 "use strict";
 
@@ -53,11 +55,13 @@ var CommentView = Backbone.View.extend({
     'click .vote-up-link:first': 'vote',
     'click .vote-down-link:first': 'vote',
     'click .comment-reply:first': 'toggleReplyForm',
-    'click .show-replies:first': 'toggleReplies'
+    'click .show-replies:first': 'toggleReplies',
+    'click .report-abuse-link': 'report',
+    'mouseenter .vote-link': 'voteSummary'
   },
 
   initialize: function () {
-    _.bindAll(this, 'updateCounter', 'onFetch');
+    _.bindAll(this, 'updateCounter', 'onFetch', 'closeSummary');
     this.model.on('change', this.render, this);
     this.collection = new CommentCollection();
     this.uri = new CUri('/api-comments/list/');
@@ -129,6 +133,8 @@ var CommentView = Backbone.View.extend({
     this.model.save({ comment: comment }, { patch: true });
   },
 
+  // Votes
+
   vote: function (e) {
     var vote = false;
     if ($(e.currentTarget).hasClass('vote-up-link')) {
@@ -149,6 +155,26 @@ var CommentView = Backbone.View.extend({
       } else {
         this.$counter.text(--this.votes);
       }
+    }
+  },
+
+  voteSummary: function (e) {
+    if (!_.isUndefined(this.win)) {
+      this.$('.vote-summary').empty();
+      delete this.win;
+    }
+    this.win = new VoteSummary({
+      element: this.$('.vote-summary'),
+      vote: $(e.target).hasClass('fa-angle-up') ? 'up' : 'down',
+      itemID: this.model.get('id'),
+      onDestroy: this.closeSummary
+    });
+  },
+
+  closeSummary: function () {
+    if (!_.isUndefined(this.win)) {
+      this.win.destroy();
+      delete this.win;
     }
   },
 
@@ -224,6 +250,14 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
     }
     this.$('.comment-form-body:first').toggle();
+  },
+
+  report: function (e) {
+    e.preventDefault();
+    var w = new AbuseWindow(
+      CivilApp.contentTypes.comments_customcomment,
+      this.model.get('id')
+    );
   }
 });
 
