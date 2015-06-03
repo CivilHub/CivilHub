@@ -70,7 +70,7 @@ class MapObjectSerializer(serializers.ModelSerializer):
         if hasattr(obj.content_object.creator, 'profile'):
             tmpobj.update({
                 'profile': obj.content_object.creator.profile,
-                'img': obj.content_object.creator.profile.thumbnail_medium(),
+                'img': obj.content_object.creator.profile.thumbnail_big(),
                 'user': obj.content_object.creator.get_full_name(),
                 'profile': obj.content_object.creator.profile.get_absolute_url(),
             })
@@ -78,7 +78,7 @@ class MapObjectSerializer(serializers.ModelSerializer):
             # it is
             tmpobj.update({
                 'profile': obj.content_object.creator,
-                'img': obj.content_object.creator.thumbnail_medium(),
+                'img': obj.content_object.creator.thumbnail_big(),
                 'user': obj.content_object.creator.user.get_full_name(),
                 'profile': obj.content_object.creator.get_absolute_url(),
             })
