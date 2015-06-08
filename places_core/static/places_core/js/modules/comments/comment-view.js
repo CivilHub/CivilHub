@@ -168,6 +168,15 @@ var CommentView = Backbone.View.extend({
       delete this.nowEdited;
       this.$el.find('.comment-content:first').text(txt);
     }.bind(this));
+
+    // Resize textarea
+    $ed.find('textarea').on('click', function() {
+      var offset = this.offsetHeight - this.clientHeight;
+      var resizeTextarea = function(el) {
+        $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+      };
+      $(this).on('keyup input', function() { resizeTextarea(this); });
+    });
   },
 
   renderReplies: function () {

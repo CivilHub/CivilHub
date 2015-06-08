@@ -106,6 +106,16 @@ var CommentListView = Backbone.View.extend({
     } else {
       $el.appendTo($area);
     }
+
+    //Resize textarea
+    $.each($('textarea'), function() {
+      var offset = this.offsetHeight - this.clientHeight;
+      var resizeTextarea = function(el) {
+        $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
+      };
+      $(this).on('keyup input', function() { resizeTextarea(this); });
+    });
+
     this.textarea.val('');
     if (!this.collection.hasNext) {
       this.$('.show-more').hide();
