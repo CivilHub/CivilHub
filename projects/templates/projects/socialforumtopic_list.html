@@ -14,15 +14,10 @@
             <img src="{{ topic.creator.profile.avatar.url }}" alt="{{ topic.creator.profile }}" class="user-avatar-minithumb">
             <a href="#"><span class="user-window-toggle" data-target="{{ topic.creator.pk }}">{{ topic.creator.profile }}</span></a>
             <span class="date-created">{{ topic.date_created|timesince }}</span>
+            {% comment %}{% if is_moderator %}<div class="pull-right"><form class="custom-inline-form" method="post" action="{% url 'projects:discussion_delete' pk=topic.pk %}">{% csrf_token %}
+              <button type="submit"><span class="fa fa-remove custom-tooltip-bottom text-danger" title="{% trans "Delete discussion" %}">&nbsp;</span></button>
+            </form></div>{% endif %}{% endcomment %}
           </div>
-    <!--     <ul>{% for topic in object_list %}
-          <li>
-            <a href="{{ topic.get_absolute_url }}">{{ topic }}</a>
-            {% if is_moderator %}<form class="custom-inline-form" method="post" action="{% url 'projects:discussion_delete' pk=topic.pk %}">{% csrf_token %}
-              <button type="submit"><span class="fa fa-remove">&nbsp;</span></button>
-            </form>{% endif %}
-          </li>
-        {% endfor %}</ul> -->
         </div>
       </div>
       {% endfor %}
