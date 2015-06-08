@@ -1,0 +1,29 @@
+/*
+* Bookmarks list Page
+* Page include via tpl.
+* ( bookmarks/templates/bookmarks/list.html )
+*/
+
+#bookmark-Panel{
+  margin: 4% 0;
+  padding: 15px 15px 0;
+  h3{ margin-bottom: 0; }
+    li{
+      border-bottom: 1px solid #DEDEDE;
+      padding: 5px 0;
+      &:last-child{ border-bottom: 0 none; }
+      .bk-link{ width: 65%;
+        a:hover{ color: #5E5E5E; }
+      }
+      form{ width: 10%; }
+      .bk-createdTime{ width: 24%; }
+      @media(max-width: 500px){
+        form{
+          float: right;
+          margin-right: 10px;
+        }
+        .bk-createdTime{ width: auto; }
+      }
+    }
+  p{ padding: 15px 0; }
+}
