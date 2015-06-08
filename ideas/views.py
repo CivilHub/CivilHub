@@ -116,6 +116,7 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
             'vote': vote.vote,
             'note': self.object.note,
             'count': self.object.vote_set.count(),
+            'votes_up': self.object.votes_up,
         }
 
 
