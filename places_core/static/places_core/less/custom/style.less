@@ -4,15 +4,15 @@
 
 html {
   height: 100%;
-  background: #fbfbfb;
+  /*background: #fbfbfb;*/
 }
 body {
-  height: 100%;
+  /*height: 100%;
   padding-top: 45px;
   background: #fbfbfb;
   -webkit-font-smoothing: antialiased;
+  font-family: Lato, "Helvetica Neu", Helvetica, Arial, sans-serif;*/
   &.body-nopd { padding-top: 0px; }
-  font-family: Lato, "Helvetica Neu", Helvetica, Arial, sans-serif;
   a:hover { text-decoration: none; }
   h1 {
     line-height: 40px;
@@ -158,19 +158,7 @@ textarea{ resize: vertical; }
 /*.hidden-form {
   display: none;
 }*/
-/*----------Sidebar-----------*/
-.custom-sidebar-nav {
-  list-style-type: none;
-  background: #fff;
-  border-radius: 5px;
-  width: 100%;
-  padding: 10px;
-  margin: 0px;
-  
-  & > li {
-    cursor: pointer;
-  }
-}
+
 
 
 @media (min-width: 768px) {
@@ -466,55 +454,6 @@ h1.articleFirstHeadling{
       }
     }
   }
-  #bs-navbar-collapse{
-    max-height: none;
-    ul{
-      padding: 0 15px;
-      margin: 0px;
-      &.navbarHeader{
-        &:last-child{
-          margin-bottom: 10px;
-        }
-      }
-      &.dropdown-menu{
-        padding: 0px; 
-        &:before{
-          display: none;
-        }
-      }
-      li{
-        a{
-          padding: 10px 0px !important;
-          &.onlyIcon{
-            display: inline-block;
-            padding: 11px 0px;
-            .my-bookmarkBox,
-            .maps-boxBox,
-            .message-box{
-              width: auto !important;
-            }
-            &:hover{
-              color: #4D4747 !important;
-            }
-            .rwdShow{
-              display: inline;
-              padding-left: 5px;
-              font-family: "Lato";
-            }
-          }
-        }
-        &.dropdown{
-          ul{
-            li{
-              &.divider{ display: none; }
-              a{ padding: 6px 0px; }
-            }
-          }
-        }
-      }
-    }
-  }
-
   #bs-location-collapse-menu{
     ul{
       margin: 0px;
@@ -525,13 +464,13 @@ h1.articleFirstHeadling{
       }
     }
   }
-  .avatarCommentsAutor,
-  #location-chain-menu{
+  /*.avatarCommentsAutor,*/
+  /*#location-chain-menu{
     display: none;
-  }
-  .commentformarea{
+  }*/
+  /*.commentformarea{
     #user-comment-form{ margin-right: 0 !important; }
-  }
+  }*/
   .col-sm-3{
     &.boxPX{ padding: 0; }
   }

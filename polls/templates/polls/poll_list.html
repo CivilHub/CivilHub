@@ -6,16 +6,16 @@
 {% if object_list.count %}<div class="col-sm-9 main-content contentPX">
   <div class="polls-list custom-tablelike">
     <div class="row polls-list-heading custom-list-heading">
-      <div class="col-xs-6 custom-align-l">{% trans "Title" %}</div>
-      <div class="col-xs-6 custom-align-r">{% trans "Created by" %}</div>
+      <div class="col-xs-6 text-left">{% trans "Title" %}</div>
+      <div class="col-xs-6 text-right">{% trans "Created by" %}</div>
     </div>
     {% for poll in object_list %}<div class="polls-list-entry custom-list-entry row">
       {% if user == poll.creator or is_moderator %}<div class="btn-group list-entry-controls">
         <a href="#"><button type="button" class="btn btn-default btn-sm" title="{% trans "Edit" %}"><span class="fa fa-edit"> </span></button></a>
         <button data-target="{{ poll.pk }}" type="button" class="btn btn-danger btn-sm delete-btn" title="{% trans "Delete" %}"><span class="fa fa-times-circle-o"> </span></button>
       </div>{% endif %}
-      <div class="col-xs-6 custom-align-l"><a href="{{ poll.get_absolute_url }}">{{ poll }}</a></div>
-      <div class="col-xs-6 custom-align-r">
+      <div class="col-xs-6 text-left"><a href="{{ poll.get_absolute_url }}">{{ poll }}</a></div>
+      <div class="col-xs-6 text-right">
         <img src="{{ poll.creator.profile.avatar.url }}" alt="{{ poll.creator.profile }}" class="user-avatar-minithumb" />
         <a href="{{ poll.creator.profile.url }}" class="user-window-toggle" data-target="{{ poll.creator.pk }}">{{ poll.creator.profile }}</a>
         <span class="date-created">{{ poll.date_created|timesince }}</span>

@@ -48,7 +48,7 @@
 
         <div class="comment-avatar-col pull-left"><img src="<%= avatar %>" alt="<%= username %>" class="user-avatar avatarViewIMG"/></div>
         <div class="comment-main-col">
-            <a href="/users/<%= username %>/" class="custom-important comment-author-name user-window-toggle" data-target="<%= user %>"><%= user_full_name %></a>
+            <a href="/users/<%= username %>/" class="comment-author-name user-window-toggle" data-target="<%= user %>"><strong><%= user_full_name %></strong></a>
             <small class="comment-date-from-now"><%= moment(submit_date).lang(CivilApp.language).fromNow() %></small>
             <span class="comment-controls">
                 <% if (username === $('#target-user').val()) { %>
@@ -480,8 +480,8 @@
                 <span class="fa fa-times-circle-o"> </span></button>
         </div>
     {% endif %}
-    <div class="col-xs-6 custom-align-l"><a href="<%= url %>"><%= title %></a></div>
-    <div class="col-xs-6 custom-align-r">
+    <div class="col-xs-6 text-left"><a href="<%= url %>"><%= title %></a></div>
+    <div class="col-xs-6 text-right">
         <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
         <a href="<%= creator.url %>" class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></a>
         <span class="date-created"><%= date_created %></span>
@@ -529,7 +529,7 @@
         <div class="col-sm-3 category">
             {% comment %}<a href="<%= category.url %>">{% endcomment %}<label class="label label-default"><%= category.name %></label>{% comment %}</a>{% endcomment %}
         </div>
-        <div class="col-sm-4 custom-align-r">
+        <div class="col-sm-4 text-right">
             <span class="count"><%= meta.answers %></span>
             <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
             <a href="<%= creator.url %>"><span class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></span></a>
