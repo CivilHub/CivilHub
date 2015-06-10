@@ -35,7 +35,7 @@ $.fn.commentList = function () {
 };
 
 $(document).ready(function () {
-  $('.commentarea').commentList();
+  window.test = $('.commentarea').commentList().data('commentlist');
 });
 
 });
