@@ -57,6 +57,7 @@ function VoteArea ($el) {
   this.$el = $el;
   this.activeBtn = null;
   this.counter = this.$el.find('.counter');
+  this.counterup = this.$el.find('.counterup');
   this.note = this.$el.find('.note');
   _.bindAll(this, 'showMessage');
   this.$buttons = this.$el.find('.vote-btn-active');
@@ -86,6 +87,7 @@ VoteArea.prototype.showMessage = function (response) {
     .attr('data-vote', response.target)
     .text(response.label);
   this.counter.text(response.vote.count);
+  this.counterup.text(response.vote.votes_up);
   this.note.text(response.vote.note);
   if (!_.isUndefined(response.old_label)) {
     this.$buttons.not(this.activeBtn)
