@@ -1,6 +1,6 @@
 <div class="comment-avatar-col pull-left"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="user-avatar avatarViewIMG comment-author-avatar" /></div>
 <div class="comment-main-col">
-  <a href="<%= author.profile.url %>" class="custom-important comment-author-name user-window-toggle" data-target="<%= author.id %>"><%= author.full_name %></a>
+  <a href="<%= author.profile.url %>" class="comment-author-name user-window-toggle" data-target="<%= author.id %>"><strong><%= author.full_name %></strong></a>
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
   <span class="comment-controls">
     <% if (author.id == CivilApp.user.id) { %>

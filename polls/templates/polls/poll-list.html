@@ -16,8 +16,8 @@
                 <span class="fa fa-times-circle-o"> </span></button>
         </div>
     {% endif %}
-    <div class="col-xs-6 custom-align-l"><a href="<%= url %>"><%= title %></a></div>
-    <div class="col-xs-6 custom-align-r">
+    <div class="col-xs-6 text-left"><a href="<%= url %>"><%= title %></a></div>
+    <div class="col-xs-6 text-right">
         <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar-minithumb" />
         <a href="<%= creator.url %>" class="user-window-toggle" data-target="<%= creator.id %>"><%= creator.name %></a>
         <span class="date-created"><%= date_created %></span>
