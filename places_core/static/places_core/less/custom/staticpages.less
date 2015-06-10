@@ -3813,900 +3813,771 @@ small.green{
 .idea-to-project-page,
 .idea-to-law-page{
     background-color: #FFF;
-    .divider{ width: 100%; border-bottom: 1px solid #C2C2C2;}
-    p{color: #333; font-size: 16px;}
-    h1,h2{ color: #333; font-weight: 300; }
-    h1{
-        font-size: 46px;
-    }
-    h2{
-        font-size: 32px;
-    }
+    .divider{ width: 100%; border-bottom: 1px solid #C2C2C2; }
+    p{ color: #333; font-size: 16px; }
+    h1{ font-size: 46px; color: #333; font-weight: 300; }
+    h2{ font-size: 32px; color: #333; font-weight: 300; }
 }
 
 .idealaw-s1{
-    padding: 4% 0;
-    h1{ margin-top: 0;}
-    big{ font-size: 23px; font-weight: bold; color: #333;}
-    .bg-idealaw-s1-idea{
-        margin: 8.9% 0;
-        padding-bottom: 37.5%;
+  padding: 4% 0;
+  /*h1{ margin-top: 0;}*/
+  big{ font-size: 23px; font-weight: bold; color: #333;}
+  .bg-idealaw-s1-idea{
+    margin: 8.9% 0;
+    padding-bottom: 37.5%;
+    background-image: @bg_idealaw_s1_idea;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @bg_idealaw_s1_idea_retina;
+    }
+    &.en_bg-idealaw-s1-idea{
+      background-image: @en_bg_idealaw_s1_idea;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @en_bg_idealaw_s1_idea_retina;
+      }
+    }
+  }
+  .bg-idealaw-s1-project:before{
+    content: " ";
+    background-image: @green_arrow;
+    .bg-nor-cen-con;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -25px;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @green_arrow_retina;
+    }
+  }
+  .bg-idealaw-s1-project:after{
+    content: " ";
+    background-image: @green_arrow;
+    .bg-nor-cen-con;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @green_arrow_retina;
+    }
+  }
+  .bg-idealaw-s1-project{
+    padding-bottom: 55.5%;
+    background-image: @bg_idealaw_s1_project;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @bg_idealaw_s1_project_retina;
+    }
+    &.en_bg-idealaw-s1-project{
+      background-image: @en_bg_idealaw_s1_project;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @en_bg_idealaw_s1_project_retina;
+      }
+    }
+  }
+  .bg-idealaw-s1-document{
+    padding-bottom: 55%;
+    background-image: @bg_idealaw_s1_document;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @bg_idealaw_s1_document_retina;
+    }
+    &.en_bg-idealaw-s1-document{
+      background-image: @en_bg_idealaw_s1_document;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @en_bg_idealaw_s1_document_retina;
+      }
+    }
+  }
+  @media(max-width: 768px){
+    /*.bg-idealaw-s1-idea, .bg-idealaw-s1-project, .bg-idealaw-s1-document,
+    .en_bg-idealaw-s1-idea, .en_bg-idealaw-s1-project, .en_bg-idealaw-s1-document{ display: none; }*/
+    .row:last-child{ 
+      .col-sm-4:nth-child(1){ 
         background-image: @bg_idealaw_s1_idea;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s1_idea_retina;
-        }
-    }
-    .en_bg-idealaw-s1-idea{
-        margin: 8.9% 0;
-        padding-bottom: 37.5%;
-        background-image: @en_bg_idealaw_s1_idea;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s1_idea_retina;
-        }
-    }
-    .bg-idealaw-s1-project:before{
-        content: " ";
-        background-image: @green_arrow;
-        .bg-nor-cen-con;
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: -25px;
-        margin-top: -25px;
-        width: 50px;
-        height: 50px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @green_arrow_retina;
-        }
-    }
-    .bg-idealaw-s1-project:after{
-        content: " ";
-        background-image: @green_arrow;
-        .bg-nor-cen-con;
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        right: -25px;
-        margin-top: -25px;
-        width: 50px;
-        height: 50px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @green_arrow_retina;
-        }
-    }
-    .bg-idealaw-s1-project{
-        padding-bottom: 55.5%;
+        background-repeat: no-repeat;
+        background-size: 351px 139px;
+        padding-top: 140px;
+        background-position: top center;
+      }
+      .col-sm-4:nth-child(2){
         background-image: @bg_idealaw_s1_project;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s1_project_retina;
-        }
-    }
-    .en_bg-idealaw-s1-project{
-        padding-bottom: 55.5%;
-        background-image: @en_bg_idealaw_s1_project;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s1_project_retina;
-        }
-    }
-    .bg-idealaw-s1-document{
-        padding-bottom: 55%;
+        background-repeat: no-repeat;
+        background-size: 351px 205px;
+        padding-top: 206px;
+        background-position: top center;
+      }
+      .col-sm-4:nth-child(3){
         background-image: @bg_idealaw_s1_document;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s1_document_retina;
-        }
+        background-repeat: no-repeat;
+        background-size: 351px 204px;
+        padding-top: 205px;
+        background-position: top center;
+      }
     }
-    .en_bg-idealaw-s1-document{
-        padding-bottom: 55%;
-        background-image: @en_bg_idealaw_s1_document;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s1_document_retina;
-        }
-    }
-    @media(max-width: 768px){
-        .bg-idealaw-s1-idea, .bg-idealaw-s1-project, .bg-idealaw-s1-document,
-        .en_bg-idealaw-s1-idea, .en_bg-idealaw-s1-project, .en_bg-idealaw-s1-document{ display: none; }
-        .row:last-child{ 
-            .col-sm-4:nth-child(1){ 
-                background-image: @bg_idealaw_s1_idea;
-                .bg-nor-cen-con;
-                background-size: 351px 139px;
-                padding-top: 140px;
-                background-position: top center;
-            }
-            .col-sm-4:nth-child(2){
-                background-image: @bg_idealaw_s1_project;
-                .bg-nor-cen-con;
-                background-size: 351px 205px;
-                padding-top: 206px;
-                background-position: top center;
-            }
-            .col-sm-4:nth-child(3){
-                background-image: @bg_idealaw_s1_document;
-                .bg-nor-cen-con;
-                background-size: 351px 204px;
-                padding-top: 205px;
-                background-position: top center;
-            }
-        }
-    }
+  }
 }
 
 .idealaw-s2{
-    padding: 4% 0;
-    h2{ margin-top: 0; }
-    .bg-idealaw-s2{
-        margin-top: 50px;
-        background-image: @bg_idealaw_s2;
-        .bg-nor-cen-con;
-        background-position: 35% 0;
-        background-size: 640px 269px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s2_retina;
-        }
+  padding: 4% 0;
+  /*h2{ margin-top: 0; }*/
+  .bg-idealaw-s2{
+    margin-top: 50px;
+    background-image: @bg_idealaw_s2;
+    .bg-nor-cen-con;
+    background-position: 35% 0;
+    background-size: 640px 269px;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @bg_idealaw_s2_retina;
     }
-    .en_bg-idealaw-s2{
-        margin-top: 50px;
-        background-image: @en_bg_idealaw_s2;
-        .bg-nor-cen-con;
-        background-position: 35% 0;
-        background-size: 640px 269px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s2_retina;
-        }
+    &.en_bg-idealaw-s2{
+      background-image: @en_bg_idealaw_s2;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @en_bg_idealaw_s2_retina;
+      }
     }
-    .box-text{
-        text-align: left;
-        max-width: 350px;
-        padding-left: 0;
-        margin-top: 40px;
-        h3{
-            margin-top: 0;
-            color: #515e6e;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .author{
-            margin-bottom: 10px;
-            .author-avatar{
-                background-image: @idealaw_editor1;
-                display: inline-block;
-                width: 30px;
-                height: 30px;
-                .bg-nor-cen-con;
-                vertical-align: middle;
-                margin-right: 10px;
-                @media
-                (-webkit-min-device-pixel-ratio: 2),
-                (min-resolution: 192dpi){
-                    background-image: @idealaw_editor1_retina;
-                }
-            }
-            a{
-                line-height: 24px;
-                font-size: 14px;
-                text-decoration: none;
-                color: #0083bf;
-            }
-            span{
-                font-size: 12px;
-                line-height: 24px;
-                color: #666;
-            }
-        }
-    }
-    @media(max-width: 1200px){
-        .bg-idealaw-s2, .en_bg-idealaw-s2{
-            background-position: 20% 0;
-        }
-
-    }
-    @media(max-width: 991px){
-        .bg-idealaw-s2, .en_bg-idealaw-s2{
-            background-position: -65% 0;
-        }
-    }
+    @media(max-width: 1200px){ background-position: 20% 0; }
+    @media(max-width: 991px){ background-position: -65% 0; }
     @media(max-width: 768px){
-        .bg-idealaw-s2, .en_bg-idealaw-s2{
-            margin-top: 30px;
-            padding-top: 399px;
-            background-position: center top;
-            background-size: 322px 399px;
-            background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png);
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini@2x.png); }
-            .box-text{
-                max-width: none;
-                padding-left: 15px;
-            }
-        }
+      &, &.en_bg-idealaw-s2{
+        margin-top: 30px;
+        padding-top: 399px;
+        background-position: center top;
+        background-size: 322px 399px; //x2
+        background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png);
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini@2x.png); }
+      }
     }
+  }
+  .box-text{
+    text-align: left;
+    max-width: 350px;
+    padding-left: 0;
+    margin-top: 40px;
+    @media(max-width: 768px){
+      max-width: none;
+      padding-left: 15px;
+    }
+    h3{
+      margin-top: 0;
+      color: #515e6e;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .author{
+      margin-bottom: 10px;
+      .author-avatar{
+        background-image: @idealaw_editor1;
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        .bg-nor-cen-con;
+        vertical-align: middle;
+        margin-right: 10px;
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi){
+          background-image: @idealaw_editor1_retina;
+        }
+      }
+      a{
+        line-height: 24px;
+        font-size: 14px;
+        text-decoration: none;
+        color: #0083bf;
+      }
+      span{
+        font-size: 12px;
+        line-height: 24px;
+        color: #666;
+      }
+    }
+  }
+ /* @media(max-width: 1200px){
+    .bg-idealaw-s2, .en_bg-idealaw-s2{
+      background-position: 20% 0;
+    }
+
+  }
+  @media(max-width: 991px){
+    .bg-idealaw-s2, .en_bg-idealaw-s2{
+      background-position: -65% 0;
+    }
+  }
+  @media(max-width: 768px){
+    .bg-idealaw-s2, .en_bg-idealaw-s2{
+      margin-top: 30px;
+      padding-top: 399px;
+      background-position: center top;
+      background-size: 322px 399px;
+      background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png);
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini@2x.png); }
+      .box-text{
+        max-width: none;
+        padding-left: 15px;
+      }
+    }
+  }*/
 }
 .idealaw-s3{
-    padding: 4% 0;
-    h1{
-        margin-top: 0;
+  padding: 4% 0;
+  /*h1{
+      margin-top: 0;
+  }*/
+  .bg-idealaw-s3{
+    margin-top: 40px;
+    padding-bottom: 10.8%;
+    background-image: @bg_idealaw_s3;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s3_retina; }
+    &.en_bg-idealaw-s3{
+      background-image: @en_bg_idealaw_s3;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s3_retina; }
     }
-    .bg-idealaw-s3{
-        margin-top: 40px;
-        padding-bottom: 10.8%;
-        background-image: @bg_idealaw_s3;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s3_retina;
-        }
+    @media(max-width: 768px){ 
+      &, &.en_bg-idealaw-s3{ background: none; }
     }
-    .en_bg-idealaw-s3{
-        margin-top: 40px;
-        padding-bottom: 10.8%;
-        background-image: @en_bg_idealaw_s3;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s3_retina;
-        }
-    }
+  }
+  .box-text{
+    max-width: 425px;
+    margin-left: 13%;
+  }
+  .box-text:last-child{ padding-top: 6%; }
+  @media(max-width: 1200px){ .box-text{ margin-left: 7%; } }
+  @media(max-width: 991px){ .box-text{ margin-left: -2%; } }
+  @media(max-width: 768px){
     .box-text{
-        max-width: 425px;
-        margin-left: 13%;
+      margin-left: auto;
+      margin-right: auto;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center bottom;
     }
-    .box-text:first-child{}
+    .box-text:first-child{
+      padding-bottom: 60px;
+      background-image: url(../img/idea-to-law/bg-idealaw-s3-top-mini.png);
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s3-top-mini@2x.png);}
+    }
     .box-text:last-child{
-        padding-top: 6%;
+      padding-top: 0;
+      padding-bottom: 105px;
+      background-image: url(../img/idea-to-law/bg-idealaw-s3-bottom-mini.png);
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s3-bottom-mini@2x.png);}
     }
-    @media(max-width: 1200px){
-        .box-text{ margin-left: 7%; }
-    }
-    @media(max-width: 991px){
-        .box-text{ margin-left: -2%; }
-    }
-    @media(max-width: 768px){
-        .bg-idealaw-s3{
-            background: none;
-        }
-        .box-text{
-            margin-left: auto;
-            margin-right: auto;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-            background-position: center bottom;
-        }
-        .box-text:first-child{
-            padding-bottom: 60px;
-            background-image: url(../img/idea-to-law/bg-idealaw-s3-top-mini.png);
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s3-top-mini@2x.png);}
-        }
-        .box-text:last-child{
-            padding-top: 0;
-            padding-bottom: 105px;
-            background-image: url(../img/idea-to-law/bg-idealaw-s3-bottom-mini.png);
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s3-bottom-mini@2x.png);}
-        }
-    }
+  }
 }
 .idealaw-s4{
-    padding: 4% 0;
-    h2{
-        margin-top: 0;
+  padding: 4% 0;
+  /*h2{
+      margin-top: 0;
+  }*/
+  .bg-idealaw-s4{
+    padding-bottom: 69%;
+    background-image: @bg_idealaw_s4;
+    .bg-nor-cen-con;
+    background-position: 100% 50%;
+    margin-right: -15px;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s4_retina; }
+    &.en_bg-idealaw-s4{
+      background-image: @en_bg_idealaw_s4;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s4_retina; }
     }
-    .bg-idealaw-s4{
-        padding-bottom: 69%;
-        background-image: @bg_idealaw_s4;
-        .bg-nor-cen-con;
-        background-position: 100% 50%;
-        margin-right: -15px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s4_retina;
-        }
-    }
-    .en_bg-idealaw-s4{
-        padding-bottom: 69%;
-        background-image: @en_bg_idealaw_s4;
-        .bg-nor-cen-con;
-        background-position: 100% 50%;
-        margin-right: -15px;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s4_retina;
-        }
-    }
+  }
+  .box-text{
+    text-align: left;
+    max-width: 380px;
+    padding-top: 18%;
+  }
+  @media(max-width: 768px){
+    /*.bg-idealaw-s4{ display: none; }*/
     .box-text{
-        text-align: left;
-        max-width: 380px;
-        padding-top: 18%;
+      padding-top: 30px;
+      text-align: center;
+      margin: 0 auto;
     }
-    @media(max-width: 768px){
-        .bg-idealaw-s4{ display: none; }
-        .box-text{
-            padding-top: 30px;
-            text-align: center;
-            margin: 0 auto;
-        }
-    }
+  }
 }
 .idealaw-s5{
-    padding: 4% 0 0;
-    h2{ margin-top: 0; }
-    p{ font-size: 16px; line-height: 24px;}
-    .idealaw-box-right{
-        text-align: left;
-        padding-left: 35px;
-        p{
-            font-size: 14px;
-            color: #747474;
-        }
-        &:first-child{
-            padding-top: 22%;
-            margin-bottom: 25px;
-        }
+  padding: 4% 0 0;
+  /*h2{ margin-top: 0; }*/
+  p{ font-size: 16px; line-height: 24px;}
+  .idealaw-box-right{
+    text-align: left;
+    padding-left: 35px;
+    p{
+      font-size: 14px;
+      color: #747474;
     }
-    .idealaw-box-left{
-        text-align: left;
-        padding-left: 75px;
-        padding-right: 25px;
-        font-size: 16px;
-        min-height: 62px;
-        font-weight: 300;
-        &:nth-child(1){
-            background-image: @editor1;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;
-            padding-top: 22%;
-            padding-bottom: 3%;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @editor1_retina;
-            }
-        }
-        &:nth-child(2){
-            background-image: @editor2;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;   
-            padding-top: 17%;  
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @editor2_retina;
-            }   
-        }
-        &:nth-child(3){
-            background-image: @editor3;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;
-            padding-top: 22%;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @editor3_retina;
-            }   
-        }
+    &:first-child{
+      padding-top: 22%;
+      margin-bottom: 25px;
+    }
+  }
+  .idealaw-box-left{
+    text-align: left;
+    padding-left: 75px;
+    padding-right: 25px;
+    font-size: 16px;
+    min-height: 62px;
+    font-weight: 300;
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 62px 62px;
+    &:nth-child(1){
+      background-image: @editor1;
+      padding-top: 22%;
+      padding-bottom: 3%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @editor1_retina; }
+    }
+    &:nth-child(2){
+      background-image: @editor2;
+      padding-top: 17%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @editor2_retina; }
+    }
+    &:nth-child(3){
+      background-image: @editor3;
+      padding-top: 22%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @editor3_retina; }
+    }
+  }
+  .bg-idealaw-s5{
+    margin-top: 30px;
+    padding-bottom: 34.79%;
+    background-image: @bg_project_s9;
+    .bg-nor-cen-con;
+    background-position: 33% 100%;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @bg_project_s9_retina;
+    }
+    &.en_bg-idealaw-s5{
+      background-image: @en_bg_project_s9;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @en_bg_project_s9_retina;
+      }
+    }
+  }
+  @media(max-width: 1200px){
+    .bg-idealaw-s5{ padding-bottom: 41.96%; }
+    .idealaw-box-left{ margin-left: -15px; }
+    .idealaw-box-left:nth-child(1){ background-position: 0 90%; }
+    .idealaw-box-left:nth-child(2){ background-position: 0 50%; padding-top: 5%; }
+    .idealaw-box-left:nth-child(3){ background-position: 0 85%; }
+    .idealaw-box-right{ 
+      margin-right: -15px;
+      padding-left: 88px;
+    }
+  }
+  @media(max-width: 991px){
+    .col-sm-3{
+      width: 100%;
+      margin: 0;
     }
     .bg-idealaw-s5{
-        margin-top: 30px;
-        padding-bottom: 34.79%;
-        background-image: @bg_project_s9;
-        .bg-nor-cen-con;
-        background-position: 33% 100%;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_project_s9_retina;
-        }
+      background-position: 200px 0px; 
+      .col-sm-offset-6{ margin-top: 50px; }
     }
-    .en_bg-idealaw-s5{
-        margin-top: 30px;
-        padding-bottom: 34.79%;
-        background-image: @en_bg_project_s9;
-        .bg-nor-cen-con;
-        background-position: 33% 100%;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_project_s9_retina;
-        }
+    .idealaw-box-right{
+      padding: 0;
+      text-align: center;
+      &:nth-child(1){ padding: 0; }
     }
-    @media(max-width: 1200px){
-        .bg-idealaw-s5{ padding-bottom: 41.96%; }
-        .idealaw-box-left{ margin-left: -15px; }
-        .idealaw-box-left:nth-child(1){ background-position: 0 90%; }
-        .idealaw-box-left:nth-child(2){ background-position: 0 50%; padding-top: 5%; }
-        .idealaw-box-left:nth-child(3){ background-position: 0 85%; }
-        .idealaw-box-right{ 
-            margin-right: -15px;
-            padding-left: 88px;
-        }
+    .idealaw-box-left{ max-width: 310px; }
+    .idealaw-box-left:nth-child(1){
+      padding-top: 7%;
+      padding-bottom: 2%;
     }
-    @media(max-width: 991px){
-        .col-sm-3{
-            width: 100%;
-            margin: 0;
-        }
-        .bg-idealaw-s5{
-            background-position: 200px 0px; 
-            .col-sm-offset-6{
-                margin-top: 50px;
-            }
-        }
-        .idealaw-box-right{
-            padding: 0;
-            text-align: center;
-            &:nth-child(1){ padding: 0; }
-        }
-        .idealaw-box-left{
-            max-width: 310px;
-        }
-        .idealaw-box-left:nth-child(1){
-            padding-top: 7%;
-            padding-bottom: 2%;
-        }
-        .idealaw-box-left:nth-child(2){
-            margin-top: 1%;
-            padding-top: 0%;
-        }
-        .idealaw-box-left:nth-child(3){
-            margin-top: 6%;
-            padding-top: 0%;
-        }
+    .idealaw-box-left:nth-child(2){
+      margin-top: 1%;
+      padding-top: 0%;
     }
-    @media(max-width: 768px){
-        .bg-idealaw-s5{
-            padding-bottom: 30px; 
-            background-size: 746px 407px;
-            background-position: 175px 0px;
-            .col-sm-offset-6{
-                margin-top: 100px;
-            }  
-        }
-        .idealaw-box-left:nth-child(1){
-            padding-top: 50px;
-        }
-        .idealaw-box-left:nth-child(2){
-            margin-top: 50px;
-        }
-        .idealaw-box-left:nth-child(3){
-            margin-top: 70px;
-        }  
-  
+    .idealaw-box-left:nth-child(3){
+      margin-top: 6%;
+      padding-top: 0%;
     }
+  }
+  @media(max-width: 768px){
+    .bg-idealaw-s5{
+      padding-bottom: 30px; 
+      background-size: 746px 407px;
+      background-position: 175px 0px;
+      .col-sm-offset-6{ margin-top: 100px; }
+    }
+    
+    .idealaw-box-left:nth-child(1){
+        padding-top: 50px;
+    }
+    .idealaw-box-left:nth-child(2){
+        margin-top: 50px;
+    }
+    .idealaw-box-left:nth-child(3){ margin-top: 70px; }
+  }
 }
 
 .idealaw-s6{
-    padding: 4% 0;
-    h2{ margin-top: 0; }
-    .col-sm-6{
-        margin-top: 25px;
+  padding: 4% 0;
+  /*h2{ margin-top: 0; }*/
+  /*.col-sm-6{ margin-top: 25px; }*/
+  .bg-idealaw-s6-left{
+    padding-bottom: 64.5%;
+    background-image: @bg_idealaw_s6_left;
+    .bg-nor-cen-con;
+    /*background-position: 70% 50%;*/
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s6_left_retina; }
+    &.en_bg-idealaw-s6-left{
+      background-image: @en_bg_idealaw_s6_left;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s6_left_retina; }
     }
-    .bg-idealaw-s6-left{
-        padding-bottom: 64.5%;
-        background-image: @bg_idealaw_s6_left;
-        .bg-nor-cen-con;
-       /*background-position: 70% 50%;*/
-       @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s6_left_retina;
-        }
+  }
+  .bg-idealaw-s6-right{
+    padding-bottom: 64.5%;
+    background-image: @bg_idealaw_s6_right;
+    .bg-nor-cen-con;
+    /*background-position: 0% 50%;*/
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s6_right_retina; }
+    &.en_bg-idealaw-s6-right{
+      background-image: @en_bg_idealaw_s6_right;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s6_right_retina; }
     }
-    .en_bg-idealaw-s6-left{
-        padding-bottom: 64.5%;
-        background-image: @en_bg_idealaw_s6_left;
-        .bg-nor-cen-con;
-       /*background-position: 70% 50%;*/
-       @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s6_left_retina;
-        }
-    }
-    .bg-idealaw-s6-right{
-        padding-bottom: 64.5%;
-        background-image: @bg_idealaw_s6_right;
-        .bg-nor-cen-con;
-        /*background-position: 0% 50%;*/
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s6_right_retina;
-        }
-    }
-    .en_bg-idealaw-s6-right{
-        padding-bottom: 64.5%;
-        background-image: @en_bg_idealaw_s6_right;
-        .bg-nor-cen-con;
-        /*background-position: 0% 50%;*/
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s6_right_retina;
-        }
-    }
-    @media(max-width: 768px){
-        .bg-idealaw-s6-left, .en_bg-idealaw-s6-left, .bg-idealaw-s6-right, .en_bg-idealaw-s6-right{ padding-bottom: 45.5%; }
-    }
+  }
+  @media(max-width: 768px){
+    .bg-idealaw-s6-left,
+    .bg-idealaw-s6-right{ padding-bottom: 45.5%; }
+  }
 }
 .idealaw-s7{
-    padding: 4% 0 0;
-    h2{ margin-top: 0; }
-    p{ font-size: 16px; line-height: 24px;}
+  padding: 4% 0 0;
+  /*h2{ margin-top: 0; }*/
+  p{ font-size: 16px; line-height: 24px;}
+  .idealaw-box-right{
+    text-align: left;
+    padding-left: 75px;
+    font-size: 16px;
+    min-height: 62px;
+    font-weight: 300;
+    margin-left: 45px; //3x
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 62px 62px;
+    p{
+        font-size: 14px;
+        color: #747474;
+    }
+    &:first-child{
+      background-image: @idealaw_editor4;
+      padding-top: 45%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @idealaw_editor4_retina; }
+    }
+    &:last-child{
+      background-image: @idealaw_editor5;
+      padding-top: 16%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @idealaw_editor5_retina; }
+    }
+  }
+  .idealaw-box-left{
+    text-align: left;
+    padding-left: 75px;
+    padding-right: 25px;
+    font-size: 16px;
+    min-height: 62px;
+    font-weight: 300;
+    background-repeat: no-repeat;
+    background-position: 0% 100%;
+    background-size: 62px 62px; // up
+    &:nth-child(1){
+      background-image: @idealaw_editor1;
+      padding-top: 22%;
+      padding-bottom: 3%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @idealaw_editor1_retina; }
+    }
+    &:nth-child(2){
+      background-image: @idealaw_editor2;
+      padding-top: 17%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @idealaw_editor2_retina; }
+    }
+    &:nth-child(3){
+      background-image: @idealaw_editor3;
+      padding-top: 22%;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @idealaw_editor3_retina; }
+    }
+  }
+  .bg-idealaw-s7{
+    margin-top: 30px;
+    padding-bottom: 34.79%;
+    background-image: @bg_idealaw_s7;
+    .bg-nor-cen-con;
+    background-position: 33% 100%;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image:  @bg_idealaw_s7_retina; }
+    &.en_bg-idealaw-s7{
+      background-image: @en_bg_idealaw_s7;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image:  @en_bg_idealaw_s7_retina; }
+    }
+  }
+  @media(max-width: 1200px){
+    .bg-idealaw-s7{
+      padding-bottom: 43.79%;
+      background-size: 796px 403px;
+    }
     .idealaw-box-right{
-        text-align: left;
-        padding-left: 75px;
-        font-size: 16px;
-        min-height: 62px;
-        font-weight: 300;
-        margin-left: 45px;
-        p{
-            font-size: 14px;
-            color: #747474;
-        }
-        &:first-child{
-            background-image: @idealaw_editor4;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;
-            padding-top: 45%;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @idealaw_editor4_retina;
-            }
-        }
-        &:last-child{
-            background-image: @idealaw_editor5;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;   
-            padding-top: 16%;   
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @idealaw_editor5_retina;
-            }
-        }
+      margin-right: -15px;
+      margin-left: 0;
+    }
+    .idealaw-box-left{ margin-left: -15px; padding-top: 20%;}
+      /*.idealaw-box-left:nth-child(1){
+          padding-top: 20%;
+      }
+      .idealaw-box-left:nth-child(2){
+          padding-top: 20%;
+      }*/
+    .idealaw-box-left:nth-child(3){ padding-top: 25%; }
+  }
+  @media(max-width: 991px){
+    .bg-idealaw-s7{ margin-bottom: 50px; }
+    .col-sm-3{
+      background-color: #FFF;
+      &:first-child{ margin-left: -15px; }
+      &:last-child{ padding-right: 0; padding-bottom: 18%; }
     }
     .idealaw-box-left{
-        text-align: left;
-        padding-left: 75px;
-        padding-right: 25px;
-        font-size: 16px;
-        min-height: 62px;
-        font-weight: 300;
-        &:nth-child(1){
-            background-image: @idealaw_editor1;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;
-            padding-top: 22%;
-            padding-bottom: 3%;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @idealaw_editor1_retina;
-            }
-        }
-        &:nth-child(2){
-            background-image: @idealaw_editor2;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;   
-            padding-top: 17%;  
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @idealaw_editor2_retina;
-            }   
-        }
-        &:nth-child(3){
-            background-image: @idealaw_editor3;
-            background-repeat: no-repeat;
-            background-position: 0% 100%;
-            background-size: 62px 62px;
-            padding-top: 22%;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @idealaw_editor3_retina;
-            }
-        }
+      padding: 0 0 0 75px;
+      background-color: #FFF;
     }
-    .bg-idealaw-s7{
-        margin-top: 30px;
-        padding-bottom: 34.79%;
-        background-image: @bg_idealaw_s7;
-        .bg-nor-cen-con;
-        background-position: 33% 100%;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image:  @bg_idealaw_s7_retina;
-        }
+    /*.idealaw-box-left:nth-child(1){
+        padding: 0 0 0 75px;
+        background-color: #fff;
+    }*/
+    .idealaw-box-left:nth-child(2){
+      /*padding: 0 0 0 75px;
+      background-color: #fff;*/
+      margin-top: 35px;
     }
-    .en_bg-idealaw-s7{
-        margin-top: 30px;
-        padding-bottom: 34.79%;
-        background-image: @en_bg_idealaw_s7;
-        .bg-nor-cen-con;
-        background-position: 33% 100%;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image:  @en_bg_idealaw_s7_retina;
-        }
+    .idealaw-box-left:nth-child(3){
+      /*padding: 0 0 0 75px;
+      background-color: #fff;*/
+      margin-top: 12px;
     }
-    @media(max-width: 1200px){
-        .bg-idealaw-s7{ 
-            padding-bottom: 43.79%;
-            background-size: 796px 403px;
-        }
-        .idealaw-box-right{
-            margin-right: -15px;
-            margin-left: 0;
-        }
-        .idealaw-box-left{
-            margin-left: -15px;
-        }
-        .idealaw-box-left:nth-child(1){
-            padding-top: 20%;
-        }
-        .idealaw-box-left:nth-child(2){
-            padding-top: 20%;
-        }
-        .idealaw-box-left:nth-child(3){
-            padding-top: 25%;
-        }
+    .idealaw-box-right{
+      padding: 0 0 0 75px; 
+      background-color: #fff;
+      &:last-child{ margin-top: 50px;}
     }
-    @media(max-width: 991px){
-        .bg-idealaw-s7{ margin-bottom: 50px; }
-        .col-sm-3{
-            background-color: #FFF;
-            &:first-child{ margin-left: -15px; }
-            &:last-child{ padding-right: 0; padding-bottom: 18%; }
-        }
-        .idealaw-box-left:nth-child(1){
-            padding: 0 0 0 75px;
-            background-color: #fff;
-        }
-        .idealaw-box-left:nth-child(2){
-            padding: 0 0 0 75px;
-            background-color: #fff;
-            margin-top: 35px;
-        }
-        .idealaw-box-left:nth-child(3){
-            padding: 0 0 0 75px;
-            background-color: #fff;
-            margin-top: 12px;
-        }
-        .idealaw-box-right{
-            &:first-child{ padding: 0 0 0 75px; background-color: #fff; }
-            &:last-child{ padding: 0 0 0 75px; background-color: #fff; margin-top: 50px;}
-        }
-    }
-    @media(max-width: 768px){
-        .bg-idealaw-s7{
-            display: none;
-        }
-    }
+  }
+  /*@media(max-width: 768px){
+      .bg-idealaw-s7{
+          display: none;
+      }
+  }*/
 }
 .idealaw-s8{
-    padding: 4% 0 0;
-    h2{
-        margin-top: 0;
+  padding: 4% 0 0;
+  /*h2{
+      margin-top: 0;
+  }*/
+  .bg-idealaw-s8{
+    margin-top: 30px;
+    padding-top: 34.5%;
+    background-image: @bg_idealaw_s8;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s8_retina; }
+    &.en_bg-idealaw-s8{
+      background-image: @en_bg_idealaw_s8;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s8_retina; }
     }
-    .bg-idealaw-s8{
-        margin-top: 30px;
-        padding-top: 34.5%;
-        background-image: @bg_idealaw_s8;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s8_retina;
-        }
-    }
-    .en_bg-idealaw-s8{
-        margin-top: 30px;
-        padding-top: 34.5%;
-        background-image: @en_bg_idealaw_s8;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s8_retina;
-        }
-    }
+  }
 }
 .idealaw-s9{
-    padding: 4% 0;
-    .bg-idealaw-s9{
-        position: relative;
-        padding-bottom: 36.7%; 
-        background-image: @bg_idealaw_s9;
-        .bg-nor-cen-con;
-        margin: 90px 0;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s9_retina;
-        }
+  padding: 4% 0;
+  .bg-idealaw-s9{
+    position: relative;
+    padding-bottom: 36.7%; 
+    background-image: @bg_idealaw_s9;
+    .bg-nor-cen-con;
+    margin: 90px 0;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s9_retina; }
+    &.en_bg-idealaw-s9{
+      background-image: @en_bg_idealaw_s9;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s9_retina; }
     }
-    .en_bg-idealaw-s9{
-        position: relative;
-        padding-bottom: 36.7%; 
-        background-image: @en_bg_idealaw_s9;
-        .bg-nor-cen-con;
-        margin: 90px 0;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s9_retina;
-        }
+  }
+  .idealaw-s9-container{ margin-top: 130px; }
+  .idealaw-s9-box{
+    max-width: 40%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 15px 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px #B0B0B0;
+    -webkit-box-shadow: 0 0 10px #B0B0B0;
+    -moz-box-shadow: 0 0 10px #B0B0B0;
+  }
+  span{ font-weight: 300; }
+  .box-text{
+    display: inline-block;
+    max-width: 460px;
+    position: absolute;
+    &:nth-child(1){
+      top: -60px;
+      left: 15%;
     }
-    .idealaw-s9-container{
-        margin-top: 130px;
+    &:nth-child(2){
+      top: -60px;
+      right: 12%;
     }
-    .idealaw-s9-box{
-        max-width: 40%;
-        display: inline-block;
-        vertical-align: top;
-        margin: 15px 20px;
-        padding: 15px;
-        background-color: #f9f9f9;
-        box-shadow: 0 0 10px #B0B0B0;
-        -webkit-box-shadow: 0 0 10px #B0B0B0;
-        -moz-box-shadow: 0 0 10px #B0B0B0;
+    &:nth-child(3){
+      bottom: -115px;
+      left: 50%;
+      margin-left: -230px;
     }
-    span{
-        font-weight: 300;
-    }
+  }
+  @media(max-width: 1200px){
     .box-text{
-        display: inline-block;
-        max-width: 460px;
-        position: absolute;
-        &:nth-child(1){
-            top: -60px;
-            left: 15%;
-        }
-        &:nth-child(2){
-            top: -60px;
-            right: 12%;
-        }
-        &:nth-child(3){
-            bottom: -115px;
-            left: 50%;
-            margin-left: -230px;
-        }
+      &:nth-child(1){ padding: 0 80px 0 0; top: -80px; }
+      &:nth-child(2){ padding: 0 0 0 130px; top: -80px; }
     }
-    @media(max-width: 1200px){
-        .box-text{
-            &:nth-child(1){ padding: 0 80px 0 0; top: -80px; }
-            &:nth-child(2){ padding: 0 0 0 130px; top: -80px; }
-        }
+  }
+  @media(max-width: 991px){
+    .box-text{
+      &:nth-child(1){ padding: 0 15px; max-width: 280px; left: 10%; }
+      &:nth-child(2){ padding: 0 15px; max-width: 280px; right: 10%; }
+      &:nth-child(3){ margin-left: -280px; }
     }
-    @media(max-width: 991px){
-        .box-text{
-            &:nth-child(1){ padding: 0 15px; top: -80px; max-width: 280px; left: 10%; }
-            &:nth-child(2){ padding: 0 15px; top: -80px; max-width: 280px; right: 10%; }
-            &:nth-child(3){ margin-left: -280px; }
-        }
+  }
+  @media(max-width: 768px){
+    .box-text{
+      &:nth-child(1){ left: 0; position: relative; max-width: none; }
+      &:nth-child(2){ margin-bottom: 25px; left: 0; position: relative; max-width: none; }
+      &:nth-child(3){ margin-left: -230px; }
     }
-    @media(max-width: 768px){
-        .box-text{
-            &:nth-child(1), &:nth-child(2){ left: 0; position: relative; max-width: none;}
-            &:nth-child(2){ margin-bottom: 25px; }
-            &:nth-child(3){ margin-left: -230px; }
-        }
-    }
+  }
 }
 .idealaw-s10{
-    padding: 4% 0;
-    h2{ margin-top: 0;}
-    .bg-idealaw-s10{
-        margin-top: 30px;
-        padding-bottom: 25.8%;
-        background-image: @bg_idealaw_s10;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s10_retina;
-        }
+  padding: 4% 0;
+  /*h2{ margin-top: 0;}*/
+  .bg-idealaw-s10{
+    margin-top: 30px;
+    padding-bottom: 25.8%;
+    background-image: @bg_idealaw_s10;
+    .bg-nor-cen-con;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s10_retina; }
+    &.en_bg-idealaw-s10{
+      background-image: @en_bg_idealaw_s10;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s10_retina; }
     }
-    .en_bg-idealaw-s10{
-        margin-top: 30px;
-        padding-bottom: 25.8%;
-        background-image: @en_bg_idealaw_s10;
-        .bg-nor-cen-con;
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s10_retina;
-        }
-    }
-
+  }
 }
 .idealaw-s11{
-    padding: 4% 0;
-    h2{ margin-top: 0;}
-    .bg-idealaw-s11{
-        margin-top: 30px;
-        padding-bottom: 23.3%;
-        background-image: @bg_idealaw_s11;
-        .bg-nor-cen-con; 
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @bg_idealaw_s11_retina;
-        }
+  padding: 4% 0;
+  /*h2{ margin-top: 0;}*/
+  .bg-idealaw-s11{
+    margin-top: 30px;
+    padding-bottom: 23.3%;
+    background-image: @bg_idealaw_s11;
+    .bg-nor-cen-con; 
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s11_retina; }
+    &.en_bg-idealaw-s11{
+      background-image: @en_bg_idealaw_s11;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s11_retina; }
     }
-    .en_bg-idealaw-s11{
-        margin-top: 30px;
-        padding-bottom: 23.3%;
-        background-image: @en_bg_idealaw_s11;
-        .bg-nor-cen-con; 
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-            background-image: @en_bg_idealaw_s11_retina;
-        }
-    }
+  }
 }
 .idealaw-s12{
-    padding: 4% 0;
-    h2{
-        margin-top: 0;
-    }
-    p{ line-height: 24px; margin-bottom: 25px;}
+  padding: 4% 0;
+  /*h2{
+      margin-top: 0;
+  }*/
+  p{ line-height: 24px; margin-bottom: 25px;}
 }
-
-.idealaw-s12{
-    padding: 4% 0;
-    h2{
-        margin-top: 0;
-    }
-    p{ line-height: 24px; margin-bottom: 25px;}
-}
-
 
 /*#
 # Idea to project Page
