@@ -1,6 +1,8 @@
 {% extends 'staticpages/index.html' %}
 {% load staticfiles i18n civil_tags %}
-
+{% block extra_styles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'places_core/css/staticpages/home-c.min.css' %}">
+{% endblock %}
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
 
 {% block require_scripts %}
