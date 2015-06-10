@@ -2,6 +2,7 @@
 
 @import "old.less";
 @import "style.less";
+@import "variables.less";
 @import "location-navbar.less";
 @import "location.less";
 @import "filter-navbar.less";
@@ -17,7 +18,7 @@
 @import "tags.less";
 @import "gallery.less";
 @import "media-uploader.less";
-@import "map.less";
+//@import "map.less";
 @import "user-profile.less";
 @import "flash-messages.less";
 @import "homepage.less";
@@ -52,44 +53,44 @@
 @import "guides.less";
 
 /* General classes to use in entire project */
-.custom-centered {
+/*.custom-centered {
   text-align: center;
-}
-.custom-align-l {
+}*/
+/*.custom-align-l {
   text-align: left;
-}
-.custom-align-r {
+}*/
+/*.custom-align-r {
   text-align: right;
-}
-.custom-justified {
+}*/
+/*.custom-justified {
   text-align: justify;
-}
+}*/
 .custom-clear {
   font-size: 1px;
   clear: both;
 }
-.custom-spacer {
+/*.custom-spacer {
   font-size: 1px;
   line-height: 1px;
-}
+}*/
 
 /* List entries menu - e.g. news list or ideas list */
 .submenu-toggle {
-    position: absolute;
-    left: 100%;
-    top: 0px;
-    cursor: pointer;
-    display: block;
-    margin-top: -15px;
-    margin-left: -47px;
-    width: 47px;
-    background: url(../img/settings-line.png);
-    height: 48px;
-    background-size: 47px 48px;
-    background-repeat: no-repeat;
-    &.no-margin {
-        margin-top: 0px;
-    }
+  position: absolute;
+  left: 100%;
+  top: 0px;
+  cursor: pointer;
+  display: block;
+  margin-top: -15px;
+  margin-left: -47px;
+  width: 47px;
+  background: url(../img/settings-line.png);
+  height: 48px;
+  background-size: 47px 48px;
+  background-repeat: no-repeat;
+  &.no-margin {
+    margin-top: 0px;
+  }
 }
 
 .entry-submenu {
@@ -125,7 +126,7 @@
       white-space: nowrap; // prevent links from randomly breaking onto new lines
     }
     > li > a {
-      &:hover, 
+      &:hover,
       &:focus {
         text-decoration: none;
         color: @dropdown-link-hover-color;
@@ -134,7 +135,7 @@
     }
     > .active > a {
       &,
-      &:hover,    
+      &:hover,
       &:focus {
         color: @dropdown-link-active-color;
         text-decoration: none;
@@ -158,7 +159,7 @@
         .reset-filter();
         cursor: not-allowed;
       }
-    }  
+    }
   }
 }
 /* // List entries menu */
@@ -248,67 +249,59 @@
 
 /* Pagination - custom paginator */
 .pagination {
-    display: table;
-    //margin: 20px auto 0 auto;
-    margin: 20px auto 20px auto;
-    text-align: center;
-    font-size: 12px;
-    cursor: pointer;
-    
-    a {
-        margin: 0px 2px 0px 0px;
-        padding: 2px;
-        color: #adadad;
-        background-color: #ffffff;
-        border: 1px solid #adadad;
-        &.paginator-active, &:hover {
-            color: #ffffff;
-            background-color: #adadad;
-        }
+  display: table;
+  //margin: 20px auto 0 auto;
+  margin: 20px auto 20px auto;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+  a {
+    margin: 0px 2px 0px 0px;
+    padding: 2px;
+    color: #adadad;
+    background-color: #ffffff;
+    border: 1px solid #adadad;
+    &.paginator-active, &:hover {
+      color: #ffffff;
+      background-color: #adadad;
     }
-    
-    > li {
-    display: inline; // Remove list-style and block-level defaults
-        &.active{
-            a{
-                color: #3399F3 !important;
-                font-weight: 700;
-                background: transparent !important;
-
-            }
-            
-        }
-        > a,
-        > span {
-          position: relative;
-          float: left; // Collapse white-space
-          padding: @padding-base-vertical @padding-base-horizontal;
-          line-height: @line-height-base;
-          text-decoration: none;
-          color: @pagination-color;
-          background-color: @pagination-bg;
-          border: 1px solid @pagination-border;
-          margin-left: -3px;
-        }
+  }
+  > li {
+  display: inline; // Remove list-style and block-level defaults
+    &.active{
+      a{
+        color: #3399F3 !important;
+        font-weight: 700;
+        background: transparent !important;
+      }
     }
+    > a,
+    > span {
+      position: relative;
+      float: left; // Collapse white-space
+      padding: @padding-base-vertical @padding-base-horizontal;
+      line-height: @line-height-base;
+      text-decoration: none;
+      color: @pagination-color;
+      background-color: @pagination-bg;
+      border: 1px solid @pagination-border;
+      margin-left: -3px;
+    }
+  }
 }
 /* // Pagination */
 
 
 //do polls wyswietlanie tagow
 div.tagsinput{
-    width: 100%!important;
-    height: 38px !important;
-    min-height: 0px !important;
-    overflow: hidden !important;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
+  width: 100%!important;
+  height: 38px !important;
+  min-height: 0px !important;
+  overflow: hidden !important;
+  .border-radius(4px);
 }
 
-
 //btn-folllow, btn-unfollow
-
 .btn-follow{
   background-color: #85BE00;
   display: block;

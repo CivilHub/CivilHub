@@ -1,7 +1,7 @@
 /* 
  * Main map view
+ * CSS transferred to css/staticpages/less/maps.less
  */
- 
 #main-map {
   width: 100%;
   height: 100%;
@@ -32,126 +32,109 @@
 }
 
 #map-options-toggle {
-    position: absolute;
-    background-color: #fff;
-    left: 80px;
-
-    top: 85px;
-    width: 180px;
-    border: 1px solid #c6c6c6;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-    font-size: 14px;
-    padding: 10px;
-    //z-index: 5000;
-    z-index: 500;
-    
-    #map-filter-toggle {
-        width: 100%;
+  position: absolute;
+  background-color: #fff;
+  left: 80px;
+  top: 85px;
+  width: 180px;
+  border: 1px solid #c6c6c6;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  font-size: 14px;
+  padding: 10px;
+  //z-index: 5000;
+  z-index: 500;
+  #map-filter-toggle {
+    width: 100%;
+  }
+  .angle-icon-toggle {
+    width: 10px;
+    float: left;
+    cursor: pointer;
+    .fa-angle-down {
+      float: right;
     }
-    
-    .angle-icon-toggle {
-        width: 10px;
-        float: left;
-        cursor: pointer;
-        .fa-angle-down {
-            float: right;
-        }
-    }
-    
-    .sprite-icon {
-        width: 140px;
-        float: left;
-    }
+  }
+  
+  .sprite-icon {
+    width: 140px;
+    float: left;
+  }
 }
 
 #map-options-panel {
+  position: absolute;
+  //z-index: 4000;
+  z-index: 400;
+  left: 80px;
+  top: 129px;
+  width: 180px;
+  background-color: #fff;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border: 1px solid #c6c6c6;
+  border-top: 0px;
+  -moz-box-shadow: 1px 0 3px 0 rgba(50,50,50,0.75);
+  font-size: 12px;
+  .content {
+    padding: 10px;
+  }
+  
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+    li {
+      vertical-align: middle;
+      margin-top: 5px;
+      input {
+        vertical-align: middle;
+        margin-right: 5px;
+        margin-top: -2px;
+      }
+    }
+  }
+  #country-nav-panel {
+    padding-top: 5px;
+    input[type=text]{
+      border-radius: 12px;
+      -webkit-boder-radius: 12px;
+      -moz-border-radius: 12px;
+      color: #767676;
+      border: 1px solid #C6C6C6;
+      padding: 0 8px;
+      width: 100%;
+    }
+  }
+  #country-nav-form-country {
+    width: 100%;
+  }
+  .controls-divider {
+    width: 100%;
+    border-bottom: 1px solid #c6c6c6;
+  }
+  .custom-autocomplete {
     position: absolute;
-    //z-index: 4000;
-    z-index: 400;
-    left: 80px;
-   
-    top: 129px;
-    width: 180px;
     background-color: #fff;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border: 1px solid #c6c6c6;
-    border-top: 0px;
-    -moz-box-shadow: 1px 0 3px 0 rgba(50,50,50,0.75);
-
-    font-size: 12px;
-    
-    .content {
-        padding: 10px;
+    width: 90%;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    li {
+      width: 100%;
+      display: block;
+      margin: 0px;
+      padding: 5px;
+      border-left: 1px solid #adadad;
+      border-right: 1px solid #adadad;
+      &:last-of-type {
+        border-bottom: 1px solid #adadad;
+      }
     }
-    
-    ul {
-        margin: 0px;
-        padding: 0px;
-        list-style-type: none;
-        li {
-            vertical-align: middle;
-            margin-top: 5px;
-            input {
-                vertical-align: middle;
-                margin-right: 5px;
-                margin-top: -2px;
-            }
-        }
-    }
-    #country-nav-panel {
-        padding-top: 5px;
-
-        input[type=text]{
-            border-radius: 12px;
-            -webkit-boder-radius: 12px;
-            -moz-border-radius: 12px;
-            color: #767676;
-            border: 1px solid #C6C6C6;
-            padding: 0 8px;
-            width: 100%;
-        }
-    }
-    
-    #country-nav-form-country {
-        width: 100%;
-    }
-    
-    .controls-divider {
-        width: 100%;
-        border-bottom: 1px solid #c6c6c6;
-    }
-    
-    .custom-autocomplete {
-        position: absolute;
-        background-color: #fff;
-        width: 90%;
-        max-height: 300px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        
-        li {
-            width: 100%;
-            display: block;
-            margin: 0px;
-            padding: 5px;
-            border-left: 1px solid #adadad;
-            border-right: 1px solid #adadad;
-              
-            &:last-of-type {
-                border-bottom: 1px solid #adadad;
-            }
-        }
-    }
+  }
 }
 
-@discussioncolor: #0d6336;
-@pollscolor: #efa101;
-@placecolor: #0183fd;
-@ideacolor: #639f25;
-@newscolor: #3743bb;
-@projectscolor: #202020;
+
 @discussionimage: url(/static/maps/icons/map-discussion-icon.png);
 @pollimage: url(/static/maps/icons/map-poll-icon.png);
 @placeimage: url(/static/maps/icons/map-location-icon.png);
@@ -166,224 +149,207 @@
 @newsimage2x: url(/static/maps/icons/map-news-icon@2x.png);
 @projectsimage2x: url(/static/maps/icons/map-socialproject-icon@2x.png);
 
-.gm-style-iw {
-    left: 0px !important;
-    top: 0px !important;
-    width: 100% !important;
+/*.gm-style-iw {
+  left: 0px !important;
+  top: 0px !important;
+  width: 100% !important;
+  height: 100% !important;
+  > div {
+    display: block;
+    width:100% !important;
     height: 100% !important;
-    
-    > div {
-        display: block;
-        width:100% !important;
-        height: 100% !important;
-        overflow: hidden !important;
-    }
-}
+    overflow: hidden !important;
+  }
+}*/
 
 .map-dialog {
-    /*max-width: 450px;*/
-    min-width: 420px;
-    width: 100%;
-    height: 100px;
-    
-    h1, h2, h3, h4, p { 
-        margin: 0px !important;
+  /*max-width: 450px;*/
+  min-width: 420px;
+  width: 100%;
+  height: 100px;
+  h1, h2, h3, h4, p {
+    margin: 0px !important;
+  }
+  .description{
+    p{
+      max-height: 55px;
+      overflow: hidden;
+      img{
+        display: none;
+      }
     }
-    .description{
-        p{
-            max-height: 55px;
-            overflow: hidden;
-            img{
-                display: none;
-            }
-        }        
+  }
+  .type { 
+    position: relative;
+    float: left;
+    width: 20%;
+    height: 100%;
+    padding: 10px;
+    color: #fff;
+    background-repeat: no-repeat;
+    background-position: center 10px;
+    p {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      padding-bottom: 10px;
+      transform: translate(-50%, 0);
     }
-
-    .type { 
-        position: relative;
-        float: left;
-        width: 20%;
-        height: 100%;
-        padding: 10px;
-        color: #fff;
-        background-repeat: no-repeat;
-        background-position: center 10px;
-        
-        p {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            padding-bottom: 10px;
-            transform: translate(-50%, 0);
-        }
+  }
+  .btn {
+    height: 25px;
+    border: 0px;
+    padding: 0px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    color: #FFF;
+  }
+  .btn.follow-location {
+    background-color: @greencolor;
+  }
+  .btn.unfollow-location {
+    background-color: rgba(0,0,0,0.5);
+  }
+  &.discussion {
+    .type {
+      background-image: @discussionimage;
+      background-color: @discussioncolor;
+      @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+        background-image: @discussionimage2x;
+        background-size: 55px 55px;
+      }
     }
-    
-    .btn {
-            height: 25px;
-            border: 0px;
-            padding: 0px 10px;
-            font-size: 14px;
-            border-radius: 3px;
-            color: #FFF;
+    .go-to { background: @discussioncolor; }
+  }
+  &.poll {
+    .type {
+      background-image: @pollimage;
+      background-color: @pollscolor;
+      @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+        background-image: @pollimage2x;
+        background-size: 55px 55px;
+      }
     }
-    .btn.follow-location {
-        background-color: @greencolor;
+    .go-to { background: @pollscolor; }
+  }
+  &.place {
+    .type {
+      background-image: @placeimage;
+      background-color: @placecolor;
+      @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+        background-image: @placeimage2x;
+        background-size: 55px 55px;
+      }
     }
-    
-    .btn.unfollow-location {
-            background-color: rgba(0,0,0,0.5);
+    .go-to { background: @placecolor; }
+  }
+  &.idea {
+    .type {
+      background-image: @ideaimage;
+      background-color: @ideacolor;
+      @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+        background-image: @ideaimage2x;
+        background-size: 55px 55px;
+      }
     }
-    
-    &.discussion {
-        .type {
-            background-image: @discussionimage;
-            background-color: @discussioncolor;
-            @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-            background-image: @discussionimage2x;
-            background-size: 55px 55px;
-            }
-        }
-        .go-to { background: @discussioncolor; }
-    }  
-    
-    &.poll {
-        .type {
-            background-image: @pollimage;
-            background-color: @pollscolor;
-            @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-                background-image: @pollimage2x;
-                background-size: 55px 55px;
-            }
-        }
-        .go-to { background: @pollscolor; }
-    }  
-    
-    &.place {
-        .type {
-            background-image: @placeimage;
-            background-color: @placecolor;
-            @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-                background-image: @placeimage2x;
-                background-size: 55px 55px;
-            }
-        }
-        .go-to { background: @placecolor; }
-    }   
-    
-    &.idea {
-        .type {
-            background-image: @ideaimage;
-            background-color: @ideacolor;
-            @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-                background-image: @ideaimage2x;
-                background-size: 55px 55px;
-            }                           
-        }
-        .go-to { background: @ideacolor; }
-    }   
-    
-    &.news {
-        .type {
-            background-image: @newsimage;
-            background-color: @newscolor;
-            @media 
-            (-webkit-min-device-pixel-ratio: 2), 
-            (min-resolution: 192dpi) { 
-                background-image: @newsimage2x;
-                background-size: 55px 55px;
-            }                       
-        }
-        .go-to { background: @newscolor; }
+    .go-to { background: @ideacolor; }
+  }
+  &.news {
+    .type {
+      background-image: @newsimage;
+      background-color: @newscolor;
+      @media 
+      (-webkit-min-device-pixel-ratio: 2), 
+      (min-resolution: 192dpi) { 
+        background-image: @newsimage2x;
+        background-size: 55px 55px;
+      }
     }
-    &.socialproject{
-        .type{
-            background-image: @projectsimage;
-            background-color: @projectscolor;
-            @media
-            (-webkit-min-device-pixel-ratio: 2),
-            (min-resolution: 192dpi){
-                background-image: @projectsimage2x;
-                background-size: 55px 55px;
-            }
-        }
-        .go-to{ background-color: @projectscolor; }
+    .go-to { background: @newscolor; }
+  }
+  &.socialproject{
+    .type{
+      background-image: @projectsimage;
+      background-color: @projectscolor;
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){
+        background-image: @projectsimage2x;
+        background-size: 55px 55px;
+      }
     }
-    
-    .content {
-        float: left;
-        width: 70%;
-        height: 100%;
-        background-color: #fff;
-        
-        .description {
-            height: 100%;
-            padding: 0 5px;
-            h4 {
-                padding-top: 10px;
-                padding-bottom: 5px;
-            }
-            p {
-                padding-top: 5px;
-            }
-        }
-        
-        .author {
-            float: left;
-            margin: 0 10px;
-            padding-top: 10px;
-            display: block;
-            height: 100%;
-            
-            img {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
-            }
-        }
+    .go-to{ background-color: @projectscolor; }
+  }
+  .content {
+    float: left;
+    width: 70%;
+    height: 100%;
+    background-color: #fff;
+    .description {
+      height: 100%;
+      padding: 0 5px;
+      h4 {
+        padding-top: 10px;
+        padding-bottom: 5px;
+      }
+      p {
+        padding-top: 5px;
+      }
     }
-    
-    .go-to {
-        width: 40px;
-        height: 100%;
-        float: right;
-        a {
-            height: 100%;
-            width: 100%;
-            display: block;
-            position: relative;
-            color: #fff;
-            overflow: hidden;
-            .fa {
-                position: absolute;
-                left: 0px;
-                top: 50%;
-                font-size: 30px;
-                overflow: hidden;
-                display: block;
-                height: 30px;
-                width: 20px;
-                margin-top: -10px;
-                margin-left: 10px;
-            }
-        }
+    .author {
+      float: left;
+      margin: 0 10px;
+      padding-top: 10px;
+      display: block;
+      height: 100%;
+      img {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+      }
     }
-
+  }
+  .go-to {
+    width: 40px;
+    height: 100%;
+    float: right;
+    a {
+      height: 100%;
+      width: 100%;
+      display: block;
+      position: relative;
+      color: #fff;
+      overflow: hidden;
+      .fa {
+        position: absolute;
+        left: 0px;
+        top: 50%;
+        font-size: 30px;
+        overflow: hidden;
+        display: block;
+        height: 30px;
+        width: 20px;
+        margin-top: -10px;
+        margin-left: 10px;
+      }
+    }
+  }
 }
 
 .count-icon {
-    background-color: #0180F5;
-    color: #FFFFFF;
-    border-radius: 50%;
-    font-weight: bold;
-    line-height: 40px;
-    text-align: center;
-    opacity: 0.7;
+  background-color: #0180F5;
+  color: #FFFFFF;
+  border-radius: 50%;
+  font-weight: bold;
+  line-height: 40px;
+  text-align: center;
+  opacity: 0.7;
 }
