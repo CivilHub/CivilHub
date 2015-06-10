@@ -106,9 +106,7 @@
             <label class="label label-default entry-edited-label">{% trans "Edited" %}</label> {{ entry.date_edited | timesince }} {% trans "ago" %}
             {% endif %}
           </span>
-          <span class="entry-controls">
-            <!-- <a class="pull-right" href="{% url 'discussion:delete' %}"><span class="fa fa-remove custom-tooltip-right text-danger" title="{% trans "Delete discussion" %}">&nbsp;</span></a> -->
-          </span>
+          <span class="entry-controls"></span>
         </p>
         <div class="entry-content"><p>{{ entry.content | safe }}</p></div>
         <div class="custom-clear">&nbsp;</div>

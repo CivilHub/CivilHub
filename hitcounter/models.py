@@ -39,6 +39,5 @@ class Visit(models.Model):
     objects = VisitManager()
 
     class Meta:
-        unique_together = ('ip', 'content_type', 'object_id',)
         verbose_name = _(u"visit counter")
         verbose_name_plural = _(u"visit counters")

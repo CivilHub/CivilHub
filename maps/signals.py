@@ -20,10 +20,8 @@ def create_marker(sender, instance, created, **kwargs):
         return
 
     # Try to remove obsolete markers if lat or lng has changed
-    if not created:
-        for m in MapPointer.objects.for_model(instance):
-            if m.latitude != lat or m.longitude != lng:
-                m.delete()
+    for m in MapPointer.objects.for_model(instance):
+        m.delete()
 
     try:
         mp = MapPointer.objects.create_for_object(instance, lat, lng)

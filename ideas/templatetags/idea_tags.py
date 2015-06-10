@@ -16,8 +16,8 @@ def vote_area(context, obj):
     ctx = Context({'user': user, 'idea': obj, })
     if user.is_anonymous():
         pass
-    elif len(obj.vote_set.filter(user=user, vote=True)):
+    elif len(obj.vote_set.filter(user=user, status=1)):
         ctx.update({'voted_up': True, })
-    elif len(obj.vote_set.filter(user=user, vote=False)):
+    elif len(obj.vote_set.filter(user=user, status=2)):
         ctx.update({'voted_no': True, })
     return template.render(ctx)

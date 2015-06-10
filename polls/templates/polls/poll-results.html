@@ -1,46 +1,16 @@
-{% extends 'locations/index.html' %}
-{% load staticfiles i18n civil_tags %}
+{% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
 
-{% block require_scripts %}
-<script>
-(function () {
-    "use strict";
-    var pollapp = {
-        title: "{{ poll.title }}",
-        asets: [{% for aset in answer_set %}['{{ aset.answer }}', {{ aset.counter }}],{% endfor %}]
-    };
-    window.POLLS = pollapp;
-})();
-</script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/poll-results.js"></script>
-{% endblock %}
+{% block require_scripts %}<script src="{% module_path 'poll-results' %}"></script>{% endblock %}
 
 {% block navigation_location %}<div class="location-page-polls">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
-{% block content %}
 
-    <div class="col-sm-8 main-content">
-        <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
-        <div class="row">
-            <div class="col-sm-6">
-                <div id="chartdiv" style="height:400px;width:300px;"></div>
-            </div>
-            <div class="col-sm-6">
-                {% for aset in answers %}
-                <div>
-                    <p>{{ aset.user.get_full_name }} - {{ aset.date }}</p>
-                    <ul>
-                    {% for answer in aset.answers.all %}
-                        <li>{{ answer }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-sm-4">
-        {% include 'locations/sidebar.html' %}
-    </div>
-
-{% endblock %}
+{% block content %}<div class="col-sm-8 main-content">
+  <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
+  <p><select class="form-control" id="chart-switch">
+    <option value="1" selected>{% trans 'all answers'|capfirst %}</option>
+    <option value="2">{% trans 'answers by time'|capfirst %}</option>
+    <option value="3">{% trans 'visits in time'|capfirst %}</option>
+  </select></p>
+  <div id="chart-container" data-target="{{ poll.pk }}" data-content="{% obj_ct_id 'poll' %}"></div>
+</div>
+<div class="col-sm-4">{% include 'locations/sidebar.html' %}</div>{% endblock %}

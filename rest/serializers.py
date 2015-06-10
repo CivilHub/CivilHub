@@ -613,12 +613,11 @@ class IdeaVoteCounterSerializer(serializers.ModelSerializer):
     user_url = serializers.Field(source='user.profile.get_absolute_url')
     user_full_name = serializers.Field(source='user.get_full_name')
     user_avatar = serializers.Field(source='user.profile.thumbnail.url')
-    vote = serializers.Field()
 
     class Meta:
         model = IdeaVote
         fields = ('id', 'username', 'user_url', 'user_full_name',
-                  'user_avatar', 'vote',)
+                  'user_avatar', 'status',)
 
 
 class AbuseReportSerializer(serializers.ModelSerializer):
