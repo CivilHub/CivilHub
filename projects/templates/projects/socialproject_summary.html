@@ -2,8 +2,8 @@
 {% block location_navbar %}<div class="socialproject-summary-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}
 <div class="col-sm-6 main-project-content">
-  <h1>{{ object }}</h1>
-  <div>{{ object.description|safe }}</div>
+  <h1 class="mt0">{{ object }}</h1>
+  <div class="text-justify">{{ object.description|safe }}</div>
 </div>
 <div class="col-sm-6">
   <div class="activity-stream wrapper-timeline">
