@@ -19,6 +19,16 @@ function ($, _, utils, ui, CounterWindow, html) {
 
 var cw = null;
 
+function send (id, data, fn, context) {
+  data = data || {};
+  data.csrfmiddlewaretoken = utils.getCookie('csrftoken');
+  $.post('/ideas/vote/' + id + '/', data, function (response) {
+    if (_.isFunction(fn)) {
+      fn.call(context, response);
+    }
+  });
+}
+
 $(document).ready(function () {
   $('.idea-vote-count').on('click', function (e) {
     e.preventDefault();
@@ -49,54 +59,33 @@ function openShareWindow () {
   });
 }
 
-// Main object that handles scripts for voting buttons and bind counters.
-// Constructor takes jQuery DOM element, which makes it easy to wrap function
-// into plugin.
-
 function VoteArea ($el) {
   this.$el = $el;
-  this.activeBtn = null;
-  this.counter = this.$el.find('.counter');
-  this.counterup = this.$el.find('.counterup');
-  this.note = this.$el.find('.note');
-  _.bindAll(this, 'showMessage');
+  this.$activeBtn = null;
   this.$buttons = this.$el.find('.vote-btn-active');
-  this.$buttons.on('click', function (e) {
-    e.preventDefault();
-    this.activeBtn = $(e.target);
-    var id = this.activeBtn.attr('data-target-id');
-    var vote = this.activeBtn.attr('data-vote');
-    this.sendVote(id, vote, this.showMessage);
-  }.bind(this));
+  this.$counter = this.$el.find('.counter');
+  this.$note = this.$el.find('.note');
+  this.$buttons.on('click', this.trigger.bind(this));
 }
 
-// Make POST request and find out what the results are.
-
-VoteArea.prototype.sendVote = function (id, vote, fn) {
-  var data = { csrfmiddlewaretoken: utils.getCookie('csrftoken'), vote: vote };
-  $.post('/ideas/vote/' + id + '/', data, fn);
+VoteArea.prototype.trigger = function (e) {
+  e.preventDefault();
+  this._active = $(e.target);
+  var idea = this._active.attr('data-target-id');
+  var vote = this._active.attr('data-vote');
+  send(idea, { vote: vote }, this.showSummary, this);
 };
 
-// Show message with action summary and (if vote is positive) window to share.
-// This function should run as callback, when we know, what the vote and voted
-// objects states are.
-
-VoteArea.prototype.showMessage = function (response) {
-  ui.message.success(response.message);
-  this.activeBtn
-    .attr('data-vote', response.target)
-    .text(response.label);
-  this.counter.text(response.vote.count);
-  this.counterup.text(response.vote.votes_up);
-  this.note.text(response.vote.note);
-  if (!_.isUndefined(response.old_label)) {
-    this.$buttons.not(this.activeBtn)
-      .attr('data-vote', response.old_target)
-      .text(response.old_label);
+VoteArea.prototype.showSummary = function (data) {
+  if (data.is_reversed) {
+    this.$buttons.not(this._active).text(data.new_label);
+  } else {
+    this._active.attr('data-vote', data.prev_target);
   }
-  if (response.vote.vote === true && response.target === 'revoke') {
-    openShareWindow();
-  }
+  this._active.text(data.label);
+  this.$counter.text(data.votes);
+  this.$note.text(data.note);
+  ui.message.success(data.message);
 };
 
 // jQuery wrapper for VoteArea

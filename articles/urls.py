@@ -39,4 +39,6 @@ urlpatterns = patterns('',
     url(r'^home-k/', views.TopLevelArticleView.as_view(article_slug='home-k', template_name='articles/home-page.html'), name='home-k'),
     url(r'^home-l/', views.TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-page.html'), name='home-l'),
     url(r'^points-and-badges/', views.TopLevelArticleView.as_view(article_slug='points-and-badges', template_name='articles/brief.html'), name='points-and-badges'),
+    url(r'^for-volunteers/', views.TopLevelArticleView.as_view(article_slug='for-volunteers', template_name='articles/brief.html'), name='for-volunteers'),
+    url(r'^for-translators/', views.TopLevelArticleView.as_view(article_slug='for-translators', template_name='articles/brief.html'), name='for-translators'),
 )

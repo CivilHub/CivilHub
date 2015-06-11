@@ -13,6 +13,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
+from actstream.actions import action
 from taggit.managers import TaggableManager
 
 from comments.models import CustomComment
@@ -81,21 +82,25 @@ class Idea(ImagableItemMixin, models.Model):
 
     @property
     def votes_up(self):
-        return self.vote_set.filter(vote=True).count()
+        return self.vote_set.filter(status=1).count()
 
     @property
     def votes_down(self):
-        return self.vote_set.filter(vote=False).count()
+        return self.vote_set.filter(status=2).count()
 
     @property
     def note(self):
-        if not self.vote_set.count():
+        if not self.vote_set.exclude(status=3).count():
             note = 0
         elif not self.votes_down:
             note = 100
         else:
             note = float(self.votes_up)/float(self.votes_down+self.votes_up)*100.0
         return "{}%".format(int(note))
+
+    @property
+    def votes(self):
+        return self.vote_set.exclude(status=3).values('pk').count()
 
     def get_votes(self):
         return self.votes_up - self.votes_down
@@ -106,25 +111,50 @@ class Idea(ImagableItemMixin, models.Model):
                                     .filter(content_type=content_type) \
                                     .count()
 
-    def vote(self, user, vote=False, revoke=False):
+    def vote(self, user, status=2):
         """ Semi-automatic voting. Just pass voting user and vote False/True.
         """
+        # Voting is already disabled
         if self.status > 2:
-            raise VotingExpiredException
+            return {'success': False,
+                    'message': _(u"Voting for this idea is over"), }
 
-        user_vote = self.vote_set.filter(user=user).first()
+        try:
+            user_vote = Vote.objects.get(user=user, idea=self)
+            is_new = False
+        except Vote.DoesNotExist:
+            user_vote = Vote.objects.create(user=user, idea=self, status=status)
+            is_new = True
 
-        if user_vote is not None and revoke:
-            user_vote.delete()
-            return None
+        is_reversed = False
 
-        if user_vote is None:
-            user_vote = Vote.objects.create(idea=self, user=user, vote=vote)
+        if is_new:
+            prev_status = None
+            action.send(user,
+                        action_object=user_vote,
+                        target=self,
+                        verb='voted on',
+                        vote=user_vote.status)
+            user.profile.rank_pts += 1
+            user.profile.save()
         else:
-            user_vote.vote = vote
-            user_vote.save()
+            prev_status = user_vote.status
+            if (prev_status == 2 and status == 1) or (prev_status == 1 and status == 2):
+                is_reversed = True
+        user_vote.status = status
+        user_vote.save()
 
-        return user_vote
+        vote_data = {
+            'success': True,
+            'id': user_vote.pk,
+            'target': user_vote.status,
+            'is_new': is_new,
+            'prev_target': prev_status,
+            'is_reversed': is_reversed,
+            'votes': self.votes,
+            'note': self.note, }
+
+        return vote_data
 
     def save(self, *args, **kwargs):
         self.name = strip_tags(self.name)
@@ -167,25 +197,32 @@ models.signals.post_delete.connect(remove_image, sender=Idea)
 @python_2_unicode_compatible
 class Vote(models.Model):
     """ Users can vote up or down on ideas. """
+    VOTE_STATUSES = ((1, _(u"positive")),
+                     (2, _(u"negative")),
+                     (3, _(u"revoked")), )
+
     user = models.ForeignKey(User, related_name="idea_votes")
     idea = models.ForeignKey(Idea)
-    vote = models.BooleanField(default=False)
+    status = models.PositiveIntegerField(choices=VOTE_STATUSES, default=2)
     date_voted = models.DateTimeField(auto_now=True)
+
+    def status_display(self):
+        return [[x[1] for x in VOTE_STATUSES if x[0]==self.status][0]]
+
+    def __str__(self):
+        return unicode(self.status)
 
     class Meta:
         unique_together = ('user', 'idea', )
         verbose_name = _(u"vote")
         verbose_name_plural = _(u"votes")
 
-    def __str__(self):
-        return unicode(self.vote)
-
 
 def vote_notification(sender, instance, created, **kwargs):
     """ Notify users that someone voted for their ideas. """
     if instance.user == instance.idea.creator or not created:
         return True
-    suff = "up" if instance.vote else "down"
+    suff = "up" if instance.status == 1 else "down"
     notify(instance.user, instance.idea.creator,
            key="vote",
            verb=_(u"voted %s for your idea" % suff),

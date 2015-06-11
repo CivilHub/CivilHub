@@ -92,7 +92,7 @@ class ActionObjectSerializer(serializers.Serializer):
             desc = obj.content
         elif obj._meta.model_name == 'vote' \
             or obj._meta.model_name == 'commentvote':
-            if obj.vote:
+            if obj.status == 1:
                 class_name = 'alert-success'
                 label_text = _(u"Voted yes")
             else:

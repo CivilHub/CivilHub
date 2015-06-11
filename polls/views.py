@@ -104,35 +104,17 @@ class PollDetails(DetailView):
 
 
 class PollResults(DetailView):
-    """
-    Detailed poll view modified exclusively to show poll answers.
+    """ Detailed poll view modified exclusively to show poll answers.
     """
     model = Poll
     template_name = 'polls/poll-results.html'
 
-    def calculate_answsers(self, **kwargs):
-        """
-        Count the votes of respective anwsers.
-        """
-        result = []
-        obj = self.object
-        asets = AnswerSet.objects.filter(poll=obj)
-        for a in obj.answer_set.all():
-            counter = 0
-            answer = a.answer
-            for aset in asets:
-                if aset.answers.filter(pk=a.pk).exists():
-                    counter += 1
-            result.append({'answer': answer, 'counter': counter, })
-        return result
-
     def get_context_data(self, **kwargs):
         context = super(PollResults, self).get_context_data(**kwargs)
-        context['title'] = self.object.title
-        context['location'] = self.object.location
-        context['answers'] = AnswerSet.objects.filter(poll=self.object)[:10]
-        context['answer_set'] = self.calculate_answsers()
-        context['links'] = links['polls']
+        context.update({
+            'title': self.object.title,
+            'location': self.object.location,
+            'links': links['polls'], })
         return context
 
 

@@ -37,12 +37,6 @@ require.config({
     "file-input": "includes/bootstrap/bootstrap.file-input",
     "vector": "includes/vectormap/jquery-jvectormap-1.2.2.min",
     "worldmap": "includes/vectormap/jquery-jvectormap-world-mill-en",
-    "plot": "includes/jqplot/jquery.jqplot",
-    "dateAxisRenderer": "includes/jqplot/plugins/jqplot.dateAxisRenderer",
-    "canvasTextRenderer": "includes/jqplot/plugins/jqplot.canvasTextRenderer",
-    "canvasAxisTickRenderer": "includes/jqplot/plugins/jqplot.canvasAxisTickRenderer",
-    "categoryAxisRenderer": "includes/jqplot/plugins/jqplot.categoryAxisRenderer",
-    "barRenderer": "includes/jqplot/plugins/jqplot.barRenderer",
     "tubular": "includes/tubular/jquery.tubular.1.0",
     "tour": "includes/tour/bootstrap-tour",
     "hammer": "includes/mapplic/hammer",
@@ -51,10 +45,28 @@ require.config({
     "jmousewheel": "includes/mapplic/jquery.mousewheel",
     "CUri": "includes/curi",
     "lightbox": "includes/lightbox",
-    "facebook": "//connect.facebook.net/en_US/sdk"
+    "facebook": "//connect.facebook.net/en_US/sdk",
+    "highcharts": "includes/highcharts/js/highcharts",
+    "highchartsTheme": "includes/highcharts/js/themes/gray",
+    "highcharts3d": "includes/highcharts/js/highcharts-3d"
   },
 
   "shim": {
+
+    "highcharts": {
+      "deps": ["jquery"],
+      "exports": "Highcharts"
+    },
+
+    "highchartsTheme": {
+      "deps": ["highcharts"],
+      "exports": "Highcharts"
+    },
+
+    "highcharts3d": {
+      "deps": ["highchartsTheme"],
+      "exports": "Highcharts"
+    },
 
     "leaflet": {
       "exports": "L"
@@ -145,17 +157,7 @@ require.config({
 
     "mapplic": {
       "deps": ["jquery"]
-    },
-
-    "plot": {
-      "deps": ["jquery"]
-    },
-
-    "dateAxisRenderer": { "deps": ["plot"] },
-    "canvasTextRenderer": { "deps": ["plot"] },
-    "canvasAxisTickRenderer": { "deps": ["plot"] },
-    "categoryAxisRenderer": { "deps": ["plot"] },
-    "barRenderer": { "deps": ["plot"] }
+    }
   }
 });
 
