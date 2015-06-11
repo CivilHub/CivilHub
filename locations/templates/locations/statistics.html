@@ -1,0 +1,22 @@
+{% extends 'locations/index.html' %}{% load i18n civil_tags %}
+{% block require_scripts %}<script src="{% module_path 'location-statistics' %}"></script>{% endblock %}
+{% block content %}<h1>{{ title }} - {% trans "statistics" %}</h1>
+<div class="col-sm-9">
+  <h3>{% trans "published content"|capfirst %}</h3>
+  <div id="content-chart-container" class="civ-chart-container" data-series="{{ pie_data }}">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+  <h3>{% trans "published content"|capfirst %}</h3>
+  <div id="summary-chart-container" class="civ-chart-container" data-series="{{ summary_data }}">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+  <h3>{% trans "activity timeline"|capfirst %}</h3>
+  <div id="timeline-chart-container" class="civ-chart-container" data-series="{{ timeline_data }}">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+  <h3>{% trans "followers timeline"|capfirst %}</h3>
+  <div id="follower-chart-container" class="civ-chart-container" data-series="{{ follower_data }}">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+</div>
+<div class="col-sm-3"></div>{% endblock %}

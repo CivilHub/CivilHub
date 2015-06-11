@@ -47,7 +47,7 @@ require.config({
     "lightbox": "includes/lightbox",
     "facebook": "//connect.facebook.net/en_US/sdk",
     "highcharts": "includes/highcharts/js/highcharts",
-    "highchartsTheme": "includes/highcharts/js/themes/gray",
+    "highchartsTheme": "includes/highcharts/js/themes/sand-signika",
     "highcharts3d": "includes/highcharts/js/highcharts-3d"
   },
 

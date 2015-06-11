@@ -182,7 +182,7 @@ function drawTimelineChart (data) {
     });
   });
 
-  $('#chart-container').highcharts(chartOptions);
+  $('#timeline-chart-container').highcharts(chartOptions);
 }
 
 // Draw chart with visit counter statictics for main poll's page
@@ -244,19 +244,17 @@ function drawVisitChart (data) {
     }]
   };
 
-  $('#chart-container').highcharts(chartOptions);
+  $('#visit-chart-container').highcharts(chartOptions);
 }
 
 // Simple wrapper that initializes first graph.
 
-function initChart (pk) {
-  fetch(baseurl, { pk: pk }, function (response) {
-    if (response.multiple) {
-      drawSimpleChart(response);
-    } else {
-      drawPieChart(response);
-    }
-  });
+function initChart (data) {
+  if (data.multiple) {
+    drawSimpleChart(data);
+  } else {
+    drawPieChart(data);
+  }
 }
 
 // Timeline graph presenting different data output.
@@ -280,14 +278,10 @@ function visitChart(pk, ct) {
 $(document).ready(function () {
   var currentID = parseInt($('#chart-container').attr('data-target'), 10);
   var currentCT = parseInt($('#chart-container').attr('data-content'), 10);
-  initChart(currentID);
-  $('#chart-switch').on('change', function () {
-    switch ($(this).val()) {
-      case "1": initChart(currentID); break;
-      case "2": timeChart(currentID); break;
-      case "3": visitChart(currentID, currentCT); break;
-    }
-  });
+  var chartData = JSON.parse($('#chart-container').attr('data-series'));
+  initChart(chartData);
+  timeChart(currentID);
+  visitChart(currentID, currentCT);
 });
 
 });

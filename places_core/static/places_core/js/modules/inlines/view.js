@@ -164,7 +164,7 @@ var CommentView = Backbone.View.extend({
       delete this.win;
     }
     this.win = new VoteSummary({
-      element: this.$('.vote-summary'),
+      element: this.$('.vote-summary:first'),
       vote: $(e.target).hasClass('fa-angle-up') ? 'up' : 'down',
       itemID: this.model.get('id'),
       onDestroy: this.closeSummary

@@ -19,6 +19,7 @@ from django.views.generic import View, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import ProcessFormView, UpdateView
 
+from hitcounter.models import Visit
 from maps.models import MapPointer
 from locations.models import Location
 from locations.links import LINKS_MAP as links
@@ -28,10 +29,11 @@ from places_core.permissions import is_moderator
 from polls.forms import PollUpdateForm
 from userspace.models import UserProfile
 
-from .models import Poll, Answer, AnswerSet, SimplePoll, SimplePollAnswerSet
-from .forms import PollEntryAnswerForm, SimplePollForm
-
 from locations.mixins import LocationContextMixin, SearchableListMixin
+
+from .forms import PollEntryAnswerForm, SimplePollForm
+from .models import Poll, Answer, AnswerSet, SimplePoll, SimplePollAnswerSet
+from .serializers import AnswerSetSerializer, TimelineSetSerializer
 
 
 class PollsContextMixin(LocationContextMixin):
@@ -114,7 +116,8 @@ class PollResults(DetailView):
         context.update({
             'title': self.object.title,
             'location': self.object.location,
-            'links': links['polls'], })
+            'links': links['polls'],
+            'data': json.dumps(AnswerSetSerializer(self.object).data), })
         return context
 
 

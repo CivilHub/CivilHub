@@ -54,6 +54,7 @@ from polls.forms import PollForm
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 
+from .charts import actions_chart, follow_chart, pie_chart, summary_chart
 from .forms import *
 from .helpers import move_location_contents
 from .mixins import LocationContextMixin
@@ -88,6 +89,21 @@ class LocationViewMixin(DetailView):
         context = super(LocationViewMixin, self).get_context_data(**kwargs)
         context['title'] = self.object.name
         context['is_moderator'] = is_moderator(self.request.user, self.object)
+        return context
+
+
+class LocationStatisticsView(LocationViewMixin):
+    """
+    """
+    template_name = 'locations/statistics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationStatisticsView, self).get_context_data(**kwargs)
+        context.update({
+            'pie_data': pie_chart(self.object),
+            'summary_data': summary_chart(self.object),
+            'timeline_data': actions_chart(self.object),
+            'follower_data': follow_chart(self.object), })
         return context
 
 
