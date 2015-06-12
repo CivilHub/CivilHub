@@ -3264,13 +3264,13 @@ small.green{
     (min-resolution: 192dpi){
       background-image: @bg_idealaw_s1_idea_retina;
     }
-    &.en_bg-idealaw-s1-idea{
-      background-image: @en_bg_idealaw_s1_idea;
-      @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi){
-        background-image: @en_bg_idealaw_s1_idea_retina;
-      }
+  }
+  .en_bg-idealaw-s1-idea{
+    background-image: @en_bg_idealaw_s1_idea;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      background-image: @en_bg_idealaw_s1_idea_retina;
     }
   }
   .bg-idealaw-s1-project:before{
@@ -3303,9 +3303,7 @@ small.green{
     height: 50px;
     @media
     (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){
-      background-image: @green_arrow_retina;
-    }
+    (min-resolution: 192dpi){ background-image: @green_arrow_retina; }
   }
   .bg-idealaw-s1-project{
     padding-bottom: 55.5%;
@@ -3313,17 +3311,13 @@ small.green{
     .bg-nor-cen-con;
     @media
     (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){
-      background-image: @bg_idealaw_s1_project_retina;
-    }
-    &.en_bg-idealaw-s1-project{
-      background-image: @en_bg_idealaw_s1_project;
-      @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi){
-        background-image: @en_bg_idealaw_s1_project_retina;
-      }
-    }
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s1_project_retina; }
+  }
+  .en_bg-idealaw-s1-project{
+    background-image: @en_bg_idealaw_s1_project;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s1_project_retina; }
   }
   .bg-idealaw-s1-document{
     padding-bottom: 55%;
@@ -3331,17 +3325,13 @@ small.green{
     .bg-nor-cen-con;
     @media
     (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){
-      background-image: @bg_idealaw_s1_document_retina;
-    }
-    &.en_bg-idealaw-s1-document{
-      background-image: @en_bg_idealaw_s1_document;
-      @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi){
-        background-image: @en_bg_idealaw_s1_document_retina;
-      }
-    }
+    (min-resolution: 192dpi){ background-image: @bg_idealaw_s1_document_retina; }
+  }
+  .en_bg-idealaw-s1-document{
+    background-image: @en_bg_idealaw_s1_document;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s1_document_retina; }
   }
   @media(max-width: 768px){
     /*.bg-idealaw-s1-idea, .bg-idealaw-s1-project, .bg-idealaw-s1-document,
@@ -3372,42 +3362,59 @@ small.green{
   }
 }
 
-.idealaw-s2{
+
+.idealaw-ideaproject-s2{
   padding: 4% 0;
   /*h2{ margin-top: 0; }*/
-  .bg-idealaw-s2{
+  .bg-ip-s2{
     margin-top: 50px;
-    background-image: @bg_idealaw_s2;
     .bg-nor-cen-con;
     background-position: 35% 0;
     background-size: 640px 269px;
+    &.bg-i-s2{ background-image: @bg_idealaw_s2; }
+    &.bg-p-s2{ background-image: @bg_ideaproject_s2; }
     @media
     (-webkit-min-device-pixel-ratio: 2),
     (min-resolution: 192dpi){
-      background-image: @bg_idealaw_s2_retina;
-    }
-    &.en_bg-idealaw-s2{
-      background-image: @en_bg_idealaw_s2;
-      @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi){
-        background-image: @en_bg_idealaw_s2_retina;
-      }
+      &.bg-i-s2{ background-image: @bg_idealaw_s2_retina; }
+      &.bg-p-s2{ background-image: @bg_ideaproject_s2_retina; }
     }
     @media(max-width: 1200px){ background-position: 20% 0; }
     @media(max-width: 991px){ background-position: -65% 0; }
     @media(max-width: 768px){
-      &, &.en_bg-idealaw-s2{
-        margin-top: 30px;
-        padding-top: 399px;
-        background-position: center top;
-        background-size: 322px 399px; //x2
-        background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png);
-        @media
-        (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini@2x.png); }
+      margin-top: 30px;
+      padding-top: 399px;
+      background-position: center top;
+      background-size: 322px 399px;
+      &.bg-i-s2{ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png); }
+      &.bg-p-s2{ background-image: @bg_ideaproject_s2_mini; }
+      @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi){ 
+        &.bg-i-s2{ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini@2x.png); }
+        &.bg-p-s2{ background-image: @bg_ideaproject_s2_mini_retina; }
       }
     }
+  }
+  .en_bg-ip-s2{
+    &.bg-i-s2{ background-image: @en_bg_idealaw_s2; }
+    &.bg-p-s2{ background-image: @en_bg_ideaproject_s2; }
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      &.bg-i-s2{ background-image: @en_bg_idealaw_s2_retina; }
+      &.bg-p-s2{ background-image: @en_bg_ideaproject_s2_retina; }
+    }
+      @media(max-width: 768px){
+        &.bg-i-s2{ background-image: url(../img/idea-to-law/bg-idealaw-s2-mini.png); }
+        &.bg-p-s2{ background-image: @en_bg_ideaproject_s2_mini; 
+          @media
+          (-webkit-min-device-pixel-ratio: 2),
+          (min-resolution: 192dpi){
+            background-image: @en_bg_ideaproject_s2_mini_retina; 
+          }
+        }
+      }
   }
   .box-text{
     text-align: left;
@@ -3417,6 +3424,7 @@ small.green{
     @media(max-width: 768px){
       max-width: none;
       padding-left: 15px;
+      margin-top: 10px;
     }
     h3{
       margin-top: 0;
@@ -3436,9 +3444,7 @@ small.green{
         margin-right: 10px;
         @media
         (-webkit-min-device-pixel-ratio: 2),
-        (min-resolution: 192dpi){
-          background-image: @idealaw_editor1_retina;
-        }
+        (min-resolution: 192dpi){ background-image: @idealaw_editor1_retina; }
       }
       a{
         line-height: 24px;
@@ -4211,10 +4217,9 @@ small.green{
         }
     }
 }
-
+/*
 .ideaproject-s2{
     padding: 4% 0;
-    /*h2{ margin-top: 0; }*/
     .bg-ideaproject-s2{
         margin-top: 50px;
         background-image: @bg_ideaproject_s2;
@@ -4292,7 +4297,7 @@ small.green{
             }
         }
     }
-}
+}*/
 
 .ideaproject-s3{
     padding: 4% 0;
