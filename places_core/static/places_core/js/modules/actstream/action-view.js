@@ -120,25 +120,22 @@ var ActionView = Backbone.View.extend({
 
   applyComments: function () {
     var obj = this.model.get('action_object');
-    var $c = this.$('.comment-count');
     if (_.isNull(obj)) {
       return;
     }
-    this.$('.comment-area')
-      .commentList({ $counter: $c });
+    var $c = this.$('.comment-count');
+    this.$('.comment-area').commentList({
+      $counter: $c,
+      data: obj.comment_data
+    });
     this.comments = this.$('.comment-area')
       .data('commentlist');
+    this.$('.comment-area').show();
   },
 
   toggleComments: function (e) {
     e.preventDefault();
-    if (this.initialized) {
-      this.$('.comment-area').toggle();
-      return;
-    }
-    this.comments.fetch();
-    this.$('.comment-area').show();
-    this.initialized = true;
+    this.$('.comment-area').toggle();
   },
 
   fetchComments: function (e) {

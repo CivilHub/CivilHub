@@ -34,7 +34,9 @@ class FollowedUserList(CivilUserMixin, View):
     """
     def get_context_data(self):
         context = super(FollowedUserList, self).get_context_data()
-        context.update({'object_list': following(self.object.user, User), })
+        context.update({
+            'object_list': [x for x in following(self.object.user, User)\
+                                                    if x is not None], })
         return context
 
     def get(self, request, **kwargs):
@@ -58,8 +60,15 @@ class FacebookFriendList(CivilUserMixin, View):
         return context
 
     def get(self, request, **kwargs):
+        user = self.request.user
+        if user.is_anonymous() or user != self.object.user:
+            raise Http404
         try:
             self.s_auth = self.object.user.social_auth.get(provider='facebook')
         except UserSocialAuth.DoesNotExist:
-            raise Http404
+            request.session['relogin'] = json.dumps({
+                'backend': 'facebook',
+                'next_url': request.path, })
+            return render(request, 'userspace/fb-login-required.html', {
+                'profile': self.request.user.profile, })
         return render(request, self.template_name, self.get_context_data())

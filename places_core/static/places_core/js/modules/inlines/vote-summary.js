@@ -7,8 +7,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'text!js/modules/inlines/templates/summary-entry.html',
-        'bootstrap'],
+        'text!js/modules/inlines/templates/summary-entry.html'],
 
 function ($, _, Backbone, entryTPL) {
 
@@ -44,71 +43,62 @@ var Vote = Backbone.View.extend({
   }
 });
 
-// Main summary window object
-//
-// OPTIONS:
-//  - element   DOM element to use for window
-//  - vote      Vote 'up' or 'down'
-//  - itemID    Comment's unique ID
-//  - odDestroy Callback to trigger when window is destroyed
+// Main summary window controller. You may pass options (actually, you have to
+// provide at least comment ID, the rest is optional, but usefull.
 
 var VoteSummary = Backbone.View.extend({
 
+  tagName: 'ul',
+
+  className: 'comment-vote-summary',
+
+  onDestroy: null,
+
+  clock: null,
+
   initialize: function (options) {
-    this.clock = null;
-    this.$el = $(options.element);
-    this.vote = options.vote || 'all';
-    this.itemID = options.itemID || 0;
-    this.onDestroy = options.onDestroy || null;
     this.collection = new Backbone.Collection();
     this.collection.url = ([
-      '/api-comments/list/', this.itemID,
-      '/summary/?v=', this.vote]).join('');
+      '/api-comments/list/', options.data.id,
+      '/summary/?v=', options.data.vote]).join('');
     this.listenTo(this.collection, 'sync', this.render);
     this.collection.fetch();
+    if (!_.isUndefined(options.position)) {
+      this.position = options.position;
+    }
+    this.setClock();
   },
 
-  render: function () {
-    this.collection.each(function (item) {
-      this.renderItem(item);
-    }, this);
+  render: function (collection) {
+    if (collection.length === 0) {
+      return;
+    }
+    this.$el.appendTo('body');
+    if (!_.isUndefined(this.position)) {
+      this.$el.offset(this.position);
+    }
     this.$el.fadeIn('fast');
-    this.setClock();
-    this.$el.one('mouseenter', this.onMouseEnter.bind(this));
+    this.collection.each(function (item) {
+      this.renderVote(item);
+    }, this);
   },
 
-  onMouseEnter: function (e) {
-    e.stopPropagation();
-    this.stopClock();
-    this.$el.off('mouseenter');
-    this.$el.one('mouseleave', this.onMouseOut.bind(this));
-  },
-
-  onMouseOut: function (e) {
-    e.stopPropagation();
-    this.setClock();
-    this.$el.off('mouseleave');
-    this.$el.one('mouseenter', this.onMouseEnter.bind(this));
+  renderVote: function (item) {
+    var view = new Vote({ model: item });
+    $(view.render().el).appendTo(this.$el);
   },
 
   setClock: function () {
     this.clock = delay(1000, this.destroy, this);
-  },
-
-  stopClock: function () {
-    clearTimeout(this.clock);
-  },
-
-  renderItem: function (item) {
-    var vote = new Vote({ model: item });
-    $(vote.render().el).appendTo(this.$el);
+    this.$el.one('mouseenter', function () {
+      clearTimeout(this.clock);
+      this.$el.one('mouseleave', this.setClock.bind(this));
+    }.bind(this));
   },
 
   destroy: function () {
-    this.$el.fadeOut('fast', function () {
-      this.$el.empty()
-        .off('mouseenter')
-        .off('mouseleave');
+    this.$el.fadeOut('slow', function () {
+      this.$el.empty().remove();
       if (_.isFunction(this.onDestroy)) {
         this.onDestroy();
       }

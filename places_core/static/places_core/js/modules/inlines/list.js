@@ -8,8 +8,6 @@
 // comment list should be created. See comment_tags.py for details of html
 // structure for plugin and required data attributes.
 
-// FIXME: avoid model duplication when fetching new page.
-
 define(['jquery',
         'underscore',
         'backbone',
@@ -57,13 +55,16 @@ var CommentListView = Backbone.View.extend({
     // Create collection and set page to (by default) 1. We use CUri here, so
     // that params may be passed only once and THEN appended to collection URL.
 
-    this.collection = new CommentCollection();
+    this.collection = new CommentCollection(options.data.results);
+    this.collection.hasNext = options.data.has_next;
     this.currentPage = options.currentPage;
     this.uri = new CUri(options.url);
     this.uri.add('ct', options.ct);
     this.uri.add('pk', options.pk);
     this.uri.add('page', this.currentPage);
     this.collection.url = options.url;
+
+    this.collection.each(this.renderComment, this);
 
     // Allow list filtering by date/votes.
 
@@ -94,7 +95,6 @@ var CommentListView = Backbone.View.extend({
     this.uri.add('page', this.currentPage);
     this.uri.add('o', filter);
     fetchData(this.uri.url(), function (response) {
-      // FIXME: not rendering when filtered list is on last page.
       this.collection.reset(response.results);
       this.collection.nextUrl = response.next;
       this.collection.hasNext = !_.isNull(response.next);

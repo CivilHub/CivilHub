@@ -28,15 +28,19 @@ def follow_button(context, obj):
     """
     user = context['user']
 
-    if user.is_anonymous() or user == obj:
+    class_name = 'btn-follow'
+    label_text = _(u"Follow")
+
+    if user.is_anonymous():
+        href = '/user/login/?next=' + context['request'].path
+        return '<a class="{}" href="{}">{}</a>'.format(
+            class_name, href, label_text)
+    elif user == obj:
         return ''
 
     if obj in following(user):
         class_name = 'btn-unfollow'
         label_text = _(u"Stop following")
-    else:
-        class_name = 'btn-follow'
-        label_text = _(u"Follow")
 
     content_type = ContentType.objects.get_for_model(obj).pk
     template = """<a class="civ-follow-btn {}"
