@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+import datetime
 import json
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.db.models import Q
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from actstream.actions import follow, unfollow
@@ -16,6 +19,55 @@ from rest_framework.views import APIView
 from places_core.helpers import get_time_difference
 
 from .serializers import ActionSerializer
+
+
+class ActionGraphAPIView(APIView):
+    """ Presents list of activities related to any object and divided to
+        periods by one day long. This is intended to be displayed on chart.
+        This view takes few parameters, and, if some errors occured or not all
+        of them are given, it presents 404 istead of server error.
+
+        Allowable parameters are:
+
+        `ct` - Content type ID, like in every generic relation in application.<br>
+        `pk` - ID of item in question. Related to the above (Generic Foreign Key)<br>
+    """
+    permission_classes = (permissions.AllowAny, )
+
+    def dispatch(self, *args, **kwargs):
+        try:
+            ct = int(self.request.GET.get('ct'))
+            pk = int(self.request.GET.get('pk'))
+        except (TypeError, ValueError, ):
+            raise Http404
+
+        content_type = get_object_or_404(ContentType, pk=ct)
+        try:
+            self.object = content_type.get_object_for_this_type(pk=pk)
+        except ObjectDoesNotExist:
+            raise Http404
+
+        return super(ActionGraphAPIView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, **kwargs):
+        stream = target_stream(self.object).order_by('-timestamp')
+        started = stream.last().timestamp
+        current = started
+        maximum = timezone.now() + datetime.timedelta(hours=12)
+        counters = []
+        while current < maximum:
+            qs = stream.filter(timestamp__year=current.year,
+                               timestamp__month=current.month,
+                               timestamp__day=current.day)
+            counters.append(qs.count())
+            current += datetime.timedelta(days=1)
+        return Response({
+            'title': _(u"Actions timeline for ") + self.object.__unicode__(),
+            'point_interval': 24 * 3600 * 1000,
+            'date_started': started,
+            'name': _(u"Activities"),
+            'count': stream.count(),
+            'results': counters, })
 
 
 class ActivityViewSet(viewsets.ReadOnlyModelViewSet):

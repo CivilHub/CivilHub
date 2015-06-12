@@ -78,9 +78,6 @@ class VisitGraphDataAPIView(APIView):
 
         results = []
         the_time = start_time
-        # FIXME: I have no idea why, but it seems that there is even 24 hours
-        # difference between different auto_add_now fields. So for now it works
-        # fine for polls, but not, e.g. for ideas.
         while the_time < stop_time + datetime.timedelta(days=1):
             results.append(all_visits.filter(date__year=the_time.year,
                                              date__month=the_time.month,

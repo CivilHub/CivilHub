@@ -6,11 +6,17 @@
 
 {% block content %}<div class="col-sm-8 main-content">
   <h1>{{ poll.title }} - {% trans "results" %}</h1><hr />
-  <p><select class="form-control" id="chart-switch">
-    <option value="1" selected>{% trans 'all answers'|capfirst %}</option>
-    <option value="2">{% trans 'answers by time'|capfirst %}</option>
-    <option value="3">{% trans 'visits in time'|capfirst %}</option>
-  </select></p>
-  <div id="chart-container" data-target="{{ poll.pk }}" data-content="{% obj_ct_id 'poll' %}"></div>
+  <h3>{% trans 'all answers'|capfirst %}</h3>
+  <div id="chart-container" class="civ-chart-container" data-target="{{ poll.pk }}" data-content="{% obj_ct_id 'poll' %}" data-series="{{ data }}">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+  <h3>{% trans 'answers by time'|capfirst %}</h3>
+  <div id="timeline-chart-container" class="civ-chart-container">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
+  <h3>{% trans 'visits in time'|capfirst %}</h3>
+  <div id="visit-chart-container" class="civ-chart-container">
+    <span class="fa fa-spin fa-refresh"> </span>
+  </div>
 </div>
 <div class="col-sm-4">{% include 'locations/sidebar.html' %}</div>{% endblock %}
