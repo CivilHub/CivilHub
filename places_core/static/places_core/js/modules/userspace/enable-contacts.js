@@ -5,11 +5,17 @@
 // The script checks whether the user has logged in through Google
 // and unlocks the abbility to invite freind from Gmail mailbox
 
-require(['jquery', 'js/modules/userspace/google-contacts'],
+require(['jquery',
+         'underscore',
+         'js/modules/userspace/google-contacts'],
 
-function ($, ContactListView) {
+function ($, _, ContactListView) {
 
   "use strict";
+
+  if (_.isUndefined(window.GOOGLE_DATA)) {
+    return;
+  }
 
   // A query to the server about user contacts
 
