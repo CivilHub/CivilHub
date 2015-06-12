@@ -130,11 +130,6 @@ class Idea(ImagableItemMixin, models.Model):
 
         if is_new:
             prev_status = None
-            action.send(user,
-                        action_object=user_vote,
-                        target=self,
-                        verb='voted on',
-                        vote=user_vote.status)
             user.profile.rank_pts += 1
             user.profile.save()
         else:

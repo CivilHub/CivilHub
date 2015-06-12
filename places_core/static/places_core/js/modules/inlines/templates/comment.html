@@ -23,8 +23,8 @@
     <% } else { %>
       <p><span class="comment-total-votes"><%= note %></span>
     <% } %>
-    &nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
     <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>
+    <% if (!_.isEmpty(CivilApp.user)) { %>&nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
     <div class="reply-form">
       <div class="comment-main-col p-reset">
         <form role="presentation" class="comment-form-body postbox" style="display:none">
@@ -38,7 +38,7 @@
           </div>
         </form>
       </div>
-    </div>
+    </div><% } %>
     </p>
     <div class="comment-votes-detail">
       <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>

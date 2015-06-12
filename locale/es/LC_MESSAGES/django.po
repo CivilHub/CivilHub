@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-11 04:31+0200\n"
-"PO-Revision-Date: 2015-06-11 02:32+0000\n"
+"POT-Creation-Date: 2015-06-12 14:18+0200\n"
+"PO-Revision-Date: 2015-06-12 12:19+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/civilhub/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +22,20 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: activities/api.py:113
+#: activities/api.py:65
+msgid "Actions timeline for "
+msgstr ""
+
+#: activities/api.py:68 locations/templates/locations/navbar.html:31
+msgid "Activities"
+msgstr "Actividades"
+
+#: activities/api.py:165
 #, python-format
 msgid "You are following this %s"
 msgstr "Está siguiendo este %s"
 
-#: activities/api.py:121
+#: activities/api.py:173
 #, python-format
 msgid "You are no longer following this %s"
 msgstr "Ya no está siguiendo este %s"
@@ -241,7 +249,8 @@ msgstr ""
 msgid "content"
 msgstr "contenido"
 
-#: blog/models.py:68 templates/search/search.html:29
+#: blog/models.py:68 locations/charts.py:58 locations/charts.py:73
+#: locations/charts.py:102 templates/search/search.html:29
 msgid "news"
 msgstr "actualidad"
 
@@ -793,7 +802,8 @@ msgstr "Este es el contenido"
 #: locations/templates/locations/invite-users.html:16
 #: organizations/templates/organizations/member_invite.html:5
 #: places_core/templates/places_core/abuse-report.html:8
-#: polls/templates/polls/poll-details.html:39
+#: polls/templates/polls/poll-details.html:40
+#: polls/templates/polls/poll-details.html:46
 #: templates/postman/base_write.html:27
 #: userspace/templates/userspace/twitter-email-form.html:55
 msgid "Send"
@@ -956,7 +966,7 @@ msgstr ""
 msgid "Thank you for your feedback!"
 msgstr ""
 
-#: civmail/views.py:34 civmail/views.py:87 locations/views.py:682
+#: civmail/views.py:34 civmail/views.py:87 locations/views.py:698
 msgid "All messages sent successfully"
 msgstr "Mensajes enviadas"
 
@@ -1452,16 +1462,16 @@ msgstr "Guías etiquetadas por"
 msgid "Guides in category"
 msgstr "Guías en esta categoría"
 
-#: hitcounter/api.py:91
+#: hitcounter/api.py:88
 #, python-format
 msgid "Visit counter for %s"
 msgstr ""
 
-#: hitcounter/models.py:42
+#: hitcounter/models.py:70
 msgid "visit counter"
 msgstr "contador de visitas"
 
-#: hitcounter/models.py:43
+#: hitcounter/models.py:71
 msgid "visit counters"
 msgstr "contadores de visitas"
 
@@ -1491,7 +1501,8 @@ msgstr "proyecto"
 msgid "idea"
 msgstr "idea"
 
-#: ideas/models.py:66
+#: ideas/models.py:66 locations/charts.py:56 locations/charts.py:71
+#: locations/charts.py:100
 msgid "ideas"
 msgstr "ideas"
 
@@ -1499,29 +1510,29 @@ msgstr "ideas"
 msgid "Voting for this idea is over"
 msgstr ""
 
-#: ideas/models.py:200
+#: ideas/models.py:195
 msgid "positive"
 msgstr ""
 
-#: ideas/models.py:201
+#: ideas/models.py:196
 msgid "negative"
 msgstr ""
 
-#: ideas/models.py:202
+#: ideas/models.py:197
 msgid "revoked"
 msgstr ""
 
-#: ideas/models.py:217
+#: ideas/models.py:212
 msgid "vote"
 msgstr "votar"
 
-#: ideas/models.py:218 ideas/templates/ideas/idea_basic.html:25
+#: ideas/models.py:213 ideas/templates/ideas/idea_basic.html:25
 #: ideas/templates/ideas/idea_list.html:23 ideas/templates/ideas/ideas.html:34
 #: places_core/templates/places_core/script-templates.html:179
 msgid "votes"
 msgstr "votos"
 
-#: ideas/models.py:228
+#: ideas/models.py:223
 #, python-format
 msgid "voted %s for your idea"
 msgstr "Han votado %s por su idea"
@@ -1688,12 +1699,12 @@ msgid "Positive votes"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:16 ideas/views.py:65
-#: locations/templates/locations/widgets/idea.html:143
+#: locations/templates/locations/widgets/idea.html:144
 msgid "Vote YES"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:23 ideas/views.py:67
-#: locations/templates/locations/widgets/idea.html:144
+#: locations/templates/locations/widgets/idea.html:145
 msgid "Vote NO"
 msgstr ""
 
@@ -1727,6 +1738,41 @@ msgstr "Ya no lo sigues"
 #: places_core/templates/places_core/script-templates.html:272
 msgid "You are following"
 msgstr "Estás siguiendo"
+
+#: locations/charts.py:53 locations/charts.py:68
+msgid "Published content summary"
+msgstr ""
+
+#: locations/charts.py:54 locations/charts.py:69
+msgid "Published items"
+msgstr ""
+
+#: locations/charts.py:57 locations/charts.py:72 locations/charts.py:101
+#: polls/models.py:65 polls/models.py:122
+msgid "polls"
+msgstr "Encuestas"
+
+#: locations/charts.py:59 locations/charts.py:74 locations/charts.py:103
+#: projects/models.py:213 topics/models.py:82
+msgid "discussions"
+msgstr "discuciones"
+
+#: locations/charts.py:60 locations/charts.py:75 locations/charts.py:104
+#: projects/models.py:92
+msgid "projects"
+msgstr "proyectos"
+
+#: locations/charts.py:123
+msgid "Activity summary"
+msgstr ""
+
+#: locations/charts.py:151
+msgid "followers activity"
+msgstr ""
+
+#: locations/charts.py:152
+msgid "followers"
+msgstr ""
 
 #: locations/forms.py:29 locations/templates/locations/location_form.html:65
 msgid "Parent"
@@ -1851,13 +1897,13 @@ msgstr "¿Estás seguro que quieres borrar este elemento?"
 
 #: locations/templates/locations/index.html:36
 #: locations/templates/locations/sublocation-list.html:4
-#: locations/views.py:227
+#: locations/views.py:243
 #: places_core/templates/places_core/script-templates.html:436
 #: places_core/templates/places_core/sublocation-dropdown.html:12
 msgid "Sublocations"
 msgstr "Sububicaciones"
 
-#: locations/templates/locations/index.html:48 locations/views.py:261
+#: locations/templates/locations/index.html:48 locations/views.py:277
 msgid "Followers"
 msgstr "Seguidores"
 
@@ -1865,7 +1911,7 @@ msgstr "Seguidores"
 msgid "Subspaces"
 msgstr "Sub ubicaciones"
 
-#: locations/templates/locations/index.html:70 locations/views.py:454
+#: locations/templates/locations/index.html:70 locations/views.py:470
 msgid "Edit this location"
 msgstr "Editar ubicación"
 
@@ -2406,10 +2452,6 @@ msgstr ""
 msgid "Articles"
 msgstr "Artículos"
 
-#: locations/templates/locations/navbar.html:31
-msgid "Activities"
-msgstr "Actividades"
-
 #: locations/templates/locations/no-results-tpl.html:8
 #: places_core/templates/places_core/script-templates.html:318
 msgid "No results mathing query found."
@@ -2452,6 +2494,23 @@ msgstr "Añadir la idea"
 msgid "Most active users"
 msgstr "Usuarios más activos"
 
+#: locations/templates/locations/statistics.html:3
+msgid "statistics"
+msgstr ""
+
+#: locations/templates/locations/statistics.html:5
+#: locations/templates/locations/statistics.html:9
+msgid "published content"
+msgstr ""
+
+#: locations/templates/locations/statistics.html:13
+msgid "activity timeline"
+msgstr ""
+
+#: locations/templates/locations/statistics.html:17
+msgid "followers timeline"
+msgstr ""
+
 #: locations/templates/locations/sublocation-list.html:5
 msgid "List of all sublocations that are inside current location."
 msgstr "Enseña todas sububicaciones dentro de esta ubicación"
@@ -2462,57 +2521,57 @@ msgid ""
 "of flats or estates."
 msgstr "Actua no solamente global sino en pequeñas comunidades como pueblos, bloques o casas unifamiliares"
 
-#: locations/views.py:106 locations/views.py:133
+#: locations/views.py:122 locations/views.py:149
 msgid "Create new idea"
 msgstr "Añadir nueva idea"
 
-#: locations/views.py:157 locations/views.py:194
+#: locations/views.py:173 locations/views.py:210
 #: projects/templates/projects/socialforumtopic_list.html:36
 msgid "Create new discussion"
 msgstr "Crear nueva discusión"
 
-#: locations/views.py:281 locations/views.py:308 locations/views.py:322
+#: locations/views.py:297 locations/views.py:324 locations/views.py:338
 msgid "Create new poll"
 msgstr "Crear nueva encuesta"
 
-#: locations/views.py:335 organizations/templates/organizations/index.html:46
+#: locations/views.py:351 organizations/templates/organizations/index.html:46
 #: organizations/templates/organizations/location_list.html:4
 msgid "Locations"
 msgstr "Ubicaciones"
 
-#: locations/views.py:418
+#: locations/views.py:434
 msgid "create new location"
 msgstr "Crear nueva ubicación"
 
-#: locations/views.py:525
+#: locations/views.py:541
 msgid "Search by tag"
 msgstr "Buscar por tag"
 
-#: locations/views.py:555
+#: locations/views.py:571
 msgid "Search by category"
 msgstr "Buscar por categoría"
 
-#: locations/views.py:574
+#: locations/views.py:590
 msgid "Confirm delete"
 msgstr "Confirmar eliminación"
 
-#: locations/views.py:634
+#: locations/views.py:650
 msgid "invited you to follow"
 msgstr "Te ha invitado a seguir"
 
-#: locations/views.py:638
+#: locations/views.py:654
 msgid "Successfully send invitation"
 msgstr "Invitación ha sido enviada con éxito"
 
-#: locations/views.py:644
+#: locations/views.py:660
 msgid "User field cannot be empty"
 msgstr "El nombre del usario no puede estar vacío"
 
-#: locations/views.py:749
+#: locations/views.py:765
 msgid "Granted you moderator access to"
 msgstr ""
 
-#: locations/views.py:751
+#: locations/views.py:767
 msgid "Success"
 msgstr ""
 
@@ -2909,7 +2968,7 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:61
 #: places_core/templates/places_core/script-templates.html:596
 #: places_core/templates/places_core/script-templates.html:597
-#: places_core/templatetags/civil_tags.py:239
+#: places_core/templatetags/civil_tags.py:242
 #: projects/templates/projects/socialforumentry_list.html:24
 #: projects/templates/projects/socialforumentry_list.html:51
 #: templates/postman/view.html:19
@@ -3328,10 +3387,6 @@ msgstr "Elige la respuesta"
 msgid "poll"
 msgstr "Encuesta"
 
-#: polls/models.py:65 polls/models.py:122
-msgid "polls"
-msgstr "Encuestas"
-
 #: polls/models.py:106
 msgid "created at"
 msgstr "creada el"
@@ -3368,11 +3423,11 @@ msgstr "Encuesta ha sido creada en "
 msgid "Add answer"
 msgstr "Añadir la respuesta"
 
-#: polls/templates/polls/poll-details.html:42
+#: polls/templates/polls/poll-details.html:49
 msgid "You have already voted for this poll. You can't vote again."
 msgstr "Ya habías añadido el voto a esta encuesta."
 
-#: polls/templates/polls/poll-details.html:43
+#: polls/templates/polls/poll-details.html:50
 msgid "See results"
 msgstr "Ver a los resultados"
 
@@ -3380,32 +3435,32 @@ msgstr "Ver a los resultados"
 msgid "results"
 msgstr "resultados"
 
-#: polls/templates/polls/poll-results.html:10
+#: polls/templates/polls/poll-results.html:9
 msgid "all answers"
 msgstr ""
 
-#: polls/templates/polls/poll-results.html:11
+#: polls/templates/polls/poll-results.html:13
 msgid "answers by time"
 msgstr ""
 
-#: polls/templates/polls/poll-results.html:12
+#: polls/templates/polls/poll-results.html:17
 msgid "visits in time"
 msgstr ""
 
-#: polls/views.py:134
+#: polls/views.py:137
 msgid "You already voted on this poll."
 msgstr "Ya habías añadido el voto a esta encuesta."
 
-#: polls/views.py:168
+#: polls/views.py:171
 msgid "Permission required"
 msgstr "No tienes los permisos requeridos"
 
-#: polls/views.py:177 topics/templates/topics/delete-confirm.html:6
+#: polls/views.py:180 topics/templates/topics/delete-confirm.html:6
 #: topics/views.py:134 topics/views.py:194
 msgid "Entry deleted"
 msgstr "Anotación ha sido borrada"
 
-#: polls/views.py:218
+#: polls/views.py:221
 msgid "Thank you for your vote!"
 msgstr "¡Gracias por su voto!"
 
@@ -3462,10 +3517,6 @@ msgstr "terminado"
 msgid "created by"
 msgstr "creado por"
 
-#: projects/models.py:92
-msgid "projects"
-msgstr "proyectos"
-
 #: projects/models.py:153
 msgid "task group"
 msgstr "el grupo de las tareas"
@@ -3497,10 +3548,6 @@ msgstr "la fecha de modificación"
 #: projects/models.py:208
 msgid "closed"
 msgstr "cerrado"
-
-#: projects/models.py:213 topics/models.py:82
-msgid "discussions"
-msgstr "discuciones"
 
 #: projects/models.py:233 templates/search/search.html:48 topics/models.py:81
 msgid "discussion"
