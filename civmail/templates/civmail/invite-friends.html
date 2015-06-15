@@ -7,6 +7,9 @@
   <div class="headerInviteBox">
     <h1 class="headerTitleInvite"> {% trans "Invite friends" %} </h1>
     <a style="display:none" href="#" type="button" class="btn-googleInvite contacts-toggle" title="{% trans "You must be logged by Google" %}">{% trans "Invite friends from Gmail" %}</a>
+    {% if not google_user %}<form action="{% url 'user:relogin' user.username %}" method="post">{% csrf_token %}
+      <button type="submit" class="google-button">{% trans "Login with Google" %}</button>
+    </form>{% endif %}
   </div>
 </div>{% endblock %}
 {% block content %}{% include 'places_core/google-contacts-modal.html' %}

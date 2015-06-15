@@ -5,9 +5,8 @@
 {% block meta %}<meta property="og:image" content="https://civilhub.org{{ profile.avatar.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta name="keywords" content=" {{ cuser.first_name }}, {{ cuser.last_name }}, {{ cuser.get_full_name }}">{% endblock %}
-{% block require_scripts %}
-<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-form.js"></script>
-{% endblock %}
+
+{% if fb_list %}{% block require_scripts %}<script src="{% module_path 'facebook-friends' %}"></script>{% endblock %}{% endif %}
 
 {% block header %}
 <style type="text/css">
@@ -65,6 +64,9 @@
   </nav>
 {% endblock %}
 {% block content %}
+  {% if fb_list and object_list|length %}<div class="row">
+    <a href="#" class="btn btn-success" id="follow-all">{% trans "follow all"|capfirst %}</a>
+  </div>{% endif %}
   {% for f in object_list %}
     {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
     <div class="col-sm-3">

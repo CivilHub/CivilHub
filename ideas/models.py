@@ -220,7 +220,7 @@ def vote_notification(sender, instance, created, **kwargs):
     suff = "up" if instance.status == 1 else "down"
     notify(instance.user, instance.idea.creator,
            key="vote",
-           verb=_(u"voted %s for your idea" % suff),
+           verb="voted for your idea",
            action_object=instance,
            action_target=instance.idea)
 

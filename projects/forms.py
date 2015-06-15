@@ -191,7 +191,16 @@ class AttachmentUploadForm(forms.ModelForm):
     class Meta:
         model = Attachment
         exclude = ('mime_type', 'uploaded_by', )
-        widgets = {'project': forms.HiddenInput(), }
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', }),
+            'tasks': forms.SelectMultiple(attrs={'class': 'form-control', }),
+            'project': forms.HiddenInput(), }
+
+    def __init__(self, project=None, *args, **kwargs):
+        super(AttachmentUploadForm, self).__init__(*args, **kwargs)
+        if project is not None:
+            self.fields['tasks'].queryset = Task.objects.filter(
+                                            group__project=project)
 
     def clean_attachment(self):
         attachment = self.cleaned_data['attachment']

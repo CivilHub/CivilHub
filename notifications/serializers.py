@@ -40,6 +40,14 @@ class NotificationSerializer(serializers.ModelSerializer):
     def get_action_verb(self, obj):
         if obj.action_verb is None:
             return ""
+        elif obj.action_verb == 'commented your':
+            obj_name = " " + obj.action_target._meta.verbose_name.title()
+            return _(u"commented your") + obj_name
+        elif obj.action_verb == 'voted for your idea':
+            if obj.action_object.status == 1:
+                return _(u"voted up for your idea")
+            else:
+                return _(u"voted down for your idea")
         return _(obj.action_verb)
 
     def get_action_object(self, obj):
