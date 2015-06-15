@@ -18,8 +18,8 @@
     <% if (author.id !== CivilApp.user.id) { %>
       <p>
         <span class="comment-total-votes"><%= note %></span>
-        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="<%= gettext("Good Idea, Vote YES") %>" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
-        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="<%= gettext("Bad Idea, Vote NO") %>" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
+        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-id="<%= id %>" data-vote="up" data-toggle="tooltip" data-placement="top" title="<%= gettext("Good Idea, Vote YES") %>" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
+        <a class="vote-link vote-down-link custom-tooltip-top" data-id="<%= id %>" data-vote="down" data-toggle="tooltip" data-placement="top" title="<%= gettext("Bad Idea, Vote NO") %>" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
     <% } else { %>
       <p><span class="comment-total-votes"><%= note %></span>
     <% } %>

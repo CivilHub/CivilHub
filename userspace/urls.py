@@ -16,6 +16,7 @@ router.add_api_view('locations', url(r'locations/$', api.UserFollowedLocationsAP
 
 
 urlpatterns = patterns('',
+    url(r'relogin/(?P<username>[-\w.]+)/', views.ReloginView.as_view(), name='relogin'),
     url(r'^$', views.ProfileUpdateView.as_view(), name='index'),
     #url(r'facebook-friends/', views.FindFriendsView.as_view(), name='facebook-friends'),
     url(r'register_credentials_check', views.register_credentials_check, name='register_credentials_check'),

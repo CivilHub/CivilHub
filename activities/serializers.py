@@ -9,7 +9,9 @@ from django.utils.translation import ugettext as _
 from actstream.models import Action
 from rest_framework import serializers
 
+from comments.config import get_config
 from comments.models import CustomComment
+from comments.serializers import CommentDetailSerializer
 from places_core.helpers import truncatehtml
 from userspace.serializers import UserDetailSerializer
 
@@ -49,6 +51,7 @@ class ActionObjectSerializer(serializers.Serializer):
     image = serializers.SerializerMethodField('get_image')
     date_created = serializers.SerializerMethodField('get_creation_date')
     comment_count = serializers.SerializerMethodField('get_comment_count')
+    comment_data = serializers.SerializerMethodField('get_comment_data')
 
     def get_creation_date(self, obj):
         if hasattr(obj, 'date_created'):
@@ -126,6 +129,15 @@ class ActionObjectSerializer(serializers.Serializer):
 
     def get_comment_count(self, obj):
         return len(CustomComment.objects.for_model(obj))
+
+    def get_comment_data(self, obj):
+        if obj._meta.model_name not in content_objects:
+            return ''
+        qs = CustomComment.objects.for_model(obj).filter(parent__isnull=True)
+        return {
+            'has_next': len(CustomComment.objects.for_model(obj)) > get_config('PAGINATE_BY'),
+            'results': CommentDetailSerializer(qs[:get_config('PAGINATE_BY')], many=True).data
+        }
 
 
 class ActionTargetSerializer(serializers.Serializer):

@@ -64,29 +64,11 @@
     </div>
   </nav>
 {% endblock %}
-{% block content %}
-  {% for f in object_list %}
-    {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
-    <div class="col-sm-3">
-      <div class="sublocation">
-      <div class="bgactive-follower" style="background-image: url({{ f.profile.background_url }});">
-        <div class="active-sublocation">
-          <div class="text-center">
-            <div><img src="{{ f.profile.avatar.url }}" alt="{{ f.profile }}" class="user-avatar mb0"></div>
-            <h4><a href="{{ f.profile.get_absolute_url }}" class="text-white acticle-content"><strong>{{ f.get_full_name }}</strong></a></h4>
-          </div>
-          {% follow_button f %}
-        </div>
-      </div>
-      </div>
-    </div>
-    {% if forloop.counter|divisibleby:4 or forloop.counter == object_list|length %}</div>{% endif %}
-    {% empty %}
-    <div class="no-entries">
-      <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
-      <h2>
-        {% trans "You are currently not following anyone." %}
-      </h2>
-    </div>
-  {% endfor %}
-{% endblock %}
+{% block content %}<div class="no-entries">
+  <h2>
+    {% trans "You have to login with your Facebook account." %}
+  </h2>
+  <form action="{% url 'user:relogin' user.username %}" method="post">{% csrf_token %}
+    <button class="facebook-button" type="submit">{% trans "Login" %}</button>
+  </form>
+</div>{% endblock %}

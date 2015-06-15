@@ -22,6 +22,10 @@ function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel, Co
 
 "use strict";
 
+// Global to hold our summary window instance.
+
+var summaryWindow = null;
+
 function sendVote (id, vote, callback, context) {
   var data = {
     csrfmiddlewaretoken: utils.getCookie('csrftoken'),
@@ -46,9 +50,11 @@ var CommentView = Backbone.View.extend({
   editFormTemplate: _.template(form),
 
   // Flag - edit form opened
+
   edited: false,
 
   // Flag - reply form opened
+
   replied: false,
 
   events: {
@@ -56,12 +62,11 @@ var CommentView = Backbone.View.extend({
     'click .vote-down-link:first': 'vote',
     'click .comment-reply:first': 'toggleReplyForm',
     'click .show-replies:first': 'toggleReplies',
-    'click .report-abuse-link': 'report',
-    'mouseenter .vote-link': 'voteSummary'
+    'click .report-abuse-link': 'report'
   },
 
   initialize: function () {
-    _.bindAll(this, 'updateCounter', 'onFetch', 'closeSummary');
+    _.bindAll(this, 'updateCounter', 'onFetch');
     this.model.on('change', this.render, this);
     this.collection = new CommentCollection();
     this.uri = new CUri('/api-comments/list/');
@@ -94,6 +99,7 @@ var CommentView = Backbone.View.extend({
     }.bind(this));
 
     // Bind content element to avoid problems with edit form
+
     this.$content = this.$('#content-' + this.model.get('id'));
 
     this.$('.comment-edit:first').on('click', function (e) {
@@ -101,6 +107,7 @@ var CommentView = Backbone.View.extend({
     }.bind(this));
 
     // NGO members
+
     var ngo = this.model.get('author').organizations;
     if (!_.isUndefined(ngo) && ngo.count > 0) {
       $('<div class="ngo-badge-group"><div class="fa fa-bank text-green"></div></div>')
@@ -109,6 +116,10 @@ var CommentView = Backbone.View.extend({
         this.renderBadge(item);
       }, this);
     }
+
+    // Vote summary window
+
+    this.$('.vote-link').on('mouseover', this.voteSummary.bind(this));
 
     return this;
   },
@@ -159,23 +170,18 @@ var CommentView = Backbone.View.extend({
   },
 
   voteSummary: function (e) {
-    if (!_.isUndefined(this.win)) {
-      this.$('.vote-summary').empty();
-      delete this.win;
+    e.stopPropagation();
+    var vote = $(e.currentTarget).attr('data-vote');
+    if (!_.isUndefined(summaryWindow) && !_.isNull(summaryWindow)) {
+      summaryWindow.destroy();
     }
-    this.win = new VoteSummary({
-      element: this.$('.vote-summary:first'),
-      vote: $(e.target).hasClass('fa-angle-up') ? 'up' : 'down',
-      itemID: this.model.get('id'),
-      onDestroy: this.closeSummary
+    summaryWindow = new VoteSummary({
+      data: {
+        id: this.model.get('id'),
+        vote: vote
+      },
+      position: { left: e.pageX - 20, top: e.pageY + 5 }
     });
-  },
-
-  closeSummary: function () {
-    if (!_.isUndefined(this.win)) {
-      this.win.destroy();
-      delete this.win;
-    }
   },
 
   // Edition form

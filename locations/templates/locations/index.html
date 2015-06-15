@@ -61,7 +61,11 @@
         {% if user in location.users.all %}
             <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
         {% else %}
-            <button type="button" class="loc-fllw-btn btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            {% if user.is_authenticated %}<button type="button" class="loc-fllw-btn btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            {% else %}<form action="{% url 'user:login' %}" method="get">
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button type="submit" class="btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            </form>{% endif %}
         {% endif %}
 
         </div>
