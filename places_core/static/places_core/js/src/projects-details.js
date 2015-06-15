@@ -8,7 +8,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
            'js/modules/ui/progress',
            'js/modules/projects/tasks',
-           'js/modules/comments/comments',
+           'js/modules/inlines',
            'js/modules/common',
            'js/modules/common/counters'],
 

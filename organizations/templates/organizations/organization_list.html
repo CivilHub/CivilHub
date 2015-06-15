@@ -6,21 +6,21 @@
     <div class="sidebar-content clearfix">
      <form method="get" action="">
        <div class="form-group">
-        <label for="{{ form.name.id_for_label }}">{{ form.name.label|capfirst }}:</label>
+        <label for="{{ form.name.id_for_label }}">{% trans "name"|capfirst %}:</label>
         <input type="{{ form.name.field.widget.input_type }}" name="{{ form.name.name }}" value="{{ form.name.value|default_if_none:"" }}" class="form-control input-sm" id="name">
       </div>
       <div class="form-group">
-        <label for="{{ form.country.id_for_label }}">{{ form.country.label|capfirst }}:</label>
+        <label for="{{ form.country.id_for_label }}">{% trans "country"|capfirst %}:</label>
         <select name="{{ form.country.name }}" class="form-control input-sm" id="{{ form.country.id_for_label }}">{% for x,y in form.fields.country.choices %}
           <option value="{{ x }}"{% ifequal form.country.value|as_fck_str x|as_fck_str %} selected{% endifequal %}>{{ y }}</option>
         {% endfor %}</select>
       </div>
       <div class="form-group">
-        <label for="{{ form.location.id_for_label }}">{{ form.location.label|capfirst }}:</label>
+        <label for="{{ form.location.id_for_label }}">{% trans "location"|capfirst %}:</label>
         <input type="{{ form.location.field.widget.input_type }}" name="{{ form.location.name }}" class="form-control input-sm" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default_if_none:"" }}">
       </div>
       <div class="form-group">
-        <label for="{{ form.kind.id_for_label }}">{{ form.kind.label|capfirst }}:</label>
+        <label for="{{ form.kind.id_for_label }}">{% trans "kind"|capfirst %}:</label>
         <select name="{{ form.kind.name }}" class="form-control input-sm" id="{{ form.kind.id_for_label }}">{% for x,y in form.fields.kind.choices %}
           <option value="{{ x }}"{% ifequal form.kind.value|as_fck_str x|as_fck_str %} selected{% endifequal %}>{{ y }}</option>
         {% endfor %}</select>

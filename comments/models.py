@@ -125,8 +125,7 @@ def comment_notification(sender, instance, created, **kwargs):
     if target_user is not None and instance.user != target_user:
         notify(instance.user, target_user,
             key="customcomment",
-            verb=_(u"commented your {}".format(
-                instance.content_object._meta.verbose_name.title())),
+            verb="commented your",
             action_object=instance,
             action_target=instance.content_object)
 

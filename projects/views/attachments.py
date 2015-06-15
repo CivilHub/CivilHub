@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.views.generic import View
+from django.views.generic.edit import DeleteView
 from django.views.generic.detail import SingleObjectMixin
 
 from places_core.mixins import LoginRequiredMixin
@@ -60,8 +62,8 @@ class AttachmentListView(SingleObjectMixin, View):
         return context
 
 
-class AttachmentUpladView(LoginRequiredMixin, SingleObjectMixin, View):
-    """ Grant access for attachment uploader.
+class AttachmentAccessMixin(LoginRequiredMixin, SingleObjectMixin, View):
+    """ Provides common context data for attachment form views.
     """
     model = SocialProject
     template_name = 'projects/attachment_form.html'
@@ -71,15 +73,19 @@ class AttachmentUpladView(LoginRequiredMixin, SingleObjectMixin, View):
         self.object = self.get_object()
         if not check_access(self.object, self.request.user):
             raise PermissionDenied
-        return super(AttachmentUpladView, self).dispatch(*args, **kwargs)
+        return super(AttachmentAccessMixin, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(AttachmentUpladView, self).get_context_data(**kwargs)
+        context = super(AttachmentAccessMixin, self).get_context_data(**kwargs)
         context.update({
             'location': self.object.location,
             'project_access': check_access(self.object, self.request.user), })
         return context
 
+
+class AttachmentUpladView(AttachmentAccessMixin):
+    """ Grant access for attachment uploader.
+    """
     def get(self, request, **kwargs):
         context = self.get_context_data(**kwargs)
         context['form'] = self.form_class(initial={'project': self.object, })
@@ -94,5 +100,36 @@ class AttachmentUpladView(LoginRequiredMixin, SingleObjectMixin, View):
         obj = form.save(commit=False)
         obj.uploaded_by = self.request.user
         obj.save()
+        form.save_m2m()
         messages.add_message(request, messages.SUCCESS, _(u"Files uploaded"))
         return redirect(obj.project.get_absolute_url())
+
+
+class AttachmentUpdateView(AttachmentAccessMixin):
+    """ Update existing attachments.
+    """
+    def dispatch(self, *args, **kwargs):
+        self.instance = get_object_or_404(Attachment, pk=kwargs.get('attachment_pk'))
+        return super(AttachmentUpdateView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data(**kwargs)
+        context['form'] = self.form_class(instance=self.instance,
+                                          project=self.instance.project)
+        return render(request, self.template_name, context)
+
+
+class DeleteAttachmentView(DeleteView):
+    """ Delete attachment if user has permissions.
+    """
+    model = Attachment
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        if not check_access(self.object.project, self.request.user):
+            raise PermissionDenied
+        return super(DeleteAttachmentView, self).post(request, **kwargs)
+
+    def get_success_url(self):
+        return reverse('projects:attachment-list', kwargs={
+            'project_slug': self.object.project.slug, })

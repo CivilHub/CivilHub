@@ -1,115 +1,138 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-12 14:18+0200\n"
+"POT-Creation-Date: 2015-06-15 15:48+0200\n"
 "PO-Revision-Date: 2015-06-12 12:19+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
-"Language-Team: Korean (http://www.transifex.com/projects/p/civilhub/language/ko/)\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/civilhub/language/"
+"ko/)\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: activities/api.py:65
+#: activities/api.py:66
 msgid "Actions timeline for "
 msgstr ""
 
-#: activities/api.py:68 locations/templates/locations/navbar.html:31
+#: activities/api.py:69 locations/templates/locations/navbar.html:31
 msgid "Activities"
 msgstr ""
 
-#: activities/api.py:165
+#: activities/api.py:166
 #, python-format
 msgid "You are following this %s"
 msgstr ""
 
-#: activities/api.py:173
+#: activities/api.py:174
 #, python-format
 msgid "You are no longer following this %s"
 msgstr ""
 
-#: activities/serializers.py:97 rest/serializers.py:136
+#: activities/api.py:195
+msgid "You have started following your friends!"
+msgstr ""
+
+#: activities/api.py:198 activities/templatetags/actstream_tags.py:43
+msgid "Stop following"
+msgstr ""
+
+#: activities/serializers.py:100 rest/serializers.py:136
 msgid "Voted yes"
 msgstr ""
 
-#: activities/serializers.py:100 rest/serializers.py:139
+#: activities/serializers.py:103 rest/serializers.py:139
 msgid "Voted no"
 msgstr ""
 
 #: activities/templates/activities/followed_user_list.html:4
+#: userspace/templates/userspace/fb-login-required.html:4
 #: userspace/templates/userspace/index.html:4
 #: userspace/templates/userspace/profile.html:3
 msgid "engages in"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:35
+#: activities/templates/activities/followed_user_list.html:34
+#: userspace/templates/userspace/fb-login-required.html:35
 #: userspace/templates/userspace/index.html:35
 #: userspace/templates/userspace/profile.html:29
 msgid "Google+ profile"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:36
+#: activities/templates/activities/followed_user_list.html:35
+#: userspace/templates/userspace/fb-login-required.html:36
 #: userspace/templates/userspace/index.html:36
 #: userspace/templates/userspace/profile.html:30
 msgid "Facebook profile"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:37
+#: activities/templates/activities/followed_user_list.html:36
+#: userspace/templates/userspace/fb-login-required.html:37
 #: userspace/templates/userspace/index.html:37
 #: userspace/templates/userspace/profile.html:31
 msgid "Twitter profile"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:38
+#: activities/templates/activities/followed_user_list.html:37
+#: userspace/templates/userspace/fb-login-required.html:38
 #: userspace/templates/userspace/index.html:38
 #: userspace/templates/userspace/profile.html:32
 msgid "LinkedIn profile"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:39
+#: activities/templates/activities/followed_user_list.html:38
 #: organizations/templates/organizations/organization_detail.html:19
 #: organizations/templates/organizations/organization_form.html:56
 #: organizations/templates/organizations/organization_info.html:19
 #: organizations/templates/organizations/organization_update.html:53
+#: userspace/templates/userspace/fb-login-required.html:39
 #: userspace/templates/userspace/index.html:39
 #: userspace/templates/userspace/profile.html:33
 msgid "Website"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:43
-#: locations/templates/locations/index.html:69
+#: activities/templates/activities/followed_user_list.html:42
+#: locations/templates/locations/index.html:73
 #: organizations/templates/organizations/index.html:27
-#: projects/templates/projects/index.html:69
+#: projects/templates/projects/index.html:70
+#: userspace/templates/userspace/fb-login-required.html:43
 #: userspace/templates/userspace/index.html:43
 #: userspace/templates/userspace/profile.html:36
 msgid "Change background image"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:52
+#: activities/templates/activities/followed_user_list.html:51
 #: locations/templates/locations/location-navbar.html:5
 #: organizations/templates/organizations/index.html:34
 #: places_core/templates/places_core/navigation.html:6
 #: projects/templates/projects/navbar.html:6
+#: userspace/templates/userspace/fb-login-required.html:52
 #: userspace/templates/userspace/profile.html:43
 msgid "Toggle navigation"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:60
+#: activities/templates/activities/followed_user_list.html:59
+#: userspace/templates/userspace/fb-login-required.html:60
 msgid "Followed"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:61
+#: activities/templates/activities/followed_user_list.html:60
+#: userspace/templates/userspace/fb-login-required.html:61
 msgid "Friends from Facebook"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:86
+#: activities/templates/activities/followed_user_list.html:68
+msgid "follow all"
+msgstr ""
+
+#: activities/templates/activities/followed_user_list.html:88
 #: blog/templates/blog/news_list.html:22
 #: gallery/templates/gallery/location-gallery.html:35
 #: ideas/templates/ideas/idea_list.html:40
@@ -125,16 +148,13 @@ msgstr ""
 msgid "Sad Civilian"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:88
+#: activities/templates/activities/followed_user_list.html:90
 msgid "You are currently not following anyone."
 msgstr ""
 
-#: activities/templatetags/actstream_tags.py:36
-msgid "Stop following"
-msgstr ""
-
-#: activities/templatetags/actstream_tags.py:39
+#: activities/templatetags/actstream_tags.py:32
 #: locations/templates/locations/index.html:64
+#: locations/templates/locations/index.html:67
 #: locations/templates/locations/location_list.html:65
 #: places_core/templates/places_core/script-templates.html:274
 msgid "Follow"
@@ -151,7 +171,7 @@ msgstr ""
 #: gallery/templates/gallery/picture-view.html:21
 #: ideas/templates/ideas/idea_detail.html:9
 #: organizations/templates/organizations/news_detail.html:58
-#: projects/templates/projects/socialproject_detail.html:108
+#: projects/templates/projects/socialproject_detail.html:114
 msgid "Comments"
 msgstr ""
 
@@ -160,7 +180,7 @@ msgstr ""
 #: gallery/templates/gallery/picture-view.html:22
 #: ideas/templates/ideas/idea_detail.html:10
 #: organizations/templates/organizations/news_detail.html:59
-#: projects/templates/projects/socialproject_detail.html:109
+#: projects/templates/projects/socialproject_detail.html:115
 msgid "Hide comments"
 msgstr ""
 
@@ -737,8 +757,10 @@ msgstr ""
 
 #: civmail/forms.py:74 gallery/models.py:169 gallery/models.py:233
 #: guides/models.py:20 guides/models.py:35 locations/models.py:153
-#: organizations/forms.py:119 organizations/models.py:41 projects/models.py:45
-#: projects/models.py:144 projects/models.py:168
+#: locations/templates/locations/organization_list.html:11
+#: organizations/forms.py:119 organizations/models.py:41
+#: organizations/templates/organizations/organization_list.html:9
+#: projects/models.py:45 projects/models.py:144 projects/models.py:168
 msgid "name"
 msgstr ""
 
@@ -792,7 +814,7 @@ msgstr ""
 
 #: civmail/templates/civmail/civmail_admin_index.html:5
 #: civmail/templates/civmail/contact_form.html:29
-#: civmail/templates/civmail/invite-friends.html:24
+#: civmail/templates/civmail/invite-friends.html:27
 #: civmail/templates/civmail/invite-users.html:22
 #: locations/templates/locations/invite-users.html:16
 #: organizations/templates/organizations/member_invite.html:5
@@ -895,29 +917,33 @@ msgstr ""
 msgid "Invite friends from Gmail"
 msgstr ""
 
-#: civmail/templates/civmail/invite-friends.html:15
+#: civmail/templates/civmail/invite-friends.html:11
+msgid "Login with Google"
+msgstr ""
+
+#: civmail/templates/civmail/invite-friends.html:18
 msgid ""
 "Invite a friend by sending him a message, to have the opportunity to find "
 "out what it means to force CivilHub."
 msgstr ""
 
-#: civmail/templates/civmail/invite-friends.html:16
+#: civmail/templates/civmail/invite-friends.html:19
 msgid "Terms and Conditions"
 msgstr ""
 
-#: civmail/templates/civmail/invite-friends.html:20
+#: civmail/templates/civmail/invite-friends.html:23
 msgid "Add your friend’s email addresses"
 msgstr ""
 
-#: civmail/templates/civmail/invite-friends.html:21
+#: civmail/templates/civmail/invite-friends.html:24
 msgid "Separate the adressees with commas"
 msgstr ""
 
-#: civmail/templates/civmail/invite-friends.html:29
+#: civmail/templates/civmail/invite-friends.html:32
 msgid "Share:"
 msgstr ""
 
-#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:39
+#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:52
 #: locations/templates/locations/sidebar.html:36
 msgid "Invite people"
 msgstr ""
@@ -953,7 +979,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: civmail/templates/civmail/message_sent.html:2 civmail/views.py:133
+#: civmail/templates/civmail/message_sent.html:2 civmail/views.py:146
 msgid "Message sent"
 msgstr ""
 
@@ -961,7 +987,7 @@ msgstr ""
 msgid "Thank you for your feedback!"
 msgstr ""
 
-#: civmail/views.py:34 civmail/views.py:87 locations/views.py:698
+#: civmail/views.py:47 civmail/views.py:100 locations/views.py:698
 msgid "All messages sent successfully"
 msgstr ""
 
@@ -991,10 +1017,6 @@ msgstr ""
 
 #: comments/models.py:111
 msgid "commented task"
-msgstr ""
-
-#: comments/models.py:128
-msgid "commented your {}"
 msgstr ""
 
 #: comments/templates/comments/commentarea.html:2
@@ -1099,7 +1121,7 @@ msgstr ""
 
 #: etherpad/templates/etherpad/pad_list.html:17
 #: projects/templates/projects/document_preview.html:9
-#: projects/templates/projects/index.html:59
+#: projects/templates/projects/index.html:60
 msgid "Join the Project"
 msgstr ""
 
@@ -1375,6 +1397,7 @@ msgid ""
 msgstr ""
 
 #: guides/models.py:61 locations/models.py:215 organizations/forms.py:124
+#: organizations/templates/organizations/organization_list.html:19
 #: projects/models.py:76
 msgid "location"
 msgstr ""
@@ -1525,11 +1548,6 @@ msgstr ""
 #: ideas/templates/ideas/idea_list.html:23 ideas/templates/ideas/ideas.html:34
 #: places_core/templates/places_core/script-templates.html:179
 msgid "votes"
-msgstr ""
-
-#: ideas/models.py:223
-#, python-format
-msgid "voted %s for your idea"
 msgstr ""
 
 #: ideas/serializers.py:24
@@ -1874,7 +1892,10 @@ msgstr ""
 msgid "List of children ID's separated with comma"
 msgstr ""
 
-#: locations/models.py:205 organizations/forms.py:125
+#: locations/models.py:205
+#: locations/templates/locations/organization_list.html:15
+#: organizations/forms.py:125
+#: organizations/templates/organizations/organization_list.html:23
 msgid "kind"
 msgstr ""
 
@@ -1906,15 +1927,15 @@ msgstr ""
 msgid "Subspaces"
 msgstr ""
 
-#: locations/templates/locations/index.html:70 locations/views.py:470
+#: locations/templates/locations/index.html:74 locations/views.py:470
 msgid "Edit this location"
 msgstr ""
 
-#: locations/templates/locations/index.html:71
+#: locations/templates/locations/index.html:75
 msgid "Send message to followers"
 msgstr ""
 
-#: locations/templates/locations/index.html:72
+#: locations/templates/locations/index.html:76
 #: locations/templates/locations/moderator_list.html:3
 msgid "Moderators"
 msgstr ""
@@ -2135,14 +2156,13 @@ msgstr ""
 #: locations/templates/locations/location_form.html:32
 msgid ""
 "Choose the 'parent' i.e. specify where your place is located. For example: "
-"the city of New York is located in United States -> Empire State -> New York"
-" City."
+"the city of New York is located in United States -> Empire State -> New York "
+"City."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:33
 msgid ""
-"Pinning the place on a map will make it easier for your neighbors to find "
-"it."
+"Pinning the place on a map will make it easier for your neighbors to find it."
 msgstr ""
 
 #: locations/templates/locations/location_form.html:58
@@ -2649,6 +2669,18 @@ msgstr ""
 msgid "notifications"
 msgstr ""
 
+#: notifications/serializers.py:45
+msgid "commented your"
+msgstr ""
+
+#: notifications/serializers.py:48
+msgid "voted up for your idea"
+msgstr ""
+
+#: notifications/serializers.py:50
+msgid "voted down for your idea"
+msgstr ""
+
 #: organizations/actions.py:16
 msgid "joined"
 msgstr ""
@@ -2658,6 +2690,7 @@ msgid "Invalid user emails: "
 msgstr ""
 
 #: organizations/forms.py:120
+#: organizations/templates/organizations/organization_list.html:13
 msgid "country"
 msgstr ""
 
@@ -2787,15 +2820,15 @@ msgstr ""
 
 #: organizations/templates/organizations/organization_form.html:9
 msgid ""
-"Choose a category, i.e. clarify if you are adding a City Hall, Foundation or"
-" an Association"
+"Choose a category, i.e. clarify if you are adding a City Hall, Foundation or "
+"an Association"
 msgstr ""
 
 #: organizations/templates/organizations/organization_form.html:10
 msgid ""
 "Add some information about your organization in the description box. Write "
-"what your organization does, what is its goal, you can write a short history"
-" or anything you think fits a description."
+"what your organization does, what is its goal, you can write a short history "
+"or anything you think fits a description."
 msgstr ""
 
 #: organizations/templates/organizations/organization_form.html:11
@@ -3170,6 +3203,7 @@ msgstr ""
 #: staticpages/templates/staticpages/pages/home-j.html:448
 #: staticpages/templates/staticpages/pages/home.html:36
 #: staticpages/templates/staticpages/pages/register.html:26
+#: userspace/templates/userspace/fb-login-required.html:72
 #: userspace/templates/userspace/login.html:31
 #: userspace/templates/userspace/register.html:19
 msgid "Login"
@@ -3491,7 +3525,7 @@ msgstr ""
 msgid "You don't have permission to do that"
 msgstr ""
 
-#: projects/forms.py:199
+#: projects/forms.py:208
 #, python-format
 msgid "File is too big (%d MB)"
 msgstr ""
@@ -3532,7 +3566,7 @@ msgstr ""
 msgid "task"
 msgstr ""
 
-#: projects/models.py:183
+#: projects/models.py:183 projects/models.py:282
 msgid "tasks"
 msgstr ""
 
@@ -3564,6 +3598,18 @@ msgstr ""
 msgid "file"
 msgstr ""
 
+#: projects/templates/projects/attachment_list.html:5
+msgid "edit"
+msgstr ""
+
+#: projects/templates/projects/attachment_list.html:7
+msgid "delete"
+msgstr ""
+
+#: projects/templates/projects/attachment_list.html:11
+msgid "add"
+msgstr ""
+
 #: projects/templates/projects/document_preview.html:6
 msgid "Download this pad in doc"
 msgstr ""
@@ -3581,21 +3627,21 @@ msgstr ""
 msgid "Galleries List"
 msgstr ""
 
-#: projects/templates/projects/index.html:56
+#: projects/templates/projects/index.html:57
 #: projects/templates/projects/navbar.html:27
 msgid "Leave the Project"
 msgstr ""
 
-#: projects/templates/projects/index.html:62
+#: projects/templates/projects/index.html:63
 #: staticpages/templates/staticpages/pages/home-d.html:21
 msgid "Log in"
 msgstr ""
 
-#: projects/templates/projects/index.html:62
+#: projects/templates/projects/index.html:63
 msgid "if you want to join this project"
 msgstr ""
 
-#: projects/templates/projects/index.html:65
+#: projects/templates/projects/index.html:66
 msgid "Project Participants"
 msgstr ""
 
@@ -3618,6 +3664,7 @@ msgid "Galleries"
 msgstr ""
 
 #: projects/templates/projects/navbar.html:20
+#: projects/templates/projects/socialproject_detail.html:103
 msgid "Attachments"
 msgstr ""
 
@@ -3697,7 +3744,7 @@ msgid "Task participants"
 msgstr ""
 
 #: projects/templates/projects/socialproject_detail.html:99
-#: projects/templates/projects/socialproject_detail.html:123
+#: projects/templates/projects/socialproject_detail.html:125
 msgid "Leave"
 msgstr ""
 
@@ -3712,8 +3759,8 @@ msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:11
 msgid ""
-"The goal of a project is to implement previously created ideas, however, you"
-" can always start a project from scratch."
+"The goal of a project is to implement previously created ideas, however, you "
+"can always start a project from scratch."
 msgstr ""
 
 #: projects/templates/projects/socialproject_form.html:12
@@ -3746,7 +3793,7 @@ msgstr ""
 msgid "Create new group"
 msgstr ""
 
-#: projects/views/attachments.py:97
+#: projects/views/attachments.py:104
 msgid "Files uploaded"
 msgstr ""
 
@@ -3996,8 +4043,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:141
 msgid ""
-"Great collaboration starts with communication. We always want to know what's"
-" happening near us."
+"Great collaboration starts with communication. We always want to know what's "
+"happening near us."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:145
@@ -4058,8 +4105,8 @@ msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:186
 msgid ""
-"We want everyone to use modern tools for collaboration in local communities."
-" Apps must be free, modern and simple."
+"We want everyone to use modern tools for collaboration in local communities. "
+"Apps must be free, modern and simple."
 msgstr ""
 
 #: staticpages/templates/staticpages/pages/home-c.html:193
@@ -4283,12 +4330,13 @@ msgstr ""
 #: templates/emails/content-body-html.html:179
 msgid ""
 "\"Hey,\n"
-"                                      here's your invite! Come check out my CivilHub when you have a chance. You'll love it!\""
+"                                      here's your invite! Come check out my "
+"CivilHub when you have a chance. You'll love it!\""
 msgstr ""
 
 #: templates/emails/content-body-html.html:200
 #: templates/emails/content-body-text.html:5
-#: templates/emails/organization-body-html.html:199 userspace/views.py:247
+#: templates/emails/organization-body-html.html:199 userspace/views.py:280
 msgid "Sign Up"
 msgstr ""
 
@@ -4436,8 +4484,7 @@ msgstr ""
 
 #: templates/emails/remind-body-html.html:1
 #: templates/emails/remind-body-text.html:1
-msgid ""
-"We noticed, that you have not been logged in on our page since few days"
+msgid "We noticed, that you have not been logged in on our page since few days"
 msgstr ""
 
 #: templates/emails/remind-subject.html:1
@@ -4474,8 +4521,8 @@ msgstr ""
 #: templates/emails/welcome-body-text.html:3
 #, python-format
 msgid ""
-"There's one last step until your account is 100%% ready. We just need you to"
-" activate your account."
+"There's one last step until your account is 100%% ready. We just need you to "
+"activate your account."
 msgstr ""
 
 #: templates/emails/welcome-body-html.html:164
@@ -4868,8 +4915,12 @@ msgstr ""
 msgid "Points"
 msgstr ""
 
+#: userspace/templates/userspace/fb-login-required.html:69
+msgid "You have to login with your Facebook account."
+msgstr ""
+
 #: userspace/templates/userspace/followed-locations.html:2
-#: userspace/views.py:440
+#: userspace/views.py:473
 msgid "My places"
 msgstr ""
 
@@ -4877,7 +4928,7 @@ msgstr ""
 msgid "Profile summary"
 msgstr ""
 
-#: userspace/templates/userspace/index.html:63 userspace/views.py:422
+#: userspace/templates/userspace/index.html:63 userspace/views.py:455
 msgid "Change password"
 msgstr ""
 
@@ -4931,7 +4982,8 @@ msgstr ""
 #: userspace/templates/userspace/register-errors.html:5
 msgid ""
 "\n"
-"    Your registration was successfull, but there was an error with sending you\n"
+"    Your registration was successfull, but there was an error with sending "
+"you\n"
 "    email. Copy link provided below and paste it into browsers address bar\n"
 "    to finish registration.\n"
 msgstr ""
@@ -4986,30 +5038,30 @@ msgstr ""
 msgid "Privacy Police"
 msgstr ""
 
-#: userspace/views.py:120
+#: userspace/views.py:153
 msgid "Set email"
 msgstr ""
 
-#: userspace/views.py:239
+#: userspace/views.py:272
 msgid "Message send"
 msgstr ""
 
-#: userspace/views.py:254
+#: userspace/views.py:287
 msgid "Activation link invalid"
 msgstr ""
 
-#: userspace/views.py:296
+#: userspace/views.py:329
 msgid "Set your password"
 msgstr ""
 
-#: userspace/views.py:413
+#: userspace/views.py:446
 msgid "Settings saved"
 msgstr ""
 
-#: userspace/views.py:416
+#: userspace/views.py:449
 msgid "Your current password is invalid."
 msgstr ""
 
-#: userspace/views.py:419
+#: userspace/views.py:452
 msgid "Form invalid"
 msgstr ""

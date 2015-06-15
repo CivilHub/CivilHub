@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView
 
 from locations.helpers import get_followers_from_location
 from places_core.mixins import LoginRequiredMixin
+from social.apps.django_app.default.models import UserSocialAuth
 
 from civmail import messages as mails
 from .forms import ContactForm, FollowersEmailForm
@@ -20,6 +21,18 @@ from .forms import ContactForm, FollowersEmailForm
 class InviteFriendsView(LoginRequiredMixin, TemplateView):
     """ View allows you to invite your friends. """
     template_name = 'civmail/invite-friends.html'
+
+    def get_context_data(self):
+        context = super(InviteFriendsView, self).get_context_data()
+        sa = UserSocialAuth.objects.filter(user=self.request.user,
+                                           provider='google-plus')
+        if not len(sa):
+            context['google_user'] = False
+            self.request.session['relogin'] = json.dumps({
+                'backend': 'google-plus',
+                'next_url': self.request.path, })
+        context['google_user'] = True
+        return context
 
 
 class InviteToContentView(LoginRequiredMixin, View):

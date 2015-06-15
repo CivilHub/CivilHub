@@ -2,6 +2,7 @@
 import datetime
 import json
 
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.db.models import Q
@@ -179,3 +180,20 @@ class FollowObjectView(APIView):
             {'success': True,
              'message': msg,
              'following': is_follower, })
+
+
+class FollowAllAPIView(APIView):
+    """ Mainly for "follow all" button on facebook friends page.
+    """
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request, **kwargs):
+        id_list = [int(x.strip()) for x in request.POST.get('id').split(',')]
+        for user in User.objects.filter(id__in=id_list):
+            if not user in following(request.user):
+                follow(request.user, user)
+        message = _(u"You have started following your friends!")
+        return Response({
+            'success': True,
+            'label': _(u"Stop following"),
+            'message': message, })
