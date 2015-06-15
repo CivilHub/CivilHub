@@ -79,6 +79,8 @@ from gallery.urls import router as gallery_router
 from notifications.urls import router as notification_router
 from activities.urls import router as activity_router
 from hitcounter.urls import router as hitcounter_router
+from comments.urls import router as comment_router
+from polls.urls import router as poll_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -91,6 +93,8 @@ urlpatterns = patterns('',
     url(r'^api-notifications/', include(notification_router.urls)),
     url(r'^api-activities/', include(activity_router.urls)),
     url(r'^api-hitcounter/', include(hitcounter_router.urls)),
+    url(r'^api-comments/', include(comment_router.urls)),
+    url(r'^api-polls/', include(poll_router.urls)),
 )
 
 from civmail.views import ContactEmailView, InviteFriendsView
@@ -99,14 +103,12 @@ urlpatterns += patterns('',
     url(r'^invite-friends/', InviteFriendsView.as_view(), name="invite_friends"),
 )
 
-from places_core.views import TestView
-urlpatterns += patterns('',
-    url(r'^sometestpage/', TestView.as_view(), name='sometestpage'),
-)
 
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
+    url(r'^activities/', include('activities.urls', namespace="activities")),
+    url(r'^tracker/', include('user_tracker.urls', namespace="tracker")),
     url(r'^guides/', include('guides.urls', namespace="guides")),
     url(r'^organizations/', include('organizations.urls', namespace="organizations")),
     url(r'^simpleblog/', include('simpleblog.urls', namespace="simpleblog")),
