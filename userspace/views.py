@@ -10,7 +10,8 @@ from django.http import HttpResponse, HttpResponseBadRequest, \
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import DetailView, UpdateView, TemplateView
+from django.views.generic import DetailView, UpdateView, TemplateView, View
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
@@ -46,7 +47,39 @@ from locations.models import Location
 from locations.helpers import get_most_followed
 from locations.serializers import ContentPaginatedSerializer, SimpleLocationSerializer
 from forms import *
+from utils.http import set_cookie
+
 from .helpers import profile_activation, random_username, create_username, update_profile_picture
+
+
+class ReloginView(SingleObjectMixin, View):
+    """ This view helps us to relogin user and set additional session data
+        before redirecting him to another page. This is used when we try to
+        force user to login via Facebook or Google account to get access to
+        additional functions, like following Facebook friends etc.
+    """
+    model = User
+    slug_url_kwarg = 'username'
+    slug_field = 'username'
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.relogin_data = self.request.session.pop('relogin')
+        except KeyError:
+            raise Http404
+        self.relogin_data = json.loads(self.relogin_data)
+        return super(ReloginView, self).dispatch(*args, **kwargs)
+
+    def post(self, request, **kwargs):
+        auth.logout(request)
+        return redirect("{}?next={}".format(
+            reverse('social:begin', kwargs={
+                'backend': self.relogin_data['backend'], }),
+            self.relogin_data['next_url']))
+
+    def get_context_data(self):
+        return {'profile': self.object.profile, }
 
 
 class UserActivityView(TemplateView):

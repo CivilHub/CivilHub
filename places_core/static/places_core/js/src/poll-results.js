@@ -6,39 +6,12 @@
 
 require([window.STATIC_URL + "/js/config.js"], function () {
   require(['jquery',
-           'dateAxisRenderer',
-           'canvasTextRenderer',
-           'canvasAxisTickRenderer',
-           'categoryAxisRenderer',
-           'barRenderer',
-           'js/modules/ui/ui',
+           'js/modules/polls/chartmaker',
            'js/modules/common',
-           'js/modules/locations/follow',
-           'js/modules/inviter/userinviter'],
+           'js/modules/locations/follow'],
 
-  function ($, ui) {
-
+  function ($) {
     "use strict";
-
-    var plot1 = $.jqplot('chartdiv', [window.POLLS.asets], {
-      title: window.POLLS.title,
-      animate: true,
-      series:[{ renderer: $.jqplot.BarRenderer }],
-      axesDefaults: {
-        tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-        tickOptions: {
-          angle: -30,
-          fontSize: '10pt'
-        }
-      },
-      axes: {
-        xaxis: {
-          renderer: $.jqplot.CategoryAxisRenderer
-        }
-      }
-    });
-
     $(document).trigger('load');
-
   });
 });

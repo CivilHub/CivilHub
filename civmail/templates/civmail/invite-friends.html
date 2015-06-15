@@ -1,4 +1,7 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n civil_tags %}
+{% block extra_styles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'places_core/css/staticpages/invite-friends.min.css' %}">
+{% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core/js' %}/{% js_path %}/civmail-invite.js"></script>{% endblock %}
 {% block header %}<div class="headerBGaInvi text-center headerBGInvite">
   <div class="headerInviteBox">

@@ -79,13 +79,13 @@
 				<label class="control-label col-sm-2">
 					<label for="id_latitude"></label>
 				</label>
-				<div class="col-sm-10"><input type="hidden" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:"" }}"></div>
+				<div class="col-sm-10"><input type="hidden" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|stringformat:"f"|default_if_none:"" }}"></div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_longitude"></label>
 				</label>
-				<div class="col-sm-10"><input type="hidden" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:"" }}"></div>
+				<div class="col-sm-10"><input type="hidden" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|stringformat:"f"|default_if_none:"" }}"></div>
 			</div>{% comment %} There is anyways picture uploader, much better than just file field.
 			<div class="form-group">
 				<label class="control-label col-sm-2">

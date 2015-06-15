@@ -5,11 +5,17 @@
 // The script checks whether the user has logged in through Google
 // and unlocks the abbility to invite freind from Gmail mailbox
 
-require(['jquery', 'js/modules/userspace/google-contacts'],
+require(['jquery',
+         'underscore',
+         'js/modules/userspace/google-contacts'],
 
-function ($, ContactListView) {
+function ($, _, ContactListView) {
 
   "use strict";
+
+  if (_.isUndefined(window.GOOGLE_DATA)) {
+    return;
+  }
 
   // A query to the server about user contacts
 
@@ -23,13 +29,13 @@ function ($, ContactListView) {
       }
     });
   }
-    
+
   // XML conversion to JS object
-  
+
   function parseContacts (xml) {
-      
+
     xml = xml.replace(/gd:email/g, 'email'); // Error in Google Chrome
-    
+
     var oParser = new DOMParser(),
         oDOM = oParser.parseFromString(xml, "text/xml"),
         contacts = [],
@@ -38,21 +44,21 @@ function ($, ContactListView) {
     if (oDOM.documentElement.nodeName == "parsererror") {
       return [{error: "Error while parsing server response"}];
     }
-    
+
     $(oDOM).find('entry').each(function () {
       name = $(this).find('title').text();
       address = $(this).find('email').attr('address');
       if (name.length <= 1) name = address;
       contacts.push({name: name, address: address});
     });
-    
+
     return contacts;
   }
 
   // We pin in the events and launch the scripts
-  
+
   $(document).ready(function () {
-      
+
     if (GOOGLE_DATA !== undefined && GOOGLE_DATA.access_token) {
 
       var contacts;

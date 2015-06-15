@@ -22,10 +22,10 @@ $.fn.commentList = function () {
       ct: $this.attr('data-ct'),
       pk: $this.attr('data-pk'),
       count: $this.attr('data-count'),
+      data: JSON.parse($(this).attr('data-page')),
       currentPage: 1
     });
     $this.data('commentlist', commentlist);
-    commentlist.fetch();
     $(window).on('scroll', function () {
       if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
         commentlist.nextPage();
@@ -35,7 +35,7 @@ $.fn.commentList = function () {
 };
 
 $(document).ready(function () {
-  $('.commentarea').commentList();
+  window.test = $('.commentarea').commentList().data('commentlist');
 });
 
 });

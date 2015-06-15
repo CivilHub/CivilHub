@@ -63,8 +63,8 @@
         <div class="polls-list custom-tablelike">
             
             <div class="row polls-list-heading custom-list-heading">
-                <div class="col-xs-6 custom-align-l">{% trans "Title" %}</div>
-                <div class="col-xs-6 custom-align-r">{% trans "Created by" %}</div>
+                <div class="col-xs-6 text-left">{% trans "Title" %}</div>
+                <div class="col-xs-6 text-right">{% trans "Created by" %}</div>
             </div>
             
             <noscript>{% for poll in polls %}
@@ -85,7 +85,7 @@
                         {{ poll.date_created | timesince }}
                     </div>
                     {% comment %}<div class="col-xs-4 custom-list-entry-la">{{ poll.question | striptags | truncatewords_html:4 }}</div>{% endcomment %}
-                    <div class="col-xs-3 custom-align-r"><a href="{% url 'polls:results' poll.pk %}">{% trans "Show answers" %}</a></div>
+                    <div class="col-xs-3 text-right"><a href="{% url 'polls:results' poll.pk %}">{% trans "Show answers" %}</a></div>
                 </div>
             {% endfor %}</noscript>
             

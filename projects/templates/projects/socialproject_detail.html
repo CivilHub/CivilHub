@@ -63,7 +63,7 @@
                   <form class="custom-inline-form" action="{% url 'locations:task_delete' location.slug object.slug task.pk %}" method="post">{% csrf_token %}
                     <button type="submit" class="action-plus fa fa-minus-square custom-tooltip-bottom" title="{% trans 'Delete task' %}">&nbsp;</button>
                   </form>
-                  <a href="{% url 'locations:task_update' location.slug object.slug task.pk %}"><span class="action-more fa fa-pencil custom-tooltip-bottom" title="{% trans 'Edit' %}"></span></a>
+                  <a href="{% url 'locations:task_update' location.slug object.slug task.pk %}"><span class="action-plus fa fa-pencil custom-tooltip-bottom" title="{% trans 'Edit' %}"></span></a>
                   {% with task|content_type as ctype %}<form class="custom-inline-form" action="{% url 'projects:change_order' ctype.pk task.pk 'UP' %}" method="post">{% csrf_token %}
                     <button type="submit" class="action-plus fa fa-arrow-up custom-tooltip-bottom" title="{% trans 'Move task up' %}">&nbsp;</button>
                   </form>

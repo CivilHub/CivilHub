@@ -4,9 +4,9 @@
 
 // Basic comment model.
 
-define(['backbone'],
+define(['backbone', 'underscore'],
 
-function (Backbone) {
+function (Backbone, _) {
 
 "use strict";
 

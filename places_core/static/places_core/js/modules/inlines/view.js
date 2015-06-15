@@ -10,15 +10,21 @@ define(['jquery',
         'CUri',
         'js/modules/ui/ui',
         'js/modules/utils/utils',
+        'js/modules/utils/abuse-window',
         'js/modules/inlines/utils',
         'js/modules/inlines/model',
         'js/modules/inlines/collection',
+        'js/modules/inlines/vote-summary',
         'text!js/modules/inlines/templates/comment.html',
         'text!js/modules/inlines/templates/edit_form.html'],
 
-function ($, _, Backbone, CUri, ui, utils, cUtils, CommentModel, CommentCollection, html, form) {
+function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel, CommentCollection, VoteSummary, html, form) {
 
 "use strict";
+
+// Global to hold our summary window instance.
+
+var summaryWindow = null;
 
 function sendVote (id, vote, callback, context) {
   var data = {
@@ -44,16 +50,19 @@ var CommentView = Backbone.View.extend({
   editFormTemplate: _.template(form),
 
   // Flag - edit form opened
+
   edited: false,
 
   // Flag - reply form opened
+
   replied: false,
 
   events: {
     'click .vote-up-link:first': 'vote',
     'click .vote-down-link:first': 'vote',
     'click .comment-reply:first': 'toggleReplyForm',
-    'click .show-replies:first': 'toggleReplies'
+    'click .show-replies:first': 'toggleReplies',
+    'click .report-abuse-link': 'report'
   },
 
   initialize: function () {
@@ -90,6 +99,7 @@ var CommentView = Backbone.View.extend({
     }.bind(this));
 
     // Bind content element to avoid problems with edit form
+
     this.$content = this.$('#content-' + this.model.get('id'));
 
     this.$('.comment-edit:first').on('click', function (e) {
@@ -97,6 +107,7 @@ var CommentView = Backbone.View.extend({
     }.bind(this));
 
     // NGO members
+
     var ngo = this.model.get('author').organizations;
     if (!_.isUndefined(ngo) && ngo.count > 0) {
       $('<div class="ngo-badge-group"><div class="fa fa-bank text-green"></div></div>')
@@ -105,6 +116,10 @@ var CommentView = Backbone.View.extend({
         this.renderBadge(item);
       }, this);
     }
+
+    // Vote summary window
+
+    this.$('.vote-link').on('mouseover', this.voteSummary.bind(this));
 
     return this;
   },
@@ -129,6 +144,8 @@ var CommentView = Backbone.View.extend({
     this.model.save({ comment: comment }, { patch: true });
   },
 
+  // Votes
+
   vote: function (e) {
     var vote = false;
     if ($(e.currentTarget).hasClass('vote-up-link')) {
@@ -150,6 +167,21 @@ var CommentView = Backbone.View.extend({
         this.$counter.text(--this.votes);
       }
     }
+  },
+
+  voteSummary: function (e) {
+    e.stopPropagation();
+    var vote = $(e.currentTarget).attr('data-vote');
+    if (!_.isUndefined(summaryWindow) && !_.isNull(summaryWindow)) {
+      summaryWindow.destroy();
+    }
+    summaryWindow = new VoteSummary({
+      data: {
+        id: this.model.get('id'),
+        vote: vote
+      },
+      position: { left: e.pageX - 20, top: e.pageY + 5 }
+    });
   },
 
   // Edition form
@@ -224,6 +256,14 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
     }
     this.$('.comment-form-body:first').toggle();
+  },
+
+  report: function (e) {
+    e.preventDefault();
+    var w = new AbuseWindow(
+      CivilApp.contentTypes.comments_customcomment,
+      this.model.get('id')
+    );
   }
 });
 

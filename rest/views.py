@@ -612,9 +612,9 @@ class IdeaVoteCounterViewSet(viewsets.ViewSet):
     def list(self, request):
         if request.GET.get('pk'):
             idea = Idea.objects.get(pk=request.GET.get('pk'))
-            queryset = IdeaVote.objects.filter(idea=idea)
+            queryset = IdeaVote.objects.filter(idea=idea).exclude(status=3)
         else:
-            queryset = IdeaVote.objects.all()
+            queryset = IdeaVote.objects.exclude(status=3)
         serializer = IdeaVoteCounterSerializer(queryset, many=True)
         return Response(serializer.data)
 

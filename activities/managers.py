@@ -2,7 +2,7 @@
 from collections import defaultdict
 
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Q
+from django.db.models import Manager, Q
 from django.db.models import get_model
 
 from actstream.managers import ActionManager, stream

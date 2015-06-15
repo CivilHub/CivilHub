@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView, View
+from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.shortcuts import render
 
@@ -171,17 +171,3 @@ class CivilSearchView(View):
                 app_label=label, model=model).pk))
         return ",".join(ct_list)
 
-
-class TestView(TemplateView):
-    """ This is test.
-    """
-    template_name = 'staticpages/pages/testpage.html'
-
-    def get(self, request, **kwargs):
-        from django.template import loader, Context
-        from django.contrib.auth.models import User
-        template = loader.get_template('emails/new_friend-body-html.html')
-        ctx = Context({
-            'friends': User.objects.all(),
-            'user': request.user, })
-        return HttpResponse(template.render(ctx))

@@ -8,7 +8,7 @@
     {% for idea in object_list %}<div class="row idea-entry">
       <div class="idea-votes col-sm-3" id="tour-votes">
         <div class="vote-form">
-          <div class="votes">{{ idea.get_votes }}</div>
+          <div class="votes counterup">{{ idea.votes_up }}</div>
           <div class="vote-controls">
             <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_up %}revoke{% else %}up{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow aup" title="{% trans "Good Idea, Vote YES" %}"></button>
             <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_no %}revoke{% else %}down{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow adown" title="{% trans "Bad Idea, Vote No" %}"></button>

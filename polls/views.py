@@ -19,6 +19,7 @@ from django.views.generic import View, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import ProcessFormView, UpdateView
 
+from hitcounter.models import Visit
 from maps.models import MapPointer
 from locations.models import Location
 from locations.links import LINKS_MAP as links
@@ -28,10 +29,11 @@ from places_core.permissions import is_moderator
 from polls.forms import PollUpdateForm
 from userspace.models import UserProfile
 
-from .models import Poll, Answer, AnswerSet, SimplePoll, SimplePollAnswerSet
-from .forms import PollEntryAnswerForm, SimplePollForm
-
 from locations.mixins import LocationContextMixin, SearchableListMixin
+
+from .forms import PollEntryAnswerForm, SimplePollForm
+from .models import Poll, Answer, AnswerSet, SimplePoll, SimplePollAnswerSet
+from .serializers import AnswerSetSerializer, TimelineSetSerializer
 
 
 class PollsContextMixin(LocationContextMixin):
@@ -104,35 +106,18 @@ class PollDetails(DetailView):
 
 
 class PollResults(DetailView):
-    """
-    Detailed poll view modified exclusively to show poll answers.
+    """ Detailed poll view modified exclusively to show poll answers.
     """
     model = Poll
     template_name = 'polls/poll-results.html'
 
-    def calculate_answsers(self, **kwargs):
-        """
-        Count the votes of respective anwsers.
-        """
-        result = []
-        obj = self.object
-        asets = AnswerSet.objects.filter(poll=obj)
-        for a in obj.answer_set.all():
-            counter = 0
-            answer = a.answer
-            for aset in asets:
-                if aset.answers.filter(pk=a.pk).exists():
-                    counter += 1
-            result.append({'answer': answer, 'counter': counter, })
-        return result
-
     def get_context_data(self, **kwargs):
         context = super(PollResults, self).get_context_data(**kwargs)
-        context['title'] = self.object.title
-        context['location'] = self.object.location
-        context['answers'] = AnswerSet.objects.filter(poll=self.object)[:10]
-        context['answer_set'] = self.calculate_answsers()
-        context['links'] = links['polls']
+        context.update({
+            'title': self.object.title,
+            'location': self.object.location,
+            'links': links['polls'],
+            'data': json.dumps(AnswerSetSerializer(self.object).data), })
         return context
 
 

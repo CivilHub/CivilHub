@@ -262,12 +262,25 @@ class Location(models.Model, BackgroundModelMixin):
             self.country_code = self.parent.country_code
         self.parent_list = ",".join([str(x)
                                      for x in self.get_parent_id_list()])
-        # We generate the appropriate slug
-        slug_entry = slugify('-'.join([self.name, self.country_code]))
-        chk = len(Location.objects.filter(slug=slug_entry).exclude(pk=self.pk))
-        if chk:
-            slug_entry = slug_entry + '-' + str(chk)
-        self.slug = slug_entry
+
+        # Create unique slug that includes country code for SEO
+        slug = slugify('-'.join([self.name, self.country_code]))
+        self.slug = slug
+        success = False
+        retries = 0
+        while not success:
+            check = self.__class__.objects.filter(slug=self.slug)\
+                                          .exclude(pk=self.pk).count()
+            if not check:
+                success = True
+            else:
+                # We assume maximum number of 50 elements with the same name.
+                # But the loop should be breaked if something went wrong.
+                if retries >= 50:
+                    raise models.ValidationError(u"Maximum number of retries exceeded")
+                retries += 1
+                self.slug = "{}-{}".format(slug, retries)
+
         # We check whether the image has changed and if needed, we delete the old one
         # FIXME: we are using signal for now, this is no longer necessary and deprecated.
         try:

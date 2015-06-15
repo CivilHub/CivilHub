@@ -54,6 +54,7 @@ from polls.forms import PollForm
 from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 
+from .charts import actions_chart, follow_chart, pie_chart, summary_chart
 from .forms import *
 from .helpers import move_location_contents
 from .mixins import LocationContextMixin
@@ -88,6 +89,21 @@ class LocationViewMixin(DetailView):
         context = super(LocationViewMixin, self).get_context_data(**kwargs)
         context['title'] = self.object.name
         context['is_moderator'] = is_moderator(self.request.user, self.object)
+        return context
+
+
+class LocationStatisticsView(LocationViewMixin):
+    """
+    """
+    template_name = 'locations/statistics.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationStatisticsView, self).get_context_data(**kwargs)
+        context.update({
+            'pie_data': pie_chart(self.object),
+            'summary_data': summary_chart(self.object),
+            'timeline_data': actions_chart(self.object),
+            'follower_data': follow_chart(self.object), })
         return context
 
 
@@ -441,6 +457,11 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
     model = Location
     form_class = LocationForm
 
+    def get_form_kwargs(self):
+        form_kwargs = super(UpdateLocationView, self).get_form_kwargs()
+        form_kwargs.update({'user': self.request.user, })
+        return form_kwargs
+
     def get_context_data(self, **kwargs):
         location = super(UpdateLocationView, self).get_object()
         context = super(UpdateLocationView, self).get_context_data(**kwargs)
@@ -457,9 +478,6 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         return context
 
     def form_valid(self, form):
-        # We have to cleanup old markers to save changes.
-        for mp in MapPointer.objects.for_model(form.instance):
-            mp.delete()
         lang = translation.get_language_from_request(self.request)
         # Update translation in editing user's language
         for an in form.instance.names.filter(language=lang):

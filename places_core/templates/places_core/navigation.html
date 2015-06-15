@@ -38,7 +38,7 @@
             <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
             <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
             <li><a href="/points-and-badges/">{% trans "Points and badges" %}</a></li>
-            <li class="divider"></li>
+            <li class="divider hidden-xs"></li>
             <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Cities" %}</a>
               <ul class="dropdown-menu">
                 <li><a href="/for-city-administration/">{% trans "For City Administration" %}</a></li>
@@ -84,11 +84,12 @@
           <ul class="dropdown-menu">
             <li><a href="{{ user.profile.get_absolute_url }}">{% trans "Profile" %}</a></li>
             <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
+            <li><a href="{% url 'activities:followed' user.profile.clean_username %}">{% trans "People" %}</a></li>
             <li><a href="{% url 'user:locations' user.profile.clean_username %}">{% trans "My Places" %}</a></li>
             <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
             <li><a href="{% url 'user:organizations' user.profile.clean_username %}">{% trans "Organizations" %}</a></li>
             <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
-            <li class="divider"></li>
+            <li class="divider hidden-xs"></li>
             <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
           </ul>
         </li>{% else %}<li><a href="{% url 'user:register' %}" class="loginFeatures">{% trans "Sign up" %}</a></li>
@@ -119,9 +120,9 @@
             <li>
               <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
             </li>
-            <li class="divider"></li>
+            <li class="divider hidden-xs"></li>
             {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>{% endfor %}
-            {% if user.is_authenticated %}<li class="divider"></li>
+            {% if user.is_authenticated %}<li class="divider hidden-xs"></li>
             <li><a href="{% url 'locations:create' %}">{% trans "Create new place" %}</a></li>{% endif %}
           </ul>
         </li>
@@ -132,7 +133,7 @@
             <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span></span></span>
           </a>
           <ul class="dropdown-menu bookmarks-no-list">
-            <li class="divider"></li>
+            <li class="divider hidden-xs"></li>
             <li><a href="{% url 'bookmarks-list' %}">{% trans "Manage" %}</a></li>
           </ul>
         </li>

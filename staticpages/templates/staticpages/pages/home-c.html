@@ -1,5 +1,8 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
+{% block extra_styles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'places_core/css/staticpages/home-c.min.css' %}">
+{% endblock %}
 {% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>{% endblock %}
 
 {% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}

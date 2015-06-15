@@ -2,9 +2,11 @@
 import datetime
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 
 from actstream.models import following
 from rest_framework import permissions
@@ -52,3 +54,37 @@ class HotBoxAPIView(APIView):
         for itm in qs:
             serializers.append(ActionObjectSerializer(itm).data)
         return Response(serializers)
+
+
+class VisitGraphDataAPIView(APIView):
+    """ Show counter info divided into daily periods.
+    """
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, **kwargs):
+        try:
+            pk = int(request.QUERY_PARAMS.get('pk'))
+            ct = int(request.QUERY_PARAMS.get('ct'))
+        except (TypeError, ValueError, ):
+            raise Http404
+        content_type = get_object_or_404(ContentType, pk=ct)
+        instance = content_type.get_object_for_this_type(pk=pk)
+
+        all_visits = Visit.objects.filter(content_type=content_type,
+                                        object_id=instance.pk).order_by('date')
+
+        start_time = all_visits.first().date
+        stop_time = timezone.now()
+
+        results = []
+        the_time = start_time
+        while the_time < stop_time + datetime.timedelta(days=1):
+            results.append(all_visits.filter(date__year=the_time.year,
+                                             date__month=the_time.month,
+                                             date__day=the_time.day).count())
+            the_time = the_time + datetime.timedelta(days=1)
+
+        return Response({
+            'title': _(u"Visit counter for %s" % instance),
+            'start_time': start_time,
+            'results': results, })

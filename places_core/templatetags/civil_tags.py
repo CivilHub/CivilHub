@@ -196,6 +196,7 @@ def obj_ct_id(model_name):
     from blog.models import News
     from polls.models import Poll
     from topics.models import Discussion
+    from locations.models import Location
 
     if model_name == 'article':
         model = Article
@@ -207,6 +208,8 @@ def obj_ct_id(model_name):
         model = Poll
     elif model_name == 'discussion':
         model = Discussion
+    elif model_name == 'location':
+        model = Location
     else:
         model = None
 

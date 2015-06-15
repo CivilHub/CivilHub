@@ -1,0 +1,138 @@
+/* 
+ * Invite Friends Page
+ * CSS include in invite-friends.html
+ *( civmail/templates/civmail/invite-friends.html )
+ */
+@import "variables.less";
+
+.invitePage{
+  padding: 10px 40px 30px;
+  /*background: #FFF;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+
+  border: 1px solid #DEDEDE;
+  margin-top: 25px;
+  margin-bottom: 25px; add class*/
+
+
+  //.inviteForm <-delete{}
+
+      /*text-align: center;
+      margin: 25px 0 0; add class*/
+      /*.inviteInputL,
+      .inviteInputR{
+          display: inline-block;
+          max-width: 305px;
+          width: 100%;
+          vertical-align: top;*/
+          /*p{
+              padding-left: 12px;
+
+              a{
+                  padding: 0 2px;
+              }
+          } remove*/
+          /*@media(max-width: 991px){
+              display: block;
+              margin: 0 auto 10px auto;
+          }
+      }
+      .inviteSubmit{
+          display: inline-block;
+          max-width: 70px;
+          width: 100%;
+          vertical-align: top;
+          margin: 0 60px 0 5px;
+          @media(max-width: 991px){
+              margin: 0 auto 10px auto;
+          }
+      }*/
+      /*.inviteInputL {
+          .tagsinput {
+              height: 100% !important;
+          }
+      } remove*/
+     
+  //}
+
+}
+.inviteFriends{
+  /*text-align: center; add class*/
+  width: 75%;
+  margin: 0 auto;
+  h2{
+    font-size: 21px;
+    color: #50616d;
+    line-height: 32px;
+    /*font-size: 900;*/
+  } 
+  h3{
+    font-size: 21px;
+    color: #545556;
+    line-height: 32px;
+    font-weight: 700;
+  }
+}
+
+.headerBGaInvi{
+  /*text-align: center; add class*/
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &.headerBGInvite{
+    background-image: url('@{static_url}/img/headers/header_invite.png');
+    @media 
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) { 
+      background-image: url('@{static_url}/img/headers/header_invite@2x.png');
+    }
+    .headerInviteBox{
+      padding: 5.2% 0;
+      .headerTitleInvite{
+        font-size: 50px;
+        line-height: 18px;
+        color: #FFF;
+        text-shadow: 3px 0 6px #000;
+        -webkit-text-shadow: 3px 0 6px #000;
+        margin-bottom: 4%;
+        @media(max-width: 768px){
+          font-size: 38px;
+        }
+      }
+      .btn-googleInvite{
+        font-size: 15px;
+        line-height: 18px;
+        color: #4d4747;
+        background-color: #FFF;
+        display: inline-block;
+        border-radius: 4px;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        padding: 17px 40px 17px 75px;
+        background-image: url('@{static_url}/img/headers/gmail-icon.png');
+        background-position: 8% center;
+        background-repeat: no-repeat;
+        text-decoration: none;
+
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) { 
+          background-image: url('@{static_url}/img/headers/gmail-icon@2x.png');
+          background-size: 32px 24px;
+        }
+        @media(max-width: 768px){
+          background-position: 3% center;
+          padding: 9px 16px 9px 46px;
+        }
+
+        &:hover{
+          text-decoration: none;
+          color: #4d4747;
+        }
+      }
+    }
+
+  }
+}

@@ -1,6 +1,6 @@
 <div class="comment-avatar-col pull-left"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="user-avatar avatarViewIMG comment-author-avatar" /></div>
 <div class="comment-main-col">
-  <a href="<%= author.profile.url %>" class="custom-important comment-author-name user-window-toggle" data-target="<%= author.id %>"><%= author.full_name %></a>
+  <a href="<%= author.profile.url %>" class="comment-author-name user-window-toggle" data-target="<%= author.id %>"><strong><%= author.full_name %></strong></a>
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
   <span class="comment-controls">
     <% if (author.id == CivilApp.user.id) { %>
@@ -18,13 +18,13 @@
     <% if (author.id !== CivilApp.user.id) { %>
       <p>
         <span class="comment-total-votes"><%= note %></span>
-        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-toggle="tooltip" data-placement="top" title="<%= gettext("Good Idea, Vote YES") %>" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
-        <a class="vote-link vote-down-link custom-tooltip-top" data-toggle="tooltip" data-placement="top" title="<%= gettext("Bad Idea, Vote NO") %>" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
+        <a class="vote-link vote-up-link custom-tooltip-top" href="#" data-id="<%= id %>" data-vote="up" data-toggle="tooltip" data-placement="top" title="<%= gettext("Good Idea, Vote YES") %>" rel="tooltip"><span class="fa fa-angle-up"> </span></a> |
+        <a class="vote-link vote-down-link custom-tooltip-top" data-id="<%= id %>" data-vote="down" data-toggle="tooltip" data-placement="top" title="<%= gettext("Bad Idea, Vote NO") %>" href="#" rel="tooltip"><span class="fa fa-angle-down"> </span></a>
     <% } else { %>
       <p><span class="comment-total-votes"><%= note %></span>
     <% } %>
-    &nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
     <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>
+    <% if (!_.isEmpty(CivilApp.user)) { %>&nbsp; &bull; <a class="comment-reply" href="#"><%= gettext("Reply") %></a>
     <div class="reply-form">
       <div class="comment-main-col p-reset">
         <form role="presentation" class="comment-form-body postbox" style="display:none">
@@ -38,13 +38,14 @@
           </div>
         </form>
       </div>
-    </div>
+    </div><% } %>
     </p>
     <div class="comment-votes-detail">
       <label class="alert-success"><span class="fa fa-long-arrow-up"> </span><%= upvotes %></label>
       <label class="alert-danger"><span class="fa fa-long-arrow-down"> </span><%= downvotes %></label>
       <label class="alert-info"><span class="fa fa-bar-chart-o"> </span><%= note %></label>
     </div>
+    <ul class="vote-summary"></ul>
   </div>
   <div class="subcomments"></div>
 </div>

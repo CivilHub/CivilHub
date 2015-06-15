@@ -8,8 +8,6 @@
 // comment list should be created. See comment_tags.py for details of html
 // structure for plugin and required data attributes.
 
-// FIXME: avoid model duplication when fetching new page.
-
 define(['jquery',
         'underscore',
         'backbone',
@@ -38,10 +36,12 @@ var CommentListView = Backbone.View.extend({
   initialize: function (options) {
 
     // This option is required - we need some DOM element to operate on.
+
     this.$el = options.$el;
 
     // Set inner counter so that we don't have to rely on DOM context
     // to get numbers as this may be confusing and inaccurate.
+
     this.$counter = options.$counter || this.$('.comment-count');
     this.count = parseInt(this.$el.attr('data-count'), 10);
     if (isNaN(this.count)) {
@@ -49,11 +49,14 @@ var CommentListView = Backbone.View.extend({
     }
 
     // Main input to create new comment.
+
     this.textarea = this.$el.find('[name="comment"]');
 
     // Create collection and set page to (by default) 1. We use CUri here, so
     // that params may be passed only once and THEN appended to collection URL.
-    this.collection = new CommentCollection();
+
+    this.collection = new CommentCollection(options.data.results);
+    this.collection.hasNext = options.data.has_next;
     this.currentPage = options.currentPage;
     this.uri = new CUri(options.url);
     this.uri.add('ct', options.ct);
@@ -61,14 +64,19 @@ var CommentListView = Backbone.View.extend({
     this.uri.add('page', this.currentPage);
     this.collection.url = options.url;
 
+    this.collection.each(this.renderComment, this);
+
     // Allow list filtering by date/votes.
+
     this.$el.find('.filters').find('a').on('click', function (e) {
       e.preventDefault();
       this.filter($(e.currentTarget).attr('data-order'));
     }.bind(this));
 
     // Render single items as they are added to collection.
+
     this.listenTo(this.collection, 'add', this.renderComment);
+    this.listenTo(this.collection, 'reset', this.renderPage);
   },
 
   // Wrapper for collection's fetch function. Useful for scripts on static
@@ -87,8 +95,15 @@ var CommentListView = Backbone.View.extend({
     this.uri.add('page', this.currentPage);
     this.uri.add('o', filter);
     fetchData(this.uri.url(), function (response) {
-      // FIXME: not rendering when filtered list is on last page.
       this.collection.reset(response.results);
+      this.collection.nextUrl = response.next;
+      this.collection.hasNext = !_.isNull(response.next);
+    }, this);
+  },
+
+  renderPage: function () {
+    this.collection.each(function (item) {
+      this.renderComment(item);
     }, this);
   },
 

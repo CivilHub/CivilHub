@@ -2,7 +2,7 @@
 import json
 
 from django.utils import timezone
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import Http404, HttpResponse, HttpResponseBadRequest
 from django.core.exceptions import PermissionDenied
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render
@@ -52,68 +52,29 @@ class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
         return super(IdeaVotesView, self).dispatch(*args, **kwargs)
 
     def post(self, request, **kwargs):
-        action = request.POST.get('vote')
-        if action is None:
-            return HttpResponseBadRequest()
-        vote = self._get_user_vote()
-        context = {}
-        if action == 'revoke':
-            if vote is not None:
-                context.update({
-                    'label': _(u"Vote YES") if vote.vote else _(u"Vote NO"),
-                    'target': 'up' if vote.vote else 'down', })
-                vote.delete()
-            message = _(u"Your vote has been revoked")
-        else:
-            action = True if action == 'up' else False
-            if vote is not None:
-                vote.vote = action
-                vote.save()
-                context.update({
-                    'old_target': 'down' if action else 'up',
-                    'old_label': _(u"Vote NO") if action else _(u"Vote YES"), })
-            else:
-                vote = self._create_user_vote(vote=action)
-            context.update({
-                'label': _(u"Revoke"),
-                'target': 'revoke', })
-            message = _(u"Your vote has been saved")
-        context.update({
-            'vote': self._serialize_vote(vote),
-            'message': message, })
-        return HttpResponse(json.dumps(context), content_type="application/json")
-
-    def _create_user_vote(self, vote=False):
-        """ We have to make sure, that voting user profile will be updated only once.
-        """
-        vote, created = Vote.objects.get_or_create(idea=self.object,
-                                                   user=self.request.user,
-                                                   vote=vote)
-        if created:
-            action.send(self.request.user,
-                        action_object=vote,
-                        target=self.object,
-                        verb='voted on',
-                        vote=vote.vote)
-            self.request.user.profile.rank_pts += 1
-            self.request.user.profile.save()
-        return vote
-
-    def _get_user_vote(self):
         try:
-            return self.object.vote_set.get(user=self.request.user)
-        except Vote.DoesNotExist:
-            return None
+            status = int(request.POST.get('vote'))
+        except (TypeError, ValueError, ):
+            raise Http404
 
-    def _serialize_vote(self, vote):
-        if vote is None:
-            return None
-        return {
-            'id': vote.pk,
-            'vote': vote.vote,
-            'note': self.object.note,
-            'count': self.object.vote_set.count(),
-        }
+        results = self.object.vote(request.user, status)
+
+        results['message'] = _(u"Your vote has been revoked")
+
+        if results.get('prev_target') == 1:
+            label = _(u"Vote YES")
+        elif results.get('prev_target') == 2:
+            label = _(u"Vote NO")
+        else:
+            label = _(u"Revoke")
+            results['message'] = _(u"Your vote has been saved")
+        results['label'] = label
+
+        if results.get('is_reversed'):
+            results['new_label'] = results['label']
+            results['label'] = _(u"Revoke")
+
+        return HttpResponse(json.dumps(results), content_type="application/json")
 
 
 class CreateCategory(LoginRequiredMixin, CreateView):
@@ -157,21 +118,6 @@ class IdeasDetailView(DetailView):
     """ Detailed idea view.
     """
     model = Idea
-
-    def get_object(self):
-        object = super(IdeasDetailView, self).get_object()
-        try:
-            object.votes = get_votes(object)
-            content_type = ContentType.objects.get_for_model(Idea)
-            object.content_type = content_type.pk
-            comment_set = CustomComment.objects.filter(
-                content_type=content_type.pk
-            )
-            comment_set = comment_set.filter(object_pk=object.pk)
-            object.comments = len(comment_set)
-        except:
-            object.votes = _('no votes yet')
-        return object
 
     def get_context_data(self, **kwargs):
         context = super(IdeasDetailView, self).get_context_data(**kwargs)

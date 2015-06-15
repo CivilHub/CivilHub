@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.db import IntegrityError
+
 from .models import MapPointer
 
 
@@ -14,10 +16,16 @@ def create_marker(sender, instance, created, **kwargs):
     lat = instance.latitude
     lng = instance.longitude
 
-    # Try to remove obsolete markers if lat or lng has changed
-    if not created:
-        for m in MapPointer.objects.for_model(instance):
-            if m.latitude != lat or m.longitude != lng:
-                m.delete()
+    if not lat or not lng:
+        return
 
-    mp = MapPointer.objects.create_for_object(instance, lat, lng)
+    # Try to remove obsolete markers if lat or lng has changed
+    for m in MapPointer.objects.for_model(instance):
+        m.delete()
+
+    try:
+        mp = MapPointer.objects.create_for_object(instance, lat, lng)
+    except IntegrityError:
+        mp = MapPointer.objects.for_model(instance).first()
+
+    return mp

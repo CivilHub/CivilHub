@@ -5,9 +5,11 @@ from django.utils import timezone
 from django.utils.translation import ugettext as _
 
 from rest_framework import viewsets, permissions
-from rest_framework.decorators import action
+from rest_framework.decorators import action, link
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from userspace.serializers import UserDetailSerializer
 
 from .models import CustomComment, CommentVote
 from .serializers import CustomCommentSerializer, CommentDetailSerializer
@@ -97,6 +99,20 @@ class CommentList(viewsets.ModelViewSet):
                 'message': _(u"You have already voted for this comment"),
             })
         return Response(context)
+
+    @link()
+    def summary(self, request, pk):
+        comment = self.get_object()
+        v_filter = request.QUERY_PARAMS.get('v', 'all')
+        if v_filter == 'up':
+            votes = comment.votes.filter(vote=True)
+        elif v_filter == 'down':
+            votes = comment.votes.filter(vote=False)
+        else:
+            votes = comment.votes.all()
+        users = [x.user for x in votes]
+        serializer = UserDetailSerializer(users, many=True)
+        return Response(serializer.data)
 
 
 class CommentAnswers(APIView):

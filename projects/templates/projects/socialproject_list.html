@@ -1,7 +1,7 @@
 {% extends 'locations/index.html' %}{% load i18n %}
 {% block title %}{{ location }}, {% trans "Projects" %} - Civilhub.org {% endblock %}
 {% block navigation_location %}<div class="location-page-projects">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
-{% block content %}{% if user.is_authenticated %}<div class="project-new-create">
+{% block content %}{% if user.is_authenticated %}<div class="project-new-create mb20">
   <a href="{% url 'locations:project_create' location.slug %}" class="btn-greenBig">{% trans "Create new project" %}</a>
 </div>{% endif %}
 {% for item in object_list %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}<div class="col-sm-3">

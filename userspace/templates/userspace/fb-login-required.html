@@ -1,0 +1,74 @@
+{% extends 'places_core/base.html' %}
+{% load staticfiles i18n civil_tags actstream_tags %}
+{% block title %}{{ user.get_full_name }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{{ user.get_full_name }} {% if profile.followed_locations %}{% trans "engages in" %} {% for location in profile.followed_locations %}{{ location }}, {% endfor %}{% else %}{% endif %}" />{% endblock %}
+{% block meta %}<meta property="og:image" content="https://civilhub.org{{ profile.avatar.url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta name="keywords" content=" {{ cuser.first_name }}, {{ cuser.last_name }}, {{ cuser.get_full_name }}">{% endblock %}
+{% block require_scripts %}
+<script src="{% static 'places_core' %}/js/{% js_path %}/userspace-form.js"></script>
+{% endblock %}
+
+{% block header %}
+<style type="text/css">
+.user-logo {
+  background-image: url({{ profile.background_url }});
+}
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .user-logo {
+    background-image: url({{ profile.retina_background_url }});
+  }
+}
+</style>
+    <div class="user-logo">
+    <div class="container">
+      <div class="user-info">
+        <div class="profile-page-avatar">
+          <img src="{{ profile.avatar.url }}" alt="{{ profile }}" />
+        </div>
+        <div class="user-fullname">
+          {{ profile }}
+        </div>
+        {% follow_button profile.user %}
+        {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
+        {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
+        {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Twitter profile" %}"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
+        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "LinkedIn profile" %}"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
+        {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Website" %}"><span class="fa fa-external-link">&nbsp;</span></a>{% endif %}
+        {% if request.user != user %}<a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button custom-tooltip" title="Send private message"><span class="fa fa-envelope">&nbsp;</span></a>{% endif %}
+      </div>
+      {% if request.user == user %}
+        <div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a></div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- <div class="profileIndexEmptyBox mt0"></div> -->
+  <nav id="filter-navbar" class="navbar-default mt0 mb20" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
+          <span class="sr-only">{% trans "Toggle navigation" %}</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
+        <ul class="nav navbar-nav navbar-nav-userspace">
+          <li><a href="{% url 'activities:followed' profile.clean_username %}">{% trans "Followed" %}</a></li>
+          <li><a href="{% url 'activities:facebook-friends' profile.clean_username %}">{% trans "Friends from Facebook" %}</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+{% endblock %}
+{% block content %}<div class="no-entries">
+  <h2>
+    {% trans "You have to login with your Facebook account." %}
+  </h2>
+  <form action="{% url 'user:relogin' user.username %}" method="post">{% csrf_token %}
+    <button class="facebook-button" type="submit">{% trans "Login" %}</button>
+  </form>
+</div>{% endblock %}
