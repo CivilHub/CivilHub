@@ -2957,11 +2957,8 @@ small.green{
     }
   }
 }
-.project-s8{
+/*.project-s8{
   padding: 4% 0 0;
-  /*h2{
-      margin-top: 0;
-  }*/
   p{
     font-size: 16px;
     line-height: 24px;
@@ -2981,10 +2978,9 @@ small.green{
       (min-resolution: 192dpi){ background-image: @en_bg_project_s8_retina; }
     }
   }
-}
-.project-s9{
+}*/
+/*.project-s9{
   padding: 4% 0 0;
-  /*h2{ margin-top: 0; }*/
   p{ font-size: 16px; line-height: 24px;}
   .project-box-right{
     text-align: left;
@@ -3005,11 +3001,11 @@ small.green{
     font-size: 16px;
     min-height: 62px;
     font-weight: 300;
-    &:nth-child(1){
-      background-image: @editor1;
       background-repeat: no-repeat;
       background-position: 0% 100%;
       background-size: 62px 62px;
+    &:nth-child(1){
+      background-image: @editor1;
       padding-top: 22%;
       padding-bottom: 3%;
       @media
@@ -3018,9 +3014,6 @@ small.green{
     }
     &:nth-child(2){
       background-image: @editor2;
-      background-repeat: no-repeat;
-      background-position: 0% 100%;
-      background-size: 62px 62px;
       padding-top: 17%;
       @media
       (-webkit-min-device-pixel-ratio: 2),
@@ -3028,9 +3021,6 @@ small.green{
     }
     &:nth-child(3){
       background-image: @editor3;
-      background-repeat: no-repeat;
-      background-position: 0% 100%;
-      background-size: 62px 62px;
       padding-top: 22%;
       @media
       (-webkit-min-device-pixel-ratio: 2),
@@ -3053,7 +3043,7 @@ small.green{
       (min-resolution: 192dpi){ background-image: @en_bg_project_s9_retina; }
     }
   }
-}
+}*/
 .project-s10{
   padding: 4% 0 0;
   /*h2{ margin-top: 0;}*/
@@ -3897,11 +3887,13 @@ small.green{
     .bg-ip-s6-right{ padding-bottom: 45.5%; }
   }
 }
-.idealaw-s5-s7{
+
+//the same style for project-features s9, idea-to-law s5-s7
+.editors-s5-s7{
   padding: 4% 0 0;
   /*h2{ margin-top: 0; }*/
   p{ font-size: 16px; line-height: 24px;}
-  .idealaw-box-right{
+  .editors-box-right{
     text-align: left;
     padding-left: 35px;
     &:first-child{
@@ -3938,7 +3930,7 @@ small.green{
       color: #747474;
     }
   }
-  .idealaw-box-left{
+  .editors-box-left{
     text-align: left;
     padding-left: 75px;
     padding-right: 25px;
@@ -4001,12 +3993,12 @@ small.green{
       padding-bottom: 41.96%;
       &.bg-i-s7{ padding-bottom: 43.79%; background-size: 796px 403px; }
     }
-    .idealaw-box-right{
+    .editors-box-right{
       margin-right: -15px;
       padding-left: 88px;
       &.i-s7{ margin-left: 0; padding-left: 75px; }
     }
-    .idealaw-box-left{ margin-left: -15px;
+    .editors-box-left{ margin-left: -15px;
       &.i-s7{
         &:nth-child(3){ padding-top: 25%; }
       }
@@ -4039,7 +4031,7 @@ small.green{
     .bg-i-s7{
       .col-sm-3{ background-color: #FFF; margin-bottom: 50px; }
     }
-    .idealaw-box-left{
+    .editors-box-left{
       &.i-s7{
         padding: 0 0 0 75px;
         background-color: #FFF;
@@ -4056,7 +4048,7 @@ small.green{
         &:nth-child(3){ margin-top: 6%; padding-top: 0; }
       }
     }
-    .idealaw-box-right{
+    .editors-box-right{
       &.i-s7{
         padding: 0 0 0 75px;
         background-color: #FFF;
@@ -4100,7 +4092,7 @@ small.green{
       background-position: 175px 0px;
       .col-sm-offset-6{ margin-top: 100px; }
     }
-    .idealaw-box-left{
+    .editors-box-left{
       &.i-s5{
         &:nth-child(1){ padding-top: 50px; }
         &:nth-child(2){ margin-top: 50px; padding-top: 0; }
@@ -4109,24 +4101,32 @@ small.green{
     }
   }
 }
-.idealaw-s8{
+
+//the same style project s8
+.idea-project-s8{
   padding: 4% 0 0;
-  /*h2{
-      margin-top: 0;
-  }*/
-  .bg-idealaw-s8{
-    margin-top: 30px;
-    padding-top: 34.5%;
-    background-image: @bg_idealaw_s8;
+  p{ font-size: 16px; line-height: 24px; }
+  .bg-ip-s8{
+    margin-top: 50px;
+    padding-top: 33.99%;
     .bg-nor-cen-con;
+    &.i-s8{ background-image: @bg_idealaw_s8; }
+    &.p-s8{ background-image: @bg_project_s8; }
     @media
     (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi){ background-image: @bg_idealaw_s8_retina; }
-    &.en_bg-idealaw-s8{
-      background-image: @en_bg_idealaw_s8;
-      @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi){ background-image: @en_bg_idealaw_s8_retina; }
+    (min-resolution: 192dpi){ 
+      &.i-s8{ background-image: @bg_idealaw_s8_retina; }
+      &.p-s8{ background-image: @bg_project_s8_retina; }
+    }
+  }
+  .en_bg-ip-s8{
+    &.i-s8{ background-image: @en_bg_idealaw_s8; }
+    &.p-s8{ background-image: @en_bg_project_s8;}
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){
+      &.i-s8{ background-image: @en_bg_idealaw_s8_retina; }
+      &.i-s9{ background-image: @en_bg_project_s8_retina; }
     }
   }
 }
