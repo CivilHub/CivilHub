@@ -2,7 +2,7 @@
 {% block content %}<ul>{% for attachment in object_list %}
   <li>
     <a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a>
-    {% if project_access %}<a href="{% url 'projects:update-attachment' object.slug attachment.pk %}">{% trans "edit"|capfirst %}</a>
+    {% if project_access %}<a href="{% url 'projects:update-attachment' attachment.pk %}">{% trans "edit"|capfirst %}</a>
     <form class="custom-inline-form" method="post" action="{% url 'projects:delete-attachment' attachment.pk %}">{% csrf_token %}
       <button type="submit">{% trans "delete"|capfirst %}</button>
     </form>{% endif %}
