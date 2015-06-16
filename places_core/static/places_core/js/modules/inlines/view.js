@@ -18,13 +18,18 @@ define(['jquery',
         'text!js/modules/inlines/templates/comment.html',
         'text!js/modules/inlines/templates/edit_form.html'],
 
-function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel, CommentCollection, VoteSummary, html, form) {
+function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel,
+                                  CommentCollection, VoteSummary, html, form) {
 
 "use strict";
 
 // Global to hold our summary window instance.
 
 var summaryWindow = null;
+
+// Holds timeout value to smoothly open new vote summary.
+
+var clock = null;
 
 function sendVote (id, vote, callback, context) {
   var data = {
@@ -37,6 +42,14 @@ function sendVote (id, vote, callback, context) {
       callback.call(context, response, vote);
     }
   );
+}
+
+function delay (timeout, fn, context) {
+  return setTimeout(function () {
+    if (_.isFunction(fn)) {
+      fn.call(context);
+    }
+  }, timeout);
 }
 
 var CommentView = Backbone.View.extend({
@@ -58,8 +71,6 @@ var CommentView = Backbone.View.extend({
   replied: false,
 
   events: {
-    'click .vote-up-link:first': 'vote',
-    'click .vote-down-link:first': 'vote',
     'click .comment-reply:first': 'toggleReplyForm',
     'click .show-replies:first': 'toggleReplies',
     'click .report-abuse-link': 'report'
@@ -117,9 +128,20 @@ var CommentView = Backbone.View.extend({
       }, this);
     }
 
+    // Enable voting
+
+    this.$('.vote-link').on('click', this.vote.bind(this));
+
     // Vote summary window
 
-    this.$('.vote-link').on('mouseover', this.voteSummary.bind(this));
+    this.$('.vote-link').on('mouseover', function (e) {
+      clock = delay(500, function () {
+        this.voteSummary(e);
+      }, this);
+      $(e.currentTarget).one('mouseout', function (e) {
+        clearTimeout(clock);
+      });
+    }.bind(this));
 
     return this;
   },

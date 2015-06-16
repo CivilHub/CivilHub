@@ -279,6 +279,7 @@ class Attachment(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True, verbose_name=_(u"date uploaded"))
     uploaded_by = models.ForeignKey(User, related_name="attachments", verbose_name=_(u"user"))
     mime_type = models.CharField(max_length=255, default="")
+    tasks = models.ManyToManyField(Task, null=True, blank=True, verbose_name=_(u"tasks"), related_name="attachments")
 
     def save(self, *args, **kwargs):
         if not self.mime_type:

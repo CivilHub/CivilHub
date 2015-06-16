@@ -185,17 +185,60 @@ class ProjectPictureForm(forms.ModelForm):
 
 MAX_FILE_SIZE = 8 # In megabytes
 
-class AttachmentUploadForm(forms.ModelForm):
-    """ Upload attachment files for projects.
-    """
-    class Meta:
-        model = Attachment
-        exclude = ('mime_type', 'uploaded_by', )
-        widgets = {'project': forms.HiddenInput(), }
 
+class BaseAttachmentForm(forms.BaseForm):
+    """
+    """
     def clean_attachment(self):
         attachment = self.cleaned_data['attachment']
         if attachment._size > MAX_FILE_SIZE * 1024 * 1024:
             err_msg = _(u"File is too big (%d MB)" % MAX_FILE_SIZE)
             raise forms.ValidationError(err_msg)
         return attachment
+
+
+
+class AttachmentUploadForm(forms.ModelForm, BaseAttachmentForm):
+    """ Upload attachment files for projects.
+    """
+    class Meta:
+        model = Attachment
+        exclude = ('mime_type', 'uploaded_by', )
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', }),
+            'tasks': forms.SelectMultiple(attrs={'class': 'form-control', }),
+            'project': forms.HiddenInput(), }
+
+    def __init__(self, *args, **kwargs):
+        try:
+            project = kwargs.pop('project')
+        except KeyError:
+            project = None
+        super(AttachmentUploadForm, self).__init__(*args, **kwargs)
+        if project is not None:
+            self.fields['tasks'].queryset = Task.objects.filter(
+                                            group__project=project)
+
+
+class AttachmentTaskForm(forms.ModelForm, BaseAttachmentForm):
+    """ Upload attachment directly for selected task.
+    """
+    class Meta:
+        model = Attachment
+        exclude = ('mime_type', 'uploaded_by', 'tasks', )
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', }),
+            'project': forms.HiddenInput(), }
+
+    def __init__(self, *args, **kwargs):
+        try:
+            project = kwargs.pop('project')
+        except KeyError:
+            project = None
+        super(AttachmentTaskForm, self).__init__(*args, **kwargs)
+        if project is not None:
+            try:
+                self.fields['tasks'].queryset = Task.objects.filter(
+                                                group__project=project)
+            except KeyError:
+                pass

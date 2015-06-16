@@ -102,7 +102,7 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
         return self.get_model().objects.all()
 
 
-class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
+class NGOSearchIndex(indexes.SearchIndex, indexes.Indexable):
     """ Search for NGO
     """
     text = indexes.CharField(document=True)

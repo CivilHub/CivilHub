@@ -1,4 +1,11 @@
 {% extends 'projects/index.html' %}{% load i18n %}
 {% block content %}<ul>{% for attachment in object_list %}
-  <li><a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a></li>
-{% endfor %}</ul>{% endblock %}
+  <li>
+    <a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a>
+    {% if project_access %}<a href="{% url 'projects:update-attachment' attachment.pk %}">{% trans "edit"|capfirst %}</a>
+    <form class="custom-inline-form" method="post" action="{% url 'projects:delete-attachment' attachment.pk %}">{% csrf_token %}
+      <button type="submit">{% trans "delete"|capfirst %}</button>
+    </form>{% endif %}
+  </li>
+{% endfor %}</ul>
+<a class="btn btn-primary" href="{% url 'projects:attachment-upload' object.slug %}">{% trans "add"|capfirst %}</a>{% endblock %}

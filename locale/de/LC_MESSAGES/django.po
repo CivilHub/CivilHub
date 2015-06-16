@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Alina <awielgus1@gmail.com>, 2015
 # think PLATE, 2015
@@ -11,109 +11,136 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-12 14:18+0200\n"
+"POT-Creation-Date: 2015-06-15 15:48+0200\n"
 "PO-Revision-Date: 2015-06-12 12:19+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/civilhub/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/civilhub/language/"
+"de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: activities/api.py:65
+#: activities/api.py:66
 msgid "Actions timeline for "
 msgstr ""
 
-#: activities/api.py:68 locations/templates/locations/navbar.html:31
+#: activities/api.py:69 locations/templates/locations/navbar.html:31
 msgid "Activities"
 msgstr "Aktivitäten"
 
-#: activities/api.py:165
+#: activities/api.py:166
 #, python-format
 msgid "You are following this %s"
 msgstr "Du folgst %s"
 
-#: activities/api.py:173
+#: activities/api.py:174
 #, python-format
 msgid "You are no longer following this %s"
 msgstr "Du folgst nicht mehr %s"
 
-#: activities/serializers.py:97 rest/serializers.py:136
+#: activities/api.py:195
+#, fuzzy
+#| msgid "You are following this %s"
+msgid "You have started following your friends!"
+msgstr "Du folgst %s"
+
+#: activities/api.py:198 activities/templatetags/actstream_tags.py:43
+msgid "Stop following"
+msgstr "Nicht mehr folgen"
+
+#: activities/serializers.py:100 rest/serializers.py:136
 msgid "Voted yes"
 msgstr "Stimm ja"
 
-#: activities/serializers.py:100 rest/serializers.py:139
+#: activities/serializers.py:103 rest/serializers.py:139
 msgid "Voted no"
 msgstr "Stimm nein"
 
 #: activities/templates/activities/followed_user_list.html:4
+#: userspace/templates/userspace/fb-login-required.html:4
 #: userspace/templates/userspace/index.html:4
 #: userspace/templates/userspace/profile.html:3
 msgid "engages in"
 msgstr ""
 
-#: activities/templates/activities/followed_user_list.html:35
+#: activities/templates/activities/followed_user_list.html:34
+#: userspace/templates/userspace/fb-login-required.html:35
 #: userspace/templates/userspace/index.html:35
 #: userspace/templates/userspace/profile.html:29
 msgid "Google+ profile"
 msgstr "Google+ Profil"
 
-#: activities/templates/activities/followed_user_list.html:36
+#: activities/templates/activities/followed_user_list.html:35
+#: userspace/templates/userspace/fb-login-required.html:36
 #: userspace/templates/userspace/index.html:36
 #: userspace/templates/userspace/profile.html:30
 msgid "Facebook profile"
 msgstr "Facebook Profil"
 
-#: activities/templates/activities/followed_user_list.html:37
+#: activities/templates/activities/followed_user_list.html:36
+#: userspace/templates/userspace/fb-login-required.html:37
 #: userspace/templates/userspace/index.html:37
 #: userspace/templates/userspace/profile.html:31
 msgid "Twitter profile"
 msgstr "Twitter Profil"
 
-#: activities/templates/activities/followed_user_list.html:38
+#: activities/templates/activities/followed_user_list.html:37
+#: userspace/templates/userspace/fb-login-required.html:38
 #: userspace/templates/userspace/index.html:38
 #: userspace/templates/userspace/profile.html:32
 msgid "LinkedIn profile"
 msgstr "LinkedIn Profil"
 
-#: activities/templates/activities/followed_user_list.html:39
+#: activities/templates/activities/followed_user_list.html:38
 #: organizations/templates/organizations/organization_detail.html:19
 #: organizations/templates/organizations/organization_form.html:56
 #: organizations/templates/organizations/organization_info.html:19
 #: organizations/templates/organizations/organization_update.html:53
+#: userspace/templates/userspace/fb-login-required.html:39
 #: userspace/templates/userspace/index.html:39
 #: userspace/templates/userspace/profile.html:33
 msgid "Website"
 msgstr "Webseite"
 
-#: activities/templates/activities/followed_user_list.html:43
-#: locations/templates/locations/index.html:69
+#: activities/templates/activities/followed_user_list.html:42
+#: locations/templates/locations/index.html:73
 #: organizations/templates/organizations/index.html:27
-#: projects/templates/projects/index.html:69
+#: projects/templates/projects/index.html:70
+#: userspace/templates/userspace/fb-login-required.html:43
 #: userspace/templates/userspace/index.html:43
 #: userspace/templates/userspace/profile.html:36
 msgid "Change background image"
 msgstr "Hintergrundbild wechseln"
 
-#: activities/templates/activities/followed_user_list.html:52
+#: activities/templates/activities/followed_user_list.html:51
 #: locations/templates/locations/location-navbar.html:5
 #: organizations/templates/organizations/index.html:34
 #: places_core/templates/places_core/navigation.html:6
 #: projects/templates/projects/navbar.html:6
+#: userspace/templates/userspace/fb-login-required.html:52
 #: userspace/templates/userspace/profile.html:43
 msgid "Toggle navigation"
 msgstr "Toggle-Navigation"
 
-#: activities/templates/activities/followed_user_list.html:60
+#: activities/templates/activities/followed_user_list.html:59
+#: userspace/templates/userspace/fb-login-required.html:60
 msgid "Followed"
 msgstr "Abonniert"
 
-#: activities/templates/activities/followed_user_list.html:61
+#: activities/templates/activities/followed_user_list.html:60
+#: userspace/templates/userspace/fb-login-required.html:61
 msgid "Friends from Facebook"
 msgstr "Freunde von Facebook"
 
-#: activities/templates/activities/followed_user_list.html:86
+#: activities/templates/activities/followed_user_list.html:68
+#, fuzzy
+#| msgid "Follow"
+msgid "follow all"
+msgstr "Folgen"
+
+#: activities/templates/activities/followed_user_list.html:88
 #: blog/templates/blog/news_list.html:22
 #: gallery/templates/gallery/location-gallery.html:35
 #: ideas/templates/ideas/idea_list.html:40
@@ -129,16 +156,13 @@ msgstr "Freunde von Facebook"
 msgid "Sad Civilian"
 msgstr "Sad Civilian"
 
-#: activities/templates/activities/followed_user_list.html:88
+#: activities/templates/activities/followed_user_list.html:90
 msgid "You are currently not following anyone."
 msgstr "Du hast nun niemanden mehr abonniert."
 
-#: activities/templatetags/actstream_tags.py:36
-msgid "Stop following"
-msgstr "Nicht mehr folgen"
-
-#: activities/templatetags/actstream_tags.py:39
+#: activities/templatetags/actstream_tags.py:32
 #: locations/templates/locations/index.html:64
+#: locations/templates/locations/index.html:67
 #: locations/templates/locations/location_list.html:65
 #: places_core/templates/places_core/script-templates.html:274
 msgid "Follow"
@@ -155,7 +179,7 @@ msgstr "Untertitel"
 #: gallery/templates/gallery/picture-view.html:21
 #: ideas/templates/ideas/idea_detail.html:9
 #: organizations/templates/organizations/news_detail.html:58
-#: projects/templates/projects/socialproject_detail.html:108
+#: projects/templates/projects/socialproject_detail.html:114
 msgid "Comments"
 msgstr "Kommentare"
 
@@ -164,7 +188,7 @@ msgstr "Kommentare"
 #: gallery/templates/gallery/picture-view.html:22
 #: ideas/templates/ideas/idea_detail.html:10
 #: organizations/templates/organizations/news_detail.html:59
-#: projects/templates/projects/socialproject_detail.html:109
+#: projects/templates/projects/socialproject_detail.html:115
 msgid "Hide comments"
 msgstr "Kommentare ausblenden"
 
@@ -190,7 +214,9 @@ msgstr "CivilHub - Die Menschen haben die Kraft"
 msgid ""
 "CivilHub - People have the Power. The best tools to collaborate in local "
 "communities."
-msgstr "CivilHub - Die Leute haben die Macht. Die besten Werkzeuge um gemeinsam in lokalen Communities zu handeln."
+msgstr ""
+"CivilHub - Die Leute haben die Macht. Die besten Werkzeuge um gemeinsam in "
+"lokalen Communities zu handeln."
 
 #: articles/templates/articles/support-list.html:16
 #: places_core/templates/places_core/footer.html:21
@@ -741,8 +767,10 @@ msgstr ""
 
 #: civmail/forms.py:74 gallery/models.py:169 gallery/models.py:233
 #: guides/models.py:20 guides/models.py:35 locations/models.py:153
-#: organizations/forms.py:119 organizations/models.py:41 projects/models.py:45
-#: projects/models.py:144 projects/models.py:168
+#: locations/templates/locations/organization_list.html:11
+#: organizations/forms.py:119 organizations/models.py:41
+#: organizations/templates/organizations/organization_list.html:9
+#: projects/models.py:45 projects/models.py:144 projects/models.py:168
 msgid "name"
 msgstr "Name"
 
@@ -796,7 +824,7 @@ msgstr "Dies ist der Inhalt"
 
 #: civmail/templates/civmail/civmail_admin_index.html:5
 #: civmail/templates/civmail/contact_form.html:29
-#: civmail/templates/civmail/invite-friends.html:24
+#: civmail/templates/civmail/invite-friends.html:27
 #: civmail/templates/civmail/invite-users.html:22
 #: locations/templates/locations/invite-users.html:16
 #: organizations/templates/organizations/member_invite.html:5
@@ -824,7 +852,10 @@ msgid ""
 "<p>If you have a question about our website, please write to us.<br />We "
 "will try to answer all your questions.<br /><br />If you want to include "
 "your country in our database, also write to us.</p>"
-msgstr "<p>Falls du eine Frage zu unserer Webseite hast, schreib uns doch.<br />Wir probieren alle Fragen zu beantworten.<br /><br />Schreib uns auch wenn du dein Land in das Portal aufnehmen willst.</p>"
+msgstr ""
+"<p>Falls du eine Frage zu unserer Webseite hast, schreib uns doch.<br />Wir "
+"probieren alle Fragen zu beantworten.<br /><br />Schreib uns auch wenn du "
+"dein Land in das Portal aufnehmen willst.</p>"
 
 #: civmail/templates/civmail/contact_form.html:12
 msgid "Please, correct errors below"
@@ -899,29 +930,37 @@ msgstr "Du must bei Google angemeldet sein"
 msgid "Invite friends from Gmail"
 msgstr "Freunde über Gmail einladen"
 
-#: civmail/templates/civmail/invite-friends.html:15
+#: civmail/templates/civmail/invite-friends.html:11
+#, fuzzy
+#| msgid "Connect with Google+"
+msgid "Login with Google"
+msgstr "Verbinden mit Google+"
+
+#: civmail/templates/civmail/invite-friends.html:18
 msgid ""
 "Invite a friend by sending him a message, to have the opportunity to find "
 "out what it means to force CivilHub."
-msgstr "Lade einen Freund per Nachricht ein, um ihm zu zeigen was man Tolles bei CivilHub machen kann"
+msgstr ""
+"Lade einen Freund per Nachricht ein, um ihm zu zeigen was man Tolles bei "
+"CivilHub machen kann"
 
-#: civmail/templates/civmail/invite-friends.html:16
+#: civmail/templates/civmail/invite-friends.html:19
 msgid "Terms and Conditions"
 msgstr "Impressum und AGBs"
 
-#: civmail/templates/civmail/invite-friends.html:20
+#: civmail/templates/civmail/invite-friends.html:23
 msgid "Add your friend’s email addresses"
 msgstr "Füge eMail-Adressen deiner Freunde hinzu"
 
-#: civmail/templates/civmail/invite-friends.html:21
+#: civmail/templates/civmail/invite-friends.html:24
 msgid "Separate the adressees with commas"
 msgstr "Adressen getrennt mit Komma"
 
-#: civmail/templates/civmail/invite-friends.html:29
+#: civmail/templates/civmail/invite-friends.html:32
 msgid "Share:"
 msgstr "Teilen"
 
-#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:39
+#: civmail/templates/civmail/invite-users.html:8 civmail/views.py:52
 #: locations/templates/locations/sidebar.html:36
 msgid "Invite people"
 msgstr "Leute einladen"
@@ -957,7 +996,7 @@ msgstr "Adresse addieren"
 msgid "Close"
 msgstr "Schließen"
 
-#: civmail/templates/civmail/message_sent.html:2 civmail/views.py:133
+#: civmail/templates/civmail/message_sent.html:2 civmail/views.py:146
 msgid "Message sent"
 msgstr "Nachricht gesendet"
 
@@ -965,7 +1004,7 @@ msgstr "Nachricht gesendet"
 msgid "Thank you for your feedback!"
 msgstr "Vielen Dank für dein Feedback!"
 
-#: civmail/views.py:34 civmail/views.py:87 locations/views.py:698
+#: civmail/views.py:47 civmail/views.py:100 locations/views.py:698
 msgid "All messages sent successfully"
 msgstr "Alle Nachrichten erfolgreich gesendet"
 
@@ -996,10 +1035,6 @@ msgstr "Kommentar Stimmen"
 #: comments/models.py:111
 msgid "commented task"
 msgstr "Kommentierte Aufgaben"
-
-#: comments/models.py:128
-msgid "commented your {}"
-msgstr "Kommentierte dein {}"
 
 #: comments/templates/comments/commentarea.html:2
 #: comments/templates/comments/commentlist.html:14
@@ -1103,7 +1138,7 @@ msgstr "Aktualisieren"
 
 #: etherpad/templates/etherpad/pad_list.html:17
 #: projects/templates/projects/document_preview.html:9
-#: projects/templates/projects/index.html:59
+#: projects/templates/projects/index.html:60
 msgid "Join the Project"
 msgstr "an dem Projekt"
 
@@ -1376,9 +1411,12 @@ msgstr "Bearbeiter"
 msgid ""
 "Select people permitted to modify this guide. You don't have to include "
 "yourself if you're owner."
-msgstr "Wähle Nutzer die diese Anleitung bearbeiten dürfen. Als Besitzer musst du dich nicht selbst aufnehmen."
+msgstr ""
+"Wähle Nutzer die diese Anleitung bearbeiten dürfen. Als Besitzer musst du "
+"dich nicht selbst aufnehmen."
 
 #: guides/models.py:61 locations/models.py:215 organizations/forms.py:124
+#: organizations/templates/organizations/organization_list.html:19
 #: projects/models.py:76
 msgid "location"
 msgstr "Ort"
@@ -1530,11 +1568,6 @@ msgstr "Stimmen"
 #: places_core/templates/places_core/script-templates.html:179
 msgid "votes"
 msgstr "Stimmen"
-
-#: ideas/models.py:223
-#, python-format
-msgid "voted %s for your idea"
-msgstr "Abgestimmt %s für deine Idee"
 
 #: ideas/serializers.py:24
 msgid "You voted already for this idea"
@@ -1781,7 +1814,9 @@ msgstr "Übergeordnet"
 msgid ""
 "Choose parent location for your place. You can see which place is currently "
 "selected in grey box above."
-msgstr "Wähle übergeordneten Ort. Du siehst den aktuell ausgewählten Ort in der grauen Box drüber."
+msgstr ""
+"Wähle übergeordneten Ort. Du siehst den aktuell ausgewählten Ort in der "
+"grauen Box drüber."
 
 #: locations/forms.py:45
 msgid "You have to choose at least country and region locations"
@@ -1878,7 +1913,10 @@ msgstr "Untergeordnetes"
 msgid "List of children ID's separated with comma"
 msgstr "Liste der Untegeordneten IDs durch Komma getrennt"
 
-#: locations/models.py:205 organizations/forms.py:125
+#: locations/models.py:205
+#: locations/templates/locations/organization_list.html:15
+#: organizations/forms.py:125
+#: organizations/templates/organizations/organization_list.html:23
 msgid "kind"
 msgstr ""
 
@@ -1910,15 +1948,15 @@ msgstr "Die Folgere"
 msgid "Subspaces"
 msgstr "Untegeordnete Orte"
 
-#: locations/templates/locations/index.html:70 locations/views.py:470
+#: locations/templates/locations/index.html:74 locations/views.py:470
 msgid "Edit this location"
 msgstr "Diesen Ort bearbeiten"
 
-#: locations/templates/locations/index.html:71
+#: locations/templates/locations/index.html:75
 msgid "Send message to followers"
 msgstr "Nachricht an Abonnenten schicken"
 
-#: locations/templates/locations/index.html:72
+#: locations/templates/locations/index.html:76
 #: locations/templates/locations/moderator_list.html:3
 msgid "Moderators"
 msgstr "Moderatoren"
@@ -2024,7 +2062,9 @@ msgstr "Neuen Ort<br>anlegen"
 msgid ""
 "For your city, town,<br>neighborhood,<br>village or any other<br>place you "
 "want to."
-msgstr "Für deine Stadt, <br>Ortsteil, Dorf,<br> oder jeden Ort an<br> dem du sein möchtest."
+msgstr ""
+"Für deine Stadt, <br>Ortsteil, Dorf,<br> oder jeden Ort an<br> dem du sein "
+"möchtest."
 
 #: locations/templates/locations/location_detail.html:58
 #: places_core/templates/places_core/footer.html:33
@@ -2088,7 +2128,9 @@ msgstr "Erstelle ein Poster"
 msgid ""
 "Generate a ready to be printed pdf file of this place and hang it in your "
 "block of flats or neighborhood and invite your neighbors to CivilHub."
-msgstr "Erstelle eine PDF zum ausdrucken und verteile sie in der Nachbarschaft um Leute zu CivilHub einzuladen."
+msgstr ""
+"Erstelle eine PDF zum ausdrucken und verteile sie in der Nachbarschaft um "
+"Leute zu CivilHub einzuladen."
 
 #: locations/templates/locations/location_detail.html:82
 msgid "Topics"
@@ -2128,26 +2170,32 @@ msgstr "Ort erstellen"
 msgid ""
 "Check whether the place you want to create exists. Search it by name or "
 "through the map."
-msgstr "Prüfe ob dieser Ort existiert. Suche ihnen auf der Karte oder nach seinem Namen"
+msgstr ""
+"Prüfe ob dieser Ort existiert. Suche ihnen auf der Karte oder nach seinem "
+"Namen"
 
 #: locations/templates/locations/location_form.html:31
 msgid ""
 "Add the place's name. We suggest the official name of your neighborhood, "
 "city."
-msgstr "Füge den Namen des Ortes hinzu. Empfohlen ist der offizielle Namen deiner Nachbarschaft, Stadt, ..."
+msgstr ""
+"Füge den Namen des Ortes hinzu. Empfohlen ist der offizielle Namen deiner "
+"Nachbarschaft, Stadt, ..."
 
 #: locations/templates/locations/location_form.html:32
 msgid ""
 "Choose the 'parent' i.e. specify where your place is located. For example: "
-"the city of New York is located in United States -> Empire State -> New York"
-" City."
-msgstr "Wähle einen übergeordneten Ort. Zum Beispiel Deutschland -> Mecklenburg Vorpommern -> Rostock"
+"the city of New York is located in United States -> Empire State -> New York "
+"City."
+msgstr ""
+"Wähle einen übergeordneten Ort. Zum Beispiel Deutschland -> Mecklenburg "
+"Vorpommern -> Rostock"
 
 #: locations/templates/locations/location_form.html:33
 msgid ""
-"Pinning the place on a map will make it easier for your neighbors to find "
-"it."
-msgstr "Den Ort auf der Karte zu markieren hilft anderen ihn leichter zu finden."
+"Pinning the place on a map will make it easier for your neighbors to find it."
+msgstr ""
+"Den Ort auf der Karte zu markieren hilft anderen ihn leichter zu finden."
 
 #: locations/templates/locations/location_form.html:58
 msgid "Population"
@@ -2164,7 +2212,9 @@ msgstr "Wähle deinen Ort auf der Karte oder click in das Land"
 #: locations/templates/locations/location_form.html:77
 #: locations/templates/locations/location_idea_form.html:22
 msgid "If this entry is about a specific location, you can mark it on the map"
-msgstr "Wenn dieser Beitrag für eine konkrete Gegend ist, dann kannst du diese auf der Karte markieren"
+msgstr ""
+"Wenn dieser Beitrag für eine konkrete Gegend ist, dann kannst du diese auf "
+"der Karte markieren"
 
 #: locations/templates/locations/location_form.html:105
 msgid "Create new location"
@@ -2210,7 +2260,9 @@ msgstr "Erschaffe eine Diskussion in"
 #: locations/templates/locations/location_forum_create.html:17
 msgid ""
 "If this discussion is about a specific location, you can mark it on the map"
-msgstr "Wenn diese Diskussion über eine konkrete Gegend ist, kannst du sie auf der Karte markieren"
+msgstr ""
+"Wenn diese Diskussion über eine konkrete Gegend ist, kannst du sie auf der "
+"Karte markieren"
 
 #: locations/templates/locations/location_idea_form.html:18
 msgid "Write idea in"
@@ -2518,7 +2570,9 @@ msgstr "Liste aller untergeordneten Orte zu diesem Ort"
 msgid ""
 "Act not only globally, but also on local community like small city, blocks "
 "of flats or estates."
-msgstr "Handle nicht nur global, sondern auch in lokalen Communities z.B. in einer kleinen Stadt, einem Wohnblock, oder einen Neubauviertel."
+msgstr ""
+"Handle nicht nur global, sondern auch in lokalen Communities z.B. in einer "
+"kleinen Stadt, einem Wohnblock, oder einen Neubauviertel."
 
 #: locations/views.py:122 locations/views.py:149
 msgid "Create new idea"
@@ -2653,6 +2707,24 @@ msgstr "Benachrichtigung"
 msgid "notifications"
 msgstr "Benachrichtigungen"
 
+#: notifications/serializers.py:45
+#, fuzzy
+#| msgid "commented your {}"
+msgid "commented your"
+msgstr "Kommentierte dein {}"
+
+#: notifications/serializers.py:48
+#, fuzzy
+#| msgid "voted %s for your idea"
+msgid "voted up for your idea"
+msgstr "Abgestimmt %s für deine Idee"
+
+#: notifications/serializers.py:50
+#, fuzzy
+#| msgid "voted %s for your idea"
+msgid "voted down for your idea"
+msgstr "Abgestimmt %s für deine Idee"
+
 #: organizations/actions.py:16
 msgid "joined"
 msgstr "beigetreten"
@@ -2662,6 +2734,7 @@ msgid "Invalid user emails: "
 msgstr "Ungültige Nutzer eMails:"
 
 #: organizations/forms.py:120
+#: organizations/templates/organizations/organization_list.html:13
 msgid "country"
 msgstr "Land"
 
@@ -2791,16 +2864,18 @@ msgstr "Der Name deiner Organisation"
 
 #: organizations/templates/organizations/organization_form.html:9
 msgid ""
-"Choose a category, i.e. clarify if you are adding a City Hall, Foundation or"
-" an Association"
+"Choose a category, i.e. clarify if you are adding a City Hall, Foundation or "
+"an Association"
 msgstr "Wähle eine Kategory z.B. Partei, Verein oder Gruppierung"
 
 #: organizations/templates/organizations/organization_form.html:10
 msgid ""
 "Add some information about your organization in the description box. Write "
-"what your organization does, what is its goal, you can write a short history"
-" or anything you think fits a description."
-msgstr "Gib ein paar Informationen zu der Organisation an. Schreib was sie macht, welche Ziele sie verfolgt, wie sie entstanden ist usw."
+"what your organization does, what is its goal, you can write a short history "
+"or anything you think fits a description."
+msgstr ""
+"Gib ein paar Informationen zu der Organisation an. Schreib was sie macht, "
+"welche Ziele sie verfolgt, wie sie entstanden ist usw."
 
 #: organizations/templates/organizations/organization_form.html:11
 msgid "Write the DUNS number (or its equivalent in your country)."
@@ -2810,13 +2885,16 @@ msgstr "Schreibe die Vereinsnummer / DUNS (spez. für dein Land)"
 msgid ""
 "Fill in some additional information about your organization so it is easier "
 "to conact you (an email and a website address if you have one)."
-msgstr "Gibt weitere Informationen zu Kontaktmöglichkeiten z.B. eMail, Webseite, ..."
+msgstr ""
+"Gibt weitere Informationen zu Kontaktmöglichkeiten z.B. eMail, Webseite, ..."
 
 #: organizations/templates/organizations/organization_form.html:13
 msgid ""
 "Finally, submit a Logo of your organization and add tags so that people can "
 "find you."
-msgstr "Zu guter Letzt wähle ein Logo und Schlüsselwörter für deone Organisation, damit andere sie leichter finden können."
+msgstr ""
+"Zu guter Letzt wähle ein Logo und Schlüsselwörter für deone Organisation, "
+"damit andere sie leichter finden können."
 
 #: organizations/templates/organizations/organization_form.html:14
 msgid "Click"
@@ -3174,6 +3252,7 @@ msgstr "Losung"
 #: staticpages/templates/staticpages/pages/home-j.html:448
 #: staticpages/templates/staticpages/pages/home.html:36
 #: staticpages/templates/staticpages/pages/register.html:26
+#: userspace/templates/userspace/fb-login-required.html:72
 #: userspace/templates/userspace/login.html:31
 #: userspace/templates/userspace/register.html:19
 msgid "Login"
@@ -3424,7 +3503,9 @@ msgstr "Add die Antwort"
 
 #: polls/templates/polls/poll-details.html:49
 msgid "You have already voted for this poll. You can't vote again."
-msgstr "Do hast an diese Umfrage gestimmen früher. Du kannst nicht stimmen noch einmal."
+msgstr ""
+"Do hast an diese Umfrage gestimmen früher. Du kannst nicht stimmen noch "
+"einmal."
 
 #: polls/templates/polls/poll-details.html:50
 msgid "See results"
@@ -3495,7 +3576,7 @@ msgstr "Du bist nicht angemeldet"
 msgid "You don't have permission to do that"
 msgstr "Du hast  nicht die Berechtigungen um das zu tun"
 
-#: projects/forms.py:199
+#: projects/forms.py:208
 #, python-format
 msgid "File is too big (%d MB)"
 msgstr "Datei ist zu groß (%d MB)"
@@ -3536,7 +3617,7 @@ msgstr "Zeitlimit"
 msgid "task"
 msgstr "Aufgabe"
 
-#: projects/models.py:183
+#: projects/models.py:183 projects/models.py:282
 msgid "tasks"
 msgstr "Aufgaben"
 
@@ -3568,6 +3649,24 @@ msgstr "Forenbeiträge"
 msgid "file"
 msgstr "Datei"
 
+#: projects/templates/projects/attachment_list.html:5
+#, fuzzy
+#| msgid "edited"
+msgid "edit"
+msgstr "bearbeitet"
+
+#: projects/templates/projects/attachment_list.html:7
+#, fuzzy
+#| msgid "Undelete"
+msgid "delete"
+msgstr "Wiederherstellen"
+
+#: projects/templates/projects/attachment_list.html:11
+#, fuzzy
+#| msgid "pad"
+msgid "add"
+msgstr "Pad"
+
 #: projects/templates/projects/document_preview.html:6
 msgid "Download this pad in doc"
 msgstr "Dies Pad als doc herunterladen"
@@ -3585,21 +3684,21 @@ msgstr "Neue Gallerie anlegen"
 msgid "Galleries List"
 msgstr "Gallerien-Liste"
 
-#: projects/templates/projects/index.html:56
+#: projects/templates/projects/index.html:57
 #: projects/templates/projects/navbar.html:27
 msgid "Leave the Project"
 msgstr "Das Projekt verlassen"
 
-#: projects/templates/projects/index.html:62
+#: projects/templates/projects/index.html:63
 #: staticpages/templates/staticpages/pages/home-d.html:21
 msgid "Log in"
 msgstr "Anmelden"
 
-#: projects/templates/projects/index.html:62
+#: projects/templates/projects/index.html:63
 msgid "if you want to join this project"
 msgstr "wenn du dem Projekt beitreten willst"
 
-#: projects/templates/projects/index.html:65
+#: projects/templates/projects/index.html:66
 msgid "Project Participants"
 msgstr "die Teilnehmer an dem Projekt"
 
@@ -3622,6 +3721,7 @@ msgid "Galleries"
 msgstr "Gallerien"
 
 #: projects/templates/projects/navbar.html:20
+#: projects/templates/projects/socialproject_detail.html:103
 msgid "Attachments"
 msgstr "Anhänge"
 
@@ -3701,7 +3801,7 @@ msgid "Task participants"
 msgstr "Helfer bei Aufgabe"
 
 #: projects/templates/projects/socialproject_detail.html:99
-#: projects/templates/projects/socialproject_detail.html:123
+#: projects/templates/projects/socialproject_detail.html:125
 msgid "Leave"
 msgstr "Verlassen"
 
@@ -3716,9 +3816,11 @@ msgstr "Projekt Erstellung"
 
 #: projects/templates/projects/socialproject_form.html:11
 msgid ""
-"The goal of a project is to implement previously created ideas, however, you"
-" can always start a project from scratch."
-msgstr "Das Ziel eines Projektes ist es, die zuvor erstellten Ideen zu realisieren. Du kannst natürlich auch immer ein Projekt einfach von Null anfangen."
+"The goal of a project is to implement previously created ideas, however, you "
+"can always start a project from scratch."
+msgstr ""
+"Das Ziel eines Projektes ist es, die zuvor erstellten Ideen zu realisieren. "
+"Du kannst natürlich auch immer ein Projekt einfach von Null anfangen."
 
 #: projects/templates/projects/socialproject_form.html:12
 msgid "Supply the most thorough description possible"
@@ -3726,7 +3828,8 @@ msgstr "Gib eine möglichst passende Beschreibung"
 
 #: projects/templates/projects/socialproject_form.html:13
 msgid "Pin the project on the map if the project is about a concrete place."
-msgstr "Verorte das Projekt auf der Karte, wenn es ein ganz bestimmtes Areal betrifft"
+msgstr ""
+"Verorte das Projekt auf der Karte, wenn es ein ganz bestimmtes Areal betrifft"
 
 #: projects/templates/projects/socialproject_form.html:20
 #: projects/templates/projects/socialproject_list.html:5
@@ -3750,7 +3853,7 @@ msgstr "Neue Aufgabe anlegen"
 msgid "Create new group"
 msgstr "Neue Gruppe anlegen"
 
-#: projects/views/attachments.py:97
+#: projects/views/attachments.py:104
 msgid "Files uploaded"
 msgstr "Dateien hochgeladen"
 
@@ -3867,7 +3970,9 @@ msgstr "Zurück nach Home Page"
 msgid ""
 "CivilHub is a space,<br />where we can act together<br />to make our local "
 "environment a better place"
-msgstr "CivilHub ist ein Platz,<br />an dem wir zusammen anpacken<br />um unser Umfeld zu verbessern."
+msgstr ""
+"CivilHub ist ein Platz,<br />an dem wir zusammen anpacken<br />um unser "
+"Umfeld zu verbessern."
 
 #: staticpages/templates/staticpages/pages/home-b.html:41
 msgid "Your email address"
@@ -3970,7 +4075,8 @@ msgstr "Datenschutzbestimmungen"
 
 #: staticpages/templates/staticpages/pages/home-c.html:122
 msgid "We believe that people have the<br />power to <b>change the World</b>."
-msgstr "Wir glauben, dass Leute<br />die Macht haben<br />die Welt zu verändern"
+msgstr ""
+"Wir glauben, dass Leute<br />die Macht haben<br />die Welt zu verändern"
 
 #: staticpages/templates/staticpages/pages/home-c.html:123
 msgid "founder CivilHub.org"
@@ -4000,9 +4106,11 @@ msgstr "Zusammenarbeiten mit Menschen"
 
 #: staticpages/templates/staticpages/pages/home-c.html:141
 msgid ""
-"Great collaboration starts with communication. We always want to know what's"
-" happening near us."
-msgstr "Gute Zusammenarbeit beginnt mit Kommunikation. Wir wollen immer wissen was um uns herum passiert."
+"Great collaboration starts with communication. We always want to know what's "
+"happening near us."
+msgstr ""
+"Gute Zusammenarbeit beginnt mit Kommunikation. Wir wollen immer wissen was "
+"um uns herum passiert."
 
 #: staticpages/templates/staticpages/pages/home-c.html:145
 msgid "Share your ideas"
@@ -4012,7 +4120,9 @@ msgstr "Teile deine Ideen"
 msgid ""
 "People always know what has to be changed in their own community. Don't be "
 "indifferent, tell the others what you think."
-msgstr "Menschen wissen immer was in ihrem Umfeld dringend geändert werden sollte. Sei nicht gleichgültig, sag anderen was du denkst."
+msgstr ""
+"Menschen wissen immer was in ihrem Umfeld dringend geändert werden sollte. "
+"Sei nicht gleichgültig, sag anderen was du denkst."
 
 #: staticpages/templates/staticpages/pages/home-c.html:151
 msgid "Create local polls"
@@ -4022,7 +4132,9 @@ msgstr "Erstelle lokale Umfragen"
 msgid ""
 "Find out what others think about proposed changes you propose. In such "
 "context crowd is right."
-msgstr "Finde heraus, was anderen über deine vorgeschlagene Änderungen denken. Da hat die Masse ja vielleicht recht."
+msgstr ""
+"Finde heraus, was anderen über deine vorgeschlagene Änderungen denken. Da "
+"hat die Masse ja vielleicht recht."
 
 #: staticpages/templates/staticpages/pages/home-c.html:156
 msgid "Start local projects"
@@ -4032,7 +4144,9 @@ msgstr "Starte lokale Projekte"
 msgid ""
 "Breathe life to your ideas, starting with joint local civic initiatives. "
 "Together we can do anything we want."
-msgstr "Hauch deinen Ideen leben ein und initiere lokale Initiativen. Zusammen können wir alles schaffen."
+msgstr ""
+"Hauch deinen Ideen leben ein und initiere lokale Initiativen. Zusammen "
+"können wir alles schaffen."
 
 #: staticpages/templates/staticpages/pages/home-c.html:161
 msgid "Share your knowledge"
@@ -4042,7 +4156,9 @@ msgstr "Teile dein Wissen"
 msgid ""
 "Together we know more about the places where we live. Let us share this "
 "knowledge to make the world a better place."
-msgstr "Zusammen wissen wir mehr über die Orte an denen wir leben. Lass uns an diesem Wissen teilhaben, um die Welt besser zu machen."
+msgstr ""
+"Zusammen wissen wir mehr über die Orte an denen wir leben. Lass uns an "
+"diesem Wissen teilhaben, um die Welt besser zu machen."
 
 #: staticpages/templates/staticpages/pages/home-c.html:172
 msgid "Be proud of the Place, where you live"
@@ -4062,9 +4178,11 @@ msgstr "Alles ist kostenlos. Immer!"
 
 #: staticpages/templates/staticpages/pages/home-c.html:186
 msgid ""
-"We want everyone to use modern tools for collaboration in local communities."
-" Apps must be free, modern and simple."
-msgstr "Wir möchten, dass lokale Communities moderne Werkzeuge nutzen können. Apps müssen frei, modern und einfach sein."
+"We want everyone to use modern tools for collaboration in local communities. "
+"Apps must be free, modern and simple."
+msgstr ""
+"Wir möchten, dass lokale Communities moderne Werkzeuge nutzen können. Apps "
+"müssen frei, modern und einfach sein."
 
 #: staticpages/templates/staticpages/pages/home-c.html:193
 msgid "Dedicate pages for your place"
@@ -4074,7 +4192,9 @@ msgstr "Einzelne Seiten für deinen Ort"
 msgid ""
 "Each location, city, district, neighborhood, village, may have their own "
 "dedicated place where cooperate to make it better."
-msgstr "Jeder Ort, Stadt, Ortsteil, Nachbarschaft, Dorf kann seinen eigenen Platz haben, an dem man zusammen wirken kann, um ihn zu verbessern."
+msgstr ""
+"Jeder Ort, Stadt, Ortsteil, Nachbarschaft, Dorf kann seinen eigenen Platz "
+"haben, an dem man zusammen wirken kann, um ihn zu verbessern."
 
 #: staticpages/templates/staticpages/pages/home-c.html:201
 msgid "Public access to content"
@@ -4084,7 +4204,9 @@ msgstr "Freier Zugang zu den Inhalten"
 msgid ""
 "There is nothing to be ashamed of. Each activity on the site is publicly "
 "available. See what your neighbor think about your proposal."
-msgstr "Man muss sich nicht verstecken. Alle Aktivitäten auf der Seite sind öffentlich einsehbar. Schau, was deine Nachbarn über deinen Vorschlag denken."
+msgstr ""
+"Man muss sich nicht verstecken. Alle Aktivitäten auf der Seite sind "
+"öffentlich einsehbar. Schau, was deine Nachbarn über deinen Vorschlag denken."
 
 #: staticpages/templates/staticpages/pages/home-c.html:218
 msgid "Everything what you do, you can point it on the Map"
@@ -4092,7 +4214,8 @@ msgstr "Alles kann auf einer Karte vermerkt werden"
 
 #: staticpages/templates/staticpages/pages/home-c.html:219
 msgid "Ideas, Discussions, Polls pointed in specific places."
-msgstr "Ideen, Diskussionene, Umfragen können gezielt zu Orten zugeordnet werden."
+msgstr ""
+"Ideen, Diskussionene, Umfragen können gezielt zu Orten zugeordnet werden."
 
 #: staticpages/templates/staticpages/pages/home-c.html:239
 msgid "Mobile access to all content from anywhere"
@@ -4102,7 +4225,9 @@ msgstr "Mobiler zugang zu allen Inhalten von überall"
 msgid ""
 "Coming to work, or in your free time, directly from your phone you can "
 "decide whether you are for or against ideas, proposed by those around you."
-msgstr "Ob auf Arbeit oder in deiner Freizeit, direkt vom Smartphone kannst du über Ideen abstimmen, die Leute wie du vorschlagen."
+msgstr ""
+"Ob auf Arbeit oder in deiner Freizeit, direkt vom Smartphone kannst du über "
+"Ideen abstimmen, die Leute wie du vorschlagen."
 
 #: staticpages/templates/staticpages/pages/home-d.html:21
 msgid "Register"
@@ -4128,7 +4253,9 @@ msgstr "DIE LEUTE HABEN DIE MACHT"
 msgid ""
 "CivilHub is a place where we can act together<br>to make our local "
 "environment a better place."
-msgstr "CivilHub ist ein Ort, an dem wir zusammenkommen können <br>um unser Umfeld zu verbessern."
+msgstr ""
+"CivilHub ist ein Ort, an dem wir zusammenkommen können <br>um unser Umfeld "
+"zu verbessern."
 
 #: staticpages/templates/staticpages/pages/home-e.html:303
 #: staticpages/templates/staticpages/pages/home-f.html:355
@@ -4207,7 +4334,9 @@ msgstr "Fehler beim Bearbeiten"
 msgid ""
 "If you want to be active in your local community then CivilHub is the right "
 "place."
-msgstr "Wenn du in deiner lokalen Community aktiv werden willst, ist CivilHub der richtige Weg."
+msgstr ""
+"Wenn du in deiner lokalen Community aktiv werden willst, ist CivilHub der "
+"richtige Weg."
 
 #: templates/easy_pdf/invitation.html:58
 msgid "See what happend recently in your neighborhood."
@@ -4223,7 +4352,8 @@ msgstr "Wir verwandeln Ideen zu realen Verbesserungen."
 
 #: templates/easy_pdf/invitation.html:66
 msgid "Chat with people from your surroundings on any topic."
-msgstr "Diskutiere mit den Leuten aus deinem Viertel über alle möglichen Sachen."
+msgstr ""
+"Diskutiere mit den Leuten aus deinem Viertel über alle möglichen Sachen."
 
 #: templates/easy_pdf/invitation.html:68
 msgid "Check what other people think about a given subject."
@@ -4251,7 +4381,9 @@ msgstr "Aktuelle Aktivitäten an abonnierten Orten"
 msgid ""
 "If you don't want to receive such emails, change notification settings in "
 "your user panel."
-msgstr "Falls du solche eMails nicht erhalten möchtest, ändere die Benachrichtigunges-Einstellungen in deinem Nutzereinstellungen."
+msgstr ""
+"Falls du solche eMails nicht erhalten möchtest, ändere die "
+"Benachrichtigunges-Einstellungen in deinem Nutzereinstellungen."
 
 #: templates/emails/activities-body-text.html:3
 msgid "Recent activities from your locations:"
@@ -4287,12 +4419,16 @@ msgstr "hat dich eingeladen bei CivilHub mitzumachen!"
 #: templates/emails/content-body-html.html:179
 msgid ""
 "\"Hey,\n"
-"                                      here's your invite! Come check out my CivilHub when you have a chance. You'll love it!\""
-msgstr "\"Hey,\nhier ist deine Einladung! Schau doch mal in meinem CivilHub bei Gelegenheit vorbei. Das gefällt dir bestimmt!\""
+"                                      here's your invite! Come check out my "
+"CivilHub when you have a chance. You'll love it!\""
+msgstr ""
+"\"Hey,\n"
+"hier ist deine Einladung! Schau doch mal in meinem CivilHub bei Gelegenheit "
+"vorbei. Das gefällt dir bestimmt!\""
 
 #: templates/emails/content-body-html.html:200
 #: templates/emails/content-body-text.html:5
-#: templates/emails/organization-body-html.html:199 userspace/views.py:247
+#: templates/emails/organization-body-html.html:199 userspace/views.py:280
 msgid "Sign Up"
 msgstr "Anloggen"
 
@@ -4300,7 +4436,9 @@ msgstr "Anloggen"
 msgid ""
 "\"Hey, here's your invite! Come check out my CivilHub when you have a "
 "chance. You'll love it!\""
-msgstr "\"Hey, hier ist deine Einladung! Schau doch mal in meinem CivilHub bei Gelegenheit vorbei. Das gefällt dir bestimmt!\""
+msgstr ""
+"\"Hey, hier ist deine Einladung! Schau doch mal in meinem CivilHub bei "
+"Gelegenheit vorbei. Das gefällt dir bestimmt!\""
 
 #: templates/emails/friends-body-html.html:124
 #: templates/emails/friends-body-text.html:5
@@ -4344,7 +4482,9 @@ msgstr "CivilHub-Team"
 msgid ""
 "This message has been sent to you automatically. If you do not want to "
 "receive these messages, make appropriate changes in your account settings."
-msgstr "Diese Nachricht wurde automatisch gesendet, Wenn du diese nicht mehr erhalten willst, ändere dies bitte in deinen Einstellungen."
+msgstr ""
+"Diese Nachricht wurde automatisch gesendet, Wenn du diese nicht mehr "
+"erhalten willst, ändere dies bitte in deinen Einstellungen."
 
 #: templates/emails/friends-body-text.html:8
 msgid "user profile link:"
@@ -4426,13 +4566,17 @@ msgstr "Losung"
 msgid ""
 "We suggest to change that password as soon as possible in your account "
 "settings panel."
-msgstr "Wir empfehlen das Passwort so schnell wie möglich in deinen Nutzereinstellungen zu ändern."
+msgstr ""
+"Wir empfehlen das Passwort so schnell wie möglich in deinen "
+"Nutzereinstellungen zu ändern."
 
 #: templates/emails/password-body-text.html:9
 msgid ""
 "We suggest to change that password as soon as possible in your\n"
 "account settings panel."
-msgstr "Wir empfehlen das Passwort so schnell wie möglich in deinen \nNutzereinstellungen zu ändern."
+msgstr ""
+"Wir empfehlen das Passwort so schnell wie möglich in deinen \n"
+"Nutzereinstellungen zu ändern."
 
 #: templates/emails/password-subject.html:3
 msgid "Password reset request"
@@ -4440,9 +4584,9 @@ msgstr "Passwort zurücksetzen"
 
 #: templates/emails/remind-body-html.html:1
 #: templates/emails/remind-body-text.html:1
-msgid ""
-"We noticed, that you have not been logged in on our page since few days"
-msgstr "Uns ist aufgefallen, dass du dich schon länger nicht mehr angemeldet hattest"
+msgid "We noticed, that you have not been logged in on our page since few days"
+msgstr ""
+"Uns ist aufgefallen, dass du dich schon länger nicht mehr angemeldet hattest"
 
 #: templates/emails/remind-subject.html:1
 msgid "You haven't been logged in since 10 days"
@@ -4456,13 +4600,17 @@ msgstr "Einladen"
 msgid ""
 "We would like to invite you to participate in poll about service "
 "functionality. You can take part by visiting this link:"
-msgstr "Wir möchten dich zu einer Umfrage über unseren Dienst einladen. Folge doch bitte diesem Link:"
+msgstr ""
+"Wir möchten dich zu einer Umfrage über unseren Dienst einladen. Folge doch "
+"bitte diesem Link:"
 
 #: templates/emails/service-body-text.html:3
 msgid ""
 "We would like to invite you to participate in poll about\n"
 "service functionality. You can take part under this link:"
-msgstr "Wir möchten dich zu einer Umfrage über unseren Dienst einladen.\nFolge doch bitte diesem Link:"
+msgstr ""
+"Wir möchten dich zu einer Umfrage über unseren Dienst einladen.\n"
+"Folge doch bitte diesem Link:"
 
 #: templates/emails/service-subject.html:3
 msgid "What you think about us?"
@@ -4478,9 +4626,11 @@ msgstr "Fast geschafft!"
 #: templates/emails/welcome-body-text.html:3
 #, python-format
 msgid ""
-"There's one last step until your account is 100%% ready. We just need you to"
-" activate your account."
-msgstr "Ein allerletzter Schritt für die 100%%: Wir müssen deine Konto noch aktivieren!"
+"There's one last step until your account is 100%% ready. We just need you to "
+"activate your account."
+msgstr ""
+"Ein allerletzter Schritt für die 100%%: Wir müssen deine Konto noch "
+"aktivieren!"
 
 #: templates/emails/welcome-body-html.html:164
 #: templates/emails/welcome-body-text.html:4
@@ -4508,7 +4658,8 @@ msgstr "Konto aktivieren"
 
 #: templates/emails/welcome-body-html.html:184
 msgid "If you have a problem with activating your account, please click here"
-msgstr "Wenn du Probleme beim Aktivieren deines Kontos hast, bitte hier klicken."
+msgstr ""
+"Wenn du Probleme beim Aktivieren deines Kontos hast, bitte hier klicken."
 
 #: templates/postman/base.html:5
 msgid "Messaging"
@@ -4861,7 +5012,8 @@ msgstr "Danke für Civilhub registieren"
 
 #: userspace/templates/userspace/active.html:5
 msgid "Below you can see list of places that may be interesting for you."
-msgstr "Unterhalb kannst du eine Liste von möglicherweise interessanten Orten finden."
+msgstr ""
+"Unterhalb kannst du eine Liste von möglicherweise interessanten Orten finden."
 
 #: userspace/templates/userspace/activity.html:12
 msgid "Your feed"
@@ -4872,8 +5024,14 @@ msgstr "Dein Kanal"
 msgid "Points"
 msgstr "Punkte"
 
+#: userspace/templates/userspace/fb-login-required.html:69
+#, fuzzy
+#| msgid "You have to be logged in to post answers."
+msgid "You have to login with your Facebook account."
+msgstr "Du musst angemeldet sein, um antworten zu können."
+
 #: userspace/templates/userspace/followed-locations.html:2
-#: userspace/views.py:440
+#: userspace/views.py:473
 msgid "My places"
 msgstr "Meine Platze"
 
@@ -4881,7 +5039,7 @@ msgstr "Meine Platze"
 msgid "Profile summary"
 msgstr "Profile Übersicht"
 
-#: userspace/templates/userspace/index.html:63 userspace/views.py:422
+#: userspace/templates/userspace/index.html:63 userspace/views.py:455
 msgid "Change password"
 msgstr "Losung verändern"
 
@@ -4914,7 +5072,10 @@ msgid ""
 "We send an email with new password on address provided by you. It is "
 "strongly suggested to change this password as soon as possible in your "
 "account settings panel."
-msgstr "Wir haben dir eine eMail mit einem neuen Passwort an deine hinterlegte Adresse gesendet. Wir empfehlen dringend dies Passwort nach dem Login wieder schnellstmöglich zu ändern."
+msgstr ""
+"Wir haben dir eine eMail mit einem neuen Passwort an deine hinterlegte "
+"Adresse gesendet. Wir empfehlen dringend dies Passwort nach dem Login wieder "
+"schnellstmöglich zu ändern."
 
 #: userspace/templates/userspace/passremind-form.html:14
 msgid "Reset password"
@@ -4935,20 +5096,29 @@ msgstr "Alles"
 #: userspace/templates/userspace/register-errors.html:5
 msgid ""
 "\n"
-"    Your registration was successfull, but there was an error with sending you\n"
+"    Your registration was successfull, but there was an error with sending "
+"you\n"
 "    email. Copy link provided below and paste it into browsers address bar\n"
 "    to finish registration.\n"
-msgstr "\nDeine Registrierung war erfolgreich, aber es gab ein Problem beim\nSenden der Mail an dich. Kopiere bitte den  folgenden Link und öffne\nihn im Browser um die Registrierung abzuschließen. \n"
+msgstr ""
+"\n"
+"Deine Registrierung war erfolgreich, aber es gab ein Problem beim\n"
+"Senden der Mail an dich. Kopiere bitte den  folgenden Link und öffne\n"
+"ihn im Browser um die Registrierung abzuschließen. \n"
 
 #: userspace/templates/userspace/register-failed.html:5
 msgid "We're sorry, but registration failed. Try again after some time."
-msgstr "Es tut uns leid, aber die Resgistrierung schlug fehl. Bitte probiere es später nochmal."
+msgstr ""
+"Es tut uns leid, aber die Resgistrierung schlug fehl. Bitte probiere es "
+"später nochmal."
 
 #: userspace/templates/userspace/register-success.html:12
 msgid ""
 "Thank you for registration. An email was sent with further instructions on "
 "address provided during registeration process."
-msgstr "Vielen Dank für deine Registrierung. Eine Mail mit weiteren Anweisungen wurde an die hinterlegte Adresse gesendet."
+msgstr ""
+"Vielen Dank für deine Registrierung. Eine Mail mit weiteren Anweisungen "
+"wurde an die hinterlegte Adresse gesendet."
 
 #: userspace/templates/userspace/register.html:27
 msgid "First name"
@@ -4990,30 +5160,30 @@ msgstr "Dienstvereinbarungen"
 msgid "Privacy Police"
 msgstr "Datenschutzrichtlinien"
 
-#: userspace/views.py:120
+#: userspace/views.py:153
 msgid "Set email"
 msgstr "Email senden"
 
-#: userspace/views.py:239
+#: userspace/views.py:272
 msgid "Message send"
 msgstr "Mitteilung gesendet"
 
-#: userspace/views.py:254
+#: userspace/views.py:287
 msgid "Activation link invalid"
 msgstr "Aktivierungslink ungültig"
 
-#: userspace/views.py:296
+#: userspace/views.py:329
 msgid "Set your password"
 msgstr "Schreibe Deine Losung"
 
-#: userspace/views.py:413
+#: userspace/views.py:446
 msgid "Settings saved"
 msgstr "Einstellungen gespeichert"
 
-#: userspace/views.py:416
+#: userspace/views.py:449
 msgid "Your current password is invalid."
 msgstr "Dein aktuelles Passwort ist ungültig"
 
-#: userspace/views.py:419
+#: userspace/views.py:452
 msgid "Form invalid"
 msgstr "Formular ungültig"

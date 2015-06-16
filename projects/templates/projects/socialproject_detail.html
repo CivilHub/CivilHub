@@ -1,6 +1,6 @@
 {% extends 'projects/index.html' %}{% load i18n staticfiles civil_tags comment_tags counters %}
-{% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/projects-details.js"></script>{% endblock %}
-{% block location_navbar %} 
+{% block require_scripts %}<script src="{% module_path 'projects-details' %}"></script>{% endblock %}
+{% block location_navbar %}
   <div class="socialproject-detail-nav">{% include 'projects/navbar.html' %}</div>
 {% endblock %}
 {% block content %}
@@ -99,22 +99,25 @@
               {% if user in active_task.participants.all %}<button type="submit" class="btn-greenBig">{% trans "Leave" %}</button></div>
               {% else %}<button type="submit" class="btn-greenBig">{% trans "Join" %}</button></div>{% endif %}
             </form>{% endif %}
+            {% if active_task.attachments.count %}<div>
+              <p class="mb0">{% trans "Attachments" %}</p>
+              <ul>{% for attachment in active_task.attachments.all %}
+                <li><a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a></li>
+              {% endfor %}</ul>
+            </div>{% endif %}
+            <p><a href="{% url 'projects:attachment-task-upload' object.slug active_task.pk %}">{% trans "upload"|capfirst %}</a></p>
           </div>
         </div>{% endif %}
       </div><!-- ./ .task-Container-right -->
-      {% if active_task %}{% with active_task|content_type as ctype %}<div class="task-comments-right">
+      {% if active_task %}<div class="task-comments-right">
       <div class="customEntry-comments">
         <p>
           {% trans "Comments" %}: <span class="comment-count">{% get_comment_count active_task %}</span>
           <a class="comment-toggle custom-comments-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
         </p>
-      </div>
-      <input type="hidden" id="target-id" value="{{ active_task.pk }}" />
-      <input type="hidden" id="target-label" value="projects" />
-      <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
-      {% include 'comments/commentlist.html' %}{% endwith %}{% endif %}
+      </div>{% commentarea active_task %}{% endif %}
     </div>
-  </div> 
+  </div>
   {% if user in active_task.participants.all %}
   <div><span class="submenu-toggle mt0"></span></div>
   <div class="entry-submenu">

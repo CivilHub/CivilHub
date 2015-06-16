@@ -56,7 +56,7 @@ class FacebookFriendList(CivilUserMixin, View):
         context = super(FacebookFriendList, self).get_context_data()
         fb_users = UserSocialAuth.objects.filter(provider='facebook')
         friends = [x.user for x in fb_users if x.extra_data['id'] in id_list]
-        context.update({'object_list': friends, })
+        context.update({'object_list': friends, 'fb_list': True, })
         return context
 
     def get(self, request, **kwargs):
