@@ -17,9 +17,18 @@ from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from notifications.models import notify
 from places_core.helpers import get_time_difference
 
 from .serializers import ActionSerializer
+
+
+def new_follower(follower, target_user):
+    if follower == target_user:
+        return False
+    notify(follower, target_user,
+        key="follower",
+        verb="started following you")
 
 
 class ActionGraphAPIView(APIView):
@@ -156,7 +165,7 @@ class FollowObjectView(APIView):
 
     def post(self, request):
         self.instance = self.get_object()
-        instance_name = self.instance._meta.verbose_name.lower()
+        instance_name = self.instance._meta.model_name
 
         if not self.instance in following(request.user):
             try:
@@ -169,6 +178,8 @@ class FollowObjectView(APIView):
                 return Response({'success': False, 'message': str(e)})
             if instance_name == 'location':
                 self.instance.users.add(request.user)
+            elif instance_name == 'user':
+                new_follower(request.user, self.instance)
         else:
             unfollow(request.user, self.instance)
             msg = _(u"You are no longer following this %s" % instance_name)
@@ -191,7 +202,8 @@ class FollowAllAPIView(APIView):
         id_list = [int(x.strip()) for x in request.POST.get('id').split(',')]
         for user in User.objects.filter(id__in=id_list):
             if not user in following(request.user):
-                follow(request.user, user)
+                follow(request.user, user, send_action=False)
+                new_follower(request.user, user)
         message = _(u"You have started following your friends!")
         return Response({
             'success': True,
