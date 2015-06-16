@@ -210,7 +210,7 @@ HAYSTACK_CONNECTIONS = {
 #-------------------------------------------------------------------------------
 POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_AUTO_MODERATE_AS = True
-POSTMAN_DISABLE_USER_EMAILING = True
+POSTMAN_DISABLE_USER_EMAILING = False
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
 POSTMAN_SHOW_USER_AS = lambda u: u.get_full_name()
 
