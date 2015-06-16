@@ -1,0 +1,516 @@
+/*
+* For City Administration Page,
+* Page include in admin panel via article,( @import '/static/places_core/css/staticpages/for_city_administration-page.min.css' )
+* for_city_administration-page.min.css located in /css/staticpages/.
+*/
+
+/*for city administration */
+@for_city_administration_bg_people: url(https://civilhub.org/media/filer_public/40/f7/40f7a45d-4696-4edf-a5ee-ab4b44c8e968/pl_urzedy_slide1.png);
+@for_city_administration_bg_slide2: url(https://civilhub.org/media/filer_public/37/30/3730626e-1b69-4507-86bf-c1528344526a/pl_urzedy_slide2.png);
+@for_city_administration_bg_slide4_5: url(https://civilhub.org/media/filer_public/54/36/5436c65b-5be6-4775-aff7-ccf8dfa35765/pl_urzedy_slide5.png);
+@for_city_administration_bg_slide5: url(https://civilhub.org/media/filer_public/35/65/3565ebd0-65bf-4216-ac11-bd0f8fb1ef07/pl_urzedy_slide6.png);
+@for_city_administration_bg_slide6: url(https://civilhub.org/media/filer_public/46/43/46438f5f-be9f-413e-883d-508a11dcdafd/pl_urzedy_slide7.png);
+
+/*for city administration @2x Retina*/
+@for_city_administration_bg_people_retina: url(https://civilhub.org/media/filer_public/d4/39/d4393158-dac5-4346-af3f-19c983f85495/pl_urzedy_slide12x.png);
+@for_city_administration_bg_slide2_retina: url(https://civilhub.org/media/filer_public/7d/23/7d239919-3446-4390-bcd6-e52ec9eb3558/pl_urzedy_slide22x.png);
+@for_city_administration_bg_slide4_5_retina: url(https://civilhub.org/media/filer_public/93/16/9316179c-5652-4e0a-8a7e-bc8460346ba5/pl_urzedy_slide52x.png);
+@for_city_administration_bg_slide5_retina: url(https://civilhub.org/media/filer_public/ba/ca/bacac810-0c71-469f-9281-a12784e08f6b/pl_urzedy_slide62x.png);
+@for_city_administration_bg_slide6_retina: url(https://civilhub.org/media/filer_public/b5/59/b5595f4f-7477-473b-bca3-b623b0954e9d/pl_urzedy_slide72x.png);
+
+/*en for city administration */
+@en_for_city_administration_bg_people: url(https://civilhub.org/media/filer_public/fd/70/fd70bfb7-26e8-4b67-9f94-dba7fa22f3b0/en_urzedy_slide1.png);
+@en_for_city_administration_bg_slide2: url(https://civilhub.org/media/filer_public/6c/4e/6c4e85a5-1034-406f-ae08-315072160d1d/en_urzedy_slide2.png);
+@en_for_city_administration_bg_slide4_5: url(https://civilhub.org/media/filer_public/81/0d/810d94ee-c818-4c52-af9d-772b4d8e55af/en_urzedy_slide5.png);
+@en_for_city_administration_bg_slide5: url(https://civilhub.org/media/filer_public/8c/ec/8cec28ca-704c-44ef-bd17-bae32b2f1343/en_urzedy_slide6.png);
+@en_for_city_administration_bg_slide6: url(https://civilhub.org/media/filer_public/d3/eb/d3eb8a6c-19ab-432a-a3c4-f41a3c475455/en_urzedy_slide7.png);
+
+/*en for city administration @2x Retina*/
+@en_for_city_administration_bg_people_retina: url(https://civilhub.org/media/filer_public/ba/88/ba889cce-3b57-486d-b368-61ffddd5bf40/en_urzedy_slide12x.png);
+@en_for_city_administration_bg_slide2_retina: url(https://civilhub.org/media/filer_public/13/8f/138f6cd4-7300-4f9c-84e9-b94eeaba2b53/en_urzedy_slide22x.png);
+@en_for_city_administration_bg_slide4_5_retina: url(https://civilhub.org/media/filer_public/18/1c/181cb26f-7246-4bff-898b-1233ab1a8402/en_urzedy_slide52x.png);
+@en_for_city_administration_bg_slide5_retina: url(https://civilhub.org/media/filer_public/68/8b/688bf8dc-7903-40a0-b823-88a676cc4ab6/en_urzedy_slide62x.png);
+@en_for_city_administration_bg_slide6_retina: url(https://civilhub.org/media/filer_public/7d/97/7d9726b3-09bc-4530-bfbe-4535d5341014/en_urzedy_slide72x.png);
+
+@for_organizations_bg_slide3: url(https://civilhub.org/media/filer_public/cf/4e/cf4e2582-4654-4590-9d28-a6313ea300aa/pl_org_slide_3.png);
+@for_organizations_bg_slide3_retina: url(https://civilhub.org/media/filer_public/43/0d/430d1b1b-b2b4-4080-aca8-f7e4a8e5e631/pl_org_slide_32x.png);
+@en_for_organizations_bg_slide3: url(https://civilhub.org/media/filer_public/d6/87/d687acba-09ad-4dd4-9725-84acc60715de/en_org_slide_3.png);
+@en_for_organizations_bg_slide3_retina: url(https://civilhub.org/media/filer_public/62/66/62660a65-63ca-4c05-8490-34e8765f6e3b/en_org_slide_32x.png);
+@for_organizations_bg_slide4: url(https://civilhub.org/media/filer_public/bd/f5/bdf5d8de-597c-4ea6-acec-ed125c24abb0/pl_org_slide_4.png);
+@for_organizations_bg_slide4_retina: url(https://civilhub.org/media/filer_public/1c/fd/1cfd6de6-c69a-4270-8d62-0430c59ed4e6/pl_org_slide_42x.png);
+@en_for_organizations_bg_slide4: url(https://civilhub.org/media/filer_public/68/84/68849df6-f8c6-46ba-b25b-e6279d96a443/en_org_slide_4.png);
+@en_for_organizations_bg_slide4_retina: url(https://civilhub.org/media/filer_public/00/2e/002e706a-00a4-4a73-811c-a94725c078f4/en_org_slide_42x.png);
+@for_organizations_bg_slide7: url(https://civilhub.org/media/filer_public/e9/b9/e9b97c46-9bee-423e-a62a-6e688546b2c1/pl_org_slide_7.png);
+@for_organizations_bg_slide7_retina: url(https://civilhub.org/media/filer_public/44/92/4492044f-2416-40de-839e-b38f8ba0918e/pl_org_slide_72x.png);
+@en_for_organizations_bg_slide7: url(https://civilhub.org/media/filer_public/cc/2f/cc2f1119-d8ec-4ca8-ba8e-400cda41e0d5/en_org_slide_7.png);
+@en_for_organizations_bg_slide7_retina: url(https://civilhub.org/media/filer_public/3d/0e/3d0e955f-ac93-4357-bc23-27c786c7db28/en_org_slide_72x.png);
+@bg_slide7: url(https://civilhub.org/media/filer_public/db/d0/dbd057b7-1308-4a25-a1f0-3b7b02bbbf4d/pl_slide_7.png);
+@bg_slide7_retina: url(https://civilhub.org/media/filer_public/fb/d6/fbd68e08-1c6a-4d8c-98ba-37c1be7c1787/pl_slide_72x.png);
+@bg_slide7_en: url(https://civilhub.org/media/filer_public/9a/17/9a17d82e-8690-46c7-97ff-ebb4a9960e16/en_slide_7.png);
+@bg_slide7_en_retina: url(https://civilhub.org/media/filer_public/56/00/560052cf-5110-4844-b809-aa117d1df20f/en_slide_72x.png);
+@for_organizations_bg_slide9: url(https://civilhub.org/media/filer_public/43/e6/43e6d6d1-a824-4802-9ae5-8b509c47e2e4/pl_org_slide_9.png);
+@for_organizations_bg_slide9_retina: url(https://civilhub.org/media/filer_public/5d/95/5d95e319-5a8a-42c5-a32e-e129f62bcd9d/pl_org_slide_92x.png);
+@en_for_organizations_bg_slide9: url(https://civilhub.org/media/filer_public/d6/65/d665a8dc-2dc3-446e-9367-1b8fd6c58f30/en_org_slide_9.png);
+@en_for_organizations_bg_slide9_retina: url(https://civilhub.org/media/filer_public/e3/6f/e36f34d8-ec0e-478b-9f88-ab6ef54faee2/en_org_slide_92x.png);
+
+
+#for_city_administration{
+  .for_organizations-text-center-mobile{
+    @media(max-width: 991px){ text-align: center; }
+  }
+}
+
+.for_organizations-container{
+  h1{
+    color: #3c3c3c;
+    font-size: 50px;
+    line-height: 54px;
+    font-weight: 300;
+  }
+  p{
+    color: #666666;
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+.for_city_administration-s1{
+  padding: 30px 0;
+  max-height: 465px;
+  h1{
+    margin-bottom: 25px;
+    @media(max-width: 991px){ margin-top: 10px; }
+    @media(max-width: 768px){ margin-top: 0px; }
+  }
+  p{
+    max-width: 580px;
+    margin: 0 auto 30px;
+  }
+  a.btn-greenBig{
+    display: inline-block;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 4px 23px;
+    text-decoration: none;
+  }
+  > .col-sm-6:first-child{
+    >div{
+      padding: 9.5% 0;
+      @media(max-width: 991px){ padding: 0; }
+      @media(max-width: 768px){
+        display: inline-block;
+        width: 100%;
+        text-decoration: none;
+      }
+    }
+  }
+  .for_city_administration_bg-people{
+    padding-bottom: 68%;
+    margin-left: -15px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: @for_city_administration_bg_people;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_city_administration_bg_people_retina; }
+    @media(max-width: 991px){
+      padding-bottom: 69%;
+      margin-top: 10px;
+    }
+    @media(max-widht: 768px){ display: none; }
+  }
+  .en_for_city_administration_bg-people{
+    background-image: @en_for_city_administration_bg_people;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_city_administration_bg_people_retina; }
+  }
+}
+.for_city_administration-s2{
+  max-height: 700px;
+  padding-top: 5.255%;
+  overflow: hidden;
+  h1{ margin-bottom: 25px; }
+  >p{
+    max-width: 580px;
+    margin: 0 auto 30px;
+  }
+  h2{
+    color: #3c3c3c;
+    font-size: 32px;
+    font-weight: 300;
+  }
+  .col-sm-2{
+    padding: 4% 0 0;
+    p{
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
+  @media(max-width: 991px){
+    .col-sm-2{ padding: 0; width: 100%; }
+    .col-sm-10{ width: 100%; }
+  }
+  @media(max-width: 768px){
+    .col-sm-2, .col-sm-10{
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+  }
+  .for_organizations_margin_top{ margin-top: 100px; }
+  .for_city_administration-bg-slide2{
+    padding-bottom: 32%;
+    margin-left: -15px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: @for_city_administration_bg_slide2;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_city_administration_bg_slide2_retina; }
+    @media(max-width: 1200px){ padding-bottom: 33%; }
+  }
+  .en_for_city_administration-bg-slide2{
+    background-image: @en_for_city_administration_bg_slide2;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_city_administration_bg_slide2_retina; }
+  }
+  .for_organizations-s2-right{
+    float: right;
+    margin-right: 12%;
+    bottom: 110px;
+    @media(max-width: 1200px){
+      bottom: 135px;
+      margin-right: 11%;
+    }
+    @media(max-width: 991px){
+      text-align: center;
+      bottom: 185px;
+      margin-right: 0;
+    }
+    @media(max-width: 500px){ bottom: 220px; }
+  }
+}
+.for_organizations-s3{
+  padding: 3.5% 0;
+  h1{ margin-bottom: 25px; }
+  p{
+    max-width: 460px;
+    @media(max-width: 768px){ max-width: none; }
+  }
+  > .col-sm-6:nth-child(2){
+    padding: 8% 0;
+    @media(max-width: 1200px){ padding: 10.5% 0; }
+    @media(max-width: 991px){ padding: 5% 0; }
+    @media(max-width: 768px){ padding: 4% 0; }
+  }
+  .for_organizations-bg-slide3{
+    padding-bottom: 74%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: @for_organizations_bg_slide3;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_organizations_bg_slide3_retina; }
+  }
+  .en_for_organizations-bg-slide3{
+    background-image: @en_for_organizations_bg_slide3;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_organizations_bg_slide3_retina; }
+  }
+}
+.for_organizations-s4{
+  max-height: 400px;
+  h1{ margin-bottom: 25px; }
+  p{
+    max-width: 460px;
+    @media(max-width: 768px){ max-width: none; }
+  }
+  @media(max-width: 768px){ text-align: center; }
+  > .col-sm-6:first-child{
+    padding: 8% 0;
+    @media(max-width: 1200px){ paddin: 10.5% 0; }
+    @media(max-width: 991px){ padding: 7.5% 0; }
+    @media(max-width: 768px){ padding: 4% 0; }
+  }
+  .for_organizations-bg-slide4{
+    padding-bottom: 74%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-image: @for_organizations_bg_slide4;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_organizations_bg_slide4_retina; }
+    @media(max-width: 991px){
+      padding-bottom: 50%;
+      margin-top: 70px;
+    }
+    @media(max-width: 768px){
+      padding-bottom: 60%;
+      margin-top: 0;
+    }
+  }
+  .en_for_organizations-bg-slide4{
+    background-image: @en_for_organizations_bg_slide4;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_organizations_bg_slide4_retina; }
+  }
+}
+.for_city_administration-s4_5{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  > p{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .for_city_administration-bg-slide4_5{
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+    background-image: @for_city_administration_bg_slide4_5;
+    @media(max-width: 991px){ padding-bottom: 30%; }
+    @media(max-width: 768px){ padding-top: 3%; }
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_city_administration_bg_slide4_5_retina; }
+  }
+  .en_for_city_administration-bg-slide4_5{
+    background-image: @en_for_city_administration_bg_slide4_5;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_city_administration_bg_slide4_5_retina; }
+  }
+}
+.for_city_administration-s5{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  >p {
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .for_city_administration-bg-slide5{
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+    background-image: @for_city_administration_bg_slide5;
+    @media(max-width: 991px){ padding-bottom: 30%; }
+    @media(max-width: 768px){ padding-top: 3%; }
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_city_administration_bg_slide5_retina; }
+  }
+  .en_for_city_administration-bg-slide5{
+    background-image: @en_for_city_administration_bg_slide5;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_city_administration_bg_slide5_retina; }
+  }
+  .for_organizations-s5-text-left{
+    text-align: left;
+    float: left;
+    max-width: 45%;
+    margin-top: 1%;
+    margin-left: 1%;
+    @media(max-width: 1200px){ margin-top: -1%; }
+    @media(max-width: 991px){
+      float: none;
+      max-width: 100%;
+    }
+  }
+}
+.for_city_administration-s6{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  > p{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .for_city_administration-bg-slide6{
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+    background-image: @for_city_administration_bg_slide6;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_city_administration_bg_slide6_retina; }
+  }
+  .en_for_city_administration-bg-slide6{
+    background-image: @en_for_city_administration_bg_slide6;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_city_administration_bg_slide6_retina; }
+  }
+}
+.for_organizations-s7{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  > p{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .for_organizations-bg-slide7{
+    margin-top: 4%;
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+    background-image: @for_organizations_bg_slide7;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_organizations_bg_slide7_retina; }
+  }
+  .en_for_organizations-bg-slide7{
+    background-image: @en_for_organizations_bg_slide7;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_organizations_bg_slide7_retina; }
+  }
+}
+.for_organizations-s8{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  > p{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .bg-slide7{
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain;
+    background-image: @bg_slide7;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_slide7_retina; }
+    @media(max-width: 1200px){ padding-top: 6%; }
+    @media(max-width: 991px){ background-image: none; padding-bottom: 0; }
+  }
+  .bg-slide7_en{
+    background-image: @bg_slide7_en;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @bg_slide7_en_retina; }
+  }
+  .for_organizations_more_info{
+    font-weight: bold;
+    padding: 20px 0;
+  }
+  ul{ text-align: center; }
+  li{
+    display: inline-block;
+    list-style: none;
+    margin: 0 10px;
+  }
+  @media(min-width: 992px) and (max-width: 1200px){
+    li{ &:nth-last-child(1){ margin-bottom: -80px; } }
+  }
+  @media(max-width: 991px){
+    li{
+      display: block;
+      margin: 0 0 20px 0;
+    }
+    margin-bottom: 0;
+  }
+  @media(max-width: 768px){ margin-bottom: -10%; }
+}
+.for_organizations-s9{
+  padding-top: 5%;
+  @media(max-width: 768px){ padding: 5% 0 0; }
+  h1{ margin-bottom: 25px; }
+  >p{
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .for_organizations-bg-slide9{
+    padding-bottom: 39%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: @for_organizations_bg_slide9;
+    @media(max-width: 991px){
+      margin-top: 5%;
+      padding-bottom: 30%;
+    }
+    @media(max-width: 768px){ padding-bottom: 23%; }
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @for_organizations_bg_slide9_retina; }
+  }
+  .en_for_organizations-bg-slide9{
+    background-image: @en_for_organizations_bg_slide9;
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi){ background-image: @en_for_organizations_bg_slide9_retina; }
+  }
+}
+.for_organizations-s10{
+  max-height: 465px;
+  margin: 5.64% auto;
+  h1{
+    margin-bottom: 25px;
+    margin-top: 0;
+  }
+  p{
+    max-width: 580px;
+    margin: 0 auto 30px;
+  }
+}
+.for_organizations-s11{
+  padding-top: 3%;
+  h1{ margin-bottom: 25px; }
+  >p{
+    color: #666666;
+    font-size: 20px;
+    line-height: 28px;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .brief-thumb-container{ margin: 50px 0; }
+  .brief-thumb-s10{
+    max-width: 200px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 10px;
+    margin-bottom: 15px;
+    span{
+      font-size: 40px;
+      line-height: 50px;
+    }
+    h3{
+      color: #666666;
+      font-size: 18px;
+      line-height: 26px;
+      font-weight: 700;
+      margin: 0;
+    }
+    p{
+      color: #666666;
+      font-size: 14px;
+      line-height: 21px;
+    }
+  }
+}
+.for_organizations-s12{
+  padding: 4% 0;
+  h1{ margin-bottom: 25px; }
+  p{
+    max-width: 460px;
+    margin: 0 auto 25px; 
+  }
+  a{
+    color: #FFF;
+    font-size: 18px;
+    padding: 4px 23px;
+    text-decoration: none;
+  }
+}
