@@ -25,7 +25,7 @@
           {% postman_unread as unread_count %}
           <li><a href="/messages/inbox/"><span class="fa fa-envelope-o ac-icon20"></span> {% trans "Messages" %} <span class=" pull-right badge badge-green">{% if unread_count %}{{ unread_count }}</span>{% else %} 0 {% endif %}</span></a></li>
           <li><a href="{% url 'user:locations' user.profile.clean_username %}"><span class="small-icon-place ac-icon20"></span> {% trans "Places" %} <span class=" pull-right badge badge-blue">{{ user.profile.followed_locations|length }}</span></a></li>
-          <li><span class="fa fa-heart-o ac-icon20"></span> {% trans "Points" %}: {{ user.profile.rank_pts }}</li>
+          <li><span class="fa fa-heart-o ac-icon20"></span> {% trans "Points" %}: {{ user.profile.rank_pts }} <a href="/points-and-badges/" class="pull-right"><strong><span class="fa fa-question-circle custom-tooltip-bottom f18b" title="{% trans "What do I get points and badges for?" %}"></span></strong></a></li>
         </ul>
       </div>
       <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
