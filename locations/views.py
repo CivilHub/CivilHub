@@ -542,7 +542,7 @@ class LocationContentSearch(View):
                 'location': location,
                 'items'   : items,
                 'tags'    : tags,
-            })
+                'current_tag': tag, })
 
 
 class LocationContentFilter(View):
