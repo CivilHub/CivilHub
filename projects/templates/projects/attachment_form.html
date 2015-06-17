@@ -1,4 +1,5 @@
 {% extends 'projects/index.html' %}{% load i18n %}
+{% block location_navbar %}<div class="socialproject-attachment-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="main-content create-form newFormCreate">
 <h3>{% trans "Add attachment" %}</h3>
   <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
