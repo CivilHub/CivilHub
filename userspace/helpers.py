@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import os, time, hashlib, random, string
+import os, time, hashlib, random, string, urllib
+
+import cStringIO as StringIO
 
 from slugify import slugify
 from itertools import chain
@@ -12,6 +14,7 @@ from django.conf import settings
 from django.utils import translation
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 
 from actstream.models import Action, user_stream
 
@@ -19,6 +22,22 @@ from .models import UserProfile
 
 
 AVATAR_IMG_PATH = os.path.join(settings.MEDIA_ROOT, 'img/avatars')
+DEFAULT_GRAVATAR = "https://civilhub.org/media/img/avatars/anonymous.jpg"
+
+
+def get_gravatar_image(email, https=False):
+    """ Get gravatar image if it is possible from account related to given
+        email address. This function returns byte string with encoded image
+        that may be passed later to PIL or None if no image could be found.
+    """
+    size = 200
+    gravatar_url = "http://www.gravatar.com/avatar/{}?".format(
+                            hashlib.md5(email.lower()).hexdigest())
+    gravatar_url += urllib.urlencode({'d':DEFAULT_GRAVATAR, 's':str(size)})
+    res = urllib.urlopen(gravatar_url)
+    if res.code != 200:
+        return None
+    return Image.open(StringIO.StringIO(res.read()))
 
 
 def create_user_profile(user, **kwargs):
@@ -110,7 +129,7 @@ def create_thumbnail(imgfile, size):
     """
     This function takes existing image file as argument and creates
     thumbnail according to given size, which must be tuple or list containing
-    width and 
+    width and
     """
     pathname = os.path.join(settings.MEDIA_ROOT, 'img/avatars/')
     img = Image.open(os.path.join(pathname, imgfile))
@@ -133,7 +152,7 @@ def avatar_thumbnails(filename):
 #     """
 #     Crop image avatr picture to make it fit into rectangular area. Returns
 #     Django File object.
-    
+
 #     You can pass either python file instance or PIL image instance to this
 #     function.
 #     """
@@ -214,7 +233,7 @@ class UserActionStream(object):
     """
     Generic object for custom user stream. I've tried to use actstream's
     method to achieve similar effects, but it turned to be too problematic.
-    
+
     This class manages user's actions, not his action streams (despite it's
     name). It is included to show and count actions performed by user, related
     to user and his/her profile.
@@ -269,10 +288,10 @@ class UserActionStream(object):
     def get_actions_by_type(self, stream, content_type=None):
         """
         Get only actions related to given content type - e.g. only Ideas.
-        
+
         Previously filtered stream must be provided as mandatory argument.
         This is where we start further filtering.
-        
+
         If 'content_type' is provided in form of 'app_name.model_name' string,
         return only actions related to search item. Otherwise function returns
         all user actions.
@@ -295,11 +314,11 @@ class UserActionStream(object):
         """
         Return django queryset containing list of all actions related
         to user and his/her profile.
-        
+
         If 'content_type' is provided, actions will be filtered to only this
         related to given content type (in form of "app_name.model_name"
         string.
-        
+
         If 'action_type' is provided, actions will be filtered that results
         will only contain actions where user acted as provided actstream
         element (e.g. 'actor', 'object' or 'target').

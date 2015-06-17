@@ -1,0 +1,11 @@
+{% extends 'userspace/index.html' %}{% load i18n %}
+{% block content %}<div class="text-center">
+  <h1>{% trans "Delete account" %}</h1>
+  {% if not demand %}<p class="alert alert-danger">
+    {% trans "Are you sure you want to delete account? Once deleted, you cannot log in again!" %}
+  </p>{% endif %}
+  <form method="post" action="">{% csrf_token %}
+    {% if demand %}<button type="submit" class="btn btn-success">{% trans "reject"|capfirst %}</button>
+    {% else %}<button type="submit" class="btn btn-danger">{% trans "confirm"|capfirst %}</button>{% endif %}
+  </form>
+</div>{% endblock %}

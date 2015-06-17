@@ -115,3 +115,9 @@ class NewFriendEmail(template_mail.TemplateMail):
         inform them that they frind joined Civilhub.
     """
     name = "new_friend"
+
+
+class IdeaStatusEmail(template_mail.TemplateMail):
+    """ Sent to idea's author when it's status changes.
+    """
+    name = "idea_status"
