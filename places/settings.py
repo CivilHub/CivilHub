@@ -336,12 +336,10 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
-    ('es', 'Español (soon)'),
+    ('es', 'Español'),
     ('de', 'Deutsch'),
-    ('pt', 'Português (soon)'),
-    ('fr', 'Français (soon)'),
-    ('it', 'Italiano (soon)'),
-    ('cz', 'Ceština (soon)'),
+    ('pt', 'Português'),
+    ('fr', 'Français'),
 )
 
 
@@ -370,7 +368,7 @@ EMAIL_USE_TLS       = True
 EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
 # Where to redirect contact messages
-CONTACT_EMAIL_ADDRESS = 'grzewarz@gmail.com'
+CONTACT_EMAIL_ADDRESS = 'office@civilhub.org'
 
 # Email settings for testing purposes
 EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
