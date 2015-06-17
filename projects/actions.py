@@ -58,4 +58,4 @@ def leaved_project(user, project):
     """
     Same as above but here we inform other poeple that the user has left the project.
     """
-    action.send(user, verb=_(u"leaved project"), target=project)
+    action.send(user, verb=_(u"left project"), target=project)
