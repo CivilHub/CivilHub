@@ -5,16 +5,18 @@
 // A script that handles the project summary.
 
 require(['jquery',
-         'js/modules/ui/ui'],
+         'js/modules/ui/ui',
+         'js/modules/utils/utils'],
 
-function ($, ui) {
+function ($, ui, utils) {
 
 "use strict";
 
 function toggleTask (e) {
   var $this = $(e.currentTarget);
   var $form = $this.parent('form');
-  $.post($form.attr('action'), null,
+  var data = { csrfmiddlewaretoken: utils.getCookie('csrftoken') };
+  $.post($form.attr('action'), data,
     function (response) {
       ui.message.success(response.message);
     }

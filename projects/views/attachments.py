@@ -6,14 +6,14 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.views.generic import View
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 
 from places_core.mixins import LoginRequiredMixin
 from places_core.permissions import is_moderator
 
-from ..forms import AttachmentUploadForm
-from ..models import Attachment, SocialProject
+from ..forms import AttachmentUploadForm, AttachmentTaskForm
+from ..models import Attachment, SocialProject, Task
 from ..permissions import check_access
 
 
@@ -56,8 +56,7 @@ class AttachmentListView(SingleObjectMixin, View):
         context = super(AttachmentListView, self).get_context_data(**kwargs)
         context.update({
             'location': self.object.location,
-            'is_moderator': is_moderator(self.request.user,
-                                         self.object.location),
+            'is_moderator': is_moderator(self.request.user, self.object.location),
             'project_access': check_access(self.object, self.request.user), })
         return context
 
@@ -71,6 +70,7 @@ class AttachmentAccessMixin(LoginRequiredMixin, SingleObjectMixin, View):
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
+        self.task_pk = kwargs.get('task_pk')
         if not check_access(self.object, self.request.user):
             raise PermissionDenied
         return super(AttachmentAccessMixin, self).dispatch(*args, **kwargs)
@@ -86,13 +86,21 @@ class AttachmentAccessMixin(LoginRequiredMixin, SingleObjectMixin, View):
 class AttachmentUpladView(AttachmentAccessMixin):
     """ Grant access for attachment uploader.
     """
+    def get_form_class(self):
+        if self.task_pk is not None:
+            return AttachmentTaskForm
+        return AttachmentUploadForm
+
     def get(self, request, **kwargs):
         context = self.get_context_data(**kwargs)
-        context['form'] = self.form_class(initial={'project': self.object, })
+        form_class = self.get_form_class()
+        context['form'] = form_class(project=self.object,
+                                     initial={'project': self.object, })
         return render(request, self.template_name, context)
 
     def post(self, request, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
+        form_class = self.get_form_class()
+        form = form_class(request.POST, request.FILES, project=self.object)
         if not form.is_valid():
             context = self.get_context_data(**kwargs)
             context['form'] = form
@@ -101,22 +109,29 @@ class AttachmentUpladView(AttachmentAccessMixin):
         obj.uploaded_by = self.request.user
         obj.save()
         form.save_m2m()
+        if self.task_pk is not None:
+            task = get_object_or_404(Task, pk=self.task_pk)
+            if not task.pk in [x[0] for x in obj.tasks.values_list('pk')]:
+                obj.tasks.add(task)
+                obj.save()
         messages.add_message(request, messages.SUCCESS, _(u"Files uploaded"))
         return redirect(obj.project.get_absolute_url())
 
 
-class AttachmentUpdateView(AttachmentAccessMixin):
+class AttachmentUpdateView(LoginRequiredMixin, UpdateView):
     """ Update existing attachments.
     """
-    def dispatch(self, *args, **kwargs):
-        self.instance = get_object_or_404(Attachment, pk=kwargs.get('attachment_pk'))
-        return super(AttachmentUpdateView, self).dispatch(*args, **kwargs)
+    model = Attachment
+    context_object_name = 'attachment'
+    form_class = AttachmentUploadForm
 
-    def get(self, request, **kwargs):
-        context = self.get_context_data(**kwargs)
-        context['form'] = self.form_class(instance=self.instance,
-                                          project=self.instance.project)
-        return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super(AttachmentUpdateView, self).get_context_data(**kwargs)
+        context.update({
+            'object': self.object.project,
+            'location': self.object.project.location,
+            'project_access': check_access(self.object.project, self.request.user), })
+        return context
 
 
 class DeleteAttachmentView(DeleteView):
@@ -133,3 +148,4 @@ class DeleteAttachmentView(DeleteView):
     def get_success_url(self):
         return reverse('projects:attachment-list', kwargs={
             'project_slug': self.object.project.slug, })
+

@@ -105,6 +105,7 @@
                 <li><a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a></li>
               {% endfor %}</ul>
             </div>{% endif %}
+            <p><a href="{% url 'projects:attachment-task-upload' object.slug active_task.pk %}">{% trans "upload"|capfirst %}</a></p>
           </div>
         </div>{% endif %}
       </div><!-- ./ .task-Container-right -->

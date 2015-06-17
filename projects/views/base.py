@@ -259,7 +259,7 @@ class CreateProjectView(LoginRequiredMixin, LocationContextMixin, CreateView):
 
         # Start following for author - this way he will be noticed about
         # activities related to this project.
-        follow(obj.creator, obj, actor_only=False)
+        follow(obj.creator, obj, actor_only=False, send_action=False)
 
         # Change project's idea status, if there is some related object
         if obj.idea is not None:

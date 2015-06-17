@@ -168,5 +168,29 @@
   background: #fff;
   list-style: none;
   padding: 0px;
+  border-radius: 5px;
   box-shadow: 4px 4px 2px 0px rgba(50, 50, 50, 0.75);
+
+  li {
+    padding: 5px;
+
+    &:hover {
+      background-color: #B2D7F4;
+      color: #fff;
+    }
+
+    &:first-of-type {
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    &:last-of-type {
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+
+  img {
+    border-radius: 50%;
+  }
 }
