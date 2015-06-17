@@ -31,3 +31,10 @@ class SubdomainMiddleware(object):
         code = host.split('.')[0]
         if translation.check_for_language(code):
             translation.activate(code)
+            if request.user.is_authenticated():
+                host = host.replace(code + '.', '')
+                if request.is_secure():
+                    next = 'https://' + host + request.get_full_path()
+                else:
+                    next = 'http://' + host + request.get_full_path()
+                return HttpResponseRedirect(next)
