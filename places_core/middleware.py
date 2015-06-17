@@ -31,13 +31,3 @@ class SubdomainMiddleware(object):
         code = host.split('.')[0]
         if translation.check_for_language(code):
             translation.activate(code)
-            host = host.replace(code + '.', '')
-            if request.is_secure():
-                next = 'https://' + host + request.get_full_path()
-            else:
-                next = 'http://' + host + request.get_full_path()
-            response = HttpResponseRedirect(next)
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, code, 365*24*60*60,
-                                            domain=settings.SESSION_COOKIE_DOMAIN)
-            return response
-
