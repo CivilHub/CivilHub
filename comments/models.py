@@ -12,7 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from notifications.models import notify
-from places_core.config import ABUSE_REASONS
 from places_core.helpers import sanitizeHtml
 from places_core.permissions import is_moderator
 
