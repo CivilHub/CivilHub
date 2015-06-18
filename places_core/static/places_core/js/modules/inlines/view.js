@@ -15,18 +15,23 @@ define(['jquery',
         'js/modules/inlines/model',
         'js/modules/inlines/collection',
         'js/modules/inlines/vote-summary',
+        'js/modules/inlines/reason',
         'text!js/modules/inlines/templates/comment.html',
         'text!js/modules/inlines/templates/comment_removed.html',
         'text!js/modules/inlines/templates/edit_form.html'],
 
 function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel,
-          CommentCollection, VoteSummary, html, altHtml, form) {
+          CommentCollection, VoteSummary, ReasonForm, html, altHtml, form) {
 
 "use strict";
 
 // Global to hold our summary window instance.
 
 var summaryWindow = null;
+
+// Globals for moderators
+
+var moderatorForm = null;
 
 // Holds timeout value to smoothly open new vote summary.
 
@@ -89,7 +94,6 @@ var CommentView = Backbone.View.extend({
     if (this.model.get('answers') > 0) {
       this.collection.fetch({ success: this.onFetch });
     }
-    //this.listenTo(this.model, 'change', this.render);
   },
 
   onFetch: function (collection) {
@@ -151,9 +155,13 @@ var CommentView = Backbone.View.extend({
 
     this.$('.comment-moderate').on('click', function (e) {
       e.preventDefault();
-      this.model.flag();
-      this.collection.fetch({ success: this.onFetch });
+      this.moderatorForm({ x: e.pageX - 20, y: e.pageY + 5 });
     }.bind(this));
+
+    this.$('.show-more').on('click', function (e) {
+      e.preventDefault();
+      $(this).next('.comment-reason').slideToggle('fast');
+    });
 
     return this;
   },
@@ -220,6 +228,27 @@ var CommentView = Backbone.View.extend({
         vote: vote
       },
       position: { left: e.pageX - 20, top: e.pageY + 5 }
+    });
+  },
+
+  // Moderator options
+
+  moderatorForm: function (position) {
+    if (!_.isUndefined(summaryWindow) && !_.isNull(summaryWindow)) {
+      summaryWindow.destroy();
+    }
+    if (this.model.get('is_removed')) {
+      this.model.flag();
+      this.collection.fetch({ success: this.onFetch });
+      return;
+    }
+    moderatorForm = new ReasonForm({
+      position: { left: position.x, top: position.y },
+      context: this,
+      onSelect: function (val) {
+        this.model.flag(val);
+        this.collection.fetch({ success: this.onFetch });
+      }
     });
   },
 

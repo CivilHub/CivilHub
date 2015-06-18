@@ -396,6 +396,9 @@ CELERY_IMPORTS = ('places_core.tasks',)
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
+COMMENT_EMAIL_NOTIFY = False
+
+
 # Ustawienia dla miniaturek
 #-------------------------------------------------------------------------------
 DEFAULT_IMG_PATH = "img/item.png"

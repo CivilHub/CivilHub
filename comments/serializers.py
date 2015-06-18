@@ -31,6 +31,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     note = serializers.Field(source='note')
     answers = serializers.SerializerMethodField('get_answer_count')
     permission = serializers.SerializerMethodField('check_permission')
+    reason = serializers.Field(source='get_reason_display')
 
     def get_user_data(self, obj):
         serializer = UserDetailSerializer(obj.user)
@@ -55,7 +56,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         model = CustomComment
         fields = ('id', 'content_type', 'object_pk', 'submit_date', 'comment',
                   'parent', 'author', 'content_object', 'upvotes', 'downvotes',
-                  'note', 'answers', 'permission', 'is_removed', )
+                  'note', 'answers', 'permission', 'is_removed', 'reason', )
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):

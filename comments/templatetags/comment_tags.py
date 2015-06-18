@@ -31,7 +31,7 @@ def commentarea(context, obj):
     ct = ContentType.objects.get_for_model(obj).pk
     template = loader.get_template('comments/commentarea.html')
     qs = CustomComment.objects.filter(content_type_id=ct,
-                                      object_pk=obj.pk)
+                    object_pk=obj.pk).order_by('-submit_date')
     comments = qs.filter(parent__isnull=True)[:get_config('PAGINATE_BY')]
     data = {
         'has_next': len(qs) > get_config('PAGINATE_BY'),

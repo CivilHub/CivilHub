@@ -12,8 +12,8 @@ function (_, Backbone, utils) {
 
 "use strict";
 
-function send(url, fn, context) {
-  var data = { csrfmiddlewaretoken: utils.getCookie('csrftoken') };
+function send(url, data, fn, context) {
+  data.csrfmiddlewaretoken = utils.getCookie('csrftoken');
   $.post(url, data, function (response) {
     if (_.isFunction(fn)) {
       fn.call(context, response);
@@ -27,9 +27,18 @@ var CommentModel = Backbone.Model.extend({
     return origUrl + (origUrl.charAt(origUrl.length - 1) == '/' ? '' : '/');
   },
 
-  flag: function () {
-    send(this.url() + 'moderate/', function (response) {
-      this.set('is_removed', response.is_removed);
+  flag: function (vote) {
+    var data = (!_.isUndefined(vote)) ? { vote: vote } : {};
+    var url = this.url();
+    var res = (new RegExp(/\?parent\=[0-9]+/)).exec(url);
+    if (!_.isNull(res)) {
+      url = url.replace(res[0] + '/', '');
+    }
+    send(url + 'moderate/', data, function (response) {
+      this.set({
+        is_removed: response.is_removed,
+        reason: response.reason
+      });
     }, this);
   }
 });

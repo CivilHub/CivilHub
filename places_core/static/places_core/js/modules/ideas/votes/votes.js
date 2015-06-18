@@ -74,6 +74,7 @@ VoteArea.prototype.trigger = function (e) {
   var idea = this._active.attr('data-target-id');
   var vote = this._active.attr('data-vote');
   send(idea, { vote: vote }, this.showSummary, this);
+  window.CivilApp.gaEvents.voteIdea(vote);
 };
 
 VoteArea.prototype.showSummary = function (data) {

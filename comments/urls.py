@@ -12,6 +12,7 @@ router.add_api_view('answers', url(r'^answers/', api.CommentAnswers.as_view(),
                                    name='answers'))
 
 urlpatterns = patterns('',
+    url('^summary/(?P<content_ct>\d+)/(?P<content_pk>\d+)', CommentSummaryView.as_view(), name="summary"),
     url('^count/(?P<object_id>\d+)/(?P<app_label>.+)/(?P<model_label>.+)/$', get_comment_count, name='count'),
     url('^tree/(?P<object_id>\d+)/(?P<app_label>.+)/(?P<model_label>.+)/$', get_comment_tree, name='tree'),
 )

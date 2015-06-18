@@ -1,0 +1,6 @@
+<form class="custom-inline-form" id="moderator-form" action="" method="" role="presentation">
+  <select><% _.each(options, function (item) { %>
+    <option value="<%= item.value %>"<% if(item.value===6){ %> selected<% } %>><%= item.label %></option>
+  <% }) %></select>
+  <button type="submit"><span class="fa fa-check"> </span></button>
+</form>

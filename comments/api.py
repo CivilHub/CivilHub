@@ -101,13 +101,20 @@ class CommentList(viewsets.ModelViewSet):
     @action()
     def moderate(self, request, pk):
         comment = self.get_object()
+        try:
+            vote = int(request.DATA.get('vote'))
+        except (TypeError, ValueError, ):
+            vote = None
         if not comment.has_permission(self.request.user):
             raise PermissionDenied
-        if comment.toggle():
+        if comment.toggle(vote=vote):
             message = _(u"Coment has been hidden")
         else:
             message = _(u"Coment has been restored")
-        return Response({'is_removed': comment.is_removed, 'message': message, })
+        return Response({
+            'is_removed': comment.is_removed,
+            'message': message,
+            'reason': comment.get_reason_display(), })
 
     @link()
     def summary(self, request, pk):
