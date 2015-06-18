@@ -1,5 +1,6 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+{% block title %}{% trans "Create a new account" %} - {% trans "CivilHub - People have the Power." %}{% endblock %}
+{% block description %}<meta name="description" content="{% trans "Create an account and help in the development of your country or city. Let`s engage in public life and show everyone the place we would like to live in." %}" />{% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
 <script src="{% static 'places_core/includes/fort/fort.js' %}"></script>
 {% endblock %}
