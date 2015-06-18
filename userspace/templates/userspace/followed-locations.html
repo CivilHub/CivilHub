@@ -1,18 +1,16 @@
 {% extends 'places_core/base.html' %}{% load staticfiles i18n actstream_tags %}
 {% block header %}<center><h1 class="topHeadingH">{% trans "My places" %}</h1></center>{% endblock %}
-{% block content %}<div class="container sublocations">
-  {% for l in profile.followed_locations %}
-  <div class="col-lg-3 col-sm-3">
-    <div class="sublocation">
-      <div class="carousel-inner"><img src="{{ l.thumb_url }}" />
-        <a href="{{ l.get_absolute_url }}" class="full-click-box"></a>
+{% block content %}{% for location in profile.followed_locations %}
+  {% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
+  <div class="col-sm-3">
+    <div class="n-sublocation followed_location" style="background-image: url({{ location.background_url }});">
+      <div class="n-sublocation-content">
+        <div class="n-sublocation-box">
+        <a href="{{ location.get_absolute_url }}" class="name">{{ location.name }}</a>
+          {% follow_button location %}
+          </div>
       </div>
-      <div class="sublocation-content">
-        <a href="{{ l.get_absolute_url }}"><b>{{ l.name }}</b></a>
-      </div>
-      {% follow_button l %}
-      <div class="followers">{{ l.users.count }}</div>
     </div>
   </div>
-  {% endfor %}
-</div>{% endblock %}
+{% if forloop.counter|divisibleby:4 or forloop.counter == profile.followed_locations|length %}</div>{% endif %}
+{% endfor %}{% endblock %}
