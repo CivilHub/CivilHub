@@ -160,7 +160,7 @@ def langlist(request):
     """
     tags = ''
     tpl = """<li data-code="{% code %}"{% active %}>
-                <a href="{% url %}" onClick="ga('send', 'event', 'language-{% CODE %}', 'click', 'language-{% CODE %}');">
+                <a href="{% url %}" onClick="ga('send', 'event', 'language', 'click', 'language-{% CODE %}');">
                     <img alt="{% name %}" src="{% src %}"><span>{% name %}</span>
                 </a>
             </li>"""
