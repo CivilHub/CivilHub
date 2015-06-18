@@ -13,12 +13,6 @@
     &:hover{
       .comment-controls{ opacity: 1; }
     }
-    &.comment-removed {
-      background-color: #adadad;
-      >.comment-content {
-        color: #ff0000;
-      }
-    }
   }
   .comment-author-name { color: #0087ff; }
   .comment-date-from-now{ color: #8c8c8c; }
@@ -43,7 +37,7 @@
 
 //new comments in activities
 .ac-comment{ //div in activity
-  .comment-toggle, .show-more{ display: inline-block !important; margin-bottom: 15px; }
+  .comment-toggle, .show-more{ display: inline-block; margin-bottom: 15px; }
 }
 
 .ac-comment-ac{
@@ -189,7 +183,7 @@
  */
 
 .comment-vote-summary {
-  display: none;
+  display: block;
   position: absolute;
   background-color: #f6f8f8;
   list-style: none;
