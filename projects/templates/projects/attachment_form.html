@@ -1,5 +1,13 @@
 {% extends 'projects/index.html' %}{% load i18n %}
-{% block content %}<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+{% block location_navbar %}<div class="socialproject-attachment-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
+{% block content %}<div class="main-content create-form newFormCreate">
+<h3>{% trans "Add attachment" %}</h3>
+  <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <div class=" form-group mb0">
+    <div class="col-sm-10 col-sm-offset-2">
+      <button type="submit" class="btn btn-saveBig">{% trans "Save" %}</button>
+    </div>
+  </div>
+</form>
+</div>{% endblock %}

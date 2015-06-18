@@ -1,11 +1,31 @@
 {% extends 'projects/index.html' %}{% load i18n %}
-{% block content %}<ul>{% for attachment in object_list %}
-  <li>
-    <a href="{% url 'projects:get-attachment' attachment.pk %}">{{ attachment }}</a>
-    {% if project_access %}<a href="{% url 'projects:update-attachment' attachment.pk %}">{% trans "edit"|capfirst %}</a>
-    <form class="custom-inline-form" method="post" action="{% url 'projects:delete-attachment' attachment.pk %}">{% csrf_token %}
-      <button type="submit">{% trans "delete"|capfirst %}</button>
-    </form>{% endif %}
-  </li>
-{% endfor %}</ul>
-<a class="btn btn-primary" href="{% url 'projects:attachment-upload' object.slug %}">{% trans "add"|capfirst %}</a>{% endblock %}
+{% block location_navbar %}<div class="socialproject-attachment-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
+{% block content %}<div class="col-sm-9 main-content contentPX">
+  <div class="custom-tablelike socialforumtopic">
+    {% for attachment in object_list %}
+    <div class="topic-list-entry custom-list-entry">
+      <div class="row">
+        <div class="col-sm-8 text-left excerpt">
+          <a href="{% url 'projects:get-attachment' attachment.pk %}" class="custom-tooltip-right" title="{% trans "Download" %}">{{ attachment }}</a>
+        </div>
+        <div class="col-sm-4 text-right">
+        {% if project_access %}
+          <a href="{% url 'projects:update-attachment' attachment.pk %}">{% trans "edit"|capfirst %}</a>
+          <form class="custom-inline-form" method="post" action="{% url 'projects:delete-attachment' attachment.pk %}">{% csrf_token %} <button type="submit" class="text-danger">{% trans "delete"|capfirst %}</button>
+          </form>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+      {% empty %}
+      {% trans "We didn't find any attachments" %}{% endfor %}
+  </div>
+</div>
+<div class="col-sm-3 boxPX">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Action" %}:</div>
+    <ul class="sidebar-content mb0">
+      <a href="{% url 'projects:attachment-upload' object.slug %}">{% trans "add"|capfirst %}</a>
+    </ul>
+  </div>
+</div>{% endblock %}

@@ -198,7 +198,7 @@ class BaseAttachmentForm(forms.BaseForm):
 
 
 
-class AttachmentUploadForm(forms.ModelForm, BaseAttachmentForm):
+class AttachmentUploadForm(forms.ModelForm, BaseAttachmentForm, BootstrapBaseForm):
     """ Upload attachment files for projects.
     """
     class Meta:
@@ -220,7 +220,7 @@ class AttachmentUploadForm(forms.ModelForm, BaseAttachmentForm):
                                             group__project=project)
 
 
-class AttachmentTaskForm(forms.ModelForm, BaseAttachmentForm):
+class AttachmentTaskForm(forms.ModelForm, BaseAttachmentForm, BootstrapBaseForm):
     """ Upload attachment directly for selected task.
     """
     class Meta:
