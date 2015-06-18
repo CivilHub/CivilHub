@@ -30,6 +30,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     downvotes = serializers.Field(source='downvotes')
     note = serializers.Field(source='note')
     answers = serializers.SerializerMethodField('get_answer_count')
+    permission = serializers.SerializerMethodField('check_permission')
 
     def get_user_data(self, obj):
         serializer = UserDetailSerializer(obj.user)
@@ -44,11 +45,17 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     def get_answer_count(self, obj):
         return obj.children.count()
 
+    def check_permission(self, obj):
+        request = self.context.get('request', None)
+        if request is not None and request.user.is_authenticated():
+            return obj.has_permission(request.user)
+        return False
+
     class Meta:
         model = CustomComment
         fields = ('id', 'content_type', 'object_pk', 'submit_date', 'comment',
                   'parent', 'author', 'content_object', 'upvotes', 'downvotes',
-                  'note', 'answers', )
+                  'note', 'answers', 'permission', )
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):
