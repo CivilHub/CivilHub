@@ -37,7 +37,7 @@
 
 //new comments in activities
 .ac-comment{ //div in activity
-  .comment-toggle, .show-more{ display: inline-block; margin-bottom: 15px; }
+  .comment-toggle, .show-more{ display: inline-block !important; margin-bottom: 15px; }
 }
 
 .ac-comment-ac{
@@ -161,6 +161,8 @@
   .comments{
     font-size: 12px;
     line-height: 16px;
+    word-wrap: normal;
+    word-break: break-word;
     .comment-main-col{ padding-left: 40px;}
     .comment-avatar-col{
       img{ width:32px; height: 32px;}
