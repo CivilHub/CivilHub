@@ -31,18 +31,19 @@ def commentarea(context, obj):
     ct = ContentType.objects.get_for_model(obj).pk
     template = loader.get_template('comments/commentarea.html')
     qs = CustomComment.objects.filter(content_type_id=ct,
-                                      object_pk=obj.pk,
-                                      parent__isnull=True)
-    comments = qs[:get_config('PAGINATE_BY')]
+                                      object_pk=obj.pk)
+    comments = qs.filter(parent__isnull=True)[:get_config('PAGINATE_BY')]
     data = {
         'has_next': len(qs) > get_config('PAGINATE_BY'),
-        'results': CommentDetailSerializer(comments, many=True).data, }
+        'results': CommentDetailSerializer(comments, many=True,
+                                                     context=context).data, }
     ctx = Context({
         'user': context['user'],
         'ct': ct,
         'pk': obj.pk,
         'ab': ContentType.objects.get_for_model(CustomComment).pk,
         'count': len(qs),
+        'comments': qs,
         'first_page': JSONRenderer().render(data),
     })
     return template.render(ctx)

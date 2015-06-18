@@ -12,6 +12,7 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from notifications.models import notify
+from places_core.config import ABUSE_REASONS
 from places_core.helpers import sanitizeHtml
 from places_core.permissions import is_moderator
 
@@ -74,7 +75,7 @@ class CustomComment(MPTTModel, Comment):
             return True
         if self.content_object is not None:
             if hasattr(self.content_object, 'location'):
-                return is_moderator(user.self.content_object.location)
+                return is_moderator(user, self.content_object.location)
         return False
 
     def toggle(self):

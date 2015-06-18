@@ -6,13 +6,16 @@
 // It may be used also for subcomments.
 
 define (['underscore',
-         'backbone'],
+         'backbone',
+         'js/modules/inlines/model'],
 
-function (_, Backbone) {
+function (_, Backbone, CommentModel) {
 
 "use strict";
 
 var CommentCollection = Backbone.Collection.extend({
+
+  model: CommentModel,
 
   currentPage: 1,
 

@@ -55,7 +55,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         model = CustomComment
         fields = ('id', 'content_type', 'object_pk', 'submit_date', 'comment',
                   'parent', 'author', 'content_object', 'upvotes', 'downvotes',
-                  'note', 'answers', 'permission', )
+                  'note', 'answers', 'permission', 'is_removed', )
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):
