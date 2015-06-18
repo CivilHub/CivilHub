@@ -103,7 +103,7 @@
             {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
             {% trans "Please" %}
             {% if user.is_authenticated %}
-                <a href="{% url 'locations:new_topic' location.slug %}" >
+                <a href="{% url 'locations:new_topic' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'first-discussion');">
             {% else %}
                 <a href="/users/login" >
             {% endif %}{% trans "add first discussion" %}</a>.
