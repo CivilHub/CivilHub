@@ -32,7 +32,6 @@ from rest_framework.authtoken.models import Token
 
 from civmail import messages as emails
 from djmail.template_mail import MagicMailBuilder as mails
-from models import UserProfile, RegisterDemand, LoginData
 from helpers import UserActionStream, random_password
 from places_core.helpers import truncatesmart, process_background_image
 from places_core.mixins import LoginRequiredMixin
@@ -49,7 +48,49 @@ from locations.serializers import ContentPaginatedSerializer, SimpleLocationSeri
 from forms import *
 from utils.http import set_cookie
 
-from .helpers import profile_activation, random_username, create_username, update_profile_picture
+from .models import CloseAccountDemand, UserProfile, RegisterDemand, LoginData
+from .helpers import profile_activation, random_username, \
+                     create_username, update_profile_picture, \
+                     get_gravatar_image
+
+
+class DeleteAccountView(LoginRequiredMixin, View):
+    """ Delete user account. In fact, we are not removing user data from database,
+        as this could have some complications. Here, we create or delete existing
+        CloseAccountDemand instance.
+    """
+    template_name = 'userspace/delete_account.html'
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.request.user
+        if self.object.is_anonymous():
+            raise Http404
+        return super(DeleteAccountView, self).dispatch(*args, **kwargs)
+
+    def get_demand(self):
+        try:
+            return CloseAccountDemand.objects.get(user=self.request.user)
+        except CloseAccountDemand.DoesNotExist:
+            return None
+
+    def get_context_data(self, **kwargs):
+        return {
+            'profile': self.request.user.profile,
+            'demand': self.get_demand(), }
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        demand = self.get_demand()
+        if demand is None:
+            demand = CloseAccountDemand.objects.create(user=self.request.user)
+            message = _(u"Your account will be deleted in 7 days")
+        else:
+            demand.delete()
+            message = _(u"Your demand has been rejected")
+        messages.success(request, message)
+        return redirect(request.user.profile.get_absolute_url())
 
 
 class ReloginView(SingleObjectMixin, View):
@@ -293,6 +334,7 @@ def activate(request, activation_link=None):
         user.profile.lang = lang
         user.profile.save()
         demand.delete()
+        update_profile_picture(user.profile, get_gravatar_image(user.email))
         system_user = auth.authenticate(username=user.username)
         if system_user is not None:
             auth.login(request, system_user)

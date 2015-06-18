@@ -130,7 +130,7 @@ class SocialAuthPassetForm(forms.Form):
         max_length = 64,
         widget = forms.PasswordInput(attrs={'class': "form-control", 'id': 'passchk'})
     )
-    
+
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(SocialAuthPassetForm, self).__init__(*args, **kwargs)
@@ -173,7 +173,7 @@ class PasswordResetForm(forms.Form, BootstrapBaseForm):
         passchk  = cleaned_data.get('passchk')
         if (password != passchk):
             self._errors['password'] = self.error_class([_('Passwords not match!')])
-            
+
         return cleaned_data
 
 

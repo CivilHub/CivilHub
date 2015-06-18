@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import translation
@@ -31,3 +33,12 @@ class SubdomainMiddleware(object):
         code = host.split('.')[0]
         if translation.check_for_language(code):
             translation.activate(code)
+            t = re.compile('/(login|register)/')
+            path_test = t.search(request.get_full_path())
+            if path_test is not None or request.user.is_authenticated():
+                host = host.replace(code + '.', '')
+                if request.is_secure():
+                    next = 'https://' + host + request.get_full_path()
+                else:
+                    next = 'http://' + host + request.get_full_path()
+                return HttpResponseRedirect(next)

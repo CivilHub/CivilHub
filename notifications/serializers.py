@@ -49,8 +49,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             else:
                 return _(u"voted down for your idea")
         elif obj.action_verb == 'started following you':
-            obj_name = obj.action_actor.get_full_name() + " "
-            return obj_name + _(u"started following you")
+            return _(u"started following you")
         return _(obj.action_verb)
 
     def get_action_object(self, obj):

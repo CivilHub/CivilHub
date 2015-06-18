@@ -86,6 +86,20 @@ class PollsIndex(indexes.SearchIndex, indexes.Indexable):
         return self.get_model().objects.all()
 
 
+from comments.models import CustomComment
+class CommentsIndex(indexes.SearchIndex, indexes.Indexable):
+    """ Search for comments.
+    """
+    text = indexes.CharField(document=True)
+    comment = indexes.CharField(model_attr='comment')
+
+    def get_model(self):
+        return CustomComment
+
+    def index_queryset(self, using=None):
+        return self.get_model().objects.all()
+
+
 class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
     """
     User search engine by user name / name / surname.
@@ -99,7 +113,7 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
         return User
 
     def index_queryset(self, using=None):
-        return self.get_model().objects.all()
+        return self.get_model().objects.filter(is_active=True)
 
 
 class NGOSearchIndex(indexes.SearchIndex, indexes.Indexable):
