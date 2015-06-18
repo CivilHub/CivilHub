@@ -1,15 +1,15 @@
 {% extends 'places_core/base.html' %}
 {% load i18n staticfiles comment_tags %}
 {% block title %}{% trans "Blog" %} - Civilhub.org {% endblock %}
-{% block description %}<meta name="description" content="{{ article.content|striptags|slice:":153"}}..." />{% endblock %}
+{% block description %}<meta name="description" content="{% trans "CivilHub`s blog is a list of articles written by the team. It gives an insight into the history, development process and current affairs of CivilHub" %}" />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{% trans "Blog" %}">
 <meta property="og:title" content="{% trans "Blog" %}"/>
 <meta property="og:url" content="blog/" />
 <meta property="og:site_name" content="CivilHub"/>
-<meta property="og:description" content="{{ article.content|striptags|slice:":153" }}..." />
-<meta name="keywords" content="{{ article.slug }}, {{ article.title }}">{% endblock %}
+<meta property="og:description" content="{% trans "CivilHub`s blog is a list of articles written by the team. It gives an insight into the history, development process and current affairs of CivilHub" %}" />
+<meta name="keywords" content="CivilHub, {% trans "Blog" %}">{% endblock %}
 
 {% block content %}<div id="blog-page">
 {% for article in articles %}
