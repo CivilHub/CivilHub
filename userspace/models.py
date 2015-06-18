@@ -206,6 +206,32 @@ class RegisterDemand(models.Model):
     )
 
 
+@python_2_unicode_compatible
+class CloseAccountDemand(models.Model):
+    """ Similar to register demand, this model holds info about that some user
+        wants to close his/her account. This way we have time to change his mind.
+        After this period user account will be not removed from database but
+        rather set to inactive and his email address should be removed.
+    """
+    user = models.ForeignKey(User, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+    is_deleted = False
+
+    def deactivate(self):
+        self.user.is_active = False
+        self.user.email = ""
+        self.user.save()
+        self.is_active = True
+        self.save()
+
+    def __str__(self):
+        return u"<Delete account demand for {}>".format(self.user.email)
+
+    class Meta:
+        verbose_name = _(u"close account demand")
+        verbose_name_plural = _(u"close account demands")
+
+
 class LoginData(models.Model):
     """
     Table storing login information, including user name, IP address and login date.
