@@ -183,20 +183,24 @@
 .comment-vote-summary {
   display: block;
   position: absolute;
-  background: #fff;
+  background-color: #f6f8f8;
   list-style: none;
-  padding: 0px;
+  padding: 5px 10px;
   border-radius: 5px;
-  box-shadow: 4px 4px 2px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+
+  max-height: 400px;
+  overflow: auto;
+  min-width: 200px;
 
   li {
-    padding: 5px;
-
-    &:hover {
-      background-color: #B2D7F4;
-      color: #fff;
+    padding: 2px 0;
+    a{
+      font-weight: 700;
+      display: block;
+      color: #7B7B7B;
+      &:hover{ color: #000; }
     }
-
     &:first-of-type {
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
@@ -210,6 +214,9 @@
 
   img {
     border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    margin-right: 2px;
   }
 }
 
