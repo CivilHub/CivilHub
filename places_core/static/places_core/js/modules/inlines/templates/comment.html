@@ -3,6 +3,7 @@
   <a href="<%= author.profile.url %>" class="comment-author-name user-window-toggle" data-target="<%= author.id %>"><strong><%= author.full_name %></strong></a>
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
   <span class="comment-controls">
+    <% if(permission) { %><a href="#" class="comment-moderate" title="<%= gettext("Hide entry") %>"><span class="fa fa-flag"> </span></a><% } %>
     <% if (author.id == CivilApp.user.id) { %>
       <a href="#" class="comment-edit" title="<%= gettext("Edit entry") %>">
         <span class="fa fa-edit"> </span>

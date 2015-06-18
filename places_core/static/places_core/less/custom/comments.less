@@ -13,6 +13,12 @@
     &:hover{
       .comment-controls{ opacity: 1; }
     }
+    &.comment-removed {
+      background-color: #adadad;
+      >.comment-content {
+        color: #ff0000;
+      }
+    }
   }
   .comment-author-name { color: #0087ff; }
   .comment-date-from-now{ color: #8c8c8c; }
@@ -183,7 +189,7 @@
  */
 
 .comment-vote-summary {
-  display: block;
+  display: none;
   position: absolute;
   background-color: #f6f8f8;
   list-style: none;

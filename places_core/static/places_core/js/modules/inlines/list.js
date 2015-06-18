@@ -137,6 +137,20 @@ var CommentListView = Backbone.View.extend({
     } else {
       this.$('.show-more').show();
     }
+
+    // This should be comment view method. Sets selected comment to help
+    // us create absolute urls for single comments.
+
+    var currentID = window.location.href.split('#')[1] || 'content-0';
+    if (!_.isUndefined(currentID)) {
+      currentID = parseInt(currentID.replace(/content-/g, ''), 10);
+    }
+    if (currentID === item.get('id')) {
+      $el.addClass('selected');
+      $('html, body').animate({
+        scrollTop: $el.offset().top
+      }, 1000);
+    }
   },
 
   // Create new comment in database.

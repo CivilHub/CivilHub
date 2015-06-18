@@ -77,9 +77,12 @@ VoteArea.prototype.trigger = function (e) {
 };
 
 VoteArea.prototype.showSummary = function (data) {
+  if (data.target === 1) {
+    openShareWindow();
+  }
   if (data.is_reversed) {
     this.$buttons.not(this._active).text(data.new_label);
-  } else {
+  } else if (!_.isNull(data.prev_target)) {
     this._active.attr('data-vote', data.prev_target);
   }
   this._active.text(data.label);

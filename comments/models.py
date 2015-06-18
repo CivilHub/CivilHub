@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.comments.models import Comment
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -11,6 +13,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 from notifications.models import notify
 from places_core.helpers import sanitizeHtml
+from places_core.permissions import is_moderator
 
 
 class CustomComment(MPTTModel, Comment):
@@ -59,8 +62,30 @@ class CustomComment(MPTTModel, Comment):
         of actstream error.
         """
         if self.content_object is not None:
-            return self.content_object.get_absolute_url()
-        return None
+            content_type = ContentType.objects.get_for_model(self.content_object)
+            the_url = self.content_object.get_absolute_url()
+            return '{}#content-{}'.format(the_url, self.pk)
+        return ""
+
+    def has_permission(self, user):
+        """ Check if given user is permitted to moderate this comment.
+        """
+        if user.is_superuser:
+            return True
+        if self.content_object is not None:
+            if hasattr(self.content_object, 'location'):
+                return is_moderator(user, self.content_object.location)
+        return False
+
+    def toggle(self):
+        """ Mark comment to be hidden instead of displayed entirely.
+        """
+        if not self.is_removed:
+            self.is_removed = True
+        else:
+            self.is_removed = False
+        self.save()
+        return self.is_removed
 
     class MPTTMeta:
         order_insertion_by = ['submit_date']
