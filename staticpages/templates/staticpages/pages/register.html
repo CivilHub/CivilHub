@@ -53,17 +53,17 @@ window.GOOGLE_DATA = {
 
                 <div class="registerButtons">
   
-	                <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+	                <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
 	                    
-	                <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
+	                <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
 	                    
-	                <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+	                <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
 	                        
-	                <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
+	                <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
                     
             	</div>
             	<div class="registerButtonSubmit">
-            		<button id="signup_button" type="submit" class="long signup-button">{% trans "Sign up" %}</button>
+            		<button id="signup_button" type="submit" class="long signup-button" onClick="ga('send', 'event', 'register', 'click', 'civilhub-register');">{% trans "Sign up" %}</button>
         		</div>
 
             <p class="terms">
