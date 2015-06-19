@@ -1,0 +1,21 @@
+{% extends 'places_core/base.html' %}{% load i18n comment_tags civil_tags %}
+{% block require_scripts %}<script src="{% module_path 'comment-summary' %}"></script>{% endblock %}
+{% block content %}<pre>{{ content_type }}</pre>
+<h1><a href="{{ content_object.get_absolute_url }}">{{ content_object }}</a></h1>
+<img src="{{ content_object.image.url }}" alt="{{ content_object }}">
+{% comment %}
+  It is IMPORTANT to NOT CHANGE this HTML part, it should be same as in 'comments/commentarea.html' template.
+{% endcomment %}
+<div id="comment-area-test" class="commentarea" data-ct="{{ ct }}" data-pk="{{ object_id }}" data-count="{{ object_count }}" data-page="{{ object_list }}">
+  <ul class="filters list-inline ml0">{% trans "Order by" %}:
+    <li><a href="#" data-order="new">{% trans "Newest" %}</a></li>|
+    <li><a href="#" data-order="old">{% trans "Oldest" %}</a></li>|
+    <li><a href="#" data-order="votes">{% trans "Most voted" %}</a></li>
+  </ul>
+  <div class="comments"></div>
+  {% if user.is_authenticated %}<div class="postbox">
+    <div class="avatar"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG"></div>
+    <div class="textarea-wrapper"><textarea name="comment" class="form-control" cols="10" rows="1"></textarea></div>
+    <div class="text-right"><button class="add-comment mb20 btn-sendBlue" type="button">{% trans "Add comment" %}</button></div>
+  </div>{% endif %}
+</div>{% endblock %}

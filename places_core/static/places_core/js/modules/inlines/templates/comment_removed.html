@@ -5,7 +5,11 @@
   <span class="comment-controls">
     <% if(permission) { %><a href="#" class="comment-moderate" title="<%= gettext("Hide entry") %>"><span class="fa fa-flag"> </span></a><% } %>
   </span>
-  <div class="comment-content" id="content-<%= id %>"><%= gettext("This comment has been removed by moderator") %></div>
+  <div class="comment-content" id="content-<%= id %>">
+    <%= gettext("This comment has been hidden by moderator") %>
+    <a class="show-more" href="#"><%= gettext("Show me why") %></a>
+    <div class="comment-reason" style="display:none;"><%= reason %></div>
+  </div>
   <div class="comment-meta-options">
     <span class="comment-total-votes"><%= note %></span>
     <% if (answers > 0) { %> &bull; <a class="show-replies" href="#">(<%= gettext("hide") %>) <%= answers %></a><% } %>

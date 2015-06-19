@@ -12,18 +12,23 @@ from django.utils.translation import ugettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
 from notifications.models import notify
+from places_core.config import ABUSE_REASONS
 from places_core.helpers import sanitizeHtml
 from places_core.permissions import is_moderator
+
+from .helpers import notify_author
 
 
 class CustomComment(MPTTModel, Comment):
     """
     Basic comment model extending mptt model so it could be nested.
     """
-    parent = TreeForeignKey('self',
-                            null=True,
-                            blank=True,
-                            related_name='children')
+    REASONS = ABUSE_REASONS
+
+    parent = TreeForeignKey('self', null=True, blank=True,
+                                    related_name='children')
+    reason = models.PositiveIntegerField(choices=REASONS, default=6,
+                                         verbose_name=_(u"reason"))
 
     @property
     def upvotes(self):
@@ -77,14 +82,18 @@ class CustomComment(MPTTModel, Comment):
                 return is_moderator(user, self.content_object.location)
         return False
 
-    def toggle(self):
+    def toggle(self, vote=None):
         """ Mark comment to be hidden instead of displayed entirely.
         """
         if not self.is_removed:
             self.is_removed = True
         else:
             self.is_removed = False
+        if vote is not None:
+            self.reason = vote
         self.save()
+        if self.is_removed:
+            notify_author(self)
         return self.is_removed
 
     class MPTTMeta:

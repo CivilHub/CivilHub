@@ -16,6 +16,7 @@ require.config({
   waitSeconds: 0,
 
   "paths": {
+    "ga": "//www.google-analytics.com/analytics",
     "text": "includes/require/text",
     "jquery": "includes/jquery/jquery",
     "jqueryui": "includes/jquery-ui/jquery-ui",
@@ -165,9 +166,22 @@ require.config({
 // before all other scripts on the site. In the example below, we set
 // global languages for moment.js.
 
-require(['moment'],
+require(['moment', 'ga'],
 
-function (moment, _, ui) {
+function (moment) {
   "use strict";
   moment.locale(CivilApp.language);
+  window.ga('create', 'UA-51512403-1', 'auto');
+  window.ga('require', 'linkid', 'linkid.js');
+  window.ga('send', 'pageview');
+
+  window.CivilApp.gaEvents = {
+    voteIdea: function (vote) {
+      switch (vote) {
+        case 1: window.ga('send', 'event', 'vote', 'click', 'vote-yes'); break;
+        case 2: window.ga('send', 'event', 'vote', 'click', 'vote-no'); break;
+        case 3: window.ga('send', 'event', 'vote', 'click', 'revoke'); break;
+      }
+    }
+  };
 });
