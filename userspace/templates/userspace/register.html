@@ -1,5 +1,6 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
-{% block title %}{% trans "CivilHub - People have the Power." %}{% endblock %}
+{% block title %}{% trans "Create a new account" %} - {% trans "CivilHub - People have the Power." %}{% endblock %}
+{% block description %}<meta name="description" content="{% trans "Create an account and help in the development of your country or city. Let`s engage in public life and show everyone the place we would like to live in." %}" />{% endblock %}
 {% block require_scripts %}<script src="{% static 'places_core' %}/js/{% js_path %}/static-home.js"></script>
 <script src="{% static 'places_core/includes/fort/fort.js' %}"></script>
 {% endblock %}
@@ -39,13 +40,13 @@
         </div>
         </div>
         <div class="registerButtons text-center">
-          <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
-          <a class="twitter-btn" href="{% url 'social:begin' 'twitter' %}" onClick="ga('send', 'event', 'register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>   
-          <a class="linkedin-btn" href="{% url 'social:begin' 'linkedin' %}"  onClick="ga('send', 'event', 'register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
-          <a class="google-btn" href="{% url 'social:begin' 'google-plus' %}" onClick="ga('send', 'event', 'register', 'click', 'googleplus-register');" ><span class="fa fa-google-plus"></span></a>
+          <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+          <a class="twitter-btn" href="{% url 'social:begin' 'twitter' %}" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>   
+          <a class="linkedin-btn" href="{% url 'social:begin' 'linkedin' %}"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+          <a class="google-btn" href="{% url 'social:begin' 'google-plus' %}"><span class="fa fa-google-plus"></span></a>
         </div>
         <div class="registerButtonSubmit text-center">
-          <button id="signup_button" type="submit" class="long signup-button antiman btn-greenBig" onClick="ga('send', 'event', 'register', 'click', 'civilhub-register');">{% trans "Sign up" %}</button>
+          <button id="signup_button" type="submit" class="long signup-button antiman btn-greenBig">{% trans "Sign up" %}</button>
         </div>
         <p class="terms text-center">{% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank"><strong>{% trans "term of service" %}</strong></a> {% trans "and" %} <a href="/privacy" target="_blank"><strong>{% trans "privacy policy" %}</strong></a>.</p>
       </form>

@@ -96,6 +96,10 @@ $(document).ready(function () {
   });
 });
 
+
+// Google Analyitics functions
+// -------------------------------------------------------------------------
+
 // google analyitics follow/unfollow user
 $(document).ready(function(){
   var civFollowBtn = $('.civ-follow-btn');

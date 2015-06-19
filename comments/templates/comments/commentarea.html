@@ -1,9 +1,13 @@
-{% load i18n civil_tags %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
+{% load i18n civil_tags mptt_tags %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
   <ul class="filters list-inline ml0">{% trans "Order by" %}:
     <li><a href="#" data-order="new">{% trans "Newest" %}</a></li>|
     <li><a href="#" data-order="old">{% trans "Oldest" %}</a></li>|
     <li><a href="#" data-order="votes">{% trans "Most voted" %}</a></li>
   </ul>
+  <noscript><ul>{% recursetree comments %}
+    <li>{{ node.user.get_full_name }}<br>{{ node.comment }}</li>
+    {% if not node.is_leaf_node %}<ul>{{ children }}</ul>{% endif %}
+  {% endrecursetree %}</ul></noscript>
   {% if user.is_authenticated %}<div class="postbox">
     <div class="avatar"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG"></div>
     <div class="textarea-wrapper"><textarea name="comment" class="form-control" cols="10" rows="1"></textarea></div>

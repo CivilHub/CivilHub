@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import Http404
 from django.utils import timezone
@@ -85,20 +86,35 @@ class CommentList(viewsets.ModelViewSet):
         cv, created = CommentVote.objects.get_or_create(
             user=request.user,
             comment=comment,
-            vote=True
-        )
-        context = {'created': created, 'id': cv.pk}
+            vote=True)
+        context = {'created': created, 'id': cv.pk, }
         if created:
             context.update({
                 'status': 'success',
-                'message': _(u"Vote saved"),
-            })
+                'message': _(u"Vote saved"), })
         else:
             context.update({
                 'status': 'warning',
-                'message': _(u"You have already voted for this comment"),
-            })
+                'message': _(u"You have already voted for this comment"), })
         return Response(context)
+
+    @action()
+    def moderate(self, request, pk):
+        comment = self.get_object()
+        try:
+            vote = int(request.DATA.get('vote'))
+        except (TypeError, ValueError, ):
+            vote = None
+        if not comment.has_permission(self.request.user):
+            raise PermissionDenied
+        if comment.toggle(vote=vote):
+            message = _(u"Coment has been hidden")
+        else:
+            message = _(u"Coment has been restored")
+        return Response({
+            'is_removed': comment.is_removed,
+            'message': message,
+            'reason': comment.get_reason_display(), })
 
     @link()
     def summary(self, request, pk):

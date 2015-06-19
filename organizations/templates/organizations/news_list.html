@@ -20,7 +20,7 @@
   <img src="{% static 'places_core/img/civilian.png' %}" alt="{% trans "Sad Civilian" %}">
   <h2>
     {% trans "We didn't find any news" %} <p>{% trans "in" %} {{ organization }}.</p><br />
-    {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'organizations:news-create' organization.slug %}">
+    {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'organizations:news-create' organization.slug %}" >
     {% else %}<a href="{% url 'user:login' %}" >{% endif %}{% trans "add first news" %}</a>.
   </h2>
 </div>{% endif %}

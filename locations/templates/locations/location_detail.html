@@ -1,4 +1,5 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags actstream_tags %}
+{% block description %}<meta name="description" content="{{ location.description|striptags|slice:":153"}}..." />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
@@ -6,6 +7,7 @@
 <meta property="og:image" content="https://civilhub.org{{ location.image.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url" content="https://civilhub.org{{ location.get_absolute_url }}" />
+<meta property="og:description" content="{{ location.description|striptags|slice:":153"}}..."/>
 <meta name="keywords" content="{{ location.name }}">{% endblock %}
 
 {% block require_scripts %}<script>window.API_URL = "/api-locations/actions/";</script>

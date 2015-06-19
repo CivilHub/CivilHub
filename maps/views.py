@@ -140,10 +140,19 @@ class IndexView(TemplateView):
     """
     template_name = 'maps/index.html'
 
+    def set_title(self, obj):
+      if obj is None:
+          return _(u"Map")
+      title = obj.__unicode__() + " - " + obj._meta.verbose_name.title()
+      if hasattr(obj, 'location'):
+          title += " - " + obj.location.__unicode__()
+      return title
+
     def get_context_data(self, **kwargs):
         ct = self.kwargs.get('ct')
         pk = self.kwargs.get('pk')
         active_marker = None
+        obj = None
         context = super(IndexView, self).get_context_data(**kwargs)
 
         if pk and ct:
@@ -162,7 +171,7 @@ class IndexView(TemplateView):
         else:
             position = GeoIP().coords(ip.get_ip(self.request)) or ("21.0030", "52.1356")
 
-        context['title'] = _("Map")
+        context['title'] = self.set_title(obj)
         context['content_types'] = ContentType.objects.all()
         context['position'] = {'lat': position[1], 'lng': position[0]}
         context['icons'] = ['location','idea','news','poll','discussion','socialproject']

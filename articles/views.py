@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.contenttypes.models import ContentType
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import ugettext as _
+from django.views.generic import ListView, DetailView, TemplateView
+
 from .models import Category, Article
 
 
@@ -11,7 +12,7 @@ def expand_category_tree(category):
     This function returns dictionary of elements containing all subcategories of
     selected category passed as argument and links related to articles belonging
     to these categories. Returns dictionary content which could be included in
-    template. Function run recursively from top (provided category instance) 
+    template. Function run recursively from top (provided category instance)
     to bottom (last article in tree).
     """
     links = {
@@ -112,3 +113,9 @@ class TopLevelArticleView(DetailView):
     def get_object(self, queryset=None):
         article = get_object_or_404(Article, slug=self.article_slug)
         return article
+
+    def get(self, request, **kwargs):
+        if self.article_slug == 'home-l' and request.user.is_authenticated():
+            return redirect('/activity/')
+        return super(TopLevelArticleView, self).get(request, **kwargs)
+

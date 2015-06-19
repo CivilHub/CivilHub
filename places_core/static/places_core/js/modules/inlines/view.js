@@ -15,17 +15,23 @@ define(['jquery',
         'js/modules/inlines/model',
         'js/modules/inlines/collection',
         'js/modules/inlines/vote-summary',
+        'js/modules/inlines/reason',
         'text!js/modules/inlines/templates/comment.html',
+        'text!js/modules/inlines/templates/comment_removed.html',
         'text!js/modules/inlines/templates/edit_form.html'],
 
 function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel,
-                                  CommentCollection, VoteSummary, html, form) {
+          CommentCollection, VoteSummary, ReasonForm, html, altHtml, form) {
 
 "use strict";
 
 // Global to hold our summary window instance.
 
 var summaryWindow = null;
+
+// Globals for moderators
+
+var moderatorForm = null;
 
 // Holds timeout value to smoothly open new vote summary.
 
@@ -60,6 +66,8 @@ var CommentView = Backbone.View.extend({
 
   template: _.template(html),
 
+  altTemplate: _.template(altHtml),
+
   editFormTemplate: _.template(form),
 
   // Flag - edit form opened
@@ -93,7 +101,7 @@ var CommentView = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.html(this.template(this.model.toJSON()));
+    this.$el.html(this.getTemplate(this.model.toJSON()));
     this.$counter = this.$el.find('.comment-total-votes:first');
     this.votes = parseInt(this.$counter.text(), 10);
     if (isNaN(this.votes)) {
@@ -143,7 +151,24 @@ var CommentView = Backbone.View.extend({
       });
     }.bind(this));
 
+    // For moderators only - flag comment as removed
+
+    this.$('.comment-moderate').on('click', function (e) {
+      e.preventDefault();
+      this.moderatorForm({ x: e.pageX - 20, y: e.pageY + 5 });
+    }.bind(this));
+
+    this.$('.show-more').on('click', function (e) {
+      e.preventDefault();
+      $(this).next('.comment-reason').slideToggle('fast');
+    });
+
     return this;
+  },
+
+  getTemplate: function (data) {
+    return this.model.get('is_removed') ? this.altTemplate(data)
+                                        : this.template(data);
   },
 
   renderBadge: function (ngo) {
@@ -206,6 +231,27 @@ var CommentView = Backbone.View.extend({
     });
   },
 
+  // Moderator options
+
+  moderatorForm: function (position) {
+    if (!_.isUndefined(summaryWindow) && !_.isNull(summaryWindow)) {
+      summaryWindow.destroy();
+    }
+    if (this.model.get('is_removed')) {
+      this.model.flag();
+      this.collection.fetch({ success: this.onFetch });
+      return;
+    }
+    moderatorForm = new ReasonForm({
+      position: { left: position.x, top: position.y },
+      context: this,
+      onSelect: function (val) {
+        this.model.flag(val);
+        this.collection.fetch({ success: this.onFetch });
+      }
+    });
+  },
+
   // Edition form
 
   opendEdit: function () {
@@ -241,12 +287,26 @@ var CommentView = Backbone.View.extend({
   // Answers
 
   renderPage: function (comments) {
+
+    // This should be comment view method. Sets selected comment to help
+    // us create absolute urls for single comments.
+
+    var currentID = window.location.href.split('#')[1] || 'content-0';
+    if (!_.isUndefined(currentID)) {
+      currentID = parseInt(currentID.replace(/content-/g, ''), 10);
+    }
     _.each(comments, function (comment) {
       var view = new CommentView({
         model: comment
       });
-      $(view.render().el)
-        .appendTo(this.$el.find('.subcomments:first'));
+      var $el = $(view.render().el);
+      $el.appendTo(this.$el.find('.subcomments:first'));
+      if (currentID === comment.get('id')) {
+        $el.addClass('selected');
+        $('html, body').animate({
+          scrollTop: $el.offset().top
+        }, 1000);
+      }
     }, this);
   },
 
@@ -254,7 +314,8 @@ var CommentView = Backbone.View.extend({
     var view = new CommentView({
       model: new CommentModel(reply)
     });
-    $(view.render().el).prependTo(this.$el.find('.subcomments:first'));
+    var $el = $(view.render().el);
+    $el.prependTo(this.$el.find('.subcomments:first'));
     this.$replyForm.find('textarea:first').val('');
   },
 

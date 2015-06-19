@@ -177,7 +177,7 @@ function (moment) {
 
   window.CivilApp.gaEvents = {
     voteIdea: function (vote) {
-      switch (Number(vote)) {
+      switch (vote) {
         case 1: window.ga('send', 'event', 'vote', 'click', 'vote-yes'); break;
         case 2: window.ga('send', 'event', 'vote', 'click', 'vote-no'); break;
         case 3: window.ga('send', 'event', 'vote', 'click', 'revoke'); break;

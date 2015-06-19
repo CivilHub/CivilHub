@@ -9,24 +9,24 @@
     <div class="timeline-content-head">
       <a href="<%= actor.profile.url %>"><%= actor.full_name %></a>
         <%= verb %> <%= action_object.content_type.name %>
-        <a href="<%= action_object.url %>"><%= action_object.title %></a>
         <% if (!_.isNull(action_target)) { %><span class="pull-right">&nbsp;<a href="<%= action_target.url %>"><%= action_target.name %></a></span><% } %>
       <div class="clear">&nbsp;</div>
     </div>
     <div class="panel-body timeline-body">
+      <div class="mb20"><a href="<%= action_object.url %>"><strong><%= action_object.title %></strong></a></div>
       <% if (!_.isNull(action_object)) { %><a href="<%= action_object.url %>" class="full-click-box"></a>
       <%= action_object.description %><% } %>
     </div>
+      <a href="#" class="comment-toggle ac-comment-ac"><span class="fa fa-comments-o"></span> <span class="comment-count"><%= action_object.comment_count %></span> <%= gettext("comments") %></a>
     <div class="ac-comment container-fluid block-comments">
-      <a href="#" class="comment-toggle top15"><span class="comment-count"><%= action_object.comment_count %></span> <%= gettext("comments") %></a>
       <div class="comment-area" data-ct="<%= action_object.content_type.id %>" data-pk="<%= action_object.id %>" data-count="<%= action_object.comment_count %>">
+        <a href="#" class="show-more ac-comment-ac p-reset" style="display: none;"><span class="fa fa-caret-down"></span> <%= gettext("Show more") %></a>
+        <ul class="comments list-unstyled"></ul>
         <% if (!_.isEmpty(CivilApp.user)) { %><div class="postbox">
           <div class="avatar"><img src="<%= CivilApp.user.profile.avatar %>" alt="<%= CivilApp.user.full_name %>" class="user-avatar avatarViewIMG"></div>
-          <div class="textarea-wrapper"><textarea name="comment" id="comment" class="form-control" cols="15" rows="1" placeholder="<%= gettext("Write a comment") %>"></textarea></div>
-          <div class="text-right"><button type="submit" class="add-comment mb20 btn-sendBlue" onclick="ga('send', 'event', 'comment', 'click', 'comment-in-act-stream');"> <%= gettext("Add comment") %></button></div>
+          <div class="textarea-wrapper"><textarea name="comment" id="comment" class="form-control" cols="15" rows="1" placeholder="<%= gettext("Join the discussion") %>"></textarea></div>
+          <div class="text-right"><button type="submit" class="add-comment btn-add-comment-fa"><span class="fa fa-paper-plane-o"></span><span class="sr-only"><%= gettext("Add comment") %></span></button></div>
         </div><% } %>
-        <ul class="comments list-unstyled"></ul>
-        <a href="#" class="show-more"><%= gettext("Show more") %></a>
       </div>
     </div>
   </div>

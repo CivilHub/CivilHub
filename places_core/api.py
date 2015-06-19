@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from urllib2 import unquote
 
 from django.conf import settings
@@ -8,7 +9,9 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from haystack.query import SearchQuerySet
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from .config import ABUSE_REASONS
 from .serializers import ContentTypeSerializer, PaginatedSearchSerializer
 
 
@@ -80,3 +83,14 @@ class ContentTypeAPIViewSet(viewsets.ReadOnlyModelViewSet):
             return ContentType.objects.filter(app_label=app_label, model=model)
         else:
             return ContentType.objects.all()
+
+
+class AbuseReasonList(APIView):
+    """ List of reasons to choose from for moderators, for egzample when they
+        want to mark comment as hidden etc. This should be labels and values
+        for some selector in modal-like form.
+    """
+    permission_classes = (permissions.AllowAny, )
+
+    def get(self, request, **kwargs):
+        return Response([{'value': x[0], 'label': unicode(x[1]), } for x in ABUSE_REASONS])

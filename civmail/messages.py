@@ -121,3 +121,9 @@ class IdeaStatusEmail(template_mail.TemplateMail):
     """ Sent to idea's author when it's status changes.
     """
     name = "idea_status"
+
+
+class CommentNotify(template_mail.TemplateMail):
+    """ Send this message to user whose comment has been hidden by moderator.
+    """
+    name = 'comment_notify'

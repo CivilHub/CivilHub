@@ -28,7 +28,7 @@
     <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
     <h2>
       {% trans "We didn't find any polls" %} {% trans "in" %} {{ location }}.<br /> 
-      {% trans "Please" %}{% if user.is_authenticated %} <a href="{% url 'locations:new_poll' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'first-poll');" >
+      {% trans "Please" %}{% if user.is_authenticated %} <a href="{% url 'locations:new_poll' location.slug %}" >
       {% else %}<a href="/users/login" >{% endif %}{% trans "add first poll" %}</a>.
     </h2>
 </div>{% endif %}

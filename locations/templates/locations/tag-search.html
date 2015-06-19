@@ -1,4 +1,14 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags %}
+{% block title %} {{ current_tag }} - {{ location.name }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{% trans "Search by tag" %} {{ current_tag }} {% trans "in" %} {{ location }}" />{% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ current_tag }}">
+<meta property="og:image" content="https://civilhub.org{{ location.background_url }}"/>
+<meta property="og:title" content="{{ current_tag }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:description" content="{% trans "Search by tag" %} {{ current_tag }} {% trans "in" %} {{ location }}" />
+<meta name="keywords" content="{{ current_tag }}, {{ location.name }}">{% endblock %}
 
 {% block content %}<div class="col-sm-9 main-content contentPX tags-Box-Search">
     <div class="row">{% for item in items %}

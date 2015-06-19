@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import patterns, url
 
-from rest_framework import routers
+from rest.routers import HybridRouter
 
 import api
 import views
 
-
-router = routers.DefaultRouter()
+router = HybridRouter()
 router.register('content_types', api.ContentTypeAPIViewSet, 'content_types')
 router.register('search', api.SearchResultsAPIViewSet, 'search')
+router.add_api_view('resons', url(r'^reasons/', api.AbuseReasonList.as_view(), name='reasons'))
 
 
 urlpatterns = patterns('',

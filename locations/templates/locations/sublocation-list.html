@@ -1,4 +1,17 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n actstream_tags %}
+
+{% block title %}{% trans "Sublocations" %} - {{ location.name }} - Civilhub.org {% endblock %}
+{% block description %}<meta name="description" content="{% trans "List of all sublocations that are inside current location." %}. {% trans "Act not only globally, but also on local community like small city, blocks of flats or estates." %}" />{% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{{ title }}">
+<meta property="og:title" content="{{ title }}"/>
+<meta property="og:image" content="https://civilhub.org{{ location.background_url }}"/>
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:url" content="https://civilhub.org/{{ location.slug }}/sublocations/" />
+<meta property="og:description" content="{% trans "List of all sublocations that are inside current location." %}. {% trans "Act not only globally, but also on local community like small city, blocks of flats or estates." %}"/>
+<meta name="keywords" content="{{ title }}">{% endblock %}
+
 {% block navigation_location %}<div class="location-page-subspaces">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 {% block content %}<div class="container sublocations">
   <h1>{% trans "Sublocations" %}</h1>
