@@ -13,7 +13,7 @@ PAGE_DIR = os.path.join(settings.BASE_DIR, 'staticpages/templates/staticpages/pa
 class HomeView(TemplateView):
     """
     Main site view. Depending on whether the user is already a logged-in user
-    or not, it presents a registration forum or a subpage of user activities. 
+    or not, it presents a registration forum or a subpage of user activities.
     """
     template_name = 'staticpages/pages/home.html'
 

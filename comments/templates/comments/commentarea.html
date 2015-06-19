@@ -1,4 +1,7 @@
-{% load i18n civil_tags mptt_tags %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
+{% load i18n civil_tags mptt_tags %}<div class="customEntry-comments">
+  <p>{{ count }} {% trans "Comments" %} {% if not count %} &nbsp; {% else %} <a class="comment-toggle custom-comments-toggle" data-target="{{ pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}</p>
+</div>
+<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
   <ul class="filters list-inline ml0">{% trans "Order by" %}:
     <li><a href="#" data-order="new">{% trans "Newest" %}</a></li>|
     <li><a href="#" data-order="old">{% trans "Oldest" %}</a></li>|

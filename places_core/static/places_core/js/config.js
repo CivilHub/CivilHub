@@ -162,15 +162,37 @@ require.config({
   }
 });
 
-// Here you can place scripts and configurations that that will load
-// before all other scripts on the site. In the example below, we set
-// global languages for moment.js.
+// Here you can place scripts and configurations that
+// will load before any other script on the site.
 
-require(['moment', 'ga'],
+require(['moment',
+         'backbone',
+         'js/modules/utils/utils',
+         'ga'],
 
-function (moment) {
+function (moment, Backbone, utils) {
+
   "use strict";
+
+  // Set global locales for moment.js
+
   moment.locale(CivilApp.language);
+
+  // Global Backbone overrides
+
+  Backbone._sync = Backbone.sync;
+
+  Backbone.sync = function (method, model, options) {
+    if (method == 'create' || method == 'update' || method == 'delete') {
+      $.ajaxSetup({
+        headers: { 'X-CSRFToken': utils.getCookie('csrftoken') }
+      });
+    }
+    return Backbone._sync(method, model, options);
+  };
+
+  // Google Analytics - should be moved to separate file
+
   window.ga('create', 'UA-51512403-1', 'auto');
   window.ga('require', 'linkid', 'linkid.js');
   window.ga('send', 'pageview');
