@@ -105,12 +105,12 @@
           </select></div>
           <nav>
             <ul class="cd-bouncy-nav">
-              <li><a class="bouncy-option" data-content="news" href="#">{% trans "News" %}</a></li>
-              <li><a class="bouncy-option" data-content="ideas" href="#">{% trans "Idea" %}</a></li>
-              <li><a class="bouncy-option" data-content="discussion" href="#">{% trans "Discussion" %}</a></li>
-              <li><a class="bouncy-option" data-content="polls" href="#">{% trans "Poll" %}</a></li>
-              <li><a class="bouncy-option" data-content="projects" href="#">{% trans "Project" %}</a></li>
-              <li><a class="bouncy-option" data-content="gallery" href="#">{% trans "Gallery" %}</a></li>
+              <li><a class="bouncy-option" data-content="news" href="#" onclick="ga('send', 'event', 'add', 'click', 'news');" >{% trans "News" %}</a></li>
+              <li><a class="bouncy-option" data-content="ideas" href="#" onclick="ga('send', 'event', 'add', 'click', 'idea');">{% trans "Idea" %}</a></li>
+              <li><a class="bouncy-option" data-content="discussion" href="#" onclick="ga('send', 'event', 'add', 'click', 'discussion');">{% trans "Discussion" %}</a></li>
+              <li><a class="bouncy-option" data-content="polls" href="#" onclick="ga('send', 'event', 'add', 'click', 'poll');">{% trans "Poll" %}</a></li>
+              <li><a class="bouncy-option" data-content="projects" href="#" onclick="ga('send', 'event', 'add', 'click', 'project');">{% trans "Project" %}</a></li>
+              <li><a class="bouncy-option" data-content="gallery" href="#" onclick="ga('send', 'event', 'add', 'click', 'gallery');">{% trans "Gallery" %}</a></li>
             </ul>
           </nav>
           <a href="#0" class="cd-close">Close modal</a>
@@ -124,7 +124,7 @@
             <li class="divider hidden-xs"></li>
             {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>{% endfor %}
             {% if user.is_authenticated %}<li class="divider hidden-xs"></li>
-            <li><a href="{% url 'locations:create' %}">{% trans "Create new place" %}</a></li>{% endif %}
+            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}
           </ul>
         </li>
         <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}

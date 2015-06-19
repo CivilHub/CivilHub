@@ -74,12 +74,16 @@ VoteArea.prototype.trigger = function (e) {
   var idea = this._active.attr('data-target-id');
   var vote = this._active.attr('data-vote');
   send(idea, { vote: vote }, this.showSummary, this);
+  window.CivilApp.gaEvents.voteIdea(vote);
 };
 
 VoteArea.prototype.showSummary = function (data) {
+  if (data.target === 1) {
+    openShareWindow();
+  }
   if (data.is_reversed) {
     this.$buttons.not(this._active).text(data.new_label);
-  } else {
+  } else if (!_.isNull(data.prev_target)) {
     this._active.attr('data-vote', data.prev_target);
   }
   this._active.text(data.label);

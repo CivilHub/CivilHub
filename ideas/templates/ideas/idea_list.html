@@ -10,8 +10,16 @@
         <div class="vote-form">
           <div class="votes counterup">{{ idea.votes_up }}</div>
           <div class="vote-controls">
-            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_up %}<span onclick="ga('send', 'event', 'vote', 'click', 'revoke-up');">revoke</span>{% else %}up{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow aup" title="{% trans "Good Idea, Vote YES" %}"></button>
-            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_no %}<span onclick="ga('send', 'event', 'vote', 'click', 'revoke-no');">revoke</span>{% else %}down{% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow adown" title="{% trans "Bad Idea, Vote No" %}"></button>
+            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_up %}
+            onclick="ga('send', 'event', 'vote', 'click', 'revoke-yes');"revoke
+            {% else %}
+            onclick="ga('send', 'event', 'vote', 'click', 'vote-yes');"up
+            {% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow aup" title="{% trans "Good Idea, Vote YES" %}";></button>
+            <button data-target-id="{{ idea.pk }}" data-vote="{% if voted_no %}
+            onclick="ga('send', 'event', 'vote', 'click', 'revoke-no');"revoke
+            {% else %}
+            onclick="ga('send', 'event', 'vote', 'click', 'vote-no');"down
+            {% endif %}" class="vote-btn vote-btn-active custom-tooltip-right fake-arrow adown" title="{% trans "Bad Idea, Vote No" %}"></button>
           </div>
         </div>
         <div class="clear">&nbsp;</div>

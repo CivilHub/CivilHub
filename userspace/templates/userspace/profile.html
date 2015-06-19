@@ -26,7 +26,7 @@
       <div class="profile-page-avatar"><img src="{{ profile.avatar.url }}" alt="{{ cuser.get_full_name }}" /></div>
       <div class="user-fullname">{{ cuser.get_full_name }}</div>
       {% if cuser.is_active %}
-        {% if user != cuser %}{% follow_button cuser %}{% endif %}
+        {% if user != cuser %}<span onclick="ga('send', 'event', 'follow', 'click', 'follow-user');">{% follow_button cuser %}</span>{% endif %}
         {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
         {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
         {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Twitter profile" %}"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}

@@ -13,15 +13,19 @@
       data-vote="{% if voted_up %}3{% else %}1{% endif %}"
       class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}"
       data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"
-      rel='tooltip'>{% if voted_up %}{% trans "Revoke" %}{% else %}{% trans "Vote YES" %}{% endif %}</button>
+      rel='tooltip'>
+      {% if voted_up %}{% trans "Revoke" %}{% else %}{% trans "Vote YES" %}
+      {% endif %}</button>
     </p>
     <p class="mb20">
       <button data-target-id="{{ idea.pk }}"
       data-vote="{% if voted_no %}3{% else %}2{% endif %}"
       class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn{% if user.is_anonymous %} civil-login-required{% endif %}"
       data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"
-      rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Vote NO" %}{% endif %}</button>
+      rel='tooltip'>
+      {% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Vote NO" %}
+      {% endif %}</button>
     </p>{% endif %}
-    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
+    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}" onclick="ga('send', 'event', 'vote', 'click', 'see-votes');">{% trans "See the results" %}</div>
   </div>
 </div>

@@ -114,6 +114,7 @@ INSTALLED_APPS = (
     'activities',  # Manage activity streams and different action hooks
     'simpleblog',  # Simplified blog functionality for NGO and projects
     'guides',
+    'user_tracker',# Track user activities and statistics
 
     'raven.contrib.django.raven_compat',
     'analytical',
@@ -131,15 +132,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
+    'comments.context_processors.ctmap',
+    'places_core.context_processors.site_processor',
 )
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'),]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'), ]
 
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'cooki18n.middleware.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'places_core.middleware.SubdomainMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.cache.FetchFromCacheMiddleware',
@@ -147,6 +149,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_tracker.middleware.VisitorTrackingMiddleware',
+    'places_core.middleware.SubdomainMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -159,6 +163,7 @@ WSGI_APPLICATION = 'places.wsgi.application'
 
 SESSION_COOKIE_DOMAIN = '.civilhub.org'
 
+# DO NOT CHANGE
 # Django messages framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 from django.contrib.messages import constants as messages
@@ -169,10 +174,12 @@ MESSAGE_TAGS = {
 
 POSTGIS_VERSION = (2,1,3)
 
+# DO NOT CHANGE
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = config['databases']
 
+# DO NOT CHANGE
 # Baza danych do testów
 if 'test' in sys.argv:
     DATABASES = {
@@ -182,7 +189,7 @@ if 'test' in sys.argv:
     }
 }
 
-
+# DO NOT CHANGE
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -192,6 +199,7 @@ MEDIA_ROOT   = os.path.join(BASE_DIR, 'media')
 MEDIA_URL    = '/media/'
 
 
+# DO NOT CHANGE
 # Haystack - search engine
 #-------------------------------------------------------------------------------
 HAYSTACK_CONNECTIONS = {
@@ -202,6 +210,7 @@ HAYSTACK_CONNECTIONS = {
 }
 
 
+# DO NOT CHANGE
 # Postman - wiadomości pomiędzy użytkownikami
 #-------------------------------------------------------------------------------
 POSTMAN_DISALLOW_ANONYMOUS = True
@@ -242,6 +251,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
     'places_core.social_auth.create_user_profile',
+    'places_core.social_auth.get_friends',
     'places_core.social_auth.get_user_avatar',
     'places_core.social_auth.update_user_social_profile',
 )
@@ -335,15 +345,13 @@ LOCALE_PATHS = (
 LANGUAGES = (
     ('en', 'English'),
     ('pl', 'Polski'),
-    ('es', 'Español (soon)'),
+    ('es', 'Español'),
     ('de', 'Deutsch'),
-    ('pt', 'Português (soon)'),
-    ('fr', 'Français (soon)'),
-    ('it', 'Italiano (soon)'),
-    ('cz', 'Ceština (soon)'),
+    ('pt', 'Português'),
+    ('fr', 'Français'),
 )
 
-
+# DO NOT CHANGE
 # CACHE
 #-------------------------------------------------------------------------------
 
@@ -358,6 +366,7 @@ CACHES = {
 }
 
 
+# DO NOT CHANGE
 # Email settings
 #-------------------------------------------------------------------------------
 EMAIL_HOST          = config['email_host']
@@ -377,6 +386,7 @@ EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
 DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
+# DO NOT CHANGE
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
 BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
@@ -397,7 +407,7 @@ CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 #-------------------------------------------------------------------------------
 DEFAULT_IMG_PATH = "img/item.png"
 # "Standardowe" pole z obrazkiem (Idea, News, Poll, Discussion)
-DEFAULT_IMG_SIZE = (572, 572)
+DEFAULT_IMG_SIZE = (680, 680)
 DEFAULT_THUMB_SIZE = (430, 142)
 # For each of set of size image thumbnals will be generated automatically.
 THUMB_SIZES = [
@@ -411,7 +421,7 @@ GALLERY_THUMB_SIZE = (270,170)
 
 # Sizes for thumbnails related to ContentObjectGalleries
 CO_THUMB_SIZES = {
-    'BIG': (570, 360),
+    'BIG': (680, 425),
     'SMALL': (60, 60),
 }
 
