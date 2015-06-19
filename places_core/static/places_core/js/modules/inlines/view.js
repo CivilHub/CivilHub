@@ -18,7 +18,8 @@ define(['jquery',
         'js/modules/inlines/reason',
         'text!js/modules/inlines/templates/comment.html',
         'text!js/modules/inlines/templates/comment_removed.html',
-        'text!js/modules/inlines/templates/edit_form.html'],
+        'text!js/modules/inlines/templates/edit_form.html',
+        'bootbox'],
 
 function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel,
           CommentCollection, VoteSummary, ReasonForm, html, altHtml, form) {
@@ -56,6 +57,14 @@ function delay (timeout, fn, context) {
       fn.call(context);
     }
   }, timeout);
+}
+
+function confirm (message, fn, context) {
+  bootbox.confirm(message, function (r) {
+    if (r && _.isFunction(fn)) {
+      fn.call(context);
+    }
+  });
 }
 
 var CommentView = Backbone.View.extend({
@@ -163,6 +172,13 @@ var CommentView = Backbone.View.extend({
       $(this).next('.comment-reason').slideToggle('fast');
     });
 
+    // Remove button
+
+    this.$('.comment-remove').on('click', function (e) {
+      e.preventDefault();
+      this.remove();
+    }.bind(this));
+
     return this;
   },
 
@@ -250,6 +266,23 @@ var CommentView = Backbone.View.extend({
         this.collection.fetch({ success: this.onFetch });
       }
     });
+  },
+
+  report: function (e) {
+    e.preventDefault();
+    var w = new AbuseWindow(
+      CivilApp.contentTypes.comments_customcomment,
+      this.model.get('id')
+    );
+  },
+
+  remove: function () {
+    confirm(gettext("Are you sure") + '?', function () {
+      this.$el.fadeOut('slow', function () {
+        this.model.destroy();
+        this.$el.empty().remove();
+      }.bind(this));
+    }, this);
   },
 
   // Edition form
@@ -347,14 +380,6 @@ var CommentView = Backbone.View.extend({
       e.preventDefault();
     }
     this.$('.comment-form-body:first').toggle();
-  },
-
-  report: function (e) {
-    e.preventDefault();
-    var w = new AbuseWindow(
-      CivilApp.contentTypes.comments_customcomment,
-      this.model.get('id')
-    );
   }
 });
 

@@ -10,33 +10,33 @@
         <ul class="sidebar-content custom-sidebar-nav">  
                             
             {% if 'new_discussion' in links %}<li>
-                <a href="{% url 'locations:new_topic' location.slug %}">
+                <a href="{% url 'locations:new_topic' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'discussion');">
                     {% trans "New discussion" %}
                 </a>
             </li>{% endif %}
             {% if 'new_poll' in links %}<li>
-                <a href="{% url 'locations:new_poll' location.slug %}">
+                <a href="{% url 'locations:new_poll' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'poll');">
                    {% trans "Create poll" %}
                 </a>
             </li>{% endif %}
             {% if 'new_location' in links %}<li>
-                <a href="{% url 'locations:news_create' location.slug %}">
+                <a href="{% url 'locations:news_create' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'news');">
                     {% trans "Add news" %}
                 </a>
             </li>{% endif %}
             {% if 'new_idea' in links %}<li>
-                <a href="{% url 'locations:new_idea' location.slug %}">
+                <a href="{% url 'locations:new_idea' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'idea');">
                     {% trans "New idea" %}</button>
                 </a>
             </li>{% endif %}
             {% if 'upload' in links %}<li>
-                <a href="{% url 'locations:upload' location.slug %}">Upload Images </a>
+                <a href="{% url 'locations:upload' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'image');">Upload Images </a>
             </li>{% endif %}
             {% if 'invite' in links %}<li>
                 <a href="/invite-friends/">{% trans "Invite people" %}</a>
             </li>{% endif %}
             {% if 'add_news' in links %}<li>
-                <a href="{% url 'locations:news_create' location.slug %}">
+                <a href="{% url 'locations:news_create' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'news');">
                     {% trans "Add news" %}
                 </a>
             </li>{% endif %}

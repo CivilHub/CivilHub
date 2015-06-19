@@ -48,7 +48,7 @@ class CommentList(viewsets.ModelViewSet):
     """
     model = CustomComment
     paginate_by = 5
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
     def get_queryset(self):
         qs = super(CommentList, self).get_queryset()
@@ -78,6 +78,10 @@ class CommentList(viewsets.ModelViewSet):
     def pre_save(self, obj):
         obj.user = self.request.user
         obj.submit_date = timezone.now()
+
+    def pre_delete(self, obj):
+        if self.request.user != obj.user:
+            raise PermissionDenied
 
     @action()
     def vote(self, request, pk):

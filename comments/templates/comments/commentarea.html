@@ -1,17 +1,20 @@
-{% load i18n civil_tags mptt_tags %}<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
+{% load i18n civil_tags mptt_tags %}<div class="customEntry-comments">
+  <p>{{ count }} {% trans "Comments" %} {% if not count %} &nbsp; {% else %} <a class="comment-toggle custom-comments-toggle" data-target="{{ pk }}" href="#">{% trans "Hide comments" %}</a>{% endif %}</p>
+</div>
+<div class="commentarea" data-ct="{{ ct }}" data-pk="{{ pk }}" data-count="{{ count }}" data-page="{{ first_page }}">
   <ul class="filters list-inline ml0">{% trans "Order by" %}:
     <li><a href="#" data-order="new">{% trans "Newest" %}</a></li>|
     <li><a href="#" data-order="old">{% trans "Oldest" %}</a></li>|
     <li><a href="#" data-order="votes">{% trans "Most voted" %}</a></li>
   </ul>
-  <noscript><ul class="civ-original-output">{% recursetree comments %}
+  <noscript><ul>{% recursetree comments %}
     <li>{{ node.user.get_full_name }}<br>{{ node.comment }}</li>
-    {% if not node.is_leaf_node %}<ul class="civ-original-output">{{ children }}</ul>{% endif %}
+    {% if not node.is_leaf_node %}<ul>{{ children }}</ul>{% endif %}
   {% endrecursetree %}</ul></noscript>
   {% if user.is_authenticated %}<div class="postbox">
     <div class="avatar"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG"></div>
     <div class="textarea-wrapper"><textarea name="comment" class="form-control" cols="10" rows="1"></textarea></div>
-    <div class="text-right"><button class="add-comment mb20 btn-sendBlue" type="button">{% trans "Add comment" %}</button></div>
+    <div class="text-right"><button class="add-comment mb20 btn-sendBlue" type="button" onclick="ga('send', 'event', 'comment', 'click', 'comment-in-content');">{% trans "Add comment" %}</button></div>
   </div>{% endif %}
   <div class="comments"></div>
 </div>

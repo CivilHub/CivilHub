@@ -2,7 +2,7 @@ CivilHub
 ----------
 CivilHub is a free and open-source platform written in Python & Django for the purpose of collaboration in local civic communities. 
 
-Our biggest dream is to build a tool that can helps us in collaboration and communication in the places we live in. In our opinion, citizens need a platform that will help them bring democracy and civil power onto a next level. 
+Our biggest dream is to build a tool that can helps us collaborate and communicate in the places we live in. In our opinion, citizens need a platform that will help them bring democracy and civil power onto a next level. 
 
 We believe that together we can create amazing things in our cities.
 Brief: https://civilhub.org/brief/
@@ -49,7 +49,7 @@ Features
 
 About Us
 ----------
-We are a group of young people, living in Warsaw (Poland) who want to live in a better country and city. In our opinion, citizens should take responsibility for how our country, the region looks like.
+We are a group of young people who live in Warsaw (Poland) and expect to spend our lives in a more friendly environment. In our opinion, citizens should take responsibility for how our country, the region looks like.
 
 Contact Us
 ----------

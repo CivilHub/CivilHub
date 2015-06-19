@@ -50,14 +50,14 @@
   <div class="container">
     <div class="title-container">
       <div class="project-name mt25"><h1>{{ object }}</h1></div>
-      <div class="project-content text-center"><p class="text-left">{{ object.description|safe|striptags|slice:'300' }}</p></div>
+      {% if object.description %}<div class="project-content text-center"><p class="text-left">{{ object.description|safe|striptags|slice:'300' }}</p></div>{% endif %}
       <div class="join-project-btn">
         {% if user.is_authenticated %}<form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
           {% if user in object.participants.all %}<div class="join-project-btn">
             <button type="submit" class="submit-button invisible">{% trans "Leave the Project" %}</button>
           </div>
           {% else %}<div class="join-project-btn">
-            <button type="submit" class="submit-button">{% trans "Join the Project" %}</button>
+            <button type="submit" class="submit-button" onclick="ga('send', 'event', 'project', 'click', 'join-project');">{% trans "Join the Project" %}</button>
           </div>{% endif %}
         </form>
         {% else %}<a href="{% url 'user:login' %}?next={{ object.get_absolute_url }}" class="submit-button">{% trans "Log in" %}</a> {% trans "if you want to join this project" %}{% endif %}

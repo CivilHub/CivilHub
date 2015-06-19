@@ -32,6 +32,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     answers = serializers.SerializerMethodField('get_answer_count')
     permission = serializers.SerializerMethodField('check_permission')
     reason = serializers.Field(source='get_reason_display')
+    is_owner = serializers.SerializerMethodField('check_ownership')
 
     def get_user_data(self, obj):
         serializer = UserDetailSerializer(obj.user)
@@ -52,11 +53,18 @@ class CommentDetailSerializer(serializers.ModelSerializer):
             return obj.has_permission(request.user)
         return False
 
+    def check_ownership(self, obj):
+        request = self.context.get('request', None)
+        if request is not None and request.user.is_authenticated():
+            return request.user == obj.user
+        return False
+
     class Meta:
         model = CustomComment
         fields = ('id', 'content_type', 'object_pk', 'submit_date', 'comment',
                   'parent', 'author', 'content_object', 'upvotes', 'downvotes',
-                  'note', 'answers', 'permission', 'is_removed', 'reason', )
+                  'note', 'answers', 'permission', 'is_removed', 'reason',
+                  'is_owner', )
 
 
 class CommentVoteSerializer(serializers.ModelSerializer):

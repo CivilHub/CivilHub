@@ -4,6 +4,7 @@
   <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
   <span class="comment-controls">
     <% if(permission) { %><a href="#" class="comment-moderate" title="<%= gettext("Hide entry") %>"><span class="fa fa-flag"> </span></a><% } %>
+    <% if(is_owner) { %><a href="#" class="comment-remove" title="<%= gettext("Remove comment") %>"><span class="fa fa-remove"> </span></a><% } %>
     <% if (author.id == CivilApp.user.id) { %>
       <a href="#" class="comment-edit" title="<%= gettext("Edit entry") %>">
         <span class="fa fa-edit"> </span>
@@ -35,7 +36,7 @@
           </div>
           <div class="form-group text-right">
             <button class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>
-            <button type="submit" class="btn btn-sendBlue btn-submit-comment"><%= gettext("Submit comment") %></button>
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment" onclick="ga('send', 'event', 'comment', 'click', 'reply');"><%= gettext("Submit comment") %></button>
           </div>
         </form>
       </div>
