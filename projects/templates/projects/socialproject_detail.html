@@ -109,13 +109,7 @@
           </div>
         </div>{% endif %}
       </div><!-- ./ .task-Container-right -->
-      {% if active_task %}<div class="task-comments-right">
-      <div class="customEntry-comments">
-        <p>
-          {% trans "Comments" %}: <span class="comment-count">{% get_comment_count active_task %}</span>
-          <a class="comment-toggle custom-comments-toggle" data-target="{{ active_task.pk }}" href="#">{% trans "Hide comments" %}</a>
-        </p>
-      </div>{% commentarea active_task %}{% endif %}
+      {% if active_task %}<div class="task-comments-right">{% commentarea active_task %}</div>{% endif %}
     </div>
   </div>
   {% if user in active_task.participants.all %}

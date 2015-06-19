@@ -50,16 +50,7 @@
         <div class="row">
           <div class="acticle-content news-contetn mt25">{{ news.content|safe }}</div>
         </div>
-        <div class="row">{% with news|content_type as ctype %}
-          <input type="hidden" id="target-id" value="{{ news.pk }}" />
-          <input type="hidden" id="target-label" value="simpleblog" />
-          <input type="hidden" id="target-type" value="{{ ctype.pk }}" />
-          <div class="customEntry-comments">
-          <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count news %}</span>
-            <a class="comment-toggle custom-comments-toggle" data-target="{{ news.pk }}" href="#">{% trans "Hide comments" %}</a></p>
-          </div>
-          {% include 'comments/commentlist.html' %}
-        {% endwith %}</div>
+        <div class="row">{% commentarea news %}</div>
       </div><!--colsm10-->
     </div>
   </div>
