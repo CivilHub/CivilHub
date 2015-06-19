@@ -1,1 +1,341 @@
-{% load i18n %}<p>{% trans "We noticed, that you have not been logged in on our page since few days" %}</p>
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CivilHub.org</title>
+  <style type="text/css">
+    @import url(https://fonts.googleapis.com/css?family=Lato:400);
+    /* Take care of image borders and formatting */
+    img {
+      max-width: 600px;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+    a {
+      text-decoration: none;
+      border: 0;
+      outline: none;
+      color: #0582F7;
+    }
+    a img {
+      border: none;
+    }
+    /* General styling */
+    td, h1, h2, h3  {
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: 400;
+    }
+    body {
+      -webkit-font-smoothing:antialiased;
+      -webkit-text-size-adjust:none;
+      width: 100%;
+      height: 100%;
+      color: #37302d;
+      background: #ffffff;
+    }
+    table {
+      background:
+    }
+    h1, h2, h3 {
+      padding: 0;
+      margin: 0;
+      color: #4d4d4d;
+      font-weight: 400;
+    }
+    h1{
+      font-weight: bold;
+      color: #3c3c3c;
+      margin-bottom: 10px;
+      font-size: 50px;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h3.title{
+      color: #333333;
+      margin: 10px 0 20px;
+    }
+    h3.goto{
+      color: #333333;
+      font-size: 22px;
+    }
+    .subtitle{
+      color: #bfbfbf;
+    }
+    .popular{
+      color: #0083fb;
+      font-size: 32px;
+    }
+    .min-border-top-last{
+      position: relative;
+      height: 30px;
+    }
+    .min-border-top-last:before,
+    .min-border-top-last::before{
+      content: "";
+      width: 200px;
+      position: absolute;
+      left: 50%;
+      margin-left: -100px;
+      border-bottom-width: 1px;
+      border-bottom-color: #bfbfbf;
+      border-bottom-style: solid;
+    }
+    img.avatar{
+      height: 32px;
+      width: 32px;
+    }
+    .info-user{
+      font-size: 12px;
+      color: #666666;
+    }
+    .info-user .blue{
+      color: #0083fb;
+    }
+    .user-name{
+      color: #333333;
+    }
+
+  </style>
+  <style type="text/css" media="screen">
+    @media screen {
+       /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
+      td, h1, h2, h3 {
+        font-family: 'Lato', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+      }
+    }
+  </style>
+  <style type="text/css" media="only screen and (max-width: 480px)">
+    /* Mobile styles */
+    @media only screen and (max-width: 480px) {
+      table[class="w320"] {
+        width: 320px !important;
+      }
+      table[class="w300"] {
+        width: 300px !important;
+      }
+      table[class="w290"] {
+        width: 290px !important;
+      }
+      td[class="w320"] {
+        width: 320px !important;
+      }
+      td[class="mobile-center"] {
+        text-align: center !important;
+      }
+      td[class="mobile-padding"] {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 20px !important;
+      }
+    }
+  </style>
+</head>
+<body class="body" style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none" bgcolor="#ffffff">
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%" >
+  <tr>
+    <td align="center" valign="top" bgcolor="#ffffff"  width="100%">
+    <table cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td style="border-bottom: 3px solid #f0f0f0;" width="100%">
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td valign="top" style="padding:20px 0; text-align:left;" class="mobile-center">
+                  <a href="https://civilhub.org"><img width="137" height="25" src="https://civilhub.org/static/places_core/img/emails/logo.png"></a>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color:#f7f7f7;">
+          <!--[if gte mso 9]>
+          <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:150px;">
+           <v:textbox inset="0,0,0,0">
+          <![endif]-->
+          <div>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="auto" height="150" class="w320">
+                <tr>
+                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="150">
+                    <h1 style="font-weight: bold; color: #3c3c3c; margin-bottom: 10px; font-size: 50px;">{% trans "Last week on CivilHub" %}</h1>
+                    <h2 class="subtitle" style="color: #bfbfbf;">{% trans "See what happened when you where away" %}</h2>
+                  </td>
+                </tr>
+              </table>
+            </center>
+          </div>
+          <!--[if gte mso 9]>
+            </v:textbox>
+          </v:rect>
+          <![endif]-->
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" style="background-color: #f7f7f7;">
+          <center>
+            <table cellspacing="0" cellpadding="20%" width="500" class="w320" border="1" frame="border" rules="all" style="border-color: #bfbfbf; margin: 50px 0; background-color: #FFFFFF; ">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="0" width="100%">
+                    <tr>
+                      <td>
+                        <table cellspacing="0" cellpadding="0" width="100%">
+                          <tr>
+                      <td class="mobile-padding" valign="top" style="text-align:center; height: 60px;">
+                        <h2><span class="popular" style="font-size: 32px; color: #0083fb;">{% trans "Popular entries" %}</span></h2>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href=""><img width="657" height="438" src="http://www.lorempixum.com/657/438/city"></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><h3 class="title">Umowa na odbudowę mostu Łazienkowskiego podpisana</h3></td>
+                    </tr>
+                    <tr>
+                      <td>Ofertę wybrano spośród czterech, które wpłynęły do Zarządu Dróg Miejskich. Przedsiębiorstwo zaproponowało cenę o 2 mln zł. niższą niż ta, zaproponowało cenę o 2 mln zł. niższą niż ta, którą zakładał budżet przeznaczony na ten cel (106,6 mln zł.). Prace na moście ruszą prawdopodobnie...</td>
+                    </tr>
+                    <tr height="50" style="height: 50px;">
+                      <td valign="middle" style="text-align: left;">
+                        <table width="auto">
+                          <tr>
+                            <td><img width="32" height="32" src="http://www.lorempixum.com/32/32/people" alt="" /></td>
+                            <td class="info-user" style="font-size: 12px; color: #666666;"><a href="" class="user-name" style="color: #333333;">Damian Domański</a> dodał <span class="blue" style="color: #0083fb;">Pomysł</span> w <span class="blue" style="color: #0083fb;">Warszawa</span><br>10.12.2099</td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                      <td class="min-border-top" style="border-bottom: 1px solid #bfbfbf; height: 30px;"></td>
+                    </tr>
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="0" width="70%" class="w20" style="display: inline-block; vertical-align: top;">
+                    <tr>
+                      <td class="w320"><h3 class="title">Dość, że słuchał rozmowy grzeczne z rzadka rzeczne z rzadka grzeczne</h3>
+                      Ofertę wybrano spośród czterech, które wpłynęły do Zarządu Dróg Miejskich. Przedsiębiorstwo zaproponowało cenę o 2 mln zł. niższą niż ta, zaproponowało cenę o 2 mln zł. niższą niż ta, którą zakładał budżet przeznaczony na ten cel (106,6 mln zł.). Prace na moście ruszą prawdopodobnie...</td>
+                      <tr style="height: 50px;" height="50">
+                      <td valign="middle" style="text-align: left;">
+                        <table width="auto">
+                          <tr>
+                            <td><img width="32" height="32" src="http://www.lorempixum.com/32/32/people" alt="" /></td>
+                            <td class="info-user" style="font-size: 12px; color: #666666;"><a href="" class="user-name" style="color: #333333;">Damian Domański</a> dodał <span class="blue" style="color: #0083fb;">Pomysł</span> w <span class="blue" style="color: #0083fb;">Warszawa</span><br>10.12.2099</td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    </tr>
+                  </table>
+                  <table cellspacing="0" cellpadding="0" width="29%" class="w20" style="display: inline-block; vertical-align: top;">
+                    <tr>
+                      <td valign="top" class="w320" style="text-align: center;">
+                          <img width="175" height="130" src="http://www.lorempixum.com/175/130/animals" alt="" style="margin-top: 16px;" />
+                       </td>
+                    </tr>
+
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="min-border-top" style="border-bottom: 1px solid #bfbfbf; height: 30px;"></td>
+              </tr>
+              <tr>
+                <td>
+                  <table cllspacing="0" cellpadding="0" width="100%" class="w320">
+
+                    <tr>
+                      <td><h3 class="title">Dość, że słuchał rozmowy grzeczne z rzadka rzeczne z rzadka grzeczne</h3></td>
+                    </tr>
+                    <tr>
+                      <td>Ofertę wybrano spośród czterech, które wpłynęły do Zarządu Dróg Miejskich. Przedsiębiorstwo zaproponowało cenę o 2 mln zł. niższą niż ta, zaproponowało cenę o 2 mln zł. niższą niż ta, którą zakładał budżet przeznaczony na ten cel (106,6 mln zł.). Prace na moście ruszą prawdopodobnie...</td>
+                    </tr>
+                    <tr style="height: 50px;" height="50">
+                      <td valign="middle" style="text-align: left;">
+                        <table width="auto" class="w320">
+                          <tr>
+                            <td><img width="32" height="32" src="http://www.cs-podlasie.com/uploads/avatars/avatar_569.png" alt="" /></td>
+                            <td class="info-user" style="font-size: 12px; color: #666666;"><a href="" class="user-name" style="color: #333333;">Damian Domański</a> dodał <span class="blue" style="color: #0083fb;">Pomysł</span> w <span class="blue" style="color: #0083fb;">Warszawa</span><br>10.12.2099</td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="0" width="100%" class="w320">
+                    <tr>
+                      <td class="min-border-top-last"></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center;"><h3 class="goto">Zobacz co dzieje się w Twojej okolicy.<br />Wprowadź realne zmiany w Twojej okolicy</h3></td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: center;">
+                        <table cellspacing="0" cellpadding="0" width="auto" style="margin: 10px auto;" class="w320">
+                          <tr>
+                            <td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;-webkit-text-size-adjust:none;mso-hide:all;"><a href="//civilhub.org/" style="text-decoration: none; padding: 0 15px;"><span style="color:#ffffff">{% trans "Go to CivilHub" %}</span></a>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+  
+      <tr>
+        <td bgcolor="#ffffff" valign="top">
+          <center>
+            <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%" class="w320">
+              <tr>
+                <td style="text-align:center; margin:0 auto; border-top: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
+                   <br>
+                   <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
+                    CivilHub.org
+                   </a>
+                </td>
+              </tr>
+            </table>
+          </center>
+          <center>
+            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+              <tr>
+                <td>
+                  <table cellspacing="0" cellpadding="30" width="100%" class="w320">
+                    <tr>
+                      <td style="text-align:center; padding: 0 30px 30px 30px;">
+                        <a href="https://civilhub.org/terms/" style="font-size: 12px;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px;">{% trans "Privacy Policy" %}</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </td>
+      </tr>
+    </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
