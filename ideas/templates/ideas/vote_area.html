@@ -22,6 +22,6 @@
       data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"
       rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Vote NO" %}{% endif %}</button>
     </p>{% endif %}
-    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}">{% trans "See who as voted" %}</div>
+    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}" onclick="ga('send', 'event', 'vote', 'click', 'see-votes');">{% trans "See the results" %}</div>
   </div>
 </div>

@@ -70,7 +70,7 @@
 
                 <div class="text-right">
                     <button type="reset" class="btn btn-cancelBig ">{% trans "Cancel" %}</button>
-                    <button type="submit" class="btn btn-saveBig submit-btn">{% trans "Save" %}</button>
+                    <button type="submit" class="btn btn-saveBig submit-btn" onclick="ga('send', 'event', 'add-save', 'click', 'poll');">{% trans "Save" %}</button>
                 </div>
             </form>
         </div>

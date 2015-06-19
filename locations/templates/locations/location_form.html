@@ -101,7 +101,7 @@
 			{% endcomment %}<div class="form-group">
 				<div class="col-sm-2">&nbsp;</div>
 				<div class="col-sm-10 text-right">
-					<button type="submit" class="btn btn-greenBig">{% if action and action == 'edit' %}{% trans "Save changes" %}{% else %}{% trans "Create new location" %}{% endif %}</button>
+					<button type="submit" class="btn btn-greenBig">{% if action and action == 'edit' %}{% trans "Save changes" %}{% else %}<span onclick="ga('send', 'event', 'add-save', 'click', 'place');">{% trans "Create new location" %}</span>{% endif %}</button>
 				</div>
 			</div>
 		</form>

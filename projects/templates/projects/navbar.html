@@ -24,7 +24,7 @@
       </ul>{% if user in object.participants.all %}
       <ul class="nav navbar-nav navbar-right">
         <li><form method="post" action="{% url 'locations:project_join' location.slug object.slug %}">{% csrf_token %}
-            <button type="submit" class="btn-link btn-link-fix">{% trans "Leave the Project" %}</button>
+            <button type="submit" class="btn-link btn-link-fix" onclick="ga('send', 'event', 'project', 'click', 'leave-project');">{% trans "Leave the Project" %}</button>
         </form></li>
       </ul>{% endif %}
     </div>

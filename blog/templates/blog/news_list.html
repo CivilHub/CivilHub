@@ -22,7 +22,7 @@
   <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
   <h2>
     {% trans "We didn't find any news" %} {% trans "in" %} {{ location }}.<br />
-    {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'locations:news_create' location.slug %}" >
+    {% trans "Please" %} {% if user.is_authenticated %}<a href="{% url 'locations:news_create' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'first-news');" >
     {% else %}<a href="/users/login" >{% endif %}{% trans "add first news" %}</a>.
   </h2>
 </div>{% endif %}

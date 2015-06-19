@@ -96,4 +96,37 @@ $(document).ready(function () {
   });
 });
 
+
+// Google Analyitics functions
+// -------------------------------------------------------------------------
+
+// google analyitics follow/unfollow user
+$(document).ready(function(){
+  var civFollowBtn = $('.civ-follow-btn');
+  civFollowBtn.click(function(){
+      if (civFollowBtn.hasClass('btn-follow')) {
+      window.ga('send', 'event', 'follow', 'click', 'follow-user');
+    }
+    else if (civFollowBtn.hasClass('btn-unfollow')) {
+      window.ga('send', 'event', 'follow', 'click', 'unfollow-user');
+    }
+  })
 });
+
+// google analyitics follow/unfollow location
+$(document).ready(function(){
+  var locFllwBtn = $('.loc-fllw-btn');
+  locFllwBtn.click(function(){
+      if (locFllwBtn.hasClass('btn-follow-location')) {
+      window.ga('send', 'event', 'follow', 'click', 'follow-location');
+    }
+    else if (locFllwBtn.hasClass('btn-unfollow-location')) {
+      window.ga('send', 'event', 'follow', 'click', 'unfollow-location');
+    }
+  })
+});
+
+
+});
+
+

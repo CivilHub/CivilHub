@@ -57,7 +57,7 @@
             <button type="submit" class="submit-button invisible">{% trans "Leave the Project" %}</button>
           </div>
           {% else %}<div class="join-project-btn">
-            <button type="submit" class="submit-button">{% trans "Join the Project" %}</button>
+            <button type="submit" class="submit-button" onclick="ga('send', 'event', 'project', 'click', 'join-project');">{% trans "Join the Project" %}</button>
           </div>{% endif %}
         </form>
         {% else %}<a href="{% url 'user:login' %}?next={{ object.get_absolute_url }}" class="submit-button">{% trans "Log in" %}</a> {% trans "if you want to join this project" %}{% endif %}

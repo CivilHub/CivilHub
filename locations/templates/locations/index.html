@@ -59,9 +59,9 @@
             <div class="followers sprite-icon"><a href="{% url 'locations:followers' location.slug %}" class="text-white"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</a></div>
 
         {% if user in location.users.all %}
-            <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "You are following" %}</button>
+            <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}" >{% trans "You are following" %}</button>
         {% else %}
-            {% if user.is_authenticated %}<button type="button" class="loc-fllw-btn btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
+            {% if user.is_authenticated %}<button type="button" class="loc-fllw-btn btn-follow-location chFollowers" data-location-id="{{ location.pk }}" >{% trans "Follow" %}</button>
             {% else %}<form action="{% url 'user:login' %}" method="get">
                 <input type="hidden" name="next" value="{{ request.path }}">
                 <button type="submit" class="btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
@@ -71,7 +71,7 @@
         </div>
 
         {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
-        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}">{% trans "Edit this location" %}</a>
+        <a class="change-background-btn" href="{% url 'locations:update' location.slug %}" onclick="ga('send', 'event', 'edit', 'click', 'location');" >{% trans "Edit this location" %}</a>
         {% if user.is_superuser %}<a class="change-background-btn" href="{% url 'civmail:followers-message' location.pk %}">{% trans "Send message to followers" %}</a>
         <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}</div>{% endif %}
 

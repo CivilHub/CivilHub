@@ -11,7 +11,7 @@
   {% if user.is_authenticated %}<div class="postbox">
     <div class="avatar"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="user-avatar avatarViewIMG"></div>
     <div class="textarea-wrapper"><textarea name="comment" class="form-control" cols="10" rows="1"></textarea></div>
-    <div class="text-right"><button class="add-comment mb20 btn-sendBlue" type="button">{% trans "Add comment" %}</button></div>
+    <div class="text-right"><button class="add-comment mb20 btn-sendBlue" type="button" onclick="ga('send', 'event', 'comment', 'click', 'comment-in-content');">{% trans "Add comment" %}</button></div>
   </div>{% endif %}
   <div class="comments"></div>
 </div>

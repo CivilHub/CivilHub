@@ -35,7 +35,7 @@
           </div>
           <div class="form-group text-right">
             <button class="btn btn-cancelGray btn-cancel-comment"><%= gettext("Cancel") %></button>
-            <button type="submit" class="btn btn-sendBlue btn-submit-comment"><%= gettext("Submit comment") %></button>
+            <button type="submit" class="btn btn-sendBlue btn-submit-comment" onclick="ga('send', 'event', 'comment', 'click', 'reply');"><%= gettext("Submit comment") %></button>
           </div>
         </form>
       </div>
