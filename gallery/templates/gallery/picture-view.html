@@ -15,15 +15,6 @@
   <div class="picture-main-view mb20 text-center">
     <img class="content-image" src="{{ picture.url }}" data-jslghtbx="{{ picture.url }}" alt="{{ picture.name }}" />
   </div>
-  <div class="blog-commentlist">
-  <input type="hidden" id="target-id" value="{{ picture.pk }}" />
-  <input type="hidden" id="target-label" value="gallery" />
-  <input type="hidden" id="target-type" value="{{ picture.content_type }}" />
-    <div class="customEntry-comments">
-      <p>{% trans "Comments" %}: <span class="badge comment-count">{% get_comment_count picture %}</span>
-        <a class="comment-toggle custom-comments-toggle" data-target="{{ picture.pk }}" href="#">{% trans "Hide comments" %}</a></p>
-    </div>
-    {% include 'comments/commentlist.html' %}
-  </div>
+  <div class="blog-commentlist">{% commentarea picture %}</div>
 </div>
 <div class="col-sm-3 boxPX">{% include 'locations/sidebar.html' %}</div>{% endblock %}

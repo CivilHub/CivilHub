@@ -128,15 +128,18 @@ class ActionObjectSerializer(serializers.Serializer):
         return image_data
 
     def get_comment_count(self, obj):
-        return len(CustomComment.objects.for_model(obj))
+        return CustomComment.objects.for_model(obj).count()
 
     def get_comment_data(self, obj):
         if obj._meta.model_name not in content_objects:
             return ''
-        qs = CustomComment.objects.for_model(obj).filter(parent__isnull=True)
+        qs = CustomComment.objects.for_model(obj)\
+                                    .filter(parent__isnull=True)\
+                                    .order_by('-submit_date')
         return {
-            'has_next': len(CustomComment.objects.for_model(obj)) > get_config('PAGINATE_BY'),
-            'results': CommentDetailSerializer(qs[:get_config('PAGINATE_BY')], many=True).data
+            'has_next': len(qs) > get_config('PAGINATE_BY'),
+            'results': CommentDetailSerializer(qs[:get_config('PAGINATE_BY')],
+                                        many=True, context=self.context).data
         }
 
 
@@ -185,7 +188,8 @@ class ActionSerializer(serializers.ModelSerializer):
     def get_action_object(self, obj):
         if not obj.action_object:
             return None
-        serializer = ActionObjectSerializer(obj.action_object)
+        serializer = ActionObjectSerializer(obj.action_object,
+                                            context=self.context)
         return serializer.data
 
     def get_action_target(self, obj):

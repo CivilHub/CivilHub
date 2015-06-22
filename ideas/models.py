@@ -152,11 +152,12 @@ class Idea(ImagableItemMixin, models.Model):
         return vote_data
 
     def save(self, *args, **kwargs):
+        # Clean user input data
         self.name = strip_tags(self.name)
         if len(self.name) >= 64:
             self.name = truncatesmart(self.name, 60)
         self.description = sanitizeHtml(self.description)
-
+        # Create unique SEO-frinedly slug
         slug = slugify(self.name)
         self.slug = slug
         success = False

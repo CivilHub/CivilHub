@@ -10,7 +10,7 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/common/counters',
            'js/modules/locations/follow',
            'js/modules/inviter/userinviter',
-           'js/modules/comments/comments',
+           'js/modules/inlines',
            'js/modules/ui/run-lightbox'],
 
   function ($) {

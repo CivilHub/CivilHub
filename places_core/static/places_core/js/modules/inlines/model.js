@@ -24,17 +24,17 @@ function send(url, data, fn, context) {
 var CommentModel = Backbone.Model.extend({
   url: function () {
     var origUrl = Backbone.Model.prototype.url.call(this);
-    return origUrl + (origUrl.charAt(origUrl.length - 1) == '/' ? '' : '/');
+    origUrl += (origUrl.charAt(origUrl.length - 1) == '/' ? '' : '/');
+    var res = (new RegExp(/\?parent\=[0-9]+/)).exec(origUrl);
+    if (!_.isNull(res)) {
+      origUrl = origUrl.replace(res[0] + '/', '');
+    }
+    return origUrl;
   },
 
   flag: function (vote) {
     var data = (!_.isUndefined(vote)) ? { vote: vote } : {};
-    var url = this.url();
-    var res = (new RegExp(/\?parent\=[0-9]+/)).exec(url);
-    if (!_.isNull(res)) {
-      url = url.replace(res[0] + '/', '');
-    }
-    send(url + 'moderate/', data, function (response) {
+    send(this.url() + 'moderate/', data, function (response) {
       this.set({
         is_removed: response.is_removed,
         reason: response.reason

@@ -14,7 +14,16 @@
       .comment-controls{ opacity: 1; }
     }
     &.comment-removed {
-      background-color: #adadad;
+      position: relative;
+      opacity: 0.5;
+      &::before{
+        background-color: #F6F8F8;
+        content: "";
+        width: 40px;
+        position: absolute;
+        height: 100%;
+        left: 0;
+      }
       >.comment-content {
         color: #ff0000;
       }
@@ -177,6 +186,9 @@
   .subcomments{
     .comment-main-col{
       padding-left: 25px;
+      &.comment-removed {
+        &::before{ width: 25px; }
+      }
     }
     .comment-avatar-col{
       img{ .user-avatar-minithumb; }
@@ -231,4 +243,12 @@
 noscript ul {
   margin: 0px;
   padding: 0px;
+}
+
+#reason-form{
+  display: inline-block;
+  border: 1px solid #DDDDDD;
+  padding: 15px;
+  background-color: #FFFFFF;
+  .border-radius(4px);
 }
