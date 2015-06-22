@@ -14,6 +14,10 @@ function ($, _, Backbone, L, tpl) {
 
 "use strict";
 
+// Avoid https://forge.typo3.org/issues/62424
+
+L.Icon.Default.imagePath = CivilApp.staticURL + '/includes/leaflet/images/';
+
 // Some basic options and common "constants"
 // -----------------------------------------------------------------------------
 
