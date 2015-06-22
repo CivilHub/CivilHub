@@ -77,7 +77,7 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/gallery/update/(?P<pk>\d+)/', LocationGalleryUpdateView.as_view(), name='gallery_update'),
     url(r'^(?P<slug>[\w-]+)/gallery/delete/(?P<pk>\d+)/', location_gallery_delete, name='remove_picture'),
     url(r'^(?P<slug>[\w-]+)/gallery/(?P<pk>\d+)/', PlacePictureView.as_view(), name='picture'),
-    url(r'^(?P<slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
+    url(r'^(?P<location_slug>[\w-]+)/gallery/', LocationGalleryView.as_view(), name='gallery'),
 
     # PROJECTS in locations
     url(r'^(?P<location_slug>[\w-]+)/projects/create/(?P<idea_pk>\d+)/', project_views.CreateProjectView.as_view(), name='project_create_for_idea'),

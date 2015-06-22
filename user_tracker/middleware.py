@@ -66,17 +66,16 @@ class VisitorTrackingMiddleware(object):
         try:
             visitor = Visitor.objects.get(**attributes)
         except Visitor.DoesNotExist:
-            # If user is anonymous, try to find similar session with same ip address
-            # and user agent that was active no longer than 5 minutes ago.
+            # see if there's a visitor with the same IP and user agent
+            # within the last 5 minutes
             cutoff = now - timedelta(minutes=5)
             visitors = Visitor.objects.filter(
-                user__isnull=True,
                 ip_address=ip_address,
                 user_agent=user_agent,
                 last_update__gte=cutoff
             )
 
-            if len(visitors) and user is None:
+            if len(visitors):
                 visitor = visitors[0]
                 visitor.session_key = session_key
             else:

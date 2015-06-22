@@ -1,0 +1,7 @@
+<h4><% if (user.url) { %><a href="<%= user.url %>"><% } %><%= user.fullname %><% if (user.url) { %></a><% } %></h4>
+<ul>
+  <li>IP address: <%= ip_address %></li>
+  <li>Last update: <%= last_update %></li>
+  <li>Page views: <%= page_views %></li>
+  <li>User agent: <%= user_agent %></li>
+</ul>
