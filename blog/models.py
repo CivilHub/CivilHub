@@ -125,6 +125,6 @@ def notify_about_news_deletion(sender, instance, **kwargs):
         verb=_(u"deleted your blog entry - {}".format(instance.title)),
         action_object=instance
     )
-models.signals.post_delete.connect(notify_about_news_deletion, sender=News)
+#models.signals.post_delete.connect(notify_about_news_deletion, sender=News)
 models.signals.post_save.connect(adjust_uploaded_image, sender=News)
 models.signals.post_delete.connect(remove_image, sender=News)
