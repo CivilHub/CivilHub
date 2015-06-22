@@ -83,6 +83,7 @@ from activities.urls import router as activity_router
 from hitcounter.urls import router as hitcounter_router
 from comments.urls import router as comment_router
 from polls.urls import router as poll_router
+from blessings.urls import router as bless_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -97,6 +98,7 @@ urlpatterns = patterns('',
     url(r'^api-hitcounter/', include(hitcounter_router.urls)),
     url(r'^api-comments/', include(comment_router.urls)),
     url(r'^api-polls/', include(poll_router.urls)),
+    url(r'^api-bless/', include(bless_router.urls)),
 )
 
 from civmail.views import ContactEmailView, InviteFriendsView

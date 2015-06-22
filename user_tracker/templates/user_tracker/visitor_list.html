@@ -1,9 +1,10 @@
-{% extends 'places_core/base.html' %}{% load i18n civil_tags tracking_tags %}
+{% extends 'places_core/base.html' %}{% load i18n staticfiles civil_tags tracking_tags %}
+{% block extra_styles %}<link rel="stylesheet" href="{% static 'places_core/includes/leaflet/MarkerCluster.css' %}">
+<link rel="stylesheet" href="{% static 'places_core/includes/leaflet/MarkerCluster.Default.css' %}">{% endblock %}
 {% block require_scripts %}<script src="{% module_path 'visitors' %}"></script>{% endblock %}
 {% block content %}<h2>{% visitors_on_page as vpage %}{% trans "Visitors on page" %}: {{ vpage }}</h2>
 <h2>{% visitors_on_site as vsite %}{% trans "Visitors on site" %}: {{ vsite }}</h2>
 <ul>{% for visitor in object_list %}
   <li>{{ visitor.user.profile }}</li>
 {% endfor %}</ul>
-<pre>{{ geodata }}</pre>
-<div id="map" data-markers="{{ geodata }}"></div>{% endblock %}
+<div id="map" data-markers="{{ geodata }}" style="width:800px;height:600px;"></div>{% endblock %}
