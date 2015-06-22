@@ -28,9 +28,9 @@
         <div class="profile-page-avatar">
           <img src="{{ profile.avatar.url }}" alt="{{ profile }}" />
         </div>
-        <div class="user-fullname">
+        <h1 class="user-fullname">
           {{ profile }}
-        </div>
+        </h1>
         {% follow_button profile.user %}
         {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
         {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
