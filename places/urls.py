@@ -56,17 +56,7 @@ sitemaps = {
     'guides': sitemaps.GuideSitemap,
 }
 # Javascript translations catalog
-js_info_dict = {
-    'packages': (
-        'comments',
-        'blog',
-        'gallery',
-        'locations',
-        'maps',
-        'topics',
-        'userspace',
-    ),
-}
+js_info_dict = {'packages': ('places_core', ), }
 
 # Django Rest Framework
 # ------------------------------------------------------------------------------

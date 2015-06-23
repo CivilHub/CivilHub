@@ -18,7 +18,8 @@ def blessbox(context, obj):
             'item_counter': len(blessings),
             'last_user': blessings.first().user,
             'count_others': blessings.count() - 1, })
-    if len(blessings.filter(user=context['request'].user)):
-        context.update({'user_vote': True, })
+    if context['request'].user.is_authenticated():
+        if len(blessings.filter(user=context['request'].user)):
+            context.update({'user_vote': True, })
     template = loader.get_template('blessings/blessbox.html')
     return template.render(context)

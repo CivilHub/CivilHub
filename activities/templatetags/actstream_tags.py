@@ -4,6 +4,9 @@ from django.template import loader, Context, Library, Node
 from django.utils.translation import ugettext as _
 
 from actstream.models import following
+from rest_framework.renderers import JSONRenderer
+
+from ..helpers import get_first_page
 
 register = Library()
 
@@ -17,6 +20,7 @@ def actstream(obj, stream_type='user'):
     ct = ContentType.objects.get_for_model(obj).pk
     template = loader.get_template('activities/actstream.html')
     context = Context({'ct': ct, 'pk': obj.pk, 'type': stream_type, })
+    context['first_page'] = JSONRenderer().render(get_first_page(obj, stream_type))
     return template.render(context)
 
 
