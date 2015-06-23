@@ -33,6 +33,7 @@
       <li></li>
       {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
       <li>{% endwith %}{% bookmark_form idea user %}</li>
+      <!-- {% if user.is_superuser %}<li><a href="">{% trans "Widget" %}</a></li>{% endif %} -->
     </ul>
   </div>
   <div class="row ivotepage mb20">
