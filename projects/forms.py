@@ -128,7 +128,8 @@ class ProjectNGOForm(forms.Form):
     """ Allow privileged users to add project to organizations they manage. """
     project = forms.ModelChoiceField(queryset=SocialProject.objects.all(),
                                      widget=forms.HiddenInput())
-    organization = forms.ModelChoiceField(queryset=Organization.objects.all())
+    organization = forms.ModelChoiceField(queryset=Organization.objects.all(),
+                                        label=_(u"organization"))
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')

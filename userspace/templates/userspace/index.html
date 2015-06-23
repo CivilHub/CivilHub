@@ -58,6 +58,7 @@
           <li><a href="#" class="simple-tabs-link" data-target="tab-1">{% trans "Profile summary" %}</a></li>
           <li><a href="#" class="simple-tabs-link" data-target="tab-2">{% trans "Change password" %}</a></li>
           <li><a href="#" class="simple-tabs-link" data-target="tab-3">{% trans "Change avatar" %}</a></li>
+          <li><a href="#" class="simple-tabs-link" data-target="tab-4">{% trans "account deletion"|capfirst %}</a></li>
         </ul>
         <p class="profileRankPKT">{% trans "Points" %}: {{ profile.rank_pts }}</p>
         <ul>
@@ -108,6 +109,16 @@
             </div>
           </form>
         </div>
+      </div>
+      <div class="simple-tabs-tab" id="tab-4">
+        <h1>{% trans "Delete account" %}</h1>
+        {% if not user.closeaccountdemand_set.count %}<p class="alert alert-danger">
+          {% trans "Are you sure you want to delete account? Once deleted, you cannot log in again!" %}
+        </p>{% endif %}
+        <form method="post" action="{% url 'user:delete-account' %}">{% csrf_token %}
+          {% if user.closeaccountdemand_set.count %}<button type="submit" class="btn btn-success">{% trans "reject"|capfirst %}</button>
+          {% else %}<button type="submit" class="btn btn-danger">{% trans "confirm"|capfirst %}</button>{% endif %}
+        </form>
       </div>
     </div>
   </div>

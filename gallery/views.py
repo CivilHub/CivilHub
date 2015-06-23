@@ -295,20 +295,25 @@ class ImageView(View):
 # Static views - location gallery
 # ------------------------------------------------------------------------------
 
-class LocationGalleryView(LocationContextMixin, SearchableListMixin):
+class LocationGalleryView(LocationContextMixin, ListView):
     """ The main site of the location gallery. """
     model = LocationGalleryItem
     template_name = 'gallery/location-gallery.html'
     context_object_name = 'files'
     paginate_by = settings.PLACE_GALLERY_LIMIT
 
+    def dispatch(self, *args, **kwargs):
+        self.location = get_object_or_404(Location, slug=self.kwargs.get('location_slug'))
+        return super(LocationGalleryView, self).dispatch(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
-        location = get_object_or_404(Location, slug=self.kwargs.get('slug'))
         context = super(LocationGalleryView, self).get_context_data(**kwargs)
-        context.update({
-            'links': links['gallery'],
-            'location': location, })
+        context.update({'links': links['gallery'], })
         return context
+
+    def get_queryset(self):
+        return super(LocationGalleryView, self).get_queryset()\
+                                .filter(location=self.location)
 
 
 class LocationGalleryCreateView(FormView):
@@ -360,7 +365,7 @@ class LocationGalleryCreateView(FormView):
         )
         self.request.user.profile.rank_pts += 2
         self.request.user.profile.save()
-        return redirect(reverse('locations:gallery', kwargs={'slug':location.slug}))
+        return redirect(reverse('locations:gallery', kwargs={'location_slug':location.slug}))
 
 
 class LocationGalleryUpdateView(UpdateView):
@@ -393,7 +398,7 @@ def location_gallery_delete(request, slug=None, pk=None):
         item.delete()
         return redirect(
             reverse('locations:gallery',
-            kwargs={'slug':item.location.slug})
+            kwargs={'location_slug':item.location.slug})
         )
     else:
         return HttpResponseForbidden()

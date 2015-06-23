@@ -18,6 +18,7 @@ define(['jquery',
         'js/modules/common/cookie-invite',
         'js/modules/common/messages',
         'js/modules/common/follow-button',
+        'js/modules/common/blessbox',
         'js/modules/notifications/notifications',
         'js/modules/ui/widgets',
         'js/modules/ui/search-toggle',
@@ -128,3 +129,5 @@ $(document).ready(function(){
 
 
 });
+
+

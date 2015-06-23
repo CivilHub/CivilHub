@@ -1,0 +1,9 @@
+{% load i18n %}<div class="blessbox">
+  <div class="counter-body">
+    {% if item_counter %}<a href="{{ last_user.profile.get_absolute_url }}">{{ last_user.profile }}</a>
+    {% if count_others %} {% trans "and" %} <span class="counter">{{ count_others }}</span> {% trans "others" %}{% endif %} {% trans "recommended this" %}{% endif %}
+  </div>
+  {% if user.is_authenticated %}<a href="#" class="bless-trigger" data-ct="{{ ct }}" data-pk="{{ pk }}">
+    <span class="fa {% if not user_vote %}fa-heart-o{% else %}fa-heart custom-tooltip{% endif %}"{% if user_vote %} title="{% trans "You recommended this" %}"{% endif %}> </span>
+  </a>{% endif %}
+</div>

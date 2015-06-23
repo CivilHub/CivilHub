@@ -25,6 +25,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     comment to be displayed in some front-end template.
     """
     author = serializers.SerializerMethodField('get_user_data')
+    comment = serializers.SerializerMethodField('get_comment')
     content_object = serializers.SerializerMethodField('get_content_object')
     upvotes = serializers.Field(source='upvotes')
     downvotes = serializers.Field(source='downvotes')
@@ -37,6 +38,9 @@ class CommentDetailSerializer(serializers.ModelSerializer):
     def get_user_data(self, obj):
         serializer = UserDetailSerializer(obj.user)
         return serializer.data
+
+    def get_comment(self, obj):
+        return obj.comment.replace("\n", "<br>")
 
     def get_content_object(self, obj):
         if obj.content_object is None:

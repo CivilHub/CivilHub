@@ -51,7 +51,6 @@ var ReasonForm = Backbone.View.extend({
     });
     $(document).on('click', function (e) {
       this.destroy();
-      $(document).off('click');
     }.bind(this));
     this.$form.on('submit', function (e) {
       e.preventDefault();

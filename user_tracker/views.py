@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
 
-from django.http import Http404
-from django.views.generic import TemplateView
+from django.core import serializers
+from django.http import Http404, HttpResponse
+from django.views.generic import TemplateView, View
+from django.views.generic.detail import SingleObjectMixin
 
 from .models import Visitor
 
@@ -26,3 +28,25 @@ class VisitorsMainView(TemplateView):
             geodata_objects[visitor.pk] = visitor.geoip_data_json
         context['geodata'] = json.dumps(geodata_objects)
         return context
+
+
+class GeoDetailsView(SingleObjectMixin, View):
+    """ Detailed info about visitor to display in popup on map page.
+    """
+    model = Visitor
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        return super(GeoDetailsView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, **kwargs):
+        data = json.loads(serializers.serialize("json", [self.object, ]))
+        ctx = data[0]['fields']
+        ctx['id'] = data[0]['pk']
+        ctx['user'] = {'id': 0, 'fullname': 'Anonymous', 'url': '', }
+        if self.object.user is not None:
+            ctx['user'] = {
+                'id': self.object.user.pk,
+                'fullname': self.object.user.get_full_name(),
+                'url': self.object.user.profile.get_absolute_url(), }
+        return HttpResponse(json.dumps(ctx), content_type="application/json")
