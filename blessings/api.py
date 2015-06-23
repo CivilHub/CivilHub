@@ -58,13 +58,16 @@ class BlessAPIView(views.APIView):
         data = bless(self.request.user, self.object)
         message = ""
         if data['last'] is not None:
-            message = '<a href="{}">{}</a> '.format(
-                data['last'].user.profile.get_absolute_url(),
-                data['last'].user.get_full_name())
+            if data['last'].user == request.user:
+                message = _("You") + " "
+            else:
+                message = '<a href="{}">{}</a> '.format(
+                    data['last'].user.profile.get_absolute_url(),
+                    data['last'].user.get_full_name())
             data['last'] = BlessDetailSerializer(data['last']).data
         if data['count'] > 1:
             message += _('and %d others recommended this' % (data['count']-1))
-        else:
+        elif data['count'] > 0:
             message += _("recommended this")
         data['message'] = message
         return Response(data)
