@@ -30,10 +30,10 @@
       <li><a href="{% url 'ideas:update' idea.slug %}">{% trans "Edit" %}</a></li>{% endif %}
       {% if user.is_superuser or is_moderator %}<li><a href="{% url 'locations:remove_content' ctype.pk idea.pk %}">{% trans "Delete" %}</a></li>{% endif %}
       {% if idea_access %}<li><a href="{% url 'locations:idea-news-create' location.slug idea.slug %}">{% trans "Write news" %}</a></li>{% endif %}
+      <li><a href="{% url 'locations:widget-preview' ctype.pk idea.pk %}">{% trans "embed"|capfirst %}</a></li>
       <li></li>
       {% if user.is_authenticated and user != idea.creator %}<li>{% report_link idea %}</li>{% endif %}
       <li>{% endwith %}{% bookmark_form idea user %}</li>
-      <!-- {% if user.is_superuser %}<li><a href="">{% trans "Widget" %}</a></li>{% endif %} -->
     </ul>
   </div>
   <div class="row ivotepage mb20">
