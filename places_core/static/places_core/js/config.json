@@ -2,6 +2,7 @@
   "baseUrl": "./",
 
   "paths": {
+    "masonry": "includes/masonry/masonry.pkgd.min",
     "ga": "//www.google-analytics.com/analytics",
     "text": "includes/require/text",
     "jquery": "includes/jquery/jquery",
@@ -39,6 +40,11 @@
   },
 
   "shim": {
+
+    "masonry": {
+      "deps": ["jquery"],
+      "exports": "Masonry"
+    },
 
     "highcharts": {
       "deps": ["jquery"],

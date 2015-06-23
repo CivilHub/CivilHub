@@ -3,6 +3,7 @@ import json
 
 from django.core import serializers
 from django.http import Http404, HttpResponse
+from django.templatetags.static import static
 from django.views.generic import TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 
@@ -23,6 +24,7 @@ class VisitorsMainView(TemplateView):
     def get_context_data(self):
         context = super(VisitorsMainView, self).get_context_data()
         context['object_list'] = Visitor.objects.active_users()
+        context['icon_path'] = static('places_core/includes/leaflet/images')
         geodata_objects = {}
         for visitor in context['object_list']:
             geodata_objects[visitor.pk] = visitor.geoip_data_json
