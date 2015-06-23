@@ -9,7 +9,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'js/modules/ui/ui',
            'js/modules/locations/follow',
            'js/modules/common',
-           'js/modules/ui/run-lightbox'],
+           'js/modules/ui/run-lightbox',
+           'js/modules/gallery'],
 
   function ($, ui) {
 

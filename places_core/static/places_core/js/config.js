@@ -16,6 +16,7 @@ require.config({
   waitSeconds: 0,
 
   "paths": {
+    "masonry": "includes/masonry/masonry.pkgd.min",
     "ga": "//www.google-analytics.com/analytics",
     "text": "includes/require/text",
     "jquery": "includes/jquery/jquery",
@@ -53,6 +54,11 @@ require.config({
   },
 
   "shim": {
+
+    "masonry": {
+      "deps": ["jquery"],
+      "exports": "Masonry"
+    },
 
     "highcharts": {
       "deps": ["jquery"],
