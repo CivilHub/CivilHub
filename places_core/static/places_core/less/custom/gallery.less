@@ -101,9 +101,12 @@
 
 .m-gallery-container {
     margin-top: -12px;
-    & img {
+    & .content-image {
         width: 100%;
         border-bottom: 1px solid #bfbfbf;
+    }
+    & no-entries {
+        display: none;
     }
 }
 
@@ -142,7 +145,7 @@
 
 .m-gallery-user-avatar {
     float: left;
-    padding: 9px 0;
+    padding: 4px 0;
     & img {
         width: 20px;
         height: 20px;
