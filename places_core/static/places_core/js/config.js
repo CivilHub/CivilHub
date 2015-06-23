@@ -11,8 +11,6 @@ require.config({
 
   baseUrl: CivilApp.staticURL,
 
-  urlArgs: "bust=" + (new Date()).getTime(),
-
   waitSeconds: 0,
 
   "paths": {

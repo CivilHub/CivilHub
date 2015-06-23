@@ -13,6 +13,11 @@ function (Backbone) {
 var ActionModel = Backbone.Model.extend({
   defaults: {
     description: ''
+  },
+
+  parse: function (model) {
+    model.label = gettext("Join the discussion");
+    return model;
   }
 });
 

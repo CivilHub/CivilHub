@@ -46,11 +46,18 @@ var ActionList = Backbone.View.extend({
     this.url.add('pk', options.pk);
     this.url.add('page', this.currentPage);
 
-    this.collection = new ActionCollection();
-    this.collection.url = this.url.url();
     _.bindAll(this, 'render');
     _.bindAll(this, 'renderPage');
-    this.collection.fetch({ success: this.render });
+
+    var models = _.map(options.data.results, function (item) {
+      item.label = gettext("Join the discussion");
+      return new ActionModel(item);
+    });
+
+    this.collection = new ActionCollection(models);
+    this.collection.url = this.url.url();
+    this.collection.hasNext = options.data.next;
+    this.render();
 
     this.$spinner = $(document.createElement('span'));
     this.$spinner
@@ -79,13 +86,14 @@ var ActionList = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.empty();
+    this.$('.ac-timeline').empty();
+    this.$('.ac-timeline').not(':first').remove();
     this.$el.append('<ul class="ac-timeline"></ul>');
     if (this.collection.length > 0) {
       this.collection.each(function (item) {
         this.renderItem(item);
       }, this);
-      this.$spinner.appendTo(this.$el);
+      this.$('.fa-spin').hide();
     } else {
       this.$el.append(([
         '<p class="alert alert-info">',

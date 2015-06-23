@@ -835,6 +835,19 @@ class WidgetFactoryMixin(View):
             'width': str(self.request.GET.get('width', 300)),
         }
 
+    def create_url(self):
+        widget_settings = self.get_widget_settings()
+        url_ctx = {
+            'protocol': 'https' if self.request.is_secure() else 'http',
+            'domain': widget_settings['site'].domain,
+            'path': reverse('locations:widget', kwargs={
+                'ct': widget_settings['ct'], 'pk': widget_settings['pk'], }),
+            'lang': widget_settings['lang'],
+            'width': widget_settings['width'],
+        }
+        url_tpl = "{protocol}://{domain}{path}?lang={lang}&width={width}"
+        return url_tpl.format(**url_ctx)
+
 
 class ServeContentView(WidgetFactoryMixin):
     """ Serve locations content objects. Pass response to widget on client side.
@@ -870,15 +883,12 @@ class WidgetFactory(WidgetFactoryMixin):
         contents = contents.replace('{width}', widget_settings['width'])
         return HttpResponse(contents, content_type="application/javascript")
 
-    def create_url(self):
-        widget_settings = self.get_widget_settings()
-        url_ctx = {
-            'protocol': 'https' if self.request.is_secure() else 'http',
-            'domain': widget_settings['site'].domain,
-            'path': reverse('locations:widget', kwargs={
-                'ct': widget_settings['ct'], 'pk': widget_settings['pk'], }),
-            'lang': widget_settings['lang'],
-            'width': widget_settings['width'],
-        }
-        url_tpl = "{protocol}://{domain}{path}?lang={lang}&width={width}"
-        return url_tpl.format(**url_ctx)
+
+class WidgetPreview(WidgetFactoryMixin):
+    """ Show preview along with link to embed widget on client site.
+    """
+    template_name = 'locations/widget_preview.html'
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, {
+                        'link': self.create_url(), })

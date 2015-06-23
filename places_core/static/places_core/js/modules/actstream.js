@@ -39,7 +39,8 @@ $.fn.activityStream = function () {
     var list = new ActionList({
       mode: $this.attr('data-type'),
       ct: $this.attr('data-ct'),
-      pk: $this.attr('data-pk')
+      pk: $this.attr('data-pk'),
+      data: JSON.parse($this.attr('data-page'))
     });
     function checkSrcrollPosition () {
       var ptr = ($(window).scrollTop() / $(document).height()) * 100;
