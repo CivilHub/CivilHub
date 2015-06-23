@@ -115,7 +115,6 @@ class ReloginView(SingleObjectMixin, View):
     def post(self, request, **kwargs):
         auth.logout(request)
         backend = request.POST.get('backend')
-        import pdb;pdb.set_trace()
         return redirect("{}?next={}".format(
             reverse('social:begin', kwargs={
                 'backend': request.POST.get('backend'), }),
