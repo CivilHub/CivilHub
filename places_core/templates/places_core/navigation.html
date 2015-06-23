@@ -99,7 +99,7 @@
       <ul class="nav navbar-nav navbar-right navbarHeader">
         {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="onlyIcon cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus"></span><span class="rwdShow">{% trans "Create content" %}</span></a></li>
         <div class="cd-bouncy-nav-modal">
-          <div class="cd-bouncy-select-location"><h2>{% trans "Creating in:" %}:</h2>
+          <div class="cd-bouncy-select-location"><h2>{% trans "Creating in" %}:</h2>
             <select{% if location %} data-location="{{ location.slug }}"{% endif %} class="form-control input-sm">
             {% if location %}<option value="{{ location.slug }}">{{ location }}</option>{% endif %}
           </select></div>
