@@ -1,11 +1,11 @@
-{% load i18n %}<div class="blessbox" data-ct="{{ ct }}" data-pk="{{ pk }}">
+{% load i18n %}<div class="blessbox mb20" data-ct="{{ ct }}" data-pk="{{ pk }}">
+  {% if user.is_authenticated %}<div class="btn-bless display-ib-m {% if user_vote %}recommended{% endif %}"><a href="#" class="bless-trigger full-click-box custom-tooltip"{% if user_vote %} title="{% trans "You recommended this" %}"{% endif %}>
+    <span class="fa {% if not user_vote %}fa-heart-o{% else %}fa-heart{% endif %}"></span>
+  </a><span>{% if not user_vote %} {% trans "Recommend" %}{% else %} {% trans "Recommended"%}{% endif %}</span></div>{% endif %}
   <div class="counter-body">
-    {% if item_counter %}{% if last_user == user %}{% trans "You" %}{% else %}<a href="{{ last_user.profile.get_absolute_url }}">{{ last_user.profile }}</a>{% endif %}
-    {% if count_others %} {% trans "and" %} <span class="t-count">{{ count_others }}</span> {% trans "others" %}{% endif %} {% trans "recommended this" %}{% endif %}
+    {% if item_counter %}{% if last_user == user %}<span class="text-def">{% trans "You" %}</span>{% else %}<a href="{{ last_user.profile.get_absolute_url }}">{{ last_user.profile }}</a>{% endif %}
+    {% if count_others %} {% trans "and" %} <span class="t-count text-def">{{ count_others }}</span> {% trans "others" %}{% endif %} {% trans "recommended this" %}{% endif %}
   </div>
-  {% if user.is_authenticated %}<a href="#" class="bless-trigger">
-    <span class="fa {% if not user_vote %}fa-heart-o{% else %}fa-heart custom-tooltip{% endif %}"{% if user_vote %} title="{% trans "You recommended this" %}"{% endif %}> </span>
-  </a>{% endif %}
   <div class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -15,7 +15,7 @@
         </div>
         <div class="modal-body"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "close"|capfirst %}</button>
+          <button type="button" class="btn-cancelBig" data-dismiss="modal">{% trans "close"|capfirst %}</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
