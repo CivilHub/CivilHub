@@ -13,6 +13,7 @@ function ($, Masonry) {
 
 $(document).ready(function () {
 	$('.civgrid').show().prev('.m-gallery-loader').empty().remove();
+	$('.no-entries').removeClass('hide');
 	var msnry = new Masonry( '.civgrid', {
 	});
 });
