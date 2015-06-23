@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'simpleblog',  # Simplified blog functionality for NGO and projects
     'guides',
     'user_tracker',# Track user activities and statistics
+    'blessings',   # User recommendations for content items (aka recommended)
 
     'raven.contrib.django.raven_compat',
     'analytical',
