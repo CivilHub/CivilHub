@@ -202,7 +202,7 @@ urlpatterns += patterns('',
     url(r'^', include('locations.urls', namespace='locations')),
 )
 
-urlpatterns += patterns('django.contrib.sitemaps.views',
+urlpatterns += patterns('civmaps.views',
     (r'^sitemap\.xml$', 'index', {'sitemaps': sitemaps}),
     (r'^sitemap-(?P<section>.+)\.xml$', 'sitemap', {'sitemaps': sitemaps}),
 )
