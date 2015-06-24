@@ -54,7 +54,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.sitemaps',
     # http://django-simple-captcha.readthedocs.org/en/latest
     'captcha',
     # https://bitbucket.org/psam/django-postman
@@ -116,6 +115,7 @@ INSTALLED_APPS = (
     'guides',
     'user_tracker',# Track user activities and statistics
     'blessings',   # User recommendations for content items (aka recommended)
+    'civmaps',     # Custom wrapper for django.contrib.sitemaps
 
     'raven.contrib.django.raven_compat',
     'analytical',
