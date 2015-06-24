@@ -1,0 +1,17 @@
+{% extends 'userspace/index.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "Add account"|capfirst %}</h1>
+<form class="custom-inline-form" class="custom-inline-form" method="post" action="{% url 'user:relogin' user.username %}">{% csrf_token %}
+  <input type="hidden" name="backend" value="facebook">
+  <button type="submit" class="facebook-button">Facebook</button>
+</form>
+<form class="custom-inline-form" method="post" action="{% url 'user:relogin' user.username %}">{% csrf_token %}
+  <input type="hidden" name="backend" value="google-plus">
+  <button type="submit" class="google-button">Google+</button>
+</form>
+<form class="custom-inline-form" method="post" action="{% url 'user:relogin' user.username %}">{% csrf_token %}
+  <input type="hidden" name="backend" value="twitter">
+  <button type="submit" class="twitter-button">Twitter</button>
+</form><form class="custom-inline-form" method="post" action="{% url 'user:relogin' user.username %}">{% csrf_token %}
+  <input type="hidden" name="backend" value="linkedin">
+  <button type="submit" class="linkedin-button">LinkedIn</button>
+</form>{% endblock %}

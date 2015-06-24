@@ -69,6 +69,7 @@
     {% trans "You have to login with your Facebook account." %}
   </h2>
   <form action="{% url 'user:relogin' user.username %}" method="post">{% csrf_token %}
+    <input type="hidden" name="backend" value="facebook">
     <button class="facebook-button" type="submit">{% trans "Login" %}</button>
   </form>
 </div>{% endblock %}

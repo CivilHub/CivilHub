@@ -832,7 +832,7 @@ class WidgetFactoryMixin(View):
             'pk': pk,
             'lang': self.request.GET.get('lang', settings.LANGUAGE_CODE),
             'site': get_current_site(self.request),
-            'width': str(self.request.GET.get('width', 300)),
+            'width': str(self.request.GET.get('width', 400)),
         }
 
     def create_url(self):

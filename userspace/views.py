@@ -114,9 +114,10 @@ class ReloginView(SingleObjectMixin, View):
 
     def post(self, request, **kwargs):
         auth.logout(request)
+        backend = request.POST.get('backend')
         return redirect("{}?next={}".format(
             reverse('social:begin', kwargs={
-                'backend': self.relogin_data['backend'], }),
+                'backend': request.POST.get('backend'), }),
             self.relogin_data['next_url']))
 
     def get_context_data(self):
@@ -554,6 +555,28 @@ def change_background(request):
         profile.background_image = request.FILES['background']
         profile.save()
         return redirect(request.META['HTTP_REFERER'])
+
+
+class AccountManagementView(View):
+    """ Allows users to add social accounts to their profile.
+    """
+    template_name = 'userspace/manage_accounts.html'
+
+    def dispatch(self, *args, **kwargs):
+        user = self.request.user
+        if user.is_anonymous():
+            raise Http404
+        self.request.session['relogin'] = json.dumps({
+            'next_url': self.request.path, })
+        return super(AccountManagementView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self):
+        return {
+            'profile': self.request.user.profile,
+            'cuser': self.request.user, }
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
 
 
 # NGO related views
