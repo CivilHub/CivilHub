@@ -1,14 +1,16 @@
 from django.conf.urls import patterns, include, url
 
-from views import attachments, base, forum, documents, galleries
+from views import attachments, base, forum, documents, galleries, blog
 
 urlpatterns = patterns('',
     url(r'^discussions/(?P<pk>\d+)/delete/', forum.ProjectForumDeleteView.as_view(), name="discussion_delete"),
     url(r'^attachments/(?P<pk>\d+)/delete/', attachments.DeleteAttachmentView.as_view(), name="delete-attachment"),
     url(r'^attachments/(?P<pk>\d+)/update/', attachments.AttachmentUpdateView.as_view(), name="update-attachment"),
     url(r'^attachments/(?P<pk>\d+)/', attachments.get_attachment, name="get-attachment"),
+    url(r'^(?P<slug>[\w-]+)/news/create/', blog.ProjectNewsCreate.as_view(), name="news-create"),
+    url(r'^(?P<slug>[\w-]+)/news/(?P<news_pk>\d+)/', blog.ProjectBlogDetail.as_view(), name="news-detail"),
+    url(r'^(?P<slug>[\w-]+)/news/', blog.ProjectBlogList.as_view(), name="news-list"),
     url(r'^(?P<project_slug>[\w-]+)/organizations/add/', base.AddProjectToNGO.as_view(), name="organization_add"),
-    url(r'^(?P<slug>[\w-]+)/(?P<task_pk>\d+)/attachments/upload/', attachments.AttachmentUpladView.as_view(), name="attachment-task-upload"),
     url(r'^(?P<slug>[\w-]+)/attachments/upload/', attachments.AttachmentUpladView.as_view(), name="attachment-upload"),
     url(r'^(?P<slug>[\w-]+)/picture/(?P<picture_pk>\d+)/update/', galleries.ProjectPictureUpdate.as_view(), name="picture-update"),
     url(r'^(?P<slug>[\w-]+)/picture/(?P<picture_pk>\d+)/', galleries.ProjectPictureView.as_view(), name="picture-detail"),
