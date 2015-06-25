@@ -93,7 +93,7 @@ class OrganizationSitemap(Sitemap):
 
 from guides.models import Guide
 class GuideSitemap(Sitemap):
-    changefreq = "dayly"
+    changefreq = "daily"
     priority = 0.5
 
     def items(self):

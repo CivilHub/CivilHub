@@ -101,7 +101,7 @@ class Sitemap(object):
             current_lang_code = translation.get_language()
             for lang_code, lang_name in settings.LANGUAGES:
                 translation.activate(lang_code)
-                urls += self._urls(page, protocol, domain)
+                urls += self._urls(page, protocol, code, domain)
             translation.activate(current_lang_code)
         else:
             urls = self._urls(page, protocol, code, domain)

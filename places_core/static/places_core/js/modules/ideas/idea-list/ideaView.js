@@ -10,13 +10,13 @@ define(['jquery',
         'moment'],
 
 function ($, _, Backbone, CounterWindow) {
-    
+
     "use strict";
-    
+
     var currentLang = window.CivilApp.language || 'en';
-    
+
     var IdeaView = Backbone.View.extend({
-        
+
         tagName: 'div',
 
         className: 'row idea-entry',
@@ -42,11 +42,11 @@ function ($, _, Backbone, CounterWindow) {
             });
             this.$el.find('.date-created')
                 .text(moment(this.model.get('date_created'))
-                    .lang(currentLang).fromNow());
+                    .lang(currentLang).fromNowOrNow());
             if (this.model.get('edited')) {
                 this.$el.find('.date-edited')
                     .text(moment(this.model.get('date_edited'))
-                        .lang(currentLang).fromNow());
+                        .lang(currentLang).fromNowOrNow());
             }
             return this;
         },
@@ -69,6 +69,6 @@ function ($, _, Backbone, CounterWindow) {
             var cc = new CW();
         }
     });
-    
+
     return IdeaView;
 });
