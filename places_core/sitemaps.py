@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.utils import timezone
-from django.contrib.sitemaps import Sitemap
+from civmaps import Sitemap
 from locations.models import Location
 from ideas.models import Idea
 from topics.models import Discussion

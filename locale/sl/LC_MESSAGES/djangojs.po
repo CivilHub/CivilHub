@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-18 16:43+0200\n"
-"PO-Revision-Date: 2015-06-18 14:44+0000\n"
+"POT-Creation-Date: 2015-06-24 11:09+0200\n"
+"PO-Revision-Date: 2015-06-24 09:11+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/civilhub/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: places_core/static/places_core/js/dist/location-activity.js:358
-#: places_core/static/places_core/js/modules/actstream/action-list.js:92
+#: places_core/static/places_core/js/modules/actstream/action-list.js:100
 #: places_core/static/places_core/js/modules/actstream/actions/actionList.js:97
 msgid "No activity yet"
 msgstr ""
@@ -453,6 +453,20 @@ msgstr ""
 msgid "Follow"
 msgstr ""
 
+#: places_core/static/places_core/js/dist/location-activity.js:358
+#: places_core/static/places_core/js/dist/location-background.js:392
+#: places_core/static/places_core/js/dist/location-delete.js:352
+#: places_core/static/places_core/js/dist/organization-background.js:392
+#: places_core/static/places_core/js/dist/poll-results.js:368
+#: places_core/static/places_core/js/dist/postman-write.js:352
+#: places_core/static/places_core/js/dist/project-background.js:392
+#: places_core/static/places_core/js/dist/projects-details.js:364
+#: places_core/static/places_core/js/dist/userspace-background.js:392
+#: places_core/static/places_core/js/dist/userspace-form.js:392
+#: places_core/static/places_core/js/modules/common/blessbox.js:144
+msgid "Thank you for your recommendation"
+msgstr ""
+
 #: places_core/static/places_core/js/dist/poll-results.js:368
 #: places_core/static/places_core/js/modules/polls/chartmaker.js:200
 msgid "Click and drag in the plot area to zoom in"
@@ -471,6 +485,16 @@ msgstr ""
 #: places_core/static/places_core/js/dist/poll-results.js:368
 #: places_core/static/places_core/js/modules/polls/chartmaker.js:240
 msgid "Visits"
+msgstr ""
+
+#: places_core/static/places_core/js/dist/projects-details.js:364
+#: places_core/static/places_core/js/modules/inlines/view.js:280
+msgid "Are you sure"
+msgstr ""
+
+#: places_core/static/places_core/js/modules/actstream/action-list.js:53
+#: places_core/static/places_core/js/modules/actstream/action-model.js:19
+msgid "Join the discussion"
 msgstr ""
 
 #: places_core/static/places_core/js/modules/blog/news-form.js:27
@@ -502,7 +526,7 @@ msgstr ""
 msgid "Hide comments"
 msgstr ""
 
-#: places_core/static/places_core/js/modules/common.js:77
+#: places_core/static/places_core/js/modules/common.js:78
 msgid "Scroll to top"
 msgstr ""
 
@@ -522,25 +546,33 @@ msgstr ""
 msgid "Thank you for your vote. Please, share this page with your friends"
 msgstr ""
 
-#: places_core/static/places_core/js/modules/inlines/templates/comment.html:28
+#: places_core/static/places_core/js/modules/inlines/templates/comment.html:29
 msgid "Reply"
 msgstr ""
 
-#: places_core/static/places_core/js/modules/inlines/templates/comment.html:38
+#: places_core/static/places_core/js/modules/inlines/templates/comment.html:39
 #: places_core/static/places_core/js/modules/inlines/templates/reply_form.html:12
 msgid "Submit comment"
 msgstr ""
 
-#: places_core/static/places_core/js/modules/inlines/templates/comment_removed.html:8
-msgid "This comment has been removed by moderator"
+#: places_core/static/places_core/js/modules/inlines/templates/comment_removed.html:9
+msgid "This comment has been hidden by moderator"
 msgstr ""
 
-#: places_core/static/places_core/js/modules/inlines/templates/comment_removed.html:11
+#: places_core/static/places_core/js/modules/inlines/templates/comment_removed.html:10
+msgid "Show me why"
+msgstr ""
+
+#: places_core/static/places_core/js/modules/inlines/templates/comment_removed.html:15
 msgid "hide"
 msgstr ""
 
 #: places_core/static/places_core/js/modules/inlines/templates/edit_form.html:6
 msgid "Cancel"
+msgstr ""
+
+#: places_core/static/places_core/js/modules/inlines/templates/reason_form.html:1
+msgid "Reason"
 msgstr ""
 
 #: places_core/static/places_core/js/modules/inlines/templates/reply_form.html:7

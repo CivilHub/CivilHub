@@ -93,8 +93,16 @@ class ActionObjectSerializer(serializers.Serializer):
             desc = '<img src="{}" alt="{}">'.format(obj.url(), obj.name)
         elif obj._meta.model_name == 'blogentry':
             desc = obj.content
-        elif obj._meta.model_name == 'vote' \
-            or obj._meta.model_name == 'commentvote':
+        elif obj._meta.model_name == 'commentvote':
+            if obj.vote == 1:
+                class_name = 'alert-success'
+                label_text = _(u"Voted yes")
+            else:
+                class_name = 'alert-danger'
+                label_text = _(u"Voted no")
+            return u'<div class="alert {}">{}</div>'.format(class_name,
+                                                            label_text)
+        elif obj._meta.model_name == 'vote':
             if obj.status == 1:
                 class_name = 'alert-success'
                 label_text = _(u"Voted yes")
