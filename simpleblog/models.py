@@ -96,6 +96,10 @@ class BlogEntry(SlugifiedModelMixin, ImagableItemMixin):
                 return reverse('locations:idea-news-list', kwargs={
                     'location_slug': self.content_object.location.slug,
                     'slug': self.content_object.slug, })
+            elif model_name == 'socialproject':
+                return reverse('projects:news-detail', kwargs={
+                    'slug': self.content_object.slug,
+                    'news_pk': self.pk, })
         return reverse('simpleblog:detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):

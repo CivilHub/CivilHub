@@ -8,31 +8,31 @@ define(['jquery',
         'moment'],
 
 function ($, _, Backbone) {
-    
+
     "use strict";
-    
+
     var currentLang = window.CivilApp.language || 'en';
-    
+
     var PollListEntry = Backbone.View.extend({
         tagName: 'div',
-        
+
         className: 'polls-list-entry custom-list-entry row',
-        
+
         template: _.template($('#poll-entry').html()),
-        
+
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.find('.date-created')
                 .text(moment(this.model.get('date_created'))
-                    .lang(currentLang).fromNow());
+                    .lang(currentLang).fromNowOrNow());
             if (this.model.get('edited')) {
                 this.$el.find('.date-edited')
                     .text(moment(this.model.get('date_edited'))
-                        .lang(currentLang).fromNow());
+                        .lang(currentLang).fromNowOrNow());
             }
             return this;
         }
     });
-    
+
     return PollListEntry;
 });

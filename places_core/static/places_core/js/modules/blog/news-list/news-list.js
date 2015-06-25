@@ -24,7 +24,7 @@ function ($, _, Backbone, utils, PageableView) {
       NewsModel = Backbone.Model.extend({}),
 
         NewsView = Backbone.View.extend({
-            
+
           tagName: 'div',
 
           className: 'news-entry',
@@ -46,11 +46,11 @@ function ($, _, Backbone, utils, PageableView) {
             };
             this.$el.find('.date-created')
                 .text(moment(this.model.get('date_created'))
-                    .lang(currentLang).fromNow());
+                    .lang(currentLang).fromNowOrNow());
             if (this.model.get('edited')) {
               this.$el.find('.date-edited')
                   .text(moment(this.model.get('date_edited'))
-                      .lang(currentLang).fromNow());
+                      .lang(currentLang).fromNowOrNow());
             }
             return this;
           },
@@ -67,19 +67,19 @@ function ($, _, Backbone, utils, PageableView) {
         }),
 
         NewsCollection = Backbone.PageableCollection.extend({
-            
+
           model: NewsModel,
-            
+
           url: baseurl,
-            
+
           queryParams: {
             totalRecords: 'count'
           },
-            
+
           parseRecords: function (data) {
             return data.results;
           },
-            
+
           parseState: function (resp, queryParams, state, options) {
             return { totalRecords: resp.count };
           }
@@ -127,6 +127,6 @@ function ($, _, Backbone, utils, PageableView) {
             $(itemView.render().el).insertBefore(this.$el.find('.page-info'));
           }
         });
-    
+
   return NewsList;
 });

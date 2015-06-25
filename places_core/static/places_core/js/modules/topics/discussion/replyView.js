@@ -6,14 +6,14 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'moment'],
+        'js/modules/moment'],
 
 function ($, _, Backbone, utils) {
-    
+
     "use strict";
-    
+
     var currentLang = window.CivilApp.language || 'en';
-    
+
     var getCookie = function (name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
@@ -29,15 +29,15 @@ function ($, _, Backbone, utils) {
         }
         return cookieValue;
     };
-    
+
     var ReplyView = Backbone.View.extend({
-        
+
         tagName: 'div',
-        
+
         className: 'reply-entry',
-        
+
         template: _.template($('#reply-tpl').html()),
-        
+
         render: function () {
             var self = this;
             this.$el.html(this.template(this.model.toJSON()));
@@ -51,15 +51,15 @@ function ($, _, Backbone, utils) {
             });
             this.$el.find('.date-created')
                 .text(moment(this.model.get('date_created'))
-                    .lang(currentLang).fromNow());
+                    .lang(currentLang).fromNowOrNow());
             if (this.model.get('edited')) {
                 this.$el.find('.date-edited')
                     .text(moment(this.model.get('date_edited'))
-                        .lang(currentLang).fromNow());
+                        .lang(currentLang).fromNowOrNow());
             }
             return this;
         },
-        
+
         sendVote: function (vote) {
             var self = this;
             $.ajax({
@@ -74,7 +74,7 @@ function ($, _, Backbone, utils) {
                     console.log(resp);
                     if (resp.success) {
                         var votes = parseInt(self.model.get('vote_count'), 10);
-                        self.$el.find('.entry-vote-count').text(++votes);    
+                        self.$el.find('.entry-vote-count').text(++votes);
                     }
                 },
                 error: function (err) {
@@ -83,6 +83,6 @@ function ($, _, Backbone, utils) {
             });
         }
     });
-    
+
     return ReplyView;
 });

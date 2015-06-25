@@ -127,7 +127,7 @@
                 <tr>
                   <td valign="middle" style="vertical-align:middle; padding: 0 20px 20px 20px; text-align:left; font-size:14px;" class="mobile-center" height="auto">
                     {% trans "By using our tool for looking for friends you have found these users:" %}<br />
-                    {% for f in friends %}<strong><a href="{{ f.profile.get_absolute_url }}">{{ f.profile }}</a></strong>{% if forloop.counter < friends.count %},{% endif %} {% endfor %}{% trans "from Facebook" %}
+                    {% for f in friends %}<strong><a href="{{ baseurl }}{{ f.profile.get_absolute_url }}">{{ f.profile }}</a></strong>{% if forloop.counter < friends.count %},{% endif %} {% endfor %}{% trans "from Facebook" %}
                   </td>
                 </tr>
               </table>
