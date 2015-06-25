@@ -192,10 +192,7 @@ urlpatterns += patterns('',
     # Notifications for users - mainly views for testing.
     url(r'^', include('notifications.urls')),
 
-    # Default URL - Do not add anything below!!!
-    url(r'^$', PageView.as_view(page='home-e')),
-    #url(r'^$', HomeView.as_view()),
-    #url(r'^$', TopLevelArticleView.as_view(article_slug='home-l', template_name='articles/home-page.html'), name='home-l'),
+    url(r'^$', HomeView.as_view(template_name='staticpages/pages/home-e.html')),
 
     #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),
