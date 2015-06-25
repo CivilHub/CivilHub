@@ -470,11 +470,13 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
-        parent = self.object.parent
-        if parent is None:
-            parent = self.object
-        parent_id_list = [parent.pk, ] + parent.get_parents
-        context['parents'] = Location.objects.filter(pk__in=parent_id_list)
+        if self.object.parent is None:
+            parents = []
+        else:
+            parent = self.object.parent
+            parent_id_list = [parent.pk, ] + parent.get_parents
+            parents = [Location.objects.get(pk=x) for x in parent_id_list]
+        context['parents'] = parents
         return context
 
     def form_valid(self, form):
