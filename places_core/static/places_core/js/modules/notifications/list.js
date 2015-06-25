@@ -60,7 +60,7 @@ var NotifyList = Backbone.View.extend({
       return;
     }
     this.$el.fadeIn('fast', function () {
-    this._opened = true;
+      this._opened = true;
       if (this.collection.length === 0) {
         this.initCollection();
       }
@@ -94,7 +94,7 @@ var NotifyList = Backbone.View.extend({
 
   renderEntry: function (item) {
     var notify = new NotifyView({
-    model: item
+      model: item
     });
     $(notify.render().el)
       .appendTo(this._container);

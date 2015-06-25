@@ -20,7 +20,8 @@ content_objects = ['discussion',
                    'news',
                    'poll',
                    'socialproject',
-                   'blogentry', ]
+                   'blogentry',
+                   'locationgalleryitem' ]
 
 
 def serialize_content_object(instance):
