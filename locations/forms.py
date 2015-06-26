@@ -107,7 +107,7 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'location', 'tags', 'category', 'image')
+        fields = ('name', 'description', 'video_url', 'location', 'tags', 'category', 'image')
 
 
 class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):

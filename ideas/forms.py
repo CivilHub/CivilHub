@@ -54,7 +54,7 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'tags', 'category', 'image', 'status',)
+        fields = ('name', 'description', 'video_url', 'tags', 'category', 'image', 'status',)
         widgets = {
             'status': forms.Select(attrs={'class': 'form-control'}),
         }

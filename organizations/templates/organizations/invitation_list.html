@@ -1,0 +1,5 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "invitations"|capfirst %}</h1>
+<ul>{% for invitation in object_list %}
+  <li>{{ invitation }} <a href="{% url 'organizations:accept' invitation.key %}">{% trans "accept"|capfirst %}</li>
+{% endfor %}</ul>{% endblock %}
