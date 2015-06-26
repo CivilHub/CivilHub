@@ -105,6 +105,14 @@
 
   <div class="col-sm-3 boxPX">
     {% include 'locations/sidebar.html' %}
+    <div class="sidebar mt-20">
+      {% if news.tags.all %}<div class="sidebar-label">{% trans "Tags" %}:</div>
+        <div class="sidebar-content tags-n">
+          <ul class="list-unstyled">{% for tag in news.tags.all %}
+          <li class="tag-entry tag-n"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">#{{ tag }}</a></li>
+        {% endfor %}</ul>
+      </div>{% endif %}
+  </div>
   </div>
 
   {% include 'locations/category-form.html' %}
