@@ -12,6 +12,7 @@ class NewsAdmin(admin.ModelAdmin):
     search_fields = ('title', )
     list_filter = ('date_created', )
     list_display = ('__unicode__', 'get_username', 'location', 'date_created', )
+    raw_id_fields = ('location', )
 
     def get_username(self, obj):
         return obj.creator.get_full_name()
