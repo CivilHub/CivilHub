@@ -42,7 +42,6 @@ class YoutubeUrlField(models.URLField):
         self.validators.append(validate_youtube_url)
 
     def to_python(self, value):
-        print value
         if value == 'None':
             return None
 
