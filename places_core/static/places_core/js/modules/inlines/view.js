@@ -8,6 +8,7 @@ define(['jquery',
         'underscore',
         'backbone',
         'CUri',
+        'js/modules/moment',
         'js/modules/ui/ui',
         'js/modules/utils/utils',
         'js/modules/utils/abuse-window',
@@ -21,7 +22,7 @@ define(['jquery',
         'text!js/modules/inlines/templates/edit_form.html',
         'bootbox'],
 
-function ($, _, Backbone, CUri, ui, utils, AbuseWindow, cUtils, CommentModel,
+function ($, _, Backbone, CUri, moment, ui, utils, AbuseWindow, cUtils, CommentModel,
           CommentCollection, VoteSummary, ReasonForm, html, altHtml, form) {
 
 "use strict";
@@ -67,6 +68,13 @@ function confirm (message, fn, context) {
   });
 }
 
+moment.fn.fromNowOrNow = function (a) {
+  if (moment().diff(this) < 0) {
+    return gettext('just now');
+  }
+  return this.fromNow(a);
+};
+
 var CommentView = Backbone.View.extend({
 
   tagName: 'div',
@@ -110,7 +118,9 @@ var CommentView = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.html(this.getTemplate(this.model.toJSON()));
+    var params = this.model.toJSON();
+    params.submit_date = moment(params.submit_date).fromNowOrNow();
+    this.$el.html(this.getTemplate(params));
     this.$counter = this.$el.find('.comment-total-votes:first');
     this.votes = parseInt(this.$counter.text(), 10);
     if (isNaN(this.votes)) {

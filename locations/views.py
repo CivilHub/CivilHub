@@ -26,6 +26,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 
 from taggit.models import Tag
@@ -470,11 +471,13 @@ class UpdateLocationView(LocationAccessMixin, UpdateView):
         context['subtitle'] = _('Edit this location')
         context['action'] = 'edit'
         context['appname'] = 'location-create'
-        parent = self.object.parent
-        if parent is None:
-            parent = self.object
-        parent_id_list = [parent.pk, ] + parent.get_parents
-        context['parents'] = Location.objects.filter(pk__in=parent_id_list)
+        if self.object.parent is None:
+            parents = []
+        else:
+            parent = self.object.parent
+            parent_id_list = [parent.pk, ] + parent.get_parents
+            parents = [Location.objects.get(pk=x) for x in parent_id_list]
+        context['parents'] = parents
         return context
 
     def form_valid(self, form):
@@ -830,6 +833,7 @@ class WidgetFactoryMixin(View):
         return {
             'ct': ct.pk,
             'pk': pk,
+            'div_id': "civil-widget-{}{}".format(ct.pk, pk),
             'lang': self.request.GET.get('lang', settings.LANGUAGE_CODE),
             'site': get_current_site(self.request),
             'width': str(self.request.GET.get('width', 400)),
@@ -878,9 +882,10 @@ class WidgetFactory(WidgetFactoryMixin):
     """
     def get(self, request, **kwargs):
         widget_settings = self.get_widget_settings()
-        f = open(os.path.join(settings.BASE_DIR, 'locations/scripts/widget.js'))
+        f = open(os.path.join(settings.BASE_DIR, 'locations/scripts/widget-src.js'))
         contents = f.read().replace('{url}', self.create_url())
         contents = contents.replace('{width}', widget_settings['width'])
+        contents = contents.replace('{div_id}', widget_settings['div_id'])
         return HttpResponse(contents, content_type="application/javascript")
 
 
@@ -890,5 +895,17 @@ class WidgetPreview(WidgetFactoryMixin):
     template_name = 'locations/widget_preview.html'
 
     def get(self, request, **kwargs):
-        return render(request, self.template_name, {
-                        'link': self.create_url(), })
+        widget_settings = self.get_widget_settings()
+        path = reverse('locations:get-widget', kwargs={
+            'ct': widget_settings['ct'],
+            'pk': widget_settings['pk'], })
+        protocol = 'https' if request.is_secure() else 'http'
+        url = "{}://{}{}?lang={}".format(
+            protocol, Site.objects.get_current().domain, path,
+            translation.get_language_from_request(request))
+        context = {
+            'frame_src': self.create_url(),
+            'div_id': "civil-widget-{}{}".format(
+                widget_settings['ct'], widget_settings['pk']),
+            'link': url, }
+        return render(request, self.template_name, context)

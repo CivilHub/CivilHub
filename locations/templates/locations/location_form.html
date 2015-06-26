@@ -15,7 +15,7 @@
 	});{% endfor %}{% endif %}
 })(CivilApp || {});
 </script>
-<script src="{% static 'places_core' %}/js/{% js_path %}/location-create.js"></script>{% endblock %}
+<script src="{% module_path 'location-create' %}"></script>{% endblock %}
 
 {% block header %}<div class="headerBGa headerBGLocationFrom">
 	<h1 class="headerTitleBG"> {{ title | capfirst }} <small>{{ subtitle | capfirst }}</small></h1>
@@ -40,7 +40,7 @@
 <div class="col-sm-9 main-content top15 p25">
 	<div class="create-form">
 		{% if form.errors %}{% for field, errors in form.errors.items %}{% for error in errors %}<p class="alert alert-danger">{{ field }} - {{ error }}</p>{% endfor %}{% endfor %}{% endif %}
-		<form class="form-horizontal" data-initial="{% if parents %}[{% for p in parents %}{ &quot;id&quot;:{{ p.pk }}, &quot;label&quot;:&quot;{{ p }}&quot; }{% if forloop.counter != parents.count %},{% endif %}{% endfor %}]{% endif %}" role="form" {% if action and action == 'edit' %}action="{% url 'locations:update' location.slug %}"{% else %}action="{% url 'locations:create' %}"{% endif %} enctype="multipart/form-data" method="post" id="new-location-form">{% csrf_token %}
+		<form class="form-horizontal" data-initial="{% if parents %}[{% for p in parents %}{ &quot;id&quot;:{{ p.pk }}, &quot;label&quot;:&quot;{{ p }}&quot; }{% if forloop.counter != parents|length %},{% endif %}{% endfor %}]{% endif %}" role="form" {% if action and action == 'edit' %}action="{% url 'locations:update' location.slug %}"{% else %}action="{% url 'locations:create' %}"{% endif %} enctype="multipart/form-data" method="post" id="new-location-form">{% csrf_token %}
 			<div class="form-group">
 				<label class="control-label col-sm-2">
 					<label for="id_name">{% trans "Name" %}:</label>

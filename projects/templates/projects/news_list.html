@@ -1,0 +1,6 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "news list"|capfirst %}</h1>
+<ul>{% for entry in object_list %}
+  <li><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></li>
+{% endfor %}</ul>
+<a class="btn btn-primary" href="{% url 'projects:news-create' object.slug %}">{% trans "create"|capfirst %}</a>{% endblock %}

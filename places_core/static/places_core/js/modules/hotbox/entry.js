@@ -23,7 +23,7 @@ var HotBoxEntryView = Backbone.View.extend({
   render: function () {
     var context = this.model.toJSON();
     moment.locale(CivilApp.language);
-    context.date_created = moment(context.date_created).fromNow();
+    context.date_created = moment(context.date_created).fromNowOrNow();
     this.$el.html(this.template(context));
     this.$el.find('.custom-tooltip-right')
       .tooltip({ placement: 'right' });

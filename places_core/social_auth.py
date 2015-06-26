@@ -10,6 +10,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 
 from social.apps.django_app.default.models import UserSocialAuth
 from social.pipeline.partial import partial
@@ -29,13 +30,17 @@ def notify_friends(user, fb_id_list):
         if int(sa.extra_data.get('id')) in fb_id_list:
             friends.append(sa.user.pk)
     users = User.objects.filter(pk__in=friends)
-    FriendsEmail().send(user.email, {
-        'lang': user.profile.lang,
-        'friends': users, })
+    domain = Site.objects.get_current().domain
+    if len(friends):
+        FriendsEmail().send(user.email, {
+            'baseurl': domain,
+            'lang': user.profile.lang,
+            'friends': users, })
     for friend in users:
         NewFriendEmail().send(friend.email, {
+            'baseurl': domain,
             'lang': friend.profile.lang,
-            'friend': user, })
+            'inviting_user': user, })
 
 
 def obtain_user_social_profile(response):

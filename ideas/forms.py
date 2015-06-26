@@ -41,7 +41,6 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
     )
     description = forms.CharField(
         required = False,
-        max_length = 2048,
         label = _("Description"),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )

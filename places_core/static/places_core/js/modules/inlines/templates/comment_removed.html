@@ -1,7 +1,7 @@
 <div class="comment-avatar-col pull-left"><img src="<%= author.profile.avatar %>" alt="<%= author.full_name %>" class="user-avatar avatarViewIMG comment-author-avatar" /></div>
 <div class="comment-main-col comment-removed">
   <a href="<%= author.profile.url %>" class="comment-author-name user-window-toggle" data-target="<%= author.id %>"><strong><%= author.full_name %></strong></a>
-  <small class="comment-date-from-now"><%= moment(submit_date).fromNow() %></small>
+  <small class="comment-date-from-now"><%= submit_date %></small>
   <span class="comment-controls">
     <% if(permission) { %><a href="#" class="comment-moderate" title="<%= gettext("Hide entry") %>"><span class="fa fa-flag"> </span></a><% } %>
   </span>

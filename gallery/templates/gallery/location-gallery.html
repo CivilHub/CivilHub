@@ -53,7 +53,9 @@
 </ul>{% endif %}
 
       {% else %}
-      <div class="no-entries">
+      </div>
+      </div>
+      <div class="no-entries hide">
       <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
           {% trans "We didn't find any photos" %} {% trans "in" %} {{ location }}.<br />
@@ -67,5 +69,4 @@
       </div>
     {% endif %}
 </div>
-
 <div class="col-sm-3 boxPX">{% include 'locations/sidebar.html' %}</div>{% endblock %}

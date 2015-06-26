@@ -7,7 +7,7 @@
 define(['jquery',
         'underscore',
         'backbone',
-        'moment',
+        'js/modules/moment',
         'js/modules/utils/utils',
         'js/modules/inlines/list',
         'text!js/modules/actstream/templates/simple-action.html',
@@ -75,7 +75,7 @@ var ActionView = Backbone.View.extend({
     var tpl = this.selectTemplate();
     _.bindAll(this, 'toggleComments');
     _.bindAll(this, 'fetchComments');
-    attrs.timestamp = moment(attrs.timestamp).fromNow();
+    attrs.timestamp = moment(attrs.timestamp).fromNowOrNow();
     this.$el.html(tpl(attrs));
     this.$('.date').tooltip();
     this.fixImage();
