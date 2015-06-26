@@ -167,6 +167,9 @@ body {
   font-size: 40px;
   text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.45);
 }
+.home_e_xxs_h2 {
+  display: none;
+}
 /* lang selector */
 .lang-selector-wrapper {
   position: absolute;
@@ -274,6 +277,21 @@ ul {
     margin-top: 10px;
   }
 }
+@media screen and (max-width: 750px){
+  .home-e-header {
+    margin-top: -33px;
+  }
+  .brief-Home {
+    margin-top: 0px;
+  }
+  .login-Home {
+    margin-top: 0px;
+  }
+  .home_e_logo {
+    left: 50%;
+    margin-left: -105px;
+  }
+}
 @media screen and (max-width: 500px){
   .home_e_main_text h1 {
     font-size: 24px;
@@ -282,6 +300,73 @@ ul {
     font-size: 18px;
   }
 }
+
+@media screen and (max-width: 480px){
+  .footerLang {
+    margin-left: 0
+  }
+}
+
+@media screen and (max-width: 353px){
+  .home_e_defult_h2 {
+    display: none;
+  }
+  .home_e_xxs_h2 {
+    display: initial;
+  }
+}
+
+/* max height */
+@media screen and (max-height: 650px), screen and (max-width: : 860px){
+  h1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .home_e_main_text {
+    margin-top: 30px;
+    margin-bottom: -10px;
+  }
+  .home_e_center_wrapper {
+    margin-top: -240px;
+  }
+}
+
+@media screen and (max-height: 610px), screen and (max-width: : 860px){
+  .home_e_logo {
+    top: 5px;
+  }
+  .home-e-header {
+    margin-top: -50px;
+  }
+  .footerLang {
+    bottom: 5px;
+  }
+}
+
+@media screen and (max-height: 550px) {
+  h1 {
+    font-size: 20px;
+  }
+  .home_e_xxs_h2 {
+    display: none;
+  }
+  .home_e_center_wrapper {
+    margin-top: -200px;
+  }
+  .form-group {
+    margin-bottom: 3px;
+  }
+  .home_e_logo {
+    top: 0;
+  }
+  .home-e-header {
+    margin-top: -57px;
+  }
+  .footerLang {
+    bottom: 0;
+  }
+}
+
 
 /* retina */
 @media 
@@ -294,17 +379,9 @@ ul {
     background-image: url('https://civilhub.org/static/places_core/img/logo-Home@2x.png');
   }
 }
-
-/* max height */
-@media screen and (max-height: 650px), screen and (max-width: : 860px){
-  .home_e_main_text {
-    margin-top: 30px;
-    margin-bottom: -30px;
-  }
-}
 </style>
 <div class="fort-top"></div>
-<header>
+<header class="home-e-header">
   <a href="/"><div class="home_e_logo"></div></a>
   <div class="brief-Home"><a href="/brief/"><p>{% trans "Brief" %}</p></a></div>
   <div class="login-Home"><a href="{% url 'user:login' %}"><p class="alink-home antimanA">{% trans "Login" %}</p></a></div>
@@ -313,7 +390,8 @@ ul {
 <div class="home_e_center_wrapper">
   <div class="home_e_main_text">
     <h1>{% trans "PEOPLE HAVE THE POWER" %}</h1>
-    <h2>{% trans "CivilHub is a place where we can act together<br>to make our local environment a better place." %}</h2>
+    <h2 class="home_e_defult_h2">{% trans "CivilHub is a place where we can act together<br>to make our local environment a better place." %}</h2>
+    <h2 class="home_e_xxs_h2">{% trans "CivilHub is a place where we can act together to make our local environment a better place." %}</h2>
   </div>
 
   <div class="register-box">
