@@ -1,7 +1,14 @@
 {% extends "postman/postman_base.html" %}
 {% load url from future %}
 {% load staticfiles i18n postman_tags civil_tags %}
-
+{% block header %}
+  <div class="inboxHeader">
+    <h1>
+      {% block pm_folder_title %}{% endblock %}
+      {% block pm_write_title %}{% endblock %}
+    </h1>
+  </div>
+{% endblock %}
 {% block title %}{% trans "Messaging" %}{% endblock %}
 
 {% block extrahead %}{{ block.super }}{% endblock %}
