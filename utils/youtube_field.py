@@ -27,11 +27,11 @@ class YoutubeUrl(unicode):
 
     @property
     def embed_url(self):
-        return 'http://youtube.com/embed/%s/' % self.video_id
+        return 'https://youtube.com/embed/%s/' % self.video_id
 
     @property
     def thumb(self):
-        return "http://img.youtube.com/vi/%s/2.jpg" % self.video_id
+        return "https://img.youtube.com/vi/%s/2.jpg" % self.video_id
 
 
 class YoutubeUrlField(models.URLField):
