@@ -112,7 +112,7 @@
             </div>
         </form>
     </div>
-  
+
 </script>
 
 {% comment %} ~~~~~~~~~~~~~~~ EDITION FORM ~~~~~~~~~~~~~~~ {% endcomment %}
@@ -241,7 +241,7 @@
 </script>
 
 <script type="text/template" id="list-col-tpl">
-
+     <% if (tier===1) { %><h4>{% trans "Select region" %}</h4><% } %>
      <% if (tier > 0) { %><form class="haystack-entry-form" role="presentation">
      <% } else { %><form class="haystack-entry-form" role="presentation"><% } %>
         <input type="text" class="search-entry form-control" placeholder="{% trans "Filter" %}" />
