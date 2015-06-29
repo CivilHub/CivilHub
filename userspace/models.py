@@ -152,6 +152,9 @@ class UserProfile(models.Model, BackgroundModelMixin):
         follows = [x for x in following(self.user, Location) if x is not None]
         return sort_by_locale(follows, lambda x: x.name, get_language())
 
+    def followed_users(self):
+        return [x for x in following(self.user, User) if x is not None]
+
     def followers(self):
         return followers(self.user)
 
