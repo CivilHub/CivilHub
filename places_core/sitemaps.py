@@ -13,8 +13,8 @@ from articles.models import Article
 
 
 class LocationSitemap(Sitemap):
-    changefreq = "never"
-    priority = 0.5
+    changefreq = "daily"
+    priority = 1
 
     def items(self):
         return Location.objects.all()
@@ -25,7 +25,7 @@ class LocationSitemap(Sitemap):
 
 class IdeaSitemap(Sitemap):
     changefreq = "daily"
-    priority = 0.5
+    priority = 1
 
     def items(self):
         return Idea.objects.all()

@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import python_2_unicode_compatible
 
 
 class BlessManager(models.Manager):
@@ -20,6 +21,7 @@ class BlessManager(models.Manager):
         return super(BlessManager, self).get_queryset().filter(user=User)
 
 
+@python_2_unicode_compatible
 class Blessing(models.Model):
     """ Schema for recommendation model. We call it 'the bless'.
     """
@@ -32,8 +34,7 @@ class Blessing(models.Model):
     objects = BlessManager()
 
     def __str__(self):
-        return _(u"Recommendation from %s for %s" % (self.user.get_full_name(),
-                                            self.content_object.__unicode__()))
+        return _(u"Recommendation from") + ' ' + self.user.get_full_name()
 
     class Meta:
         ordering = ('-date', )

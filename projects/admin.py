@@ -28,8 +28,9 @@ admin.site.register(Attachment, AttachmentAdmin)
 
 
 class SocialProjectAdmin(admin.ModelAdmin, FullUserNameMixin):
-    list_display = ('name', 'location', 'get_full_username', 'is_done',)
+    list_display = ('name', 'location', 'get_full_username', 'is_done', )
     readonly_fields = ('slug',)
+    raw_id_fields = ('location', )
 
 
 admin.site.register(SocialProject, SocialProjectAdmin)
