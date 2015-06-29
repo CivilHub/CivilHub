@@ -49,6 +49,13 @@
     </div>
     <div class="col-sm-3 no-float">
       <div class="ac-right-site">
+        <div class="ac-small-box sm-box-idea">
+          <a href="{% url 'locations:new_idea' location.slug %}" class="full-click-box"></a>
+            <div class="text-box">
+              <h3>{% trans "Create <br>a new Idea" %}</h3>
+              <p>{% trans "Show us what you <br>would like to <br>change." %}<br><br></p>
+            </div>
+        </div>
         <div class="ac-small-box sm-box-place">
           <a href="/create/" class="full-click-box"></a>
             <div class="text-box">
