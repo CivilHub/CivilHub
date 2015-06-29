@@ -1,8 +1,8 @@
 {% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
 {% block header %}{% endblock %}
-{% block content %}<div class="text-center mb20">
-  <h1 class="custom-main-title">{% blocktrans %}Thank You for register in CivilHub.{% endblocktrans %}</h1>
-  <h4>{% blocktrans %}Below you can see list of places that may be interesting for you.{% endblocktrans %}</h4></div><br>
+{% block content %}<div class="text-center mb20 brief-container">
+  <h1>{% blocktrans %}Which places are important to you?{% endblocktrans %}</h1>
+  <p>{% blocktrans %}Choose a place you would like to act in. Suggested places:{% endblocktrans %}</h4></div><br>
 	{% for location in locations %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
     <div class="col-sm-3 sublocation">
       <div class="bgactive-follower" style="background-image: url({{ location.thumb_url }});">
@@ -13,5 +13,5 @@
       </div>
     </div>
   {% if forloop.counter|divisibleby:4 or forloop.counter == locations.count %}</div>{% endif %}{% endfor %}
-  <p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a></p>
+  <p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a> <span class="ml30">{% trans "Follow a minimum of 3 places." %}</span></p>
 </div>{% endblock %}
