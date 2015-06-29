@@ -67,7 +67,8 @@
                 <button type="submit" class="btn-follow-location chFollowers" data-location-id="{{ location.pk }}">{% trans "Follow" %}</button>
             </form>{% endif %}
         {% endif %}
-
+        <div class="clear"></div>
+        <div class="btn-white mt8"><a href="{% url 'locations:new_idea' location.slug %}"><strong>{% trans "What would you like to change?" %}</strong></a></div>
         </div>
 
         {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
