@@ -52,7 +52,15 @@
 
 
 {% comment %}A place for extra css and js files.{% endcomment %}
-{% block meta %}{% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{% trans "CivilHub - People have the Power." %}">
+<meta property="og:title" content="{% trans "CivilHub - People have the Power." %}"/>
+<meta property="og:url" content="https://civilhub.org" />
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:image" content="https://civilhub.org/static/places_core/img/brief/cities_pl/wwa.png"/>
+<meta property="og:description" content="{% trans "CivilHub - People have the Power. The best tools to collaborate in local communities." %}" />
+{% endblock %}
 {% block extra_styles %}{% endblock %}
 {% block extra_scripts %}{% endblock %}
 {% block require_scripts %}
