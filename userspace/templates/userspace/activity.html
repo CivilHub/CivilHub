@@ -11,10 +11,15 @@
 
 {% block title %}{% trans "Your feed" %}{% endblock %}
 
-{% block header %}{% endblock %}
+{% block main_page_content %}
+<div class="main-page-content wrap ac-feed">
 
-{% block container_main %}<div class="container fake-container-fill">
-  {% block content %}<div class="fake-row-fill">
+    {% block header %}{% endblock %}
+
+    {% block container_main %}
+    <div class="container fake-container-fill">
+
+        {% block content %}<div class="fake-row-fill">
     <div class="col-sm-3 mt25 no-float">
       <div class="main-content p-reset">
         <div class="ac-title">
@@ -78,4 +83,12 @@
       </div>
     </div>
   </div>{% endblock %}
-</div>{% endblock %}
+
+
+    </div>
+
+    {% endblock %}
+
+</div>
+{% include 'places_core/login-window-modal.html' %}
+{% endblock %}
