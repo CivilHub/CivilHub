@@ -2,8 +2,6 @@
 import urllib2
 from bs4 import BeautifulSoup as BS
 
-from django.contrib.sites.models import Site
-
 
 def parse_sitemap(url):
     f = urllib2.urlopen(url)
@@ -13,7 +11,7 @@ def parse_sitemap(url):
 
 
 def find_location(slug):
-    url = 'http://{}/sitemap.xml'.format(Site.objects.get_current().domain)
+    url = 'https://civilhub.org/sitemap.xml'
     links = [x for x in parse_sitemap(url) if 'sitemap-locations' in x]
     locations = []
     for link in links:
