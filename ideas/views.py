@@ -53,8 +53,7 @@ class VoteCommentFormView(SingleObjectMixin, View):
             form = form_class(instance=vote)
         except Vote.DoesNotExist:
             form = form_class()
-        heading = _(u"How can you help") if status == 1 else _(u"Reason")
-        return render(request, self.template_name, {'form': form, 'heading': heading, })
+        return render(request, self.template_name, {'form': form, })
 
 
 class IdeasContextMixin(LocationContextMixin):

@@ -60,8 +60,21 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
         }
 
 
-class PositiveCommentForm(forms.ModelForm):
+class FlatBSForm(forms.BaseForm):
+    """ Just display help texts above fields, not below. Remember to use as_p()!
+    """
+    def as_p(self):
+        return self._html_output(
+            normal_row = """<div><p>%(help_text)s</p>%(field)s</div>""",
+            error_row = '<div class="alert alert-danger">%s</div>',
+            row_ender = '</div>',
+            help_text_html = '%s',
+            errors_on_separate_row = True)
+
+
+class PositiveCommentForm(forms.ModelForm, FlatBSForm):
     positive_comment = forms.CharField(label="", required=False,
+                    help_text=_(u"Describe shortly what can you do to help improve this idea"),
                     widget=forms.Textarea(attrs={'class': 'form-control', }))
 
     class Meta:
@@ -69,8 +82,9 @@ class PositiveCommentForm(forms.ModelForm):
         fields = ('positive_comment', )
 
 
-class NegativeCommentForm(forms.ModelForm):
+class NegativeCommentForm(forms.ModelForm, FlatBSForm):
     negative_comment = forms.CharField(label="",
+        help_text=_(u"Describe shortly what is wrong with this idea"),
         widget=forms.Textarea(attrs={'class': 'form-control', }))
 
     class Meta:
