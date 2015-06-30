@@ -19,6 +19,7 @@
 {% block title %} {{ location }} | CivilHub {% endblock %}
 
 {% block container_main %}
+<div class="ac-feed pt20 mt-20">
 <div class="container">{% block topbar %}{% include 'locations/navbar.html' %}{% endblock %}</div>
 <div class="container fake-container-fill mt-20">
   {% block content %}<div class="fake-row-fill">
@@ -26,7 +27,7 @@
       <div class="hotbox main-content p-reset" data-param="lid" data-value="{{ location.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
     </div>
     <div class="col-sm-6 no-float">
-      {% if user.is_authenticated %}<div class="wrapper-timeline">
+      {% if user.is_authenticated %}<div class="wrapper-timeline ac-new-green">
         <ul class="ac-timeline">
           <li class="timeline-header">
             <div class="timeline-wrap">
@@ -34,8 +35,8 @@
               <span class="timeline-user"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}"></span>
               <div class="timeline-content panel">
                 <span class="arrow arrow-left arrow-top"></span>
-                <div class="timeline-content-head">
-                  <a href="#" class="cd-bouncy-nav-trigger">{% trans "Create: idea, news, discussion" %}...</a>
+                <div class="timeline-content-head text-center">
+                  <a href="#" class="cd-bouncy-nav-trigger">{% trans "Take action" %}</a>
                 </div>
               </div>
             </div>
@@ -101,4 +102,5 @@
   </div>{% endblock %}
 </div>
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />
+</div>
 {% endblock %}
