@@ -650,7 +650,7 @@
   <span class="timeline-user">
     <img src="<%= actor.avatar %>" alt="<%= actor.fullname %>" class="user-avatar avatarH ">
   </span>
-  <div class="timeline-content panel">
+  <div class="timeline-content panel mb0">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">
       <a href="<%= actor.user_link %>"><%= actor.fullname %></a>
@@ -683,10 +683,10 @@
   <span class="timeline-user">
     <a href="<%= creator.url %>" ><span class="user-window-toggle" data-target="<%= creator.id %>">
       <img src="<%= creator.img %>" alt="<%= creator.name %>" class="user-avatar avatarH "></span>
-      {% comment %}<span class="user-pts">{{ creator.profile.rank_pts }}</span>{% endcomment %}
+      {% comment %}<span class="user-pts mt0">{{ creator.profile.rank_pts }}</span>{% endcomment %}
     </a>
   </span>
-  <div class="timeline-content panel">
+  <div class="timeline-content panel mb0">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">
       <span><%= name %><span><span class="pull-right"><a href="/<%= url.split('/')[1] %>/"><%= location %></a></span>
