@@ -32,7 +32,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from taggit.models import Tag
 from actstream import action
 from actstream.actions import follow, unfollow
-from actstream.models import Action
+from actstream.models import Action, followers
 from easy_pdf.views import PDFTemplateView
 
 from blog.models import News
@@ -249,19 +249,38 @@ class SublocationList(DetailView):
 
 
 class LocationFollowersList(DetailView):
-    """
-    Location followers list
+    """ Location followers list
     """
     model = Location
     template_name = 'locations/location_followers.html'
 
+    def get_followers(self):
+        order = self.request.GET.get('order')
+        qs = User.objects.filter(pk__in=[x.pk for x in followers(self.object)])
+        if order == 'abc':
+            return qs.order_by('first_name', 'last_name')
+        else:
+            return qs.order_by('-profile__rank_pts')
+
+    def get_search_form(self):
+        fields = [
+            {'value': 'abc', 'label': _("Alphabetically"), },
+            {'value': 'default', 'label': _("By profile points"), }, ]
+        field_html = '<select name="order" class="form-control">'
+        order = self.request.GET.get('order', 'default')
+        for field in fields:
+            field_html += '<option value="%s"' % field['value']
+            if field['value'] == order:
+                field_html += ' selected="selected"'
+            field_html += '>%s</option>' % field['label']
+        field_html += '</select>'
+        return field_html
+
     def get_context_data(self, **kwargs):
         context = super(LocationFollowersList, self).get_context_data(**kwargs)
-
-        followers = self.object.users.all()
         max_per_page = settings.LIST_PAGINATION_LIMIT
-        paginator    = Paginator(followers, max_per_page)
-        page         = self.request.GET.get('page')
+        paginator = Paginator(self.get_followers(), max_per_page)
+        page = self.request.GET.get('page')
 
         try:
             context['followers'] = paginator.page(page)
@@ -276,10 +295,10 @@ class LocationFollowersList(DetailView):
             context['navigation'] = True
 
         context['title'] = self.object.name + ', ' + _("Followers")
+        context['filter_form'] = self.get_search_form()
+        print context['filter_form']
         context['is_moderator'] = is_moderator(self.request.user, self.object)
         context['top_followers'] = self.object.most_active_followers()
-        context['links'] = links['followers']
-        context['tags'] = TagFilter(self.object).get_items()
         return context
 
 

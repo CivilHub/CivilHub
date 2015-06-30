@@ -1,37 +1,47 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
-from django.utils.translation import gettext as _
-from rest.serializers import TranslatedModelSerializer
-from .models import Category, Idea, Vote
 
+from locations.serializers import LocationListSerializer
+from userspace.serializers import UserDetailSerializer
 
-class IdeaCategorySerializer(TranslatedModelSerializer):
-    """ """
-    class Meta:
-        model = Category
-
-
-class IdeaVoteSerializer(serializers.ModelSerializer):
-    """
-    A simple serializer for object connected with votes in ideas.
-    """
-    class Meta:
-        model = Vote
-
-    def validate(self, attrs):
-        """ Metoda sprawdza, czy użytkownik głosował już na ten pomysł. """
-        if Vote.objects.filter(user=attrs['user'],idea=attrs['idea']).count():
-            self._errors['non_field_errors'] = _("You voted already for this idea")
-        return super(IdeaVoteSerializer, self).validate(attrs)
+from .models import Idea, Vote
 
 
 class IdeaSimpleSerializer(serializers.ModelSerializer):
-    """
-    Simple idea objects serializer for mobile API.
-    """
-    id = serializers.Field(source='pk')
-    slug = serializers.SlugField(required=False)
+    class Meta:
+        model = Idea
+
+
+class IdeaDetailSerializer(serializers.ModelSerializer):
+    creator = serializers.SerializerMethodField('get_userdata')
+    location = serializers.SerializerMethodField('get_location')
+    status = serializers.SerializerMethodField('get_status')
+
+    def get_userdata(self, obj):
+        return UserDetailSerializer(obj.creator).data
+
+    def get_location(self, obj):
+        return LocationListSerializer(obj.location).data
+
+    def get_status(self, obj):
+        return obj.get_status_display()
 
     class Meta:
         model = Idea
-        exclude = ('creator',)
+
+
+class VoteSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
+
+
+class VoteDetailSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField('get_userdata')
+    status = serializers.Field(source='get_status_display')
+
+    def get_userdata(self, obj):
+        return UserDetailSerializer(obj.user).data
+
+    class Meta:
+        model = Vote

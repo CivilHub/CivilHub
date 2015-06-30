@@ -7,7 +7,7 @@ from taggit.forms import TagField
 from locations.models import Location
 from places_core.forms import BootstrapBaseForm
 
-from .models import Idea, Category
+from .models import Idea, Category, Vote
 
 
 class CategoryForm(forms.ModelForm):
@@ -58,3 +58,21 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
         widgets = {
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
+
+
+class PositiveCommentForm(forms.ModelForm):
+    positive_comment = forms.CharField(label="", required=False,
+                    widget=forms.Textarea(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = Vote
+        fields = ('positive_comment', )
+
+
+class NegativeCommentForm(forms.ModelForm):
+    negative_comment = forms.CharField(label="",
+        widget=forms.Textarea(attrs={'class': 'form-control', }))
+
+    class Meta:
+        model = Vote
+        fields = ('negative_comment', )
