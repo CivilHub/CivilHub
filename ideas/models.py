@@ -104,6 +104,18 @@ class Idea(ImagableItemMixin, models.Model):
     def votes(self):
         return self.vote_set.exclude(status=3).values('pk').count()
 
+    def _get_comments(self, status=1):
+        all_comments = self.vote_set.filter(status=status)
+        return [x.pk for x in all_comments if x.get_comment() is not None]
+
+    @property
+    def positive_comments(self):
+        return len(self._get_comments(status=1))
+
+    @property
+    def negative_comments(self):
+        return len(self._get_comments(status=2))
+
     def get_votes(self):
         return self.votes_up - self.votes_down
 

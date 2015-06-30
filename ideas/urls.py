@@ -10,8 +10,6 @@ router.register('votes', api.IdeaVoteViewSet, 'votes')
 
 urlpatterns = patterns('',
     url(r'categories/create/', CreateCategory.as_view(), name='new_category'),
-    #url(r'^$', IdeasListView.as_view(), name='index'),
-    url(r'(?P<slug>[\w-]+)/vote-summary/(?P<status>[\d]+)/', IdeasVoteCommentSummary.as_view(), name='vote-summary'),
     url(r'vote-form/(?P<pk>[\d]+)/(?P<status>[\d]+)/', VoteCommentFormView.as_view(), name='vote-form'),
     url(r'create/', CreateIdeaView.as_view(), name='create'),
     url(r'details/(?P<slug>[\w-]+)', IdeasDetailView.as_view(), name='details'),
