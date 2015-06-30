@@ -36,7 +36,7 @@
       <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
     </div>
     <div class="col-sm-6 mt25 no-float">
-      {% if user.is_authenticated %}<div class="wrapper-timeline">
+      {% if user.is_authenticated %}<div class="wrapper-timeline ac-new-green">
         <ul class="ac-timeline">
           <li class="timeline-header">
             <div class="timeline-wrap">
@@ -45,7 +45,7 @@
                 {% comment %}<span class="user-pts">{{ user.profile.rank_pts }}</span>{% endcomment %}</span>
               <div class="timeline-content panel">
                 <span class="arrow arrow-left arrow-top"></span>
-                <div class="timeline-content-head">
+                <div class="timeline-content-head text-center">
                   <a href="#" class="cd-bouncy-nav-trigger">{% trans "Create: idea, news, discussion" %}...</a>
                 </div>
               </div>
