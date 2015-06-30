@@ -39,7 +39,7 @@
   <div class="row ivotepage mb20">
     <h1 class="text-center">{{ idea.name }}</h1>
   <div class="col-sm-8 mt25 pl0">
-    {% if idea.video_url %}<iframe id="ytplayer" type="text/html" width="640" height="390" src="{{ idea.video_url.embed_url }}" frameborder="0"></iframe>
+    {% if idea.video_url %}<div class="idea-video"><iframe id="ytplayer" type="text/html" width="640" height="390" src="{{ idea.video_url.embed_url }}" frameborder="0"></iframe></div>
     {% elif not idea.has_default_image %}<div class="content-image bigImg4" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% else %}<div class="content-image bigImg4 idea-default-img"></div>{% endif %}
     {% visit_counter idea %}
   </div><!--9-->
