@@ -1,0 +1,4 @@
+{% load i18n %}<div class="alert alert-danger" style="display:none"></div>
+<form method="post" action="">{% csrf_token %}
+  {{ form.as_p }}
+</form>

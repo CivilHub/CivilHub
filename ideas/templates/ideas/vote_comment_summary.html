@@ -1,0 +1,7 @@
+{% extends 'ideas/idea_detail_base.html' %}{% load i18n %}
+{% block idea_description %}<ul>{% for item in object_list %}
+  <li>
+    <div><h4><img class="user-avatar" src="{{ item.user.profile.avatar.url }}">{{ item.user.profile }}</h4></div>
+    <div>{{ item.get_comment }}</div>
+  </li><hr>
+{% endfor %}</ul>{% endblock %}
