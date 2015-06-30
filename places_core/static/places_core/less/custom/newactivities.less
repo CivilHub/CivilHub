@@ -55,6 +55,10 @@
     border-top: 0 none;
   }
 }
+.ac-feed{
+  background-color: #F4F4F4;
+  .date{ box-shadow: 0 0 0 4px #F4F4F4 !important; }
+}
 .ac-title{
   background-color: @bg_ac_title;
   padding: 15px;
@@ -205,7 +209,7 @@ a{
     &.socialproject{ border-color: @projectscolor; .timeline-content{ width: 100%; } }
     &.places{ border-color: @placecolor; .timeline-content{ width: 100%; } }
 
-  }    
+  }
   .timeline-user{
     position: relative;
     top: -5px;
@@ -319,6 +323,13 @@ a{
     background-color: transparent;
     padding-top: 0;
   }
+}
+.ac-new-green{
+  .timeline-header{ margin-top: 5px; }
+  .timeline-user{ top: -10px; }
+  .timeline-wrap{ display: inline-block; .date{ top: 10px; } }
+  .panel{ background-color: #84bd00;   border-color: #84BD00; a{ color: #FFF; text-decoration: none; } }
+  .arrow.arrow-left:after{ border-right-color: #84bd00; }
 }
 /* Right site */
 .ac-right-site{
