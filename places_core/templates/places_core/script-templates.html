@@ -241,10 +241,9 @@
 </script>
 
 <script type="text/template" id="list-col-tpl">
-     <% if (tier===1) { %><h4>{% trans "Select region" %}</h4><% } %>
      <% if (tier > 0) { %><form class="haystack-entry-form" role="presentation">
      <% } else { %><form class="haystack-entry-form" role="presentation"><% } %>
-        <input type="text" class="search-entry form-control" placeholder="{% trans "Filter" %}" />
+        <input type="text" class="search-entry form-control" placeholder="<% if (tier===1) { %>{% trans 'Select region' %} <% } else { %> {% trans 'Filter' %} <% } %>" />
     </form>
     <!--<% if (tier > 0) { %><a href="#" class="col-sm-2 close-col"><span class="fa fa-times-circle-o"></span></a><% } %>-->
 </script>
