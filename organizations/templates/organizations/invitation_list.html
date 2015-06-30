@@ -1,5 +1,5 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<h1>{% trans "invitations"|capfirst %}</h1>
-<ul>{% for invitation in object_list %}
-  <li>{{ invitation }} <a href="{% url 'organizations:accept' invitation.key %}">{% trans "accept"|capfirst %}</li>
-{% endfor %}</ul>{% endblock %}
+{% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "invitations"|capfirst %}</h3>
+<ul class="custom-tablelike list-unstyled mb0">{% for invitation in object_list %}
+  <li class="custom-list-entry">{{ invitation }}<a href="{% url 'organizations:accept' invitation.key %}" class="text-green pull-right"><strong>{% trans "accept"|capfirst %}</strong></a></li>
+{% endfor %}</ul></div>{% endblock %}
