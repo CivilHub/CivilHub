@@ -80,9 +80,10 @@ class IdeasVoteCommentSummary(IdeasContextMixin, SingleObjectMixin, View):
 
     def get(self, request, **kwargs):
         context = self.get_context_data()
+        qs = self.object.vote_set.filter(status=self.status)
         context.update({
             'location': self.object.location,
-            'object_list': self.object.vote_set.filter(status=self.status), })
+            'object_list': [x for x in qs if x.get_comment() is not None], })
         return render(request, self.template_name, context)
 
 
