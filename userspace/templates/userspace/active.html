@@ -1,8 +1,9 @@
-{% extends 'places_core/base.html' %}{% load i18n actstream_tags %}
-{% block header %}{% endblock %}
+{% extends 'places_core/base.html' %}{% load i18n actstream_tags location_tags civil_tags %}
+{% block require_scripts %}<script src="{% module_path 'new-user' %}"></script>{% endblock %}
 {% block content %}<div class="text-center mb20 brief-container">
   <h1>{% blocktrans %}Which places are important to you?{% endblocktrans %}</h1>
   <p>{% blocktrans %}Choose a place you would like to act in. Suggested places:{% endblocktrans %}</h4></div><br>
+  {% location_autocomplete %}
 	{% for location in locations %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
     <div class="col-sm-3 sublocation">
       <div class="bgactive-follower" style="background-image: url({{ location.thumb_url }});">
