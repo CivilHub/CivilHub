@@ -8,9 +8,10 @@
   <div class="followers-entry">
     <h1>{% trans "People" %}</h1>
     <h2>{% blocktrans %}People who follow this place{% endblocktrans %}</h2>
-    <form id="f-order-form" action="" method="get">
+    <form id="f-order-form" action="" method="get" class="hidden">
       {{ filter_form|safe }}
     </form>
+    <p class="text-muted small"><span class="fa fa-filter"></span> {% trans "Filter" %}: <a href="?order=abc" class="text-primary">{% trans "Alphabetically" %}</a> | <a href="?order=default" class="text-primary">{% trans "By profile points" %}</a></p>
     <div class="row">{% for usr in followers %}
       <div class="col-md-2 col-sm-4 col-xs-6">
         <div class="follower">
