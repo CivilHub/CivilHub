@@ -2,16 +2,19 @@
 .ui-menu {
   display: none !important;
 }</style>
-<div class="civ-autocomplete-area">
-  <input type="text" class="form-control civ-autocomplete">
-  <ul class="autocomplete-results"></ul>
-  <script type="text/template" class="actl-tpl">
-    <li><%= label %> <a class="btn-follow" data-target="<%= value %>">{% trans "Follow" %}</li>
-  </script>
-  <script type="text/template" class="actl-tpl-followed">
-    <li><%= label %> <a class="btn-unfollow" data-target="<%= value %>">{% trans "Stop following" %}</li>
-  </script>
-  <script type="text/template" class="actl-tpl-simple">
-    <li><%= label %></li>
-  </script>
+<div class="civ-autocomplete-area row row20">
+  <div class="col-lg-2"></div>
+  <div class="col-lg-8">
+    <input type="text" class="form-control civ-autocomplete" placeholder="{% trans "Filter" %}">
+    <ul class="autocomplete-results list-unstyled"></ul>
+    <script type="text/template" class="actl-tpl">
+      <li class="clearfix"><%= label %> <a class="btn-follow pull-right-n" data-target="<%= value %>">{% trans "Follow" %}</a></li>
+    </script>
+    <script type="text/template" class="actl-tpl-followed">
+      <li class="clearfix"><%= label %> <a class="btn-unfollow pull-right-n" data-target="<%= value %>">{% trans "Stop following" %}</a></li>
+    </script>
+    <script type="text/template" class="actl-tpl-simple">
+      <li class="clearfix"><%= label %></li>
+    </script>
+  </div>
 </div>
