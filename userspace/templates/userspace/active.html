@@ -3,26 +3,19 @@
 {% block content %}<div class="text-center mb20 brief-container">
   <h1>{% blocktrans %}Which places are important to you?{% endblocktrans %}</h1>
   <p>{% blocktrans %}Choose a place you would like to act in. Suggested places:{% endblocktrans %}</h4></div><br>
-  
-
-  <div class="row">
-
-  {% for location in locations %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:3 %}<div class="col-sm-9">{% endif %}
-    <div class="row">
-      <div class="col-sm-3 sublocation">
-        <div class="bgactive-follower" style="background-image: url({{ location.thumb_url }});">
-          <div class="active-sublocation">
-            <div class="location-name-title">{{ location.name }}</div>
-            {% follow_button location %}
-          </div>
+	{% for location in locations %}{% if forloop.counter0 == 0 or forloop.counter0|divisibleby:4 %}<div class="row">{% endif %}
+    <div class="col-sm-3 sublocation">
+      <div class="bgactive-follower" style="background-image: url({{ location.thumb_url }});">
+        <div class="active-sublocation">
+          <div class="location-name-title">{{ location.name }}</div>
+          {% follow_button location %}
         </div>
       </div>
     </div>
-  {% if forloop.counter|divisibleby:3 or forloop.counter == locations.count %}</div>{% endif %}{% endfor %}
+  {% if forloop.counter|divisibleby:4 or forloop.counter == locations.count %}</div>{% endif %}{% endfor %}
 
-  <div class="col-sm-3">{% location_autocomplete %}</div>
-</div>
+  <div class="brief-container"><p>{% trans "If you haven't found the place you were looking for, you can look for it in our list" %}</p></div>
+  {% location_autocomplete %}
 
-
-  <div class="row"><p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a> <span class="ml30">{% trans "Follow a minimum of 3 places." %}</span></p></div>
+  <p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a> <span class="ml30">{% trans "Follow a minimum of 3 places." %}</span></p>
 </div>{% endblock %}
