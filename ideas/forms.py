@@ -41,7 +41,6 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
     )
     description = forms.CharField(
         required = False,
-        max_length = 2048,
         label = _("Description"),
         widget = forms.Textarea(attrs={'class': 'form-control'})
     )
@@ -55,7 +54,7 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'tags', 'category', 'image', 'status',)
+        fields = ('name', 'description', 'video_url', 'tags', 'category', 'image', 'status',)
         widgets = {
             'status': forms.Select(attrs={'class': 'form-control'}),
         }

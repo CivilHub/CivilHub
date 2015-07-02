@@ -7,9 +7,10 @@
 define(['jquery',
         'underscore',
         'backbone',
+        'js/modules/moment',
         'text!js/modules/notifications/templates/notify_entry.html'],
 
-function ($, _, Backbone, html) {
+function ($, _, Backbone, moment, html) {
 
 "use strict";
 
@@ -18,7 +19,9 @@ var NotifyView = Backbone.View.extend({
   tagName: 'li',
   className: "clearfix",
   render: function () {
-    this.$el.html(this.template(this.model.toJSON()));
+    var params = this.model.toJSON();
+    params.created_at = moment(params.created_at).fromNowOrNow();
+    this.$el.html(this.template(params));
     if (this.model.get('is_new')) {
       this.$el.addClass('new');
     }

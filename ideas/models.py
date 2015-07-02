@@ -22,6 +22,7 @@ from gallery.image import adjust_uploaded_image
 from notifications.models import notify
 from places_core.helpers import truncatehtml, truncatesmart, sanitizeHtml
 from places_core.models import ImagableItemMixin, remove_image
+from utils.youtube_field import YoutubeUrlField
 
 
 class VotingExpiredException(Exception):
@@ -57,6 +58,7 @@ class Idea(ImagableItemMixin, models.Model):
     location = models.ForeignKey(Location)
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
     edited = models.BooleanField(default=False)
+    video_url = YoutubeUrlField(blank=True, null=True, verbose_name=_(u"Youtube video"))
 
     tags = TaggableManager()
 

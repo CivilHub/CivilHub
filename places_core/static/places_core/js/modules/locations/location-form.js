@@ -147,9 +147,9 @@ var LocationForm = Backbone.View.extend({
     this.$map.mapinput(mapOpts);
 
     // Fill initial parent values
+
     var initial = this.$el.attr('data-initial');
     if (initial.length > 0) {
-      console.log(initial);
       this.reset();
       _.each(JSON.parse(initial).reverse(), function (item) {
         this.addInput(item.id, item.label);

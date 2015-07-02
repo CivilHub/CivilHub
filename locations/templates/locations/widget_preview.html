@@ -1,4 +1,7 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
 {% block content %}<div class="main-content"><h1>{% trans "This is your very own widget" %}</h1>
-<iframe src="{{ link }}" class="widget-iframe"></iframe><br>
-<pre class="display-ib-m">{{ link }}</pre></div>{% endblock %}
+<div id="{{ div_id }}" class="widget-iframe"></div><br>
+<p>{% trans "Copy and paste below code anywhere on your page" %}:</p>
+<pre class="display-ib-m">&lt;div id="{{ div_id }}"&gt;&lt;/div&gt;
+&lt;script src="{{ link }}"&gt;&lt;/script&gt;</pre></div>
+<script src="{{ link }}"></script>{% endblock %}

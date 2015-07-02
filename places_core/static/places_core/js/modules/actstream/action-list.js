@@ -93,7 +93,6 @@ var ActionList = Backbone.View.extend({
       this.collection.each(function (item) {
         this.renderItem(item);
       }, this);
-      this.$('.fa-spin').hide();
     } else {
       this.$el.append(([
         '<p class="alert alert-info">',
@@ -101,6 +100,7 @@ var ActionList = Backbone.View.extend({
         '</p>']).join('')
       );
     }
+    this.$('.fa-spin').hide();
   },
 
   renderPage: function (collection, data) {
