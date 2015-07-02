@@ -48,7 +48,7 @@
 		</ul>
 		<form class="navbar-form navbar-right" id="haystack-form" method="get" action="" role="search">
 			<div class="form-group">
-				<input type="text" name="haystack" id="haystack" class="form-control" placeholder="{% trans "Search" %}">
+				<input type="text" name="haystack" id="haystack" class="form-control" placeholder="{% trans "Search" %} {% trans "in" %} {{ location }}">
 			</div>
 			<button type="submit" class="search-button"><span class="fa fa-search"></span></button>
 		</form>

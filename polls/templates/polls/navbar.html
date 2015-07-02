@@ -30,7 +30,7 @@
     </ul>
     <form id="haystack-form" class="navbar-form navbar-right" role="search">
       <div class="form-group">
-        <input type="text" id="haystack" name="haystack" class="form-control" placeholder="{% trans "Search" %}">
+        <input type="text" id="haystack" name="haystack" class="form-control" placeholder="{% trans "Search" %} {% trans "in" %} {{ location }}">
       </div>
       <button type="submit" class="search-button"><span class="fa fa-search"></span></button>
     </form>
