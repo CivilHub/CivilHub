@@ -27,7 +27,7 @@
             </form>
           </div>
         </li>
-        {% if user.is_authenticated %}<li class="dropdown">
+        <li class="dropdown">
           <a class="dropdown-toggle custom-tooltip-right onlyIcon" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
             <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %} <span class="fa fa-angle-down"></span></span>
           </a>
@@ -68,7 +68,7 @@
             <li><a href="/contact">{% trans "Contact" %}</a></li>
           </ul>
         </li>
-        {% endif %}
+
       </ul>
       <ul class="nav navbar-nav navbar-right navbarHeader">
         {% if user.is_authenticated %}<li class="user-hidden-link">
