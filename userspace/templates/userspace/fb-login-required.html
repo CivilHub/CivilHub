@@ -31,13 +31,14 @@
         <h1 class="user-fullname">
           {{ profile }}
         </h1>
+        <div class="user-more-info">{{ user.profile.followed_users|length }} {% trans "Follows" %} | {{ cuser.profile.followers|length }} {% trans "Followers" %}</div>
         {% follow_button profile.user %}
-        {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa fa-google">&nbsp;</span></a>{% endif %}
-        {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa fa-facebook">&nbsp;</span></a>{% endif %}
-        {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Twitter profile" %}"><span class="fa fa-twitter">&nbsp;</span></a>{% endif %}
-        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "LinkedIn profile" %}"><span class="fa fa-linkedin">&nbsp;</span></a>{% endif %}
-        {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Website" %}"><span class="fa fa-external-link">&nbsp;</span></a>{% endif %}
-        {% if request.user != user %}<a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button custom-tooltip" title="Send private message"><span class="fa fa-envelope">&nbsp;</span></a>{% endif %}
+        {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-google btn-igred img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
+        {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-facebook btn-ifblue img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
+        {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Twitter profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-twitter btn-itblue img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
+        {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "LinkedIn profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-linkedin btn-ilblue img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
+        {% if profile.website %}<a href="{{ profile.website }}" target="_blank"  rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Website" %}"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-external-link fa-stack-1x bg-color-poll img-circle"></span>&nbsp;</span></a>{% endif %}
+        {% if request.user != user %}<a href="{% url 'postman_write' user.username %}" target="_blank" class="social-link-button custom-tooltip" title="{% trans "Send private message" %}"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-envelope fa-stack-1x img-circle bg-color-discussion"></span>&nbsp;</span></a>{% endif %}
       </div>
       {% if request.user == user %}
         <div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a></div>

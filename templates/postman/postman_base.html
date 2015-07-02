@@ -40,20 +40,8 @@
 <div class="main-page-content wrap">
     
     
+    {% block header %}{% endblock %}
     
-    {% block header %}
-    
-        <div class="inboxHeader">
-            <h1>
-
-                {% block pm_folder_title %}{% endblock %} 
-
-                {% block pm_write_title %}{% endblock %}       
-
-            </h1>
-        </div>
-    
-    {% endblock %}
 
     <div id="messages"></div>
 

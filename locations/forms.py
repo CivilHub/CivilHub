@@ -23,6 +23,16 @@ from places_core.forms import BootstrapBaseForm
 from .models import Location, Country
 
 
+class LocationSearchForm(forms.Form):
+    term = forms.CharField(widget=forms.HiddenInput)
+
+    def clean_term(self):
+        term = self.cleaned_data['term']
+        if len(term) < 4:
+            return False
+        return term
+
+
 class LocationForm(forms.ModelForm, BootstrapBaseForm):
     """ Edit/update/create location form """
     parent = forms.IntegerField(

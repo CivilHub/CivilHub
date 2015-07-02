@@ -1,4 +1,4 @@
-{% load staticfiles i18n civil_tags cache %}<nav id="location-navbar" class="navbar navbar-default" role="navigation">
+{% load staticfiles i18n civil_tags cache %}<div id="navbar"></div><nav id="location-navbar" class="navbar navbar-default" role="navigation">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -11,9 +11,9 @@
     <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav">
         <li><a href="{{ location.get_absolute_url }}" id="tour-Summary" class="lhome">{% trans "Home" %}</a></li>
-        <li><a href="{% url 'locations:news' location.slug %}" id="tour-Blog" class="lnews"></span>{% trans "News" %}</a></li>
-        <li><a href="{% url 'locations:discussions' location.slug %}" id="tour-Discussions" class="ldiscussion">{% trans "Discussions" %}</a></li>
-        <li><a href="{% url 'locations:ideas' location.slug %}" id="tour-Ideas" class="lideas">{% trans "Ideas" %}</a></li>
+        <li><a href="{% url 'locations:news' location.slug %}#navbar" id="tour-Blog" class="lnews"></span>{% trans "News" %}</a></li>
+        <li><a href="{% url 'locations:discussions' location.slug %}#navbar" id="tour-Discussions" class="ldiscussion">{% trans "Discussions" %}</a></li>
+        <li><a href="{% url 'locations:ideas' location.slug %}#navbar" id="tour-Ideas" class="lideas">{% trans "Ideas" %}</a></li>
         <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls" class="lpolls">{% trans "Polls" %}</a></li>
         <li><a href="{% url 'locations:project_list' location.slug %}" class="lprojects">{% trans "Projects" %}</a></li>
         <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery" class="lgallery">{% trans "Gallery" %}</a></li>

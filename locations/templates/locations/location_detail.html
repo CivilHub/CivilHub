@@ -1,5 +1,5 @@
 {% extends 'locations/index.html' %}{% load staticfiles i18n civil_tags actstream_tags %}
-{% block description %}<meta name="description" content="{{ location.description|striptags|slice:":153"}}..." />{% endblock %}
+{% block description %}<meta name="description" content="{% trans "Act with other citizens in" %} {{ location.name }}" />{% endblock %}
 {% block meta %}<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="CivilHub">
 <meta name="twitter:title" content="{{ title }}">
@@ -7,7 +7,7 @@
 <meta property="og:image" content="https://civilhub.org{{ location.image.url }}"/>
 <meta property="og:site_name" content="CivilHub"/>
 <meta property="og:url" content="https://civilhub.org{{ location.get_absolute_url }}" />
-<meta property="og:description" content="{{ location.description|striptags|slice:":153"}}..."/>
+<meta property="og:description" content="{% trans "Act with other citizens in" %} {{ location.name }}"/>
 <meta name="keywords" content="{{ location.name }}">{% endblock %}
 
 {% block require_scripts %}<script>window.API_URL = "/api-locations/actions/";</script>
@@ -19,6 +19,7 @@
 {% block title %} {{ location }} | CivilHub {% endblock %}
 
 {% block container_main %}
+<div class="ac-feed pt20 mt-20">
 <div class="container">{% block topbar %}{% include 'locations/navbar.html' %}{% endblock %}</div>
 <div class="container fake-container-fill mt-20">
   {% block content %}<div class="fake-row-fill">
@@ -26,7 +27,7 @@
       <div class="hotbox main-content p-reset" data-param="lid" data-value="{{ location.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
     </div>
     <div class="col-sm-6 no-float">
-      {% if user.is_authenticated %}<div class="wrapper-timeline">
+      {% if user.is_authenticated %}<div class="wrapper-timeline ac-new-green">
         <ul class="ac-timeline">
           <li class="timeline-header">
             <div class="timeline-wrap">
@@ -34,8 +35,8 @@
               <span class="timeline-user"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}"></span>
               <div class="timeline-content panel">
                 <span class="arrow arrow-left arrow-top"></span>
-                <div class="timeline-content-head">
-                  <a href="#" class="cd-bouncy-nav-trigger">{% trans "Create: idea, news, discussion" %}...</a>
+                <div class="timeline-content-head text-center">
+                  <a href="#" class="cd-bouncy-nav-trigger">{% trans "Take action" %}</a>
                 </div>
               </div>
             </div>
@@ -49,6 +50,13 @@
     </div>
     <div class="col-sm-3 no-float">
       <div class="ac-right-site">
+        <div class="ac-small-box sm-box-idea">
+          <a href="{% url 'locations:new_idea' location.slug %}" class="full-click-box"></a>
+            <div class="text-box">
+              <h3>{% trans "Create <br>a new Idea" %}</h3>
+              <p>{% trans "Show us what you <br>would like to <br>change." %}<br><br></p>
+            </div>
+        </div>
         <div class="ac-small-box sm-box-place">
           <a href="/create/" class="full-click-box"></a>
             <div class="text-box">
@@ -94,4 +102,5 @@
   </div>{% endblock %}
 </div>
 <input type="hidden" name="rest_api_url" id="rest-api-url" value="/api-locations/actions/?pk={{ location.id }}" />
+</div>
 {% endblock %}

@@ -22,6 +22,10 @@ class CivilActionManager(ActionManager):
 
         following = get_model('actstream', 'follow').objects\
             .filter(user=obj).values_list('content_type_id', 'object_id', )
+
+        if not len(following):
+            return self.none()
+
         for content_type_id, object_id in following.iterator():
             objects_by_content_type[content_type_id].append(object_id)
 

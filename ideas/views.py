@@ -28,7 +28,32 @@ from simpleblog.forms import BlogEntryForm
 from simpleblog.models import BlogEntry
 
 from .models import Idea, Vote, Category
-from .forms import IdeaForm, CategoryForm
+from .forms import IdeaForm, CategoryForm, \
+                   NegativeCommentForm, PositiveCommentForm
+
+
+class VoteCommentFormView(SingleObjectMixin, View):
+    model = Idea
+    template_name = 'ideas/vote_comment_form.html'
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.user.is_anonymous():
+            raise Http404
+        return super(VoteCommentFormView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, pk=None, status=1, **kwargs):
+        try:
+            status = int(status)
+        except (TypeError, ValueError, ):
+            status = 1
+        form_class = PositiveCommentForm if status == 1 else NegativeCommentForm
+        try:
+            vote = Vote.objects.get(idea=self.object, user=request.user)
+            form = form_class(instance=vote)
+        except Vote.DoesNotExist:
+            form = form_class()
+        return render(request, self.template_name, {'form': form, })
 
 
 class IdeasContextMixin(LocationContextMixin):
@@ -41,40 +66,25 @@ class IdeasContextMixin(LocationContextMixin):
         return context
 
 
-class IdeaVotesView(LoginRequiredMixin, SingleObjectMixin, View):
-    """ View that manages user votes. Here we can take some data from scripts and
-        toggle vote state properly (or create new one if such does not exist yet).
+class IdeasVoteCommentSummary(IdeasContextMixin, SingleObjectMixin, View):
+    """ Summary for negative opinions as well as for positive vote comments.
+        We can select specific section by url param.
     """
     model = Idea
+    template_name = 'ideas/vote_comment_summary.html'
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
-        return super(IdeaVotesView, self).dispatch(*args, **kwargs)
+        self.status = int(kwargs.get('status'))
+        return super(IdeasVoteCommentSummary, self).dispatch(*args, **kwargs)
 
-    def post(self, request, **kwargs):
-        try:
-            status = int(request.POST.get('vote'))
-        except (TypeError, ValueError, ):
-            raise Http404
-
-        results = self.object.vote(request.user, status)
-
-        results['message'] = _(u"Your vote has been revoked")
-
-        if results.get('prev_target') == 1:
-            label = _(u"Vote YES")
-        elif results.get('prev_target') == 2:
-            label = _(u"Vote NO")
-        else:
-            label = _(u"Revoke")
-            results['message'] = _(u"Your vote has been saved")
-        results['label'] = label
-
-        if results.get('is_reversed'):
-            results['new_label'] = results['label']
-            results['label'] = _(u"Revoke")
-
-        return HttpResponse(json.dumps(results), content_type="application/json")
+    def get(self, request, **kwargs):
+        context = self.get_context_data()
+        qs = self.object.vote_set.filter(status=self.status)
+        context.update({
+            'location': self.object.location,
+            'object_list': [x for x in qs if x.get_comment() is not None], })
+        return render(request, self.template_name, context)
 
 
 class CreateCategory(LoginRequiredMixin, CreateView):

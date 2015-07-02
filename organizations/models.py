@@ -132,7 +132,7 @@ class Invitation(models.Model):
     Organization's creator and superusers may invite others to join. Invited
     user have to confirm that they actually want to do that.
     """
-    user = models.ForeignKey(User, related_name="ngo_invitations")
+    email = models.EmailField(verbose_name=_(u"email address"))
     organization = models.ForeignKey(Organization,
                                      related_name="invitations",
                                      verbose_name=_(u"organization"))
@@ -152,10 +152,11 @@ class Invitation(models.Model):
         self.date_accepted = timezone.now()
         self.is_accepted = True
         self.save()
-        if self.user not in self.organization.users.all():
-            self.organization.users.add(self.user)
+        user = User.objects.get(email=self.email)
+        if user not in self.organization.users.all():
+            self.organization.users.add(user)
             self.organization.save()
-            joined_ngo_action(self.user, self.organization)
+            joined_ngo_action(user, self.organization)
 
     def save(self, *args, **kwargs):
         if not self.key:
@@ -166,7 +167,7 @@ class Invitation(models.Model):
         return u"Invitation to {}".format(self.organization)
 
     class Meta:
-        unique_together = ('user', 'organization', )
+        unique_together = ('email', 'organization', )
         verbose_name = _(u"invitation")
         verbose_name_plural = _(u"invitations")
 

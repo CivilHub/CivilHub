@@ -125,11 +125,10 @@
           <![endif]-->
           <div>
             <center>
-              <table cellspacing="0" cellpadding="0" width="530" height="200" class="w320">
+              <table cellspacing="0" cellpadding="0" width="530" height="100" class="w320">
                 <tr>
-                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="200">
+                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="100">
                     <h1>{% trans "You've received an invitation!" %}</h1><br>
-                    <span><a href="{{ user_link }}" style="color: #0083FB;">@{{ user_name }}</a></span> {% trans "has invited you to join his organization" %}
                   </td>
                 </tr>
               </table>
@@ -157,12 +156,23 @@
                             <table cellspacing="0" cellpadding="0" width="120">
                               <tr>
                                 <td  style="vertical-align:middle; text-align:center;" class="mobile-img">
-                                <img  style="border:1px solid #a1a1a1;" src="{{ user_img }}"  width="90" height="90" alt="profile"/>
+                                <img  style="border:1px solid #a1a1a1;" src="https://civilhub.org/{{ user.profile.avatar.url }}"  width="90" height="90" alt="profile"/><br/>
                                 </td>
                               </tr>
                               <tr>
                                <td style="font-size:12px; padding-top:5px; text-align:center;">
-                                <a style="color:#0083FB;" href="">@{{ link }}</a>
+                                 <span><a href="https://civilhub.org/{{ user.profile.get_absolute_url }}" style="color: #0083FB;">@{{ user.get_full_name }}</a></span><br/> {% trans "has invited you to join his organization" %} <h3>{{ organization }}</h3>
+
+                              <div><!--[if mso]>
+                                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ link }}" style="height:33px;v-text-anchor:middle;width:100%;" arcsize="8%" stroke="f" fillcolor="#84bd00">
+                                    <w:anchorlock/>
+                                    <center style="color:#ffffff;font-family:sans-serif;font-size:13px;">{% trans "Join" %}</center>
+                                  </v:roundrect>
+                                <![endif]-->
+                                <!--[if !mso]><!-- --><table cellspacing="0" cellpadding="0" width="100%"><tr><td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;"><a href="{{ link }}" style="text-decoration: none;"><span style="color:#ffffff">{% trans "Join" %}</span></a></td></tr></table>
+                                <!--<![endif]-->
+                              </div>
+                            
                                 </td>
                               </tr>
                             </table>
@@ -170,13 +180,8 @@
                           </td>
                         </tr>
                         <tr>
-                          <td>
-                            &nbsp;
-                          </td>
-                        </tr>
-                        <tr>
                           <td class="mobile-block mobile-padding" style="text-align:center; padding: 0 50px;">
-                            <p><a href="{{ link }}" target="_blank">{% trans "Join" %}</a></p>
+                            <p>{% trans "If you have a problem with join, please click here" %}: <a style="color:#0083FB;" href="{{ link }}">{{ link }}</a></p>
                           </td>
                         </tr>
                         <tr>

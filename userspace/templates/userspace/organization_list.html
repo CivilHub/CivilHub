@@ -1,7 +1,7 @@
 {% extends 'userspace/index.html' %}{% load i18n %}
-{% block content %}<div class="main-content create-form newFormCreate">
-  <h3>{% trans "Organization list" %}</h3>
-  {% for o in object_list %}<div class="row ngo-entry col-table">
+{% block content %}<div class="main-content create-form newFormCreate p-reset">
+  <h3 class="mh3">{% trans "Organization list" %}</h3>
+  {% for o in object_list %}<div class="container ngo-entry col-table">
     <div class="col-sm-6 col-md-3 text-center col-same-height">
       <div class="ngo-logo-box" style="background-image: url({{ o.logo.url }});"><a href="{{ o.get_absolute_url }}" class="full-click-box"></a></div>
     </div>

@@ -8,13 +8,14 @@ define(['backbone'],
 
 function (Backbone) {
 
-	"use strict";
-	
-	var VoteModel = Backbone.Model.extend({});
-	
-	var VoteCollection = Backbone.Collection.extend({
-		model: VoteModel
-	});
-	
-	return VoteCollection;
+"use strict";
+
+var VoteModel = Backbone.Model.extend({});
+
+var VoteCollection = Backbone.Collection.extend({
+  model: VoteModel
+});
+
+return VoteCollection;
+
 });

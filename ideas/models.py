@@ -104,6 +104,18 @@ class Idea(ImagableItemMixin, models.Model):
     def votes(self):
         return self.vote_set.exclude(status=3).values('pk').count()
 
+    def _get_comments(self, status=1):
+        all_comments = self.vote_set.filter(status=status)
+        return [x.pk for x in all_comments if x.get_comment() is not None]
+
+    @property
+    def positive_comments(self):
+        return len(self._get_comments(status=1))
+
+    @property
+    def negative_comments(self):
+        return len(self._get_comments(status=2))
+
     def get_votes(self):
         return self.votes_up - self.votes_down
 
@@ -113,13 +125,18 @@ class Idea(ImagableItemMixin, models.Model):
                                     .filter(content_type=content_type) \
                                     .count()
 
-    def vote(self, user, status=2):
+    def vote(self, user, status=2, comment=None):
         """ Semi-automatic voting. Just pass voting user and vote False/True.
+            This become to be little crazy, but I want to keep voting logic
+            in model so that we can use it in Django itself as well as for
+            REST serializers and API views.
         """
         # Voting is already disabled
         if self.status > 2:
             return {'success': False,
                     'message': _(u"Voting for this idea is over"), }
+
+        status = int(status)
 
         try:
             user_vote = Vote.objects.get(user=user, idea=self)
@@ -127,6 +144,17 @@ class Idea(ImagableItemMixin, models.Model):
         except Vote.DoesNotExist:
             user_vote = Vote.objects.create(user=user, idea=self, status=status)
             is_new = True
+
+        if int(status) == 2:
+            if comment is None or comment == u'':
+                return {'success': False,
+                        'error': _(u"Negative vote require message"), }
+
+        if int(status) == 1:
+            user_vote.positive_comment = comment
+        elif int(status) == 2:
+            user_vote.negative_comment = comment
+        user_vote.save()
 
         is_reversed = False
 
@@ -203,9 +231,23 @@ class Vote(models.Model):
     idea = models.ForeignKey(Idea)
     status = models.PositiveIntegerField(choices=VOTE_STATUSES, default=2)
     date_voted = models.DateTimeField(auto_now=True)
+    positive_comment = models.TextField(blank=True, null=True, verbose_name=_(u"comment"))
+    negative_comment = models.TextField(blank=True, null=True, verbose_name=_(u"comment"))
 
     def status_display(self):
         return [[x[1] for x in VOTE_STATUSES if x[0]==self.status][0]]
+
+    def get_comment(self):
+        """ Wrapper to avoid fetching values likie u''.
+        """
+        if self.status == 1:
+            field = 'positive_comment'
+        else:
+            field = 'negative_comment'
+        comment = getattr(self, field)
+        if comment is None or comment == u'':
+            return None
+        return comment
 
     def __str__(self):
         return unicode(self.status)

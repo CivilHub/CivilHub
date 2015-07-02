@@ -2,9 +2,9 @@
   <span class="date custom-tooltip" title="<%= timestamp %>"></span>
   <a class="timeline-user" href="<%= actor.profile.url %>">
     <span class="user-window-toggle" data-target="<%= actor.id %>"><img src="<%= actor.profile.avatar %>" alt="<%= actor.full_name %>" class="user-avatar avatarH"></span>
-    <span class="user-pts"><%= actor.profile.rank_pts %></span>
+    <span class="user-pts mt0"><%= actor.profile.rank_pts %></span>
   </a>
-  <div class="timeline-content panel">
+  <div class="timeline-content panel mb0">
     <span class="arrow arrow-left arrow-top"></span>
     <div class="timeline-content-head">
     <a href="<%= actor.profile.url %>"><%= actor.full_name %></a> <%= verb %>

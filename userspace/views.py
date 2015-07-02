@@ -38,7 +38,7 @@ from places_core.mixins import LoginRequiredMixin
 from gallery.forms import BackgroundForm
 from blog.models import News
 from ideas.models import Idea
-from organizations.models import Organization
+from organizations.models import Invitation, Organization
 from polls.models import Poll
 from topics.models import Discussion
 from bookmarks.models import Bookmark
@@ -362,6 +362,10 @@ class NewUserView(TemplateView):
     def get(self, request):
         if request.session.get('new_user') is None:
             return redirect('/activity/')
+        invitations = Invitation.objects.filter(email=request.user.email,
+                                                is_accepted=False)
+        if len(invitations):
+            return redirect(reverse('organizations:invitations'))
         del request.session['new_user']
         return super(NewUserView, self).get(request)
 

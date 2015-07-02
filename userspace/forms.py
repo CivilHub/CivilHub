@@ -185,7 +185,7 @@ class PasswordRemindForm(forms.Form):
         label = '',
         widget = forms.EmailInput(attrs={'class': 'form-control', 'placeholder': _('Enter your email address'), 'autofocus': 'autofocus'})
     )
-    captcha = CaptchaField(label="Retype text from picture")
+    captcha = CaptchaField(label=_(u"Retype text from picture"))
 
 
 class AvatarUploadForm(forms.Form):

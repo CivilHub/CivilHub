@@ -264,13 +264,12 @@ class InviteUsers(NGOContextMixin, FormView):
         return initial
 
     def form_valid(self, form):
-        for user in form.users:
+        for email in form.cleaned_data['emails']:
             invitation, created = Invitation.objects.get_or_create(
-                organization=self.object,
-                user=user)
+                organization=self.object, email=email)
             message = InviteToOrganization()
             msg_context = {
-                'lang': user.profile.lang,
+                'lang': self.request.user.profile.lang,
                 'user': self.object.creator,
                 'organization': self.object,
                 'link': self.request.build_absolute_uri(
@@ -278,7 +277,7 @@ class InviteUsers(NGOContextMixin, FormView):
                             kwargs={'key': invitation.key}))
             }
             if created:
-                message.send(user.email, msg_context)
+                message.send(email, msg_context)
         messages.add_message(self.request, messages.SUCCESS,
                              _(u"All messages sent"))
         return super(InviteUsers, self).form_valid(form)
@@ -297,7 +296,7 @@ class InviteAcceptView(LoginRequiredMixin, DetailView):
 
     def dispatch(self, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.is_accepted or self.request.user != self.object.user:
+        if self.object.is_accepted or self.request.user.email != self.object.email:
             raise Http404
         return super(InviteAcceptView, self).dispatch(*args, **kwargs)
 
@@ -434,3 +433,11 @@ class NGOProjectAdd(LoginRequiredMixin, NGOContextMixin, View):
         form.save_m2m()
         return redirect(reverse('organizations:project-list',
                                 kwargs={'slug': self.object.slug, }))
+
+
+class UserInvitations(LoginRequiredMixin, ListView):
+    model = Invitation
+
+    def get_queryset(self):
+        qs = super(UserInvitations, self).get_queryset()
+        return qs.filter(email=self.request.user.email, is_accepted=False)

@@ -4,6 +4,7 @@ from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns('',
+    url(r'^invitations/', views.UserInvitations.as_view(), name="invitations"),
     url(r'^accept/(?P<key>[\w-]+)/', views.InviteAcceptView.as_view(), name="accept"),
     url(r'^create/', views.OrganizationCreateView.as_view(), name="create"),
     url(r'^(?P<slug>[\w-]+)/background/', views.NGOBackgroundView.as_view(), name="background"),

@@ -3,6 +3,8 @@ from PIL import Image
 
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.utils.translation import ugettext as _
 
 from gallery.image import handle_tmp_image
@@ -60,11 +62,10 @@ class NGOInviteForm(forms.Form):
     def clean_emails(self):
         emails = [x.strip() for x in self.cleaned_data['emails'].split(',')]
         invalid_emails = []
-        self.users = []
         for email in emails:
             try:
-                self.users.append(User.objects.get(email=email))
-            except User.DoesNotExist:
+                validate_email(email)
+            except ValidationError:
                 invalid_emails.append(email)
         if len(invalid_emails):
             raise forms.ValidationError(

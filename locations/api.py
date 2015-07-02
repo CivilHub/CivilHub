@@ -25,6 +25,7 @@ from rest.permissions import IsOwnerOrReadOnly, IsModeratorOrReadOnly
 from places_core.helpers import sort_by_locale, get_time_difference
 from locations.serializers import MapLocationSerializer
 
+from .forms import LocationSearchForm
 from .helpers import get_nearest_city
 from .models import Country, Location
 from .serializers import SimpleLocationSerializer, \
@@ -71,7 +72,11 @@ class LocationSearchAPI(APIView):
         q = request.QUERY_PARAMS.get('term', '')
         if len(q) < 4:
             raise Http404
+        form = LocationSearchForm(request.GET)
+        if not form.is_valid():
+            raise Http404
         qs = Location.objects.filter(name__icontains=q.lower())
+        qs = qs | Location.objects.filter(name=q.title())
         serializer = self.serializer_class(qs, many=True)
         return Response(serializer.data)
 
