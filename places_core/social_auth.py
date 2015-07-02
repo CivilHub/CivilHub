@@ -169,7 +169,7 @@ def get_friends(strategy, details, response, user, *args, **kwargs):
 
     res = json.loads(urllib2.urlopen(url.format(response['id'], params)).read())
 
-    notify_friends(user, [int(x['id']) for x in res['data']])
+    #notify_friends(user, [int(x['id']) for x in res['data']])
 
 
 def get_user_avatar(strategy, details, response, user, *args, **kwargs):
