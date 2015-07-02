@@ -73,12 +73,14 @@
 
         <div class="comments-{{ news.pk }} clearfix"></div>
 
+        {% if news.tags.all %}
         <div class="mb20 small">
           <span class="fa fa-tags"> {% trans "Tags" %}:</span>
           {% for tag in news.tags.all %}
             <a href="{% url 'locations:tag_search' slug=news.location.slug tag=tag|slugify %}">#{{ tag }}</a>
           {% endfor %}
         </div>
+        {% endif %}
 
         {% comment %}<div class="sprite-icon">
           <span class="ch-icon ch-tags"> </span>
@@ -112,14 +114,16 @@
 
   <div class="col-sm-3 boxPX">
     {% include 'locations/sidebar.html' %}
+    {% if news.tags.all %}
     <div class="sidebar mt-20">
-      {% if news.tags.all %}<div class="sidebar-label">{% trans "Tags" %}:</div>
+      <div class="sidebar-label">{% trans "Tags" %}:</div>
         <div class="sidebar-content tags-n">
           <ul class="list-unstyled">{% for tag in news.tags.all %}
           <li class="tag-entry tag-n"><a href="{% url 'locations:tag_search' slug=location.slug tag=tag|slugify %}">#{{ tag }}</a></li>
         {% endfor %}</ul>
-      </div>{% endif %}
-  </div>
+      </div>
+    </div>
+    {% endif %}
   </div>
 
   {% include 'locations/category-form.html' %}
