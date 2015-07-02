@@ -25,7 +25,8 @@
         {% follow_button organization %}
       </div>
     </div>
-    {% if access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a></div>{% endif %}
+    {% if access %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'organizations:background' organization.slug %}">{% trans "Change background image" %}</a>
+    <a href="{% url 'organizations:update' organization.slug %}" class="change-background-btn">{% trans "Update" %}</a></div>{% endif %}
   </div>
 </div>
 <nav id="filter-navbar" class="navbar navbar-default mt0" role="navigation">
@@ -46,7 +47,6 @@
         <li><a href="{% url 'organizations:members' organization.slug %}">{% trans "Members" %}</a></li>
         <li><a href="{% url 'organizations:locations' organization.slug %}">{% trans "Locations" %}</a></li>
         <li><a href="{% url 'organizations:project-list' organization.slug %}">{% trans "Projects" %}</a></li>
-        {% if access %}<li><a href="{% url 'organizations:update' organization.slug %}">{% trans "Update" %}</a></li>{% endif %}
       </ul>
     </div>
   </div>

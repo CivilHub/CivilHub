@@ -39,7 +39,7 @@
   <div class="row ivotepage mb20">
     <h1 class="text-center">{{ idea.name }}</h1>
   <div class="col-sm-8 mt25 pl0">
-    {% if idea.video_url %}<iframe id="ytplayer" type="text/html" width="640" height="390" src="{{ idea.video_url.embed_url }}" frameborder="0"></iframe>
+    {% if idea.video_url %}<div class="idea-video"><iframe id="ytplayer" type="text/html" width="640" height="390" src="{{ idea.video_url.embed_url }}" frameborder="0"></iframe></div>
     {% elif not idea.has_default_image %}<div class="content-image bigImg4" data-jslghtbx="{{ idea.image.url }}">&nbsp;</div>{% else %}<div class="content-image bigImg4 idea-default-img"></div>{% endif %}
     {% visit_counter idea %}
   </div><!--9-->
@@ -62,7 +62,9 @@
     <div class="row itab-nav">
       {% block idea_link %}<ul class="mb0 list-inline col-sm-8 pr0">
         <li><a href="{{ idea.get_absolute_url }}" class="active">{% trans "Informations" %}</a></li>
-        <li><a href="{{ idea.get_absolute_url }}news/">{% trans "News" %}</a><span class="badge">{% newscounter idea %}</span></li>
+        <li><a href="{{ idea.get_absolute_url }}news/">{% trans "News" %}</a><span class="badge btn-badge-mlp badge-green badge-btn text-white">{% newscounter idea %}</span></li>
+        <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 1 %}">{% trans "Who can help" %}</a><span class="btn-badge-mlp badge badge-green badge-btn text-white">{{ idea.positive_comments }}</span></li>
+        <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 2 %}">{% trans "Negative opinions" %}</a><span class="btn-badge-mlp badge badge-green badge-btn text-white">{{ idea.negative_comments }}</span></li>
         {% with idea|content_type as ctype %}{% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li class="pull-right"><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}{% endwith %}
       </ul>{% endblock %}
       <ul class="col-sm-4 list-inline mb0 pr0">

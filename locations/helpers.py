@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Count
 
 from actstream.models import Action
 from actstream.actions import follow, unfollow
@@ -29,12 +30,13 @@ def get_most_followed(country_code=None, limit=20):
     qs = Location.objects
     kinds = ['PPLC', 'country',]
     if country_code is None:
-        return list(qs.all().order_by('-users')[:limit])
+        return list(qs.all().order_by('users')[:limit])
     main = list(qs.filter(country_code=country_code,
                   kind__in=kinds).order_by('kind'))
-    full = list(qs.filter(country_code=country_code)\
-                  .exclude(kind__in=kinds)\
-                  .order_by('-users')[:limit-len(main)])
+    full = list(qs.annotate(num_users=Count('users'))\
+                    .filter(country_code=country_code)\
+                    .exclude(kind__in=kinds)\
+                    .order_by('-num_users')[:limit-len(main)])
     return main + full
 
 

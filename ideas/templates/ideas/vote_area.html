@@ -1,4 +1,4 @@
-{% load i18n %}<div class="vote-form">
+{% load i18n %}<div class="vote-form" data-target-id="{{ idea.pk }}">
   <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}">
     <h2 class="counter">{{ idea.votes }}</h2>
     <p>{% trans "Total vote"%}</p>
@@ -20,8 +20,23 @@
       data-vote="{% if voted_no %}3{% else %}2{% endif %}"
       class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn{% if user.is_anonymous %} civil-login-required{% endif %}"
       data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"
-      rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Vote NO" %}{% endif %}</button>
+      rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Report critical remark" %}{% endif %}</button>
     </p>{% endif %}
     <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}" onclick="ga('send', 'event', 'vote', 'click', 'see-votes');">{% trans "See the results" %}</div>
   </div>
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{% trans "Reason" %}</h4>
+        </div>
+        <div class="modal-body"></form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary submit-btn">{% trans "Save changes" %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 </div>

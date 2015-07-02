@@ -3,5 +3,5 @@
 {% include 'gallery/carousel.html' %}
 {% if idea_access %}<a href="{% url 'ideas:picture-upload' idea.slug %}" class="text-info display-ib-m mb20">{% trans "Add picture" %}</a>{% endif %}
 {% if gallery.pictures.count %}<a href="{% url 'gallery:mass-delete' gallery.pk %}" class="text-danger display-ib-m mb20">{% trans "Delete pictures" %}</a>{% endif %}
-<div class="acticle-content clearfix">{{ idea.description|safe }}</div>
+<div class="acticle-content clearfix link-bl">{{ idea.description|safe }}</div>
 {% commentarea idea %}{% endblock %}

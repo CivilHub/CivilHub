@@ -40,9 +40,9 @@
   </div>{% endcomment %}
 </div>
 <div class="col-sm-9">
-  <div class="main-content create-form newFormCreate"><h3 class="text-center nh3">{% trans "Organization list" %}</h3>
+  <div class="main-content create-form newFormCreate p-reset"><h3 class="text-center nh3 mh3">{% trans "Organization list" %}</h3>
   {% for item in object_list %}
-    <div class="row ngo-entry col-table">
+    <div class="container ngo-entry col-table">
       <div class="col-sm-6 col-md-3 text-center col-same-height">
         <div class="ngo-logo-box" style="background-image: url({{ item.logo.url }});"><a href="{{ item.get_absolute_url }}" class="full-click-box"></a></div>
       </div>

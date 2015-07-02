@@ -1,4 +1,13 @@
 {% extends "postman/base.html" %}{% load url from future %}{% load i18n postman_tags civil_tags %}
+{% block pm_write_title %}
+  {% for message in pm_messages %}
+    {% if forloop.first %}
+      {{ message.subject }}
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+
 {% block content %}
 <div id="postman" class="col-sm-9">
   <div class="main-content">
