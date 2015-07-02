@@ -73,7 +73,7 @@ img.ngo-logo-img{
 .ngo-entry{
   border-bottom: 1px solid #DEDEDE;
   padding: 15px 0;
-  &:last-child{ padding: 15px 0 0; border-bottom: 0px none; }
+  &:last-child{ padding: 15px 0; border-bottom: 0px none; }
 }
 
  @media(min-width: 991px){
@@ -85,6 +85,7 @@ img.ngo-logo-img{
   }
   .col-table{
     display: table;
+    width: 100%;
   }
 }
 
@@ -134,7 +135,7 @@ img.ngo-logo-img{
   }
   &.followed_location{
     min-height: 160px;
-    height: auto;
+    height: 160px; //min-height not supported in ff
     .n-sublocation-box a.name{ font-size: 24px;}
   }
 }
