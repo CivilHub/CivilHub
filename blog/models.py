@@ -66,7 +66,7 @@ class News(ImagableItemMixin):
     class Meta:
         ordering = ['title',]
         verbose_name = _(u"news")
-        verbose_name_plural = _(u"newses")
+        verbose_name_plural = _(u"news")
 
     def save(self, *args, **kwargs):
         self.title = strip_tags(self.title)
