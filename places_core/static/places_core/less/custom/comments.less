@@ -65,53 +65,6 @@
 .comment-area{
   display: none;
 }
-/* Comments */
-//old comments {% comment %} in commentlist.html
-/*.commentformarea {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-  .avatarCommentsAutor{
-    padding: 0;
-    //margin-right: -15px;
-    img{
-      width: 40px;
-      height: 40px;
-    }
-  }*/
-  //ukryte w js sortowanie
-/* #comment-order-controls{
-  margin-top: -20px;
-  padding-bottom: 20px;
-  font-size: 12px;
- }*/
-/* #user-comment-form{
-  margin-right: -30px;
- }*/
-  /*textarea{
-  border-radius: 0;
-  box-shadow: 0 0 0 transparent;
-  -webkit-box-shadow: 0 0 0 transparent;
-  -moz-box-shadow: 0 0 0 transparent;
-  resize: vertical;
-  overflow: hidden;
-  }
-  width: 100%;
-  .current-user-comment-avatar {
-    margin-top: 10px;
-  }*/
-  /*.btn-submit-comment-main {
-    float: right;
-  }*/
-/*}*/
-/* // Comments */
-
-/*@media all and (max-width: 768px) {
-  #comments {
-    .comment {
-      .col-sm-11 { padding-left: 50px; }
-    }
-  }
-}*/
 
 .customEntry-comments{
   font-size: 12px;
@@ -251,4 +204,37 @@ noscript ul {
   padding: 15px;
   background-color: #FFFFFF;
   .border-radius(4px);
+}
+
+.active-area-placeholder {
+  position: relative;
+}
+
+.active-area-popup {
+  width: 200px;
+  position: absolute;
+  display: none;
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  background: #fff;
+  box-shadow: 1px 1px 4px 0px rgba(50, 50, 50, 0.75);
+  overflow: visible;
+
+  li {
+    padding: 0px;
+    margin: 0px;
+    border-bottom: 1px solid #adadad;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0083FB;
+      color: #fff;
+    }
+  }
+
+  img {
+    width: 36px;
+    height: 36px;
+  }
 }
