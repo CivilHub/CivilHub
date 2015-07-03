@@ -1,5 +1,7 @@
 CivilHub
 ----------
+
+[![Join the chat at https://gitter.im/CivilHub/CivilHub](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CivilHub/CivilHub?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 CivilHub is a free and open-source platform written in Python & Django for the purpose of collaboration in local civic communities. 
 
 Our biggest dream is to build a tool that can helps us collaborate and communicate in the places we live in. In our opinion, citizens need a platform that will help them bring democracy and civil power onto a next level. 
