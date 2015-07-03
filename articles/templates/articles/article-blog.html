@@ -26,7 +26,10 @@
     <input type="hidden" id="target-id" value="{{ article.pk }}" />
     <input type="hidden" id="target-label" value="articles" />
     <input type="hidden" id="target-type" value="{% obj_ct_id 'article' %}" />
-    <div class="row">{% commentarea article %}</div>
-
+    <div class="customEntry-comments">
+      <p>{% trans "Comments" %}: <span class="comment-count">{% get_comment_count article %}</span>
+      <a class="comment-toggle custom-comments-toggle" data-target="{{ article.pk }}" href="#">{% trans "Hide comments" %}</a></p>
+    </div>
+    {% include 'comments/commentlist.html' %}
   </div>
 </div>{% endblock %}
