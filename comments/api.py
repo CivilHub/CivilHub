@@ -5,7 +5,7 @@ from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 
-from rest_framework import viewsets, permissions
+from rest_framework import mixins, status, permissions, viewsets
 from rest_framework.decorators import action, link
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,7 +16,45 @@ from .models import CustomComment, CommentVote
 from .serializers import CustomCommentSerializer, CommentDetailSerializer
 
 
-class CommentList(viewsets.ModelViewSet):
+class CommentUpdateModelMixin(mixins.UpdateModelMixin):
+    """ This is modified mixin that allows us to perform PATCH request but
+        returns detailed serializer. Should be very easy to use it anywhere
+        else, for now, comment serializer is hardcoded.
+    """
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        self.object = self.get_object_or_none()
+
+        serializer = self.get_serializer(self.object, data=request.DATA,
+                                         files=request.FILES, partial=partial)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            self.pre_save(serializer.object)
+        except ValidationError as err:
+            # full_clean on model instance may be called in pre_save,
+            # so we have to handle eventual errors.
+            return Response(err.message_dict, status=status.HTTP_400_BAD_REQUEST)
+
+        if self.object is None:
+            self.object = serializer.save(force_insert=True)
+            self.post_save(self.object, created=True)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        self.object = serializer.save(force_update=True)
+        self.post_save(self.object, created=False)
+        s = CommentDetailSerializer(self.object)
+        return Response(s.data, status=status.HTTP_200_OK)
+
+
+class CommentList(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   CommentUpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   mixins.ListModelMixin,
+                   viewsets.GenericViewSet):
     """
     This is main comment view set. It is meant to present list of comments.
     By default all comments will be shown, but we may pass `ct` and `pk` as
@@ -70,10 +108,10 @@ class CommentList(viewsets.ModelViewSet):
         return qs.order_by('-submit_date')
 
     def get_serializer_class(self):
-        if self.action == 'list' or self.action == 'retrieve':
-            return CommentDetailSerializer
-        else:
+        if self.request.method in ['PATCH', 'POST', 'PUT']:
             return CustomCommentSerializer
+        else:
+            return CommentDetailSerializer
 
     def pre_save(self, obj):
         obj.user = self.request.user
@@ -82,6 +120,10 @@ class CommentList(viewsets.ModelViewSet):
     def pre_delete(self, obj):
         if self.request.user != obj.user:
             raise PermissionDenied
+
+    def patch(self, request, *args, **kwargs):
+        #return self.update_partial(request, *args, **kwargs)
+        return Response("Test")
 
     @action()
     def vote(self, request, pk):

@@ -104,8 +104,7 @@ class UserSearchIndex(indexes.SearchIndex, indexes.Indexable):
     """
     User search engine by user name / name / surname.
     """
-    text = indexes.CharField(document=True)
-    username = indexes.CharField(model_attr='username')
+    text = indexes.EdgeNgramField(document=True)
     first_name = indexes.CharField(model_attr='first_name')
     last_name = indexes.CharField(model_attr='last_name')
 

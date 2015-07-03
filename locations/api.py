@@ -33,7 +33,7 @@ from .serializers import SimpleLocationSerializer, \
                          CountrySerializer, \
                          ContentPaginatedSerializer, \
                          MapLocationSerializer, \
-                         AutocompleteLocationSeraializer
+                         AutocompleteLocationSerializer
 from rest.serializers import MyActionsSerializer, PaginatedActionSerializer
 
 redis_cache = cache.get_cache('default')
@@ -66,7 +66,7 @@ class LocationSearchAPI(APIView):
     Provides simple autocomplete functionality.
     """
     permission_classes = (rest_permissions.AllowAny, )
-    serializer_class = AutocompleteLocationSeraializer
+    serializer_class = AutocompleteLocationSerializer
 
     def get(self, request, **kwargs):
         q = request.QUERY_PARAMS.get('term', '')
@@ -77,7 +77,8 @@ class LocationSearchAPI(APIView):
             raise Http404
         qs = Location.objects.filter(name__icontains=q.lower())
         qs = qs | Location.objects.filter(name=q.title())
-        serializer = self.serializer_class(qs, many=True)
+        serializer = self.serializer_class(qs, many=True,
+                        context={'request': self.request, })
         return Response(serializer.data)
 
 

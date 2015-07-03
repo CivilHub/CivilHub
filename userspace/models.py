@@ -9,7 +9,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import get_language
 from django.utils.encoding import python_2_unicode_compatible
@@ -163,7 +163,17 @@ class UserProfile(models.Model, BackgroundModelMixin):
         return rename_background_file(self.image.url)
 
     def get_absolute_url(self):
-        return reverse('user:profile', kwargs={'username': self.clean_username})
+        try:
+            url = reverse('user:profile', kwargs={'username': self.clean_username})
+        except NoReverseMatch:
+            clean_username = slugify(self.user.get_full_name())
+            chk = UserProfile.objects.filter(clean_username=clean_username).count()
+            if chk:
+                self.clean_username = "%s-%d" % (clean_username, self.pk)
+            else:
+                self.clean_username = clean_username
+            url = reverse('user:profile', kwargs={'username': self.clean_username})
+        return url
 
     def __str__(self):
         return self.user.get_full_name()

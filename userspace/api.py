@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from actstream.models import model_stream, user_stream, following
-
 from rest_framework import viewsets
 from rest_framework import permissions as rest_permissions
 from rest_framework import views as rest_views
@@ -21,7 +20,7 @@ from actstream.actions import follow, unfollow
 from .helpers import profile_activation, random_username, create_username
 from .managers import SocialAuthManager
 from .serializers import UserAuthSerializer, UserSerializer, SocialAuthSerializer, \
-            BookmarkSerializer
+            BookmarkSerializer, UserSearchSerializer
 
 
 def user_dict(user):
@@ -119,6 +118,23 @@ class UserFollowedLocationsAPI(rest_views.APIView):
             return Response([])
         locations = request.user.profile.followed_locations()
         serializer = SimpleLocationSerializer(locations, many=True)
+        return Response(serializer.data)
+
+
+class MentionUserViewSet(viewsets.ViewSet):
+    """ Find user by his/her first and last name. We use haystack search in
+        this viewset exclusevly so I hope that this will be faster. The only
+        required parameter is `term` wich, of course, refers to search phrase.
+    """
+    model = User
+    permission_classes = (rest_permissions.IsAuthenticated, )
+    serializer_class = UserSearchSerializer
+
+    def list(self, request):
+        query = self.request.QUERY_PARAMS.get('term', '')
+        qs = User.objects.filter(first_name__icontains=query)
+        qs = qs | User.objects.filter(last_name__icontains=query)
+        serializer = self.serializer_class(qs, many=True)
         return Response(serializer.data)
 
 

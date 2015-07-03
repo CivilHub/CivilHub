@@ -16,7 +16,7 @@ from places_core.config import ABUSE_REASONS
 from places_core.helpers import sanitizeHtml
 from places_core.permissions import is_moderator
 
-from .helpers import notify_author
+from .helpers import mention_notify, notify_author
 
 
 class CustomComment(MPTTModel, Comment):
@@ -44,6 +44,8 @@ class CustomComment(MPTTModel, Comment):
 
     def save(self, *args, **kwargs):
         self.comment = sanitizeHtml(self.comment)
+        if not self.pk:
+            mention_notify(self)
         super(CustomComment, self).save(*args, **kwargs)
 
     def get_reply_comments(self):
