@@ -221,13 +221,15 @@ noscript ul {
   box-shadow: 1px 1px 4px 0px rgba(50, 50, 50, 0.75);
   overflow: visible;
   z-index: 999;
+  .border-radius(4px);
 
   li {
-    padding: 0px;
+    padding: 5px;
     margin: 0px;
-    border-bottom: 1px solid #adadad;
+    border-bottom: 1px solid #dedede;
     cursor: pointer;
-
+    &:first-child{ &:hover{ .border-radius(4px 4px 0 0);}}
+    &:last-child{ &:hover{ .border-radius(0 0 4px 4px);}}
     &:hover {
       background-color: #0083FB;
       color: #fff;
@@ -235,7 +237,8 @@ noscript ul {
   }
 
   img {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
+    margin: 0;
   }
 }
