@@ -53,6 +53,9 @@ from .helpers import profile_activation, random_username, \
                      create_username, update_profile_picture, \
                      get_gravatar_image
 
+import logging
+logger = logging.getLogger('userspace')
+
 
 class SocialAuthErrorView(TemplateView):
     """ Redirect social users here when he didnt' provided proper email
@@ -64,6 +67,7 @@ class SocialAuthErrorView(TemplateView):
         if not self.request.session.get('auth_error'):
             return redirect('/')
         self.request.session.pop('auth_error')
+        logger.info(u"[%s] Ktoś tu był" % str(timezone.now()))
         return super(SocialAuthErrorView, self).dispatch(*args, **kwargs)
 
 
