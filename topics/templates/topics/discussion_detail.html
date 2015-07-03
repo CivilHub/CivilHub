@@ -155,7 +155,7 @@
       <div class="row">
         <div class="col-xs-1 entry-avatar-nomg">
           <img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-avatar">
-          <p class="custom-centered discussionPH">{{ user.profile.rank_pts }}</p>
+          <p class="custom-centered discussionPH text-center">{{ user.profile.rank_pts }}</p>
         </div>
         <div class="col-xs-11 discussion-entry-content border0">
           <form id="reply-form" role="form" action="{% url 'discussion:reply' discussion.slug %}" method="post">{% csrf_token %}{{ form.discussion }}{{ form.content }}
