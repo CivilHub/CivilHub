@@ -13,6 +13,6 @@ def clear_accounts():
     """ Check account delete demands and deactivate every account that has
         related delete demand.
     """
-    for demand in CloseAccountDemand.filter(date__lte=timezone.now(),
-                                            is_deleted=False):
+    for demand in CloseAccountDemand.objects.filter(date__lte=timezone.now(),
+                                                    is_deleted=False):
         demand.deactivate()
