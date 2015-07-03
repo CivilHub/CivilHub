@@ -1,0 +1,6 @@
+{% extends 'places_core/base.html' %}{% load i18n %}
+{% block content %}<h1>{% trans "Login error" %}</h1>
+  <p>{% trans "There was an error during registeration process and it seems that we cannot register your account" %}</p>
+  <p>{% trans "Please, try" %} <a href="{% url 'user:register' %}">{% trans "register form" %}</a> {% trans "to create account or try later" %}.</p>
+  <h4><a href="{% url 'user:register' %}">{% trans "Register now" %}</a></h4>
+{% endblock %}

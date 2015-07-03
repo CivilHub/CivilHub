@@ -86,6 +86,7 @@ var ActionList = Backbone.View.extend({
   },
 
   render: function () {
+    this.$('.no-content').empty().remove();
     this.$('.ac-timeline').empty();
     this.$('.ac-timeline').not(':first').remove();
     this.$el.append('<ul class="ac-timeline"></ul>');
@@ -95,7 +96,7 @@ var ActionList = Backbone.View.extend({
       }, this);
     } else {
       this.$el.append(([
-        '<p class="alert alert-info">',
+        '<p class="alert alert-info no-content">',
         gettext("No activity yet"),
         '</p>']).join('')
       );

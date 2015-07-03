@@ -76,6 +76,10 @@ def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
     We binding user accounts via email. If user with this email already exists,
     the new association will be bind to this user automatically. THIS IS WRONG!
     """
+    email = details.get('email', '')
+    if not email or email == '':
+        strategy.session_set('auth_error', True)
+        return strategy.redirect(reverse('user:s_auth_error'))
     try:
         system_user = User.objects.get(email=details.get('email'))
     except User.DoesNotExist:

@@ -54,6 +54,19 @@ from .helpers import profile_activation, random_username, \
                      get_gravatar_image
 
 
+class SocialAuthErrorView(TemplateView):
+    """ Redirect social users here when he didnt' provided proper email
+        address from their social accounts.
+    """
+    template_name = 'userspace/s_auth_error.html'
+
+    def dispatch(self, *args, **kwargs):
+        if not self.request.session.get('auth_error'):
+            return redirect('/')
+        self.request.session.pop('auth_error')
+        return super(SocialAuthErrorView, self).dispatch(*args, **kwargs)
+
+
 class DeleteAccountView(LoginRequiredMixin, View):
     """ Delete user account. In fact, we are not removing user data from database,
         as this could have some complications. Here, we create or delete existing

@@ -18,10 +18,16 @@ class LocationMapDataSerializer(serializers.ModelSerializer):
     zoom = serializers.SerializerMethodField('get_zoom')
 
     def get_lat(self, obj):
-        return self._get_lat_lng(obj, 'latitude')
+        try:
+            return self._get_lat_lng(obj, 'latitude')
+        except AttributeError:
+            return 0.0
 
     def get_lng(self, obj):
-        return self._get_lat_lng(obj, 'longitude')
+        try:
+            return self._get_lat_lng(obj, 'longitude')
+        except AttributeError:
+            return 0.0
 
     def get_zoom(self, obj):
         if obj.kind == 'country':
