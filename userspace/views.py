@@ -67,6 +67,24 @@ class SocialAuthErrorView(TemplateView):
         return super(SocialAuthErrorView, self).dispatch(*args, **kwargs)
 
 
+class SwitchUserImages(LoginRequiredMixin, View):
+    """ This view is dedicated for admins - they can bring back default user
+        avatar image for users whose images are 'inappropriate'.
+    """
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_superuser:
+            raise Http404
+        return super(SwitchUserImages, self).dispatch(*args, **kwargs)
+
+    def post(self, request, **kwargs):
+        user = User.objects.get(pk=request.POST.get('user'))
+        if request.POST.get('action') == 'background':
+            user.profile.set_default_background()
+        else:
+            user.profile.set_default_avatar()
+        return redirect(user.profile.get_absolute_url())
+
+
 class DeleteAccountView(LoginRequiredMixin, View):
     """ Delete user account. In fact, we are not removing user data from database,
         as this could have some complications. Here, we create or delete existing

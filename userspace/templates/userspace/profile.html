@@ -39,6 +39,15 @@
       {% else %}{% trans "account inactive"|capfirst %}{% endif %}
     </div>
     {% if request.user == cuser %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'user:background' %}">{% trans "Change background image" %}</a></div>{% endif %}
+    {% if request.user.is_superuser %}<form class="custom-inline-form" method="post" action="{% url 'user:set-default-avatar' %}">{% csrf_token %}
+      <input type="hidden" name="user" value="{{ cuser.pk }}">
+      <button type="submit" class="change-background-btn">{% trans "Default avatar" %}</button>
+    </form>
+    }<form class="custom-inline-form" method="post" action="{% url 'user:set-default-avatar' %}">{% csrf_token %}
+      <input type="hidden" name="user" value="{{ cuser.pk }}">
+      <input type="hidden" name="action" value="background">
+      <button type="submit" class="change-background-btn">{% trans "Default background" %}</button>
+    </form>{% endif %}
   </div>
 </div>
 <nav id="filter-navbar" class="navbar-default mt0" role="navigation">

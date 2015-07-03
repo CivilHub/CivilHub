@@ -18,6 +18,7 @@ router.add_api_view('locations', url(r'locations/$', api.UserFollowedLocationsAP
 
 urlpatterns = patterns('',
     url(r's_auth_error/', views.SocialAuthErrorView.as_view(), name='s_auth_error'),
+    url(r'default-avatar/', views.SwitchUserImages.as_view(), name='set-default-avatar'),
     url(r'delete-account/', views.DeleteAccountView.as_view(), name='delete-account'),
     url(r'manage-accounts/', views.AccountManagementView.as_view(), name='manage-accounts'),
     url(r'relogin/(?P<username>[-\w.]+)/', views.ReloginView.as_view(), name='relogin'),
