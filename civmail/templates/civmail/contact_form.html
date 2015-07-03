@@ -35,7 +35,7 @@
           {% if form.errors.message %}{% for error in form.errors.message %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}{% endif %}
           <textarea id="{{ form.message.id_for_label }}" name="{{ form.message.name }}" cols="20" rows="5" maxlength="{{ form.fields.message.widget.attrs.maxlength }}">{{ form.message.value|default_if_none:'' }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
+        <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Send" %}</button>
       </form>
     </div>
   </div>
