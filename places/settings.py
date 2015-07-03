@@ -155,8 +155,8 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-if not DEBUG:
-    MIDDLEWARE_CLASSES += ('userspace.social_exceptions.CivilAuthExceptionMiddleware',)
+#if not DEBUG:
+#    MIDDLEWARE_CLASSES += ('userspace.social_exceptions.CivilAuthExceptionMiddleware',)
 
 ROOT_URLCONF = 'places.urls'
 
