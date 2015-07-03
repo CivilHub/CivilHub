@@ -6,9 +6,22 @@
         <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 2 %}">{% trans "Negative opinions" %}</a><span class="btn-badge-mlp badge badge-green badge-btn text-white">{{ idea.negative_comments }}</span></li>
         {% with idea|content_type as ctype %}{% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li class="pull-right"><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}{% endwith %}
       </ul>{% endblock %}
-{% block idea_description %}<ul>{% for item in object_list %}
-  <li>
-    <div><h4><img class="user-avatar" src="{{ item.user.profile.avatar.url }}">{{ item.user.profile }}</h4></div>
-    <div>{{ item.get_comment }}</div>
-  </li><hr>
-{% endfor %}</ul>{% endblock %}
+{% block idea_description %}
+{% for item in object_list %}
+<div class="reply-entry">
+  <div class="row">
+    <div class="col-xs-1 entry-avatar-col entry-avatar-nomg pr0 mt0">
+      <img src="{{ item.user.profile.avatar.url }}" alt="{{ item.user.profile }}" class="user-avatar user-window-toggle"><p class="text-center discussionPH">{{ item.user.profile.rank_pts }}</p>
+    </div>
+    <div class="col-xs-11 discussion-entry-content">
+      <p class="entry-meta">
+        <a href="{{ item.user.get_absolute_url }}" class="user-window-toggle user-window-toggle-detail" data-target="{{ item.user.pk }}">{{ item.user.profile }}</a>
+      </p>
+      <div class="entry-content">
+        <p>{{ item.get_comment }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
