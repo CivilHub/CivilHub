@@ -5,6 +5,8 @@ import datetime
 
 from celery.task.base import periodic_task
 
+from django.contrib.auth.models import timezone
+
 from .models import CloseAccountDemand
 
 
