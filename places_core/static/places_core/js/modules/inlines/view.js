@@ -10,6 +10,7 @@ define(['jquery',
         'CUri',
         'js/modules/moment',
         'js/modules/ui/ui',
+        'js/modules/ui/active-area',
         'js/modules/utils/utils',
         'js/modules/utils/abuse-window',
         'js/modules/inlines/utils',
@@ -22,7 +23,7 @@ define(['jquery',
         'text!js/modules/inlines/templates/edit_form.html',
         'bootbox'],
 
-function ($, _, Backbone, CUri, moment, ui, utils, AbuseWindow, cUtils, CommentModel,
+function ($, _, Backbone, CUri, moment, ui, ActiveArea, utils, AbuseWindow, cUtils, CommentModel,
           CommentCollection, VoteSummary, ReasonForm, html, altHtml, form) {
 
 "use strict";
@@ -189,6 +190,11 @@ var CommentView = Backbone.View.extend({
       this.remove();
     }.bind(this));
 
+    // Create area for reply form to allow mentions here
+
+    var areaEl = this.$('.reply-form:first').find('textarea');
+    this.replyArea = new ActiveArea({ el: areaEl });
+
     return this;
   },
 
@@ -299,6 +305,8 @@ var CommentView = Backbone.View.extend({
 
   opendEdit: function () {
     var $form = $(this.editFormTemplate(this.model.toJSON()));
+    var $area = $form.find('textarea:first');
+    var theForm = new ActiveArea({ el: $area[0] });
     this.$content.hide().after($form);
     $form.find('.btn-cancel-comment:first').on('click', function (e) {
       e.preventDefault();

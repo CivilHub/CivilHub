@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from rest_framework import serializers
 
 from django.utils.translation import gettext as _
@@ -12,6 +14,26 @@ from .models import UserProfile
 
 PROVIDERS = ('facebook','google-plus','linkedin','twitter')
 GENDERS = ('male','female')
+
+
+class UserSearchSerializer(serializers.ModelSerializer):
+    """
+    """
+    id = serializers.Field(source='pk')
+    value = serializers.Field(source='username')
+    label = serializers.SerializerMethodField('get_label')
+    image = serializers.SerializerMethodField('get_avatar')
+
+    def get_label(self, obj):
+        return "{} {}".format(obj.first_name, obj.last_name)
+
+    def get_avatar(self, obj):
+        return obj.profile.avatar.url
+
+    class Meta:
+        model = User
+        fields = ('id', 'value', 'label', 'image', )
+
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
