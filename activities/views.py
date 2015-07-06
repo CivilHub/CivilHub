@@ -4,6 +4,7 @@ import urllib
 import urllib2
 
 from django.contrib.auth.models import User
+from django.core.exceptions import MultipleObjectsReturned
 from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import View
@@ -65,6 +66,8 @@ class FacebookFriendList(CivilUserMixin, View):
             raise Http404
         try:
             self.s_auth = self.object.user.social_auth.get(provider='facebook')
+        except MultipleObjectsReturned:
+            self.s_auth = self.object.user.social_auth.filter(provider='facebook').first()
         except UserSocialAuth.DoesNotExist:
             request.session['relogin'] = json.dumps({
                 'backend': 'facebook',

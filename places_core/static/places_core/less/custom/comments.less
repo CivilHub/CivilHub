@@ -212,6 +212,7 @@ noscript ul {
 
 .active-area-popup {
   width: 200px;
+  max-height: 200px;
   position: absolute;
   display: none;
   list-style-type: none;
@@ -219,7 +220,8 @@ noscript ul {
   margin: 0px;
   background: #fff;
   box-shadow: 1px 1px 4px 0px rgba(50, 50, 50, 0.75);
-  overflow: visible;
+  overflow-y: scroll;
+  overflow-x: hidden;
   z-index: 999;
   .border-radius(4px);
 

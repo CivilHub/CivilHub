@@ -119,7 +119,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         slug = kwargs['slug']
         ctx = {
-                'location': Location.objects.get(slug=slug),
+                'location': get_object_or_404(Location, slug=slug),
                 'title': _("Create new idea"),
                 'links': links['ideas'],
                 'appname': 'idea-create',
@@ -738,7 +738,7 @@ class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):
         return context
 
     def get(self, request, slug):
-        self.object = Location.objects.get(slug=slug)
+        self.object = get_object_or_404(Location, slug=slug)
         return super(PDFInviteGenerateView, self).get(request, slug)
 
 

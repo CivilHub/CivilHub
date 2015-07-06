@@ -43,7 +43,7 @@
       <input type="hidden" name="user" value="{{ cuser.pk }}">
       <button type="submit" class="change-background-btn">{% trans "Default avatar" %}</button>
     </form>
-    }<form class="custom-inline-form" method="post" action="{% url 'user:set-default-avatar' %}">{% csrf_token %}
+    <form class="custom-inline-form" method="post" action="{% url 'user:set-default-avatar' %}">{% csrf_token %}
       <input type="hidden" name="user" value="{{ cuser.pk }}">
       <input type="hidden" name="action" value="background">
       <button type="submit" class="change-background-btn">{% trans "Default background" %}</button>
