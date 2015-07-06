@@ -738,7 +738,7 @@ class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):
         return context
 
     def get(self, request, slug):
-        self.object = Location.objects.get(slug=slug)
+        self.object = get_object_or_404(Location, slug=slug)
         return super(PDFInviteGenerateView, self).get(request, slug)
 
 

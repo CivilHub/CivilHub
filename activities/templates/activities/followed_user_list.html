@@ -57,8 +57,8 @@
       </div>
       <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
         <ul class="nav navbar-nav navbar-nav-userspace">
-          <li><a href="{% url 'activities:followed' profile.clean_username %}" class="active">{% trans "Followed" %}</a></li>
-          <li><a href="{% url 'activities:facebook-friends' profile.clean_username %}">{% trans "Friends from Facebook" %}</a></li>
+          <li><a href="{% url 'activities:followed' profile.clean_username %}"{% if not fb_list %} class="active"{% endif %}>{% trans "Followed" %}</a></li>
+          <li><a href="{% url 'activities:facebook-friends' profile.clean_username %}"{% if fb_list %} class="active"{% endif %}>{% trans "Friends from Facebook" %}</a></li>
         </ul>
       </div>
     </div>

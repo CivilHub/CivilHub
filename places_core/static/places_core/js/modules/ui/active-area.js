@@ -65,7 +65,7 @@ var ActiveArea = Backbone.View.extend({
 
   replaceContent: function () {
     var re = new RegExp(/\@<a(.*?([\w-]+))<\/a>/g);
-    var value = this.$el.val();
+    var value = this.$el.val() || "";
     var res = value.match(re);
     var username = "";
     _.each(res, function (match) {
