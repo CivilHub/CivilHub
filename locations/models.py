@@ -18,7 +18,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from actstream.models import model_stream
 from maps.signals import create_marker
-from places_core.helpers import sanitizeHtml
+from places_core.helpers import sanitizeHtml, TagFilter, sort_by_locale
 from places_core.storage import OverwriteStorage, ReplaceStorage
 from gallery.image_manager import ImageManager as IM
 from gallery.image import resize_background_image, delete_background_image, \
@@ -216,10 +216,22 @@ class Location(models.Model, BackgroundModelMixin):
         verbose_name_plural = _(u"locations")
 
     @property
+    def translation(self):
+        lang = get_language().split('-')[0]
+        alt = self.names.filter(language=lang)
+        if not len(alt):
+            return self.name
+        else:
+            return alt[0].altername
+
+    @property
     def get_capital(self):
         if self.kind == 'country':
-            return Location.objects.get(kind='PPLC',
+            try:
+                return Location.objects.get(kind='PPLC',
                         country_code=self.country_code)
+            except Location.DoesNotExist:
+                return None
         country = self.get_country
         if country is None:
             return None
@@ -255,6 +267,12 @@ class Location(models.Model, BackgroundModelMixin):
             count += l.poll_set.count()
             count += l.news_set.count()
         return count
+
+    def news_tags(self):
+        tags = []
+        for news in self.news_set.all():
+            tags += [x for x in news.tags.all() if x not in tags]
+        return sort_by_locale(tags, key=lambda x: x.name)
 
     def save(self, *args, **kwargs):
         self.description = sanitizeHtml(self.description)
