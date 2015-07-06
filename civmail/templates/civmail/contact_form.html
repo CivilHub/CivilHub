@@ -1,4 +1,13 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
+{% block title %}{% trans "Contact us" %} - Civilhub.org {% endblock %}
+{% block meta %}<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="CivilHub">
+<meta name="twitter:title" content="{% trans 'Contact us' %}">
+<meta property="og:title" content="{% trans 'Contact us' %}"/>
+<meta property="og:url" content="https://civilhub.org/contact/" />
+<meta property="og:site_name" content="CivilHub"/>
+<meta property="og:description" content="{% blocktrans %}<p>If you have a question about our website, please write to us.<br />We will try to answer all your questions.<br /><br />If you want to include your country in our database, also write to us.</p>{% endblocktrans %}" />
+{% endblock %}
 {% block header %}<div class="headerBGa headerBGBlog">
   <h1 class="headerTitleBG">{% trans "Contact us" %}</h1>
 </div>{% endblock %}
@@ -26,7 +35,7 @@
           {% if form.errors.message %}{% for error in form.errors.message %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}{% endif %}
           <textarea id="{{ form.message.id_for_label }}" name="{{ form.message.name }}" cols="20" rows="5" maxlength="{{ form.fields.message.widget.attrs.maxlength }}">{{ form.message.value|default_if_none:'' }}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
+        <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Send" %}</button>
       </form>
     </div>
   </div>

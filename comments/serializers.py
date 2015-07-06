@@ -7,6 +7,7 @@ from rest_framework import serializers
 
 from userspace.serializers import UserDetailSerializer
 
+from .helpers import parse_mentions
 from .models import CustomComment, CommentVote
 
 
@@ -40,7 +41,7 @@ class CommentDetailSerializer(serializers.ModelSerializer):
         return serializer.data
 
     def get_comment(self, obj):
-        return obj.comment.replace("\n", "<br>")
+        return parse_mentions(obj.comment.replace("\n", "<br>"))
 
     def get_content_object(self, obj):
         if obj.content_object is None:

@@ -2,7 +2,7 @@
 import json
 
 from django.contrib.contenttypes.models import ContentType
-from django.template import loader, Context
+from django.template import loader, Context, Library
 from django.utils.translation import ugettext as _
 
 from rest_framework.renderers import JSONRenderer
@@ -11,7 +11,6 @@ from ..config import get_config
 from ..models import CustomComment
 from ..serializers import CommentDetailSerializer
 
-from django.template import Library
 register = Library()
 
 

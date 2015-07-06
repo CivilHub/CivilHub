@@ -6,8 +6,9 @@ from bookmarks.views import BookmarkListView, BookmarkDeleteView
 
 from rest import routers
 router = routers.HybridRouter()
-router.add_api_view('social_auths', url(r'^social_auths/$', api.SocialApiView.as_view(), name='social_auths'))
 router.register('my-bookmarks', api.UserBookmarksViewSet, 'my-bookmarks')
+router.register('mention', api.MentionUserViewSet, 'mention')
+router.add_api_view('social_auths', url(r'^social_auths/$', api.SocialApiView.as_view(), name='social_auths'))
 router.add_api_view('contents', url(r'^contents/', api.UserSummaryAPI.as_view(), name='contents'))
 router.add_api_view('api-token-auth', url(r'^api-token-auth/', api.obtain_auth_token, name='api-token-auth'))
 router.add_api_view('activity', url(r'activity/$', api.ActivityAPIViewSet.as_view(), name='activity'))
@@ -16,6 +17,8 @@ router.add_api_view('locations', url(r'locations/$', api.UserFollowedLocationsAP
 
 
 urlpatterns = patterns('',
+    url(r's_auth_error/', views.SocialAuthErrorView.as_view(), name='s_auth_error'),
+    url(r'default-avatar/', views.SwitchUserImages.as_view(), name='set-default-avatar'),
     url(r'delete-account/', views.DeleteAccountView.as_view(), name='delete-account'),
     url(r'manage-accounts/', views.AccountManagementView.as_view(), name='manage-accounts'),
     url(r'relogin/(?P<username>[-\w.]+)/', views.ReloginView.as_view(), name='relogin'),

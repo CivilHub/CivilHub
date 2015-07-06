@@ -76,6 +76,10 @@ def validate_email(strategy, details, user=None, social=None, *args, **kwargs):
     We binding user accounts via email. If user with this email already exists,
     the new association will be bind to this user automatically. THIS IS WRONG!
     """
+    email = details.get('email', '')
+    if not email or email == '':
+        strategy.session_set('auth_error', True)
+        return strategy.redirect(reverse('user:s_auth_error'))
     try:
         system_user = User.objects.get(email=details.get('email'))
     except User.DoesNotExist:
@@ -169,7 +173,7 @@ def get_friends(strategy, details, response, user, *args, **kwargs):
 
     res = json.loads(urllib2.urlopen(url.format(response['id'], params)).read())
 
-    #notify_friends(user, [int(x['id']) for x in res['data']])
+    notify_friends(user, [int(x['id']) for x in res['data']])
 
 
 def get_user_avatar(strategy, details, response, user, *args, **kwargs):
@@ -201,4 +205,7 @@ def get_user_avatar(strategy, details, response, user, *args, **kwargs):
     if image_url is not None and not is_default and user.profile.has_default_avatar:
         urllib.urlretrieve(image_url, TMP_FILE)
         image = Image.open(TMP_FILE)
-        update_profile_picture(user.profile, image)
+        try:
+            update_profile_picture(user.profile, image)
+        except Exception:
+            pass

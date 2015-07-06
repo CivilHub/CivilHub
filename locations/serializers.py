@@ -2,6 +2,7 @@
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import gettext as _
 
+from actstream.models import following
 from rest_framework import serializers
 from rest_framework.pagination import PaginationSerializer
 
@@ -17,10 +18,16 @@ class LocationMapDataSerializer(serializers.ModelSerializer):
     zoom = serializers.SerializerMethodField('get_zoom')
 
     def get_lat(self, obj):
-        return self._get_lat_lng(obj, 'latitude')
+        try:
+            return self._get_lat_lng(obj, 'latitude')
+        except AttributeError:
+            return 0.0
 
     def get_lng(self, obj):
-        return self._get_lat_lng(obj, 'longitude')
+        try:
+            return self._get_lat_lng(obj, 'longitude')
+        except AttributeError:
+            return 0.0
 
     def get_zoom(self, obj):
         if obj.kind == 'country':
@@ -43,12 +50,13 @@ class LocationMapDataSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'lat', 'lng', 'zoom', 'kind', )
 
 
-class AutocompleteLocationSeraializer(serializers.ModelSerializer):
-    """
-    This is serializer especially for autocomplete.
+class AutocompleteLocationSerializer(serializers.ModelSerializer):
+    """ This is serializer especially for autocomplete.
     """
     value = serializers.Field(source='pk')
     label = serializers.SerializerMethodField('get_label')
+    following = serializers.SerializerMethodField('check_followed')
+    template = serializers.SerializerMethodField('get_template')
 
     def get_label(self, obj):
         names = [obj.__unicode__(), ]
@@ -57,9 +65,23 @@ class AutocompleteLocationSeraializer(serializers.ModelSerializer):
         names = names + [x['name'] for x in qs]
         return " ".join(names)
 
+    def check_followed(self, obj):
+        request = self.context.get('request')
+        if request is None:
+            return False
+        if request.user.is_anonymous():
+            return False
+        return obj in following(request.user)
+
+    def get_template(self, obj):
+        request = self.context.get('request')
+        if request is None or request.user.is_anonymous():
+            return 'simple'
+        return 'normal'
+
     class Meta:
         model = Location
-        fields = ('value', 'label', )
+        fields = ('value', 'label', 'following', 'template', )
 
 
 class ContentObjectSerializer(serializers.Serializer):

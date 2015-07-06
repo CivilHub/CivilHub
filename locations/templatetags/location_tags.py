@@ -1,10 +1,11 @@
-from django import template
+# -*- coding: utf-8 -*-
+from django.template import loader, Context, Library
 
 from rest_framework.renderers import JSONRenderer
 
 from ..serializers import LocationMapDataSerializer
 
-register = template.Library()
+register = Library()
 
 
 @register.simple_tag(takes_context=True)
@@ -17,3 +18,10 @@ def current_location_data(context):
         return JSONRenderer().render({})
     s = LocationMapDataSerializer(location)
     return JSONRenderer().render(s.data)
+
+
+@register.simple_tag()
+def location_autocomplete():
+    template = loader.get_template('locations/autocomplete.html')
+    context = Context({})
+    return template.render(context)

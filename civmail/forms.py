@@ -73,8 +73,8 @@ class ContactForm(forms.Form):
     """
     name = forms.CharField(max_length=128, label=_(u"name"))
     email = forms.EmailField(label=_(u"email"))
-    message = forms.CharField(label=_(u"message"),
-        widget=forms.EmailInput(attrs={'maxlength': '500', }))
+    message = forms.CharField(label=_(u"message"), max_length=2048,
+        widget=forms.EmailInput(attrs={'maxlength': '2048', }))
 
     def __init__(self, *args, **kwargs):
         try:

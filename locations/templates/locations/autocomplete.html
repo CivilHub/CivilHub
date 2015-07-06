@@ -1,0 +1,17 @@
+{% load i18n %}<style type="text/css">
+.ui-menu {
+  display: none !important;
+}</style>
+<div class="civ-autocomplete-area">
+  <input type="text" class="form-control civ-autocomplete">
+  <ul class="autocomplete-results"></ul>
+  <script type="text/template" class="actl-tpl">
+    <li><%= label %> <a class="btn-follow" data-target="<%= value %>">{% trans "Follow" %}</li>
+  </script>
+  <script type="text/template" class="actl-tpl-followed">
+    <li><%= label %> <a class="btn-unfollow" data-target="<%= value %>">{% trans "Stop following" %}</li>
+  </script>
+  <script type="text/template" class="actl-tpl-simple">
+    <li><%= label %></li>
+  </script>
+</div>

@@ -764,7 +764,7 @@ class ManageModeratorsView(ModeratorListAccessMixin):
 
     def get_context_data(self):
         context = super(ManageModeratorsView, self).get_context_data()
-        context['moderators'] = [x for x in User.objects.all()\
+        context['moderators'] = [x for x in User.objects.filter(is_active=True)\
                                 if self.location in x.profile.mod_areas.all()]
         return context
 

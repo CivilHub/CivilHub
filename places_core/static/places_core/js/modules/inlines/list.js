@@ -12,12 +12,14 @@ define(['jquery',
         'underscore',
         'backbone',
         'CUri',
+        'js/modules/ui/active-area',
         'js/modules/inlines/model',
         'js/modules/inlines/collection',
         'js/modules/inlines/view',
         'js/modules/inlines/utils'],
 
-function ($, _, Backbone, CUri, CommentModel, CommentCollection, CommentView, cUtils) {
+function ($, _, Backbone, CUri, ActiveArea, CommentModel,
+                CommentCollection, CommentView, cUtils) {
 
 "use strict";
 
@@ -51,6 +53,9 @@ var CommentListView = Backbone.View.extend({
     // Main input to create new comment.
 
     this.textarea = this.$el.find('[name="comment"]');
+    this.activeArea = new ActiveArea({
+      el: this.textarea
+    });
 
     // Create collection and set page to (by default) 1. We use CUri here, so
     // that params may be passed only once and THEN appended to collection URL.
@@ -147,8 +152,10 @@ var CommentListView = Backbone.View.extend({
 
   addComment: function (e) {
     e.preventDefault();
+    var comment = this.textarea.val();
+    this.textarea.val('');
     cUtils.createComment({
-      comment: this.textarea.val(),
+      comment: comment,
       ct: this.$el.attr('data-ct'),
       pk: this.$el.attr('data-pk')
     }, this.collection, this.insert, this);

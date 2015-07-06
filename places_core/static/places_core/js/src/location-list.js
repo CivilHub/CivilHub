@@ -11,7 +11,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
            'vector',
            'worldmap',
            'js/modules/common',
-           'js/modules/locations/follow'],
+           'js/modules/locations/follow',
+           'js/modules/locations/simple-autocomplete'],
 
   function ($, ColView, fb) {
 

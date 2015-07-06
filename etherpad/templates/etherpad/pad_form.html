@@ -1,6 +1,6 @@
 {% extends 'places_core/base.html' %}{% load i18n %}
-{% block content %}<h1>{% trans "Create new pad" %}</h1>
+{% block content %}<div class="main-content"><h1>{% trans "Create new pad" %}</h1>
 <form action="" method="post">{% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">{% trans "Save" %}</button>
-</form>{% endblock %}
+  <button type="submit" class="btn-saveBig">{% trans "Save" %}</button>
+</form></div>{% endblock %}

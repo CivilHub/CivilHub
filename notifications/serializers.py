@@ -67,7 +67,7 @@ class NotificationSerializer(serializers.ModelSerializer):
             if hasattr(obj.action_object, 'get_absolute_url'):
                 action_url = obj.action_object.get_absolute_url()
         # And most preferred option - get url from action target
-        if obj.action_target is not None:
+        elif obj.action_target is not None:
             if hasattr(obj.action_target, 'get_absolute_url'):
                 action_url = obj.action_target.get_absolute_url()
         return action_url
