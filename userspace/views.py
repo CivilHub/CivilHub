@@ -53,6 +53,9 @@ from .helpers import profile_activation, random_username, \
                      create_username, update_profile_picture, \
                      get_gravatar_image
 
+import logging
+logger = logging.getLogger('userspace')
+
 
 class SocialAuthErrorView(TemplateView):
     """ Redirect social users here when he didnt' provided proper email
@@ -64,7 +67,26 @@ class SocialAuthErrorView(TemplateView):
         if not self.request.session.get('auth_error'):
             return redirect('/')
         self.request.session.pop('auth_error')
+        logger.info(u"[%s] Ktoś tu był" % str(timezone.now()))
         return super(SocialAuthErrorView, self).dispatch(*args, **kwargs)
+
+
+class SwitchUserImages(LoginRequiredMixin, View):
+    """ This view is dedicated for admins - they can bring back default user
+        avatar image for users whose images are 'inappropriate'.
+    """
+    def dispatch(self, *args, **kwargs):
+        if not self.request.user.is_superuser:
+            raise Http404
+        return super(SwitchUserImages, self).dispatch(*args, **kwargs)
+
+    def post(self, request, **kwargs):
+        user = User.objects.get(pk=request.POST.get('user'))
+        if request.POST.get('action') == 'background':
+            user.profile.set_default_background()
+        else:
+            user.profile.set_default_avatar()
+        return redirect(user.profile.get_absolute_url())
 
 
 class DeleteAccountView(LoginRequiredMixin, View):

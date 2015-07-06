@@ -130,6 +130,15 @@ class UserProfile(models.Model, BackgroundModelMixin):
                 pass
         super(UserProfile, self).save(*args, **kwargs)
 
+    def set_default_avatar(self):
+        self.avatar = 'img/avatars/anonymous.jpg'
+        self.thumbnail = 'img/avatars/30x30_anonymous.jpg'
+        self.save()
+
+    def set_default_background(self):
+        self.image = 'img/backgrounds/background.jpg'
+        self.save()
+
     def thumbnail_small(self):
         return thumbnail(self.avatar.name, 30)
 
