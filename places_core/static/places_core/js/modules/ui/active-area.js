@@ -96,6 +96,9 @@ var ActiveArea = Backbone.View.extend({
     if (!term) {
       return;
     }
+    if (keyCode === 8 && term.length <= 3) {
+      this._initialized = false;
+    }
     if (term.length >= 3) {
       if (!this._initialized) {
         this.collection.fetch({
@@ -140,7 +143,7 @@ var ActiveArea = Backbone.View.extend({
     var offset = this.$el.offset();
     var pos = getCaretCoordinates(this.el, this.currentMarkerPosition());
     this.$list.css({
-      top: pos.top,
+      top: pos.top + 20,
       left: pos.left
     });
     this.collection.each(function (item) {

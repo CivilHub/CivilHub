@@ -1,11 +1,9 @@
 {% extends 'places_core/base.html' %}
-{% load staticfiles i18n civil_tags cache %}
+{% load staticfiles i18n civil_tags cache location_tags %}
 
 {% cache 600 places %}
 
-{% block require_scripts %}
-<script src="{% module_path 'location-list' %}"></script>
-{% endblock %}
+{% block require_scripts %}<script src="{% module_path 'location-list' %}"></script>{% endblock %}
 
 {% block header %}{% endblock %}
 
@@ -45,7 +43,7 @@
         <div id="vector-map"></div>
 
         <h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
-
+        {% location_autocomplete %}
         <div class="location-list-stream">
             <div class="col-lg-2"></div>
 
