@@ -7,10 +7,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 
 
-if settings.DEBUG:
-    BASE = os.path.join(settings.BASE_DIR, 'places_core/static/places_core')
-else:
-    BASE = os.path.join(settings.STATIC_ROOT, 'places_core')
+BASE = os.path.join(settings.BASE_DIR, 'places_core/static/places_core')
 SRC_DIR = os.path.join(BASE, 'js', 'src')
 LESS_IN = os.path.join(BASE, 'less', 'style.less')
 CSS_OUT = os.path.join(BASE, 'css', 'style.min.css')
