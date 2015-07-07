@@ -112,6 +112,71 @@ class AlterLocationName(models.Model):
         return self.altername
 
 
+@python_2_unicode_compatible
+class ImageLicense(models.Model):
+    name = models.CharField(max_length=128, verbose_name=_(u"name"))
+    description = models.TextField(null=True, blank=True,
+                                   verbose_name=_(u"description"))
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
+class LocationBackgroundFile(models.Model):
+    image = models.ImageField(upload_to=get_upload_path,
+                              default='img/locations/nowhere.jpg',
+                              verbose_name=_(u"image"))
+    license = models.ForeignKey(ImageLicense, null=True, blank=True,
+                                verbose_name=_(u"license"))
+    authors = models.CharField(max_length=255, verbose_name=_(u"authors"),
+                              blank=True, null=True)
+    source_url = models.URLField(verbose_name=_(u"source url"),
+                                  blank=True, null=True)
+    name = models.CharField(max_length=128, null=True, blank=True,
+                            verbose_name=_(u"name"))
+    description = models.TextField(null=True, blank=True,
+                                   verbose_name=_(u"description"))
+
+    def get_image_url(self, size=(1920, 300), retina=False):
+
+        # Get first part of image url
+        url = self.image.url.split('/')
+        url.pop()
+        url = '/'.join(url)
+
+        # Rename files using gallery manager
+        # FIXME: this behavior should be bound to ImageManager
+        try:
+            im = IM(self.image.path)
+        except Exception:
+            return self.image.url
+
+        if retina:
+            suffix = "{}x{}@2x".format(size[0], size[1])
+            filename = im.create_filename(suffix=suffix).split('/')[-1]
+        else:
+            suffix = "{}x{}".format(size[0], size[1])
+            filename = im.create_filename(suffix=suffix).split('/')[-1]
+        return u"{}/{}".format(url, filename)
+
+    def thumb_url(self, retina=False):
+        return self.get_image_url((270, 190))
+
+    def background_url(self):
+        return self.get_image_url()
+
+    def retina_background_url(self):
+        return self.get_image_url(retina=True)
+
+    def __str__(self):
+        if self.name is not None and self.name != u'':
+            return self.name
+        return self.image.name
+
+post_save.connect(resize_background_image, sender=LocationBackgroundFile)
+
+
 class BackgroundModelMixin(object):
     """ A mixin for models that take care of the background image."""
 
@@ -148,7 +213,7 @@ class BackgroundModelMixin(object):
 
 
 @python_2_unicode_compatible
-class Location(models.Model, BackgroundModelMixin):
+class Location(models.Model):
     """ Basic location model. """
     name = models.CharField(max_length=200, verbose_name=_(u"name"))
     slug = models.SlugField(max_length=200,
@@ -184,9 +249,6 @@ class Location(models.Model, BackgroundModelMixin):
                                         verbose_name=_(u"date created"))
     country_code = models.CharField(max_length=10,
                                     verbose_name=_(u"country code"))
-    image = models.ImageField(upload_to=get_upload_path,
-                              default='img/locations/nowhere.jpg',
-                              verbose_name=_(u"image"))
     # Hold entire parent chain for faster searching (hopefully)
     parent_list = models.CharField(
         max_length=255,
@@ -204,6 +266,9 @@ class Location(models.Model, BackgroundModelMixin):
     # Here we mark regions/cities/capitals etc. with geonames
     kind = models.CharField(max_length=10, verbose_name=_(u"kind"))
 
+    background = models.ForeignKey(LocationBackgroundFile, blank=True,
+                                   null=True, verbose_name=_(u"background"))
+
     # custom managers
     objects = models.Manager()
     locale_sorted = LocationLocaleManager()
@@ -214,6 +279,24 @@ class Location(models.Model, BackgroundModelMixin):
         ordering = ['name', ]
         verbose_name = _(u"location")
         verbose_name_plural = _(u"locations")
+
+    def get_image_url(self):
+        return self.background.get_image_url()
+
+    def thumb_url(self, retina=False):
+        return self.background.get_image_url((270, 190))
+
+    def background_url(self):
+        return self.background.get_image_url()
+
+    def retina_background_url(self):
+        return self.background.get_image_url(retina=True)
+
+    @property
+    def image(self):
+        if self.background is None:
+            return None
+        return self.background.image
 
     @property
     def translation(self):
@@ -298,16 +381,6 @@ class Location(models.Model, BackgroundModelMixin):
                     raise models.ValidationError(u"Maximum number of retries exceeded")
                 retries += 1
                 self.slug = "{}-{}".format(slug, retries)
-
-        # We check whether the image has changed and if needed, we delete the old one
-        # FIXME: we are using signal for now, this is no longer necessary and deprecated.
-        try:
-            orig = Location.objects.get(pk=self.pk)
-            if not u'nowhere' in orig.image.name and orig.image != self.image:
-                delete_image(orig.image.path)
-                delete_image(rename_background_file(orig.image.path))
-        except Location.DoesNotExist:
-            pass
         super(Location, self).save(*args, **kwargs)
 
     def get_parent_chain(self, parents=None, response='JSON'):
@@ -468,7 +541,6 @@ class Location(models.Model, BackgroundModelMixin):
             return alt[0].altername
 
 
-post_save.connect(resize_background_image, sender=Location)
 post_save.connect(create_marker, sender=Location)
 
 
