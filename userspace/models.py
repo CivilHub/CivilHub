@@ -237,13 +237,13 @@ class CloseAccountDemand(models.Model):
     """
     user = models.ForeignKey(User, unique=True)
     date = models.DateTimeField(auto_now_add=True)
-    is_deleted = False
+    is_deleted = models.BooleanField(default=False)
 
     def deactivate(self):
         self.user.is_active = False
         self.user.email = ""
         self.user.save()
-        self.is_active = True
+        self.is_deleted = True
         self.save()
 
     def __str__(self):

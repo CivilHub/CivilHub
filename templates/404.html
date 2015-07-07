@@ -1,5 +1,4 @@
-{% load staticfiles i18n %}
-<!DOCTYPE html>
+{% load staticfiles i18n %}<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -7,32 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="{% static 'places_core/favicon.png' %}" />
 <link href="{% static 'places_core/css/style.min.css' %}" rel="stylesheet">
-
-{% comment %}A place for additional css files.{% endcomment %}
-{% block extra_styles %}{% endblock %}
-
 </head>
-
 <body style="padding: 0;">
-
-<div class="not-found-page">
-
-    <div class="not-found-content">
-        <div class="not-found-info">
-            <h1>{% trans "404 Page" %}</h1>
-            <h2>{% trans "We lost something" %}... </h2>
-        </div>
-        
-        <div class="back-to-home">
-            <div class="logo"> <img src="/static/places_core/img/logo-footer.png" /> </div>
-            <p><input type="button" class="submit-button" onclick="location.href='/'" value="{% trans 'Back to Home Page' %}"></p>
-            <p>&nbsp;</p>
-        </div>
+<div class="error-page not-found-page">
+  <div class="not-found-content">
+    <div class="not-found-info">
+      <h1>{% trans "404 Page" %}</h1>
+      <h2>{% trans "We lost something" %}... </h2>
     </div>
+    <div class="back-to-home">
+      <div class="logo"> <img src="/static/places_core/img/logo-footer.png" /> </div>
+      <p><input type="button" class="submit-button" onclick="location.href='/'" value="{% trans 'Back to Home Page' %}"></p>
+      <p>&nbsp;</p>
+    </div>
+  </div>
 </div>
-
 </body>
 </html>
-
-
-    

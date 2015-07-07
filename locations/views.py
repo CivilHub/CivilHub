@@ -119,7 +119,7 @@ class LocationIdeaCreate(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         slug = kwargs['slug']
         ctx = {
-                'location': Location.objects.get(slug=slug),
+                'location': get_object_or_404(Location, slug=slug),
                 'title': _("Create new idea"),
                 'links': links['ideas'],
                 'appname': 'idea-create',
@@ -398,48 +398,107 @@ class LocationActionsView(LocationViewMixin):
     template_name = 'locations/location_summary.html'
 
 
-class LocationBackgroundView(FormView):
+class LocationBackgroundView(LoginRequiredMixin, LocationViewMixin, View):
+    """ Advanced options for location background image. As we may create as many
+        image files as we want, just one may be tied to location. Here we may
+        update existing picture, choose from other uploaded pictures or upload
+        entirely new file. Only admins and moderators can access this view.
     """
-    A static form that allows to upload and crop background images for locations.
-    """
-    template_name = 'locations/background-form.html'
-    form_class = BackgroundForm
+    template_name = 'locations/background.html'
+    current_image_form = CurrentBackgroundForm
+
+    def dispatch(self, *args, **kwargs):
+        self.object = self.get_object()
+        if not is_moderator(self.request.user, self.object):
+            raise PermissionDenied
+        return super(LocationBackgroundView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, slug=None, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, slug=None, **kwargs):
+        form = self.current_image_form(request.POST,
+                    instance=self.object.background)
+        obj = form.save()
+        return redirect(self.object.get_absolute_url())
 
     def get_context_data(self, **kwargs):
-        context = super(LocationBackgroundView, self).get_context_data(**kwargs)
-        try:
-            context['location'] = Location.objects.get(
-                pk=self.kwargs.get('pk', None))
-        except Location.DoesNotExist:
-            raise Http404()
+        context = super(LocationBackgroundView, self).get_context_data()
+        context['form'] = self.current_image_form(instance=self.object.background)
         return context
 
-    def get(self, request, pk=None):
-        try:
-            location = Location.objects.get(pk=pk)
-        except Location.DoesNotExist:
-            raise Http404()
-        user = request.user
-        if not user.is_superuser and not is_moderator(user, location):
-            raise Http404()
-        return super(LocationBackgroundView, self).get(request, pk)
+
+class LocationBackgroundUploadView(FormView):
+    template_name = 'locations/background-form.html'
+    form_class = BackgroundUploadForm
+
+    def dispatch(self, *args, **kwargs):
+        self.object = get_object_or_404(Location, pk=kwargs.get('pk'))
+        return super(LocationBackgroundUploadView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data()
+        context.update({'form': self.form_class, })
+        return render(request, self.template_name, context)
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationBackgroundUploadView, self).get_context_data()
+        context.update({
+            'location': self.object,
+            'is_moderator': is_moderator(self.request.user, self.object), })
+        return context
 
     def form_valid(self, form):
-        from PIL import Image
-        from gallery.image import handle_tmp_image
-        box = (
-            form.cleaned_data['x'],
-            form.cleaned_data['y'],
-            form.cleaned_data['x2'],
-            form.cleaned_data['y2'],
-        )
-        image = Image.open(form.cleaned_data['image'])
-        image = image.crop(box)
-        location = Location.objects.get(pk=self.kwargs.get('pk', None))
-        location.image = handle_tmp_image(image)
-        location.save()
-        return redirect(reverse('locations:details',
-                         kwargs={'slug': location.slug}))
+        import pdb; pdb.set_trace()
+        self.object.background = form.save()
+        self.object.save()
+        return super(LocationBackgroundUploadView, self).form_valid(form)
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+
+# class LocationBackgroundUploadView(FormView):
+#     """
+#     A static form that allows to upload and crop background images for locations.
+#     """
+#     template_name = 'locations/background-form.html'
+#     form_class = BackgroundForm
+
+#     def get_context_data(self, **kwargs):
+#         context = super(LocationBackgroundUploadView, self).get_context_data(**kwargs)
+#         try:
+#             context['location'] = Location.objects.get(
+#                 pk=self.kwargs.get('pk', None))
+#         except Location.DoesNotExist:
+#             raise Http404()
+#         return context
+
+#     def get(self, request, pk=None):
+#         try:
+#             location = Location.objects.get(pk=pk)
+#         except Location.DoesNotExist:
+#             raise Http404()
+#         user = request.user
+#         if not user.is_superuser and not is_moderator(user, location):
+#             raise Http404()
+#         return super(LocationBackgroundUploadView, self).get(request, pk)
+
+#     def form_valid(self, form):
+#         from PIL import Image
+#         from gallery.image import handle_tmp_image
+#         box = (
+#             form.cleaned_data['x'],
+#             form.cleaned_data['y'],
+#             form.cleaned_data['x2'],
+#             form.cleaned_data['y2'],
+#         )
+#         image = Image.open(form.cleaned_data['image'])
+#         image = image.crop(box)
+#         location = Location.objects.get(pk=self.kwargs.get('pk', None))
+#         location.image = handle_tmp_image(image)
+#         location.save()
+#         return redirect(reverse('locations:details',
+#                          kwargs={'slug': location.slug}))
 
 
 class CreateLocationView(LoginRequiredMixin, CreateView):
@@ -738,7 +797,7 @@ class PDFInviteGenerateView(SingleObjectMixin, PDFTemplateView):
         return context
 
     def get(self, request, slug):
-        self.object = Location.objects.get(slug=slug)
+        self.object = get_object_or_404(Location, slug=slug)
         return super(PDFInviteGenerateView, self).get(request, slug)
 
 

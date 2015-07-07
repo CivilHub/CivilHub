@@ -170,3 +170,12 @@ class SearchTermRecord(models.Model):
         ordering = ['-date_created', ]
         verbose_name = _(u"search record")
         verbose_name_plural = _(u"search records")
+
+
+@python_2_unicode_compatible
+class RedirectRule(models.Model):
+    url_in = models.CharField(max_length=200)
+    url_out = models.CharField(max_length=200)
+
+    def __str__(self):
+        return "{}->{}".format(self.url_in, self.url_out)

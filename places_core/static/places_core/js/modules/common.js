@@ -126,7 +126,15 @@ $(document).ready(function(){
     }
   })
 });
-
+// Mouseflow
+$(document).ready(function(){
+  var _mfq = _mfq || [];
+  (function () {
+    var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
+    mf.src = "//cdn.mouseflow.com/projects/fa5c0e1d-4985-4868-a05b-2a0d96a41b53.js";
+    document.getElementsByTagName("head")[0].appendChild(mf);
+  })();
+});
 
 });
 

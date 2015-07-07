@@ -65,7 +65,7 @@ var ActiveArea = Backbone.View.extend({
 
   replaceContent: function () {
     var re = new RegExp(/\@<a(.*?([\w-]+))<\/a>/g);
-    var value = this.$el.val();
+    var value = this.$el.val() || "";
     var res = value.match(re);
     var username = "";
     _.each(res, function (match) {
@@ -95,6 +95,9 @@ var ActiveArea = Backbone.View.extend({
     var term = this.getActiveTxt();
     if (!term) {
       return;
+    }
+    if (keyCode === 8 && term.length <= 3) {
+      this._initialized = false;
     }
     if (term.length >= 3) {
       if (!this._initialized) {
@@ -140,7 +143,7 @@ var ActiveArea = Backbone.View.extend({
     var offset = this.$el.offset();
     var pos = getCaretCoordinates(this.el, this.currentMarkerPosition());
     this.$list.css({
-      top: pos.top,
+      top: pos.top + 20,
       left: pos.left
     });
     this.collection.each(function (item) {

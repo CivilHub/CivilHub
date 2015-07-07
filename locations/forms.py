@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from PIL import Image
+
 from django import forms
 from django.forms.util import ErrorList
 from django.conf import settings
@@ -11,6 +13,7 @@ from django.contrib.contenttypes.models import ContentType
 from taggit.forms import TagField
 from haystack.forms import SearchForm
 
+from gallery.image import handle_tmp_image
 from maps.models import MapPointer
 from ideas.models import Idea
 from ideas.models import Category as IdeaCategory
@@ -20,7 +23,59 @@ from topics.models import Discussion, Entry
 from topics.models import Category as ForumCategory
 from places_core.forms import BootstrapBaseForm
 
-from .models import Location, Country
+from .models import Location, Country, LocationBackgroundFile
+
+
+class CurrentBackgroundForm(forms.ModelForm):
+    """ Custom form that allows us to update existing location background files.
+    """
+
+    class Meta:
+        model = LocationBackgroundFile
+        exclude = ('image', )
+        widgets = {
+            'license': forms.Select(attrs={'class': 'form-control', }),
+            'name': forms.TextInput(attrs={'class': 'form-control', }),
+            'authors': forms.TextInput(attrs={'class': 'form-control', }),
+            'source_url': forms.TextInput(attrs={'class': 'form-control', }),
+            'description': forms.Textarea(attrs={'class': 'form-control', }), }
+
+
+class BackgroundUploadForm(forms.ModelForm):
+    """ Upload new image as location background.
+    """
+    x = forms.IntegerField(widget=forms.HiddenInput())
+    y = forms.IntegerField(widget=forms.HiddenInput())
+    x2 = forms.IntegerField(widget=forms.HiddenInput())
+    y2 = forms.IntegerField(widget=forms.HiddenInput())
+
+    def is_valid(self):
+        valid = super(BackgroundUploadForm, self).is_valid()
+        if not valid:
+            return valid
+
+        image = self.cleaned_data['image']
+        box = (
+            self.cleaned_data['x'],
+            self.cleaned_data['y'],
+            self.cleaned_data['x2'],
+            self.cleaned_data['y2'], )
+        image = Image.open(image)
+        image = image.crop(box)
+        self.cleaned_data['image'] = handle_tmp_image(image)
+
+        return True
+
+    class Meta:
+        model = LocationBackgroundFile
+        fields = ('image', 'license', 'authors', 'source_url',
+                  'name', 'description', 'x', 'y', 'x2', 'y2', )
+        widgets = {
+            'license': forms.Select(attrs={'class': 'form-control', }),
+            'name': forms.TextInput(attrs={'class': 'form-control', }),
+            'authors': forms.TextInput(attrs={'class': 'form-control', }),
+            'source_url': forms.TextInput(attrs={'class': 'form-control', }),
+            'description': forms.Textarea(attrs={'class': 'form-control', }), }
 
 
 class LocationSearchForm(forms.Form):

@@ -244,7 +244,10 @@ def report_link(obj):
 
 @register.simple_tag
 def get_verbose_name(object):
-    return object._meta.verbose_name.title()
+    try:
+        return object._meta.verbose_name.title()
+    except AttributeError:
+        return ""
 
 
 @register.simple_tag(takes_context=True)

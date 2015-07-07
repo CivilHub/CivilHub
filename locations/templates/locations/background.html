@@ -1,0 +1,12 @@
+{% extends 'locations/index.html' %}{% load i18n staticfiles civil_tags %}
+
+{% block require_scripts %}<script src="{% module_path 'location-background' %}"></script>{% endblock %}
+
+{% block content %}<ul class="menu">
+<li><a href="{% url 'locations:upload-background' location.pk %}">{% trans "Upload new picture" %}</a></li>
+  <li><a href="{% url 'locations:background' location.slug %}" class="active">{% trans "Edit picture data" %}</a></li>
+</ul>
+<form id="user-background-form" method="post" action="">{% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+</form>{% endblock %}

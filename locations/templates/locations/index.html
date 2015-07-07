@@ -71,7 +71,7 @@
         <div class="btn-white mt8"><a href="{% url 'locations:new_idea' location.slug %}"><strong>{% trans "What would you like to change?" %}</strong></a></div>
         </div>
 
-        {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:background' location.pk %}">{% trans "Change background image" %}</a>
+        {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:upload-background' location.pk %}">{% trans "Change background image" %}</a>
         <a class="change-background-btn" href="{% url 'locations:update' location.slug %}" onclick="ga('send', 'event', 'edit', 'click', 'location');" >{% trans "Edit this location" %}</a>
         {% if user.is_superuser %}<a class="change-background-btn" href="{% url 'civmail:followers-message' location.pk %}">{% trans "Send message to followers" %}</a>
         <a class="change-background-btn" href="{% url 'locations:manage-moderators' location.slug %}">{% trans "Moderators" %}</a>{% endif %}</div>{% endif %}

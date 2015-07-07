@@ -2,10 +2,11 @@
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 
-from .models import AbuseReport, SearchTermRecord
+from .models import AbuseReport, SearchTermRecord, RedirectRule
 
 
 admin.site.register(AbuseReport)
+admin.site.register(RedirectRule)
 
 
 class SearchTermAdmin(admin.ModelAdmin):

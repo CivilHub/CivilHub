@@ -2,13 +2,15 @@
 import re
 
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils import translation
 from django.shortcuts import redirect
 from django.core.cache import cache
 from django.db import connections, transaction
 from social.apps.django_app.middleware import SocialAuthExceptionMiddleware
 from social import exceptions as social_exceptions
+
+from .views import redirect_404
 
 
 class SocialAuthExceptionMiddleware(SocialAuthExceptionMiddleware):
@@ -42,3 +44,19 @@ class SubdomainMiddleware(object):
                 else:
                     next = 'http://' + host + request.get_full_path()
                 return HttpResponseRedirect(next)
+
+
+class Redirect404Middleware(object):
+    def process_response(self, request, response):
+        if response.status_code != 404:
+            return response  # No need to check for a flatpage for non-404 responses.
+        try:
+            return redirect_404(request, request.path_info)
+        # Return the original response if any errors happened. Because this
+        # is a middleware, we can't assume the errors will be caught elsewhere.
+        except Http404:
+            return response
+        except Exception:
+            if settings.DEBUG:
+                raise
+            return response
