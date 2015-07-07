@@ -6,10 +6,10 @@
   <input type="text" class="form-control civ-autocomplete" placeholder="{% trans "Filter" %}">
   <ul class="autocomplete-results list-unstyled"></ul>
   <script type="text/template" class="actl-tpl">
-    <li class="clearfix"><%= label %> <a class="btn-follow pull-right-n" data-target="<%= value %>">{% trans "Follow" %}</a></li>
+    <li class="clearfix"><%= label %> <a class="btn-follow btn-follow-location pull-right-n" data-target="<%= value %>">{% trans "Follow" %}</a></li>
   </script>
   <script type="text/template" class="actl-tpl-followed">
-    <li class="clearfix"><%= label %> <a class="btn-unfollow pull-right-n" data-target="<%= value %>">{% trans "Stop following" %}</a></li>
+    <li class="clearfix"><%= label %> <a class="btn-unfollow btn-unfollow-location pull-right-n" data-target="<%= value %>">{% trans "Stop following" %}</a></li>
   </script>
   <script type="text/template" class="actl-tpl-simple">
     <li class="clearfix"><%= label %></li>
