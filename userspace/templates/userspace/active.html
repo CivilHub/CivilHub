@@ -13,9 +13,7 @@
       </div>
     </div>
   {% if forloop.counter|divisibleby:4 or forloop.counter == locations.count %}</div>{% endif %}{% endfor %}
-
-  <div class="brief-container"><p>{% trans "If you haven't found the place you were looking for, you can look for it in our list" %}</p></div>
+ <div class="brief-container"><p>{% trans "If you haven't found the place you were looking for, you can look for it in our list" %}</p></div>
   {% location_autocomplete %}
-
-  <p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig">{% trans "Proceed" %}</a> <span class="ml30">{% trans "Follow a minimum of 3 places." %}</span></p>
+<p class="text-center mt25"><a href="{% url 'locations:index' %}?new_user=true" class="btn btn-primary btn-saveBig" style="display:none;">{% trans "Proceed" %}</a> <span class="ml30">{% trans "Follow a minimum of 3 places." %}</span></p>
 </div>{% endblock %}
