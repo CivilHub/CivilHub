@@ -13,25 +13,43 @@
   </div>
 </div>{% endblock %}
 {% block content %}{% include 'places_core/google-contacts-modal.html' %}
-<div class="invitePage mt25 mb20 main-content">
-  <div class="container"><div class="inviteFriends text-center">
+<div class="invitePage mt25 mb20">
+  <div class="container-fluid"><div class="inviteFriends text-center">
     <h2>{% trans "Invite a friend by sending him a message, to have the opportunity to find out what it means to force CivilHub." %}</h2>
-    <h3>{% trans "Terms and Conditions" %}</h3>
+   {% comment %} <h3>{% trans "Terms and Conditions" %}</h3> {% endcomment %}
   </div>
-  <div class="inviteForm text-center mt25"><form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">{% csrf_token %}
-    <div class="col-sm-4 col-sm-offset-1">
+  <div class="inviteForm text-center mt25">
+
+    <form class="form-horizontal" method="post" action="{% url 'civmail:invite' %}">{% csrf_token %}
+      <div class="col-md-1"></div>
+      <div class="col-md-5 text-left"><div class="main-content">
+        <p class="mt0 mb0 k16"><strong>{% trans "Email address or name" %}</strong></p>
+        <span class="text-muted">{% trans "Separate the adressees with commas" %}.</span>
+        <input class="form-control" type="text" name="emails" placeholder="{% trans "Add your friend’s email addresses" %}">
+        <div class="hidden">
+          <p class="k16 mb0 top15"><strong>{% trans "Send a personal message with your invitation" %}</strong></p>
+          <span class="text-muted">{% trans "This is optional." %}</span>
+          <div><textarea class="form-control k16" rows="3" placeholder="{% trans "Hey, here's your invite! Come check out my CivilHub when you have a chance. You'll love it!" %}" rows="2"></textarea></div>
+        </div>
+        <div class="text-right mt25">
+          <button type="submit" class="btn btn-saveBig">{% trans "Send" %}</button>
+        </div></div>
+      </div>
+   <!--  <div class="col-sm-4 col-sm-offset-1">
       <input type="text" name="emails" class="form-control" placeholder="{% trans "Add your friend’s email addresses" %}">
       <p class="text-left">{% trans "Separate the adressees with commas" %}</p>
-    </div>
-    <div class="col-sm-2 mb20">
+    </div> -->
+    {% comment %}<div class="col-sm-2 mb20">
       <button type="submit" class="btn btn-saveBig">{% trans "Send" %}</button>
-    </div>
-    <div class="col-sm-4">
+    </div>{% endcomment %}
+    <div class="col-md-5"><div class="main-content">
       <input type="hidden" name="name" value="civilhub.org">
       <input type="text" name="link" class="form-control" value="https://civilhub.org/" readonly>
+
+
     <div class="text-left">{% trans "Share:" %}
       <div class="fb-share-button" data-href="https://civilhub.org" data-layout="icon"></div>{% comment %}<span class="fa fa-facebook"></span>
       <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://civilhub.org"><span class="fa fa-twitter"></span></a> {% endcomment %}</div>
-    </div>
+    </div></div>
   </form></div></div>
 </div>{% endblock %}
