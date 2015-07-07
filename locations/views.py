@@ -457,49 +457,6 @@ class LocationBackgroundUploadView(FormView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-# class LocationBackgroundUploadView(FormView):
-#     """
-#     A static form that allows to upload and crop background images for locations.
-#     """
-#     template_name = 'locations/background-form.html'
-#     form_class = BackgroundForm
-
-#     def get_context_data(self, **kwargs):
-#         context = super(LocationBackgroundUploadView, self).get_context_data(**kwargs)
-#         try:
-#             context['location'] = Location.objects.get(
-#                 pk=self.kwargs.get('pk', None))
-#         except Location.DoesNotExist:
-#             raise Http404()
-#         return context
-
-#     def get(self, request, pk=None):
-#         try:
-#             location = Location.objects.get(pk=pk)
-#         except Location.DoesNotExist:
-#             raise Http404()
-#         user = request.user
-#         if not user.is_superuser and not is_moderator(user, location):
-#             raise Http404()
-#         return super(LocationBackgroundUploadView, self).get(request, pk)
-
-#     def form_valid(self, form):
-#         from PIL import Image
-#         from gallery.image import handle_tmp_image
-#         box = (
-#             form.cleaned_data['x'],
-#             form.cleaned_data['y'],
-#             form.cleaned_data['x2'],
-#             form.cleaned_data['y2'],
-#         )
-#         image = Image.open(form.cleaned_data['image'])
-#         image = image.crop(box)
-#         location = Location.objects.get(pk=self.kwargs.get('pk', None))
-#         location.image = handle_tmp_image(image)
-#         location.save()
-#         return redirect(reverse('locations:details',
-#                          kwargs={'slug': location.slug}))
-
 
 class CreateLocationView(LoginRequiredMixin, CreateView):
     """ Add new location. """
@@ -525,6 +482,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         obj = form.save()
+        obj.background = LocationBackgroundFile.objects.get(name='default')
         obj.creator.profile.mod_areas.add(obj)
         obj.creator.profile.save()
         update_parent_location_list(obj)
