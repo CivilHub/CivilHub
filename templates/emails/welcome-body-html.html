@@ -44,16 +44,18 @@
       color: #4D4D4D;
       font-weight: 400;
     }
-    h1{
-      font-weight: bold;
-    }
     h2{
       font-size: 14px;
     }
     h3 {
-      color: #21c5ba;
+      color: #a1adb2;
       font-size: 24px;
     }
+    .plr{
+      padding: 0 80px;
+    }
+    .pl{ padding-left: 80px; }
+    .pr{ padding-right: 80px; }
   </style>
   <style type="text/css" media="screen">
     @media screen {
@@ -84,7 +86,12 @@
       td[class="mobile-padding"] {
         padding-left: 20px !important;
         padding-right: 20px !important;
-        padding-bottom: 20px !important;
+      }
+      td[class="pl"] {
+        padding-left: 0px !important;
+      }
+      td[class="pr"] {
+        padding-right: 0px !important;
       }
       img[class="image-resize"] {
         width: 73px !important;
@@ -104,7 +111,7 @@
       <tr>
         <td style="border-bottom: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
           <center>
-            <table cellspacing="0" cellpadding="0" width="500" class="w320">
+            <table cellspacing="0" cellpadding="0" width="700" class="w320">
               <tr>
                 <td valign="top" style="padding:20px 0; text-align:left;" class="mobile-center">
                   <a href="https://civilhub.org"><img width="137" height="25" src="https://civilhub.org/static/places_core/img/emails/logo.png"></a>
@@ -115,116 +122,71 @@
         </td>
       </tr>
       <tr>
-        <td valign="top" style="background-color:#f7f7f7;">
-          <!--[if gte mso 9]>
-            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:80px; v-text-anchor:middle;">
-            <v:textbox inset="0,0,0,0">
-          <![endif]-->
-          <div>
-            <center>
-              <table cellspacing="0" cellpadding="0" width="530" height="200" class="w320">
-                <tr>
-                  <td valign="middle" style="vertical-align:middle; padding-right: 15px; padding-left: 15px; text-align:center;" class="mobile-center" height="200">
-                    <h1>{% trans "Almost done!" %}</h1><br>
-                    <h2>{% blocktrans %}There's one last step until your account is 100% ready. We just need you to activate your account.{% endblocktrans %}</h2>
-                  </td>
-                </tr>
-              </table>
-            </center>
-          </div>
-          <!--[if gte mso 9]>
-            </v:textbox>
-          </v:rect>
-          <![endif]-->
-        </td>
-      </tr>
-      <tr>
         <td valign="top" style="background-color:#f7f7f7; border-bottom: 3px solid #f0f0f0;">
           <center>
-            <table cellspacing="0" cellpadding="0" width="500" class="w320" style="margin: 0 0 50px 0;">
+            <table cellspacing="0" cellpadding="0" width="700" class="w320" style="margin: 50px 0 50px 0;">
               <tr>
-                <td valign="top" style="border:1px solid #a1a1a1; background-color: #ffffff;">
-                <center>
-                  <table style="margin: 0 auto;"cellspacing="0" cellpadding="10" width="280">
-                        <tr>
-                          <td style="padding: 40px 0px;">
-                            <table cellspacing="0" cellpadding="0" width="100%">
-                              <tr>
-                                <td style="text-align:left;">
-                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step1.png">
-                                </td>
-                                <td style="text-align:left;">
-                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step2.png">
-                                </td>
-                                <td style="text-align:left;">
-                                  <img class="image-resize" width="109" height="78" src="https://civilhub.org/static/places_core/img/emails/step3.png">
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="font-smaller" style="text-align:center;">{% trans "Create Account" %}</td>
-                                <td class="font-smaller" style="text-align:center;"><b>{% trans "Activate" %}</b></td>
-                                <td class="font-smaller" style="text-align:center;">{% trans "Complete" %}</td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                        <tr>
-                          <table cellspacing="0" cellpadding="0" style="margin: 0 0 20px 0;">
-                            <tr>
-                              <td style="width:150px; background-color: #ffffff; text-align: center;">
-                                <div><!--[if mso]>
-                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ link }}" style="height:33px;v-text-anchor:middle;width:150px;" arcsize="8%" stroke="f" fillcolor="#ffffff">
-                                      <w:anchorlock/>
-                                      <center style="color:#ffffff;font-family:sans-serif;font-size:13px;">{% trans "Activate Account!" %}</center>
-                                    </v:roundrect>
-                                  <![endif]-->
-                                  <!--[if !mso]><!-- --><table cellspacing="0" cellpadding="0" width="100%"><tr><td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;"><a href="{{ link }}" style="text-decoration: none;"><span style="color:#ffffff">{% trans "Activate Account" %}</span></a></td></tr></table>
-                                  <!--<![endif]-->
-
-                                </div>{% trans "If you have a problem with activating your account, please click here" %}:<br><a href="{{ link }}">{{ link }}</a>
-                              </td>
-                              <td>
-                                &nbsp;
-                              </td>
-                            </tr>
-                          </table>
-                        </tr>
-                      </table>
-                    </center>
-                </td>
-              </tr>
-              <tr>
-                <td bgcolor="#ffffff" valign="top">
+                <td valign="top" style="border:1px solid #EAEAEA; background-color: #ffffff;">
                   <center>
-                    <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
+                   <table cellspacing="20" valign="center" style="text-align: center;">
                       <tr>
-                        <td style="text-align:center; margin:0 auto; border-top: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
-                           <br>
-                           <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
-                            CivilHub.org
-                           </a>
+                        <td colspan="2" style="padding-top: 50px;"><img src="https://civilhub.org/static/places_core/img/emails/emailf.png" alt="" width="128" height="128"></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" class="mobile-padding"><h1 style="font-size: 32px; font-weight: 400; margin: 0; color: #4D4D4D;">{{ user }}</h1>
+                          <h3 style="color: #A1ADB2; font-weight: 400; font-size: 24px; margin:0;">{% trans "Please confirm your email address" %}</h3>
                         </td>
                       </tr>
-                    </table>
-                  </center>
-                  <center>
-                    <table cellspacing="0" cellpadding="0" width="500" class="w320">
                       <tr>
-                        <td>
-                          <table cellspacing="0" cellpadding="30" width="100%">
-                            <tr>
-                              <td style="text-align:center; padding: 0 30px 30px 30px;">
-                                <a href="https://civilhub.org/terms/" style="font-size: 12px; color:#0083FB;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px; color:#0083FB;">{% trans "Privacy Policy" %}</a>
-                              </td>
-                            </tr>
-                          </table>
+                        <td colspan="2" class="mobile-padding plr">
+                         {% blocktrans %}There's one last step until your account is 100% ready. We just need you to activate your account.{% endblocktrans %}
                         </td>
                       </tr>
-                    </table>
+                      <tr>
+                        <td style="width: 300px;" colspan="2">
+                          <table cellspacing="0" cellpadding="0" width="200" style="margin: 0 auto;"><tr><td style="background-color:#84bd00;border-radius:0px;color:#ffffff;display:inline-block;font-family:'Lato', Helvetica, Arial, sans-serif;font-weight:bold;font-size:13px;line-height:33px;text-align:center;text-decoration:none;width:150px;-webkit-text-size-adjust:none;mso-hide:all;"><a href="{{ link }}" style="text-decoration: none;"><span style="color:#ffffff">{% trans "Activate Account" %}</span></a></td></tr></table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="pl" style="padding-bottom: 50px;"><img src="https://civilhub.org/static/places_core/img/emails/tipgpl.png" alt="" width="64" height="64"></td>
+                        <td class="pr" style="padding-bottom: 50px;">{% trans "If you have a problem with activating your account, please click here" %}: <a href="{{ link }}">{{ link }}</a></td>
+                      </tr>
+                   </table>
                   </center>
                 </td>
               </tr>
             </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" valign="top">
+            <center>
+              <table style="margin:0 auto;" cellspacing="0" cellpadding="5" width="100%">
+                <tr>
+                  <td style="text-align:center; margin:0 auto; border-top: 3px solid #f0f0f0;" width="100%" bgcolor="#ffffff">
+                     <br>
+                     <a href="https://civilhub.org" style="text-align:center; color: #4d4d4d;">
+                      CivilHub.org
+                     </a>
+                  </td>
+                </tr>
+              </table>
+            </center>
+            <center>
+              <table cellspacing="0" cellpadding="0" width="700" class="w320">
+                <tr>
+                  <td>
+                    <table cellspacing="0" cellpadding="30" width="100%">
+                      <tr>
+                        <td style="text-align:center; padding: 0 30px 30px 30px;">
+                          <a href="https://civilhub.org/terms/" style="font-size: 12px; color:#0083FB;">{% trans "Terms of Use" %}</a> | <a href="https://civilhub.org/privacy/" style="font-size: 12px; color:#0083FB;">{% trans "Privacy Policy" %}</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </center>
           </td>
         </tr>
       </table>
