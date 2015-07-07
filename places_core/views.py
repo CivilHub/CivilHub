@@ -9,15 +9,30 @@ from django.contrib.sites.models import get_current_site
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
+from django.template import RequestContext
 from django.utils.translation import check_for_language
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 from django.views.generic.edit import CreateView
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 
-from .models import AbuseReport, SearchTermRecord
+from .models import AbuseReport, SearchTermRecord, RedirectRule
 from .forms import AbuseReportForm
+
+
+def handler500(request):
+    response = render_to_response('500.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
+
+
+def redirect_404(request, path=None):
+    if path is None:
+        raise Http404
+    rrule = get_object_or_404(RedirectRule, url_in=path)
+    return redirect(rrule.url_out)
 
 
 def flush_page_cache():

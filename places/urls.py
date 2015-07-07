@@ -17,6 +17,8 @@ from rest_framework import routers
 from rest import views
 router = routers.DefaultRouter()
 
+handler500 = 'places_core.views.handler500'
+
 # Api Views
 #router.register(r'news_add', views.SimpleNewsViewSet, base_name="news_add")
 router.register(r'current_user', views.CurrentUserViewSet, base_name='current_user')

@@ -153,6 +153,7 @@ MIDDLEWARE_CLASSES = (
     'user_tracker.middleware.VisitorTrackingMiddleware',
     'places_core.middleware.SubdomainMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'places_core.middleware.Redirect404Middleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
