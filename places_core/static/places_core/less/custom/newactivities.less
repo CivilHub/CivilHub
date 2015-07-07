@@ -297,10 +297,13 @@ a{
       vertical-align: top;
       width: 80%;
     }
+    @media(max-width: 480px){ .pull-right{ float: none !important; } }
   }
   .timeline-body{
     border-top: 1px solid @border-color-de;
     position: relative;
+    word-wrap: normal;
+    word-break: break-word;
     p, ul, ol{
       margin-bottom: 0;
       padding: 0;
