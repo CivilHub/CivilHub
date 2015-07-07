@@ -43,7 +43,14 @@
         <div id="vector-map"></div>
 
         <h2 class="text-center">{% trans "If you don't like maps, choose from list" %}</h2>
-        {% location_autocomplete %}
+        
+        <div class="row row20">
+          <div class="col-lg-2"></div>
+          <div class="col-lg-8">
+            {% location_autocomplete %}
+          </div>
+        </div>
+
         <div class="location-list-stream">
             <div class="col-lg-2"></div>
 

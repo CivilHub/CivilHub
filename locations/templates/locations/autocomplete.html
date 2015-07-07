@@ -3,15 +3,15 @@
   display: none !important;
 }</style>
 <div class="civ-autocomplete-area">
-  <input type="text" class="form-control civ-autocomplete">
-  <ul class="autocomplete-results"></ul>
+  <input type="text" class="form-control civ-autocomplete" placeholder="{% trans "Filter" %}">
+  <ul class="autocomplete-results list-unstyled"></ul>
   <script type="text/template" class="actl-tpl">
-    <li><%= label %> <a class="btn-follow" data-target="<%= value %>">{% trans "Follow" %}</li>
+    <li class="clearfix"><%= label %> <a class="btn-follow pull-right-n" data-target="<%= value %>">{% trans "Follow" %}</a></li>
   </script>
   <script type="text/template" class="actl-tpl-followed">
-    <li><%= label %> <a class="btn-unfollow" data-target="<%= value %>">{% trans "Stop following" %}</li>
+    <li class="clearfix"><%= label %> <a class="btn-unfollow pull-right-n" data-target="<%= value %>">{% trans "Stop following" %}</a></li>
   </script>
   <script type="text/template" class="actl-tpl-simple">
-    <li><%= label %></li>
+    <li class="clearfix"><%= label %></li>
   </script>
 </div>
