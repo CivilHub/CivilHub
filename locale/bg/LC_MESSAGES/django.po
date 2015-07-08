@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-07 10:52+0200\n"
+"POT-Creation-Date: 2015-07-08 14:16+0200\n"
 "PO-Revision-Date: 2015-06-12 12:19+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Bulgarian (http://www.transifex.com/projects/p/civilhub/"
@@ -353,8 +353,8 @@ msgstr ""
 #: blog/templates/blog/news_detail.html:120
 #: blog/templates/blog/news_list.html:32 guides/forms.py:24
 #: guides/templates/guides/guide_detail.html:27 ideas/forms.py:53
-#: ideas/templates/ideas/idea_basic.html:45 locations/forms.py:116
-#: locations/forms.py:146 locations/templates/locations/sidebar.html:63
+#: ideas/templates/ideas/idea_basic.html:45 locations/forms.py:171
+#: locations/forms.py:201 locations/templates/locations/sidebar.html:63
 #: locations/templates/locations/tag-search.html:41
 #: organizations/templates/organizations/news_form.html:31
 #: organizations/templates/organizations/organization_form.html:67
@@ -436,7 +436,7 @@ msgstr ""
 #: blog/templates/blog/blog_navbar.html:15 ideas/forms.py:50
 #: ideas/templates/ideas/idea_basic.html:50
 #: ideas/templates/ideas/navbar.html:10 ideas/templates/ideas/navbar.html:23
-#: locations/forms.py:106 locations/forms.py:137
+#: locations/forms.py:161 locations/forms.py:192
 #: locations/templates/locations/location_forum.html:29
 #: locations/templates/locations/location_ideas.html:21
 #: locations/templates/locations/location_ideas.html:35
@@ -617,7 +617,8 @@ msgstr ""
 #: ideas/templates/ideas/idea_form.html:29
 #: ideas/templates/ideas/news_form.html:4
 #: ideas/templates/ideas/picture_form.html:4
-#: locations/templates/locations/background-form.html:19
+#: locations/templates/locations/background-form.html:24
+#: locations/templates/locations/background.html:24
 #: locations/templates/locations/category-form.html:32
 #: locations/templates/locations/location_forum_create.html:25
 #: locations/templates/locations/location_idea_form.html:30
@@ -879,7 +880,7 @@ msgstr ""
 msgid "emails sent"
 msgstr ""
 
-#: civmail/forms.py:29 locations/forms.py:68
+#: civmail/forms.py:29 locations/forms.py:123
 msgid "Selected location does not exist"
 msgstr ""
 
@@ -888,7 +889,8 @@ msgid "Additional context in JSON format"
 msgstr ""
 
 #: civmail/forms.py:74 gallery/models.py:169 gallery/models.py:233
-#: guides/models.py:20 guides/models.py:35 locations/models.py:153
+#: guides/models.py:20 guides/models.py:35 locations/models.py:117
+#: locations/models.py:137 locations/models.py:218
 #: locations/templates/locations/organization_list.html:10
 #: organizations/forms.py:120 organizations/models.py:41
 #: organizations/templates/organizations/organization_list.html:10
@@ -1139,7 +1141,7 @@ msgstr ""
 msgid "Thank you for your feedback!"
 msgstr ""
 
-#: civmail/views.py:47 civmail/views.py:100 locations/views.py:720
+#: civmail/views.py:47 civmail/views.py:100 locations/views.py:737
 msgid "All messages sent successfully"
 msgstr ""
 
@@ -1235,7 +1237,7 @@ msgstr ""
 msgid "author"
 msgstr ""
 
-#: etherpad/models.py:71 guides/models.py:60
+#: etherpad/models.py:71 guides/models.py:60 locations/models.py:132
 msgid "authors"
 msgstr ""
 
@@ -1360,7 +1362,7 @@ msgstr ""
 
 #: gallery/forms.py:33 gallery/forms.py:49 gallery/forms.py:68
 #: ideas/forms.py:39 ideas/templates/ideas/idea-category.html:15
-#: locations/forms.py:94 locations/templates/locations/category-form.html:21
+#: locations/forms.py:149 locations/templates/locations/category-form.html:21
 #: locations/templates/locations/location_form.html:46
 #: locations/templates/locations/location_news.html:96
 #: organizations/templates/organizations/news_form.html:13
@@ -1382,7 +1384,7 @@ msgstr ""
 
 #: gallery/forms.py:37 gallery/forms.py:53 gallery/forms.py:72
 #: ideas/forms.py:44 ideas/templates/ideas/idea-category.html:19
-#: locations/forms.py:100 locations/templates/locations/category-form.html:25
+#: locations/forms.py:155 locations/templates/locations/category-form.html:25
 #: locations/templates/locations/location_form.html:52
 #: locations/templates/locations/location_news.html:100
 #: organizations/templates/organizations/organization_form.html:37
@@ -1404,10 +1406,10 @@ msgstr ""
 msgid "image galleries"
 msgstr ""
 
-#: gallery/models.py:236 guides/models.py:21 locations/models.py:159
-#: organizations/models.py:44 organizations/models.py:65 projects/models.py:75
-#: projects/models.py:145 projects/models.py:169 projects/models.py:205
-#: projects/models.py:277
+#: gallery/models.py:236 guides/models.py:21 locations/models.py:119
+#: locations/models.py:139 locations/models.py:224 organizations/models.py:44
+#: organizations/models.py:65 projects/models.py:75 projects/models.py:145
+#: projects/models.py:169 projects/models.py:205 projects/models.py:277
 msgid "description"
 msgstr ""
 
@@ -1415,7 +1417,7 @@ msgstr ""
 msgid "gallery"
 msgstr ""
 
-#: gallery/models.py:240 locations/models.py:189 places_core/models.py:57
+#: gallery/models.py:240 locations/models.py:129 places_core/models.py:57
 msgid "image"
 msgstr ""
 
@@ -1531,6 +1533,9 @@ msgid "Add pictures"
 msgstr ""
 
 #: gallery/views.py:250 gallery/views.py:379
+#: locations/templates/locations/background-form.html:11
+#: locations/templates/locations/background.html:11
+#: locations/templates/locations/background.html:18
 msgid "Edit picture data"
 msgstr ""
 
@@ -1577,13 +1582,14 @@ msgid ""
 "yourself if you're owner."
 msgstr ""
 
-#: guides/models.py:61 locations/models.py:215 organizations/forms.py:125
+#: guides/models.py:61 locations/admin.py:23 locations/models.py:280
+#: organizations/forms.py:125
 #: organizations/templates/organizations/organization_list.html:20
 #: projects/models.py:76
 msgid "location"
 msgstr ""
 
-#: guides/models.py:64 locations/models.py:184 notifications/models.py:41
+#: guides/models.py:64 locations/models.py:249 notifications/models.py:41
 #: organizations/models.py:70 organizations/models.py:144
 #: projects/models.py:78 projects/models.py:171 projects/models.py:206
 #: projects/models.py:237 simpleblog/models.py:65
@@ -1978,7 +1984,7 @@ msgid "polls"
 msgstr ""
 
 #: locations/charts.py:59 locations/charts.py:74 locations/charts.py:103
-#: projects/models.py:213 topics/models.py:82
+#: projects/models.py:213 topics/models.py:85
 msgid "discussions"
 msgstr ""
 
@@ -1999,47 +2005,47 @@ msgstr ""
 msgid "followers"
 msgstr ""
 
-#: locations/forms.py:39 locations/templates/locations/location_form.html:65
+#: locations/forms.py:94 locations/templates/locations/location_form.html:65
 msgid "Parent"
 msgstr ""
 
-#: locations/forms.py:41
+#: locations/forms.py:96
 msgid ""
 "Choose parent location for your place. You can see which place is currently "
 "selected in grey box above."
 msgstr ""
 
-#: locations/forms.py:55
+#: locations/forms.py:110
 msgid "You have to choose at least country and region locations"
 msgstr ""
 
-#: locations/forms.py:64
+#: locations/forms.py:119
 msgid "You have to select region parent location"
 msgstr ""
 
-#: locations/forms.py:128 locations/templates/locations/location_forum.html:26
+#: locations/forms.py:183 locations/templates/locations/location_forum.html:26
 #: locations/templates/locations/location_polls.html:20 polls/forms.py:25
 #: topics/forms.py:15 topics/templates/topics/navbar.html:8
 msgid "Question"
 msgstr ""
 
-#: locations/forms.py:132 topics/forms.py:19
+#: locations/forms.py:187 topics/forms.py:19
 msgid "Intro"
 msgstr ""
 
-#: locations/forms.py:186
+#: locations/forms.py:241
 msgid "Select users"
 msgstr ""
 
-#: locations/forms.py:197 organizations/forms.py:58
+#: locations/forms.py:252 organizations/forms.py:58
 msgid "Emails"
 msgstr ""
 
-#: locations/forms.py:198 organizations/forms.py:59
+#: locations/forms.py:253 organizations/forms.py:59
 msgid "Enter email addresses separated with comma"
 msgstr ""
 
-#: locations/forms.py:207
+#: locations/forms.py:262
 msgid "At least one email address is invalid"
 msgstr ""
 
@@ -2052,70 +2058,82 @@ msgstr ""
 msgid "Wrong model instance"
 msgstr ""
 
-#: locations/models.py:156 projects/models.py:46
+#: locations/models.py:131
+msgid "license"
+msgstr ""
+
+#: locations/models.py:134
+msgid "source url"
+msgstr ""
+
+#: locations/models.py:221 projects/models.py:46
 msgid "slug"
 msgstr ""
 
-#: locations/models.py:162
+#: locations/models.py:227
 msgid "latitude"
 msgstr ""
 
-#: locations/models.py:165
+#: locations/models.py:230
 msgid "longitude"
 msgstr ""
 
-#: locations/models.py:170
+#: locations/models.py:235
 msgid "alternate names"
 msgstr ""
 
-#: locations/models.py:174 organizations/models.py:68 projects/models.py:209
+#: locations/models.py:239 organizations/models.py:68 projects/models.py:209
 msgid "creator"
 msgstr ""
 
-#: locations/models.py:175
+#: locations/models.py:240
 msgid "users"
 msgstr ""
 
-#: locations/models.py:179
+#: locations/models.py:244
 msgid "parent"
 msgstr ""
 
-#: locations/models.py:182
+#: locations/models.py:247
 msgid "population"
 msgstr ""
 
-#: locations/models.py:186
+#: locations/models.py:251
 msgid "country code"
 msgstr ""
 
-#: locations/models.py:193
+#: locations/models.py:255
 msgid "parent list"
 msgstr ""
 
-#: locations/models.py:196
+#: locations/models.py:258
 msgid "List of parent location ID's separated with comma"
 msgstr ""
 
-#: locations/models.py:200
+#: locations/models.py:262
 msgid "children list"
 msgstr ""
 
-#: locations/models.py:203
+#: locations/models.py:265
 msgid "List of children ID's separated with comma"
 msgstr ""
 
-#: locations/models.py:205
+#: locations/models.py:267
 #: locations/templates/locations/organization_list.html:14
 #: organizations/forms.py:126
 #: organizations/templates/organizations/organization_list.html:24
 msgid "kind"
 msgstr ""
 
-#: locations/models.py:216 organizations/models.py:90
+#: locations/models.py:270
+msgid "background"
+msgstr ""
+
+#: locations/models.py:281 organizations/models.py:90
 msgid "locations"
 msgstr ""
 
-#: locations/models.py:255
+#: locations/models.py:338
 msgid "Unknown"
 msgstr ""
 
@@ -2127,6 +2145,18 @@ msgstr ""
 #: places_core/templates/places_core/script-templates.html:245
 #: places_core/templates/places_core/script-templates.html:259
 msgid "Filter"
+msgstr ""
+
+#: locations/templates/locations/background-form.html:7
+#: locations/templates/locations/background.html:7
+#: projects/templates/projects/attachment_list.html:26
+msgid "Action"
+msgstr ""
+
+#: locations/templates/locations/background-form.html:10
+#: locations/templates/locations/background-form.html:18
+#: locations/templates/locations/background.html:10
+msgid "Upload new picture"
 msgstr ""
 
 #: locations/templates/locations/content-remove.html:8
@@ -2150,7 +2180,7 @@ msgstr ""
 msgid "What would you like to change?"
 msgstr ""
 
-#: locations/templates/locations/index.html:75 locations/views.py:490
+#: locations/templates/locations/index.html:75 locations/views.py:507
 msgid "Edit this location"
 msgstr ""
 
@@ -2774,7 +2804,7 @@ msgid ""
 msgstr ""
 
 #: locations/templates/locations/tag-search.html:3
-#: locations/templates/locations/tag-search.html:10 locations/views.py:563
+#: locations/templates/locations/tag-search.html:10 locations/views.py:580
 msgid "Search by tag"
 msgstr ""
 
@@ -2808,35 +2838,35 @@ msgstr ""
 msgid "Locations"
 msgstr ""
 
-#: locations/views.py:454
+#: locations/views.py:470
 msgid "create new location"
 msgstr ""
 
-#: locations/views.py:593
+#: locations/views.py:610
 msgid "Search by category"
 msgstr ""
 
-#: locations/views.py:612
+#: locations/views.py:629
 msgid "Confirm delete"
 msgstr ""
 
-#: locations/views.py:672
+#: locations/views.py:689
 msgid "invited you to follow"
 msgstr ""
 
-#: locations/views.py:676
+#: locations/views.py:693
 msgid "Successfully send invitation"
 msgstr ""
 
-#: locations/views.py:682
+#: locations/views.py:699
 msgid "User field cannot be empty"
 msgstr ""
 
-#: locations/views.py:787
+#: locations/views.py:804
 msgid "Granted you moderator access to"
 msgstr ""
 
-#: locations/views.py:789
+#: locations/views.py:806
 msgid "Success"
 msgstr ""
 
@@ -3317,9 +3347,9 @@ msgstr ""
 #: templates/emails/new_friend-body-html.html:186
 #: templates/emails/new_friend-body-text.html:11
 #: templates/emails/newsletter-body-html.html:172
-#: templates/emails/organization-body-html.html:247
+#: templates/emails/organization-body-html.html:178
 #: templates/emails/password-body-html.html:175
-#: templates/emails/postman-body-html.html:172
+#: templates/emails/postman-body-html.html:181
 #: templates/emails/service-body-html.html:172
 #: templates/emails/welcome-body-html.html:182
 #: templates/emails/welcome-body-text.html:10
@@ -3341,9 +3371,9 @@ msgstr ""
 #: templates/emails/new_friend-body-html.html:186
 #: templates/emails/new_friend-body-text.html:11
 #: templates/emails/newsletter-body-html.html:172
-#: templates/emails/organization-body-html.html:247
+#: templates/emails/organization-body-html.html:178
 #: templates/emails/password-body-html.html:175
-#: templates/emails/postman-body-html.html:172
+#: templates/emails/postman-body-html.html:181
 #: templates/emails/service-body-html.html:172
 #: templates/emails/welcome-body-html.html:182
 #: templates/emails/welcome-body-text.html:9
@@ -3601,6 +3631,7 @@ msgstr ""
 
 #: places_core/templates/places_core/script-templates.html:84
 #: projects/templates/projects/socialforumentry_list.html:71
+#: templates/emails/postman-body-html.html:147
 #: templates/postman/base_folder.html:87 templates/postman/view.html:21
 #: templates/postman/view.html.py:38 templates/postman/view.html:50
 #: topics/templates/topics/discussion_detail.html:163
@@ -3860,7 +3891,7 @@ msgstr ""
 msgid "closed"
 msgstr ""
 
-#: projects/models.py:233 templates/search/search.html:48 topics/models.py:81
+#: projects/models.py:233 templates/search/search.html:48 topics/models.py:84
 msgid "discussion"
 msgstr ""
 
@@ -3898,10 +3929,6 @@ msgstr ""
 
 #: projects/templates/projects/attachment_list.html:21
 msgid "We didn't find any attachments"
-msgstr ""
-
-#: projects/templates/projects/attachment_list.html:26
-msgid "Action"
 msgstr ""
 
 #: projects/templates/projects/attachment_list.html:28
@@ -4055,8 +4082,7 @@ msgid "Leave"
 msgstr ""
 
 #: projects/templates/projects/socialproject_detail.html:100
-#: templates/emails/organization-body-html.html:169
-#: templates/emails/organization-body-html.html:172
+#: templates/emails/organization-body-html.html:143
 msgid "Join"
 msgstr ""
 
@@ -4663,14 +4689,12 @@ msgid ""
 msgstr ""
 
 #: templates/emails/content-body-html.html:140
-#: templates/emails/content-body-text.html:5
-#: templates/emails/organization-body-html.html:204 userspace/views.py:357
+#: templates/emails/content-body-text.html:5 userspace/views.py:361
 msgid "Sign Up"
 msgstr ""
 
 #: templates/emails/content-body-text.html:2
 #: templates/emails/content-subject.html:3
-#: templates/emails/organization-body-html.html:131
 #: templates/emails/organization-body-text.html:1
 #: templates/emails/organization-subject.html:1
 msgid "You've received an invitation!"
@@ -4779,11 +4803,11 @@ msgstr ""
 msgid "Your friend has found you on Civilhub"
 msgstr ""
 
-#: templates/emails/organization-body-html.html:164
+#: templates/emails/organization-body-html.html:137
 msgid "has invited you to join his organization"
 msgstr ""
 
-#: templates/emails/organization-body-html.html:184
+#: templates/emails/organization-body-html.html:148
 msgid "If you have a problem with join, please click here"
 msgstr ""
 
@@ -4978,11 +5002,11 @@ msgstr ""
 msgid "No results found"
 msgstr ""
 
-#: topics/models.py:154
+#: topics/models.py:160
 msgid "answered for your discussion"
 msgstr ""
 
-#: topics/models.py:168
+#: topics/models.py:174
 #, python-format
 msgid "voted for %s your entry"
 msgstr ""
@@ -5309,7 +5333,7 @@ msgid "You have to login with your Facebook account."
 msgstr ""
 
 #: userspace/templates/userspace/followed-locations.html:2
-#: userspace/views.py:555
+#: userspace/views.py:559
 msgid "My places"
 msgstr ""
 
@@ -5317,7 +5341,7 @@ msgstr ""
 msgid "Profile summary"
 msgstr ""
 
-#: userspace/templates/userspace/index.html:61 userspace/views.py:537
+#: userspace/templates/userspace/index.html:61 userspace/views.py:541
 msgid "Change password"
 msgstr ""
 
@@ -5487,27 +5511,31 @@ msgstr ""
 msgid "Set email"
 msgstr ""
 
-#: userspace/views.py:349
+#: userspace/views.py:257
+msgid "There was a problem when updating picture. Please, try again later."
+msgstr ""
+
+#: userspace/views.py:353
 msgid "Message send"
 msgstr ""
 
-#: userspace/views.py:364
+#: userspace/views.py:368
 msgid "Activation link invalid"
 msgstr ""
 
-#: userspace/views.py:411
+#: userspace/views.py:415
 msgid "Set your password"
 msgstr ""
 
-#: userspace/views.py:528
+#: userspace/views.py:532
 msgid "Settings saved"
 msgstr ""
 
-#: userspace/views.py:531
+#: userspace/views.py:535
 msgid "Your current password is invalid."
 msgstr ""
 
-#: userspace/views.py:534
+#: userspace/views.py:538
 msgid "Form invalid"
 msgstr ""
 
