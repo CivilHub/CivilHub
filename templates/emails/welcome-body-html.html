@@ -56,7 +56,14 @@
     }
     .pl{ padding-left: 80px; }
     .pr{ padding-right: 80px; }
+    .wrap{word-wrap: break-word; word-break: break-word;}
   </style>
+  <!--[if gte mso 9]>
+  <style>
+    .wrap{word-wrap: break-word;
+    word-break: break-word;}
+  </style>
+  <![endif]-->
   <style type="text/css" media="screen">
     @media screen {
        /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
@@ -149,7 +156,7 @@
                       </tr>
                       <tr>
                         <td class="pl" style="padding-bottom: 50px;"><img src="https://civilhub.org/static/places_core/img/emails/tipgpl.png" alt="" width="64" height="64"></td>
-                        <td class="pr" style="padding-bottom: 50px;">{% trans "If you have a problem with activating your account, please click here" %}:<br /> <a href="{{ link }}">{{ link }}</a></td>
+                        <td class="pr" style="padding-bottom: 50px;">{% trans "If you have a problem with activating your account, please click here" %}:<br /> <a href="{{ link }}" class="wrap">{{ link }}</a></td>
                       </tr>
                    </table>
                   </center>
