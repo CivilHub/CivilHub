@@ -324,9 +324,9 @@
       right: -15px;
     }*/
     .divider{
-      margin: 2px 0 0;
+      margin: 0;
     }
-    >li{
+    li{
       >a{
         font-size: 15px;
         color: #2b2a2a;
@@ -481,4 +481,19 @@
       border-radius: 5px;
     }
   }
+}
+.list-li{max-height: 500px; overflow-y: auto; overflow-x: hidden;
+    li{
+      a{
+        font-size: 15px;
+        color: #2B2A2A;
+        padding: 6px 10px;
+        display: block;
+        clear: both;
+        white-space: nowrap;
+        &:hover{ background-color: #f2f2f2; }
+      }
+      &:first-child a:hover{ border-top-left-radius: 4px;}
+      &:last-child a:hover{ border-bottom-left-radius: 4px; }
+    }
 }
