@@ -26,7 +26,7 @@ from places_core.forms import BootstrapBaseForm
 from .models import Location, Country, LocationBackgroundFile
 
 
-class CurrentBackgroundForm(forms.ModelForm):
+class CurrentBackgroundForm(forms.ModelForm, BootstrapBaseForm):
     """ Custom form that allows us to update existing location background files.
     """
 
@@ -41,7 +41,7 @@ class CurrentBackgroundForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', }), }
 
 
-class BackgroundUploadForm(forms.ModelForm):
+class BackgroundUploadForm(forms.ModelForm, BootstrapBaseForm):
     """ Upload new image as location background.
     """
     x = forms.IntegerField(widget=forms.HiddenInput())

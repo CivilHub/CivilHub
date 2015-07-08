@@ -2,11 +2,28 @@
 
 {% block require_scripts %}<script src="{% module_path 'location-background' %}"></script>{% endblock %}
 
-{% block content %}<ul class="menu">
-<li><a href="{% url 'locations:upload-background' location.pk %}">{% trans "Upload new picture" %}</a></li>
-  <li><a href="{% url 'locations:background' location.slug %}" class="active">{% trans "Edit picture data" %}</a></li>
-</ul>
-<form id="user-background-form" method="post" action="">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
-</form>{% endblock %}
+{% block content %}<div class="col-sm-3">
+  <div class="sidebar left">
+    <div class="sidebar-label">{% trans "Action" %}:</div>
+    <div class="sidebar-content">
+      <ul>
+        <li><a href="{% url 'locations:upload-background' location.pk %}">{% trans "Upload new picture" %}</a></li>
+        <li><a href="{% url 'locations:background' location.slug %}" class="active">{% trans "Edit picture data" %}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="col-sm-9 main-content">
+  <div class="create-form newFormCreate">
+  <h3>{% trans "Edit picture data" %}</h3>
+    <form id="user-background-form" method="post" action="" class="form-horizontal">{% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-group mb0">
+        <label class="control-label col-sm-2">&nbsp;</label>
+        <div class="col-sm-10 text-right">
+          <button type="submit" class="btn btn-primary btn-saveBig">{% trans "Save" %}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>{% endblock %}
