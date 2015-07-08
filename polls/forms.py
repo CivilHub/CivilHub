@@ -38,11 +38,13 @@ class PollForm(forms.ModelForm, BootstrapBaseForm):
     class Meta:
         model = Poll
         fields = ('title', 'question', 'location', 'multiple', 'tags', 'image')
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'civ-img-input', }, ), }
 
 
 class PollUpdateForm(forms.ModelForm):
-    """
-    """
+    tags = TagField(label=_(u"Tags"), required = False)
+
     class Meta:
         model = Poll
         exclude = ('slug', 'creator', 'location', )
@@ -50,6 +52,7 @@ class PollUpdateForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control', }),
             'question': forms.Textarea(attrs={
                 'class': 'form-control custom-wysiwyg-no-gallery', }),
+            'image': forms.ClearableFileInput(attrs={'class': 'civ-img-input', }),
         }
 
 

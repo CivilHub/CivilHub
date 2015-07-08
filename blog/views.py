@@ -34,12 +34,12 @@ class CategoryListView(ListView):
     """ Categories for place's blog. """
     model = Category
 
-    
+
 class CategoryDetailView(DetailView):
     """ Show category info. """
     model = Category
 
-    
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     """ Create new category. """
     model = Category
@@ -60,7 +60,7 @@ class NewsListView(BlogContextMixin, SearchableListMixin):
         qs = super(NewsListView, self).get_queryset()
         return qs.filter(title__icontains=self.request.GET.get('haystack', ''))
 
-    
+
 class NewsDetailView(BlogContextMixin, DetailView):
     """ Detailed news page. """
     model = News
