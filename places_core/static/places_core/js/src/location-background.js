@@ -16,7 +16,8 @@ require([window.STATIC_URL + "/js/config.js"], function () {
     $(document).ready(function () {
       var form = new ImageForm({
         $el: $('#user-background-form'),
-        orientation: 'landscape'
+        orientation: 'landscape',
+        maxWidth: 820
       });
     });
 

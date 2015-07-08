@@ -118,13 +118,13 @@
         <li class="dropdown">
           <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon"></span><span class="rwdShow">{% trans "Places" %} <span class="fa fa-angle-down"></span></span></a>
           <ul class="dropdown-menu places-icon-box">
-            <li>
+            <div class="list-li"><li>
               <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
             </li>
             <li class="divider hidden-xs"></li>
             {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>{% endfor %}
             {% if user.is_authenticated %}<li class="divider hidden-xs"></li>
-            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}
+            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}</div>
           </ul>
         </li>
         <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
