@@ -449,7 +449,6 @@ class LocationBackgroundUploadView(FormView):
         return context
 
     def form_valid(self, form):
-        import pdb; pdb.set_trace()
         self.object.background = form.save()
         self.object.save()
         return super(LocationBackgroundUploadView, self).form_valid(form)
