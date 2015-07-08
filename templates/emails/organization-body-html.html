@@ -56,7 +56,14 @@
     }
     .pl{ padding-left: 80px; }
     .pr{ padding-right: 80px; }
+    .wrap{word-wrap: break-word; word-break: break-word;}
   </style>
+  <!--[if gte mso 9]>
+  <style>
+    .wrap{word-wrap: break-word;
+    word-break: break-word;}
+  </style>
+  <![endif]-->
   <style type="text/css" media="screen">
     @media screen {
        /* Thanks Outlook 2013! http://goo.gl/XLxpyl*/
@@ -104,7 +111,7 @@
   </style>
 </head>
 <body class="body" style="padding:0; margin:0; display:block; background:#ffffff; -webkit-text-size-adjust:none" bgcolor="#ffffff">
-<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%" >
+<table align="center" cellpadding="0" cellspacing="0" width="100%" height="100%">
   <tr>
     <td align="center" valign="top" bgcolor="#ffffff"  width="100%">
     <table cellspacing="0" cellpadding="0" width="100%">
@@ -145,7 +152,7 @@
                       </tr>
                       <tr>
                         <td class="pl" style="padding-bottom: 50px;"><img src="https://civilhub.org/static/places_core/img/emails/tipgpl.png" alt="" width="64" height="64"></td>
-                        <td class="pr" style="padding-bottom: 50px;">{% trans "If you have a problem with join, please click here" %}:<br/> <a href="{{ link }}">{{ link }}</a></td>
+                        <td class="pr" style="padding-bottom: 50px;">{% trans "If you have a problem with join, please click here" %}:<br/> <a href="{{ link }}" class="wrap">{{ link }}</a></td>
                       </tr>
                    </table>
                   </center>
