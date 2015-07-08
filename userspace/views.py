@@ -250,7 +250,11 @@ def upload_avatar(request):
         )
         image = Image.open(form.cleaned_data['image'])
         image = image.crop(box)
-        update_profile_picture(profile, image)
+        try:
+            update_profile_picture(profile, image)
+        except Exception:
+            messages.add_message(request, messages.ERROR,
+                _(u"There was a problem when updating picture. Please, try again later."))
     return redirect(reverse('user:index'))
 
 
