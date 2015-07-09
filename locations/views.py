@@ -6,6 +6,7 @@ import os
 from dateutil.relativedelta import relativedelta
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 from django.template.base import TemplateDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
@@ -71,6 +72,56 @@ def update_parent_location_list(location):
         for language in [x[0] for x in settings.LANGUAGES]:
             key = "{}_{}_sub".format(location.parent.slug, language)
             redis_cache.set(key, location.parent.location_set.all())
+
+
+class LocationRankingView(ListView):
+    model = Location
+    template_name = 'locations/location_ranking.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        qs = super(LocationRankingView, self).get_queryset()\
+            .annotate(usercount=Count('users'))
+
+        order_by = self.request.GET.get('o')
+        order_dir = self.request.GET.get('d')
+
+        # Get ordering field name
+        if order_by == 'name':
+            order = 'name'
+        elif order_by == 'actioncount':
+            order = 'actioncount'
+        elif order_by == 'avg':
+            order = 'avg'
+        else:
+            order = 'usercount'
+
+        # Get ordering direction (asc/desc)
+        if order_dir == 'asc':
+            prefix = ''
+        else:
+            prefix = '-'
+
+        # Allow simplified searching
+        search_term = self.request.GET.get('q')
+        if search_term is not None:
+            qs = qs.filter(name__icontains=search_term)
+
+        # Less common sorting options that database cannot handle
+        if order == 'actioncount':
+            if prefix == '':
+                sqs = sorted(qs, key=lambda x: x.target_actions.count())
+            else:
+                sqs = sorted(qs, key=lambda x: x.target_actions.count(), reverse=True)
+            return sqs
+        elif order == 'avg':
+            if prefix == '':
+                sqs = sorted(qs, key=lambda x: float(x.avg_points))
+            else:
+                sqs = sorted(qs, key=lambda x: float(x.avg_points), reverse=True)
+            return sqs
+
+        return qs.order_by("{}{}".format(prefix, order))
 
 
 class LocationAccessMixin(SingleObjectMixin):
