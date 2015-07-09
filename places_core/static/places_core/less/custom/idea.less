@@ -142,7 +142,13 @@
 }
 
 //new idea view
-.ivotepage{ padding: 0 45px;}
+.ivotepage{ padding: 0 45px; 
+  @media(max-width: 768px){ padding: 0 15px; }
+  @media(max-width: 580px){
+    .col-xs-1.entry-avatar-col.entry-avatar-nomg{display: none; }
+    .col-xs-11.discussion-entry-content{ margin: 5px 7px; width: 100% !important; }
+  }
+}
 .idea-vote-count{ margin: 0 auto; cursor: pointer; } // next in -votes.less
 .idea-default-img{
   background-image: url('../img/idea_no_img_with_border.png');
