@@ -62,7 +62,8 @@ class LocationItemForm(forms.ModelForm, BootstrapBaseForm):
     """
     Form to add photos to the gallery location.
     """
-    image = forms.ImageField(label=u'', required=True)
+    image = forms.ImageField(label=u'', required=True,
+        widget=forms.FileInput(attrs={'class': 'civ-img-input', }, ))
     name = forms.CharField(
         required=False,
         label=_("Name"),

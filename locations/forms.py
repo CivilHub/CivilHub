@@ -172,7 +172,10 @@ class IdeaLocationForm(forms.ModelForm, BootstrapBaseForm):
 
     class Meta:
         model = Idea
-        fields = ('name', 'description', 'video_url', 'location', 'tags', 'category', 'image')
+        fields = ('name', 'description', 'video_url',
+                  'location', 'tags', 'category', 'image')
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'civ-img-input', }, ), }
 
 
 class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
@@ -203,6 +206,8 @@ class DiscussionLocationForm(forms.ModelForm, BootstrapBaseForm):
     class Meta:
         model = Discussion
         fields = ('question', 'intro', 'category', 'location', 'tags', 'image')
+        widgets = {
+            'image': forms.FileInput(attrs={'class': 'civ-img-input', }, ), }
 
 
 class SearchDiscussionForm(SearchForm):

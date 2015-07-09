@@ -57,7 +57,7 @@ class IdeaForm(forms.ModelForm, BootstrapBaseForm):
         fields = ('name', 'description', 'video_url', 'tags', 'category', 'image', 'status',)
         widgets = {
             'status': forms.Select(attrs={'class': 'form-control'}),
-        }
+            'image': forms.ClearableFileInput(attrs={'class': 'civ-img-input'}), }
 
 
 class FlatBSForm(forms.BaseForm):
