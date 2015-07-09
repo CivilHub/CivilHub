@@ -237,7 +237,10 @@ a{
     display: inline-block;
     /*min-width: 250px; remove for 320px*/
     padding-top: 10px;
-    max-width: 461px;
+    @media(min-width: 1200px){ max-width: 461px; }
+    @media(min-width: 991px) and (max-width: 1200px){ max-width: 361px; }
+    @media(max-width: 991px){ max-width: 249px; }
+    @media(max-width: 767px){ max-width: 648px; }
   }
   .arrow{
     z-index: 10;
