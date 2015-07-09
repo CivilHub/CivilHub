@@ -21,7 +21,7 @@
 
         {% block content %}<div class="fake-row-fill">
     <div class="col-sm-3 mt25 no-float">
-      <div class="main-content p-reset">
+      <div class="main-content p-reset hidden-xs">
         <div class="ac-title">
           <div class="ac-user-head-img display-ib-m"><a href="{{ user.profile.get_absolute_url }}"><img src="{{ user.profile.avatar.url }}" alt="{{ user.profile }}" class="user-window-toggle"></a></div>
           <div class="ac-head-user-name display-ib-m"><a href="{{ user.profile.get_absolute_url }}">{{ user.profile }}</a></div>
@@ -33,7 +33,7 @@
           <li><span class="fa fa-heart-o ac-icon20"></span> {% trans "Points" %}: {{ user.profile.rank_pts }} <a href="/points-and-badges/" class="pull-right"><strong><span class="fa fa-question-circle custom-tooltip-bottom f18b" title="{% trans "What do I get points and badges for?" %}"></span></strong></a></li>
         </ul>
       </div>
-      <div class="hotbox main-content p-reset" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
+      <div class="hotbox main-content p-reset hidden-xs" data-param="uid" data-value="{{ user.pk }}"><div class="ac-title"><span class="badge badge-btn">0</span>{% trans "Popular entries" %}</div></div>
     </div>
     <div class="col-sm-6 mt25 no-float">
       {% if user.is_authenticated %}<div class="wrapper-timeline ac-new-green">
