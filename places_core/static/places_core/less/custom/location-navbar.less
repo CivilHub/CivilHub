@@ -328,18 +328,20 @@
       display: block;
     }
   }
-  >a{
-    &:after{
-      display: block;
-      content: "";
-      float: right;
-      width: 0;
-      height: 0;
-      border-color: transparent;
-      border-style: solid;
-      border-width: 5px 0 5px 5px;
-      border-left-color: #CCC;
-      margin-top: 5px;
+  @media(min-width: 768px){
+    >a{
+      &:after{
+        display: block;
+        content: "";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #CCC;
+        margin-top: 5px;
+      }
     }
   }
 }

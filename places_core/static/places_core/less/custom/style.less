@@ -349,7 +349,9 @@ h1.articleFirstHeadling{
 .link-bl a{ color: #0083fb; }
 .row20{ margin-right: -20px !important; margin-left: -20px !important; }
 //RWD
-.rwdShow{ display: none; }
+.rwdShow{ display: none;
+  @media(max-width: 768px){ display: inline; }
+}
 .fake-arrow{
   position: relative;
   overflow: hidden;
