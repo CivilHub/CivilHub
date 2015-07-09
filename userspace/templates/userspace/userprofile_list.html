@@ -1,0 +1,72 @@
+{% extends 'places_core/base.html' %}{% load i18n civil_tags %}
+
+{% block require_scripts %}<script src="{% module_path 'user-ranking' %}"></script>{% endblock %}
+
+{% comment %} Styles, of course, should be moved to proper .less file. {% endcomment %}
+
+{% block extra_styles %}<style type="text/css">
+  /** Table Header */
+  .civ-tablelike-heading {
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px double #adadad;
+    padding: 5px 0px;
+  }
+  .civ-tablelike-heading a.active {
+    text-decoration: underline;
+  }
+  /** Control links */
+  .link-asc:after {
+    content: "\f062";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    font-size: 12px;
+  }
+  .link-desc:after {
+    content: "\f063";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    font-size: 12px;
+  }
+  /** Regular "table rows" */
+  .civ-tablelike {
+    height: 36px;
+    line-height: 36px;
+  }
+  .civ-tablelike:nth-child(even) {
+    background-color: #fff;
+  }
+  .civ-tablelike.active {
+    border: 2px solid yellow;
+  }
+  .civ-tablelike img {
+    width: 28px;
+    height: 28px;
+  }
+</style>{% endblock %}
+
+{% block content %}<h1>{% trans "User ranking" %}</h1><hr>
+<form action="" method="get">{% form_from_params %}
+  <input id="ranking-filter" type="text" class="form-control" name="q" placeholder="{% trans "filter"|capfirst %}" autofocus>
+</form>
+<div class="container">
+  <div class="row civ-tablelike-heading">
+    <div class="col-xs-1">&nbsp;</div>
+    <div class="col-xs-3"><a href="{% url_from_params 'o' 'name' %}" data-field="name">{% trans "user name"|capfirst %}</a></div>
+    <div class="col-xs-4">{% trans "badges taken"|capfirst %}</div>
+    <div class="col-xs-2 text-center"><a href="{% url_from_params 'o' 'date' %}" data-field="date">{% trans "date joined"|capfirst %}</a></div>
+    <div class="col-xs-2 text-center"><a href="{% url_from_params 'o' 'rank_pts' %}" data-field="rank_pts">{% trans "rank points"|capfirst %}</a></div>
+  </div>
+  {% for entry in object_list %}<div class="row civ-tablelike{% if entry == user.profile %} active{% endif %}">
+    <div class="col-xs-1"><img src="{{ entry.avatar.url }}" alt="{{ entry }}" class="user-avatar"></div>
+    <div class="col-xs-3"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></div>
+    <div class="col-xs-4">{% for badge in entry.badges.all %}{{ badge }}{% endfor %}</div>
+    <div class="col-xs-2 text-center"><a href="#">{{ entry.user.date_joined|date:"d.m.Y" }}</a></div>
+    <div class="col-xs-2 text-center">{{ entry.rank_pts }}</div>
+  </div>{% endfor %}
+</div>
+{% include 'places_core/pagination.html' %}{% endblock %}

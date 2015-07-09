@@ -28,6 +28,46 @@ ALLOWABLE_VALUES = (
 )
 
 
+@register.simple_tag(takes_context=True)
+def paginator_url(context, page=1):
+    """ Creates proper url for pagination entries with GET params etc.
+    """
+    request = context.get('request')
+    params = ["{}={}".format(k, v) for k, v in \
+                request.GET.iteritems() if k != 'page']
+    if not len(params):
+        return '?page={}'.format(page)
+    return "?{}&page={}".format("&".join(params), page)
+
+
+@register.simple_tag(takes_context=True)
+def form_from_params(context):
+    """ This tag is similar to the above, but intended to use with forms.
+
+    Form should use GET method. This tag creates additional hidden input fields
+    for form body based on params found in current URL. Usually used in search
+    filter forms as it ignores `q` parameter.
+    """
+    html = ""
+    request = context.get('request')
+    for k, v in request.GET.iteritems():
+        if k != 'q':
+            html += '<input type="hidden" name="{}" value="{}">'.format(k, v)
+    return html
+
+
+@register.simple_tag(takes_context=True)
+def url_from_params(context, param=None, value=None):
+    """ Another tag usefull for creating links with GET params.
+    """
+    request = context.get('request')
+    params = ["{}={}".format(k, v) for k, v in \
+                request.GET.iteritems() if k != param]
+    if not len(params):
+        return '?{}={}'.format(param, value)
+    return "?{}&{}={}".format("&".join(params), param, value)
+
+
 @register.filter
 def as_fck_str(val):
     """ Yes, there is actually NO WAY to compare selected model in model choice
