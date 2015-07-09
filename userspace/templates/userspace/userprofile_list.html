@@ -57,15 +57,16 @@
   <div class="row civ-tablelike-heading">
     <div class="col-xs-1">&nbsp;</div>
     <div class="col-xs-3"><a href="{% url_from_params 'o' 'name' %}" data-field="name">{% trans "user name"|capfirst %}</a></div>
-    <div class="col-xs-4">{% trans "badges taken"|capfirst %}</div>
-    <div class="col-xs-2 text-center"><a href="{% url_from_params 'o' 'date' %}" data-field="date">{% trans "date joined"|capfirst %}</a></div>
+    <div class="col-xs-6">{% trans "badges taken"|capfirst %}</div>
     <div class="col-xs-2 text-center"><a href="{% url_from_params 'o' 'rank_pts' %}" data-field="rank_pts">{% trans "rank points"|capfirst %}</a></div>
   </div>
   {% for entry in object_list %}<div class="row civ-tablelike{% if entry == user.profile %} active{% endif %}">
     <div class="col-xs-1"><img src="{{ entry.avatar.url }}" alt="{{ entry }}" class="user-avatar"></div>
-    <div class="col-xs-3"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></div>
-    <div class="col-xs-4">{% for badge in entry.badges.all %}{{ badge }}{% endfor %}</div>
-    <div class="col-xs-2 text-center"><a href="#">{{ entry.user.date_joined|date:"d.m.Y" }}</a></div>
+    <div class="col-xs-3">
+      <a href="{{ entry.get_absolute_url }}" class="custom-tooltip" title="{% trans "date joined"|capfirst %}: {{ entry.user.date_joined|date:"d.m.Y" }}">{{ entry }}</a>
+    </div>
+    <div class="col-xs-6">{% for badge in entry.badges.all %}{{ badge }}{% endfor %}</div>
+    <!--<div class="col-xs-2 text-center"><a href="#">{{ entry.user.date_joined|date:"d.m.Y" }}</a></div>-->
     <div class="col-xs-2 text-center">{{ entry.rank_pts }}</div>
   </div>{% endfor %}
 </div>

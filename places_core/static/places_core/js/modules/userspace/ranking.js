@@ -37,7 +37,6 @@ function fillFormFromParams () {
 
   if (!_.isUndefined(params.o)) {
     var $el = $('[data-field="' + params.o + '"]');
-    var href = $el.attr('href');
     $el.addClass('active');
     if (!_.isUndefined(params.d) && params.d === 'asc') {
       $el.addClass('link-asc');
