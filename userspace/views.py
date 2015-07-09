@@ -8,9 +8,10 @@ from ipware import ip
 from django.http import HttpResponse, HttpResponseBadRequest, \
                          HttpResponseForbidden, HttpResponseNotFound, Http404
 from django.conf import settings
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
-from django.views.generic import DetailView, UpdateView, TemplateView, View
+from django.views.generic import DetailView, ListView, UpdateView, TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
@@ -26,7 +27,7 @@ from django.views.decorators.cache import cache_page
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from social.apps.django_app.default.models import UserSocialAuth
-from actstream.models import model_stream, user_stream, following
+from actstream.models import model_stream, user_stream, following, followers
 from actstream.actions import follow, unfollow
 from rest_framework.authtoken.models import Token
 
@@ -55,6 +56,59 @@ from .helpers import profile_activation, random_username, \
 
 import logging
 logger = logging.getLogger('userspace')
+
+
+class UserListView(ListView):
+    """ User summary list in form of ranking table.
+
+    This view may be used stand-alone and it presets global user ranking. You
+    may also pass target location slug in url to get only target location
+    followers.
+    """
+    model = UserProfile
+    paginate_by = 50
+
+    location = None # Only if you want location followers
+
+    def dispatch(self, *args, **kwargs):
+        location_slug = kwargs.get('location_slug')
+        if location_slug is not None:
+            self.location = get_object_or_404(Location, slug=location_slug)
+        return super(UserListView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        order_by = self.request.GET.get('o')
+        order_dir = self.request.GET.get('d')
+
+        # Get ordering field name
+        if order_by == 'name':
+            order = 'user__first_name'
+        elif order_by == 'date':
+            order = 'user__date_joined'
+        else:
+            order = 'rank_pts'
+
+        # Get ordering direction (asc/desc)
+        if order_dir == 'asc':
+            prefix = ''
+        else:
+            prefix = '-'
+
+        qs = super(UserListView, self).get_queryset().filter(
+            user__is_active=True).exclude(user__pk=1)
+
+        # Filter results for single location only
+        if self.location is not None:
+            qs = qs.filter(
+                user__pk__in=[x.pk for x in followers(self.location)])
+
+        # Allow simple search functionality
+        search_query = self.request.GET.get('q')
+        if search_query is not None:
+            qs = qs.filter(Q(user__first_name__icontains=search_query) |
+                           Q(user__last_name__icontains=search_query))
+
+        return qs.order_by("{}{}".format(prefix, order))
 
 
 class SocialAuthErrorView(TemplateView):
