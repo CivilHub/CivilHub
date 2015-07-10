@@ -8,6 +8,7 @@
     <div class="sidebar-label">{% trans "Actions" %}:</div>
     <div class="sidebar-content">
     <ul>
+      <li><a href="{% url 'user:ranking' %}">{% trans "User ranking" %}</a></li>
       <li><a href="{% url 'ranking-countries' %}">{% trans "countries"|capfirst %}</a></li>
       <li{% if not full_list %} class="active"{% endif %}><a href="{% url 'ranking-cities' current_code %}">{% trans "biggest cities"|capfirst %}</a></li>
       <li{% if full_list %} class="active"{% endif %}><a href="{% url 'ranking-regions' current_code %}">{% trans "regions"|capfirst %}</a></li>
