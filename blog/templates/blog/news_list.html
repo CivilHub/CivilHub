@@ -15,9 +15,9 @@
         <span class="date-created">{{ entry.date_created|timesince }} {% trans "ago" %}</span>.
       </p>
     </div>
-    <div class="col-sm-3">{% if not entry.has_default_image %}<img class="content-image" data-jslghtbx="{{ entry.image.url }}" src="{{ entry.thumbnail }}">{% endif %}</div>
+    <div class="col-sm-3 box-150">{% if not entry.has_default_image %}<img class="content-image" data-jslghtbx="{{ entry.image.url }}" src="{{ entry.thumbnail }}">{% endif %}</div>
   </div>{% endfor %}
-  {% comment %}{% include 'places_core/pagination.html' %}{% endcomment %}
+  {% include 'places_core/pagination.html' %}
 </div>{% else %}<div class="col-sm-9 no-entries contentPX">
   <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
   <h2>
@@ -28,7 +28,7 @@
 </div>{% endif %}
 <div class="col-sm-3 boxPX">
   {% include 'locations/sidebar.html' %}
-  <div class="sidebar mt-20 hidden-xs">
+  <div class="sidebar mt-20">
     {% if object_list.count %}<div class="sidebar-label">{% trans "Tags" %}:</div>
     <div class="sidebar-content tags-n">
       <ul class="list-unstyled">{% for entry in object_list %}
