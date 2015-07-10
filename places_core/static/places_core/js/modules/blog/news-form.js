@@ -18,8 +18,8 @@ function ($) {
     var map = null;
 
     $('#id_content').redactor({
-      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
-      plugins: ['uploader']
+      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link', 'video'],
+      plugins: ['uploader', 'video']
     });
 
     $('#id_tags').tagsInput({
