@@ -3,13 +3,15 @@
 {% block require_scripts %}<script src="{% module_path 'ngo-userform' %}"></script>{% endblock %}
 
 {% block content %}<div class="main-content create-form newFormCreate"><h3>{% trans "Invite more users" %}</h3>
-<form method="post" action="">{% csrf_token %}
+<div class="container"><div class="row">
+<form method="post" action="" class="col-sm-6">{% csrf_token %}
   <input type="hidden" name="method" value="register">
   {{ user_form.as_p }}
   <button type="submit" class="btn btn-greenBig">{% trans "Send" %}</button>
 </form>
-<form method="post" action="">{% csrf_token %}
+<form method="post" action="" class="col-sm-6">{% csrf_token %}
   {{ invite_form.as_p }}
   <input type="hidden" name="method" value="email">
   <button type="submit" class="btn btn-greenBig">{% trans "Send" %}</button>
-</form></div>{% endblock %}
+</form></div>
+</div></div>{% endblock %}
