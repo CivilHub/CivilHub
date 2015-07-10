@@ -34,6 +34,9 @@ class DiscussionForm(forms.ModelForm, BootstrapBaseForm):
     class Meta:
         model = Discussion
         fields = ('question', 'intro', 'category', 'status', 'tags', 'image',)
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'civ-img-input'}),
+        }
 
 
 class ReplyForm(forms.ModelForm):

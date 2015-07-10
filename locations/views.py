@@ -6,6 +6,7 @@ import os
 from dateutil.relativedelta import relativedelta
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 from django.template.base import TemplateDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound, \
@@ -71,6 +72,56 @@ def update_parent_location_list(location):
         for language in [x[0] for x in settings.LANGUAGES]:
             key = "{}_{}_sub".format(location.parent.slug, language)
             redis_cache.set(key, location.parent.location_set.all())
+
+
+class LocationRankingView(ListView):
+    model = Location
+    template_name = 'locations/location_ranking.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        qs = super(LocationRankingView, self).get_queryset()\
+            .annotate(usercount=Count('users'))
+
+        order_by = self.request.GET.get('o')
+        order_dir = self.request.GET.get('d')
+
+        # Get ordering field name
+        if order_by == 'name':
+            order = 'name'
+        elif order_by == 'actioncount':
+            order = 'actioncount'
+        elif order_by == 'avg':
+            order = 'avg'
+        else:
+            order = 'usercount'
+
+        # Get ordering direction (asc/desc)
+        if order_dir == 'asc':
+            prefix = ''
+        else:
+            prefix = '-'
+
+        # Allow simplified searching
+        search_term = self.request.GET.get('q')
+        if search_term is not None:
+            qs = qs.filter(name__icontains=search_term)
+
+        # Less common sorting options that database cannot handle
+        if order == 'actioncount':
+            if prefix == '':
+                sqs = sorted(qs, key=lambda x: x.target_actions.count())
+            else:
+                sqs = sorted(qs, key=lambda x: x.target_actions.count(), reverse=True)
+            return sqs
+        elif order == 'avg':
+            if prefix == '':
+                sqs = sorted(qs, key=lambda x: float(x.avg_points))
+            else:
+                sqs = sorted(qs, key=lambda x: float(x.avg_points), reverse=True)
+            return sqs
+
+        return qs.order_by("{}{}".format(prefix, order))
 
 
 class LocationAccessMixin(SingleObjectMixin):
@@ -449,56 +500,12 @@ class LocationBackgroundUploadView(FormView):
         return context
 
     def form_valid(self, form):
-        import pdb; pdb.set_trace()
         self.object.background = form.save()
         self.object.save()
         return super(LocationBackgroundUploadView, self).form_valid(form)
 
     def get_success_url(self):
         return self.object.get_absolute_url()
-
-# class LocationBackgroundUploadView(FormView):
-#     """
-#     A static form that allows to upload and crop background images for locations.
-#     """
-#     template_name = 'locations/background-form.html'
-#     form_class = BackgroundForm
-
-#     def get_context_data(self, **kwargs):
-#         context = super(LocationBackgroundUploadView, self).get_context_data(**kwargs)
-#         try:
-#             context['location'] = Location.objects.get(
-#                 pk=self.kwargs.get('pk', None))
-#         except Location.DoesNotExist:
-#             raise Http404()
-#         return context
-
-#     def get(self, request, pk=None):
-#         try:
-#             location = Location.objects.get(pk=pk)
-#         except Location.DoesNotExist:
-#             raise Http404()
-#         user = request.user
-#         if not user.is_superuser and not is_moderator(user, location):
-#             raise Http404()
-#         return super(LocationBackgroundUploadView, self).get(request, pk)
-
-#     def form_valid(self, form):
-#         from PIL import Image
-#         from gallery.image import handle_tmp_image
-#         box = (
-#             form.cleaned_data['x'],
-#             form.cleaned_data['y'],
-#             form.cleaned_data['x2'],
-#             form.cleaned_data['y2'],
-#         )
-#         image = Image.open(form.cleaned_data['image'])
-#         image = image.crop(box)
-#         location = Location.objects.get(pk=self.kwargs.get('pk', None))
-#         location.image = handle_tmp_image(image)
-#         location.save()
-#         return redirect(reverse('locations:details',
-#                          kwargs={'slug': location.slug}))
 
 
 class CreateLocationView(LoginRequiredMixin, CreateView):
@@ -525,6 +532,7 @@ class CreateLocationView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         obj = form.save()
+        obj.background = LocationBackgroundFile.objects.get(name='default')
         obj.creator.profile.mod_areas.add(obj)
         obj.creator.profile.save()
         update_parent_location_list(obj)

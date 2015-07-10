@@ -1,9 +1,9 @@
 {% load i18n %}<div class="vote-form" data-target-id="{{ idea.pk }}">
-  <div class="ivotes text-center col-md-6 col-sm-12 mb20" data-target-id="{{ idea.pk }}">
+  <div class="ivotes text-center col-md-6 col-sm-12 col-xs-6 mb20" data-target-id="{{ idea.pk }}">
     <h2 class="counter">{{ idea.votes }}</h2>
     <p>{% trans "Total vote"%}</p>
   </div>
-  <div class="ivotes text-center col-md-6 col-sm-12 mb20">
+  <div class="ivotes text-center col-md-6 col-sm-12 col-xs-6 mb20">
     <h2 class="note">{{ idea.note }}</h2>
     <p>{% trans "Positive votes"%}</p>
   </div>

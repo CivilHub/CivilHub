@@ -29,7 +29,7 @@
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle custom-tooltip-right onlyIcon" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
-            <span class="support-icon"></span><span class="rwdShow">{% trans "Support" %} <span class="fa fa-angle-down"></span></span>
+            <span class="support-icon hidden-xs"></span><span class="rwdShow">{% trans "Support" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu support-icon-box">
             <li><a href="/brief/">{% trans "Brief" %}</a></li>
@@ -39,12 +39,12 @@
             <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
             <li><a href="/points-and-badges/">{% trans "Points and badges" %}</a></li>
             <li class="divider hidden-xs"></li>
-            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Cities" %}</a>
+            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Cities" %} <span class="fa fa-angle-down rwdShow"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/for-city-administration/">{% trans "For City Administration" %}</a></li>
               </ul>
             </li>
-            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Organizations" %}</a>
+            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Organizations" %} <span class="fa fa-angle-down rwdShow"></span></a>
               <ul class="dropdown-menu">
                 <li><a href="/for-organizations/">{% trans "For your Organization" %}</a></li>
               </ul>
@@ -53,7 +53,7 @@
         </li>
         <li class="dropdown">
           <a class="dropdown-toggle onlyIcon custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-toggle="dropdown">
-            <span class="civilhub-icon-top"></span><span class="rwdShow">{% trans "About CivilHub" %} <span class="fa fa-angle-down"></span></span>
+            <span class="civilhub-icon-top hidden-xs"></span><span class="rwdShow">{% trans "About CivilHub" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu civilhub-icon-top-box">
             <li><a href="/mission">{% trans "Mission" %}</a></li>
@@ -71,10 +71,11 @@
 
       </ul>
       <ul class="nav navbar-nav navbar-right navbarHeader">
-        {% if user.is_authenticated %}<li class="user-hidden-link">
+        {% if user.is_authenticated %}
+        <!-- <li class="user-hidden-link">
           <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>
           <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> {% trans "Logout" %}</a>
-        </li>
+        </li> -->
         <li class="user-profile-link">
           <a class="avatar" href="{{ user.profile.get_absolute_url }}">
             <img src="{{ user.profile.thumbnail.url }}" alt="{{ user.get_full_name }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
@@ -97,7 +98,7 @@
         <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% trans "Login" %}</a></li>{% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right navbarHeader">
-        {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="onlyIcon cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus"></span><span class="rwdShow">{% trans "Create content" %}</span></a></li>
+        {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="onlyIcon cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus hidden-xs"></span><span class="rwdShow">{% trans "Create content" %}</span></a></li>
         <div class="cd-bouncy-nav-modal">
           <div class="cd-bouncy-select-location"><h2>{% trans "Creating in" %}:</h2>
             <select{% if location %} data-location="{{ location.slug }}"{% endif %} class="form-control input-sm">
@@ -116,22 +117,22 @@
           <a href="#0" class="cd-close">Close modal</a>
         </div>{% endif %}
         <li class="dropdown">
-          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon"></span><span class="rwdShow">{% trans "Places" %} <span class="fa fa-angle-down"></span></span></a>
+          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon hidden-xs"></span><span class="rwdShow">{% trans "Places" %} <span class="fa fa-angle-down"></span></span></a>
           <ul class="dropdown-menu places-icon-box">
-            <li>
+            <div class="list-li"><li>
               <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
             </li>
             <li class="divider hidden-xs"></li>
             {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>{% endfor %}
             {% if user.is_authenticated %}<li class="divider hidden-xs"></li>
-            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}
+            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}</div>
           </ul>
         </li>
-        <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe"><span class="rwdShow">{% trans "Map" %}</span></span> </a></li>{% endif %}
-        {% if user.is_authenticated %}<li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}"><span class="ngo-icon"></span> <span class="rwdShow">{% trans "Organizations" %}</span></a></li>
+        <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe hidden-xs"></span><span class="rwdShow">{% trans "Map" %}</span> </a></li>{% endif %}
+        {% if user.is_authenticated %}<li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}"><span class="ngo-icon hidden-xs"></span> <span class="rwdShow">{% trans "Organizations" %}</span></a></li>
         <li class="dropdown">
           <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}">
-            <span class="my-bookmarkBox fa fa-bookmark-o"><span class="rwdShow">{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span></span></span>
+            <span class="my-bookmarkBox fa fa-bookmark-o hidden-xs"></span><span class="rwdShow">{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu bookmarks-no-list">
             <li class="divider hidden-xs"></li>
@@ -140,11 +141,11 @@
         </li>
         <li>
           <a href="{% url 'postman_inbox' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Messages" %}">
-            <span class="message-box fa fa-envelope-o"><span class="rwdShow">{% trans "Messages" %}</span></span>
+            <span class="message-box fa fa-envelope-o hidden-xs"></span><span class="rwdShow">{% trans "Messages" %}</span>
             {% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% endif %}
           </a>
         </li>
-        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="#"><span class="fa fa-bell-o"><span class="rwdShow">{% trans "Notifications" %}</span></span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
+        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="#"><span class="fa fa-bell-o hidden-xs"></span><span class="rwdShow">{% trans "Notifications" %}</span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
       </ul>
     </div>
   </div>

@@ -328,18 +328,20 @@
       display: block;
     }
   }
-  >a{
-    &:after{
-      display: block;
-      content: "";
-      float: right;
-      width: 0;
-      height: 0;
-      border-color: transparent;
-      border-style: solid;
-      border-width: 5px 0 5px 5px;
-      border-left-color: #CCC;
-      margin-top: 5px;
+  @media(min-width: 768px){
+    >a{
+      &:after{
+        display: block;
+        content: "";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #CCC;
+        margin-top: 5px;
+      }
     }
   }
 }
@@ -348,4 +350,53 @@
 #navbar{
   position: relative;
   top: -71px;
+}
+#idea-location-navbar{
+  background: #FFFFFF none;
+  border: none;
+  border-radius: 0px;
+  min-height: 35px;
+  .navbar-header{ background-color: #f2f2f2; border-top: 1px solid #DEDEDE; border-bottom: 1px solid #DEDEDE; }
+  .navbar-collapse.p-reset{
+    @media(max-width: 768px){ border: 0 none; }
+  }
+  @media(min-width: 991px) and (max-width: 1200px){ margin: 0 -20px; .pull-right{ float: none !important; } .navbar-collapse.p-reset{ padding: 0 15px !important; } }
+}
+#idea-location-navbar .navbar-header .navbar-toggle{
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+#idea-location-navbar .navbar-nav{
+  &>li{
+    display: block;
+    @media(min-width: 768px){ display: inline-block; }
+    position: relative;
+    >a{
+      display: inline-block;
+      color: #4d4747;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      @media(max-width: 768px){ display: block; }
+      @media(min-width:991px) and (max-width: 1200px){ /*padding: 7px;*/ font-size: 14px; }
+    }
+    .badge{
+      /*position: absolute;
+      top: 50%;
+      margin-top: -5px;
+      left: 100%;*/
+
+      display: inline-block;
+      @media(max-width: 768px){ position: absolute; top: 15px; right: 0; }
+    }
+  }
+  &.col-sm-4{
+    @media(max-width: 1200px){ text-align: right; padding: 0; }
+    @media(max-width: 991px){ display: none; }
+  }
+  &.col-sm-8.pr0{ 
+    @media(min-width: 1200px){ margin-left: -5px; }
+    @media(max-width: 1200px){ padding-left: 0; }
+    @media(max-width: 991px){ width: 100%; }
+    @media(max-width: 768px){ margin: 0; padding: 0 15px; background-color: #f2f2f2; .pull-right{ float: none !important; } }
+  }
 }

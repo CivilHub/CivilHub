@@ -46,7 +46,7 @@
 </div>
 <div class="col-sm-3 boxPX">
   <div class="sidebar">
-    <div class="sidebar-label">Akcje:</div>
+    <div class="sidebar-label">{% trans "Actions" %}:</div>
     <ul class="sidebar-content mb0">  
       {% if user in object.participants.all %}<form id="pad-creation-form" method="post" action="{% url 'pad-create' %}">{% csrf_token %}
         {{ document_form }}

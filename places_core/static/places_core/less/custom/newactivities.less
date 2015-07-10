@@ -237,6 +237,10 @@ a{
     display: inline-block;
     /*min-width: 250px; remove for 320px*/
     padding-top: 10px;
+    @media(min-width: 1200px){ max-width: 461px; }
+    @media(min-width: 991px) and (max-width: 1200px){ max-width: 361px; }
+    @media(max-width: 991px){ max-width: 249px; }
+    @media(max-width: 767px){ max-width: 648px; }
   }
   .arrow{
     z-index: 10;
@@ -297,10 +301,13 @@ a{
       vertical-align: top;
       width: 80%;
     }
+    @media(max-width: 480px){ .pull-right{ float: none !important; } }
   }
   .timeline-body{
     border-top: 1px solid @border-color-de;
     position: relative;
+    word-wrap: normal;
+    word-break: break-word;
     p, ul, ol{
       margin-bottom: 0;
       padding: 0;

@@ -31,7 +31,7 @@
         <h1 class="user-fullname">
           {{ profile }}
         </h1>
-        <div class="user-more-info"><a href="">{{ user.profile.followed_users|length }} {% trans "Follows" %} | {{ cuser.profile.followers|length }} {% trans "Followers" %}</div>
+        <div class="user-more-info"><a href="">{{ user.profile.followed_users|length }} {% trans "Follows" %} | {{ user.profile.followers|length }} {% trans "Followers" %}</div>
         {% if profile.gplus_url %}<a href="{{ profile.gplus_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Google+ profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-google btn-igred img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
         {% if profile.fb_url %}<a href="{{ profile.fb_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Facebook profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-facebook btn-ifblue img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}
         {% if profile.twt_url %}<a href="{{ profile.twt_url }}" target="_blank" rel="nofollow" class="social-link-button custom-tooltip" title="{% trans "Twitter profile" %}"><span class="fa-stack"><span class="fa fa-circle fa-stack-2x"></span><span class="fa fa-twitter btn-itblue img-circle fa-stack-1x"></span>&nbsp;</span></a>{% endif %}

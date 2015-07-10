@@ -21,4 +21,5 @@ class NewsForm(forms.ModelForm, BootstrapBaseForm):
             'content': forms.Textarea(attrs={'class': 'form-control custom-wysiwyg'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
             'location': forms.HiddenInput(),
+            'image': forms.ClearableFileInput(attrs={'class': 'civ-img-input', }),
         }

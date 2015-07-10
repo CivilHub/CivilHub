@@ -70,6 +70,9 @@ class Discussion(ImagableItemMixin, models.Model):
             }
         )
 
+    def get_intro(self):
+        return self.intro.replace('\n', '<br>')
+
     def get_description(self):
         return truncatehtml(self.intro, 100)
 
@@ -104,6 +107,9 @@ class Entry(MPTTModel):
         if self.pk is not None:
             self.is_edited = True
         super(Entry, self).save(*args, **kwargs)
+
+    def get_content(self):
+        return self.content.replace('\n', '<br>')
 
     def get_upvotes(self):
         return len(self.votes.filter(vote=True))

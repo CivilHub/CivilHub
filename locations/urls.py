@@ -11,6 +11,7 @@ from projects.views import base as project_views
 import api
 from locations.views import *
 from staticpages.views import PageView
+from userspace.views import UserListView
 
 from rest.routers import HybridRouter
 router = HybridRouter()
@@ -33,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^widget-preview/(?P<ct>\d+)/(?P<pk>\d+)/', WidgetPreview.as_view(), name='widget-preview'),
     url(r'^widget/(?P<ct>\d+)/(?P<pk>\d+)/', ServeContentView.as_view(), name='widget'),
     url(r'^(?P<slug>[\w-]+)/statistics/', LocationStatisticsView.as_view(), name='statistics'),
+    url(r'^(?P<location_slug>[\w-]+)/ranking/', UserListView.as_view(), name='location-ranking'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/remove/', RemoveModeratorView.as_view(), name='remove-moderator'),
     url(r'^(?P<location_slug>[\w-]+)/moderators/', ManageModeratorsView.as_view(), name='manage-moderators'),
     url(r'^(?P<location_slug>[\w-]+)/organizations/', LocationNGOList.as_view(), name='organizations'),

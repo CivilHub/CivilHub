@@ -280,6 +280,29 @@ class Location(models.Model):
         verbose_name = _(u"location")
         verbose_name_plural = _(u"locations")
 
+    def _get_avg_points(self):
+        user_points = sum([x.profile.rank_pts for x in self.users.all()])
+        if not user_points:
+            return 0.0
+        return self.users.count() / float(user_points)
+
+    @property
+    def avg_points(self):
+        return self._get_avg_points()
+
+    def _active_users(self):
+        if not self.population:
+            return 'n/a'
+        percentage = self.users.count() / float(self.population) * 100.0
+        if percentage > 100:
+            return 'n/a'
+        return "{:.2f}%".format(
+            self.users.count() / float(self.population) * 100.0)
+
+    @property
+    def active_users(self):
+        return self._active_users()
+
     def get_image_url(self):
         return self.background.get_image_url()
 

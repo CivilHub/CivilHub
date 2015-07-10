@@ -7,13 +7,14 @@
 // were created with the application in mind.
 
 require(['jquery',
+         'js/modules/ui/image-input',
          'jqueryui',
          'js/modules/editor/plugins/uploader',
          'redactor',
          'bootstrap-switch',
          'tagsinput'],
 
-function ($) {
+function ($, ActiveInput) {
 
 "use strict";
 
@@ -96,6 +97,24 @@ $.fn.emailInput = function () {
 
 $(document).ready(function () {
   $('.email-input').emailInput();
+});
+
+// Wrap ActiveInput in jQuery method, so that it could be triggered
+// on jQuery selections instead of from inside production code.
+// It is responsible for display live image preview during upload.
+
+$.fn.activeImageInput = function () {
+  return $(this).each(function () {
+    if (_.isUndefined($(this).data('activeInput'))) {
+      var input = new ActiveInput({ el: this });
+      $(this).data('activeInput', this);
+    }
+    return this;
+  });
+};
+
+$(document).ready(function () {
+  $('.civ-img-input').activeImageInput();
 });
 
 });

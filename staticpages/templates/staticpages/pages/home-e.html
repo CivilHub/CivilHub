@@ -135,6 +135,7 @@ body {
   background-repeat:no-repeat;
   background-position:center;
   background-attachment:fixed;
+  padding: 0;
 }
 .home_e_center_wrapper {
   text-align: center;
@@ -146,7 +147,7 @@ body {
 }
 .home_e_logo {
   position: absolute;
-  top: 15px;
+  top: 25px;
   left: 20%;
   width: 210px;
   height: 31px;
@@ -171,6 +172,9 @@ body {
   display: none;
 }
 /* lang selector */
+ .footerLang{
+  position: absolute !important;
+ }
 .lang-selector-wrapper {
   position: absolute;
   bottom: 25px;
@@ -279,27 +283,35 @@ ul {
 }
 @media screen and (max-width: 750px){
   .home-e-header {
-    margin-top: -33px;
+    /*margin-top: -45px;*/
+    position: relative;
+    z-index: 1;
   }
-  .brief-Home {
+  /*.brief-Home {
     margin-top: 0px;
   }
   .login-Home {
     margin-top: 0px;
-  }
+  }*/
   .home_e_logo {
     left: 50%;
     margin-left: -105px;
+    top: 10px;
   }
 }
-@media screen and (max-width: 500px){
+@media(max-width: 580px){
+  .home_e_main_text h1{ font-size: 18px; line-height: 20px;}
+  .home_e_main_text h2{ font-size: 16px; }
+  .register-box h1{ font-size: 20px; line-height: 30px; margin-top: 15px;}
+}
+/*@media screen and (max-width: 500px){
   .home_e_main_text h1 {
     font-size: 24px;
   }
   .home_e_main_text h2 {
     font-size: 18px;
   }
-}
+}*/
 
 @media screen and (max-width: 480px){
   .footerLang {
@@ -323,7 +335,7 @@ ul {
     margin-bottom: 5px;
   }
   .home_e_main_text {
-    margin-top: 30px;
+    margin-top: 45px;
     margin-bottom: -10px;
   }
   .home_e_center_wrapper {
@@ -335,9 +347,9 @@ ul {
   .home_e_logo {
     top: 5px;
   }
-  .home-e-header {
+ /* .home-e-header {
     margin-top: -50px;
-  }
+  }*/
   .footerLang {
     bottom: 5px;
   }
@@ -353,18 +365,23 @@ ul {
   .home_e_center_wrapper {
     margin-top: -200px;
   }
-  .form-group {
+  /*.form-group {
     margin-bottom: 3px;
-  }
+  }*/
   .home_e_logo {
     top: 0;
   }
-  .home-e-header {
+  .login-Home, .brief-Home{
+    margin-top: 40px;
+  }
+  /*.home-e-header {
     margin-top: -57px;
-  }
-  .footerLang {
-    bottom: 0;
-  }
+  }*/
+  .footerLang { bottom: 0; position: relative !important; }
+  .register-box .form-group{ margin-bottom: 3px; }
+  .register-box .col-xs-6:last-child{ padding-left: 2px; }
+  .register-box .col-xs-6:first-child{ padding-right: 1px; }
+  .home_e_center_wrapper{ position: relative; top: 0; margin-top: 0; height: auto; }
 }
 
 
