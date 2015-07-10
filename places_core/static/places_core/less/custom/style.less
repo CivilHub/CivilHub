@@ -118,7 +118,7 @@ textarea{ resize: vertical; }
   .border-radius(50%);
   border: 0 none;
   margin-bottom: 6px;
-} 
+}
 .user-avatar.mini {
   width: 35px;
   height: 35px;
@@ -127,7 +127,7 @@ textarea{ resize: vertical; }
 .entry-avatar-col {
   font-size: 9px;
   text-align: center;
-  margin-top: 15px; 
+  margin-top: 15px;
 }
 
 /*-------Alert messages-------*/
@@ -190,19 +190,19 @@ textarea{ resize: vertical; }
     text-align: center;
     text-size: 32px;
     margin: 10px 0;
-    
+
     img {
         width: 98px;
         height: 178px;
     }
-    
+
     h2 {
         font-weight: 300;
         margin: 40px 0;
     }
-    
+
     a {
-        font-weight: bold;  
+        font-weight: bold;
     }
     &.activity-collection{
         img{
@@ -211,7 +211,7 @@ textarea{ resize: vertical; }
         }
     }
 }
- 
+
 /*--------- LOCATION CHAIN MENU ---------*/
 
 #location-chain-menu {
@@ -278,8 +278,8 @@ h1.articleFirstHeadling{
   .border-radius(300px);
   overflow: hidden;
   padding: 6px 55px 6px 6px;
-  position: relative; 
-  -webkit-transform: translateZ(0); 
+  position: relative;
+  -webkit-transform: translateZ(0);
   -webkit-animation: fadeInCircle 0.3s ease forwards, resizeCircle 0.3s 0.4s cubic-bezier(0.25, 0.25, 0.4, 1.6) forwards !important;
   animation:         fadeInCircle 0.3s ease forwards, resizeCircle 0.3s 0.4s cubic-bezier(0.25, 0.25, 0.4, 1.6) forwards !important;
   height: 60px !important;
@@ -389,9 +389,9 @@ h1.articleFirstHeadling{
   .bg-nor-cen-con;
   background-size: cover;
   &.headerBGInvite{ background-image: url('../img/headers/header_invite.png');
-    @media 
-    (-webkit-min-device-pixel-ratio: 2), 
-    (min-resolution: 192dpi) { 
+    @media
+    (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
       background-image: url('../img/headers/header_invite@2x.png');
     }
     .headerInviteBox{
@@ -406,7 +406,7 @@ h1.articleFirstHeadling{
         @media(max-width: 768px){
           font-size: 38px;
         }
-      }      
+      }
       .btn-googleInvite{
         font-size: 15px;
         line-height: 18px;
@@ -418,9 +418,9 @@ h1.articleFirstHeadling{
         background-image: url('../img/headers/gmail-icon.png');
         background-position: 8% center;
         background-repeat: no-repeat;
-        @media 
-        (-webkit-min-device-pixel-ratio: 2), 
-        (min-resolution: 192dpi) { 
+        @media
+        (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) {
           background-image: url('../img/headers/gmail-icon@2x.png');
           background-size: 32px 24px;
         }
@@ -566,3 +566,49 @@ h1.articleFirstHeadling{
   .form-control;
 }
 
+/*******************************************************************************
+ *                                 RANKINGI                                    |
+ ******************************************************************************/
+
+/** Table Header */
+.civ-tablelike-heading {
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px double #adadad;
+  padding: 5px 0px;
+}
+.civ-tablelike-heading a.active {
+  text-decoration: underline;
+}
+/** Control links */
+.link-asc:after {
+  content: "\f062";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 12px;
+}
+.link-desc:after {
+  content: "\f063";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size: 12px;
+}
+/** Regular "table rows" */
+.civ-tablelike {
+  height: 36px;
+  line-height: 36px;
+}
+.civ-tablelike:nth-child(even) {
+  background-color: #fff;
+}
+.civ-tablelike.active {
+  border: 2px solid yellow;
+}
+.civ-tablelike img {
+  width: 28px;
+  height: 28px;
+}

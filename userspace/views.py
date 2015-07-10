@@ -83,8 +83,6 @@ class UserListView(ListView):
         # Get ordering field name
         if order_by == 'name':
             order = 'user__first_name'
-        elif order_by == 'date':
-            order = 'user__date_joined'
         else:
             order = 'rank_pts'
 
