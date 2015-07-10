@@ -4,7 +4,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from articles.views import TopLevelArticleView
-from locations.views import LocationRankingView
+from locations.views import (CityRankingView, CountryRankingView,
+                             LocationRankingView, RegionRankingView)
 from staticpages.views import PageView, HomeView
 from userspace.views import UserActivityView
 from places_core.views import FileServeView
@@ -103,7 +104,10 @@ urlpatterns += patterns('',
 from places_core.views import set_language
 urlpatterns += patterns('',
     url(r'^', include('hitcounter.urls')),
-    url(r'^ranking/', LocationRankingView.as_view(), name="ranking-locations"),
+    url(r'^ranking/(?P<code>[a-zA-Z]{2})/regions/', RegionRankingView.as_view(), name="ranking-regions"),
+    url(r'^ranking/(?P<code>[a-zA-Z]{2})/locations/', LocationRankingView.as_view(), name="ranking-locations"),
+    url(r'^ranking/(?P<code>[a-zA-Z]{2})/', CityRankingView.as_view(), name="ranking-cities"),
+    url(r'^ranking/', CountryRankingView.as_view(), name="ranking-countries"),
     url(r'^activities/', include('activities.urls', namespace="activities")),
     url(r'^tracker/', include('user_tracker.urls', namespace="tracker")),
     url(r'^guides/', include('guides.urls', namespace="guides")),

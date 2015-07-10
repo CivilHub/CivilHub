@@ -177,7 +177,7 @@ def truncatehtml(string, length, ellipsis='...'):
     return "".join(output)
 
 
-def sort_by_locale(queryset, key, language=None):
+def sort_by_locale(queryset, key, language=None, reverse=False):
     """
     A simple function that makes use of the PyICU library to sort search
     results alphabetically with UTF sings of a given language.
@@ -195,7 +195,7 @@ def sort_by_locale(queryset, key, language=None):
     code = language.lower() + '_' + language.upper() + '.' + 'UTF-8'
     collator = icu.Collator.createInstance(icu.Locale(code))
     q = list(queryset)
-    q.sort(key=key, cmp=collator.compare)
+    q.sort(key=key, cmp=collator.compare, reverse=reverse)
     return q
 
 

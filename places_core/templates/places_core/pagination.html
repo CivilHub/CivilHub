@@ -1,4 +1,4 @@
-{% load i18n civil_tags %}{% if is_paginated %}<ul class="pagination">
+{% load i18n civil_tags %}{% if is_paginated %}<ul class="pagination custom-static-pagination">
   {% if page_obj.has_previous %}<li><a href="{% paginator_url page_obj.previous_page_number %}" rel="prev">{% trans "previous" %}</a></li>{% endif %}
   {% for i in paginator.page_range %}<li>
     <a href="{% paginator_url i %}"{% if i == page_obj.number %} class="active"{% endif %}>{{ i }}</a>

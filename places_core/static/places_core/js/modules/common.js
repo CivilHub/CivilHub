@@ -30,6 +30,17 @@ function ($) {
 
 "use strict";
 
+// Mouseflow
+
+$(document).ready(function () {
+  var _mfq = _mfq || [];
+  (function () {
+    var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
+    mf.src = "//cdn.mouseflow.com/projects/fa5c0e1d-4985-4868-a05b-2a0d96a41b53.js";
+    document.getElementsByTagName("head")[0].appendChild(mf);
+  })();
+});
+
 // "Static" pagination
 // ---------------------
 
@@ -38,13 +49,13 @@ $('.custom-static-pagination').pagination({
 });
 
 // textarea increases the height
-$.each($('textarea'), function() {
+$.each($('textarea'), function () {
   var offset = this.offsetHeight - this.clientHeight;
 
-  var resizeTextarea = function(el) {
+  var resizeTextarea = function (el) {
     $(el).css('height', 'auto').css('height', el.scrollHeight + offset);
   };
-  $(this).on('keyup input', function() { resizeTextarea(this); });
+  $(this).on('keyup input', function () { resizeTextarea(this); });
 });
 
 // Common simple scripts.
@@ -102,38 +113,29 @@ $(document).ready(function () {
 // -------------------------------------------------------------------------
 
 // google analyitics follow/unfollow user
-$(document).ready(function(){
+$(document).ready(function () {
   var civFollowBtn = $('.civ-follow-btn');
-  civFollowBtn.click(function(){
-      if (civFollowBtn.hasClass('btn-follow')) {
+  civFollowBtn.click(function () {
+    if (civFollowBtn.hasClass('btn-follow')) {
       window.ga('send', 'event', 'follow', 'click', 'follow-user');
     }
     else if (civFollowBtn.hasClass('btn-unfollow')) {
       window.ga('send', 'event', 'follow', 'click', 'unfollow-user');
     }
-  })
+  });
 });
 
 // google analyitics follow/unfollow location
-$(document).ready(function(){
+$(document).ready(function () {
   var locFllwBtn = $('.loc-fllw-btn');
-  locFllwBtn.click(function(){
-      if (locFllwBtn.hasClass('btn-follow-location')) {
+  locFllwBtn.click(function () {
+    if (locFllwBtn.hasClass('btn-follow-location')) {
       window.ga('send', 'event', 'follow', 'click', 'follow-location');
     }
     else if (locFllwBtn.hasClass('btn-unfollow-location')) {
       window.ga('send', 'event', 'follow', 'click', 'unfollow-location');
     }
-  })
-});
-// Mouseflow
-$(document).ready(function(){
-  var _mfq = _mfq || [];
-  (function () {
-    var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
-    mf.src = "//cdn.mouseflow.com/projects/fa5c0e1d-4985-4868-a05b-2a0d96a41b53.js";
-    document.getElementsByTagName("head")[0].appendChild(mf);
-  })();
+  });
 });
 
 });
