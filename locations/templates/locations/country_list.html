@@ -2,16 +2,7 @@
 
 {% block require_scripts %}<script src="{% module_path 'user-ranking' %}"></script>{% endblock %}
 
-{% block content %}<h1>{% trans "location ranking"|capfirst %}</h1><hr>
-<ul class="menu">
-  <li><a href="{% url 'ranking-countries' %}">{% trans "countries"|capfirst %}</a></li>
-  <li{% if not full_list %} class="active"{% endif %}><a href="{% url 'ranking-cities' current_code %}">{% trans "biggest cities"|capfirst %}</a></li>
-  <li{% if full_list %} class="active"{% endif %}><a href="{% url 'ranking-regions' current_code %}">{% trans "regions"|capfirst %}</a></li>
-  <li{% if full_list %} class="active"{% endif %}><a href="{% url 'ranking-locations' current_code %}">{% trans "other locations"|capfirst %}</a></li>
-</ul>
-<form action="" method="get">{% form_from_params %}
-  <input id="ranking-filter" type="text" class="form-control" name="q" placeholder="{% trans "filter"|capfirst %}" autofocus>
-</form>
+{% block content %}<h1>{% trans "country ranking"|capfirst %}</h1><hr>
 <div class="container">
   <div class="row civ-tablelike-heading">
     <div class="col-xs-1">&nbsp;</div>
@@ -23,7 +14,7 @@
   </div>
   {% for entry in object_list %}<div class="row civ-tablelike">
     <div class="col-xs-1 text-center"><img src="{{ entry.thumb_url }}" alt="{{ entry }}" class="user-avatar"></div>
-    <div class="col-xs-3"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></div>
+    <div class="col-xs-3"><a href="{% url 'ranking-cities' entry.country_code %}">{{ entry }}</a></div>
     <div class="col-xs-2 text-center">{{ entry.usercount }}</div>
     <div class="col-xs-2 text-center">{{ entry.target_actions.count }}</div>
     <div class="col-xs-2 text-center">{{ entry.avg_points|floatformat:2 }}</div>

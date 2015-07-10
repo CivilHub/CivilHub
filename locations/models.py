@@ -281,7 +281,7 @@ class Location(models.Model):
         verbose_name_plural = _(u"locations")
 
     def _get_avg_points(self):
-        user_points = sum([x.profile.rank_pts for x in self.users.all()])
+        user_points = sum([x[0] for x in self.users.values_list('profile__rank_pts')])
         if not user_points:
             return 0.0
         return self.users.count() / float(user_points)
