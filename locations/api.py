@@ -54,7 +54,10 @@ class CitySearchAPI(APIView):
         context = {'city': self.serializer_class(city).data, }
         country = Location.objects.get(country_code=city.country_code,
                                        kind='country')
-        region = country.location_set.filter(pk__in=city.get_parents)[0]
+        try:
+            region = country.location_set.filter(pk__in=city.get_parents)[0]
+        except IndexError:
+            raise Http404
         context.update({
             'region': self.serializer_class(region).data,
             'country': self.serializer_class(country).data, })
