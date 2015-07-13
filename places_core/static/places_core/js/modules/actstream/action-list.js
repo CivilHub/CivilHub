@@ -50,7 +50,7 @@ var ActionList = Backbone.View.extend({
     _.bindAll(this, 'renderPage');
 
     var models = _.map(options.data.results, function (item) {
-      item.label = gettext("Join the discussion");
+      item.label = gettext("Write a comment");
       return new ActionModel(item);
     });
 
