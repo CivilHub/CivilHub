@@ -74,14 +74,20 @@ def update_parent_location_list(location):
             redis_cache.set(key, location.parent.location_set.all())
 
 
-class LocationRankingView(ListView):
+class SearchableLocationView(ListView):
     model = Location
     template_name = 'locations/location_ranking.html'
-    paginate_by = 50
+    paginate_by = 25
+
+    country = None
+
+    def dispatch(self, *args, **kwargs):
+        code = kwargs.get('code', settings.DEFAULT_COUNTRY_CODE)
+        self.country = get_object_or_404(Country, code=code.upper())
+        return super(SearchableLocationView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        qs = super(LocationRankingView, self).get_queryset()\
-            .annotate(usercount=Count('users'))
+        qs = self.get_initial_queryset()
 
         order_by = self.request.GET.get('o')
         order_dir = self.request.GET.get('d')
@@ -120,8 +126,68 @@ class LocationRankingView(ListView):
             else:
                 sqs = sorted(qs, key=lambda x: float(x.avg_points), reverse=True)
             return sqs
+        elif order == 'name':
+            if prefix == '':
+                sqs = sort_by_locale(qs, key=lambda x: x.__unicode__())
+            else:
+                sqs = sort_by_locale(qs, key=lambda x: x.__unicode__(), reverse=True)
+            return sqs
 
         return qs.order_by("{}{}".format(prefix, order))
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchableLocationView, self).get_context_data(**kwargs)
+        context['current_code'] = self.country.code
+        return context
+
+
+class CityRankingView(SearchableLocationView):
+
+    def get_initial_queryset(self):
+        children_ids = []
+        for l in self.country.location.location_set.all():
+            children_ids += [x[0] for x in l.location_set.values_list('pk')]
+
+        return Location.objects\
+            .annotate(usercount=Count('users'))\
+            .filter(pk__in=children_ids)
+
+
+class LocationRankingView(SearchableLocationView):
+
+    def get_initial_queryset(self):
+        location = self.country.location
+        children_ids = [location.pk, ]
+        children_ids += [x[0] for x in location.location_set.values_list('pk')]
+        for l in location.location_set.all():
+            children_ids += [x[0] for x in l.location_set.values_list('pk')]
+
+        return Location.objects\
+            .filter(country_code=self.country.code)\
+            .exclude(kind__in=['country', 'region'])\
+            .exclude(pk__in=children_ids)\
+            .annotate(usercount=Count('users'))
+
+    def get_context_data(self, **kwargs):
+        context = super(LocationRankingView, self).get_context_data(**kwargs)
+        context['full_list'] = True
+        return context
+
+
+class RegionRankingView(SearchableLocationView):
+
+    def get_initial_queryset(self):
+        return Location.objects.filter(kind='region')\
+            .filter(country_code=self.country.code)\
+            .annotate(usercount=Count('users'))
+
+
+class CountryRankingView(SearchableLocationView):
+    template_name = 'locations/country_list.html'
+
+    def get_initial_queryset(self):
+        return Location.objects.filter(kind='country')\
+            .annotate(usercount=Count('users'))
 
 
 class LocationAccessMixin(SingleObjectMixin):

@@ -27,8 +27,8 @@ function ($) {
     });
 
     $('#id_intro').redactor({
-      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
-      plugins: ['uploader']
+      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link', 'video'],
+      plugins: ['uploader', 'video']
     });
 
     $('[type="checkbox"]').bootstrapSwitch({

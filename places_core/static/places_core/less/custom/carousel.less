@@ -15,7 +15,18 @@
     &:first-of-type { margin-left: 0px; };
   }
 }
-.civ-carousel{max-width: 750px; background: rgba(94, 94, 94, 0.1);
+.civ-carousel{/*max-width: 750px;*/ max-width:600px; height: 400px; background: rgba(94, 94, 94, 0.1);
   .carousel-control{ &.right, &.left{ background: transparent; } }
-  .carousel-inner{ img{ cursor: pointer; } }
+  .carousel-inner{ height: 100%;/* img{ cursor: pointer; } */}
+  .item { height: 100%;
+    img{
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      max-height: none;
+    }
+  }
 }

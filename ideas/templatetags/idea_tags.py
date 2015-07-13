@@ -9,11 +9,14 @@ def vote_area(context, obj):
         Data parameters so that scripts can be easily added. Here, we determine
         the initial state of buttons.
     """
-    template = loader.get_template('ideas/vote_area.html')
+    if context.get('experiment') is not None:
+        template = loader.get_template('ideas/vote_area_b.html')
+    else:
+        template = loader.get_template('ideas/vote_area.html')
     if obj is None:
         return ''
     user = context['user']
-    ctx = Context({'user': user, 'idea': obj, })
+    ctx = Context({'user': user, 'idea': obj, 'request': context['request']})
     if user.is_anonymous():
         pass
     elif len(obj.vote_set.filter(user=user, status=1)):

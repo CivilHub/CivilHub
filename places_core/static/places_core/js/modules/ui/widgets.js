@@ -46,10 +46,12 @@ $.fn.customRedactor = function (options) {
   var settings = $.extend({ gallery: true }, options);
   return $(this).each(function () {
     var redactorSettings = {
-      buttons: ['bold', 'italic', 'formatting', 'unorderedlist', 'orderedlist', 'link']
+      buttons: ['bold', 'italic', 'formatting', 'unorderedlist',
+                'orderedlist', 'link', 'video'],
+      plugins: ['video']
     };
     if (settings.gallery) {
-      redactorSettings.plugins = ['uploader'];
+      redactorSettings.plugins.push('uploader');
     }
     $(this).redactor(redactorSettings);
   });

@@ -7,11 +7,11 @@
   {% for entry in object_list %}<div class="row">
     <div class="col-sm-9">
       <h3 class="blogTitleNews"><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></h3>
-      <div class="custom-booklike blogNewsContent">{{ entry.content|safe|truncatechars:200 }}</div>
+      <div class="custom-booklike blogNewsContent">{{ entry.content|safe|truncatechars_html:200 }}</div>
       <div class="clear">&nbsp;</div>
       <p class="author">
         <img src="{{ entry.creator.profile.avatar.url }}" alt="{{ entry.creator.profile }}" class="user-avatar user-window-toggle minUserAvatar" />
-        <a href="{{ entry.creator.profile.url }}"><span class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.profile }}</span></a>
+        <a href="{{ entry.creator.profile.get_absolute_url }}"><span class="user-window-toggle" data-target="{{ entry.creator.pk }}">{{ entry.creator.profile }}</span></a>
         <span class="date-created">{{ entry.date_created|timesince }} {% trans "ago" %}</span>.
       </p>
     </div>

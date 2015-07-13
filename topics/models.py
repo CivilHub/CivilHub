@@ -53,7 +53,10 @@ class Discussion(ImagableItemMixin, models.Model):
 
     def save(self, *args, **kwargs):
         self.question = strip_tags(self.question)
-        self.intro = sanitizeHtml(self.intro)
+
+        # TODO: It has to be validated somehow!!!
+        #self.intro = sanitizeHtml(self.intro)
+
         if not self.slug:
             to_slug_entry = self.question
             chk = Discussion.objects.filter(question=self.question)

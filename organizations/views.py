@@ -24,7 +24,8 @@ from .forms import NGOInviteForm, \
                    OrganizationLocationForm, \
                    NGOBackgroundForm, \
                    NGOProjectForm, \
-                   NGOSearchForm
+                   NGOSearchForm, \
+                   NGOInviteUsers
 from .models import Category, Invitation, Organization
 
 
@@ -244,12 +245,14 @@ class OrganizationMemberDelete(SingleObjectMixin, View):
                                 kwargs={'slug': self.object.slug}))
 
 
-class InviteUsers(NGOContextMixin, FormView):
-    """
-    Invite others to this organization by sending them email.
+class InviteUsers(NGOContextMixin, View):
+    """ Invite others to this organization.
+
+    This form handles two forms - with first users are able to invite other
+    people using only email address. With the second form organization owner
+    can enter usernames of already registered users to invite them.
     """
     model = Organization
-    form_class = NGOInviteForm
     template_name = 'organizations/member_invite.html'
 
     def dispatch(self, *args, **kwargs):
@@ -258,29 +261,67 @@ class InviteUsers(NGOContextMixin, FormView):
             raise Http404
         return super(InviteUsers, self).dispatch(*args, **kwargs)
 
-    def get_initial(self):
-        initial = super(InviteUsers, self).get_initial()
-        initial['organization'] = self.get_object()
-        return initial
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
 
-    def form_valid(self, form):
+    def post(self, request, **kwargs):
+        method = request.POST.get('method')
+        if method == 'email':
+            return self.process_email_form(request)
+        else:
+            return self.process_invite_form(request)
+
+    def get_context_data(self, **kwargs):
+        context = super(InviteUsers, self).get_context_data(**kwargs)
+        context.update({
+            'invite_form': NGOInviteForm(initial={'organization': self.object}),
+            'user_form': NGOInviteUsers(), })
+        return context
+
+    def process_email_form(self, request):
+        form = NGOInviteForm(request.POST)
+
+        if not form.is_valid():
+            context = self.get_context_data()
+            context['invite_form'] = form
+            return render(request, self.template_name, context)
+
         for email in form.cleaned_data['emails']:
-            invitation, created = Invitation.objects.get_or_create(
+            self.process_invite(email)
+
+        messages.add_message(self.request, messages.SUCCESS, _(u"All messages sent"))
+
+        return redirect(self.get_success_url())
+
+    def process_invite_form(self, request):
+        form = NGOInviteUsers(request.POST)
+
+        if not form.is_valid():
+            context = self.get_context_data()
+            context['user_form'] = form
+            return render(request, self.template_name, context)
+
+        for user in form.cleaned_data['users']:
+            self.process_invite(user.email)
+
+        messages.add_message(self.request, messages.SUCCESS, _(u"All messages sent"))
+
+        return render(request, self.template_name, self.get_context_data())
+
+    def process_invite(self, email):
+        invitation, created = Invitation.objects.get_or_create(
                 organization=self.object, email=email)
-            message = InviteToOrganization()
-            msg_context = {
-                'lang': self.request.user.profile.lang,
-                'user': self.object.creator,
-                'organization': self.object,
-                'link': self.request.build_absolute_uri(
-                    reverse('organizations:accept',
-                            kwargs={'key': invitation.key}))
-            }
-            if created:
-                message.send(email, msg_context)
-        messages.add_message(self.request, messages.SUCCESS,
-                             _(u"All messages sent"))
-        return super(InviteUsers, self).form_valid(form)
+        message = InviteToOrganization()
+        msg_context = {
+            'lang': self.request.user.profile.lang,
+            'user': self.object.creator,
+            'organization': self.object,
+            'link': self.request.build_absolute_uri(
+                reverse('organizations:accept',
+                        kwargs={'key': invitation.key}))
+        }
+        if created:
+            message.send(email, msg_context)
 
     def get_success_url(self):
         return self.object.get_absolute_url()

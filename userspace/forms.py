@@ -209,3 +209,15 @@ class TwitterEmailForm(forms.Form):
         help_text = _("Please provide your email address. Twitter doesn't"),
         widget = forms.EmailInput(attrs={'class': 'form-control'})
     )
+
+    def clean_account_email(self):
+        email = self.cleaned_data['account_email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user is not None:
+            raise forms.ValidationError(_(u"Email address already taken"))
+
+        return email

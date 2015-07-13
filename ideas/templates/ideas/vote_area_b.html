@@ -1,0 +1,129 @@
+{% load i18n %}<div class="vote-form" data-target-id="{{ idea.pk }}">
+  <div class="ivotes text-center col-md-6 col-sm-12" data-target-id="{{ idea.pk }}">
+    <h2 class="counter idea-mt10">{{ idea.votes }}</h2>
+    <p>{% trans "Total vote"%}</p>
+  </div>
+  <div class="ivotes text-center col-md-6 col-sm-12 idea-mt10">
+    <h2 class="note idea-mt10">{{ idea.note }}</h2>
+    <p>{% trans "Positive votes"%}</p>
+  </div>
+
+  {% if user.is_anonymous %}
+  <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form">
+  {% csrf_token %}
+   <div class="idea-pet-form-cont">
+    <h3 class="text-green mb20 mt0"><strong>{% trans "I support this idea" %}</strong></h3>
+    <div class="idea-pet-table-outer mb20">
+      <table class="idea-pet-table-first">
+        <tr>
+          <td><input id="name" type="text" placeholder="Name"></td>
+          <td><input id="surname" type="text" placeholder="Surname"></td>
+        </tr>
+        <tr>
+          <td colspan="2"><input id="email" type="text" placeholder="Email"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="idea-pet-table-outer mb20">
+      <table class="idea-pet-table-second">
+        <tr>
+          <td><input id="pass1" type="password" placeholder="Password"></td>
+        </tr>
+        <tr>
+          <td><input id="pass2" type="password" placeholder="Repeat Password"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="idea-pet-table-outer mb20">
+      <table class="idea-pet-table-third">
+        <tr>
+          <td><input type="text" placeholder="I can help by..."></td>
+        </tr>
+      </table>
+    </div>
+
+  </div><!-- end of idea-pet-form-cont -->
+  <!-- Jestem na Tak -->
+  <div class="vote-controls text-center ibutton-share clearfix">
+    {% if idea.status < 3 %}
+      <button data-target-id="{{ idea.pk }}"
+      class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn mb20"
+      type="submit" button-id="signup_button"
+      data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}">
+        {% trans "Vote YES" %}
+      </button>
+    {% endif %}
+  </div>
+    <div class="idea-pet-social-btns">
+        <div class="registerButtons text-center">
+          <a class="facebook-btn" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
+          <a class="twitter-btn" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
+          <a class="linkedin-btn" href="{% url 'social:begin' 'linkedin' %}?next={{ request.path }}"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
+          <a class="google-btn" href="{% url 'social:begin' 'google-plus' %}?next={{ request.path }}"><span class="fa fa-google-plus"></span></a>
+        </div>
+<!--         <div class="registerButtonSubmit text-center">
+          <button id="signup_button" type="submit" class="long signup-button antiman btn-greenBig">{% trans "Sign up" %}</button>
+      </div> -->
+    </div>
+  </form>
+  {% endif %}<!-- end of user.is_anonymous -->
+  {% if user.is_authenticated %}
+  <form id="pl-register-form" method="post" action="{% url 'user:register' %}?next={{ request.path }}" role="form">
+    <div class="vote-controls text-center ibutton-share clearfix">
+
+
+   <div class="idea-pet-form-cont text-left">
+    <h3 class="text-green mb20"><strong>{% trans "I support this idea" %}</strong></h3>
+
+    <div class="idea-pet-table-outer mb20">
+      <table class="idea-pet-table-auth">
+        <tr>
+          <td><div class="display-ib-m"><img src="{{ user.profile.avatar.url }}" alt="{{ user.get_full_name }}" class="idea-pet-user-avatar" /></div>{{ user.get_full_name }}</td>
+        </tr>
+      </table>
+    </div>
+
+   </div>
+
+
+    {% if idea.status < 3 %}<p class="mb20">
+      <button data-target-id="{{ idea.pk }}"
+      data-vote="{% if voted_up %}3{% else %}1{% endif %}"
+      class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-up no-btn {% if user.is_anonymous %} civil-login-required{% endif %}"
+      data-toggle="tooltip" data-placement="top" title="{% trans "Good Idea, Vote YES" %}"
+      rel='tooltip'>{% if voted_up %}{% trans "Revoke" %}{% else %}{% trans "Vote YES" %}{% endif %}</button>
+    </p>
+
+    <p class="mb20">
+      <button data-target-id="{{ idea.pk }}"
+      data-vote="{% if voted_no %}3{% else %}2{% endif %}"
+      class="vote-btn vote-btn-active custom-tooltip-right btn-i300 btn-vote-down bnt-block no-btn{% if user.is_anonymous %} civil-login-required{% endif %}"
+      data-toggle="tooltip" data-placement="bottom" title="{% trans "Bad Idea, Vote NO" %}"
+      rel='tooltip'>{% if voted_no %}{% trans "Revoke" %}{% else %}{% trans "Report critical remark" %}{% endif %}</button>
+    </p>{% endif %}
+    <div class="idea-vote-count custom-tooltip-right btn-i300 btn-iblue text-center" title="{% trans "Summary" %}" data-target="{{ idea.pk }}" onclick="ga('send', 'event', 'vote', 'click', 'see-votes');">{% trans "See the results" %}</div>
+  </div>
+  </form>
+  {% endif %}
+
+
+
+<!--   </div> -->
+  <div class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{% trans "Reason" %}</h4>
+        </div>
+        <div class="modal-body"></form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary submit-btn">{% trans "Save changes" %}</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>

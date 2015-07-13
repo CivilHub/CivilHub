@@ -183,10 +183,13 @@ class Idea(ImagableItemMixin, models.Model):
 
     def save(self, *args, **kwargs):
         # Clean user input data
-        self.name = strip_tags(self.name)
+        self.name = strip_tags(self.name.replace('"', ''))
         if len(self.name) >= 64:
             self.name = truncatesmart(self.name, 60)
-        self.description = sanitizeHtml(self.description)
+
+        # TODO - smart HTML sanitizing
+        #self.description = sanitizeHtml(self.description)
+
         # Create unique SEO-frinedly slug
         slug = slugify(self.name)
         self.slug = slug

@@ -8,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render
 
 from django.views.generic import DetailView, View
+from django.views.generic.base import ContextMixin
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.utils.translation import ugettext as _
@@ -30,6 +31,17 @@ from simpleblog.models import BlogEntry
 from .models import Idea, Vote, Category
 from .forms import IdeaForm, CategoryForm, \
                    NegativeCommentForm, PositiveCommentForm
+
+
+class IdeaExperimentMixin(ContextMixin):
+    """ This mixin allows us to switch vote area look.
+    """
+    def get_context_data(self, **kwargs):
+        context = super(IdeaExperimentMixin, self).get_context_data(**kwargs)
+        version = self.request.GET.get('v')
+        if version is not None:
+            context.update({'experiment': True, })
+        return context
 
 
 class VoteCommentFormView(SingleObjectMixin, View):
@@ -124,7 +136,7 @@ class IdeasListView(IdeasContextMixin, SearchableListMixin):
         return qs.filter(name__icontains=self.request.GET.get('haystack', ''))
 
 
-class IdeasDetailView(DetailView):
+class IdeasDetailView(IdeaExperimentMixin, DetailView):
     """ Detailed idea view.
     """
     model = Idea
@@ -190,7 +202,7 @@ class UpdateIdeaView(UpdateView):
         return super(UpdateIdeaView, self).form_valid(form)
 
 
-class IdeaMixedContextMixin(SingleObjectMixin):
+class IdeaMixedContextMixin(IdeaExperimentMixin, SingleObjectMixin):
     """
     """
     model = Idea

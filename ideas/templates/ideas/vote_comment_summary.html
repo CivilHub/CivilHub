@@ -1,9 +1,9 @@
 {% extends 'ideas/idea_detail_base.html' %}{% load staticfiles civil_tags i18n bookmark_tags comment_tags map_tags counters idea_tags simpleblog_tags %}
 {% block idea_link %}<ul class="mb0 list-inline col-sm-8 pr0 navbar-nav">
-  <li><a href="{{ idea.get_absolute_url }}">{% trans "Informations" %}</a></li>
-  <li><a href="{{ idea.get_absolute_url }}news/">{% trans "News" %}</a>{% if newscounter %}<span class="btn-badge-mlp badge badge-green text-white">{% newscounter idea %}</span>{% endif %}</li>
-  <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 1 %}">{% trans "Who can help" %}</a>{% if idea.positive_comments %}<span class="btn-badge-mlp badge badge-green text-white">{{ idea.positive_comments }}</span>{% endif %}</li>
-  <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 2 %}">{% trans "Negative opinions" %}</a>{% if idea.negative_comments %}<span class="btn-badge-mlp badge badge-green text-white">{{ idea.negative_comments }}</span>{% endif %}</li>
+  <li><a href="{{ idea.get_absolute_url }}{% if experiment %}?v=b{% endif %}">{% trans "Informations" %}</a></li>
+  <li><a href="{{ idea.get_absolute_url }}news/{% if experiment %}?v=b{% endif %}">{% trans "News" %}</a>{% if newscounter %}<span class="btn-badge-mlp badge badge-green text-white">{% newscounter idea %}</span>{% endif %}</li>
+  <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 1 %}{% if experiment %}?v=b{% endif %}">{% trans "Who can help" %}</a>{% if idea.positive_comments %}<span class="btn-badge-mlp badge badge-green text-white">{{ idea.positive_comments }}</span>{% endif %}</li>
+  <li><a href="{% url 'locations:idea-vote-summary' location.slug idea.slug 2 %}{% if experiment %}?v=b{% endif %}">{% trans "Negative opinions" %}</a>{% if idea.negative_comments %}<span class="btn-badge-mlp badge badge-green text-white">{{ idea.negative_comments }}</span>{% endif %}</li>
   {% with idea|content_type as ctype %}{% get_map_pointers idea as MARKERS %}{% if MARKERS.count %}<li class="pull-right"><a href="{% url 'maps:info' ctype.pk idea.pk %}">{% trans "Show on map" %}</a></li>{% endif %}{% endwith %}
 </ul>{% endblock %}
 {% block idea_description %}

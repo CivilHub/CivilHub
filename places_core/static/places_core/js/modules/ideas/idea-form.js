@@ -14,20 +14,20 @@ require(['jquery',
          'js/modules/content/content-form'],
 
 function ($) {
-    
+
   "use strict";
-  
+
   $(document).ready(function () {
-      
+
     $('#id_description').redactor({
-      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link'],
-      plugins: ['uploader']
+      buttons: ['bold', 'italic', 'unorderedlist', 'orderedlist', 'link', 'video'],
+      plugins: ['uploader', 'video']
     });
-    
+
     $('#id_tags').tagsInput({
       autocomplete_url: '/rest/tags/',
       defaultText: gettext("Add tag")
     });
   });
-  
+
 });

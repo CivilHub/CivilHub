@@ -73,6 +73,25 @@ class NGOInviteForm(forms.Form):
         return emails
 
 
+class NGOInviteUsers(forms.Form):
+    """ Invite already registered users to join to organization.
+    """
+    users = forms.CharField(label=_(u"Users"),
+        widget=forms.TextInput(attrs={
+            'class': 'form-control active-input',
+            'autocomplete': 'off', }))
+
+    def clean_users(self):
+        usernames = [x.strip() for x in self.cleaned_data['users'].split(',')]
+        users = []
+        for username in usernames:
+            try:
+                users.append(User.objects.get(username=username))
+            except User.DoesNotExist:
+                pass
+        return users
+
+
 class NGOBackgroundForm(forms.Form):
     """
     Use image crop to change organization's background image.
