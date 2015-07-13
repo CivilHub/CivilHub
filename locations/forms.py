@@ -62,6 +62,11 @@ class BackgroundUploadForm(forms.ModelForm, BootstrapBaseForm):
             self.cleaned_data['y2'], )
         image = Image.open(image)
         image = image.crop(box)
+
+        if self.instance is not None:
+            self.instance.image = handle_tmp_image(image)
+            self.instance.save()
+
         self.cleaned_data['image'] = handle_tmp_image(image)
 
         return True

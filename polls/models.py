@@ -38,7 +38,10 @@ class Poll(ImagableItemMixin, models.Model):
 
     def save(self, *args, **kwargs):
         self.title = strip_tags(self.title)
-        self.question = sanitizeHtml(self.question)
+
+        # TODO: It has to be validated somehow!!!
+        #self.question = sanitizeHtml(self.question)
+
         if not self.pk:
             to_slug_entry = self.title
             chk = Poll.objects.filter(title=self.title)

@@ -70,7 +70,10 @@ class News(ImagableItemMixin):
 
     def save(self, *args, **kwargs):
         self.title = strip_tags(self.title)
-        self.content = sanitizeHtml(self.content)
+
+        # TODO: It needs to be validated somehow!!!
+        #self.content = sanitizeHtml(self.content)
+
         if self.pk:
             self.edited = True
         slug = slugify(self.title)
