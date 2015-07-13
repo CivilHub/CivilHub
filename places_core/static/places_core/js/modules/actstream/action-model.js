@@ -16,7 +16,7 @@ var ActionModel = Backbone.Model.extend({
   },
 
   parse: function (model) {
-    model.label = gettext("Join the discussion");
+    model.label = gettext("Write a comment");
     return model;
   }
 });
