@@ -1,22 +1,22 @@
 {% extends 'organizations/index.html' %}{% load i18n %}
-{% block content %}<div class="col-sm-9 main-content">
+{% block content %}<div class="col-sm-9 main-content" itemscope itemtype="http://schema.org/Organization">
   <div class="text-center">
-    <h1 class="mt0 mb0">{{ organization }}</h1><h3 class="mt0 text-muted">{{ organization.category }}</h3>
-    <p>{% trans "Organization created by" %} <a href="{{ organization.creator.profile.get_absolute_url }}">
-    {{ organization.creator.get_full_name }}</a> {{ organization.date_created|timesince }} {% trans "ago" %}</p>
+    <h1 class="mt0 mb0"><span itemprop="name">{{ organization }}</span></h1><h3 class="mt0 text-muted">{{ organization.category }}</h3>
+    <p itemprop="founder">{% trans "Organization created by" %} <a href="{{ organization.creator.profile.get_absolute_url }}" itemprop="url">
+    <span itemprop="name">{{ organization.creator.get_full_name }}</span></a> {{ organization.date_created|timesince }} {% trans "ago" %}</p>
     <img src="{{ organization.logo.url }}" alt="{{ organization }}" class="mw100" /><br /><br />
   </div>
-  <div class="acticle-content">{{ organization.description|safe }}</div>
+  <div class="acticle-content" itemprop="description">{{ organization.description|safe }}</div>
 </div>
 <div class="col-sm-3">
   <div class="main-content p-reset">
     <div class="ac-title"><strong>{% trans "Additional informations" %}</strong></div>
     <div class="ac-hot-box">
-      <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong><p class="mb0">{{ organization.name }}</p></div>
+      <div class="ac-hot-single-box"><strong>{% trans "Organization name" %}:</strong><p class="mb0"><span itemprop="name">{{ organization.name }}</span></p></div>
       <div class="ac-hot-single-box"><strong>{% trans "Organization profil" %}:</strong><p class="mb0">{{ organization.category }}</p></div>
       {% if organization.krs %}<div class="ac-hot-single-box"><strong>{% trans "KRS" %}:</strong><p class="mb0">{{ organization.krs }}</p></div>{% endif %}
-      {% if organization.email %}<div class="ac-hot-single-box"><strong>{% trans "Email" %}:</strong><p class="mb0"><a href="mailto:{{ organization.email }}" rel="nofollow">{{ organization.email }}</a></p></div>{% endif %}
-      {% if organization.website %}<div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong><p class="mb0"><a href="{{ organization.website }}" target="_blank" rel="nofollow">{{ organization.website }}</a></p></div>{% endif %}
+      {% if organization.email %}<div class="ac-hot-single-box"><strong>{% trans "Email" %}:</strong><p class="mb0"><a href="mailto:{{ organization.email }}" rel="nofollow" itemprop="email">{{ organization.email }}</a></p></div>{% endif %}
+      {% if organization.website %}<div class="ac-hot-single-box"><strong>{% trans "Website" %}:</strong><p class="mb0"><a href="{{ organization.website }}" target="_blank" rel="nofollow" itemprop="url">{{ organization.website }}</a></p></div>{% endif %}
     </div>
   </div>
 </div>{% endblock %}
