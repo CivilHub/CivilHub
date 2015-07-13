@@ -73,9 +73,9 @@
 </div>
 
 <div class="container">
-    
+
     <div class="col-sm-9 content-container contentPX">
-        
+
         <div class="discussion-list-entry">
             <div class="custom-label-list" style="display:none;">
                 <span class="fa fa-list custom-fa"> </span>
@@ -90,17 +90,17 @@
             </div>
 
             {% include 'topics/discussion-list.html' %}
-            
+
         </div>
-            
+
     </div>
-    
+
     <input type="hidden" name="discussion_api_url" id="discussion-api-url" value="/api-locations/contents/?pk={{ location.pk }}&content=discussion" />
 
     <div class="col-sm-9 no-entries contentPX" style="display:none;">
         <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
         <h2>
-            {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
+            {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br />
             {% trans "Please" %}
             {% if user.is_authenticated %}
                 <a href="{% url 'locations:new_topic' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'first-discussion');">
@@ -109,15 +109,15 @@
             {% endif %}{% trans "add first discussion" %}</a>.
         </h2>
     </div>
-    
+
     {% include 'locations/category-form.html' %}
-    
+
     {% include 'locations/no-results-tpl.html' %}
 
     <div class="col-sm-3 boxPX">
         {% include 'locations/sidebar.html' %}
     </div>
-    
+
 </div><!-- / .container -->
-    
+
 {% endblock %}

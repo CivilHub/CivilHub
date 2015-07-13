@@ -135,6 +135,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'comments.context_processors.ctmap',
     'places_core.context_processors.site_processor',
+    'places_core.context_processors.debug_processor',
 )
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'), ]
 

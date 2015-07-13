@@ -5,10 +5,10 @@
     here we check what links are available and we display only those.
 {% endcomment %}
 
-    <div class="sidebar">{% if user.is_authenticated %} 
+    <div class="sidebar">{% if user.is_authenticated %}
         <div class="sidebar-label">{% trans "Actions" %}:</div>
-        <ul class="sidebar-content custom-sidebar-nav">  
-                            
+        <ul class="sidebar-content custom-sidebar-nav">
+
             {% if 'new_discussion' in links %}<li>
                 <a href="{% url 'locations:new_topic' location.slug %}" onclick="ga('send', 'event', 'add', 'click', 'discussion');">
                     {% trans "New discussion" %}
@@ -41,12 +41,12 @@
                 </a>
             </li>{% endif %}
         </ul>{% endif %}
-    
+
     <div class="followers-sidebar">
         <div class="sidebar-label">{% trans "Most active users" %}:</div>
         <div class="sidebar-content followers-box">
             <div class="followersLocation">
-                {% for usr in location.users.all %}
+                {% for usr in location.most_active_followers %}
                 <div class="follower">
                     <a class="custom-tooltip" href="{{ usr.profile.get_absolute_url }}" title data-target=1 data-original-title="{{ usr.get_full_name }}">
                     <img alt="{{ usr.get_full_name }}" src="/media/{{ usr.profile.avatar }}">
@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="clear"></div>
 
     {% if tags %}
@@ -70,7 +70,7 @@
     </div>
 
     {% endif %}
-    
+
     </div>
 
 
@@ -78,7 +78,7 @@
     {% comment %}
         A link that allows to send a mass mail with invite to come and browse the current site.
     {% endcomment %}
-    
+
     {% include 'civmail/invite-users.html' %}
-    
+
 {% endif %}
