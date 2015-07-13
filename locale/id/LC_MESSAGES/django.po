@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CivilHub\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 07:32+0200\n"
+"POT-Creation-Date: 2015-07-13 15:01+0200\n"
 "PO-Revision-Date: 2015-06-12 12:19+0000\n"
 "Last-Translator: CivilHub <grzegorz@civilhub.org>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/civilhub/"
@@ -134,7 +134,7 @@ msgid "Change background image"
 msgstr ""
 
 #: activities/templates/activities/followed_user_list.html:52
-#: ideas/templates/ideas/idea_detail_base.html:67
+#: ideas/templates/ideas/idea_detail_base.html:71
 #: locations/templates/locations/location-navbar.html:5
 #: organizations/templates/organizations/index.html:36
 #: places_core/templates/places_core/navigation.html:6
@@ -667,8 +667,8 @@ msgid "by"
 msgstr ""
 
 #: blog/templates/blog/news_detail.html:57
-#: ideas/templates/ideas/idea_detail_base.html:28
-#: ideas/templates/ideas/idea_detail_base.html:80
+#: ideas/templates/ideas/idea_detail_base.html:32
+#: ideas/templates/ideas/idea_detail_base.html:84
 #: ideas/templates/ideas/news_list.html:8
 #: ideas/templates/ideas/vote_comment_summary.html:7
 #: polls/templates/polls/poll-details.html:23
@@ -680,7 +680,7 @@ msgstr ""
 #: gallery/templates/gallery/location-gallery.html:37
 #: gallery/templates/gallery/user-gallery.html:13
 #: ideas/templates/ideas/idea_basic.html:33
-#: ideas/templates/ideas/idea_detail_base.html:30
+#: ideas/templates/ideas/idea_detail_base.html:34
 #: ideas/templates/ideas/news_list.html:21
 #: locations/templates/locations/location_polls.html:76
 #: organizations/templates/organizations/news_detail.html:40
@@ -705,7 +705,7 @@ msgstr ""
 #: guides/templates/guides/guide_confirm_delete.html:6
 #: guides/templates/guides/guide_detail.html:11
 #: guides/templates/guides/guide_editors.html:10
-#: ideas/templates/ideas/idea_detail_base.html:31
+#: ideas/templates/ideas/idea_detail_base.html:35
 #: ideas/templates/ideas/news_list.html:22
 #: locations/templates/locations/content-remove.html:14
 #: locations/templates/locations/location_form.html:37
@@ -726,7 +726,7 @@ msgid "Delete"
 msgstr ""
 
 #: blog/templates/blog/news_detail.html:61
-#: ideas/templates/ideas/idea_detail_base.html:29
+#: ideas/templates/ideas/idea_detail_base.html:33
 #: polls/templates/polls/poll-details.html:25
 #: topics/templates/topics/discussion_detail.html:33
 msgid "Add map marker"
@@ -759,7 +759,7 @@ msgid "Cancel"
 msgstr ""
 
 #: blog/templates/blog/news_list.html:2
-#: ideas/templates/ideas/idea_detail_base.html:77
+#: ideas/templates/ideas/idea_detail_base.html:81
 #: ideas/templates/ideas/news_list.html:5
 #: ideas/templates/ideas/vote_comment_summary.html:4
 #: locations/templates/locations/location-navbar.html:14
@@ -1117,6 +1117,7 @@ msgstr ""
 #: ideas/templates/ideas/idea-category.html:25
 #: ideas/templates/ideas/idea-votes.html:24
 #: ideas/templates/ideas/vote_area.html:31
+#: ideas/templates/ideas/vote_area_b.html:118
 #: locations/templates/locations/category-form.html:31
 #: locations/templates/locations/location_followers.html:49
 #: locations/templates/locations/location_news.html:86
@@ -1337,6 +1338,7 @@ msgstr ""
 
 #: etherpad/templates/etherpad/pad_list.html:41
 #: ideas/templates/ideas/vote_area.html:37
+#: ideas/templates/ideas/vote_area_b.html:124
 #: locations/templates/locations/location_form.html:105
 #: locations/templates/locations/location_news.html:87
 #: places_core/templates/places_core/script-templates.html:296
@@ -1701,16 +1703,21 @@ msgid "Your vote has been revoked"
 msgstr ""
 
 #: ideas/api.py:44 ideas/templates/ideas/vote_area.html:16
+#: ideas/templates/ideas/vote_area_b.html:55
+#: ideas/templates/ideas/vote_area_b.html:96
 #: locations/templates/locations/widgets/idea.html:149
 msgid "Vote YES"
 msgstr ""
 
 #: ideas/api.py:46 ideas/templates/ideas/vote_area.html:23
+#: ideas/templates/ideas/vote_area_b.html:104
 msgid "Report critical remark"
 msgstr ""
 
 #: ideas/api.py:48 ideas/api.py:54 ideas/templates/ideas/vote_area.html:16
 #: ideas/templates/ideas/vote_area.html:23
+#: ideas/templates/ideas/vote_area_b.html:96
+#: ideas/templates/ideas/vote_area_b.html:104
 msgid "Revoke"
 msgstr ""
 
@@ -1809,6 +1816,8 @@ msgstr ""
 #: ideas/templates/ideas/idea_basic.html:11
 #: ideas/templates/ideas/idea_list.html:17 ideas/templates/ideas/ideas.html:17
 #: ideas/templates/ideas/ideas.html:20 ideas/templates/ideas/vote_area.html:15
+#: ideas/templates/ideas/vote_area_b.html:54
+#: ideas/templates/ideas/vote_area_b.html:95
 #: places_core/templates/places_core/script-templates.html:72
 #: places_core/templates/places_core/script-templates.html:162
 #: places_core/templates/places_core/script-templates.html:165
@@ -1818,6 +1827,7 @@ msgstr ""
 #: ideas/templates/ideas/idea_basic.html:9
 #: ideas/templates/ideas/idea_basic.html:12
 #: ideas/templates/ideas/ideas.html:21 ideas/templates/ideas/vote_area.html:22
+#: ideas/templates/ideas/vote_area_b.html:103
 #: places_core/templates/places_core/script-templates.html:73
 #: places_core/templates/places_core/script-templates.html:166
 msgid "Bad Idea, Vote NO"
@@ -1834,7 +1844,7 @@ msgid "Active"
 msgstr ""
 
 #: ideas/templates/ideas/idea_basic.html:22
-#: ideas/templates/ideas/idea_detail_base.html:55
+#: ideas/templates/ideas/idea_detail_base.html:59
 #: ideas/templates/ideas/idea_list.html:29 ideas/templates/ideas/ideas.html:31
 #: places_core/templates/places_core/script-templates.html:176
 msgid "Inactive"
@@ -1861,16 +1871,16 @@ msgstr ""
 msgid "Delete pictures"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:32
+#: ideas/templates/ideas/idea_detail_base.html:36
 msgid "Write news"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:33
+#: ideas/templates/ideas/idea_detail_base.html:37
 msgid "embed"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:54
-#: ideas/templates/ideas/idea_detail_base.html:55
+#: ideas/templates/ideas/idea_detail_base.html:58
+#: ideas/templates/ideas/idea_detail_base.html:59
 #: ideas/templates/ideas/idea_list.html:28
 #: ideas/templates/ideas/idea_list.html:29
 #: ideas/templates/ideas/navbar.html:15
@@ -1880,25 +1890,25 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:76
+#: ideas/templates/ideas/idea_detail_base.html:80
 #: ideas/templates/ideas/news_list.html:4
 #: ideas/templates/ideas/vote_comment_summary.html:3
 msgid "Informations"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:78
+#: ideas/templates/ideas/idea_detail_base.html:82
 #: ideas/templates/ideas/news_list.html:6
 #: ideas/templates/ideas/vote_comment_summary.html:5
 msgid "Who can help"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:79
+#: ideas/templates/ideas/idea_detail_base.html:83
 #: ideas/templates/ideas/news_list.html:7
 #: ideas/templates/ideas/vote_comment_summary.html:6
 msgid "Negative opinions"
 msgstr ""
 
-#: ideas/templates/ideas/idea_detail_base.html:83
+#: ideas/templates/ideas/idea_detail_base.html:87
 msgid "Tell others about this idea"
 msgstr ""
 
@@ -1919,6 +1929,7 @@ msgstr ""
 
 #: ideas/templates/ideas/idea_list.html:31
 #: ideas/templates/ideas/vote_area.html:25
+#: ideas/templates/ideas/vote_area_b.html:106
 #: organizations/templates/organizations/index.html:44
 #: projects/templates/projects/navbar.html:14
 msgid "Summary"
@@ -1953,27 +1964,51 @@ msgid "Add new picture"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:4
+#: ideas/templates/ideas/vote_area_b.html:4
 msgid "Total vote"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:8
+#: ideas/templates/ideas/vote_area_b.html:8
 msgid "Positive votes"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:25
+#: ideas/templates/ideas/vote_area_b.html:106
 msgid "See the results"
 msgstr ""
 
 #: ideas/templates/ideas/vote_area.html:32
+#: ideas/templates/ideas/vote_area_b.html:119
 msgid "Reason"
 msgstr ""
 
-#: ideas/views.py:103 locations/templates/locations/category-form.html:16
+#: ideas/templates/ideas/vote_area_b.html:15
+#: ideas/templates/ideas/vote_area_b.html:78
+msgid "I support this idea"
+msgstr ""
+
+#: ideas/templates/ideas/vote_area_b.html:67
+#: places_core/templates/places_core/navigation.html:97
+#: staticpages/templates/staticpages/pages/home-c.html:95
+#: staticpages/templates/staticpages/pages/home-e.html:450
+#: staticpages/templates/staticpages/pages/home-f.html:390
+#: staticpages/templates/staticpages/pages/home-g.html:394
+#: staticpages/templates/staticpages/pages/home-h.html:385
+#: staticpages/templates/staticpages/pages/home-i.html:395
+#: staticpages/templates/staticpages/pages/home-j.html:414
+#: staticpages/templates/staticpages/pages/home.html:40
+#: staticpages/templates/staticpages/pages/register.html:67
+#: userspace/templates/userspace/register.html:50
+msgid "Sign up"
+msgstr ""
+
+#: ideas/views.py:115 locations/templates/locations/category-form.html:16
 #: places_core/templates/places_core/script-templates.html:217
 msgid "Create new category"
 msgstr ""
 
-#: ideas/views.py:156
+#: ideas/views.py:168
 msgid "create new idea"
 msgstr ""
 
@@ -3630,20 +3665,6 @@ msgstr ""
 #: places_core/templates/places_core/navigation.html:93
 #: userspace/templates/userspace/sidebar.html:19
 msgid "Edit profile"
-msgstr ""
-
-#: places_core/templates/places_core/navigation.html:97
-#: staticpages/templates/staticpages/pages/home-c.html:95
-#: staticpages/templates/staticpages/pages/home-e.html:450
-#: staticpages/templates/staticpages/pages/home-f.html:390
-#: staticpages/templates/staticpages/pages/home-g.html:394
-#: staticpages/templates/staticpages/pages/home-h.html:385
-#: staticpages/templates/staticpages/pages/home-i.html:395
-#: staticpages/templates/staticpages/pages/home-j.html:414
-#: staticpages/templates/staticpages/pages/home.html:40
-#: staticpages/templates/staticpages/pages/register.html:67
-#: userspace/templates/userspace/register.html:50
-msgid "Sign up"
 msgstr ""
 
 #: places_core/templates/places_core/navigation.html:101
