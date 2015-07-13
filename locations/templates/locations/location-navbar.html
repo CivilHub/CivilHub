@@ -10,18 +10,18 @@
       </div>
     <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav" itemscope>
-        <li><a href="{{ location.get_absolute_url }}" id="tour-Summary" class="lhome" itemprop="url" rel="up"><span itemprop="name">{% trans "Home" %}</span></a></li>
-        <li><a href="{% url 'locations:news' location.slug %}#navbar" id="tour-Blog" class="lnews" itemprop="url" rel="up"><span itemprop="name">{% trans "News" %}</span></a></li>
-        <li><a href="{% url 'locations:discussions' location.slug %}#navbar" id="tour-Discussions" class="ldiscussion" itemprop="url" rel="up"><span itemprop="name">{% trans "Discussions" %}</span></a></li>
-        <li><a href="{% url 'locations:ideas' location.slug %}#navbar" id="tour-Ideas" class="lideas" itemprop="url" rel="up"><span itemprop="name">{% trans "Ideas" %}</span></a></li>
-        <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls" class="lpolls" itemprop="url" rel="up"><span itemprop="name">{% trans "Polls" %}</span></a></li>
-        <li><a href="{% url 'locations:project_list' location.slug %}" class="lprojects" itemprop="url" rel="url"><span itemprop="name">{% trans "Projects" %}</span></a></li>
-        <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery" class="lgallery" itemprop="url" rel="url"><span itemprop="name">{% trans "Gallery" %}</span></a></li>
-        {% if location.latitude and location.longitude %}{% with location|content_type as ctype %}<li><a href="{% url 'maps:info' ctype.pk location.pk %}" class="lmap" itemprop="url" rel="up"><span itemprop="name">{% trans "Map" %}</span></a></li>{% endwith %}{% endif %}
+        <li><a href="{{ location.get_absolute_url }}" id="tour-Summary" class="lhome" itemprop="url" rel="up">{% trans "Home" %}</a></li>
+        <li><a href="{% url 'locations:news' location.slug %}#navbar" id="tour-Blog" class="lnews" itemprop="url" rel="up">{% trans "News" %}</a></li>
+        <li><a href="{% url 'locations:discussions' location.slug %}#navbar" id="tour-Discussions" class="ldiscussion" itemprop="url" rel="up">{% trans "Discussions" %}</a></li>
+        <li><a href="{% url 'locations:ideas' location.slug %}#navbar" id="tour-Ideas" class="lideas" itemprop="url" rel="up">{% trans "Ideas" %}</a></li>
+        <li><a href="{% url 'locations:polls' location.slug %}" id="tour-Polls" class="lpolls" itemprop="url" rel="up">{% trans "Polls" %}</a></li>
+        <li><a href="{% url 'locations:project_list' location.slug %}" class="lprojects" itemprop="url" rel="url">{% trans "Projects" %}</a></li>
+        <li><a href="{% url 'locations:gallery' location.slug %}" id="tour-Gallery" class="lgallery" itemprop="url" rel="url">{% trans "Gallery" %}</a></li>
+        {% if location.latitude and location.longitude %}{% with location|content_type as ctype %}<li><a href="{% url 'maps:info' ctype.pk location.pk %}" class="lmap" itemprop="url" rel="up">{% trans "Map" %}</a></li>{% endwith %}{% endif %}
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'locations:organizations' location.slug %}" class="lsubspaces" itemprop="url" rel="up"><span itemprop="name">{% trans "Organizations" %}</span></a></li>
-        <li><a href="{% url 'guides:list' location.slug %}" class="lguides" itemprop="url" rel="up"><span itemprop="name">{% trans "Guides" %}</span></a></li>
+        <li><a href="{% url 'locations:organizations' location.slug %}" class="lsubspaces" itemprop="url" rel="up">{% trans "Organizations" %}</a></li>
+        <li><a href="{% url 'guides:list' location.slug %}" class="lguides" itemprop="url" rel="up">{% trans "Guides" %}</a></li>
       </ul>
     </div>
   </div>
