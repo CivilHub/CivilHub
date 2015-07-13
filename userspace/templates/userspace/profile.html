@@ -50,7 +50,7 @@
     </form>{% endif %}
   </div>
 </div>
-<nav id="filter-navbar" class="navbar-default mt0" role="navigation">
+<nav id="filter-navbar" class="navbar-default mt0" role="navigation" itemscope>
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -62,12 +62,12 @@
     </div>
     <div class="row collapse navbar-collapse profileClassNav" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav navbar-nav-userspace">
-        <li><a href="#" class="list-controller userspace active" data-control="content" data-target="all">{% trans "Everything" %}</a></li>
-        <li><a href="#" class="list-controller userspace" data-control="content" data-target="blog.news">{% trans "Blog" %}</a></li>
-        <li><a href="#" class="list-controller userspace" data-control="content" data-target="topics.discussion">{% trans "Discussions" %}</a></li>
-        <li><a href="#" class="list-controller userspace" data-control="content" data-target="ideas.idea">{% trans "Ideas" %}</a></li>
-        <li><a href="#" class="list-controller userspace" data-control="content" data-target="polls.poll">{% trans "Polls" %}</a></li>
-        <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery.locationgalleryitem">{% trans "Gallery" %}</a></li>
+        <li><a href="#" class="list-controller userspace active" data-control="content" data-target="all" itemprop="url"><span itemprop="name">{% trans "Everything" %}</span></a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="blog.news" itemprop="url"><span itemprop="name">{% trans "Blog" %}</span></a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="topics.discussion" itemprop="url"><span itemprop="name">{% trans "Discussions" %}</span></a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="ideas.idea" itemprop="url"><span itemprop="name">{% trans "Ideas" %}</span></a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="polls.poll" itemprop="url"><span itemprop="name">{% trans "Polls" %}</span></a></li>
+        <li><a href="#" class="list-controller userspace" data-control="content" data-target="gallery.locationgalleryitem" itemprop="url"><span itemprop="name">{% trans "Gallery" %}</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <form id="haystack-form" class="navbar-form navbar-right" role="search" method="get" action="">

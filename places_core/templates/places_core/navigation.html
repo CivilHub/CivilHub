@@ -1,5 +1,5 @@
 {% load staticfiles i18n postman_tags civil_tags notify_tags %}{% postman_unread as unread_count %}{% unread_notifications as ncount %}
-<nav id="navbar-top" class="navbar-default navbar-fixed-top navbar-top-border" role="navigation">
+<nav id="navbar-top" class="navbar-default navbar-fixed-top navbar-top-border" role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-navbar-collapse">
@@ -19,7 +19,7 @@
       </div>
       <ul class="nav navbar-nav navbar-left navbarHeaderLeft">
         <li class="nav-search hidden-xs">
-          <a href="#" id="search-bar-icon" class="custom-tooltip-right" title="{% trans "Search" %}"><span class="search-icon-top"></span></a>
+          <a href="#" id="search-bar-icon" class="custom-tooltip-right" title="{% trans "Search" %}" itemprop="url"><span class="search-icon-top"></span></a>
           <div class="search-bar-box hidden">
             <form class="search-form" role="search" method="get" action="{% url 'search:haystack_search' %}">
               <input type="text" name="q" id="id_q" class="form-control-search" placeholder="{% trans "Search" %}" autofocus>
@@ -28,124 +28,124 @@
           </div>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle custom-tooltip-right onlyIcon" data-toggle="dropdown" href="#" title="{% trans "Support" %}">
+          <a class="dropdown-toggle custom-tooltip-right onlyIcon" data-toggle="dropdown" href="#" title="{% trans "Support" %}" rel="index up" itemprop="url">
             <span class="support-icon hidden-xs"></span><span class="rwdShow">{% trans "Support" %} <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu support-icon-box">
-            <li><a href="/brief/">{% trans "Brief" %}</a></li>
-            <li><a href="/local-communities/">{% trans "Local Communities" %}</a></li>
-            <li><a href="/project-features/">{% trans "About Projects" %}</a></li>
-            <li><a href="/idea-to-law/">{% trans "Law changes" %}</a></li>
-            <li><a href="/idea-to-project/">{% trans "Idea to Projects" %}</a></li>
-            <li><a href="/points-and-badges/">{% trans "Points and badges" %}</a></li>
+            <li><a href="/brief/" itemprop="url" rel="up"><span itemprop="name">{% trans "Brief" %}</span></a></li>
+            <li><a href="/local-communities/" itemprop="url" rel="up"><span itemprop="name">{% trans "Local Communities" %}</span></a></li>
+            <li><a href="/project-features/" itemprop="url" rel="up"><span itemprop="name">{% trans "About Projects" %}</span></a></li>
+            <li><a href="/idea-to-law/" itemprop="url" rel="up"><span itemprop="name">{% trans "Law changes" %}</span></a></li>
+            <li><a href="/idea-to-project/" itemprop="url" rel="up"><span itemprop="name">{% trans "Idea to Projects" %}</span></a></li>
+            <li><a href="/points-and-badges/" itemprop="url" rel="up"><span itemprop="name">{% trans "Points and badges" %}</span></a></li>
             <li class="divider hidden-xs"></li>
-            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Cities" %} <span class="fa fa-angle-down rwdShow"></span></a>
+            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown" rel="up" itemprop="url"><span itemprop="name">{% trans "For Cities" %}</span> <span class="fa fa-angle-down rwdShow"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/for-city-administration/">{% trans "For City Administration" %}</a></li>
+                <li><a href="/for-city-administration/" itemprop="url" rel="up"><span itemprop="name">{% trans "For City Administration" %}</span></a></li>
               </ul>
             </li>
-            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown">{% trans "For Organizations" %} <span class="fa fa-angle-down rwdShow"></span></a>
+            <li class="dropdown-submenu"><a href="#" data-toggle="dropdown" rel="up" itemprop="url"><span itemprop="name">{% trans "For Organizations" %}</span> <span class="fa fa-angle-down rwdShow"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="/for-organizations/">{% trans "For your Organization" %}</a></li>
+                <li><a href="/for-organizations/" itemprop="url" rel="up"><span itemprop="name">{% trans "For your Organization" %}</span></a></li>
               </ul>
             </li>
           </ul>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle onlyIcon custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-toggle="dropdown">
-            <span class="civilhub-icon-top hidden-xs"></span><span class="rwdShow">{% trans "About CivilHub" %} <span class="fa fa-angle-down"></span></span>
+          <a class="dropdown-toggle onlyIcon custom-tooltip-right" href="#" title="{% trans "About CivilHub" %}" data-toggle="dropdown" itemprop="url" rel="index up">
+            <span class="civilhub-icon-top hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "About CivilHub" %}</span> <span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu civilhub-icon-top-box">
-            <li><a href="/mission">{% trans "Mission" %}</a></li>
-            <li><a href="/team">{% trans "Team" %}</a></li>
-            <li><a href="/about-us">{% trans "About Us" %}</a></li>
-            <li><a href="/creed">{% trans "Creed" %}</a></li>
-            <li><a href="/history-timeline">{% trans "History" %}</a></li>
-            <li><a href="/licence">{% trans "Licence" %}</a></li>
-            <li><a href="/for-volunteers">{% trans "For Volunteers" %}</a></li>
-            <li><a href="/open-source">{% trans "Open Data" %}</a></li>
-            <li><a href="/blog">{% trans "Our Blog" %}</a></li>
-            <li><a href="/contact">{% trans "Contact" %}</a></li>
+            <li><a href="/mission" itemprop="url" rel="up"><span itemprop="name">{% trans "Mission" %}</span></a></li>
+            <li><a href="/team" itemprop="url" rel="up"><span itemprop="name">{% trans "Team" %}</span></a></li>
+            <li><a href="/about-us" itemprop="url" rel="up"><span itemprop="name">{% trans "About Us" %}</span></a></li>
+            <li><a href="/creed" itemprop="url" rel="up"><span itemprop="name">{% trans "Creed" %}</span></a></li>
+            <li><a href="/history-timeline" itemprop="url" rel="up"><span itemprop="name">{% trans "History" %}</span></a></li>
+            <li><a href="/licence" itemprop="url" rel="up"><span itemprop="name">{% trans "Licence" %}</span></a></li>
+            <li><a href="/for-volunteers" itemprop="url" rel="up"><span itemprop="name">{% trans "For Volunteers" %}</span></a></li>
+            <li><a href="/open-source" itemprop="url" rel="up"><span itemprop="name">{% trans "Open Data" %}</span></a></li>
+            <li><a href="/blog" itemprop="url" rel="up"><span itemprop="name">{% trans "Our Blog" %}</span></a></li>
+            <li><a href="/contact" itemprop="url" rel="up"><span itemprop="name">{% trans "Contact" %}</span></a></li>
           </ul>
         </li>
 
       </ul>
-      <ul class="nav navbar-nav navbar-right navbarHeader">
+      <ul class="nav navbar-nav navbar-right navbarHeader" itemscope>
         {% if user.is_authenticated %}
         <!-- <li class="user-hidden-link">
           <a href="{% url 'user:index' %}"><span class="fa fa-user"> </span> {% trans "Profile" %}</a>
           <a href="{% url 'user:logout' %}"><span class="fa fa-power-off"> </span> {% trans "Logout" %}</a>
         </li> -->
         <li class="user-profile-link">
-          <a class="avatar" href="{{ user.profile.get_absolute_url }}">
-            <img src="{{ user.profile.thumbnail.url }}" alt="{{ user.get_full_name }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" />
+          <a class="avatar" href="{{ user.profile.get_absolute_url }}" itemprop="url" rel="index up">
+            <img src="{{ user.profile.thumbnail.url }}" alt="{{ user.get_full_name }}" class="navbar-avatar" title="{% trans "Logged in as" %} {{ user.get_full_name }}" itemprop="img" />
           </a>
         </li>
         <li class="dropdown">
-          <a  id="username" href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} <span class="fa fa-angle-down"></span></a>
+          <a  id="username" href="#" class="dropdown-toggle" data-toggle="dropdown" itemprop="name" rel="up"><span itemprop="name">{{ user.first_name }}</span> <span class="fa fa-angle-down"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="{{ user.profile.get_absolute_url }}">{% trans "Profile" %}</a></li>
-            <li><a href="/invite-friends/">{% trans "Invite friends" %}</a></li>
-            <li><a href="{% url 'activities:followed' user.profile.clean_username %}">{% trans "People" %}</a></li>
-            <li><a href="{% url 'user:locations' user.profile.clean_username %}">{% trans "My Places" %}</a></li>
-            <li><a href="{% url 'gallery:index' %}">{% trans "Media" %}</a></li>
-            <li><a href="{% url 'user:organizations' user.profile.clean_username %}">{% trans "Organizations" %}</a></li>
-            <li><a href="{% url 'user:index' %}">{% trans "Edit profile" %}</a></li>
+            <li><a href="{{ user.profile.get_absolute_url }}" itemprop="url" rel="up"><span itemprop="name">{% trans "Profile" %}</span></a></li>
+            <li><a href="/invite-friends/" itemprop="url" rel="up"><span itemprop="name">{% trans "Invite friends" %}</span></a></li>
+            <li><a href="{% url 'activities:followed' user.profile.clean_username %}" itemprop="url" rel="up"><span itemprop="name">{% trans "People" %}</span></a></li>
+            <li><a href="{% url 'user:locations' user.profile.clean_username %}" itemprop="url" rel="up"><span itemprop="name">{% trans "My Places" %}</span></a></li>
+            <li><a href="{% url 'gallery:index' %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Media" %}</span></a></li>
+            <li><a href="{% url 'user:organizations' user.profile.clean_username %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Organizations" %}</span></a></li>
+            <li><a href="{% url 'user:index' %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Edit profile" %}</span></a></li>
             <li class="divider hidden-xs"></li>
-            <li><a href="{% url 'user:logout' %}">{% trans "Logout" %}</a></li>
+            <li><a href="{% url 'user:logout' %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Logout" %}</span></a></li>
           </ul>
-        </li>{% else %}<li><a href="{% url 'user:register' %}" class="loginFeatures">{% trans "Sign up" %}</a></li>
-        <li><a href="{% url 'user:login' %}" class="loginFeatures ml30">{% trans "Login" %}</a></li>{% endif %}
+        </li>{% else %}<li><a href="{% url 'user:register' %}" class="loginFeatures" itemprop="url" rel="up"><span itemprop="name">{% trans "Sign up" %}</span></a></li>
+        <li><a href="{% url 'user:login' %}" class="loginFeatures ml30" itemprop="url" rel="up"><span itemprop="name">{% trans "Login" %}</span></a></li>{% endif %}
       </ul>
-      <ul class="nav navbar-nav navbar-right navbarHeader">
-        {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="onlyIcon cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}"><span class="bouncy-add-plus hidden-xs"></span><span class="rwdShow">{% trans "Create content" %}</span></a></li>
+      <ul class="nav navbar-nav navbar-right navbarHeader" itemscope>
+        {% if user.is_authenticated %}{% if location or user.profile.followed_locations|length %}<li><a href="#" class="onlyIcon cd-bouncy-nav-trigger custom-tooltip-right" title="{% trans 'Create content' %}" itemprop="url" rel="index up"><span class="bouncy-add-plus hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "Create content" %}</span></span></a></li>
         <div class="cd-bouncy-nav-modal">
           <div class="cd-bouncy-select-location"><h2>{% trans "Creating in" %}:</h2>
             <select{% if location %} data-location="{{ location.slug }}"{% endif %} class="form-control input-sm">
             {% if location %}<option value="{{ location.slug }}">{{ location }}</option>{% endif %}
           </select></div>
-          <nav>
+          <nav itemscope>
             <ul class="cd-bouncy-nav">
-              <li><a class="bouncy-option" data-content="news" href="#" onclick="ga('send', 'event', 'add', 'click', 'news');" >{% trans "News" %}</a></li>
-              <li><a class="bouncy-option" data-content="ideas" href="#" onclick="ga('send', 'event', 'add', 'click', 'idea');">{% trans "Idea" %}</a></li>
-              <li><a class="bouncy-option" data-content="discussion" href="#" onclick="ga('send', 'event', 'add', 'click', 'discussion');">{% trans "Discussion" %}</a></li>
-              <li><a class="bouncy-option" data-content="polls" href="#" onclick="ga('send', 'event', 'add', 'click', 'poll');">{% trans "Poll" %}</a></li>
-              <li><a class="bouncy-option" data-content="projects" href="#" onclick="ga('send', 'event', 'add', 'click', 'project');">{% trans "Project" %}</a></li>
-              <li><a class="bouncy-option" data-content="gallery" href="#" onclick="ga('send', 'event', 'add', 'click', 'gallery');">{% trans "Gallery" %}</a></li>
+              <li><a class="bouncy-option" data-content="news" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'news');" ><span itemprop="name">{% trans "News" %}</span></a></li>
+              <li><a class="bouncy-option" data-content="ideas" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'idea');"><span itemprop="name">{% trans "Idea" %}</span></a></li>
+              <li><a class="bouncy-option" data-content="discussion" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'discussion');"><span itemprop="name">{% trans "Discussion" %}</span></a></li>
+              <li><a class="bouncy-option" data-content="polls" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'poll');"><span itemprop="name">{% trans "Poll" %}</span></a></li>
+              <li><a class="bouncy-option" data-content="projects" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'project');"><span itemprop="name">{% trans "Project" %}</span></a></li>
+              <li><a class="bouncy-option" data-content="gallery" itemprop="url" rel="up" href="#" onclick="ga('send', 'event', 'add', 'click', 'gallery');"><span itemprop="name">{% trans "Gallery" %}</span></a></li>
             </ul>
           </nav>
           <a href="#0" class="cd-close">Close modal</a>
         </div>{% endif %}
         <li class="dropdown">
-          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#"><span class="places-icon hidden-xs"></span><span class="rwdShow">{% trans "Places" %} <span class="fa fa-angle-down"></span></span></a>
-          <ul class="dropdown-menu places-icon-box">
+          <a class="dropdown-toggle onlyIcon custom-tooltip-right" title="{% trans "Places" %}" data-toggle="dropdown" href="#" itemprop="url" rel="index up"><span class="places-icon hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "Places" %} </span><span class="fa fa-angle-down"></span></span></a>
+          <ul class="dropdown-menu places-icon-box" itemscope>
             <div class="list-li"><li>
-              <a href="{% url 'locations:index' %}">{% trans "Browse Places" %}</a>
+              <a href="{% url 'locations:index' %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Browse Places" %}</span></a>
             </li>
             <li class="divider hidden-xs"></li>
-            {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}">{{ l.name }}</a></li>{% endfor %}
+            {% for l in user.profile.followed_locations %}<li><a href="{{ l.get_absolute_url }}" itemprop="url" rel="up"><span itemprop="name">{{ l.name }}</span></a></li>{% endfor %}
             {% if user.is_authenticated %}<li class="divider hidden-xs"></li>
-            <li><a href="{% url 'locations:create' %}" onclick="ga('send', 'event', 'add', 'click', 'place');">{% trans "Create new place" %}</a></li>{% endif %}</div>
+            <li><a href="{% url 'locations:create' %}" itemprop="url" rel="up" onclick="ga('send', 'event', 'add', 'click', 'place');"><span itemprop="name">{% trans "Create new place" %}</span></a></li>{% endif %}</div>
           </ul>
         </li>
-        <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon"><span class="maps-boxBox fa fa-globe hidden-xs"></span><span class="rwdShow">{% trans "Map" %}</span> </a></li>{% endif %}
-        {% if user.is_authenticated %}<li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}"><span class="ngo-icon hidden-xs"></span> <span class="rwdShow">{% trans "Organizations" %}</span></a></li>
+        <li><a href="{% url 'maps:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Map" %}" id="tour-map-icon" itemprop="url" rel="up"><span class="maps-boxBox fa fa-globe hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "Map" %}</span></span> </a></li>{% endif %}
+        {% if user.is_authenticated %}<li><a href="{% url 'organizations:index' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Organizations" %}" itemprop="url" rel="up"><span class="ngo-icon hidden-xs"></span> <span class="rwdShow"><span itemprop="name">{% trans "Organizations" %}</span></span></a></li>
         <li class="dropdown">
-          <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}">
-            <span class="my-bookmarkBox fa fa-bookmark-o hidden-xs"></span><span class="rwdShow">{% trans "My Bookmarks" %} <span class="fa fa-angle-down"></span></span>
+          <a class="bookmarks-list-toggle dropdown-toggle onlyIcon custom-tooltip-right" data-toggle="dropdown" href="#" title="{% trans "Bookmarks" %}" itemprop="url" rel="up">
+            <span class="my-bookmarkBox fa fa-bookmark-o hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "My Bookmarks" %} </span><span class="fa fa-angle-down"></span></span>
           </a>
           <ul class="dropdown-menu bookmarks-no-list">
             <li class="divider hidden-xs"></li>
-            <li><a href="{% url 'bookmarks-list' %}">{% trans "Manage" %}</a></li>
+            <li><a href="{% url 'bookmarks-list' %}" itemprop="url" rel="up"><span itemprop="name">{% trans "Manage" %}</span></a></li>
           </ul>
         </li>
         <li>
-          <a href="{% url 'postman_inbox' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Messages" %}">
-            <span class="message-box fa fa-envelope-o hidden-xs"></span><span class="rwdShow">{% trans "Messages" %}</span>
+          <a href="{% url 'postman_inbox' %}" class="onlyIcon custom-tooltip-right" title="{% trans "Messages" %}" itemprop="url" rel="up">
+            <span class="message-box fa fa-envelope-o hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "Messages" %}</span></span>
             {% if unread_count %}<span class="badge custom-badge-indicator">{{ unread_count }}</span>{% endif %}
           </a>
         </li>
-        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="#"><span class="fa fa-bell-o hidden-xs"></span><span class="rwdShow">{% trans "Notifications" %}</span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
+        <li><a id="notifications-toggler" class="onlyIcon lastIco custom-tooltip-right" title="{% trans "Notifications" %}" href="#" itemprop="url" rel="up"><span class="fa fa-bell-o hidden-xs"></span><span class="rwdShow"><span itemprop="name">{% trans "Notifications" %}</span></span>{% if ncount %}<span class="badge custom-badge-indicator">{{ ncount }}</span>{% endif %}</a></li>{% endif %}
       </ul>
     </div>
   </div>

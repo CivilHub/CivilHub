@@ -1,5 +1,5 @@
 {% load staticfiles i18n civil_tags %}
-<nav id="location-navbar" class="navbar navbar-default" role="navigation">
+<nav id="location-navbar" class="navbar navbar-default" role="navigation" itemscope>
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-location-collapse-menu">
@@ -11,16 +11,16 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-location-collapse-menu">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'locations:project_summary' location.slug object.slug %}" class="prosummary">{% trans "Summary" %}</a></li>
-        <li><a href="{{ object.get_absolute_url }}" class="protasks"></span>{% trans "Tasks" %}</a></li>
-        <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>
-        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants">{% trans "Participants" %}</a></li>
-        <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>
-        <li><a href="{% url 'projects:gallery-list' object.slug %}" class="progalleries">{% trans "Galleries" %}</a></li>
-        <li><a href="{% url 'projects:news-list' object.slug %}" class="pronews">{% trans "News" %}</a></li>
-        <li><a href="{% url 'projects:attachment-list' object.slug %}" class="proattachments">{% trans "Attachments" %}</a></li>
+        <li><a href="{% url 'locations:project_summary' location.slug object.slug %}" class="prosummary" itemprop="url"><span itemprop="name">{% trans "Summary" %}</span></a></li>
+        <li><a href="{{ object.get_absolute_url }}" class="protasks" itemprop="url"><span itemprop="name">{% trans "Tasks" %}</span></a></li>
+        <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion" itemprop="url"><span itemprop="name">{% trans "Discussions" %}</span></a></li>
+        <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants" itemprop="url"><span itemprop="name">{% trans "Participants" %}</span></a></li>
+        <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments" itemprop="url"><span itemprop="name">{% trans "Documents" %}</span></a></li>
+        <li><a href="{% url 'projects:gallery-list' object.slug %}" class="progalleries" itemprop="url"><span itemprop="name">{% trans "Galleries" %}</span></a></li>
+        <li><a href="{% url 'projects:news-list' object.slug %}" class="pronews" itemprop="url"><span itemprop="name">{% trans "News" %}</span></a></li>
+        <li><a href="{% url 'projects:attachment-list' object.slug %}" class="proattachments" itemprop="url"><span itemprop="name">{% trans "Attachments" %}</span></a></li>
         {% if user.is_authenticated and user.organizations.count %}<li>
-          <a href="{% url 'projects:organization_add' object.slug %}" class="prongo">{% trans "Add your organization" %}</a>
+          <a href="{% url 'projects:organization_add' object.slug %}" class="prongo" itemprop="url"><span itemprop="name">{% trans "Add your organization" %}</span></a>
         </li>{% endif %}
       </ul>{% if user in object.participants.all %}
       <ul class="nav navbar-nav navbar-right">
