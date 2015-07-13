@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * idea-votes.less
  * 
@@ -248,4 +249,256 @@
   .idea-pet-table-third input {
     padding: 14px 10px;
   }
+=======
+/*
+ * idea-votes.less
+ * 
+ * Wszystkie style związane z głosowaniem na idee. W tym pliku zdefiniowane
+ * są zarówno style dla listy (w miejscu, gdzie wybiera się głosy), jak i do-
+ * datkowe okno wyświetlające podsumowanie głosowania w modalu.
+ */
+
+/******************************************
+ *         FORMULARZ GŁOSOWANIA           *     
+ ******************************************/
+.idea-votes {
+  .vote-form {
+    position: relative;
+    padding-right: 30px;
+    height: 40px;
+    .votes {
+      float: none;
+      box-sizing: border-box;
+      width: 100%;
+      border-color: #dedede;
+      border-right: 1px solid #b1b1b1;
+      color: #50616d;
+      font-size: 21px;
+      height: 40px;
+      line-height: 40px;
+      @media(max-width: 768px){
+        height: 40px !important;
+        line-height: 40px !important;
+      }
+    }
+    .vote-controls {
+      width: 30px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      float: none;
+      .vote-btn {
+        width: 100%;
+        box-sizing: border-box;
+        border-left: 0px;
+        border-color: #dedede;
+        height: 20px;
+        span {
+          color: #464646;
+          font-size: 20px;
+          line-height: 13px;
+        }
+        &:first-child {
+          border-bottom: 0px;
+        }
+        &:last-child {
+          border-top: 1px solid #b1b1b1;
+        }
+      }
+    }
+  }
+  .idea-summary {
+    padding-top: 3px;
+    .idea-vote-count,
+    .idea-status-state label {
+      font-size: 12px;
+      background: #b7f862;
+      //color: #5e5e5e;
+      //font-weight: 400;
+      color: #5b5757;
+      font-weight: bold;
+      line-height: 17px;
+      margin-bottom: 2px;
+      min-height: 20px;
+      display: block;
+      border: 1px solid #dedede;
+      border-radius: 4px;
+    }
+    .idea-status-state label {
+      line-height: 15px;
+    }
+    
+    .idea-vote-count {
+        cursor: pointer;
+    }
+  }
+  
+}
+
+@media all and (max-width: 768px) {
+  .idea-votes {
+    .vote-form {
+      .votes {
+        height: 64px;
+        line-height: 64px;
+      }
+    }
+  }
+}
+
+/******************************************
+ *       PODSUMOWANIE GŁOSOWANIA          *     
+ ******************************************/
+#vote-counter-modal {
+  .modal-body {
+    .vote-list {
+      list-style-type: none;
+      li {
+        margin-bottom: 5px;
+        display: inline-block;
+        margin-right: 5px;
+        .counter-entry{
+            img{
+                max-width: 30px;
+                width: 100%;
+                height: auto;
+                border-radius: 50%;
+                -webkit-border-radius: 50%;
+                -moz-border-radius: 50%;
+            }
+        }
+      }
+    }
+    .label {
+      float: right;
+      margin-top: 7px;
+    }
+    .row {
+      &.vote-summary {
+        margin-bottom: 15px;
+        .col-sm-6 {
+          text-align: center;
+          font-size: 18px;
+          font-weight: bold;
+        } 
+      }
+    }
+  }
+}
+@media(min-width:768px){
+    .negative-votes{
+        border-right: 1px solid #DDD;
+    }
+    .positive-votes{
+        border-left: 1px solid #DDD;
+    }   
+}
+
+/******************************************
+ *              IDEA PETITION              *     
+ ******************************************/
+.idea-mt10 {
+  margin-top: 10px;
+}
+
+.idea-pet-form-cont {
+  max-width: 300px;
+  margin: 0 0 0 auto;
+  display: table;
+  width: 100%;
+  max-width: 300px;
+  font-size: 16px;
+}
+
+.idea-pet-table-outer {
+  border: 1px solid #666;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.idea-pet-table-first,
+.idea-pet-table-second,
+.idea-pet-table-third {
+  width: 100%;
+}
+
+.idea-pet-table-first input,
+.idea-pet-table-second input,
+.idea-pet-table-third input {
+  padding: 14px 20px;
+  border: none;
+  width: 100%;
+}
+
+.idea-pet-table-first {
+  & tr:first-child td:first-child {
+    border-bottom: 1px solid #666;
+    border-right: 1px solid #666;
+  }
+  & td:nth-child(2) {
+    border-bottom: 1px solid #666;
+  }
+}
+
+.idea-pet-table-second tr:first-child td:first-child {
+  border-bottom: 1px solid #666;
+}
+
+.idea-pet-table-third::after {
+  content: url('../img/idea-pet-square.png');
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 8px;
+  margin-top: -9px;
+  margin-left: 20px;
+}
+
+.idea-pet-social-btns .registerButtons .fa{
+  background: #3c3c3c;
+  border: 0 none;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  color: white;
+  width: 30px;
+  height: 30px;
+  margin: 0 8px;
+  font-size: 20px;
+  display: inline-block;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+/* is_authenticated */
+
+.idea-pet-table-auth {
+  border: none;
+  width: 100%;
+}
+
+.idea-pet-table-auth td {
+  padding: 14px 20px; 
+}
+
+.idea-pet-user-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  margin-top: -6px;
+  margin-right: 5px;
+}
+
+@media only screen and (max-width: 330px) {
+  .idea-pet-table-auth td {
+    padding: 14px 10px; 
+  }
+
+  .idea-pet-table-first input,
+  .idea-pet-table-second input,
+  .idea-pet-table-third input {
+    padding: 14px 10px;
+  }
+>>>>>>> 5329dab5d2170f243b9abd76b084d7a63f7fac04
 }
