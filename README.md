@@ -55,6 +55,9 @@ Contact Us
 ----------
 Grzegorz Warzecha - https://www.facebook.com/gwarzecha or grzegorz@civilhub.org
 
+Special thanks
+----------
+We would like to say "thank you" to Browserstack (https://www.browserstack.com) for making their awesome tool available for us free of charge.
 
 Installation
 ----------
