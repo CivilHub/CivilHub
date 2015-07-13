@@ -28,18 +28,18 @@
 <div class="container">
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 
-    <ul class="nav navbar-nav" itemscope itemtype="http://schema.org/BreadcrumbList">
-        <li class="first-indicator"><a href="/places/" itemprop="url"><div class="maker-globe-point"></div></a></li>
+    <ul class="nav navbar-nav">
+        <li class="first-indicator" itemscope itemtype="http://schema.org/BreadcrumbList"><a href="/places/" itemprop="url"><div class="maker-globe-point"></div></a></li>
         {% for parent in location.get_parent_chain %}
-        <li><a href="{{ parent.url }}" itemprop="url" rel="up"><span itemprop="name">{{ parent.name }}</span></a></li>
+        <li itemscope itemtype="http://schema.org/BreadcrumbList"><a href="{{ parent.url }}" itemprop="url" rel="up"><span itemprop="name">{{ parent.name }}</span></a></li>
         <li class="breaker">
-            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown"><span class="custom-tooltip-right" title="{% trans "Sublocations" %}" itemprop="url">&gt;</span></a></li>
+            <a href="#" class="sublocation-menu-toggle" data-target="{{ parent.pk }}" data-toggle="dropdown"><span class="custom-tooltip-right" title="{% trans "Sublocations" %}">&gt;</span></a></li>
         {% endfor %}
-        <li class="active">
+        <li class="active" itemscope itemtype="http://schema.org/BreadcrumbList">
             <a href="{{ location.get_absolute_url }}" itemprop="url" rel="up"><span itemprop="name">{{ location }}</span></a>
         </li>
         {% if location.location_set.count %}
-        <li class="last-element">
+        <li class="last-element" itemscope itemtype="http://schema.org/BreadcrumbList">
             <a href="#" class="dropdown-toggle sublocation-menu-toggle" data-target="{{ location.pk }}" data-toggle="dropdown" itemprop="url" rel="up"></a>
         </li>
         {% endif %}
@@ -52,11 +52,11 @@
 </div>
 </div>
 </nav>
-<div class="location-logo" itemscope>
+<div class="location-logo">
     <div class="container">
         <div class="title-container">
-            <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}" itemprop="url"><span itemprop="name">{{ location }}</span></a></h1></div>
-            <div class="followers sprite-icon"><a href="{% url 'locations:followers' location.slug %}" class="text-white" itemprop="url"><span class="ch-icon ch-followers-white"></span><span itemprop="name">{{ location.users.all|length }}</span></a></div>
+            <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
+            <div class="followers sprite-icon"><a href="{% url 'locations:followers' location.slug %}" class="text-white"><span class="ch-icon ch-followers-white"></span>{{ location.users.all|length }}</a></div>
 
         {% if user in location.users.all %}
             <button type="button" class="loc-fllw-btn btn-unfollow-location chFollowers" data-location-id="{{ location.pk }}" >{% trans "You are following" %}</button>
@@ -68,7 +68,7 @@
             </form>{% endif %}
         {% endif %}
         <div class="clear"></div>
-        <div class="btn-white mt8"><a href="{% url 'locations:new_idea' location.slug %}" itemprop="url" rel="up"><strong><span itemprop="name">{% trans "What would you like to change?" %}</span></strong></a></div>
+        <div class="btn-white mt8"><a href="{% url 'locations:new_idea' location.slug %}"><strong>{% trans "What would you like to change?" %}</strong></a></div>
         </div>
 
         {% if user.is_superuser or is_moderator %}<div class="group-change-bg-btn"><a class="change-background-btn" href="{% url 'locations:upload-background' location.pk %}">{% trans "Change background image" %}</a>
