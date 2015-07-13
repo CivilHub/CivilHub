@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib.sites.models import Site
 
 
@@ -9,3 +10,9 @@ def site_processor(request):
     """
     prefix = 'https' if request.is_secure() else 'http'
     return {'site': "{}://{}".format(prefix, Site.objects.get_current()), }
+
+
+def debug_processor(request):
+    """ Return DEBUG value from settings file.
+    """
+    return {'DEBUG': settings.DEBUG, }

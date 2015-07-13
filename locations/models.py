@@ -500,10 +500,8 @@ class Location(models.Model):
             tmp.append(
                 {'user': user,
                  'count': self.count_users_actions(user), })
-        tmp = sorted(tmp, key=operator.itemgetter('count'))
-        actions = reversed(tmp)
-
-        return actions
+        actions = sorted(tmp, key=operator.itemgetter('count'), reverse=True)
+        return [x['user'] for x in actions][:30]
 
     def get_absolute_url(self):
         return reverse('locations:details', kwargs={'slug': self.slug})

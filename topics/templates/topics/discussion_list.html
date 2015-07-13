@@ -38,7 +38,7 @@
   {% else %}<div class="col-sm-9 no-entries contentPX">
     <img src="/static/places_core/img/civilian.png" alt="{% trans "Sad Civilian" %}">
     <h2>
-      {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br /> 
+      {% trans "We didn't find any discussions" %} {% trans "in" %} {{ location }}.<br />
       {% trans "Please" %}{% if user.is_authenticated %}<a href="{% url 'locations:new_topic' location.slug %}" >
       {% else %}<a href="/users/login" >{% endif %}{% trans "add first discussion" %}</a>.
     </h2>
