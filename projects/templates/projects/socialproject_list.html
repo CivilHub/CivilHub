@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="locBoxCat">{% comment %}<a href="{{ item.get_absolute_url }}"></a>{% endcomment %}</div>
-    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars:115 }}</a></div>
+    <div class="locBoxBody"><a href="{{ item.get_absolute_url }}">{{ item.description|safe|truncatechars_html:115 }}</a></div>
   </div>
 </div>
 {% if forloop.counter|divisibleby:4 or forloop.counter == files.count %}</div>{% endif %}{% endfor %}{% endblock %}

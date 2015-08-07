@@ -13,10 +13,11 @@
       <h1>{% trans "Tasks" %}</h1>
       {% for group in object.taskgroup_set.all %}<div class="task-container">
         <div class="task-heading">
-          <h4 class="task-title"><a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}" class="custom-tooltip" title="{{ group.description|safe|removetags:"p"}}">{{ group }}</a></h4>
+          <h4 class="task-title"><a href="{% url 'locations:group_details' location.slug object.slug group.pk %}">{{ group }}</a></h4>
         </div>{% if user.is_authenticated %}
         <div class="custom-controls-box"><span class="fa fa-cog">&nbsp;</span>
           <div class="custom-controls">
+            <a href="{% url 'locations:project_update_group' location.slug object.slug group.pk %}"><span class="fa fa-cog add-task custom-tooltip-bottom" title="{% trans 'Update' %}"></span></a>
             <a href="{% url 'locations:project_create_task' location.slug object.slug group.pk %}"><span class="fa fa-plus-square add-task custom-tooltip-bottom" title="{% trans 'Create task' %}"></span></a>
             <form class="custom-inline-form" action="{% url 'locations:project_delete_group' location.slug object.slug group.pk %}" method="post">{% csrf_token %}
               <button type="submit" class="fa fa-minus-square add-task custom-tooltip-bottom" title="{% trans 'Delete group' %}">&nbsp;</button>
@@ -83,7 +84,8 @@
   </div><!-- ./col-sm-6 -->
   <div class="col-sm-6">
     <div class="right-side-task">
-      <div class="task-Container-right">{% if active_task %}
+      <div class="task-Container-right">
+        {% if active_task %}
         <div class="task-headline-right">{% if active_task.date_limited %}{% trans "Planned completion" %}: {{ active_task.date_limited|date:'d.m.Y' }}{% endif %}</div>
         <div class="text-block-right">
           <h1>{{ active_task }}</h1>
@@ -107,7 +109,12 @@
             </div>{% endif %}
             <p><a href="{% url 'projects:attachment-task-upload' object.slug active_task.pk %}">{% trans "upload"|capfirst %}</a></p>
           </div>
-        </div>{% endif %}
+        {% elif active_group %}
+        <div class="text-block-right">
+          <h3>{{ active_group }}</h3>
+          <div>{{ active_group.description|safe }}</div>
+        </div>
+        {% endif %}</div>
       </div><!-- ./ .task-Container-right -->
       {% if active_task %}<div class="task-comments-right">{% commentarea active_task %}</div>{% endif %}
     </div>

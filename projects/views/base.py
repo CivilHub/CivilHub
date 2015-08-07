@@ -328,13 +328,16 @@ class ProjectDetailView(ProjectContextMixin, DetailView):
 
     def get_context_data(self, object=None):
         context = super(ProjectDetailView, self).get_context_data()
+        group_id = self.kwargs.get('group_id')
         task_id = self.kwargs.get('task_id')
-        if task_id is not None:
+        if group_id is not None:
+            context['active_group'] = get_object_or_404(TaskGroup, pk=group_id)
+        elif task_id is not None:
             context['active_task'] = get_object_or_404(Task, pk=task_id)
         else:
             try:
-                context['active_task'] = self.get_object()\
-                                        .taskgroup_set.first().task_set.first()
+                context['active_task'] = self.get_object() \
+                    .taskgroup_set.first().task_set.first()
             except AttributeError:
                 # No tasks within this project
                 pass
