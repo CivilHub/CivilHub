@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+import json
+
 from django.conf import settings
-from django.http import Http404
+from django.contrib import auth
+from django.http import Http404, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.translation import ugettext as _
 
 from actstream.models import model_stream, user_stream, following
 from rest_framework import viewsets
@@ -52,11 +56,11 @@ def obtain_auth_token(request):
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
         try:
-            system_user = User.objects.get(email=email)
+            system_user = User.objects.filter(email=email)[0]
             user = auth.authenticate(username=system_user.username, password=password)
             if user is not None:
                 context.update(user_dict(system_user))
-        except User.DoesNotExist:
+        except IndexError:
             user = None
     return HttpResponse(json.dumps(context), content_type='application/json')
 
