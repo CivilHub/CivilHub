@@ -17,6 +17,7 @@ class IdeaDetailSerializer(serializers.ModelSerializer):
     creator = serializers.SerializerMethodField('get_userdata')
     location = serializers.SerializerMethodField('get_location')
     status = serializers.SerializerMethodField('get_status')
+    image = serializers.SerializerMethodField('get_image')
 
     def get_userdata(self, obj):
         return UserDetailSerializer(obj.creator).data
@@ -26,6 +27,9 @@ class IdeaDetailSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return obj.get_status_display()
+
+    def get_image(self, obj):
+        return obj.image.url
 
     class Meta:
         model = Idea

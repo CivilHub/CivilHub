@@ -18,6 +18,31 @@ from .serializers import IdeaSimpleSerializer, \
 
 
 class IdeaViewSet(viewsets.ModelViewSet):
+    """ Main viewset for Idea objects. Regular GET request will return list.
+    Additional paths:
+
+    vote
+    ----
+    <p>Only POST requests. `vote` parameter is required in any case.</p>
+    <p>There are three possible values - 1 (positive), 2 (negative 3 (revoked).
+    We cannot delete vote from database, so we have to change it's state to
+    3 in this case. Such votes will be ignored on any other list.</p>
+    <p>Second parameter is `comment`, which is required only for negative
+    votes.</p>
+    <p>Example:</p>
+    <pre class="prettyprint">var data = {csrfmiddlewaretoken: "the_token", vote: 1};
+    $.post('/api-ideas/ideas/43/vote/', data, function (r) {
+      console.log(r);
+    });</pre>
+
+    votes
+    -----
+    <p>Only GET requests. Detailed vote summary for single Idea.</p>
+    <p>Example:</p>
+    <pre class="prettyprint">$.get('/api-ideas/ideas/596/votes/', function (r) {
+      console.log(r);
+    });</pre>
+    """
     model = Idea
     permission_classes = (IsAuthenticated, )
 
