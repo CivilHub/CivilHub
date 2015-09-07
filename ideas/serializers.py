@@ -18,6 +18,9 @@ class IdeaDetailSerializer(serializers.ModelSerializer):
     location = serializers.SerializerMethodField('get_location')
     status = serializers.SerializerMethodField('get_status')
     image = serializers.SerializerMethodField('get_image')
+    thumbnail = serializers.SerializerMethodField('get_thumbnail')
+    upvotes = serializers.SerializerMethodField('get_upvotes')
+    downvotes = serializers.SerializerMethodField('get_downvotes')
 
     def get_userdata(self, obj):
         return UserDetailSerializer(obj.creator).data
@@ -30,6 +33,15 @@ class IdeaDetailSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         return obj.image.url
+
+    def get_thumbnail(self, obj):
+        return obj.thumbnail
+
+    def get_upvotes(self, obj):
+        return obj.votes_up
+
+    def get_downvotes(self, obj):
+        return obj.votes_down
 
     class Meta:
         model = Idea
