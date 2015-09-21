@@ -24,8 +24,8 @@ from places_core.models import ImagableItemMixin, remove_image
 @python_2_unicode_compatible
 class Category(models.Model):
     """ """
-    name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=255)
     description = models.TextField(max_length=1024, blank=True, null=True, default="")
 
     class Meta:
@@ -54,8 +54,8 @@ class News(ImagableItemMixin):
     creator = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=64, verbose_name=_(u"title"))
-    slug = models.SlugField(max_length=64, unique=True)
+    title = models.CharField(max_length=100, verbose_name=_(u"title"))
+    slug = models.SlugField(max_length=255, unique=True)
     content = models.TextField(max_length=10248, null=True, blank=True, verbose_name=_(u"content"))
     category = models.ForeignKey(Category, verbose_name=_(u'category'), null=True, blank=True)
     location = models.ForeignKey(Location)

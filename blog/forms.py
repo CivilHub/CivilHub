@@ -11,13 +11,18 @@ from .models import Category, News
 
 class NewsForm(forms.ModelForm, BootstrapBaseForm):
     """ Edit/update/create blog entry. """
+    title = forms.CharField(
+        label=_(u"Da tytuł"),
+        max_length=64,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'maxlength': '64',}))
     tags = TagField(required=False, label= _(u"Tags"))
 
     class Meta:
         model = News
         exclude = ('edited', 'slug', 'creator',)
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control custom-wysiwyg'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
             'location': forms.HiddenInput(),

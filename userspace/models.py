@@ -56,7 +56,7 @@ class UserProfile(models.Model, BackgroundModelMixin):
     rank_pts  = models.IntegerField(blank=True, default=0, verbose_name=_(u"points"))
     birth_date = models.CharField(max_length=20, blank=True, null=True, verbose_name=_(u"birth date"))
     mod_areas = models.ManyToManyField(Location, related_name='locations', blank=True)
-    clean_username = models.SlugField(blank=True, null=True)
+    clean_username = models.SlugField(blank=True, null=True, max_length=255)
     website = models.URLField(max_length=255, blank=True, null=True, verbose_name=_(u"website"))
     gender = models.CharField(
         max_length=1,

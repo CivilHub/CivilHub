@@ -39,22 +39,22 @@ def send_test_email(receiver, subject, title, msg):
     })
 
 
-@periodic_task(run_every=datetime.timedelta(days=1))
-def send_poll_emails():
-    """ Send emails with invitations to polls for new users. """
-    logger.info(u"[{}]: Started poll emails".format(timezone.now()))
-    link = "some-dummy-link"
-    name = "This will be link to service poll..."
-    min_time = timezone.now() - datetime.timedelta(days=1)
-    users = User.objects.filter(
-        date_joined__gt=min_time,
-        date_joined__lte=timezone.now()
-    )
-    for user in users:
-        logger.info(u"Sending message to user {}".format(user.email))
-        email = ServicePollMail()
-        email.send(user.email, {'link': link, 'name': name})
-    logger.info(u"[{}]: Finished poll emails".format(timezone.now()))
+# @periodic_task(run_every=datetime.timedelta(days=1))
+# def send_poll_emails():
+#     """ Send emails with invitations to polls for new users. """
+#     logger.info(u"[{}]: Started poll emails".format(timezone.now()))
+#     link = "some-dummy-link"
+#     name = "This will be link to service poll..."
+#     min_time = timezone.now() - datetime.timedelta(days=1)
+#     users = User.objects.filter(
+#         date_joined__gt=min_time,
+#         date_joined__lte=timezone.now()
+#     )
+#     for user in users:
+#         logger.info(u"Sending message to user {}".format(user.email))
+#         email = ServicePollMail()
+#         email.send(user.email, {'link': link, 'name': name})
+#     logger.info(u"[{}]: Finished poll emails".format(timezone.now()))
 
 
 @periodic_task(run_every=datetime.timedelta(hours=12))

@@ -52,7 +52,7 @@ class Idea(ImagableItemMixin, models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(blank=True, null=True, auto_now=True)
     name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=70, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
     description = models.TextField(blank=True, default="")
     category = models.ForeignKey(Category, null=True, blank=True)
     location = models.ForeignKey(Location)
