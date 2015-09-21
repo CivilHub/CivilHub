@@ -4,6 +4,7 @@ import json
 from ipware import ip
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
@@ -157,7 +158,10 @@ class IndexView(TemplateView):
 
         if pk and ct:
             ctype = ContentType.objects.get(pk=ct)
-            obj = ctype.get_object_for_this_type(pk=pk)
+            try:
+                obj = ctype.get_object_for_this_type(pk=pk)
+            except ObjectDoesNotExist:
+                raise Http404
             try:
                 active_marker = MapPointer.objects.filter(
                     object_pk=obj.pk,content_type=ct)[0]
