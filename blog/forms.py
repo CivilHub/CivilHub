@@ -19,6 +19,11 @@ class NewsForm(forms.ModelForm, BootstrapBaseForm):
             'maxlength': '64',}))
     tags = TagField(required=False, label= _(u"Tags"))
 
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        import pdb; pdb.set_trace()
+        return title
+
     class Meta:
         model = News
         exclude = ('edited', 'slug', 'creator',)

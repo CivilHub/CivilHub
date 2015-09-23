@@ -364,7 +364,8 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 class RegisterFormView(FormView):
     """ Register new user via standard form. """
     form_class = RegisterForm
-    template_name = 'userspace/register.html'
+    #template_name = 'userspace/register.html'
+    template_name = 'staticpages/pages/home-e.html'
 
     def get(self, request):
         if request.user.is_authenticated():

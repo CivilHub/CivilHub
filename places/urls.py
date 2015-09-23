@@ -7,7 +7,7 @@ from articles.views import TopLevelArticleView
 from locations.views import (CityRankingView, CountryRankingView,
                              LocationRankingView, RegionRankingView)
 from staticpages.views import PageView, HomeView
-from userspace.views import UserActivityView
+from userspace.views import RegisterFormView, UserActivityView
 from places_core.views import FileServeView
 admin.autodiscover()
 
@@ -202,7 +202,8 @@ urlpatterns += patterns('',
     # Notifications for users - mainly views for testing.
     url(r'^', include('notifications.urls')),
 
-    url(r'^$', HomeView.as_view(template_name='staticpages/pages/home-e.html')),
+    #url(r'^$', HomeView.as_view(template_name='staticpages/pages/home-e.html')),
+    url(r'^$', RegisterFormView.as_view()),
 
     #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),

@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import json
+import urllib
+import urllib2
+
 from django import forms
 from django.conf import settings
 from django.contrib import auth
@@ -8,10 +12,26 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from captcha.fields import CaptchaField
+from ipware.ip import get_ip
 
 from places_core.forms import BootstrapBaseForm
 
 from .models import UserProfile
+
+
+class GoogleCaptchaWidget(forms.Widget):
+    """ Simplified widget that loads additional scripts from Google.
+    """
+    template = """<div class="g-recaptcha" data-sitekey="{key}"></div>"""
+
+    def render(self, name, value, attrs=None):
+        return self.template.format(key=settings.CAPTCHA_KEY)
+
+
+class GoogleCaptchaField(forms.Field):
+    """ Handle Google Captcha v2 verification.
+    """
+    widget = GoogleCaptchaWidget
 
 
 class RegisterForm(UserCreationForm):
@@ -24,6 +44,7 @@ class RegisterForm(UserCreationForm):
 
     # This helps us save form without username - it will be auto-generated
     username = forms.CharField(required=False, widget=forms.HiddenInput())
+    captcha = GoogleCaptchaField(label=_(u"captcha"), required=False)
 
     class Meta:
         model = User
@@ -35,6 +56,27 @@ class RegisterForm(UserCreationForm):
         if email and User.objects.filter(email=email).count():
             raise forms.ValidationError(_(u'User with this email address already exists.'))
         return email
+
+    def is_valid(self):
+        valid = super(RegisterForm, self).is_valid()
+        if not valid:
+            return valid
+        c_response = self.data.get('g-recaptcha-response')
+        if c_response is None or not len(c_response):
+            msg = _(u"This field is required")
+            self._errors['captcha'] = self.error_class([msg])
+            return False
+        data = urllib.urlencode({
+            'secret': settings.CAPTCHA_SECRET,
+            'response': c_response,
+            'remoteip': get_ip(self.request),})
+        google_uri = 'https://www.google.com/recaptcha/api/siteverify'
+        response = json.loads(urllib2.urlopen(google_uri, data).read())
+        self.cleaned_data['captcha'] = response.get('success')
+        if not response.get('success'):
+            self._errors['capcha'] = self.error_class([_(u"Invalid captcha")])
+            return False
+        return True
 
 
 class LoginForm(forms.Form):

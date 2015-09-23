@@ -29,11 +29,11 @@ class MapObjectAPIViewSet(viewsets.ViewSet):
     This viewset is made only for GET requests. It presents entire
     list of all map objects created by users in proper format. They
     are then used to populate main map view with map pointers.
-    
+
     It is possible to search through certain objects by ID and object type
     to which the marker referes to. To do so, in the GET parameter of the
     content type and the ID of the object, e.g.
-    
+
     ```/api-maps/objects/?ct=23&pk=1```
     """
     queryset = MapPointer.objects.all()
@@ -57,7 +57,7 @@ class MapPointerAPIViewSet(viewsets.ModelViewSet):
     It allows users to manage map pointers related to objects that
     they have created. This functionality isn't fully implemented yet.
     For now any registered user can create and manage map pointers.
-    
+
     TODO: only owners/admins/moderators manage map pointers
     """
     queryset = MapPointer.objects.all()
@@ -70,13 +70,13 @@ class MapDataViewSet(APIView):
     """
     Get all markers or clusters formatted for map. You have to provide basic
     map info to get some response, this includes:
-    
+
     `lat` means object's latitude
     `lng` is object's position longitude
     `zoom` current map zoom level
-    
+
     For example: ```/api-maps/map-data/?zoom=10&lat=38&lng=-120```
-    
+
     Depending on this values, data will be fetched in properly formatted way.
     Program will try to handle areas with too many markers to join them into
     cluster groups.
@@ -122,7 +122,7 @@ class MapinputAPI(APIView):
         for marker in json.loads(markers):
             map_pointer = MapPointer.objects.create(
                 content_type = ct,
-                object_pk = pk, 
+                object_pk = pk,
                 latitude = marker['lat'],
                 longitude = marker['lng'])
 
@@ -134,7 +134,7 @@ class MapinputAPI(APIView):
 
 class IndexView(TemplateView):
     """
-    This view only displays template. Places and other markers are loaded via 
+    This view only displays template. Places and other markers are loaded via
     AJAX and THEN map is created. This view serves for 2 purposes - it shows
     main map and center it on user's position or it shows main map with some
     marker highlighted when 'show on map' option is used for some content type.

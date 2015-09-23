@@ -1,6 +1,7 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
 {% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <!-- Google Analytics Content Experiment code -->
 <script>function utmx_section(){}function utmx(){}(function(){var
@@ -413,7 +414,7 @@ ul {
 
   <div class="register-box">
     <h1>{% trans "Create a new account" %}</h1>
-        <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
+        <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">
         {% csrf_token %}
         {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
         <div class="form">
@@ -435,6 +436,9 @@ ul {
         </div>
         </div>
         <div class="registerButtons">
+      <div class="form-group">
+          {{ form.captcha|safe }}
+      </div>
 
           <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
 

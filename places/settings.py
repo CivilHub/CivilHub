@@ -484,3 +484,8 @@ RAVEN_CONFIG = {
 #Analitical
 CLICKY_SITE_ID = config['clicky_site_id']
 
+
+# New Google Captcha
+
+CAPTCHA_KEY = config['captcha_key']
+CAPTCHA_SECRET = config['captcha_secret']
