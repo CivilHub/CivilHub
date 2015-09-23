@@ -46,6 +46,10 @@ class RegisterForm(UserCreationForm):
     username = forms.CharField(required=False, widget=forms.HiddenInput())
     captcha = GoogleCaptchaField(label=_(u"captcha"), required=False)
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        super(RegisterForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name',

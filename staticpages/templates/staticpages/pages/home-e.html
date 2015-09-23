@@ -437,6 +437,7 @@ ul {
         </div>
         <div class="registerButtons">
       <div class="form-group">
+          {% for error in form.errors.captcha %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}
           {{ form.captcha|safe }}
       </div>
 
