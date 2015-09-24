@@ -21,7 +21,6 @@ class NewsForm(forms.ModelForm, BootstrapBaseForm):
 
     def clean_title(self):
         title = self.cleaned_data['title']
-        import pdb; pdb.set_trace()
         return title
 
     class Meta:
