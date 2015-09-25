@@ -1,6 +1,7 @@
 {% extends 'staticpages/index.html' %}{% load staticfiles i18n civil_tags %}
 {% block extra_styles %}<link rel="stylesheet" type="text/css" href="{% static 'places_core/includes/fort/fort.css' %}">{% endblock %}
 {% block extra_scripts %}<script src="{% static 'places_core/includes/fort/fort.js' %}"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <!-- Google Analytics Content Experiment code -->
 <script>function utmx_section(){}function utmx(){}(function(){var
@@ -42,7 +43,7 @@ window.GOOGLE_DATA = {
   min-height: 320px;
   position: relative;
   left: 50%;
-  margin-left: -150px;   
+  margin-left: -150px;
 }
 
 .register-box h1{
@@ -62,7 +63,7 @@ window.GOOGLE_DATA = {
 }
 .register-box .col-xs-6:last-child{
   padding-left: 5px;
-  padding-right: 0;   
+  padding-right: 0;
 }
 
 .register-box .form-group{
@@ -143,7 +144,7 @@ body {
   width: 100%;
   height: 560px;
   top: 50%;
-  margin-top: -280px; 
+  margin-top: -280px;
 }
 .home_e_logo {
   position: absolute;
@@ -198,7 +199,7 @@ body {
   display: none;
 }
 
-#lang-list .soon{ 
+#lang-list .soon{
   color: #0582f7;
   font-size: 9px;
   -webkit-border-radius: 4px;
@@ -251,7 +252,7 @@ ul {
 #lang-list:first-child {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
-} 
+}
 #lang-list:last-child {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
@@ -259,7 +260,7 @@ ul {
 .login-Home p {
   color: white;
 }
-/* media queries */ 
+/* media queries */
 @media screen and (max-width: 1300px){
   .home_e_brief {
     right: 36%;
@@ -268,7 +269,7 @@ ul {
 @media screen and (max-width: 805px){
    .home_e_center_wrapper {
     height: 520px;
-    margin-top: -260px; 
+    margin-top: -260px;
    }
   .home_e_brief {
     right: 40%;
@@ -386,8 +387,8 @@ ul {
 
 
 /* retina */
-@media 
-  (-webkit-min-device-pixel-ratio: 2), 
+@media
+  (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 192dpi) {
   body {
         background-image: url('https://civilhub.org/media/filer_public/2a/62/2a62ff09-16ae-484e-a152-a9296661bdc6/homepage_e_bg2x.jpg');
@@ -413,7 +414,7 @@ ul {
 
   <div class="register-box">
     <h1>{% trans "Create a new account" %}</h1>
-        <form id="pl-register-form" method="post" action="{% url 'user:register' %}" role="form" class="form-horizontal formRegister">
+        <form id="pl-register-form" method="post" action="" role="form" class="form-horizontal formRegister">
         {% csrf_token %}
         {% comment %}<input id="username" class="long" type="text" name="username" autofocus placeholder="{% trans "Your username" %}"> {% endcomment %}
         <div class="form">
@@ -428,22 +429,26 @@ ul {
           <input id="email" class="long form-control" type="text" name="email" placeholder="{% trans "Your email" %}">
       </div>
       <div class="form-group">
-          <input id="pass1" class="long form-control" type="password" name="password" placeholder="{% trans "Create a password" %}">
+          <input id="pass1" class="long form-control" type="password" name="password1" placeholder="{% trans "Create a password" %}">
       </div>
       <div class="form-group">
-          <input id="pass2" class="long form-control" type="password" name="passchk" placeholder="{% trans "Repeat password" %}">
+          <input id="pass2" class="long form-control" type="password" name="password2" placeholder="{% trans "Repeat password" %}">
         </div>
         </div>
         <div class="registerButtons">
+      <div class="form-group">
+          {% for error in form.errors.captcha %}<p class="alert alert-danger">{{ error }}</p>{% endfor %}
+          {{ form.captcha|safe }}
+      </div>
 
           <button type="button" class="facebook-btn" onclick="location.href='//civilhub.org/login/facebook/'" onClick="ga('send', 'event', 'facebook-register', 'click', 'facebook-register');"><span class="fa fa-facebook"></span></button>
-              
+
           <button type="button" class="twitter-btn" onClick="location.href='{% url 'social:begin' 'twitter' %}'" onClick="ga('send', 'event', 'twitter-register', 'click', 'twitter-register');"><span class="fa fa-twitter"></span></button>
-              
+
           <button type="button" class="linkedin-btn" onClick="location.href='{% url 'social:begin' 'linkedin' %}'"  onClick="ga('send', 'event', 'linkedin-register', 'click', 'linkedin-register');"><span class="fa fa-linkedin"></span></button>
-                  
+
           <button id="googleplus" type="button" class="google-btn" onClick="ga('send', 'event', 'googleplus-register', 'click', 'googleplus-register');"><span class="fa fa-google-plus"></span></button>
-            
+
       </div>
       <div class="registerButtonSubmit">
         <button id="signup_button" type="submit" class="long signup-button btn-antiman-chw antiman antiman-fix">{% trans "Sign up" %}</button>
@@ -452,9 +457,9 @@ ul {
     <p class="terms">
     {% trans "By clicking &quot;Sign up&quot;, you agree to our" %} <br /> <a href="/terms" target="_blank">{% trans "Term of Service" %}</a> {% trans "and" %} <a href="/privacy" target="_blank">{% trans "Privacy Policy" %}</a>.
     </p>
-    
+
     </form>
-    
+
     <form id="google-plus" method="post" action="{% url 'social:complete' "google-plus" %}" style="display:none;">
         {% csrf_token %}
         <input id="at" type="hidden" name="access_token" value="" />
@@ -463,7 +468,7 @@ ul {
   </div><!--end of register box -->
 </div><!--end of home_e_center_wrapper -->
 
-<div class="footerLang footer">   
+<div class="footerLang footer">
     <form id="main-lang-form" method="post" action="{% url 'set_language' %}">
       <input type="text" name="next" value="{{ request.path }}" />
       <input type="text" name="language" id="lang-selected-field" value="{{ LANG }}" />

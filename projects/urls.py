@@ -1,6 +1,14 @@
 from django.conf.urls import patterns, include, url
 
 from views import attachments, base, forum, documents, galleries, blog
+import api
+
+from rest.routers import HybridRouter
+router = HybridRouter()
+router.register('projects', api.ProjectViewSet, 'projects')
+router.register('groups', api.TaskGroupViewSet, 'groups')
+router.register('tasks', api.TaskViewSet, 'tasks')
+
 
 urlpatterns = patterns('',
     url(r'^discussions/(?P<pk>\d+)/delete/', forum.ProjectForumDeleteView.as_view(), name="discussion_delete"),

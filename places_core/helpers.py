@@ -12,6 +12,7 @@ from taggit.models import Tag
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
 from django.core.files import File
 from django.utils import timezone, translation
 
@@ -311,3 +312,18 @@ def ct_for_obj(obj):
     if not obj:
         return None
     return ContentType.objects.get_for_model(obj)
+
+
+def full_uri(request, path=""):
+    """ Creates absolute url for site contents and appends given path.
+
+    Args:
+        request: Django request object
+        path: path to append, usually reverse result
+    Returns:
+        String representing full absolute url
+    """
+    protocol = 'https' if request.is_secure else 'http'
+    domain = Site.objects.get_current().domain
+    return "{}://{}{}".format(protocol, domain, path)
+

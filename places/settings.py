@@ -135,6 +135,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'comments.context_processors.ctmap',
     'places_core.context_processors.site_processor',
+    'places_core.context_processors.debug_processor',
 )
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates'), ]
 
@@ -152,15 +153,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'user_tracker.middleware.VisitorTrackingMiddleware',
     'places_core.middleware.SubdomainMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'places_core.middleware.Redirect404Middleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
-
-if not DEBUG:
-    MIDDLEWARE_CLASSES += ('userspace.social_exceptions.CivilAuthExceptionMiddleware',)
 
 ROOT_URLCONF = 'places.urls'
 
 WSGI_APPLICATION = 'places.wsgi.application'
+
+SESSION_COOKIE_DOMAIN = '.civilhub.org'
 
 # Django messages framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -169,6 +171,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     50: 'danger',
 }
+
+POSTGIS_VERSION = (2,1,3)
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -393,6 +397,9 @@ CELERY_IMPORTS = ('places_core.tasks',)
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
 
 
+COMMENT_EMAIL_NOTIFY = False
+
+
 # Ustawienia dla miniaturek
 #-------------------------------------------------------------------------------
 DEFAULT_IMG_PATH = "img/item.png"
@@ -477,3 +484,8 @@ RAVEN_CONFIG = {
 #Analitical
 CLICKY_SITE_ID = config['clicky_site_id']
 
+
+# New Google Captcha
+
+CAPTCHA_KEY = config['captcha_key']
+CAPTCHA_SECRET = config['captcha_secret']

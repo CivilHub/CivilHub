@@ -752,7 +752,23 @@ class LocationContentDelete(View):
     def post(self, request, content_type, object_pk):
         ct = ContentType.objects.get(pk=request.POST.get('content_type', None))
         self.object = ct.get_object_for_this_type(pk=request.POST.get('object_pk', None))
-        if not request.user.is_superuser and not is_moderator(request.user, self.object.location):
+        user = request.user
+        if not user.is_authenticated():
+            return HttpResponseNotFound()
+        access = False
+        if user.is_superuser:
+            access = True
+        if is_moderator(request.user, self.object.location):
+            access = True
+
+        if hasattr(self.object, 'creator'):
+            if user == self.object.creator:
+                access = True
+        elif hasattr(self.object, 'user'):
+            if user == self.object.user:
+                access = True
+
+        if not access:
             return HttpResponseNotFound()
         self.object.delete()
         return redirect(reverse('locations:details',

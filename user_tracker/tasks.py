@@ -40,8 +40,8 @@ def login_remind_messages():
 
             logger.info("Found user %s" % user.get_full_name())
 
-            message = LastLoginNotifyEmail()
-            message.send(user.email, {'lang': user.profile.lang, })
+            #message = LastLoginNotifyEmail()
+            #message.send(user.email, {'lang': user.profile.lang, })
 
             # Update visit to avoid sending message again
             visit.checked = True

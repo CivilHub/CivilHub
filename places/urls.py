@@ -7,7 +7,7 @@ from articles.views import TopLevelArticleView
 from locations.views import (CityRankingView, CountryRankingView,
                              LocationRankingView, RegionRankingView)
 from staticpages.views import PageView, HomeView
-from userspace.views import UserActivityView
+from userspace.views import RegisterFormView, UserActivityView
 from places_core.views import FileServeView
 admin.autodiscover()
 
@@ -78,6 +78,7 @@ from hitcounter.urls import router as hitcounter_router
 from comments.urls import router as comment_router
 from polls.urls import router as poll_router
 from blessings.urls import router as bless_router
+from projects.urls import router as project_router
 urlpatterns = patterns('',
     url(r'^api-ideas/', include(idea_router.urls)),
     url(r'^api-locations/', include(location_router.urls)),
@@ -93,6 +94,7 @@ urlpatterns = patterns('',
     url(r'^api-comments/', include(comment_router.urls)),
     url(r'^api-polls/', include(poll_router.urls)),
     url(r'^api-bless/', include(bless_router.urls)),
+    url(r'^api-projects/', include(project_router.urls)),
 )
 
 from civmail.views import ContactEmailView, InviteFriendsView
@@ -200,7 +202,8 @@ urlpatterns += patterns('',
     # Notifications for users - mainly views for testing.
     url(r'^', include('notifications.urls')),
 
-    url(r'^$', HomeView.as_view(template_name='staticpages/pages/home-e.html')),
+    #url(r'^$', HomeView.as_view(template_name='staticpages/pages/home-e.html')),
+    url(r'^$', RegisterFormView.as_view()),
 
     #url(r'^$', staticpages.views.HomeView.as_view()),
     url(r'^', include('articles.urls', namespace='articles')),

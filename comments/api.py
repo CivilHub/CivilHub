@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import Http404
@@ -83,6 +85,43 @@ class CommentList(mixins.CreateModelMixin,
     </dl>
 
     Default ordering is the same as with `new` option.
+
+    Voting
+    ------
+    <p>Send simple POST request with `vote` parameter set to `true` or `false`.
+    </p>
+    <p>Example:</p>
+    <pre class="prettyprint">var data = {csrfmiddlewaretoken: "the_token", vote: false};
+    $.post('/api-comments/list/638/vote/', data, function (r) {
+      console.log(r);
+    });</pre>
+
+    Creating comments
+    -----------------
+    Comments are tightly related to object's Content Type. You have to pass:<br>
+    `comment` - Comment's content<br>
+    `object_pk` - Commented object ID<br>
+    `content_type` - Target Content Type ID (e.g. Idea, News, etc. but we have
+    to pass numeric ID.<br>
+    `submit_date` - Usually current timestamp, in standard ISO with TZ.<br>
+    `site` - Legacy requirement. Just always pass `1` here.
+    <p>Example:</p>
+    <pre class="prettyprint">var data = {
+      scrfmiddlewaretoken: "the_token",
+      comment: "This is awesome comment!",
+      object_pk: 1,
+      content_type: 59,
+      submit_date: '2015-09-01T12:44:20+02:00',
+      site: 1
+    };
+    $.post('/api-comments/list/', data, function (r) {
+      console.log(r);
+    });</pre>
+
+    Answers
+    -------
+    To create answer simply create new comment and add `parent` with commented
+    comment (^-^) ID.
     """
     model = CustomComment
     paginate_by = 5
@@ -127,12 +166,12 @@ class CommentList(mixins.CreateModelMixin,
 
     @action()
     def vote(self, request, pk):
-        vote = request.DATA.get('vote')
+        vote = json.loads(request.DATA.get('vote'))
         comment = self.get_object()
         cv, created = CommentVote.objects.get_or_create(
             user=request.user,
             comment=comment,
-            vote=True)
+            vote=vote)
         context = {'created': created, 'id': cv.pk, }
         if created:
             context.update({

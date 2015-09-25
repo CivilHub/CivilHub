@@ -64,8 +64,8 @@ class VisitorTrackingMiddleware(object):
 
         # see if this is a known visitor, or create a new entry
         try:
-            visitor = Visitor.objects.get(**attributes)
-        except Visitor.DoesNotExist:
+            visitor = Visitor.objects.filter(**attributes)[0]
+        except IndexError:
             # see if there's a visitor with the same IP and user agent
             # within the last 5 minutes
             cutoff = now - timedelta(minutes=5)
