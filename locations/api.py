@@ -175,9 +175,8 @@ class LocationSummaryAPI(APIView):
             content_objects = [x for x in content_objects \
                                     if haystack.lower() in x['title'].lower()]
         if category is not None:
-            content_objects = [x for x in content_objects if x.get('category')]
             content_objects = [x for x in content_objects
-                                    if x.get('category')['pk'] == category]
+                               if x['category']['pk'] == category]
 
         # Sort results option (Opcje sortowania wyników (is applicable to concrete objects)
         sortby = self.request.QUERY_PARAMS.get('sortby')

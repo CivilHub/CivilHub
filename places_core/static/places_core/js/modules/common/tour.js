@@ -116,8 +116,19 @@ function checkTour () {
 }
 
 function initTour () {
+  var $tour_init = $('.ac-f-tour');
+  var $fake_tour = $('#fake-tour');
   if (!_.isNull(checkTour())) {
     return false;
+  }
+  if (Modernizr.localstorage) {
+    var ls = window.localStorage;
+    if (ls.tour_current_step < 4 && ls.getItem('tour_end') == null ) {
+      $fake_tour.addClass('when-tour');
+      $tour_init.css('z-index', 'inherit');
+    } else if (ls.tour_current_step > 4 && ls.getItem('tour_end') == null ) {
+      $tour_init.css('z-index', 'inherit');
+    }
   }
   return createTour($('#tour-div-tpl').html(),
     function (tour) {
@@ -128,6 +139,8 @@ function initTour () {
           e.preventDefault(e);
           tour.restart();
           tour.start();
+          $fake_tour.addClass('when-tour');
+          $tour_init.css('z-index', 'inherit');
         });
       $toggle.find('#killTour')
         .on('click', function (e) {
