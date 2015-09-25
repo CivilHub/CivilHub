@@ -24,7 +24,7 @@
     }
 }
 </style>
-<nav id="location-chain-menu" class="navbar navbar-default hidden-xs" role="navigation">
+<nav id="location-chain-menu" class="navbar navbar-default hidden-xs ac-f-tour" role="navigation">
 <div class="container">
 <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
 
@@ -52,7 +52,7 @@
 </div>
 </div>
 </nav>
-<div class="location-logo">
+<div class="location-logo ac-f-tour">
     <div class="container">
         <div class="title-container">
             <div class="location-name-title" id="tour-location-name"><h1><a href="{{ location.get_absolute_url }}">{{ location }}</a></h1></div>
@@ -79,7 +79,7 @@
     </div>
 </div>
 
-{% block navigation_location %}<div class="location-page">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
+{% block navigation_location %}<div class="location-page ac-f-tour">{% include 'locations/location-navbar.html' %}</div>{% endblock %}
 
 <input type="hidden" id="current-location-pk" value="{{ location.pk }}" />
 
