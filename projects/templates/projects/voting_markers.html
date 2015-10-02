@@ -1,0 +1,59 @@
+{% extends 'projects/index.html' %}{% load i18n civil_tags %}
+
+{% block require_scripts %}<script src="{% module_path 'votings-manage' %}"></script>{% endblock %}
+
+{% block location_navbar %}<div class="socialproject-attachment-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
+
+{% block content %}<script type="text/javascript">
+var VA__MAP_DATA = {
+  markers: {{ markers|safe }},
+  voting: {{ voting.pk }}
+};
+</script>
+
+<div class="modal fade" id="va__modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form action="get" method="">
+          <div class="form-group" id="va__label-group">
+            <label for="m_label">{% trans "label"|capfirst %}</label>
+            <input type="text" id="m_label" name="label" class="form-control">
+          </div>
+          <label for="m_description">{% trans "description"|capfirst %}</label>
+          <textarea id="m_description" name="description" class="form-control"></textarea>
+          <input type="hidden" name="lat">
+          <input type="hidden" name="lng">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "close"|capfirst %}</button>
+        <button type="submit" class="btn btn-primary submit">{% trans "save changes"|capfirst %}</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="main-content create-form newFormCreate">
+  <h1>{% trans "Voting" %}</h1>
+  <div class="row" "va__placeholder">
+    <div class="col-sm-6"><div id="va__map"></div></div>
+    <div class="col-sm-6">
+      <div id="va__description">
+        <form action="get" method="" class="hidden">
+          <label for="label">{% trans "label"|capfirst %}</label>
+          <input type="text" id="label" name="label" class="form-control">
+          <label for="description">{% trans "description"|capfirst %}</label>
+          <textarea id="description" name="description" class="form-control"></textarea>
+          <button type="submit" class="btn btn-primary">{% trans "save changes"|capfirst %}</button>
+          <a class="btn btn-danger delete">{% trans "delete marker"|capfirst %}</a>
+        </form>
+      </div>
+      <div id="va__comments"></div>
+    </div>
+  </div>
+</div>{% endblock %}

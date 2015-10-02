@@ -1,9 +1,8 @@
-{% load staticfiles i18n civil_tags analytical %}
+{% load staticfiles i18n civil_tags %}
 <!DOCTYPE html>
 {% get_current_language as LANG %}
 <html lang="{{ LANG }}">
 <head>
-{% analytical_head_top %}
 <meta charset="utf-8">
 <title>{% block title %}{{ title | default:"Civilhub - People Have the Power" | capfirst }}{% endblock %}</title>
 <meta name="google-site-verification" content="93irILZQJVmZR0paJFaKesTeiXAR70oQbXo81rKvFIs" />
@@ -47,5 +46,3 @@
 {% google_data user %}
 
 {% hreflang request %}
-
-{% analytical_head_bottom %}

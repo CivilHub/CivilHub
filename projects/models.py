@@ -19,6 +19,7 @@ from etherpad.models import EtherpadGroup, EtherpadAuthor
 from gallery.image import resize_background_image
 from ideas.models import Idea
 from locations.models import Location, BackgroundModelMixin
+from mapvotes.models import Voting
 from places_core.helpers import sanitizeHtml
 
 from places_core.helpers import truncatehtml
@@ -69,6 +70,15 @@ class SlugifiedModelMixin(models.Model):
         super(SlugifiedModelMixin, self).save(*args, **kwargs)
 
 
+MODULE_CHOICES = (
+    (1, _(u"Mapvotes")),
+    (2, _(u"Documents")),
+    (3, _(u"News")),
+    (4, _(u"Discussion")),
+    (5, _(u"Gallery")),
+)
+
+
 @python_2_unicode_compatible
 class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
     """ """
@@ -86,10 +96,20 @@ class SocialProject(BackgroundModelMixin, SlugifiedModelMixin):
     idea = models.ForeignKey(Idea, blank=True, null=True,
                              related_name='projects',
                              verbose_name=_(u"idea"))
+    modules = models.TextField(_(u"modules"), default='2,3,4,5')
 
     class Meta:
         verbose_name = _(u"project")
         verbose_name_plural = _(u"projects")
+
+    @property
+    def votings(self):
+        return Voting.objects.get_for_instance(self)
+
+    @property
+    def enabled_modules(self):
+        modules = [int(x.strip()) for x in self.modules.split(',')]
+        return modules
 
     @property
     def progress(self):

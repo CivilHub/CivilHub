@@ -34,9 +34,9 @@ LOGGING = loggers.LOGGING
 SECRET_KEY = config['secret_key']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 INTERNAL_IPS = config['internal_ips']
 
@@ -116,9 +116,8 @@ INSTALLED_APPS = (
     'user_tracker',# Track user activities and statistics
     'blessings',   # User recommendations for content items (aka recommended)
     'civmaps',     # Custom wrapper for django.contrib.sitemaps
+    'mapvotes',    # Create map markers and let user vote for them
 
-    'raven.contrib.django.raven_compat',
-    'analytical',
     # django-activity-stream - have to be last on this list
     'actstream',
 )
@@ -161,8 +160,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'places.urls'
 
 WSGI_APPLICATION = 'places.wsgi.application'
-
-SESSION_COOKIE_DOMAIN = '.civilhub.org'
 
 # Django messages framework
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -354,7 +351,7 @@ LANGUAGES = (
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': 'redis:6379:1',
+        'LOCATION': 'localhost:6379:2',
         'OPTIONS': {
             'CLIENT_CLASS': 'redis_cache.client.DefaultClient',
         }
@@ -368,7 +365,7 @@ EMAIL_HOST          = config['email_host']
 EMAIL_PORT          = 587
 EMAIL_HOST_USER     = config['email_user']
 EMAIL_HOST_PASSWORD = str(config['email_pass'])
-EMAIL_USE_TLS       = True
+EMAIL_USE_TLS       = False
 # Enter real email address here in future
 EMAIL_DEFAULT_ADDRESS = 'noreply@civilhub-mail.org'
 DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
@@ -376,14 +373,14 @@ DEFAULT_FROM_EMAIL = 'noreply@civilhub-mail.org'
 CONTACT_EMAIL_ADDRESS = 'office@civilhub.org'
 
 # Email settings for testing purposes
-EMAIL_BACKEND       = "djmail.backends.default.EmailBackend"
+EMAIL_BACKEND       = "django.core.mail.backends.console.EmailBackend"
 # Uncomment below line to enable sending real emails.
 DJMAIL_REAL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 
 # Celery/Rabbit i taski
 #-------------------------------------------------------------------------------
-BROKER_URL               = 'amqp://guest:guest@rabbit:5672//'
+BROKER_URL               = 'amqp://guest:guest@localhost:5672//'
 CELERY_TASK_SERIALIZER   = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT    = ['json']
@@ -442,7 +439,7 @@ GEOIP_CITY = 'GeoLiteCity.dat'
 
 # Sanitize input/output
 # ------------------------------------------------------------------------------
-VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr','ul','ol',]
+VALID_TAGS = ['p','i','strong','b','u','a','pre','br','img','hr','ul','ol','iframe']
 VALID_ATTRS = ['href','src','width','height','style','target',]
 URL_ATTRS = ['href','src',]
 
@@ -470,19 +467,11 @@ USE_CACHE = True
 
 ETHERPAD_API_KEY = config['etherpad']['apikey']
 # This is url used by Django to communicate with etherpad server
-ETHERPAD_INTERNAL_URL = 'https://civilhub.org:9001'
+ETHERPAD_INTERNAL_URL = 'http://localhost:9001'
 # This will be usually the same as above unless your setup depends for example
 # on different Docker containers. In such case address used by iframes and
 # generally front-end may be different.
-ETHERPAD_EXTERNAL_URL = 'https://civilhub.org:9001'
-
-
-RAVEN_CONFIG = {
-    'dsn': config['raven_dsn']
-}
-
-#Analitical
-CLICKY_SITE_ID = config['clicky_site_id']
+ETHERPAD_EXTERNAL_URL = 'http://localhost:9001'
 
 
 # New Google Captcha

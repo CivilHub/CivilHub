@@ -197,7 +197,9 @@ function (moment, Backbone, utils) {
 
   // Google Analytics - should be moved to separate file
 
-  window.ga('create', 'UA-51512403-1', 'auto');
+  window.ga = function () { return; };
+
+  /*window.ga('create', 'UA-51512403-1', 'auto');
   window.ga('require', 'linkid', 'linkid.js');
   window.ga('send', 'pageview');
 
@@ -209,5 +211,5 @@ function (moment, Backbone, utils) {
         case 3: window.ga('send', 'event', 'vote', 'click', 'revoke'); break;
       }
     }
-  };
+  };*/
 });

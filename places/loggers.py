@@ -14,7 +14,7 @@ LOGGING = {
     },
     'handlers': {
         'main': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
         },
@@ -24,23 +24,23 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'logs', 'userspace.log'),
         },
         'core': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'userspace.log'),
         },
         'core_tasks': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'tasks.log'),
             'formatter': 'default',
         },
         'map_tasks': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'markers.log'),
         },
         'tracker_tasks': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'logs', 'tracker.log'),
         },
@@ -48,32 +48,32 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['main'],
-            'level': 'INFO',
+            'level': 'WARNING',
             'propagate': True,
         },
         'userspace': {
             'handlers': ['users'],
-            'level': 'INFO',
+            'level': 'WARNING',
             'propagate': True,
         },
         'tokens': {
             'handlers': ['core'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'tasks': {
             'handlers': ['core_tasks'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'maps': {
             'handlers': ['map_tasks'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'tracker': {
             'handlers': ['tracker_tasks'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
         },
     },

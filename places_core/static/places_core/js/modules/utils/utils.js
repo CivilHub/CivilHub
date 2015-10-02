@@ -69,6 +69,39 @@ utils.setCookie = function (name, value, days) {
   document.cookie = name + "=" + value + expires + "; path=/";
 };
 
+// Wrapper for jQuery's POST providing context value to callback.
+//
+// @param { String }   Server url without domain prefix
+// @param { Object }   Data to send
+// @param { Function } Callback to trigger on success
+// @param { Object }   Context to pass as 'this' to callback
+
+utils.sendData = function (url, data, fn, ctx) {
+  data = _.isObject(data) ? data : {};
+  data.csrfmiddlewaretoken = utils.getCookie('csrftoken');
+  $.post(url, data, function (response) {
+    if (_.isFunction(fn)) {
+      fn.call(ctx, response);
+    }
+  });
+};
+
+// Similar to the above, this is wrapper for jQuery `get` method.
+//
+// @param { String } Server url without domain prefix
+// @param { Object }   Data to send
+// @param { Function } Callback to trigger on success
+// @param { Object }   Context to pass as 'this' to callback
+
+utils.getData = function (url, data, fn, ctx) {
+  data = _.isObject(data) ? data : {};
+  $.get(url, data, function (response) {
+    if (_.isFunction(fn)) {
+      fn.call(ctx, response);
+    }
+  });
+};
+
 // This function converts GET query into JSON. (Deprecated)
 //
 // @param { String } url address with parameters

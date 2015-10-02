@@ -12,6 +12,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView, View
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, DeleteView, FormView, UpdateView
 
 from actstream.actions import follow, unfollow
@@ -30,7 +31,7 @@ from ..actions import finished_task, joined_to_project, \
                       joined_to_task, leaved_project
 from ..forms import CreateProjectForm, TaskForm, TaskGroupForm, \
                     ProjectNGOForm, UpdateProjectForm
-from ..models import Task, TaskGroup, SocialProject
+from ..models import Task, TaskGroup, SocialProject, MODULE_CHOICES
 from ..permissions import check_access
 from .mixins import ProjectAccessMixin, ProjectContextMixin
 
@@ -287,6 +288,40 @@ class ProjectUpdateView(ProjectAccessMixin, UpdateView):
     model = SocialProject
     form_class = UpdateProjectForm
     template_name = 'projects/socialproject_update.html'
+
+
+class ProjectSettingsView(SingleObjectMixin, View):
+    """ Select modules enabled for this project and their aliases.
+    """
+    model = SocialProject
+    template_name = 'projects/socialproject_settings.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not check_access(self.object, request.user):
+            raise PermissionDenied
+        return super(ProjectSettingsView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProjectSettingsView, self).get_context_data(**kwargs)
+        context.update({
+            'location': self.object.location,
+            'modules': [{'id': x[0], 'label': x[1]} for x in MODULE_CHOICES],
+            'project_access': check_access(self.object, self.request.user), })
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name,
+                      self.get_context_data(**kwargs))
+
+    def post(self, request, **kwargs):
+        modules = [x for x in request.POST if 'module_' in x]
+        modules = [str(x.split('_')[1].strip()) for x in modules]
+        self.object.modules = ",".join(modules)
+        self.object.save()
+        messages.info(request, _(u"Settings saved"))
+        return redirect(reverse('projects:settings',
+                        kwargs={'slug': self.object.slug}))
 
 
 class ProjectSummaryView(ProjectContextMixin, DetailView):

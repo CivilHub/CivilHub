@@ -1,8 +1,6 @@
 {% extends 'places_core/base.html' %}
 {% load staticfiles i18n civil_tags cache location_tags %}
 
-{% cache 600 places %}
-
 {% block require_scripts %}<script src="{% module_path 'location-list' %}"></script>{% endblock %}
 
 {% block header %}{% endblock %}
@@ -313,5 +311,3 @@
 </div>
 
 {% endblock %}
-
-{% endcache %}
