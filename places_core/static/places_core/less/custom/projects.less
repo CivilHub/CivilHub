@@ -353,3 +353,207 @@ a.task-ppll{
   border-radius: 5px;
   -webkit-border-radius: 5px;
 }
+
+
+//new votes map
+small.green.danger{
+color: #e40f0d;
+}
+//Edit input and textarea inputs.
+.form-horizontal-fake{
+  #id_label{
+    display: block;
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #666;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+  #id_description{
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #666;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+}
+
+//vokers
+.voters{
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: top;
+  line-height: 24px;
+  position: relative;
+  z-index: 1;
+  img{
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+  }
+}
+
+
+//buttons
+.vote-btn.btn-success{
+  background-color: #84bd00;
+  line-height: 12px;
+  font-size: 12px;
+  text-shadow: none;
+  padding: 5px 15px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+.vote-btn.btn-danger{
+  background-color: #92100A;
+  line-height: 12px;
+  font-size: 12px;
+  text-shadow: none;
+  padding: 5px 15px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-image: none;
+  border: 0;
+  box-shadow: none;
+}
+
+//maps for project
+.va__map_container,
+.va__makers_container{
+  @media(min-width: 768px){
+    position: relative;
+    height: 400px;
+  }
+}
+#va__map{
+  position: relative;
+  width: 100% !important;
+  @media(min-width: 768px){
+    height: 400px !important;
+    width: calc(~'100% - 50px') !important;
+    position: absolute !important;
+    left: 0px; 
+  }
+  .map-dialog{
+    //min-width: 420px;
+    min-width: 300px;
+    width: 100%;
+    //height: 100px;
+    height: 80px;
+  }
+  .map-dialog{
+    &.place .type{
+      background-image: url(/static/maps/icons/map-location-icon.png);
+      background-color: #4E5967;
+    }
+    .type{
+      position: relative;
+      float: left;
+      //width: 20%;
+      max-width: 60px;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      color: #FFF;
+      background-repeat: no-repeat;
+      //background-position: center 10px;
+      background-position: center;
+      background-size: 55%;
+      p{
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        padding-bottom: 10px;
+        transform: translate(-50%, 0);
+        margin: 0;
+      }
+    }
+  }
+  .content{
+    float: left;
+    //width: 70%;
+    width: 66%;
+    height: 100%;
+    background-color :#FFF;
+  }
+  .author{
+    float: left;
+    margin: 0 auto;
+    padding-top: 10px;
+    display: block;
+    height: 100%;
+  }
+  .description{
+    height: 100%;
+    padding: 0 5px;
+    h4{
+      padding-top: 5px;
+      //padding-bottom: 5px;
+      margin: 0 12px 5px 0;
+      color: #4E5967;
+      max-height: 25px;
+      overflow: hidden;
+      font-size: 18px;
+    }
+    p{
+      margin-bottom: 0;
+      max-height: 45px;
+      overflow: hidden;
+      font-size: 12px;
+    }
+  }
+  .go-to{
+    background-color: #4E5967;
+    width: 40px;
+    height: 100%;
+    float: right;
+    a{
+      height: 100%;
+      width: 100%;
+      display: block;
+      position: relative;
+      color: #FFF;
+      overflow: hidden;
+      .fa{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        font-size: 21px;
+        padding-left: 9px;
+        overflow: hidden;
+        display: block;
+        width: 100%;
+        line-height: 80px;
+        margin-top: -40px;
+        text-align: center;
+      }
+    }
+  }
+}

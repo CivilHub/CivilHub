@@ -17,8 +17,11 @@ function ($, L, _, Backbone) {
 // Template for popup window content
 
 var TEMPLATE = _.template(([
-  '<h4><%= label %></h4>',
-  '<div><%= description %></div>'
+  '<div class="map-dialog place"><div class="type"></div>' +
+  '<div class="content"><div class="description">' +
+  '<h4><%= description %></h4><p><%= label %></p></div></div>' +
+  '<div class="go-to"><a><span class="fa fa-chevron-right"></span></a>' +
+  '</div></div>'
 ]).join("\n"));
 
 // Initializer - this constructor shadows a lot of Backbone's View

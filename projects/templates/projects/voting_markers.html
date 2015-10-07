@@ -2,7 +2,7 @@
 
 {% block require_scripts %}<script src="{% module_path 'votings-manage' %}"></script>{% endblock %}
 
-{% block location_navbar %}<div class="socialproject-attachment-nav">{% include 'projects/navbar.html' %}</div>{% endblock %}
+{% block location_navbar %}{% include 'projects/navbar.html' %}{% endblock %}
 
 {% block content %}<script type="text/javascript">
 var VA__MAP_DATA = {
@@ -31,26 +31,33 @@ var VA__MAP_DATA = {
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "close"|capfirst %}</button>
-        <button type="submit" class="btn btn-primary submit">{% trans "save changes"|capfirst %}</button>
+        <button type="button" class="btn btn-default btn-grayBack" data-dismiss="modal">{% trans "close"|capfirst %}</button>
+        <button type="submit" class="btn btn-primary submit btn-saveBig">{% trans "save changes"|capfirst %}</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <div class="main-content create-form newFormCreate">
+  <h3>{% trans "Voting markers" %}</h3>
   <h1>{% trans "Voting" %}</h1>
   <div class="row" "va__placeholder">
-    <div class="col-sm-6"><div id="va__map"></div></div>
+    <div class="col-sm-6 va__makers_container"><div id="va__map"></div></div>
     <div class="col-sm-6">
       <div id="va__description">
         <form action="get" method="" class="hidden">
-          <label for="label">{% trans "label"|capfirst %}</label>
-          <input type="text" id="label" name="label" class="form-control">
-          <label for="description">{% trans "description"|capfirst %}</label>
-          <textarea id="description" name="description" class="form-control"></textarea>
-          <button type="submit" class="btn btn-primary">{% trans "save changes"|capfirst %}</button>
-          <a class="btn btn-danger delete">{% trans "delete marker"|capfirst %}</a>
+          <div class="form-group">
+            <label for="label">{% trans "label"|capfirst %}</label>
+            <input type="text" id="label" name="label" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="description">{% trans "description"|capfirst %}</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+          </div>
+          <div class="form-group text-right">
+            <button type="submit" class="btn btn-primary btn-saveBig">{% trans "save changes"|capfirst %}</button>
+            <a class="btn btn-danger delete btn-minusDelete">{% trans "delete marker"|capfirst %}</a>
+          </div>
         </form>
       </div>
       <div id="va__comments"></div>

@@ -5,7 +5,7 @@
 {% block content %}<div class="main-content create-form newFormCreate">
   <p>{% trans "Are you sure? This operation cannot be undone." %}</p>
   <form method="post" action="">{% csrf_token %}
-    <button type="submit" class="btn btn-danger">{% trans "yes"|capfirst %}</button> |
-    <a class="btn btn-default" href="{% url 'projects:settings' object.slug %}">{% trans "no"|capfirst %}</a>
+    <button type="submit" class="btn btn-danger btn-minusDelete">{% trans "yes"|capfirst %}</button> |
+    <a class="btn btn-default btn-grayBack" href="{% url 'projects:settings' object.slug %}">{% trans "no"|capfirst %}</a>
   </form>
 </div>{% endblock %}
