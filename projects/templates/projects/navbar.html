@@ -13,12 +13,13 @@
       <ul class="nav navbar-nav">
         <li><a href="{% url 'locations:project_summary' location.slug object.slug %}" class="prosummary">{% trans "Summary" %}</a></li>
         <li><a href="{{ object.get_absolute_url }}" class="protasks">{% trans "Tasks" %}</a></li>
-        <li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>
+        {% if 4 in object.enabled_modules %}<li><a href="{% url 'projects:discussions' object.slug %}" class="prodiscussion">{% trans "Discussions" %}</a></li>{% endif %}
         <li><a href="{% url 'locations:project_participants' location.slug object.slug %}" class="proparticipants">{% trans "Participants" %}</a></li>
-        <li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>
-        <li><a href="{% url 'projects:gallery-list' object.slug %}" class="progalleries">{% trans "Galleries" %}</a></li>
-        <li><a href="{% url 'projects:news-list' object.slug %}" class="pronews">{% trans "News" %}</a></li>
+        {% if 2 in object.enabled_modules %}<li><a href="{% url 'projects:documents' object.slug %}" class="prodocuments">{% trans "Documents" %}</a></li>{% endif %}
+        {% if 5 in object.enabled_modules %}<li><a href="{% url 'projects:gallery-list' object.slug %}" class="progalleries">{% trans "Galleries" %}</a></li>{% endif %}
+        {% if 3 in object.enabled_modules %}<li><a href="{% url 'projects:news-list' object.slug %}" class="pronews">{% trans "News" %}</a></li>{% endif %}
         <li><a href="{% url 'projects:attachment-list' object.slug %}" class="proattachments">{% trans "Attachments" %}</a></li>
+        {% if 1 in object.enabled_modules %}{% for voting in object.votings %}<li><a href="{{ voting.get_absolute_url }}">{{ voting }}</a></li>{% endfor %}{% endif %}
         {% if user.is_authenticated and user.organizations.count %}<li>
           <a href="{% url 'projects:organization_add' object.slug %}" class="prongo">{% trans "Add your organization" %}</a>
         </li>{% endif %}

@@ -1,0 +1,22 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+
+{% block location_navbar %}{% include 'projects/navbar.html' %}{% endblock %}
+
+{% block content %}<div class="main-content create-form newFormCreate">
+  <h3>{{ voting|capfirst }} - {% trans "summary" %}</h3>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr class="active">
+        <th>{% trans "Marker" %}</th>
+        <th>{% trans "Votes" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for marker in markers %}<tr>
+        <td>{{ marker }}</td>
+        <td>{{ marker.votes.count }}</td>
+      </tr>{% endfor %}
+    </tbody>
+  </table>
+  {% if user.is_authenticated %}<p class="text-right mb0"><a href="{% url 'projects:voting' object.slug voting.pk %}" class="btn btn-grayBack">{% trans "go to voting page"|capfirst %}</a></p>{% endif %}
+</div>{% endblock %}

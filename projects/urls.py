@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 
-from views import attachments, base, forum, documents, galleries, blog
+from views import attachments, base, forum, documents, galleries, blog, votings
 import api
 
 from rest.routers import HybridRouter
@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^attachments/(?P<pk>\d+)/delete/', attachments.DeleteAttachmentView.as_view(), name="delete-attachment"),
     url(r'^attachments/(?P<pk>\d+)/update/', attachments.AttachmentUpdateView.as_view(), name="update-attachment"),
     url(r'^attachments/(?P<pk>\d+)/', attachments.get_attachment, name="get-attachment"),
+    url(r'^(?P<slug>[\w-]+)/settings/', base.ProjectSettingsView.as_view(), name="settings"),
     url(r'^(?P<slug>[\w-]+)/news/create/', blog.ProjectNewsCreate.as_view(), name="news-create"),
     url(r'^(?P<slug>[\w-]+)/news/(?P<news_pk>\d+)/', blog.ProjectBlogDetail.as_view(), name="news-detail"),
     url(r'^(?P<slug>[\w-]+)/news/', blog.ProjectBlogList.as_view(), name="news-list"),
@@ -32,6 +33,12 @@ urlpatterns = patterns('',
     url(r'^(?P<slug>[\w-]+)/documents/(?P<document_slug>[\w-]+)/', documents.ProjectDocumentPreview.as_view(), name="document"),
     url(r'^(?P<slug>[\w-]+)/documents/', documents.ProjectDocumentsList.as_view(), name="documents"),
     url(r'^(?P<project_slug>[\w-]+)/attachments/', attachments.AttachmentListView.as_view(), name="attachment-list"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/create/', votings.VotingCreateView.as_view(), name="voting-create"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/(?P<pk>\d+)/update/', votings.VotingUpdateView.as_view(), name="voting-update"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/(?P<pk>\d+)/markers/', votings.VotingMarkersView.as_view(), name="voting-markers"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/(?P<pk>\d+)/summary/', votings.VotingSummaryView.as_view(), name="voting-summary"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/(?P<pk>\d+)/delete/', votings.VotingDeleteView.as_view(), name="voting-delete"),
+    url(r'^(?P<project_slug>[\w-]+)/votings/(?P<pk>\d+)/', votings.VotingDetailView.as_view(), name="voting"),
     url(r'^(?P<project_slug>[\w-]+)/discussions/create/', forum.ProjectForumCreateView.as_view(), name="discussion_create"),
     url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<pk>\d+)/', forum.ProjectForumAnswerUpdateView.as_view(), name="entry_update"),
     url(r'^(?P<project_slug>[\w-]+)/discussions/(?P<discussion_slug>[\w-]+)/update/', forum.ProjectForumUpdateView.as_view(), name="discussion_update"),

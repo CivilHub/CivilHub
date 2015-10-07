@@ -1,0 +1,18 @@
+<h2 class="mt0"><%= label %></h2>
+<div><%= description %></div>
+<div class="mt8">
+  <div class="project-participants w100">
+    <p class="mb0"><%= gettext("People already voted") %>:</p>
+    <span class="voters"></span>
+  </div>
+  <p><a class="btn vote-btn"></a></p>
+</div>
+<div class="customEntry-comments mt-8"></div>
+<div class="commentarea" data-ct="<%= content_type %>" data-pk="<%= id %>" data-count="<%= comment_count %>">
+  <ul class="filters list-inline m10"><%= gettext('Order by') %>:
+    <li><a href="#" data-order="new"><%= gettext("Newest") %></a></li>|
+    <li><a href="#" data-order="old"><%= gettext("Oldest") %></a></li>|
+    <li><a href="#" data-order="votes"><%= gettext("Most voted") %></a></li>
+  </ul>
+  <div class="comments"></div>
+</div>

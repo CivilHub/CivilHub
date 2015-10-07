@@ -147,6 +147,9 @@ def comment_notification(sender, instance, created, **kwargs):
                 verb=_(u"commented task"),
                 action_object=instance,
                 action_target=instance.content_object)
+    if instance.content_object.__class__.__name__ == 'Marker':
+        # Special case - map markers for votes.
+        return True
 
     # Get target user to notify depending on commented object's type.
     target_user = None

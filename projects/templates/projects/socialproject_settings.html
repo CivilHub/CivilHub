@@ -1,0 +1,27 @@
+{% extends 'projects/index.html' %}{% load i18n %}
+
+{% block location_navbar %}{% include 'projects/navbar.html' %}{% endblock %}
+
+{% block content %}<div class="main-content create-form newFormCreate">
+  <h1>{% trans "project settings"|title %}</h1>
+  <br>
+  <h3>{% trans "enabled modules"|title %}</h3>
+  <form method="post" action="">{% csrf_token %}
+    <ul>{% for module in modules %}
+      <li>
+        <input type="checkbox" name="module_{{ module.id }}"{% if module.id in object.enabled_modules %} checked="checked"{% endif %}> {{ module.label }}
+      </li>
+    {% endfor %}</ul>
+    <button type="submit" class="btn btn-default btn-saveBig">{% trans "save changes"|capfirst %}</button>
+  </form>
+  </br>
+  {% if 1 in object.enabled_modules %}<h3>{% trans "votings"|title %}</h3>
+  {% if object.votings.count %}<ul>{% for voting in object.votings %}
+    <li>
+      <a href="{% url 'projects:voting' object.slug voting.pk %}">{{ voting }}</a> |
+      <a href="{% url 'projects:voting-update' object.slug voting.pk %}"><span class="fa fa-edit"> </span></a> |
+      <a href="{% url 'projects:voting-delete' object.slug voting.pk %}"><span class="fa fa-trash"> </span></a>
+    </li>
+  {% endfor %}</ul>{% endif %}
+  <a class="btn btn-default btn-saveBig" href="{% url 'projects:voting-create' object.slug %}">{% trans "create voting"|capfirst %}</a>{% endif %}
+</div>{% endblock %}

@@ -1,0 +1,11 @@
+<% if (!_.isUndefined(CivilApp.currentUserId)) { %><div class="postbox">
+  <div class="avatar">
+    <img src="<%= CivilApp.user.profile.avatar %>" alt="<%= CivilApp.user.full_name %>" class="user-avatar avatarViewIMG">
+  </div>
+  <div class="textarea-wrapper">
+    <textarea name="comment" class="form-control" cols="10" rows="1"></textarea>
+  </div>
+  <div class="text-right">
+    <button class="add-comment mb20 btn-sendBlue" type="button"><%= gettext("Add comment") %></button></div>
+  </div>
+</div><% } %>

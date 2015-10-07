@@ -167,6 +167,7 @@ var CommentListView = Backbone.View.extend({
 
   insert: function (data) {
     var m = this.collection.push(data, { at: 0 });
+    this.trigger('commentadd', m);
   },
 
   // Update current number of comments for commented object.
