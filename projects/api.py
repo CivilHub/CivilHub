@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
 
 from rest_framework import viewsets
 from rest_framework.decorators import action, link
 from rest_framework.response import Response
 
+from locations.models import Location
 from .models import SocialProject, TaskGroup, Task
 from .serializers import ProjectDetailSerializer, TaskSerializer, \
                          TaskGroupSerializer
@@ -30,6 +32,19 @@ class ProjectViewSet(viewsets.ModelViewSet):
     """
     model = SocialProject
     serializer_class = ProjectDetailSerializer
+
+    def get_queryset(self):
+        qs = super(ProjectViewSet, self).get_queryset()
+        try:
+            location_pk = int(self.request.GET.get('location'))
+        except (TypeError, ValueError):
+            location_pk = None
+        if location_pk is not None:
+            location = get_object_or_404(Location, pk=location_pk)
+            locations = location.get_children_id_list()
+            locations.append(location.pk)
+            qs = qs.filter(location__pk__in=locations)
+        return qs
 
     @action()
     def toggle(self, request, pk=None):

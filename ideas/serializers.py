@@ -5,7 +5,13 @@ from rest_framework import serializers
 from locations.serializers import LocationListSerializer
 from userspace.serializers import UserDetailSerializer
 
-from .models import Idea, Vote
+from .models import Category, Idea, Vote
+
+
+class IdeaCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name',)
 
 
 class IdeaSimpleSerializer(serializers.ModelSerializer):

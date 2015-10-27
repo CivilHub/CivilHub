@@ -11,10 +11,16 @@ from rest_framework.permissions import IsAuthenticated
 
 from rest.permissions import IsOwnerOrReadOnly
 
-from .models import Idea, Vote
-from .serializers import IdeaSimpleSerializer, \
+from .models import Category, Idea, Vote
+from .serializers import IdeaCategorySerializer, \
+                         IdeaSimpleSerializer, \
                          IdeaDetailSerializer, \
                          VoteDetailSerializer
+
+
+class IdeaCategoryViewSet(viewsets.ModelViewSet):
+    model = Category
+    serializer_class = IdeaCategorySerializer
 
 
 class IdeaViewSet(viewsets.ModelViewSet):

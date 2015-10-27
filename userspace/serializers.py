@@ -172,7 +172,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'full_name',
-                  'email', 'is_superuser', 'date_joined', 'last_login',
+                  'is_superuser', 'date_joined', 'last_login',
                   'profile', 'organizations', )
 
 

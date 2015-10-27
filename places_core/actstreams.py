@@ -84,6 +84,9 @@ def comment_action_hook(sender, instance, created, **kwargs):
     """
     if not created:
         return True
+    if instance.content_object.__class__.__name__ == 'Marker':
+        # Disable notification and action for map markers on votings.
+        return True
     prof = UserProfile.objects.get(user=instance.user)
     prof.rank_pts += 3
     prof.save()

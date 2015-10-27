@@ -5,6 +5,7 @@ import api
 
 from rest.routers import HybridRouter
 router = HybridRouter()
+router.register('categories', api.IdeaCategoryViewSet, 'idea-categories')
 router.register('ideas', api.IdeaViewSet, 'ideas')
 router.register('votes', api.IdeaVoteViewSet, 'votes')
 
