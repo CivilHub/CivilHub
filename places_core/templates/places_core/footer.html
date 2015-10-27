@@ -137,6 +137,12 @@
 {% include 'places_core/sublocation-dropdown.html' %}
 {% include 'places_core/user-popup.html' %}
 {% include 'gallery/media-uploader.html' %}
+<script>window.civchat = {
+    apiKey: "VPa8Z1uYDsojVRG0nRUemBZV70uMY7mtMmIFUXFF73I0dklfK9dAWXZpAcV3rgzp",
+    username: "{{ user.get_full_name }}",
+    email: "{{ user.email }}"
+};</script>
+<script src="https://widget.userengage.io/widget.js"></script>
 </div>
 
 {% endcache %}
