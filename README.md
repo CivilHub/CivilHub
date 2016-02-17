@@ -87,7 +87,7 @@ Apps to install with apt-get install (on Debian-based distros):
 You do not have to use builds, `nodejs`, `nodejs-legacy`, `npm`, `virtualenv`.
 
 App python packages install:
-	pip install -r requirements
+	pip install -r requirements.txt
 
 Build
 -----
