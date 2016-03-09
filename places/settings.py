@@ -157,6 +157,7 @@ MIDDLEWARE_CLASSES = (
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'places_core.middleware.Redirect404Middleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 )
 
 ROOT_URLCONF = 'places.urls'
@@ -490,3 +491,11 @@ CLICKY_SITE_ID = config['clicky_site_id']
 
 CAPTCHA_KEY = config['captcha_key']
 CAPTCHA_SECRET = config['captcha_secret']
+
+ROLLBAR = {
+    'access_token': config['ROLLBAR_TOKENS']['post_server_item'],
+    'client_token': config['ROLLBAR_TOKENS']['post_client_item'],
+    'environment': 'development' if DEBUG else 'production',
+    'branch': 'master',
+    'root': BASE_DIR,
+}
