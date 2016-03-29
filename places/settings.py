@@ -347,6 +347,7 @@ LANGUAGES = (
     ('de', 'Deutsch'),
     ('pt', 'Português'),
     ('fr', 'Français'),
+    ('nl', 'Nederlands'),
 )
 
 
@@ -492,10 +493,10 @@ CLICKY_SITE_ID = config['clicky_site_id']
 CAPTCHA_KEY = config['captcha_key']
 CAPTCHA_SECRET = config['captcha_secret']
 
-ROLLBAR = {
-    'access_token': config['ROLLBAR_TOKENS']['post_server_item'],
-    'client_token': config['ROLLBAR_TOKENS']['post_client_item'],
-    'environment': 'development' if DEBUG else 'production',
-    'branch': 'master',
-    'root': BASE_DIR,
-}
+# ROLLBAR = {
+#     'access_token': config['ROLLBAR_TOKENS']['post_server_item'],
+#     'client_token': config['ROLLBAR_TOKENS']['post_client_item'],
+#     'environment': 'development' if DEBUG else 'production',
+#     'branch': 'master',
+#     'root': BASE_DIR,
+# }
